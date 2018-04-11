@@ -60,7 +60,7 @@ namespace KarveTest.ViewModels
             Assert.AreSame(viewModel.Count<VehicleSummaryDto>(),4);
         }
         [Test]
-        public void Shall_Open_A_New_ItemCorrectly()
+        public void Should_Open_A_New_ItemCorrectly()
         {
             bool navigateCalled = false;
             // arrange

@@ -17,14 +17,14 @@ namespace KarveTest.ViewModels
         private IDataServices _dataServices = new MockDataServices();
         private Mock<IConfigurationService> _configurationService = new Mock<IConfigurationService>();
         private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
-        private Mock<IAssistService> _assistService = new Mock<IAssistService>();
+        private Mock<IInteractionRequestController> _interactionRequest = new Mock<IInteractionRequestController>();
         private CompanyInfoViewModel _companyInfoViewModel = null;
         public TestOfficeInfoViewModel()
         {
-            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, _assistService.Object, _mockDialogService.Object,_regionManager.Object);
+            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, _mockDialogService.Object,_regionManager.Object, _interactionRequest.Object);
         }
         [Test]
-        public void Shall_Receive_A_Correct_Payload_And_ExposeDataObject()
+        public void Should_Receive_A_Correct_Payload_And_ExposeDataObject()
         {
             DataPayLoad dataPayLoad = new DataPayLoad();
             dataPayLoad.HasDataObject = true;

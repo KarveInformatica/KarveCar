@@ -50,7 +50,6 @@ namespace ToolBarModule.Command
        
         private async Task<DataPayLoad> HandleCommissionAgentSave(DataPayLoad payLoad)
         {
-           
             bool result = false;
             bool isInsert = false;
             ICommissionAgent agent = (ICommissionAgent)payLoad.DataObject;

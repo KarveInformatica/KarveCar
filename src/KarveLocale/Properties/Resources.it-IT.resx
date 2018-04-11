@@ -2582,4 +2582,13 @@
   <data name="lname" xml:space="preserve">
     <value>Nome</value>
   </data>
+  <data name="PersonalPositionTitle" xml:space="preserve">
+    <value>Incarico</value>
+  </data>
+  <data name="MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia" xml:space="preserve">
+    <value>Elenco Provincie</value>
+  </data>
+  <data name="lreseller" xml:space="preserve">
+    <value>Venditore</value>
+  </data>
 </root>

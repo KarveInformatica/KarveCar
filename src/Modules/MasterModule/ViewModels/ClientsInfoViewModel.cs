@@ -63,7 +63,12 @@ namespace MasterModule.ViewModels
         /// <param name="configurationService">Configuration service</param>
         /// <param name="dataServices">Data Service</param>
         /// <param name="manager">Region Manager</param>
-        public ClientsInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IAssistService service, IRegionManager manager) : base(eventManager, configurationService, dataServices,dialogService,service, manager)
+        public ClientsInfoViewModel(IEventManager eventManager, 
+            IConfigurationService configurationService, 
+            IDataServices dataServices, 
+            IDialogService dialogService,  
+            IRegionManager manager,
+            IInteractionRequestController controller) : base(eventManager, configurationService, dataServices,dialogService,manager, controller)
         {
             base.ConfigureAssist();
 

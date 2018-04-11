@@ -91,7 +91,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        private void ShouldSupplier_Navigate_Correctly()
+        private void Should_SupplierNavigate_Correctly()
         {
             _providersControlViewModel = new ProvidersControlViewModel(_configurationService.Object,
                 _unity.Object,

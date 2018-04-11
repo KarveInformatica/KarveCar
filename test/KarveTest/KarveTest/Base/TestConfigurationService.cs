@@ -22,7 +22,7 @@ namespace KarveTest.Base
             _dataService = new DataServiceImplementation(_sqlExecutor);
         }
         [Test]
-        public void Shall_LoadUserSetting_TheConfigurationService()
+        public void Should_LoadUserSetting_TheConfigurationService()
         {
             IUserSettings settings = _configurationService.GetUserSettings();
             Assert.NotNull(settings);

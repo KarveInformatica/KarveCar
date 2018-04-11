@@ -440,7 +440,10 @@ namespace DataAccessLayer
             return state;
         }
 
-        
+        /*
+          var dt = DateTime.Now;
+                            value.ULTMODI = dt.ToString("yyyyMMddHH:mm");
+             */
 
         public async Task<bool> ExecuteBulkInsertAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> dtoTransfers) where T : class
         {
@@ -450,10 +453,10 @@ namespace DataAccessLayer
                 try
                 {
                     var transferred = _mapper.Map<IEnumerable<T>>(dtoTransfers);
-
                     using (TransactionScope tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        state = await dbConnection.InsertAsync(transferred) > 0;
+                        state = await dbConnection.InsertAsync(transferred).ConfigureAwait(false) > 0;
+           
                         tran.Complete();
                     }
                 }

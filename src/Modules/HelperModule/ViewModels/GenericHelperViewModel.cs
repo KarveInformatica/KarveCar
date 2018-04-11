@@ -230,7 +230,7 @@ namespace HelperModule.ViewModels
             PropertyInfo info = t.GetProperty("LastModification");
             if (info != null)
             {
-                info.SetValue(dto, lastModification.ToString("yyyMMddHHmmss"));
+                info.SetValue(dto, lastModification.ToString("yyyyMMddHHmmss"));
             }
             payLoad.DataObject = dto;
         }

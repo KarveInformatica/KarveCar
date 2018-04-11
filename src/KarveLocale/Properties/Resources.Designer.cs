@@ -4705,6 +4705,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vendedor.
+        /// </summary>
+        public static string lreseller {
+            get {
+                return ResourceManager.GetString("lreseller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retencion en Listado.
         /// </summary>
         public static string lretencionenlistado {
@@ -5916,6 +5925,15 @@ namespace KarveLocale.Properties {
         public static string PeoplePosition_CargoDePersonal {
             get {
                 return ResourceManager.GetString("PeoplePosition_CargoDePersonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cargo.
+        /// </summary>
+        public static string PersonalPositionTitle {
+            get {
+                return ResourceManager.GetString("PersonalPositionTitle", resourceCulture);
             }
         }
         

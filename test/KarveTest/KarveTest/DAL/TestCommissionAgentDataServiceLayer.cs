@@ -16,6 +16,9 @@ using DataAccessLayer.Model;
 using KarveDapper;
 using KarveDapper.Extensions;
 using KarveDataServices.DataTransferObject;
+using DataAccessLayer.SQL;
+using DataAccessLayer.Logic;
+using AutoMapper;
 
 namespace KarveTest.DAL
 {
@@ -128,7 +131,7 @@ namespace KarveTest.DAL
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task Should_Loop_And_Load()
+        public async Task Should_Loop_AndLoad()
         {
             IDictionary<string, string> fields = new Dictionary<string, string>();
             string numComi = "0000002";
@@ -147,6 +150,7 @@ namespace KarveTest.DAL
                 ICommissionAgent agentDataWrapper =
                     await _commissionAgentDataServices.GetCommissionAgentDo(numComi, fields);
                 Assert.NotNull(agentDataWrapper);
+                Assert.AreEqual(agentDataWrapper.Value.NUM_COMI, numComi);
             }
 
         }
@@ -203,6 +207,71 @@ namespace KarveTest.DAL
             await Task.Delay(1000);
             return agent;
 
+        }
+        [Test]
+        public async Task Should_Load_BrokerVisitCorrectly()
+        {
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                // arrange
+                var brokers = await connection.GetAllAsync<COMISIO>();
+                var contactsBroker = await connection.QueryAsync<CONTACTOS_COMI>("select * from contactos_comi");
+                var singleBroker = brokers.FirstOrDefault();
+                QueryStore store = QueryStore.GetInstance();
+                store.Clear();
+                store.AddParam(QueryType.QueryResellerByClient, singleBroker.NUM_COMI);
+                var query = store.BuildQuery();
+                var contactList = await connection.QueryAsync<VisitasComiPoco>(query);
+
+            }
+            //_visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco>(visitas);
+        }
+        [Test]
+        public async Task Should_Load_BrokerContactsCorrectly()
+        {
+
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                // arrange
+                var brokers = await connection.GetAllAsync<COMISIO>();
+                var contactsBroker = await connection.QueryAsync<CONTACTOS_COMI>("select * from contactos_comi");
+                var singleBroker = brokers.FirstOrDefault();
+                QueryStore store = QueryStore.GetInstance();
+                store.AddParam(QueryType.QueryBrokerContacts, singleBroker.NUM_COMI);
+                var currentQuery = store.BuildQuery();
+                if (singleBroker != null)
+                {
+                    var expectedContacts = contactsBroker.Where(x => x.COMISIO == singleBroker.NUM_COMI);
+                    // act
+                    var contactList = await connection.QueryAsync<ContactsComiPoco>(currentQuery);
+
+                    // assert
+                    foreach (var exp in expectedContacts)
+                    {
+                        var l = contactList.Where(x => x.CONTACTO == exp.CONTACTO).ToList();
+                        Assert.AreEqual(l.Count, 1);
+                        var value = l.FirstOrDefault();
+                        Assert.NotNull(value);
+                        Assert.AreEqual(exp.CARGO, value.CARGO);
+                        Assert.AreEqual(exp.COMISIO, value.COMISIO);
+                        Assert.AreEqual(exp.CONTACTO, value.CONTACTO);
+                        Assert.AreEqual(exp.DELEGA_CC, value.DELEGA_CC);
+                        Assert.AreEqual(exp.EMAIL, value.EMAIL);
+                        Assert.AreEqual(exp.ESVENDE, value.ESVENDE);
+                        Assert.AreEqual(exp.FAX, value.FAX);
+                        Assert.AreEqual(exp.MOVIL, value.MOVIL);
+                        Assert.AreEqual(exp.NIF, value.NIF);
+                        Assert.AreEqual(exp.NOM_CARGO, value.NOM_CARGO);
+                        Assert.AreEqual(exp.NOM_CONTACTO, value.NOM_CONTACTO);
+                        Assert.AreEqual(exp.OBSERVA, value.OBSERVA);
+                        Assert.AreEqual(exp.TELEFONO, value.TELEFONO);
+                        Assert.AreEqual(exp.ULTMODI, value.ULTMODI);
+                        Assert.AreEqual(exp.USUARIO, value.USUARIO);
+                    }
+
+                    
+                }
+            }
         }
 
         private async Task<string> GetFirstId()
@@ -344,5 +413,37 @@ namespace KarveTest.DAL
             bool deleteSuccess = await _commissionAgentDataServices.DeleteCommissionAgent(commissionAgent);
             Assert.True(deleteSuccess);
         }
+        [Test]
+        public async Task Should_InsertContacts_Correctly()
+        {
+            // arrange
+            IDictionary<string, string> fields = new Dictionary<string, string>();
+            fields.Add(CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI");
+            fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
+            fields.Add(CommissionAgent.Visitas, " * ");
+            fields.Add(CommissionAgent.Branches, "* ");
+            string numComi = await GetFirstId();
+            ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi);
+            // check if the condition is valid.
+            Assert.True(commissionAgent.Valid);
+            ComisioDto internalValue = (ComisioDto)commissionAgent.Value;
+            ContactsDto contactsDto = new ContactsDto();
+            Random random = new Random();
+            contactsDto.ContactId = (random.Next() % 2000).ToString();
+            contactsDto.ContactName = "Pina";
+            contactsDto.ContactsKeyId = internalValue.NUM_COMI;
+            contactsDto.CodeId= (random.Next() % 2000).ToString();
+            contactsDto.Nif = "Y171559F";
+            contactsDto.IsDirty = true;
+            contactsDto.IsNew = true;
+            contactsDto.CodeId = "92";
+            IHelperDataServices helper = _dataServices.GetHelperDataServices();
+            IList<ContactsDto> entities = new List<ContactsDto>();
+            entities.Add(contactsDto);
+            // executre
+            bool inserted = await helper.ExecuteBulkInsertAsync<ContactsDto, CONTACTOS_COMI>(entities);
+            Assert.True(inserted);
+        }
+
     }
 }

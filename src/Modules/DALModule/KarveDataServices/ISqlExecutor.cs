@@ -157,7 +157,7 @@ namespace KarveDataServices
         /// <summary>
         ///  Create a new connection with the current connection string.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a new connection</returns>
         IDbConnection OpenNewDbConnection();
 
     }

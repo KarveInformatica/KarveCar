@@ -177,6 +177,7 @@
     <Compile Include="DataTransferObject\ProvinciaDto.cs" />
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />
     <Compile Include="DataTransferObject\RentingUseDto.cs" />
+    <Compile Include="DataTransferObject\ResponsabilityDto.cs" />
     <Compile Include="DataTransferObject\SupplierDto.cs" />
     <Compile Include="DataTransferObject\SupplierSummaryDto.cs" />
     <Compile Include="DataTransferObject\SupplierTypeDto.cs" />

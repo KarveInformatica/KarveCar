@@ -33,8 +33,8 @@ namespace KarveTest.ViewModels
             _mockConfigurationService.Object,
             _mockDataServices.Object,
             _mockDialogService.Object,
-            _mockAssistService.Object,
-            _mockRegionManager.Object);
+            _mockRegionManager.Object, 
+            _mockRequestController.Object);
             // _serviceConf = base.SetupConfigurationService();
             try
             {
@@ -99,7 +99,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public async void Should_Delete_Item()
+        public async void Should_Delete_SupplierItem()
         {
 
             // arrange
@@ -181,7 +181,7 @@ namespace KarveTest.ViewModels
             return dataObject;
         }
         [Test]
-        public async void Should_Detect_A_Change()
+        public void Should_Detect_ToolbarAChange()
         {
             var dataObject = ArrangeDataObject();
             Mock<IDataServices> dataServices = new Mock<IDataServices>();

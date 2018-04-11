@@ -2217,4 +2217,13 @@
   <data name="lname" xml:space="preserve">
     <value>Nombre</value>
   </data>
+  <data name="PersonalPositionTitle" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia" xml:space="preserve">
+    <value>Listado Provincia</value>
+  </data>
+  <data name="lreseller" xml:space="preserve">
+    <value>Vendedor</value>
+  </data>
 </root>

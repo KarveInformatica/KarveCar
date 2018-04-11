@@ -10,12 +10,12 @@ namespace DataAccessLayer.DataObjects
 	[Table("CONTACTOS_COMI")]
 	public class CONTACTOS_COMI 
 	{
-	
-	/// <summary>
-    ///  Set or get the COMISIO property.
-    /// </summary>
-    
-		public string COMISIO { get; set; }
+
+        /// <summary>
+        ///  Set or get the COMISIO property.
+        /// </summary>
+        [Key]
+        public string COMISIO { get; set; }
  
 	/// <summary>
     ///  Set or get the CONTACTO property.

@@ -23,8 +23,12 @@ namespace MasterModule.ViewModels
         /// <param name="dialogService">Dialog services</param>
         /// <param name="assistService">Assist services</param>
         /// <param name="manager">Region manager</param>
-        public FaresInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, 
-            IDataServices dataServices, IDialogService dialogService, IAssistService assistService, IRegionManager manager) : base(eventManager, configurationService, dataServices, dialogService, assistService, manager)
+        public FaresInfoViewModel(IEventManager eventManager, 
+            IConfigurationService configurationService, 
+            IDataServices dataServices, 
+            IDialogService dialogService, 
+            IRegionManager manager, 
+            IInteractionRequestController controller) : base(eventManager, configurationService, dataServices, dialogService, manager, controller)
         {
             ConfigureAssist();
 

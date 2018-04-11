@@ -17,11 +17,11 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
-using Prism.Commands;
 using Prism.Regions;
-using Syncfusion.Windows.Shared;
 using DelegateCommand = Prism.Commands.DelegateCommand;
 using KarveCommonInterfaces;
+using System.Linq;
+using KarveControls;
 
 namespace MasterModule.ViewModels
 {
@@ -188,7 +188,6 @@ namespace MasterModule.ViewModels
             get { return _products; }
             set { _products = value; RaisePropertyChanged(); }
         }
-
         /// <summary>
         /// Products of the view model
         /// </summary>
@@ -205,8 +204,6 @@ namespace MasterModule.ViewModels
             get { return _upperObservableCollection; }
             set { _upperObservableCollection = value; }
         }
-
-
         /// <summary>
         ///  LeftValueCollection. This returns the left value collection
         /// </summary>
@@ -265,14 +262,14 @@ namespace MasterModule.ViewModels
                                             IEventManager eventManager,
                                             IDataServices services,
                                             IDialogService dialogService,
-                                            IAssistService assistService,
-                                            IRegionManager regionManager 
+                                            IRegionManager regionManager,                                                 IInteractionRequestController controller
                                             ) : base(eventManager, 
                                                 configurationService,
                                                 services,
                                                 dialogService,
-                                                assistService,
-                                                regionManager)
+                                               
+                                                regionManager, 
+                                                controller)
         {
 
             _queries = new Dictionary<string, string>();
@@ -293,22 +290,104 @@ namespace MasterModule.ViewModels
             //PrintAssociate = new DelegateCommand<object>(OnPrintCommand);   
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             this.DelegationProvinceMagnifierCommand = new Prism.Commands.DelegateCommand<object>(OnProvinceAssist);
+            this.ProvinceMagnifierCommand = DelegationProvinceMagnifierCommand;
             this.ContactChargeMagnifierCommand = new Prism.Commands.DelegateCommand<object>(OnContactChargeAssist);
             // update the assist.
             UpdateAssist(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
         }
-
-        public override void SetContactsCharge(object charge)
+        /// <summary>
+        ///  Set Contacts Charge.
+        /// </summary>
+        /// <param name="personal">Personal Position Dto.</param>
+        /// <param name="contactsDto">Contacts Dto.</param>
+        public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
         {
-            MessageBox.Show("Bingo!");
+                var contacts = DataObject.ContactsDto;
+
+            Dictionary<string, object> ev = new Dictionary<string, object>();
+            ev["DataObject"] = DataObject;
+            var items = new List<ContactsDto>();
+
+
+            var contact =contacts.Where(x => x.ContactId == contactsDto.ContactId).FirstOrDefault();
+            if (contact == null)
+            {
+                ev["Operation"] = ControlExt.GridOp.Insert;
+                // insert case
+                contact = contactsDto;
+                contact.IsNew = true;
+                contact.IsDirty = true;
+            }
+            else
+            {
+                contact = contactsDto;
+                ev["Operation"] = ControlExt.GridOp.Update;
+                contact.IsChanged = true;
+                contact.IsDirty = true;
+                contact.IsNew = false;
+               
+            }
+            contact.ResponsabilitySource = personal;
+            personal.ShowCommand = this.ContactChargeMagnifierCommand;
+            contact.ResponsabilitySource = personal;
+            // add the changed value to the branch.
+            items.Add(contact);
+            ev["ChangedValue"] = items;
+           
+           
+            await GridChangedNotification<ContactsDto, CONTACTOS_COMI>(ev, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+            RaisePropertyChanged("DataObject");
+            RaisePropertyChanged("DataObject.ContactsDto");
         }
-        public override void SetBranchProvince(object province)
+        /// <summary>
+        ///  Set Branch province
+        /// </summary>
+        /// <param name="province">It allows the province branch.</param>
+        /// <param name="branchesDto">It allows the branches dto.</param>
+        public override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
         {
-            MessageBox.Show("Bingo2!");
+            var delegation = DataObject.DelegationDto;
+
+            Dictionary<string, object> ev = new Dictionary<string, object>();
+            ev["DataObject"] = DataObject;
+            var items = new List<BranchesDto>();
+            
+           
+            var branch = delegation.Where(x => x.BranchId == branchesDto.BranchId).FirstOrDefault();
+            if (branch == null)
+            {
+                ev["Operation"] = ControlExt.GridOp.Insert;
+                // insert case
+                branch = branchesDto;
+                branch.IsNew = true;
+                branch.IsDirty = true;
+            }
+            else
+            {
+                ev["Operation"] = ControlExt.GridOp.Update;
+                
+                branch = branchesDto;
+                branch.IsChanged = true;
+                branch.IsDirty = true;
+                branch.IsNew = false;
+            }
+            branch.ProvinceSource = province;
+            province.ShowCommand = DelegationProvinceMagnifierCommand;
+            branch.ProvinceId = province.Code;
+            branch.ProvinceName = province.Name;
+            branch.Province = province;
+            branch.ProvinceSource = province;
+            // add the changed value to the branch.
+            items.Add(branch);
+            ev["ChangedValue"] = items;
+            RaisePropertyChanged("DataObject");
+            // craft the event dictionary.
+            await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);   
         }
 
+        public ICommand ProvinceMagnifierCommand {set; get;}
         private void OnPrintCommand(object obj)
         {
         }
@@ -385,8 +464,8 @@ namespace MasterModule.ViewModels
         /// <param name="obj">This send a delegation fo the changed command</param>
         private async Task DelegationChangedCommandHandler(object obj)
         {
-            IEnumerable<BranchesDto> dto = new List<BranchesDto>();
-            await GridChangedNotification<BranchesDto, COMI_DELEGA>(obj, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem);
+           
+            await GridChangedNotification<BranchesDto, COMI_DELEGA>(obj, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
         /// <summary>
         ///  This change the contact grid
@@ -781,19 +860,25 @@ namespace MasterModule.ViewModels
             {
                 MessageBox.Show("DataObject is null.");
             }
-            ChangeFieldHandlerDo<ICommissionAgent> handlerDo = new ChangeFieldHandlerDo<ICommissionAgent>(EventManager,
-                                                        ViewModelQueries,
-                                                        DataSubSystem.CommissionAgentSubystem);
-
-            if (CurrentOperationalState == DataPayLoad.Type.Insert)
-            {
-                handlerDo.OnInsert(payLoad, eventDictionary);
-
-            }
             else
             {
-                handlerDo.OnUpdate(payLoad, eventDictionary);
+                ChangeFieldHandlerDo<ICommissionAgent> handlerDo = new ChangeFieldHandlerDo<ICommissionAgent>(EventManager,
+                                                            ViewModelQueries,
+                                                            DataSubSystem.CommissionAgentSubystem);
+
+                if (CurrentOperationalState == DataPayLoad.Type.Insert)
+                {
+                    handlerDo.OnInsert(payLoad, eventDictionary);
+
+                }
+                else
+                {
+                    handlerDo.OnUpdate(payLoad, eventDictionary);
+                }
+                // this will refresh the change through the visual tree.
+                DataObject = handlerDo.DataObject;
             }
+
         }
         /// SetTable is not used here and newItem shall be moved over
         /// <summary>
@@ -919,16 +1004,23 @@ namespace MasterModule.ViewModels
             var branches = _commissionAgentDo.DelegationDto;
             foreach (var b in branches)
             {
-                b.ShowCommand = this.DelegationProvinceMagnifierCommand;
+                
+                BaseDto v = b.ProvinceSource as BaseDto;
+               
+                v.ShowCommand = this.DelegationProvinceMagnifierCommand;
             }
+            RaisePropertyChanged("DataObject");
+
         }
         private void ConfigureContactsCommand()
         {
             var contacts = _commissionAgentDo.ContactsDto;
-            foreach(var c in contacts)
+            foreach (var c in contacts)
             {
-                c.ShowCommand = this.ContactChargeMagnifierCommand;
+                BaseDto v = c.ResponsabilitySource as BaseDto;
+                v.ShowCommand = this.ContactChargeMagnifierCommand;
             }
+            RaisePropertyChanged("DataObject");
         }
         /// <summary>
         /// This adds a primary and a payload
@@ -954,17 +1046,17 @@ namespace MasterModule.ViewModels
                 Province = _commissionAgentDo.ProvinceDto;
                 Country = _commissionAgentDo.CountryDto;
                 Products = _commissionAgentDo.ProductsDto;
-                Language = _commissionAgentDo.LanguageDto;
-                var branches = _commissionAgentDo.DelegationDto;
-                // configure branches command.
-                ConfigureBranchesCommand();
-                // configure contacts command.
-                ConfigureContactsCommand();
+                Language = _commissionAgentDo.LanguageDto;  
                 Delegation = _commissionAgentDo.DelegationDto;
                 TipoComission = _commissionAgentDo.CommisionTypeDto;
                 ClientOne = _commissionAgentDo.ClientsDto;
                 CityDto = _commissionAgentDo.CityDtos;
+                // configure branches command.
+                ConfigureBranchesCommand();
+                // configure contacts command.
+                ConfigureContactsCommand();
                 DataObject = _commissionAgentDo;
+               
 
 
                 // Here we send a message to upper part of the view.

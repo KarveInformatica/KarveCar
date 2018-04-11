@@ -23,9 +23,9 @@ namespace KarveTest.ViewModels
         {
             _vehicleInfoViewModel = new VehicleInfoViewModel(_mockConfigurationService.Object, _mockEventManager.Object,
                 _mockDialogService.Object,
-                _mockAssistService.Object,
                 _mockDataServices.Object, 
-                _mockRegionManager.Object);
+                _mockRegionManager.Object, 
+                _mockRequestController.Object);
         }
         /// <summary>
         /// Should correct and point out other subsystem.

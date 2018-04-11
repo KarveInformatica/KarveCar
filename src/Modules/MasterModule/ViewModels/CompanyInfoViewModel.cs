@@ -22,10 +22,10 @@ namespace MasterModule.ViewModels
         private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
         public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, 
-            IAssistService assistService,
             IDialogService dialogService,
-            
-            IRegionManager manager) : base(eventManager, configurationService,dataServices,dialogService,assistService, manager)
+            IRegionManager manager,
+            IInteractionRequestController controller) : base(eventManager, configurationService,dataServices,dialogService, 
+                manager, controller)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);

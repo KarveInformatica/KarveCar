@@ -1,5 +1,7 @@
 ﻿using DataAccessLayer.SQL;
 using NUnit.Framework;
+
+
 namespace KarveTest.DAL
 {
     class TestBuildQuery
@@ -17,6 +19,7 @@ namespace KarveTest.DAL
             _store.AddParam(QueryType.QueryCity, "0001");
             _store.AddParam(QueryType.QueryLanguage, "0001");
             var value = _store.BuildQuery();
+            Assert.NotNull(value);
         }
     }
 }

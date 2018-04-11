@@ -52,6 +52,8 @@ namespace DataAccessLayer.SQL
         QueryInvoiceSummaryExtended,
         QueryInvoiceSummaryPaged,
         QueryClientSummaryExt,
-        QueryCommissionAgentSummary
+        QueryCommissionAgentSummary,
+        QueryBrokerContacts,
+        QueryResellerByClient
     };
 }

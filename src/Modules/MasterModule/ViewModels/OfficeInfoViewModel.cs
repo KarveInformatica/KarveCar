@@ -23,7 +23,9 @@ namespace MasterModule.ViewModels
     {
         #region Constructor 
         public OfficeInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, 
-            IDataServices dataServices, IDialogService dialogService,IAssistService assistService, IRegionManager manager) : base(eventManager, configurationService, dataServices,dialogService,assistService, manager)
+            IDataServices dataServices, IDialogService dialogService,
+            IRegionManager manager,
+            IInteractionRequestController requestController) : base(eventManager, configurationService, dataServices,dialogService, manager, requestController)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);

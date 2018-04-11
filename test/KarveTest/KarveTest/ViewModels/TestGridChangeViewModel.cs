@@ -32,7 +32,11 @@ namespace KarveTest.ViewModels
         {
             ISqlExecutor sqlExecutor = SetupSqlQueryExecutor();
             _dataServices = new DataServiceImplementation(sqlExecutor);
-            _providerInfoViewModel = new ProviderInfoViewModel(eventManager, _mockConfigurationService.Object,_dataServices, _mockDialogService.Object,_mockAssistService.Object, _mockRegionManager.Object);
+            _providerInfoViewModel = new ProviderInfoViewModel(eventManager,     _mockConfigurationService.Object,
+              _dataServices,
+              _mockDialogService.Object, 
+              _mockRegionManager.Object, 
+              _mockRequestController.Object);
             
         }
 

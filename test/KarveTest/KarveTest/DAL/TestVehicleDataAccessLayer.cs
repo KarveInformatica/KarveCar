@@ -47,7 +47,7 @@ namespace KarveTest.DAL
             }
         }
         [Test]
-        public async Task Should_Get_A_List_Of_Vehicles()
+        public async Task Should_Get_AListOfVehicles()
         {
             IEnumerable<VehicleSummaryDto> summary = await _vehicleDataServices.GetAsyncVehicleSummary();
             Assert.Greater(summary.Count(), 0);

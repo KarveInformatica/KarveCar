@@ -106,7 +106,7 @@ namespace KarveTest.DAL
         }*/
 
         [Test]
-        public async Task Should_Give_Me_SupplierSummaryDts()
+        public async Task Should_GiveMe_SupplierSummaryDto()
         {
             IEnumerable<SupplierSummaryDto> supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
             Assert.GreaterOrEqual(supplierCollection.Distinct().Count(),1);

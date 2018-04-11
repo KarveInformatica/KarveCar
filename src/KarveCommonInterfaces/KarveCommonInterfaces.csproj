@@ -57,11 +57,13 @@
     <Compile Include="ICreateRegionManagerScope.cs" />
     <Compile Include="IDialogService.cs" />
     <Compile Include="IDisposeEvents.cs" />
+    <Compile Include="IInteractionRequestController.cs" />
     <Compile Include="ILinqToTree.cs" />
     <Compile Include="IRegionManagerAware.cs" />
     <Compile Include="IValidationChain.cs" />
     <Compile Include="MessageDialogResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectionState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

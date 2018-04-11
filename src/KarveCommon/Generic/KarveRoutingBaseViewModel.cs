@@ -27,10 +27,11 @@ namespace KarveCommon.Generic
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
         }
         /// <summary>
-        /// KarveViewModelBase. Base view model of the all structure
+        /// Karve Routing
         /// </summary>
-        /// <param name="services">DataServices to be used.</param>
-        public KarveRoutingBaseViewModel(IDataServices services, IAssistService assistService) : base(services, assistService)
+        /// <param name="services"></param>
+        /// <param name="assistService"></param>
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController interactionRequest) : base(services, interactionRequest)
         {
         }
         /// <summary>
@@ -38,7 +39,7 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="services">DataServices to be used</param>
         /// <param name="dialogService">DialogServices to be used</param>
-        public KarveRoutingBaseViewModel(IDataServices services, IAssistService assistService, IDialogService dialogService, IEventManager eventManager) : base(services,assistService)
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager) : base(services, controller)
         {
             EventManager = eventManager;
         }

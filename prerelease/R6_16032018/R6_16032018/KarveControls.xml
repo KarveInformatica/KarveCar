@@ -1,0 +1,3739 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KarveControls</name>
+    </assembly>
+    <members>
+        <member name="T:KarveControls.Behaviour.ButtonBehavior">
+            <summary>
+             This is a button behavior.
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.ButtonBehavior.assistNameProperty">
+            <summary>
+             This is a property for the cell presentation.
+            </summary>
+            
+        </member>
+        <member name="P:KarveControls.Behaviour.ButtonBehavior.AssistName">
+            <summary>
+            Set or Get the AssistName property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Behaviour.ButtonBehavior.OnAttached">
+            <summary>
+             OnAttached property. Attach the property to an item.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Behaviour.ButtonBehavior.OnDetaching">
+            <summary>
+             Detach the attached values.
+            </summary>
+        </member>
+        <member name="T:KarveControls.Behaviour.Grid.CellPresenterItem">
+            <summary>
+             CellPresenterItem. This is a class for presenting a cell.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.CellPresenterItem.DataTemplateName">
+            <summary>
+            Name of the cell in display mode. 
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.CellPresenterItem.IsReadOnly">
+            <summary>
+             Set or Get if the field is readonly
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.CellPresenterItem.EditTemplateName">
+            <summary>
+             Name of the cell in edit mode.
+            </summary>
+        </member>
+        <member name="T:KarveControls.Behaviour.Grid.GridChangedVector">
+            <summary>
+             This a dictionary of paramteres to be changed
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.GridChangedVector.SourceView">
+            <summary>
+            SourceView view of the source
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.GridChangedVector.ChangedValue">
+            <summary>
+             Value changed
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.GridChangedVector.RowVector">
+            <summary>
+             Row changed
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.GridChangedVector.PreviousValue">
+            <summary>
+             PreviousValue
+            </summary>
+        </member>
+        <member name="T:KarveControls.Behaviour.Grid.NavigationAwareItem">
+            <summary>
+             NavigationAwareItem. It is a class for generating the line and associate navigation
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.NavigationAwareItem.Action">
+            <summary>
+            Set or Get the action to execute.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.Grid.NavigationAwareItem.RegionName">
+            <summary>
+             Set or get the region name to navigate to
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.ComboChangeBehaviour.CommandDependencyProperty">
+            <summary>
+             Command dependency property
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.ComboChangeBehaviour.Command">
+            <summary>
+             Command to be executed on change.
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.ComboChangeBehaviour.DataObjectDependencyProperty">
+            <summary>
+             DataObject dependency property
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.ComboChangeBehaviour.DataObject">
+            <summary>
+             Command to be executed on change.
+            </summary>
+        </member>
+        <member name="T:KarveControls.Behaviour.AssistExt">
+            <summary>
+             Assist Extension name.
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.AssistExt.AssistNameProperty">
+            <summary>
+             This is a property for the cell presentation.
+            </summary>
+            
+        </member>
+        <member name="M:KarveControls.Behaviour.AssistExt.SetAssistName(System.Windows.UIElement,System.String)">
+            <summary>
+             Set the name of a button for navigation.
+            </summary>
+            <param name="d">Depedency property</param>
+            <param name="e">Value</param>
+        </member>
+        <member name="M:KarveControls.Behaviour.AssistExt.GetAssistName(System.Windows.UIElement)">
+            <summary>
+             Get the name of a button for navigation.
+            </summary>
+            <param name="d">Dependency Properties</param>
+            <param name="e">Value</param>
+            <returns></returns>
+        </member>
+        <member name="T:KarveControls.Behaviour.KarveGridCopyPaste">
+            <summary>
+             This is copy paste behaviour for the grids.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Behaviour.KarveGridCopyPaste.PasteTextToRow">
+            <summary>
+             PasteTextToRow.
+            </summary>
+        </member>
+        <member name="T:KarveControls.Behaviour.LineGridBehaviour">
+            <summary>
+             This blend behaviour change the behavior of the grid.
+             
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.LineGridBehaviour.gridColumns">
+            <summary>
+             This is the list of the allowed columns. If a column is not in this list.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.LineGridBehaviour.GridColumns">
+            <summary>
+             GridColumns Property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.LineGridBehaviour.cellPresenterItemsProperty">
+            <summary>
+             This is a property for the cell presentation.
+            </summary>
+            
+        </member>
+        <member name="P:KarveControls.Behaviour.LineGridBehaviour.CellPresenterItems">
+            <summary>
+             CellPresenterItems Property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.Behaviour.LineGridBehaviour.ItemChangedCommandProperty">
+            <summary>
+             DependencyProperty. ItemChangedCommand.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.LineGridBehaviour.ItemChangedCommand">
+            <summary>
+             ItemChangedCommand Property.
+            </summary>
+        </member>
+        <member name="T:KarveControls.Behaviour.PlusMinusBehaviour">
+            <summary>
+             PlusMinusBehaviour. This is  behaviour that modify the behaviour of a toogle button for allowing + or minus. 
+            </summary>
+            
+        </member>
+        <member name="F:KarveControls.Behaviour.PlusMinusBehaviour.plusPathProperty">
+            <summary>
+             This is the list of the allowed columns. If a column is not in this list.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.PlusMinusBehaviour.PlusPath">
+            <summary>
+             Set or Get PlusPath property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Behaviour.PlusMinusBehaviour.MinusPath">
+            <summary>
+            Set or Get MinusPath property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Behaviour.PlusMinusBehaviour.OnDetaching">
+            <summary>
+             Detach the attached values.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DateMonth.OnApplyTemplate">
+            <summary>
+            This is called when the tree for the DataField is generated.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DateMonth.MonthIndex">
+            <summary>
+             Set or Get the month index
+            </summary>
+        </member>
+        <member name="P:KarveControls.DateMonth.DaysOff">
+            <summary>
+             Set or Get the list of vacation days
+            </summary>
+        </member>
+        <member name="P:KarveControls.DateMonth.YearMonth">
+            <summary>
+             Set or get the Year and Month string. A yearmonth string is like "2008.01"
+            </summary>
+        </member>
+        <member name="P:KarveControls.DateMonth.MonthName">
+            <summary>
+             Set or get the name of the month.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DateMonth.SelectedDayCommandDependencyProperty">
+            <summary>
+             Dependency Property for the selected day command
+            </summary>
+        </member>
+        <member name="P:KarveControls.DateMonth.SelectedDayCommand">
+            <summary>
+             Set or get the selected day command. The selected day command is a command launched for selecting a day.
+            </summary>
+        </member>
+        <member name="F:KarveControls.HolidayCalendar.CommandProperty">
+            <summary>
+             Dependency properties command.You can set the command and then execute when a selection change. 
+             It will give you back the list of valid vacations;
+            </summary>
+        </member>
+        <member name="P:KarveControls.HolidayCalendar.Command">
+            <summary>
+             Command property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.HolidayCalendar.YearDependencyProperty">
+            <summary>
+             Dependency properties for the Year. 
+             You can set the year and from them you can generate thecalendar.
+            </summary>
+        </member>
+        <member name="M:KarveControls.HolidayCalendar.OnYearChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Generate the visual calendar and initialize the change command  to detect when a click on the month
+             has been done.
+            </summary>
+            <param name="d">Dependency Object</param>
+            <param name="e">Dependnecy Properties</param>
+        </member>
+        <member name="F:KarveControls.HolidayCalendar.HolidayDependencyProperty">
+            <summary>
+             Dependency propriety for the Holidays. It sets the holidays during the year.
+            </summary>
+        </member>
+        <member name="P:KarveControls.HolidayCalendar.Year">
+            <summary>
+             Year selected
+            </summary>
+        </member>
+        <member name="P:KarveControls.HolidayCalendar.Holidays">
+            <summary>
+             Holiday during the year.
+            </summary>
+        </member>
+        <member name="T:KarveControls.KarveClock">
+            <summary>
+            Interaction logic for KarveClock.xaml
+            </summary>
+            <summary>
+            KarveClock
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveClock.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:KarveControls.ControlState.GetTextCurrent(System.Windows.FrameworkElement)">
+            <summary>
+             Get the item changed command
+            </summary>
+            <param name="ds">Dependency object</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlState.SetTextCurrent(System.Windows.FrameworkElement,System.Object)">
+            <summary>
+            Set the item changed command
+            </summary>
+            <param name="ds"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:KarveControls.ControlState.GetTextPrevious(System.Windows.FrameworkElement)">
+            <summary>
+             Get the item changed command
+            </summary>
+            <param name="ds">Dependency object</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlState.SetTextPrevious(System.Windows.FrameworkElement,System.Object)">
+            <summary>
+            Set the item changed command
+            </summary>
+            <param name="ds"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:KarveControls.ControlState.GetIsChanged(System.Windows.FrameworkElement)">
+            <summary>
+             Get the item changed command
+            </summary>
+            <param name="ds">Dependency object</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlState.SetIsChanged(System.Windows.FrameworkElement,System.Object)">
+            <summary>
+            Set the item changed command
+            </summary>
+            <param name="ds"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:KarveControls.ControlState.GetDateCurrent(System.Windows.DependencyObject)">
+            <summary>
+             Get the item changed command
+            </summary>
+            <param name="ds">Dependency object</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlState.SetDateCurrent(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Set the item changed command
+            </summary>
+            <param name="ds"></param>
+            <param name="item"></param>
+        </member>
+        <member name="F:KarveControls.ControlState.DatePrevDependencyProperty">
+            <summary>
+             Depedency property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ControlState.GetDatePrev(System.Windows.DependencyObject)">
+            <summary>
+            Get the previous value of type datetime
+            </summary>
+            <param name="ds">Dependency Object/ User control to take</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlState.SetDatePrev(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Set the item changed command
+            </summary>
+            <param name="ds">Dependency Object, user control to take</param>
+            <param name="item">Item value to be set</param>
+        </member>
+        <member name="M:KarveControls.ControlState.GetItemChangedCommand(System.Windows.DependencyObject)">
+            <summary>
+             Get the item changed command
+            </summary>
+            <param name="ds">Dependency object</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlState.SetItemChangedCommand(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Set the item changed command
+            </summary>
+            <param name="ds"></param>
+            <param name="item"></param>
+        </member>
+        <member name="T:KarveControls.CreditCardUserControl">
+            <summary>
+            Interaction logic for CreditCardUserControl.xaml
+            </summary>
+            <summary>
+            CreditCardUserControl
+            </summary>
+        </member>
+        <member name="F:KarveControls.CreditCardUserControl.CreditCardDependencyProperty">
+            <summary>
+             CardOwner. This is the owern of the credit card.
+            </summary>
+        </member>
+        <member name="F:KarveControls.CreditCardUserControl.CreditNumberDependencyProperty">
+            <summary>
+             This is the card number. The number of the card.
+            </summary>
+        </member>
+        <member name="F:KarveControls.CreditCardUserControl.ExpiryMonthDependencyProperty">
+            <summary>
+             The expiry month the month of the card.
+            </summary>
+        </member>
+        <member name="F:KarveControls.CreditCardUserControl.ExpiryYearDependencyProperty">
+            <summary>
+             Expiry year is the year of the card.
+            </summary>
+        </member>
+        <member name="F:KarveControls.CreditCardUserControl.SecurityCodeDependencyProperty">
+            <summary>
+             Security code of the card.
+            </summary>
+        </member>
+        <member name="F:KarveControls.CreditCardUserControl.PostalCodeDependencyProperty">
+            <summary>
+             Postal code 
+            </summary>
+        </member>
+        <member name="M:KarveControls.CreditCardUserControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.DataAreaChangedEvent">
+            <summary>
+            Routed Event fired when any change in data field happen.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.DataAreaWidthDependencyProperty">
+            <summary>
+            DataArea Width dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.DataAreaWidth">
+            <summary>
+             Event triggered when a data field changes.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.ItemChangedCommandDependencyProperty">
+            <summary>
+             Command to be executed when  a data aread changes
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.ItemChangedCommand">
+            <summary>
+             Event triggered when a data field changes.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.SearchCommandDependencyProperty">
+            <summary>
+             Command to be executed when  a data aread changes
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.SearchCommand">
+            <summary>
+             Event triggered when a data field changes.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.SearchTerm">
+            <summary>
+             Event triggered when a data field changes.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.SearchTermDependencyProperty">
+            <summary>
+             Dependency property used for storing a search term.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataArea.#ctor">
+            <summary>
+             Data area.
+            </summary>
+        </member>
+        <member name="E:KarveControls.DataArea.DataAreaChanged">
+            <summary>
+             Event triggered when a data field changes.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.ItemSourceDependencyProperty">
+            <summary>
+             Data source dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.DataSource">
+            <summary>
+             Data source for the area.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.DataAreaTitle">
+            <summary>
+             Title of the data area.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.DataAreaDependencyProperty">
+            <summary>
+             Path of the control.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.DataSourcePath">
+            <summary>
+             Path of an area to be binded.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataArea.CheckAndAssignText(System.Object,System.String)">
+            <summary>
+            CheckAndAssignText.
+            </summary>
+            <param name="sourceNew">Property to be assigned</param>
+            <param name="path">Path of the property.</param>
+        </member>
+        <member name="F:KarveControls.DataArea.LabelTextDependencyProperty">
+            <summary>
+             Label text dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.LabelText">
+            <summary>
+             Label of the text.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.LabelTextWidth">
+            <summary>
+            Width of text to be present in the area.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.LabelVisibleDependencyProperty">
+            <summary>
+             Set if the label is visible or not.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.LabelVisible">
+            <summary>
+            Label is 
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.SearchBoxHeightDependencyProperty">
+            <summary>
+             SearchBoxHeight dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataArea.TextContentDependencyProperty">
+            <summary>
+             Text content dependency property
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.TextContent">
+            <summary>
+             Text content dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataArea.DataAreaLabel">
+            <summary>
+             Label of the area
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataAreaFieldEventsArgs">
+            <summary>
+             Data Area Event when a change happens.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataAreaFieldEventsArgs.#ctor">
+            <summary>
+             Public event raised.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataAreaFieldEventsArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+            event and args.
+            </summary>
+            <param name="routedEvent"></param>
+        </member>
+        <member name="T:KarveControls.DataFieldCheckBox">
+            <summary>
+             Represent a control that a user can select and clear.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataFieldCheckBox.DataObjectDependencyProperty">
+            <summary>
+            Data object properties.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataFieldCheckBox.DataObject">
+            <summary>
+            Data object dependency property. It get/set an object in the component.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldCheckBox.#ctor">
+            <summary>
+             default checkbox.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldCheckBox.OnApplyTemplate">
+            <summary>
+             Apply template.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataFieldCheckBox.DataFieldCheckBoxChangedEvent">
+            <summary>
+             Event launched when the checkbox change.
+            </summary>
+        </member>
+        <member name="E:KarveControls.DataFieldCheckBox.DataFieldCheckBoxChanged">
+            <summary>
+            This the event when it changes the checkbox.
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataFieldCheckBoxEventArgs">
+            <summary>
+            This is the data field check box event.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataFieldCheckBoxEventArgs.FieldPath">
+            <summary>
+            Data field to be delivered. Object to be selected.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldCheckBoxEventArgs.DataObject(System.Object)">
+            <summary>
+             Data object
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="P:KarveControls.DataFieldCheckBoxEventArgs.IsSelected">
+            <summary>
+             Selected status. True if it has been selected. False otherwise
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataFieldCheckBoxEventArgs.ChangedValuesObjects">
+            <summary>
+            ChangedValues status. Dictionary for the changed values.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldCheckBoxEventArgs.#ctor">
+            <summary>
+            Constructor for the datafield..
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldCheckBoxEventArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+             C
+            </summary>
+            <param name="routedEvent"></param>
+        </member>
+        <member name="T:KarveControls.DataCombox">
+            <summary>
+            Interaction logic for DataCombox.xaml
+            </summary>
+            <summary>
+            DataCombox
+            </summary>
+        </member>
+        <member name="E:KarveControls.DataCombox.PropertyChanged">
+            <summary>
+             Property Changed event.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataCombox.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataDatePicker">
+            <summary>
+            Custom control for the date picker that support item changed command.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.ItemCommandChangedEvent">
+            <summary>
+            ItemCommand changed event
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.DataDatePickerChangedEvent">
+            <summary>
+            DatePicker changed event
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataDatePicker.DataDatePickerEventArgs">
+            <summary>
+            Event class of the event picker.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.DataDatePickerEventArgs.FieldData">
+            <summary>
+            Value of the date
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataDatePicker.DataDatePickerEventArgs.#ctor">
+            <summary>
+             std. constructor.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataDatePicker.DataDatePickerEventArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+             standard constructor
+            </summary>
+            <param name="routedEvent">Constructor</param>
+        </member>
+        <member name="E:KarveControls.DataDatePicker.DataDatePickerChanged">
+            <summary>
+             DataDatePicker changed.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.ItemChangedCommandDependencyProperty">
+            <summary>
+            Data Object dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.ItemChangedCommand">
+            <summary>
+             This is the data object to be saved.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.DataObject">
+            <summary>
+             This is the data object to be saved.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.DataObjectDependencyProperty">
+            <summary>
+            Data Object dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.DateContent">
+            <summary>
+            DateContent content of the date.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.LabelVisibleDependencyProperty">
+            <summary>
+            Label visible dependency property. Its default is true. 
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.LabelVisible">
+            <summary>
+             Label visible
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.LabelTextDependencyProperty">
+            <summary>
+             Label text dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.LabelText">
+            <summary>
+             Label associated to the data picker
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.LabelTextWidth">
+            <summary>
+            Width of the text
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.PickerContentWidth">
+            <summary>
+            Picker content width.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.PickerContentWidthDependencyProperty">
+            <summary>
+            Picker content width dependency properties.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataDatePicker.DataDatePickerHeightDependencyProperty">
+            <summary>
+             Height of the picker
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataDatePicker.DataDatePickerHeight">
+            <summary>
+             Height of the picker
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataDatePicker.#ctor">
+            <summary>
+             Constructor for the picker.
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataFieldItemsControl.DataFieldItemsControl">
+            <summary>
+            Interaction logic for UserControl1.xaml
+            </summary>
+            <summary>
+            DataFieldItemsControl
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataFieldItemsControl.DataFieldItemsControl.ChangeActionDependencyProperty">
+            <summary>
+             Command for detecting a change. It comes triggered when it changes.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataFieldItemsControl.DataFieldItemsControl.ChangeActionCommand">
+            <summary>
+             localization of strings.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataFieldItemsControl.DataFieldItemsControl.LabelEnumerable">
+            <summary>
+             Localization strings for the lablels.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataFieldItemsControl.DataFieldItemsControl.Localization">
+            <summary>
+             localization of strings.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataFieldItemsControl.DataFieldItemsControl.DataSourceDependencyProperty">
+            <summary>
+            Data Source Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataFieldItemsControl.DataFieldItemsControl.DataSource">
+            <summary>
+             Data source property handy way to associate a data field to a value.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldItemsControl.DataFieldItemsControl.OnDataSourceChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             DataSourceChanged
+            </summary>
+            <param name="e">Event args for the property change</param>
+        </member>
+        <member name="M:KarveControls.DataFieldItemsControl.DataFieldItemsControl.#ctor">
+            <summary>
+            Data Field items control. 
+            It is an user control that allow us to put different items together with the same object.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataFieldItemsControl.DataFieldItemsControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.KarveExt">
+            <summary>
+             This is a list of attached properties to be associated to each karve control.
+            </summary>
+        </member>
+        <member name="T:KarveControls.KarveExt.DataType">
+            <summary>
+             DataType to be allowed.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.DoubleField">
+            <summary>
+             Double kind of data.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.IntegerField">
+            <summary>
+            Integer field of the component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.NifField">
+            <summary>
+             Nif field of the component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.IbanField">
+            <summary>
+             Iban field of the component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.Any">
+            <summary>
+             Any other kind of field control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.Email">
+            <summary>
+             Email kind field of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.BankAccount">
+            <summary>
+             Bank Account field of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.Swift">
+            <summary>
+             Swift field of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataType.DateTime">
+            <summary>
+             Datatime field of the contorl.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DescriptionDependencyProperty">
+            <summary>
+             This is a metadata that describe a component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataAllowedDependencyProperty">
+            <summary>
+             This is the kind of data allowd.
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveExt.DataAllowed">
+            <summary>
+             Kind of data allowed for this component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DataSourceDependencyProperty">
+            <summary>
+             DataSource: data table or data object associaed with this control.
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveExt.DataSource">
+            <summary>
+             Set/Gey the data source
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveExt.DbTableNameDependencyProperty">
+            <summary>
+             Dependency property associated with the name of the table.
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveExt.TableName">
+            <summary>
+             Set or Get the name of the table associated to this control.
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataField">
+            <summary>
+            DataField Control definitions.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataField.#ctor">
+            <summary>
+             default ctor.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DataFieldChangedEvent">
+            <summary>
+            Routed Event fired when any change in data field happen.
+            </summary>
+        </member>
+        <member name="E:KarveControls.DataField.DataFieldChanged">
+            <summary>
+             Event triggered when a data field changes.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField._textContentChanged">
+            <summary>
+             It is true if the text content has been changed.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField._dataObject">
+            <summary>
+            Data object to be used.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField._filler">
+            <summary>
+            Component filler to be used.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField._dataField">
+            <summary>
+            Field empty to be used.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DescriptionDependencyProperty">
+            <summary>
+             Component description.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DataObjectDependencyProperty">
+            <summary>
+            Data object dependency properties.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.DataObject">
+            <summary>
+             This returns a data object.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DataAllowedDependencyProperty">
+            <summary>
+            Data object dependency properties.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.DataAllowed">
+            <summary>
+            DataAllowed.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataField.OnItemSourceDoChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            This handle the logic for changing the depedency object using a data object.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:KarveControls.DataField.OnApplyTemplate">
+            <summary>
+            This is called when the tree for the DataField is generated.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DBTableNameDependencyProperty">
+            <summary>
+             Dependency property for the table name.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.TableName">
+            <summary>
+             This is a table name dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.ItemChangedCommandDependencyProperty">
+            <summary>
+            Command associated to the changed of a property. It gets triggered when a change happens.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.ItemChangedCommand">
+            <summary>
+             Command related to the change of an item.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.UpperCaseDependencyProperty">
+            <summary>
+             Uppercase dependency properties.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.UpperCase">
+            <summary>
+             UpperCase property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.DataSourcePath">
+            <summary>
+             Path of the data.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataField.OnDataFieldPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            This data field property.
+            </summary>
+            <param name="e">Dependency Property parameter.</param>
+        </member>
+        <member name="P:KarveControls.DataField.AllowedEmpty">
+            <summary>
+             AllowedEmpty dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.TextContent">
+            <summary>
+            TextContent. This is the content of the text.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.LabelVisibleDependencyProperty">
+            <summary>
+            Dependency property for the label visibility.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.LabelVisible">
+            <summary>
+             Property to set the label visible for a data field.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.LabelText">
+            <summary>
+             Label text dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.LabelTextWidth">
+            <summary>
+             LabelTextWidth dependency properties.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.TextContentWidth">
+            <summary>
+             Text content width dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DataField.DataFieldHeight">
+            <summary>
+            Height of the datafield textbox.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.CHANGED_VALUE">
+            <summary>
+             Constant for changed value index
+             TODO: See where they are used and move from here.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.FIELD">
+            <summary>
+             Constant for the field value.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DATATABLE">
+            <summary>
+             Constant for the field data table
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.TABLENAME">
+            <summary>
+             Constant for the table name field.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DataField.DATAOBJECT">
+            <summary>
+            Constant for the data object.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataField.TextField_TextChanged(System.Object,System.Windows.Controls.TextChangedEventArgs)">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:KarveControls.DataField.DataFieldEventArgs">
+            <summary>
+             Event args
+            </summary>
+            
+        </member>
+        <member name="M:KarveControls.DataField.DataFieldEventArgs.#ctor">
+            <summary>
+             Constructror.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DataField.DataFieldEventArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+             Data field constructor.
+            </summary>
+            <param name="routedEvent"></param>
+        </member>
+        <member name="F:KarveControls.DirectionInfo.DataObjectDependencyProperty">
+            <summary>
+             Name of the assist table. The assist table is the table used to ref integrity with the previous table.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfo.DataObject">
+            <summary>
+             Data object used for the direction.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfo.IsSecondEnabled">
+            <summary>
+             This enable or disable the second direction information.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfo.HideSecondDirection">
+            <summary>
+             Hide second direction dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DirectionInfo.ProvinceAssistNameDependencyProperty">
+            <summary>
+             Assist depenency propepty name for looking up the province.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DirectionInfo.ProvinceSourceDependencyProperty">
+            <summary>
+             province
+            </summary>
+            
+        </member>
+        <member name="P:KarveControls.DirectionInfo.Web">
+            <summary>
+             Web dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfo.ItemChangedCommand">
+            <summary>
+             ItemChangedCommand.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfo.MagnifierCommand">
+            <summary>
+             Comma separated property list
+            </summary>
+            <summary>
+             AssistCommand
+            </summary>
+        </member>
+        <member name="F:KarveControls.DirectionInfo.DATAOBJECT">
+            <summary>
+             Constant for the field data table
+            </summary>
+        </member>
+        <member name="T:KarveControls.DirectionObject">
+            <summary>
+             Class DirectionObject.
+            
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.DIR_PAGO">
+            <summary>
+             Direction of payment
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.DIR2_PAGO">
+            <summary>
+             Second direction of payment
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.POB_PAGO">
+            <summary>
+             City of paymenet
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.PAIS_PAGO">
+            <summary>
+             Country of payment
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.PROV_PAGO">
+            <summary>
+             Province of payment
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.MAIL_PAGO">
+            <summary>
+             Mail fo payment
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.TELF_PAGO">
+            <summary>
+             Phone payment
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionObject.FAX_PAGO">
+            <summary>
+             Fax payment
+            </summary>
+        </member>
+        <member name="T:KarveControls.DomainWrapper">
+            <summary>
+             DomainWrapper.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfoViewModelMock.AssistCommand">
+            <summary>
+             AssistCommand.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfoViewModelMock.CountryDto">
+            <summary>
+             CountryDto
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfoViewModelMock.CityDto">
+            <summary>
+             CityDto
+            </summary>
+        </member>
+        <member name="P:KarveControls.DirectionInfoViewModelMock.ProvinceDto">
+            <summary>
+             ProvinciaDto.
+            </summary>
+        </member>
+        <member name="T:KarveControls.DualFieldSearchBox">
+             <summary>
+             User control for a search box. 
+             It allows us to have a single field or a doble field search box with a valid magnifier.
+             </summary>
+            
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.MagnifierCommandProperty">
+            <summary>
+             Magnifier command dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.CommandProperty">
+            <summary>
+            Command dependency property.
+            </summary>  
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.AssistNameDependencyProperty">
+            <summary>
+            AssistName is a label to be identified from the view model to look for a query and set the resoult.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.AssistDataFieldFirstDependencyProperty">
+            <summary>
+             Field of cross reference with the assist table. Primary Key. 
+             AssistDataFields are used when we have not set the assist query.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.AssistDataFieldSecondDependencyProperty">
+            <summary>
+            Second field that it can be used in the assist table.
+             AssistDataFields are used when we have not set the assist query 
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.TextContentFirstDependencyProperty">
+            <summary>
+            Content of the first textbox.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.TextContentSecondDependencyProperty">
+            <summary>
+             Content of the second textbox.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.TextContentFirstWidthDependencyProperty">
+            <summary>
+             Width content of the first textbox.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.TextContentSecondWidthDependencyProperty">
+            <summary>
+             Width content of the second textbox
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.ButtonImageDependencyProperty">
+            <summary>
+             Kind of image to be associated to the button in the searchbox.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataObjectDependencyProperty">
+            <summary>
+            Data Object dependency properties.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.SourceViewDependencyProperty">
+            <summary>
+             DataTable or data object to be associated with the search. Cross reference table.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.MagnifierPressEvent">
+            <summary>
+             Event associated with the magnifier press. 
+             When the magnifier got pressed we send this routed event bubbling to the view model and can be detected with blend interactivity.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.ItemSourceDependencyProperty">
+            <summary>
+             DataTable or data object associated with the item source.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataFieldFirstDependencyProperty">
+            <summary>
+            Primary Key or first field to be associated with the table. It is a data table or a name of property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.ItemChangedCommandDependencyProperty">
+            <summary>
+            Command associated to the changed of a property. It gets triggered when a change happens.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataFieldSecondDependencyProperty">
+            ItemChangeCommand
+            <summary>
+            Other field to be associated optionally if there is no cross reference with the second textbox.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataAllowedFirstDependencyProperty">
+            <summary>
+            The kind of data allowed with this control: Email,Iban,Nif,etc. can be valuable values.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataAllowedSecondDependencyProperty">
+            <summary>
+            The kind of data allowed with this control: Email,Iban,Nif,etc. can be valuable values.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataFieldsDependencyProperty">
+            <summary>
+             This control can accept its data fields as list of string.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.IsReadOnlyProperty">
+            <summary>
+             Set or Get if the control is made readonly. Both first or second field.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.IsReadOnlyFirstProperty">
+            <summary>
+             Set or Get if the control first field is readonly.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.IsReadOnlySecondProperty">
+            <summary>
+             Set or Get if the control second field is readonly.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.TableNameDependencyProperty">
+            <summary>
+             Set or Get the first table name.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.LabelVisibleDependencyProperty">
+            <summary>
+             Enable/Disable Visibility of the Label.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.LabelVisible">
+            <summary>
+             Set or Get the Label Visible: Hidden or Collasped.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.ItemChangedCommand">
+            <summary>
+             Set or Get The TableName
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.TableName">
+            <summary>
+             Set or Get The TableName
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox._dataSource">
+            <summary>
+            This is a data source.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.AssistQueryChangedEvent">
+            <summary>
+             Event raised when the magnifier is pressed.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataSearchTextBoxChangedEvent">
+            <summary>
+             Event raise when one of the two textbox is pressed.
+            </summary>
+        </member>
+        <member name="E:KarveControls.DualFieldSearchBox.DataSearchTextBoxChanged">
+            <summary>
+             Every time is changed a text box this event get raised.
+            </summary>
+        </member>
+        <member name="E:KarveControls.DualFieldSearchBox.MagnifierPress">
+            <summary>
+             Get the event handler from the magnifier.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.ButtonImage">
+            <summary>
+             Button image to be associated to the magnifier
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.DataAllowedFirst">
+            <summary>
+            First data allowed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.DataAllowedSecond">
+            <summary>
+             Second data allowed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.AssistTableName">
+            <summary>
+             AssitTableName. Name of the table.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.AssistDataFieldFirst">
+            <summary>
+             Get or Set the assist data field. This is the first field to be crossreferenced.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.AssistDataFieldSecond">
+            <summary>
+             Get or Set the assist data field second for the assist query. This is the second name, generally readonly to be used.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.DataFieldFirst">
+            <summary>
+            Get or Set the data field first for the assist query.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.DataFieldSecond">
+            <summary>
+            Get or Set the data field second for the assist query.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.DataFields">
+            <summary>
+            Get or Set the data fields in the searchbox.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.LabelText">
+            <summary>
+            LabelText.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.AssistQueryDependencyProperty">
+            <summary>
+            Assist Query to be used.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.AssistQuery">
+            <summary>
+             Set/Get the assist query.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.ColumnsDependencyProperty">
+            <summary>
+            Assist Query to be used.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.ColumnsProperties">
+            <summary>
+            AssistProperties. 
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.AssistPropertiesDependencyProperty">
+            <summary>
+            Assist Query to be used.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.AssistProperties">
+            <summary>
+            AssistProperties. 
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DataSourceDependencyProperty">
+            <summary>
+             Dependency property for the data object.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.DataSource">
+            <summary>
+             DataSource dependency property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DualFieldSearchBox.OnDataSourceChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             This gives us a data source changed.
+            </summary>
+            <param name="d">Dependency object to be used.</param>
+            <param name="e">Depenendncy propperties to be used.</param>
+        </member>
+        <member name="M:KarveControls.DualFieldSearchBox.OnDataSourceChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            This handle the object data change.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.LabelTextDependencyProperty">
+            <summary>
+            Label Text to be used.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.LabelWidthDependencyProperty">
+            <summary>
+             Width of the label to be used.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.DefaultPageSize">
+            <summary>
+             PageSize to be used.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DualFieldSearchBox.#ctor">
+            <summary>
+            This is a component with a grid table associated.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.LabelWidth">
+            <summary>
+             Label Width
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.TextContentFirst">
+            <summary>
+             TextContent of the first box.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.TextContentSecond">
+            <summary>
+             TextContent of the second box.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.TextContentFirstWidth">
+            <summary>
+             Width of the content width
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.TextContentSecondWidth">
+            <summary>
+            width of the second content.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.MagnifierCommand">
+            <summary>
+             Set/Get the command for the magnifier.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.ItemSource">
+            <summary>
+            Set or Get the command for the source.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.SourceView">
+            <summary>
+             Assist data table to be referenced.
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.LabelTextWidthDependencyProperty">
+            <summary>
+            Dependency Properties width of the label to be used.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.LabelTextWidth">
+            <summary>
+             Label text width
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.IsReadOnly">
+            <summary>
+             Read only both fields
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.IsReadOnlyFirst">
+            <summary>
+             Set read only the first field of the search box
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.IsReadOnlySecond">
+            <summary>
+             Set readonly the second field of the search box.
+            </summary>
+        </member>
+        <member name="M:KarveControls.DualFieldSearchBox.HandleSourceViewAsEnumerable(System.Object,System.Object)">
+            <summary>
+             HandleSourceViewAsEnumerable.
+            </summary>
+            <param name="currentView"></param>
+            <param name="itemSource"></param>
+        </member>
+        <member name="T:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs">
+            <summary>
+            MagnifierPressEventArgs. This is the event pressed when
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE">
+            <summary>
+            Constant to access to the tableName in the parameters of the event
+            </summary>
+        </member>
+        <member name="F:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY">
+            <summary>
+            Constant to access to the queries in the parameters of the event
+            </summary>
+        </member>
+        <member name="M:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.#ctor">
+            <summary>
+            MagnifierPressEvents. Constructor 
+            </summary>
+        </member>
+        <member name="M:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+            MagnifierPressEventsArgs. Event constructor 
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.AssistParameters">
+            <summary>
+             Parameters to be conveyed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.AssistQuery">
+            <summary>
+            Set or Get the query.
+            </summary>
+        </member>
+        <member name="P:KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.TableName">
+            <summary>
+            Set or Get the tableName.
+            </summary>
+        </member>
+        <member name="T:KarveControls.Generic.KarveRoutedEventsArgs">
+            <summary>
+             Base class for our custom events.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Generic.KarveRoutedEventsArgs.FieldData">
+            <summary>
+            Field or property changed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Generic.KarveRoutedEventsArgs.ChangedValuesObjects">
+            <summary>
+             Dictionary of keys that delivering information about changed values
+            </summary>
+        </member>
+        <member name="M:KarveControls.Generic.KarveRoutedEventsArgs.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:KarveControls.Generic.KarveRoutedEventsArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+             Constructor with event args
+            </summary>
+            <param name="routedEvent"></param>
+        </member>
+        <member name="T:KarveControls.Generic.ComponentUtils">
+            <summary>
+            Utility functions to be spread in all the component. 
+            TODO. Thinking to merge the component utils with the component filler.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentUtils.GetTextDo(System.Object,System.String,KarveControls.ControlExt.DataType)">
+            <summary>
+            Get Text from data object using reflection and the opportune conversion. 
+            </summary>
+            <param name="dataObject">Data object to be used.</param>
+            <param name="dataField">Field name to be used.</param>
+            <param name="dataAllowed">Kind of data to be used.</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentUtils.CreateImageSource(System.String,System.Boolean)">
+            <summary>
+            Creates an ImageSource object from a file on disk.
+            </summary>
+            <param name="file">The full path to the file that should be loaded.</param>
+            <param name="forcePreLoad">if set to <c>true</c> the image file will be decoded and fully loaded when created.</param>
+            <returns>A frozen image source object representing the loaded image.</returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentUtils.GetPropValue(System.Object,System.String)">
+            <summary>
+             GetPropertiesValue.
+            </summary>
+            <param name="obj"></param>
+            <param name="propName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentUtils.SetPropValue(System.Object,System.String,System.Object,System.Boolean)">
+            <summary>
+            Set a value of a property, in case it is a prefix value. update the upper object.
+            </summary>
+            <param name="obj"></param>
+            <param name="propName"></param>
+            <param name="value"></param>
+            <param name="valuePrefix"></param>
+        </member>
+        <member name="T:KarveControls.Generic.ComponentFiller">
+            <summary>
+            This class has the reponsability of filling an image source
+            </summary>
+            TODO: create unit testing for the component filler.
+        </member>
+        <member name="T:KarveControls.Generic.ComponentFiller.UiMetaObject">
+            <summary>
+             Class for unpacking the object to a value.
+            </summary>
+        </member>
+        <member name="P:KarveControls.Generic.ComponentFiller.UiMetaObject.ChangedItem">
+            <summary>
+            Delegate to be assigned in a item
+            </summary>
+        </member>
+        <member name="P:KarveControls.Generic.ComponentFiller.UiMetaObject.DataSource">
+            <summary>
+            DataSource to be used
+            </summary>
+        </member>
+        <member name="P:KarveControls.Generic.ComponentFiller.UiMetaObject.DataSourcePath">
+            <summary>
+            Data Source Path to be used
+            </summary>
+        </member>
+        <member name="P:KarveControls.Generic.ComponentFiller.UiMetaObject.LabelText">
+            <summary>
+            Label text to be used.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FillImageSource(System.Byte[],System.Windows.Controls.Image@)">
+            <summary>
+            Fills an image from a bytearray 
+            </summary>
+            <param name="arrayOftheImage">Array to be used for filling</param>
+            <param name="image">Output image to be used</param>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FillDataObject(System.String,System.String,System.Object@)">
+            <summary>
+            Fill the data object with a type
+            </summary>
+            <param name="textField">Field of the text.</param>
+            <param name="dataObject">Data object to be filled.</param>
+            <param name="dataField">Data field to be filled.</param>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.GetCollectionProperties(System.Object)">
+            <summary>
+            GetCollectionProperties returns a a list of data obects.
+            </summary>
+            <param name="itemSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FetchFillerCheckBox(System.Data.DataTable,System.String,System.Windows.Controls.CheckBox@)">
+            <summary>
+             This method fills the checkbox value with the value of the itemsource.
+            </summary>
+            <param name="itemSource"></param>
+            <param name="fieldName"></param>
+            <param name="checkBox"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FetchDataFieldFromObject(System.Object,System.String)">
+            <summary>
+            Returns the name of a datafield from object.
+            </summary>
+            <param name="itemSource">The object from which we have to fill the data</param>
+            <param name="fieldName">The name of the field</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FetchDataFieldObject(System.Data.DataTable,System.String)">
+            <summary>
+             This fetches the data field object from a datatable.
+            </summary>
+            <param name="itemSource">DataTable to be injected</param>
+            <param name="fieldName">Name of the field</param>
+            <returns>The object representing that field</returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FetchDataFieldValue(System.Data.DataTable,System.String)">
+            <summary>
+            This fetches the data field object from a datatable.
+            </summary>
+            <param name="itemSource">DataTable to be injected</param>
+            <param name="fieldName">Name of the filed</param>
+            <returns>A string representation of the obejct stored in the datatable field</returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FillTextBox(System.Data.DataTable,System.String,System.Windows.Controls.TextBox@)">
+            <summary>
+            Fill a textbox with the content of a data table 
+            </summary>
+            <param name="table">Table to be filled</param>
+            <param name="fieldName">Field in the table</param>
+            <param name="textFilledBox">Test to be complete</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.Generic.ComponentFiller.FillTable(System.Windows.Controls.TextBox,System.String,System.Data.DataTable@)">
+            <summary>
+             Fill a table with the content of a textbox doing type conversion
+            </summary>
+            <param name="textFilledBox">Textbox to be used</param>
+            <param name="fieldName">Field to be filled</param>
+            <param name="table">Table field</param>
+            <returns></returns>
+        </member>
+        <member name="T:KarveControls.Generic.KarveMessageBox">
+            <summary>
+            Interaction logic for KarveMessageBox.xaml
+            </summary>
+            <summary>
+            KarveMessageBox
+            </summary>
+        </member>
+        <member name="M:KarveControls.Generic.KarveMessageBox.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="F:KarveControls.GridColumnFilterBehaviour._sortedSet">
+            <summary>
+             Each grid has an unique identifier.
+            </summary>
+        </member>
+        <member name="T:KarveControls.HeaderedWindow.HeaderedWindow">
+            <summary>
+            Interaction logic for HeaderedWindow.xaml
+            </summary>
+            <summary>
+            HeaderedWindow
+            </summary>
+        </member>
+        <member name="M:KarveControls.HeaderedWindow.HeaderedWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.HeaderedWindow.LineGridView">
+            <summary>
+            Interaction logic for LineGridView.xaml
+            </summary>
+            <summary>
+            LineGridView
+            </summary>
+        </member>
+        <member name="M:KarveControls.HeaderedWindow.LineGridView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.HeaderedWindow.DetailsView">
+            <summary>
+            Interaction logic for DetailView.xaml
+            </summary>
+            <summary>
+            DetailsView
+            </summary>
+        </member>
+        <member name="M:KarveControls.HeaderedWindow.DetailsView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:KarveControls.HelperButtonControl.#ctor">
+            <summary>
+             HelperButtonControl.
+            </summary>
+        </member>
+        <member name="T:KarveControls.ItemsControl.DataPickerItemsControl">
+            <summary>
+            DataPickerItemsControl
+            </summary>
+        </member>
+        <member name="F:KarveControls.ItemsControl.DataPickerItemsControl.ChangeActionDependencyProperty">
+            <summary>
+             This expose the change action dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.ItemsControl.DataPickerItemsControl.ChangeActionCommand">
+            <summary>
+             localization of strings.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ItemsControl.DataPickerItemsControl.OnChangeField(System.Object)">
+            <summary>
+             This trigger a command during a change.
+            </summary>
+            <param name="obj">parameters of the change</param>
+        </member>
+        <member name="F:KarveControls.ItemsControl.DataPickerItemsControl.LabelEnumerable">
+            <summary>
+            Localization stuff.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ItemsControl.DataPickerItemsControl.OnLabelSourceChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Label source changed.
+            </summary>
+            <param name="d"></param>
+            <param name="e"></param>
+        </member>
+        <member name="P:KarveControls.ItemsControl.DataPickerItemsControl.Localization">
+            <summary>
+             localization of strings.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ItemsControl.DataPickerItemsControl.DataSourceDependencyProperty">
+            <summary>
+            Data Source Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.ItemsControl.DataPickerItemsControl.DataSource">
+            <summary>
+             Data source property handy way to associate a data field to a value.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ItemsControl.DataPickerItemsControl.OnDataSourceChanged(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             DataSourceChanged
+            </summary>
+            <param name="d"></param>
+        </member>
+        <member name="M:KarveControls.ItemsControl.DataPickerItemsControl.#ctor">
+            <summary>
+             Items control for multiple data picker with a list of label and bindings.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ItemsControl.DataPickerItemsControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.RatingsControl">
+            <summary>
+            Interaction logic for RatingsControl.xaml
+            </summary>
+            <summary>
+            RatingsControl
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.BackgroundColorProperty">
+            <summary>
+            BackgroundColor Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.BackgroundColor">
+            <summary>
+            Gets or sets the BackgroundColor property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.OnBackgroundColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the BackgroundColor property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.StarForegroundColorProperty">
+            <summary>
+            StarForegroundColor Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.StarForegroundColor">
+            <summary>
+            Gets or sets the StarForegroundColor property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.OnStarForegroundColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the StarForegroundColor property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.StarOutlineColorProperty">
+            <summary>
+            StarOutlineColor Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.StarOutlineColor">
+            <summary>
+            Gets or sets the StarOutlineColor property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.OnStarOutlineColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the StarOutlineColor property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.ValueProperty">
+            <summary>
+            Value Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.Value">
+            <summary>
+            Gets or sets the Value property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.OnValueChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Value property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.CoerceValueValue(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Coerces the Value value.
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.NumberOfStarsProperty">
+            <summary>
+            NumberOfStars Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.NumberOfStars">
+            <summary>
+            Gets or sets the NumberOfStars property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.OnNumberOfStarsChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the NumberOfStars property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.CoerceNumberOfStarsValue(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Coerces the NumberOfStars value.
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.MaximumProperty">
+            <summary>
+            Maximum Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.Maximum">
+            <summary>
+            Gets or sets the Maximum property.  
+            </summary>
+        </member>
+        <member name="F:KarveControls.RatingsControl.MinimumProperty">
+            <summary>
+            Minimum Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.RatingsControl.Minimum">
+            <summary>
+            Gets or sets the Minimum property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.RatingsControl.SetupStars(KarveControls.RatingsControl)">
+            <summary>
+            Sets up stars when Value or NumberOfStars properties change
+            Will only show up to the number of stars requested (up to Maximum)
+            so if Value > NumberOfStars * 1, then Value is clipped to maximum
+            number of full stars
+            </summary>
+            <param name="ratingsControl"></param>
+        </member>
+        <member name="M:KarveControls.RatingsControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.StarsControl">
+            <summary>
+            Lógica de interacción para StarsControl.xaml
+            </summary>
+            <summary>
+            StarsControl
+            </summary>
+        </member>
+        <member name="F:KarveControls.StarsControl.BackgroundColorProperty">
+            <summary>
+            BackgroundColor Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.StarsControl.BackgroundColor">
+            <summary>
+            Gets or sets the BackgroundColor property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.StarsControl.OnBackgroundColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the BackgroundColor property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.StarsControl.StarForegroundColorProperty">
+            <summary>
+            StarForegroundColor Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.StarsControl.StarForegroundColor">
+            <summary>
+            Gets or sets the StarForegroundColor property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.StarsControl.OnStarForegroundColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the StarForegroundColor property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.StarsControl.StarOutlineColorProperty">
+            <summary>
+            StarOutlineColor Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.StarsControl.StarOutlineColor">
+            <summary>
+            Gets or sets the StarOutlineColor property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.StarsControl.OnStarOutlineColorChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the StarOutlineColor property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.StarsControl.ValueProperty">
+            <summary>
+            Value Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.StarsControl.Value">
+            <summary>
+            Gets or sets the Value property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.StarsControl.OnValueChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the Value property.
+            </summary>
+        </member>
+        <member name="M:KarveControls.StarsControl.CoerceValueValue(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Coerces the Value value.
+            </summary>
+        </member>
+        <member name="F:KarveControls.StarsControl.MaximumProperty">
+            <summary>
+            Maximum Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.StarsControl.Maximum">
+            <summary>
+            Gets or sets the Maximum property.  
+            </summary>
+        </member>
+        <member name="F:KarveControls.StarsControl.MinimumProperty">
+            <summary>
+            Minimum Dependency Property
+            </summary>
+        </member>
+        <member name="P:KarveControls.StarsControl.Minimum">
+            <summary>
+            Gets or sets the Minimum property.  
+            </summary>
+        </member>
+        <member name="M:KarveControls.StarsControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.ControlExt">
+            <summary>
+             This is a list of attached properties to be associated to each karve control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.GridOp.Insert">
+            <summary>
+             Insert a row
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.GridOp.Delete">
+            <summary>
+             Delete a row
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.GridOp.Update">
+            <summary>
+             Update a row.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.EmailDataType">
+            <summary>
+             Email data type
+            </summary>
+        </member>
+        <member name="T:KarveControls.ControlExt.DataType">
+            <summary>
+             DataType to be allowed.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.DoubleField">
+            <summary>
+             Double kind of data.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.IntegerField">
+            <summary>
+            Integer field of the component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.NifField">
+            <summary>
+             Nif field of the component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.IbanField">
+            <summary>
+             Iban field of the component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.Any">
+            <summary>
+             Any other kind of field control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.Email">
+            <summary>
+             Email kind field of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.Phone">
+            <summary>
+             Phone field of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.BankAccount">
+            <summary>
+            Bank Account of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.Swift">
+            <summary>
+             Swift field of the control.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataType.DateTime">
+            <summary>
+             Datatime field of the contorl.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.DescriptionDependencyProperty">
+            <summary>
+             This is a metadata that describe a component.
+            </summary>
+        </member>
+        <member name="F:KarveControls.ControlExt.ItemChangedCommandProperty">
+            <summary>
+             This is the kind of data allowd.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ControlExt.SetItemChangedCommand(System.Windows.UIElement,System.Windows.Input.ICommand)">
+            <summary>
+             Set the item changed command, Attached behaviour for the component.
+            </summary>
+            <param name="ext">User Interface to be used</param>
+            <param name="command">Command to be used</param>
+        </member>
+        <member name="M:KarveControls.ControlExt.GetItemChangedCommand(System.Windows.UIElement)">
+            <summary>
+             Get item changed command.
+            </summary>
+            <param name="ext">Command Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlExt.PropertyChangedCb(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             This is a property changed util.
+            </summary>
+            <param name="dependencyObject"></param>
+            <param name="eventArgs"></param>
+        </member>
+        <member name="M:KarveControls.ControlExt.ComboBox_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+             SelectionChanged. This event get triggered when the selection change in a property
+            </summary>
+            <param name="sender">The sender of the call</param>
+            <param name="e"> Event args</param>
+        </member>
+        <member name="M:KarveControls.ControlExt.CheckBox_DataFieldCheckBoxChanged(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+             DataFieldCheckBoxChanged.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataSourceDependencyProperty">
+            <summary>
+             DataSource: data table or data object associaed with this control.
+            </summary>
+        </member>
+        <member name="M:KarveControls.ControlExt.CheckAndAssign(KarveControls.DataFieldCheckBox,System.Object,System.String)">
+            <summary>
+            CheckAndAssign
+            </summary>
+            <param name="dataFieldCheckBox"></param>
+            <param name="sourceNew"></param>
+            <param name="path"></param>
+        </member>
+        <member name="M:KarveControls.ControlExt.CheckAndAssignText(KarveControls.DataArea,System.Object,System.String)">
+            <summary>
+            CheckAndAssignText.
+            </summary>
+            <param name="dataAreaFiled"></param>
+            <param name="sourceNew"></param>
+            <param name="path"></param>
+        </member>
+        <member name="M:KarveControls.ControlExt.CheckAndAssignDate(KarveControls.DataDatePicker,System.Object,System.String)">
+            <summary>
+            CheckAndAssignDate
+            </summary>
+            <param name="dataDatePicker">DataDatePicker component</param>
+            <param name="sourceNew">Object to be assigned</param>
+            <param name="path">Path of the date</param>
+        </member>
+        <member name="M:KarveControls.ControlExt.GetDataSource(System.Windows.DependencyObject)">
+            <summary>
+             Get DataSource 
+            </summary>
+            <param name="ds">Data Source</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.ControlExt.SetDataSource(System.Windows.DependencyObject,System.Object)">
+            <summary>
+            Set DataSource
+            </summary>
+            <param name="ds"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:KarveControls.ControlExt.SetDataSourcePath(System.Windows.DependencyObject,System.String)">
+            <summary>
+            DataSource Path
+            </summary>
+            <param name="dspm">Data Source Path</param>
+            <param name="item">Item to set</param>
+        </member>
+        <member name="M:KarveControls.ControlExt.GetDataSourcePath(System.Windows.DependencyObject)">
+            <summary>
+            Get the data source path.
+            </summary>
+            <param name="dps"></param>
+            <returns></returns>
+        </member>
+        <member name="F:KarveControls.ControlExt.DataSourcePathDependencyProperty">
+            <summary>
+             Data Source Path to be used.
+            </summary>
+        </member>
+        <member name="M:KarveControls.Calendar.DateTimeExtensions.IsSameDateAs(System.DateTime,System.DateTime)">
+            <summary>
+            Determines whether a subject date is the same as a date passed in.
+            </summary>
+            <param name="subjectDate"> The subject date.</param>
+            <param name="dateToCompare">The date passed in.</param>
+            <returns>True if the two DateTime objects represent the same date, even if their time components differ; false otherwise.</returns>
+        </member>
+        <member name="M:KarveControls.Calendar.DateTimeExtensions.IsSameMonthAs(System.DateTime,System.DateTime)">
+            <summary>
+            Determines whether a subject date is in the same month as a date passed in.
+            </summary>
+            <param name="subjectDate"> The subject date.</param>
+            <param name="dateToCompare">The date passed in.</param>
+            <returns>True if the two DateTime objects are in the same month; false otherwise.</returns>
+        </member>
+        <member name="T:KarveControls.KarveGridExt">
+            <summary>
+             This is a public class that cfor the karve grid. This is a set of attached properties used to:
+             1. Assign to each datagrid an unique identifier in the system.
+             2. Let each grid reguister its identifier in the system.
+             3. Store the grid parameter and invoke a command when the user change size and dimension of the grid.
+            </summary>
+        </member>
+        <member name="T:KarveControls.KarveGridExt.ResizeState">
+            <summary>
+             State enum to keep trace of the resize.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveGridExt._currentState">
+            <summary>
+             Resize of the current state.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveGridExt.GridIdentifierProperty">
+            <summary>
+             Each grid has an unique identifier.
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.SetGridIdentifier(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             Set the GridIdentifier dependency property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Depndency Property event</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.GetGridIdentifier(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Get the GridIdentifier Dependency Property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Dependency Property events</param>
+        </member>
+        <member name="F:KarveControls.KarveGridExt.GridInitCommandProperty">
+            <summary>
+            Dependency property for leveraging the command.
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.SetGridInitCommand(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             Set the GridParameters dependency property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Depndency Property event</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.GetGridInitCommand(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            This set the grid param changed command
+            </summary>
+            <param name="d">GridInitCommand Dependency Property</param>
+            <param name="e">Events</param>
+            <returns></returns>
+        </member>
+        <member name="F:KarveControls.KarveGridExt.GridNameProperty">
+            <summary>
+             Each grid has an unique identifier.
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.SetGridName(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             Set the GridIdentifier dependency property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Depndency Property event</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.GetGridName(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Get the GridIdentifier dependecy property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Dependency Property events</param>
+        </member>
+        <member name="F:KarveControls.KarveGridExt.GridParametersProperty">
+            <summary>
+             Grid parameters to be set and serialized when changed 
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.SetGridParameters(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             Set the GridParameters dependency property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Depndency Property event</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.GetGridParameter(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Get the GridParameters dependecy property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Dependency Property events</param>
+        </member>
+        <member name="F:KarveControls.KarveGridExt.GridParamChangedCommandProperty">
+            <summary>
+            Dependency property for leveraging the command.
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.OnGridParmChangedCommand(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             GridParamChanged. This command changes the param.
+            </summary>
+            <param name="d">Syncfusion DataGrid</param>
+            <param name="e"></param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.DataGrid_ItemsSourceChanged(System.Object,Syncfusion.UI.Xaml.Grid.GridItemsSourceChangedEventArgs)">
+            <summary>
+             ItemChangeSource Changed event. In this function in case of autogenerate column we enforce the parameters load.
+            </summary>
+            <param name="sender">Sender of the event</param>
+            <param name="e">Source of the event</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.SetGridParamChangedCommand(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             Set the GridParameters dependency property.
+            </summary>
+            <param name="d">Dependency Property</param>
+            <param name="e">Depndency Property event</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.GetGridParamChangedCommand(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            This set the grid param changed command
+            </summary>
+            <param name="d"></param>
+            <param name="e"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.LoadParameters(Syncfusion.UI.Xaml.Grid.SfDataGrid,System.String)">
+            <summary>
+             This load the parameters
+            </summary>
+            <param name="dataGrid">DataGrid to be used</param>
+            <param name="serializedString">The serialized string to be used</param>
+        </member>
+        <member name="M:KarveControls.KarveGridExt.SaveParameters(Syncfusion.UI.Xaml.Grid.SfDataGrid,System.String@)">
+            <summary>
+             This function save the parameters.
+            </summary>
+            <param name="grid">Grid parameters.</param>
+        </member>
+        <member name="F:KarveControls.TextedThumb.TextedThumbProperty">
+            <summary>
+             Set or Get the first table name.
+            </summary>
+        </member>
+        <member name="P:KarveControls.TextedThumb.Title">
+            <summary>
+             This is the title to be used inside the thumb
+            </summary>
+        </member>
+        <member name="M:KarveControls.TextedThumb.#ctor">
+            <summary>
+             TextedThumb is a constructor thumb
+            </summary>
+        </member>
+        <member name="M:KarveControls.TextedThumb.OnApplyTemplate">
+            <summary>
+             OnApplyTemplate.
+            </summary>
+        </member>
+        <member name="T:KarveControls.KarveTripleButton.TripleButton">
+            <summary>
+            Interaction logic for TripleButton.xaml
+            </summary>
+            <summary>
+            TripleButton
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveTripleButton.TripleButton.ResetCommandDependencyProperty">
+            <summary>
+             This expose the change action dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveTripleButton.TripleButton.DeleteCommandDependencyProperty">
+            <summary>
+             This expose the delete dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveTripleButton.TripleButton.SaveCommandDependencyProperty">
+            <summary>
+             This expose the reset comman dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.KarveTripleButton.TripleButton.LocalizationDependencyProperty">
+            <summary>
+            Localization.
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveTripleButton.TripleButton.Localization">
+            <summary>
+            Localization dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveTripleButton.TripleButton.ResetCommand">
+            <summary>
+             Reset command to be executed
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveTripleButton.TripleButton.DeleteCommand">
+            <summary>
+             Delete command.
+            </summary>
+        </member>
+        <member name="P:KarveControls.KarveTripleButton.TripleButton.SaveCommand">
+            <summary>
+             Save command.
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveTripleButton.TripleButton.#ctor">
+            <summary>
+             Triple button support.
+            </summary>
+        </member>
+        <member name="M:KarveControls.KarveTripleButton.TripleButton.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.MapControl">
+            <summary>
+            Interaction logic for UserControl1.xaml
+            </summary>
+            <summary>
+            MapControl
+            </summary>
+        </member>
+        <member name="F:KarveControls.MapControl.MapDependencyProperty">
+            <summary>
+             Map Dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.MapControl.DataObjectDependencyProperty">
+            <summary>
+            Data Object dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.MapControl.DataObject">
+            <summary>
+             This is the data object to be saved.
+            </summary>
+        </member>
+        <member name="M:KarveControls.MapControl.#ctor">
+            <summary>
+             Map control.
+            </summary>
+        </member>
+        <member name="M:KarveControls.MapControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:KarveControls.PhotoFrame.PhotoFrame">
+            <summary>
+            Control that displays a photo
+            </summary>
+            
+        </member>
+        <member name="T:KarveControls.PhotoFrame.PhotoFrame.PhotoFramePressEventArgs">
+            <summary>
+             Public class for press algorithms.
+            </summary>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.PhotoFramePressEventArgs.#ctor">
+            <summary>
+            Constant to access to the tableName in the parameters of the event
+            </summary>
+            <summary>
+            Constant to access to the queries in the parameters of the event
+            </summary>
+            <summary>
+            MagnifierPressEvents. Constructor 
+            </summary>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.PhotoFramePressEventArgs.#ctor(System.Windows.RoutedEvent)">
+            <summary>
+            MagnifierPressEventsArgs. Event constructor 
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.PhotoFramePressEventArgs.AssistParameters">
+            <summary>
+             Parameters to be conveyed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.PhotoFramePressEventArgs.AssistQuery">
+            <summary>
+            Set or Get the query.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.PhotoFramePressEventArgs.TableName">
+            <summary>
+            Set or Get the tableName.
+            </summary>
+        </member>
+        <member name="F:KarveControls.PhotoFrame.PhotoFrame._componentState">
+            <summary>
+             Private componentstates.
+            </summary>
+        </member>
+        <member name="F:KarveControls.PhotoFrame.PhotoFrame.ImageBinarySourceDependencyProperty">
+            <summary>
+            ImageBinarySourceDependencyProperty.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.ImageBinarySource">
+            <summary>
+            ImageBinarySource dependency properties.
+            </summary>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.UpdateImageBinarySource(System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+             Update Image Binary source.
+            </summary>
+            <param name="d"></param>
+        </member>
+        <member name="F:KarveControls.PhotoFrame.PhotoFrame.ImageChangedDependencyProperty">
+            <summary>
+             This put just an image changed dependnecy property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.PhotoFrame.PhotoFrame.IsReadOnlyDependencyProperty">
+            <summary>
+             This is a readonly dependency property.
+            </summary>
+        </member>
+        <member name="F:KarveControls.PhotoFrame.PhotoFrame.ImageLabelDependencyProperty">
+            <summary>
+             Label of the image.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.ImageLabel">
+            <summary>
+             ImageLabel dependency property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.IsReadOnly">
+            <summary>
+             IsReadOnly stuff.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.ImageCommandChanged">
+            <summary>
+            ImageCommandChanged.
+            </summary>
+        </member>
+        <member name="F:KarveControls.PhotoFrame.PhotoFrame.ImageArrayDependencyProperty">
+            <summary>
+            Photo images  
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.ImageArray">
+            <summary>
+             IEnumerable byte array.
+            </summary>
+        </member>
+        <member name="P:KarveControls.PhotoFrame.PhotoFrame.PhotoName">
+            <summary>
+            PhotoName
+            </summary>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.SaveImage(System.Byte[]@)">
+            <summary>
+            Save the image in a byte for the image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.ByteToArrayImage(System.Byte[])">
+            <summary>
+             Returns a byte to array image
+            </summary>
+            <param name="byteArrayIn">Input bytes in the image</param>
+            <returns>Image crafted from the bytes or a null value</returns>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.#ctor">
+            <summary>
+             PhotoFrame Control. Display a photo.
+            </summary>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.CreateImageSource(System.String,System.Boolean)">
+            <summary>
+            Creates an ImageSource object from a file on disk.
+            </summary>
+            <param name="file">The full path to the file that should be loaded.</param>
+            <param name="forcePreLoad">if set to <c>true</c> the image file will be decoded and fully loaded when created.</param>
+            <returns>A frozen image source object representing the loaded image.</returns>
+        </member>
+        <member name="M:KarveControls.PhotoFrame.PhotoFrame.OnChangingImage(System.Object)">
+            <summary>
+             This execute the command provider from the view model.
+            </summary>
+            <param name="objectParam"></param>
+        </member>
+        <member name="T:KarveControls.Template.TemplateSelector">
+            <summary>
+            Template selector for the items and group of collection that appear in the code
+            </summary>
+        </member>
+        <member name="M:KarveControls.Template.TemplateSelector.#ctor">
+            <summary>
+             This class is a data template selector foreach kind of UiData generated dynamically.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.IUiObject">
+            <summary>
+             Common interface for a collection of user object. An user object is a control abstraction to be 
+            binded to a data object or data table. The responsability of an user object to allow a data template of 
+            our custom control within a collection view.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.Description">
+            <summary>
+             Description of the user object
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.DataAllowed">
+            <summary>
+            Data Type of the user object
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.AllowedEmpty">
+            <summary>
+            Is empty is allowed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.UpperCase">
+            <summary>
+            UpperCase of the object
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.LabelText">
+            <summary>
+            LabelText
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.LabelTextWidth">
+            <summary>
+             LabelTextWidth
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.LabelVisible">
+            <summary>
+             Lable Visible
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.IsReadOnly">
+            <summary>
+            IsReadOnly 
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.DataField">
+            <summary>
+            DataField.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.TableName">
+            <summary>
+             TableName
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.ItemSource">
+            <summary>
+            Source of a ui object
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.ToSQLString">
+            <summary>
+             To SQL String
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.IUiObject.PrimaryKey">
+            <summary>
+             PrimaryKey.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.IUiPageBuilder">
+            <summary>
+            This interface gives to the developer a way to build a collection of objects to be mapped 
+            via a data template selector directly to a page.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.IUiPageBuilder.BuildPageObjects(KarveControls.UIObjects.UiDualDfSearchTextObject.OnAssistQueryRequestHandler,KarveControls.UIObjects.UiDfObject.ChangedField)">
+            <summary>
+            Return the dictionary with each observable collection needed for each part of the page.
+            </summary>
+            <param name="assistQuery">Handler for the query of magnifier boxes</param>
+            <param name="changedField">Handler for any change.</param>
+            <returns></returns>
+        </member>
+        <member name="T:KarveControls.UIObjects.SqlBuilder">
+            <summary>
+            This SQLBuilder provide differents way to build queries.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuildSelectFromUiObjects(System.Collections.ObjectModel.ObservableCollection{KarveControls.UIObjects.IUiObject},System.String,System.Boolean)">
+            <summary>
+             Build a query from user objects. Each user object has a part of the query.
+            </summary>
+            <param name="list">List of the userobject to be analized</param>
+            <param name="primaryKeyValue">Primary key that it needs to be used, optional</param>
+            <param name="isInsert"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderSelect(System.Collections.Generic.List{System.String},System.String,System.String,System.Tuple{KarveCommon.Generic.Enumerations.ETopDistinct,System.Int32,System.Int32},System.Collections.Generic.List{System.Tuple{KarveCommon.Generic.Enumerations.EWhereLogicOperator,System.String,KarveCommon.Generic.Enumerations.EWhereComparisson,KarveCommon.Generic.Enumerations.ETipoDato,System.String}},System.Collections.Generic.List{System.Tuple{System.String,KarveCommon.Generic.Enumerations.EOrderBy}})">
+            <summary>
+            Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>
+            List&lt;string&gt; columns -> colección de columns (el mapeo con la correspondiente columna de la tabla de la BBDD se encuentra 
+                en el Tag del control correspondiente: alias.nombreColumna); * por defecto<para/>
+            string table -> nombre de la tabla<para/>
+            string tableAlias -> alias de la tabla<para/>
+            Tuple&lt;ETopDistinct, int, int&gt; topDistinctClause -> TOP, STARTAT, DISTINCT; número de top en el caso TOP; número de start en el caso de STARTAT<para/>
+            List&lt;Tuple&lt;EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string&gt;&gt; whereClause -> 
+                colección de condiciones para filtrar la tabla de la BBDD:
+                operador lógico para WHERE múltiples (AND, OR); 
+                columna a comparar; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...); 
+                dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos); 
+                valor a comparar<para/>
+            List&lt;Tuple&lt;string, EOrderBy&gt;&gt; orderByClause -> colección de columnas por donde ordenar; tipo de ordenación (ASC, DESC)<para/>
+            </summary>
+            <param name="columns"></param>
+            <param name="table"></param>
+            <param name="tableAlias"></param>
+            <param name="topDistinctClause"></param>
+            <param name="whereClause"></param>
+            <param name="orderByClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderSelect(System.Collections.Generic.List{System.String},System.String,System.String,System.Tuple{KarveCommon.Generic.Enumerations.ETopDistinct,System.Int32,System.Int32},System.Tuple{KarveCommon.Generic.Enumerations.EWhereLogicOperator,System.String,KarveCommon.Generic.Enumerations.EWhereComparisson,KarveCommon.Generic.Enumerations.ETipoDato,System.String},System.Tuple{System.String,KarveCommon.Generic.Enumerations.EOrderBy})">
+            <summary>
+            Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>
+            List&lt;string&gt; columns -> colección de columns (el mapeo con la correspondiente columna de la tabla de la BBDD se encuentra 
+                en el Tag del control correspondiente: alias.nombreColumna); * por defecto<para/>
+            string table -> nombre de la tabla<para/>
+            string tableAlias -> alias de la tabla<para/>
+            Tuple&lt;ETopDistinct, int, int&gt; topDistinctClause -> TOP, STARTAT, DISTINCT; número de top en el caso TOP; número de start en el caso de STARTAT<para/>
+            Tuple&lt;EWhereLogicOperator, string, EWhereComparisson, ETipoDato, string&gt; whereClause -> 
+                condiciones para filtrar la tabla de la BBDD:
+                operador lógico para WHERE múltiples (AND, OR); 
+                columna a comparar; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...); 
+                dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos); 
+                valor a comparar<para/>
+            Tuple&lt;string, EOrderBy&gt; orderByClause -> columnas por donde ordenar; tipo de ordenación (ASC, DESC)<para/>
+            </summary>
+            <param name="columns"></param>
+            <param name="table"></param>
+            <param name="tableAlias"></param>
+            <param name="topDistinctClause"></param>
+            <param name="whereClause"></param>
+            <param name="orderByClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderSelect(System.Collections.Generic.List{System.String},System.String,System.String,System.Tuple{KarveCommon.Generic.Enumerations.ETopDistinct,System.Int32,System.Int32},System.String,System.String)">
+            <summary>
+            Crea la sentencia SELECT teniendo en cuenta lo siguiente:<para/>
+            List&lt;string&gt; columns -> colección de columns (el mapeo con la correspondiente columna de la tabla de la BBDD se encuentra 
+                en el Tag del control correspondiente: alias.nombreColumna); * por defecto<para/>
+            string table -> nombre de la tabla<para/>
+            string tableAlias -> alias de la tabla<para/>
+            Tuple&lt;ETopDistinct, int, int&gt; topDistinctClause -> TOP, STARTAT, DISTINCT; número de top en el caso TOP; número de start en el caso de STARTAT<para/>
+            string whereClause -> condiciones para filtrar la tabla de la BBDD:
+                operador lógico para WHERE múltiples (AND, OR); 
+                columna a comparar; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...); 
+                dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos); 
+                valor a comparar<para/>
+            string orderByClause -> columnas por donde ordenar; tipo de ordenación (ASC, DESC)<para/>
+            </summary>
+            <param name="columns"></param>
+            <param name="table"></param>
+            <param name="tableAlias"></param>
+            <param name="topDistinctClause"></param>
+            <param name="whereClause"></param>
+            <param name="orderByClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderWhereOneRegister(System.Tuple{KarveCommon.Generic.Enumerations.EWhereLogicOperator,System.String,KarveCommon.Generic.Enumerations.EWhereComparisson,KarveCommon.Generic.Enumerations.ETipoDato,System.String})">
+            <summary>
+            Crea la cláusula WHERE con la condición pasada por params en un Tuple:<para/>
+            EWhereLogicOperator -&gt; tipo de operador lógico para WHERE múltiples (WHITESPACE, AND, OR)&lt;para/&gt;
+            string -&gt; columna a comparar&lt;para/&gt;
+            EWhereComparisson -&gt; tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...)&lt;para/&gt;
+            ETipoDato -&gt; Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)&lt;para/&gt;
+            string -&gt; valor a comparar&lt;para/&gt;
+            </summary>
+            <param name="whereClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderWhereOneRegister(KarveCommon.Generic.Enumerations.EWhereLogicOperator,System.String,KarveCommon.Generic.Enumerations.EWhereComparisson,KarveCommon.Generic.Enumerations.ETipoDato,System.String)">
+            <summary>
+            Crea la cláusula WHERE con la condición pasada por params:<para/>
+            EWhereLogicOperator -> tipo de operador lógico para WHERE múltiples (WHITESPACE, AND, OR)<para/>
+            string -> columna a comparar<para/>
+            EWhereComparisson -> tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...)<para/>
+            ETipoDato -> Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)<para/>
+            string -> valor a comparar<para/>
+            </summary>
+            <param name="wherelogicoperator"></param>
+            <param name="column"></param>
+            <param name="wherecomparissontype"></param>
+            <param name="wherecomparissonvaluetype"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderWhereList(System.Collections.Generic.List{System.Tuple{KarveCommon.Generic.Enumerations.EWhereLogicOperator,System.String,KarveCommon.Generic.Enumerations.EWhereComparisson,KarveCommon.Generic.Enumerations.ETipoDato,System.String}})">
+            <summary>
+            Crea la cláusula WHERE con la List de condiciones pasadas por params:<para/>
+            EWhereLogicOperator -> tipo de operador lógico para WHERE múltiples (WHITESPACE, AND, OR)<para/>
+            string -> columna a comparar<para/>
+            EWhereComparisson -> tipo de comparación (LIKE, IS NULL, IS NOT NULL, =,...)<para/>
+            ETipoDato -> Dependiendo del tipo de valor, añadirá comillas simples (strings, char,...) + valor, o sólo el valor (numéricos)<para/>
+            string -> valor a comparar<para/>
+            </summary>
+            <param name="whereClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderOrderByOne(System.Tuple{System.String,KarveCommon.Generic.Enumerations.EOrderBy})">
+            <summary>
+            Crea la cláusula ORDER BY con la condición pasada por params en un Tuple:<para/>
+            string -> columna por donde ordenar;<para/>
+            EOrderBy -> tipo de operador ORDER BY (WHITESPACE, ASC, DESC);<para/>
+            </summary>
+            <param name="orderByClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderOrderByOne(System.String,KarveCommon.Generic.Enumerations.EOrderBy)">
+            <summary>
+            Crea la cláusula ORDER BY con la condición pasada por params:<para/>
+            string -> columna por donde ordenar;<para/>
+            EOrderBy -> tipo de operador ORDER BY (WHITESPACE, ASC, DESC);<para/>
+            </summary>
+            <param name="column"></param>
+            <param name="orderby"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderOrderByList(System.Collections.Generic.List{System.Tuple{System.String,KarveCommon.Generic.Enumerations.EOrderBy}})">
+            <summary>
+            Crea la cláusula ORDER BY con la List de condiciones pasadas por params:<para/>
+            string -> columna por donde ordenar<para/>
+            EOrderBy -> tipo de operador ORDER BY (WHITESPACE, ASC, DESC);<para/>
+            </summary>
+            <param name="orderByClause"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderTopDistinct(KarveCommon.Generic.Enumerations.ETopDistinct,System.Int32,System.Int32)">
+            <summary>
+            Crea la cláusula TOP, DISCTINCT o START AT con las condiciones pasadas por params:<para/>
+            ETopDistinct topdistinct -> tipo de operador (TOP, DISCTINCT o STARTAT)<para/>
+            int top -> (sólo para TOP y START AT), límite de columnas a mostrar<para/>
+            int startat -> (sólo para START AT), índice desde donde se mostrarán las columnas<para/>
+            </summary>
+            <param name="topdistinct"></param>
+            <param name="top"></param>
+            <param name="startat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderWhereLogicOperator(KarveCommon.Generic.Enumerations.EWhereLogicOperator)">
+            <summary>
+            Devuelve el operador lógico AND O or con las condiciones pasadas por params:
+            EWhereLogicOperator wherelogicoperator -> tipo de operador lógico(WHITESPACE, AND o OR)
+            </summary>
+            <param name="wherelogicoperator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderWhereComparissonType(KarveCommon.Generic.Enumerations.EWhereComparisson)">
+            <summary>
+            Devuelve el tipo de operador (LIKE, IS NULL, IS NOT NULL, EQUALS, =,...) con las condiciones pasadas por params:<para/>
+            EWhereComparisson wherecomparissontype -> tipo de operador (LIKE, IS NULL, IS NOT NULL, EQUALS, =,...)<para/>
+            </summary>
+            <param name="wherecomparissontype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderWhereComparissonValue(KarveCommon.Generic.Enumerations.ETipoDato,System.String)">
+            <summary>
+            Devuelve el valor a comparar (con comillas simples '' para strings, sin comillas simples para numéricos) con las condiciones pasadas por params:<para/>
+            ETipoDato wherecomparissonvaluetype -> tipo de dato del valor de la condición a comparar<para/>
+            string wherecomparissonvalue -> valor de la condición a comparar<para/>
+            </summary>
+            <param name="wherecomparissonvaluetype"></param>
+            <param name="wherecomparissonvalue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.AddOrCreate(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.List{System.String}}@)">
+            <summary>
+             This add or create a name.
+            </summary>
+            <param name="tableName">Table name</param>
+            <param name="fieldName">Table field</param>
+            <param name="dictionary">Table dictionary that contains the fields for table</param>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlBuilderColumns``1(System.Windows.DependencyObject,System.Collections.Generic.List{System.Tuple{System.String,System.String}}@)">
+            <summary>
+            Recorre los controles de una pantalla (de forma recursiva para el caso que encuentre un control contenedor, p.e.: Grid, GroupBox, DockPanel, StackPanel,...),
+            y devuelve un List&lt;string&gt; con el nombre de las columnas correspondientes en la BBDD para cada control<para/>
+            DependencyObject container -> container a recorrer<para/>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="container"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.StripTop(System.Collections.Generic.IDictionary{System.String,System.String}@)">
+            <summary>
+             This strip the top from a query dictionary.
+            </summary>
+            <param name="dictionary">Query dictionary</param>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.AddOrCreate(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.String}@)">
+            <summary>
+            This add or create a dictionary for the key/value/
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <param name="tableDictionary"></param>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.FetchTableAndAssistTable(System.Windows.DependencyObject,System.Collections.Generic.IDictionary{System.String,System.String}@,System.Collections.Generic.IDictionary{System.String,System.String}@)">
+            <summary>
+            Fetch table and assist stable fields
+            </summary>
+            <param name="value"></param>
+            <param name="tableFields"></param>
+            <param name="assistTableFields"></param>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.OtherDataFieldComponent(System.Windows.DependencyObject,System.Collections.Generic.IDictionary{System.String,System.String},System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+             This looks up about the tagged named.
+            </summary>
+            <param name="value">Dependency object in a tree</param>
+            <param name="tableFields">Fields of the table on which we depend</param>
+            <param name="assistTableFields">Fields of the assist table on which we depend</param>
+        </member>
+        <member name="M:KarveControls.UIObjects.SqlBuilder.SqlGetFields(System.Collections.Generic.IEnumerable{System.Windows.DependencyObject},System.Collections.Generic.IDictionary{System.String,System.String}@,System.Collections.Generic.IDictionary{System.String,System.String}@)">
+            <summary>
+             Get the fields from the visual tree.
+             This method has been deprecated because of issues during displaying the visual tree.
+            </summary>
+            <param name="allDataFields">This is a list of DependencyObject</param>
+            <param name="tableFields">This is a list of tables</param>
+            <param name="assistDictionary">This is an assist dictionary</param>
+        </member>
+        <member name="T:KarveControls.UIObjects.TableName">
+            <summary>
+            Add a table name.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.TableName.Name">
+            <summary>
+            Name of a table.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiConstants">
+            <summary>
+             Costants for the ui elements.
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.ImagePath">
+            <summary>
+            ImagePath for searching
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.EmailImagePath">
+            <summary>
+             Email Image Path
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.TextboxHeight">
+            <summary>
+             TextBox Height
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.LabelTextWidthWide">
+            <summary>
+            Wide text 
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.LabelTextWidthWide2">
+            <summary>
+            Wide text 
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.LabelTextWidthDefault">
+            <summary>
+            
+            LabelText Width 
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.LabelTextSmallDefault">
+            <summary>
+            LabelText Width 
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.LabelTextVerySmall">
+            <summary>
+             very small path
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.TextBoxWidthVerySmall">
+            <summary>
+             TextBox Width Small
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.TextBoxWidthSmall">
+            <summary>
+             TextBox Width Small
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.TextBoxWidthDefault">
+            <summary>
+            TextBod Width Default
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.TextBoxWidthLarge">
+            <summary>
+             TextBox Width Large
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.TextBoxWidthWide">
+            <summary>
+            TextBox Width Wide.
+            </summary>
+        </member>
+        <member name="F:KarveControls.UIObjects.UiConstants.PickerWidth">
+            <summary>
+            This is the picker width.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDataArea">
+            <summary>
+            This object abstract the component data area and makes it bindable.
+             It has been used from the template selector and the user to make it works.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDataCombox">
+            <summary>
+             UiDataCombox interface for the data template.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataCombox.Items">
+            <summary>
+             Returns the collection item of an observable collection.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDataFieldCheckBox">
+            <summary>
+            Data field check interface for the data template
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataFieldCheckBox.Content">
+            <summary>
+             Content for the data template
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataFieldCheckBox.IsChecked">
+            <summary>
+             Put this checked or unchecked following the template.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataFieldCheckBox.ToSQLString">
+            <summary>
+            This is the string needed for the query.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDataGridObject">
+            <summary>
+            The UiDataGridObject. User object for the data grid.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.Description">
+            <summary>
+             Description 
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.DataAllowed">
+            <summary>
+             Data Allowed
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.AllowedEmpty">
+            <summary>
+             If it is allowed empty.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.UpperCase">
+            <summary>
+             UpperCase.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.LabelText">
+            <summary>
+             LabelText
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.LabelTextWidth">
+            <summary>
+             LabelTextWidth. The width of a label text.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.LabelVisible">
+            <summary>
+             Label Visible or not.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.IsReadOnly">
+            <summary>
+             IsReadOnly or not.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.IsVisible">
+            <summary>
+             If it is visible or not
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.DataField">
+            <summary>
+             Data field name
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.TableName">
+            <summary>
+             TableName
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.ItemSource">
+            <summary>
+             ItemSource.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.ToSQLString">
+            <summary>
+             String of the query.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDataGridObject.PrimaryKey">
+            <summary>
+             Primary Key of the query.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDatePicker">
+            <summary>
+            This is a data object for the ui data picker.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDatePicker.Date">
+            <summary>
+            DateTime data time
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDatePicker.Width">
+            <summary>
+             Width size string.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDfObject">
+            <summary>
+            UiDfObject is a user interface object that is able to be rendered as a data field.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDfObject.ChangedField">
+            <summary>
+             public delegate to detect a change in the datafiled
+            </summary>
+            <param name="eventDictionary"> Parameters returned from the datafield</param>
+        </member>
+        <member name="E:KarveControls.UIObjects.UiDfObject.OnChangedField">
+            <summary>
+             Field changed
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.ChangedItem">
+            <summary>
+            Command related to the changed item.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiDfObject.#ctor">
+            <summary>
+            UiDfObject. Object for a data field control binded with a data object or a data table
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiDfObject.#ctor(System.String,System.String)">
+            <summary>
+            UiDfObject. UiObject for data representation to be binded with a data object or a data table
+            </summary>
+            <param name="label">Visible lable of a UiDfObject</param>
+            <param name="labelTextWidth"></param>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.Description">
+            <summary>
+            Description of the field
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.DataAllowed">
+            <summary>
+             Data allowed for having control validation rules.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.AllowedEmpty">
+            <summary>
+            Property to be binded
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.UpperCase">
+            <summary>
+            UpperCase property
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.LabelText">
+            <summary>
+            Label test property.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDfObject.LabelVisible">
+            <summary>
+             Label visi
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDoubleDfObject">
+            <summary>
+            UiDoubleDfObject.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.Description">
+            <summary>
+            Current description
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.DataAllowed">
+            <summary>
+             Data not allowed.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.AllowedEmpty">
+            <summary>
+             Value empty allowed for the data
+            </summary>
+        </member>
+        <member name="E:KarveControls.UIObjects.UiDoubleDfObject.OnChangedField">
+            <summary>
+            Handler for a change event.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.TextContent">
+            <summary>
+            Text content
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.UpperCase">
+            <summary>
+            Uppercase of the content.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.LabelText">
+            <summary>
+            Label of the double field.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.LabelTextWidth">
+            <summary>
+            Label Text width.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.LabelVisible">
+            <summary>
+            Label visible or not visible.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.IsReadOnly">
+            <summary>
+            Is read only stuff.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.DataField">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.ChangedItem">
+            <summary>
+            Returns the changed item at left
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.ChangedItemRight">
+            <summary>
+             return the changed item left
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDoubleDfObject.TableName">
+            <summary>
+             return the table name.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject">
+            <summary>
+            User object of a search box.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.Description">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.DataAllowed">
+            <summary>
+             Data Allowrd
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.AllowedEmpty">
+            <summary>
+             Allowed empty
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.UpperCase">
+            <summary>
+             Uppercase
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.LabelText">
+            <summary>
+             LabelText
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.LabelTextWidth">
+            <summary>
+             LabelText width
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.LabelVisible">
+            <summary>
+             Label Visible
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.IsReadOnly">
+            <summary>
+             Is readonly
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.DataField">
+            <summary>
+             Data Field
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.TableName">
+            <summary>
+             Name of the table
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.ItemSource">
+            <summary>
+             Source of the item
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.ToSQLString">
+            <summary>
+             add a part of the query
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfAfterSearchBoxObject.PrimaryKey">
+            <summary>
+             PrimaryKey.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDualDfSearchTextObject">
+            <summary>
+             This user object represent an abstraction for a search text box.
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiDualDfSearchTextObject.OnAssistQueryRequestHandler">
+            <summary>
+             Assist Query Handler. This method allows you to detect when the user has pressed the magnifier and 
+            delivers to you the query and the table name.
+            </summary>
+            <param name="assistTableName">Table to execute the query.</param>
+            <param name="assistQuery">Query to be executed in the query.</param>
+            <param name="field">Data Field seen as primary key.</param>
+        </member>
+        <member name="E:KarveControls.UIObjects.UiDualDfSearchTextObject.OnAssistQuery">
+            <summary>
+             Event to be risen during an assist query.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiDualDfSearchTextObject.#ctor">
+            <summary>
+            This is the dual search box.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiDualDfSearchTextObject.#ctor(System.String,System.String)">
+            <summary>
+            User object that represent an Doble field with a search text box using a cross reference table.
+            </summary>
+            <param name="labelTxt">Label of the data field.</param>
+            <param name="labelWidth">Width of the label.</param>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.AssistTableName">
+            <summary>
+            Name of the cross reference table
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.TextContentFirst">
+            <summary>
+             Property Text of the first field
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.TextContentSecond">
+            <summary>
+            Property Text of the second field
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.TextContentFirstWidth">
+            <summary>
+             Property Text width of the first field
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.TextContentSecondWidth">
+            <summary>
+            Property Text width of the second field
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.ButtonImage">
+            <summary>
+             Image button of the search box.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.SourceView">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.DataFieldFirst">
+            <summary>
+            DataFieldFirst.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.ToSQLString">
+            <summary>
+             This returns the sql string query formed from the string.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.AssistRefQuery">
+            <summary>
+             This returns the reference assist query
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.IsReadOnlyFirst">
+            <summary>
+            Set or Get the IsReadOnlyFirst
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiDualDfSearchTextObject.IsReadOnlySecond">
+            <summary>
+             Set or Get the IsReadOnlySecond
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiDualDfSearchTextObject.ComputeAssistantRefQuery(System.Data.DataSet)">
+            <summary>
+             This method compute the assistant query.
+            </summary>
+            <param name="itemSource">DataSet for which we need the queries.</param>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiEmailDataField.#ctor">
+            <summary>
+             UiEmailData Field.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiEmailDataField.TextContent">
+            <summary>
+             TextContent. 
+            </summary>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiMultipleDfObject">
+            <summary>
+            UiMultipleDfObject allows us to compose simple data fields in a horizontal or vertical way.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiMultipleDfObject.AddDataField(KarveControls.UIObjects.IUiObject)">
+            <summary>
+            This method add a new data field
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiMultipleDfObject.DataTableNames">
+            <summary>
+            Property that return a list of tablenames.
+            </summary>
+        </member>
+        <member name="P:KarveControls.UIObjects.UiMultipleDfObject.Values">
+            <summary>
+             Returns the Values of the objects
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiMultipleDfObject.SetSourceView(System.Data.DataTable,System.String)">
+            <summary>
+             Set the reference table foreach component in the collection.
+            </summary>
+            <param name="dataTable"></param>
+            <param name="tableName"></param>
+        </member>
+        <member name="T:KarveControls.UIObjects.UiObjectsLoader">
+            <summary>
+            This class serialize and deserialize a collection of UiObjects.
+            </summary>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiObjectsLoader.LoadCollection(System.String)">
+            <summary>
+            This method loads a collection of UI objects from a file
+            An UIObject is an object that it is useful for rendering and it has been already 
+            binded to a database field.
+            </summary>
+            <param name="path">Path of the file to be loaded</param>
+            <returns></returns>
+        </member>
+        <member name="M:KarveControls.UIObjects.UiObjectsLoader.SaveCollection(System.Collections.ObjectModel.ObservableCollection{KarveControls.UIObjects.IUiObject},System.String)">
+            <summary>
+            This method save a collection of UiObjects to disk
+            </summary>
+            <param name="observableCollection">Observable collection of objects</param>
+            <param name="path">Path of the file to be saved</param>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>

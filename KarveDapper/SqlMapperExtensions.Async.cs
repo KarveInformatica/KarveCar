@@ -487,13 +487,8 @@ namespace KarveDapper.Extensions
             sb.Clear();
             string value = currentBuilder.ToString();
             int updated = 0;
-            try
-            {
-                updated = await connection.ExecuteAsync(value, entitiesToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
-            } catch (Exception e )
-            {
-                var msg = e.Message;
-            }
+            updated = await connection.ExecuteAsync(value, entitiesToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
+           
             return updated > 0;
         }
 

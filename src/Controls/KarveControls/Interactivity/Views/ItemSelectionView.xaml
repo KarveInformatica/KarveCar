@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="KarveControls.Interactivity.Views.ItemSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:karveControls="clr-namespace:KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <Grid>
+       
+
+            <Grid HorizontalAlignment="Stretch">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+                <karveControls:TextedThumb Grid.Row="0" Width="Auto" Height="40" FontWeight="Bold" FontSize="24"
+                                                                   Foreground="White"
+                                                    Title="{Binding Notification.Title}"
+
+                                   karveControls:PopupMovableBehaviour.IsMoveEnabledProperty="true">
+
+                </karveControls:TextedThumb>
+
+
+
+                <syncfusion:SfDataGrid x:Name="MagnifierGrid"  
+                                       HorizontalAlignment="Stretch"
+                                       HorizontalContentAlignment="Stretch"
+                                  ColumnSizer="AutoWithLastColumnFill"
+                                   karveControls:KarveGridExt.SelectedItems="{Binding Path=SelectedItem, Mode=TwoWay}" 
+                                    ItemsSource="{Binding Notification.Items}"
+                                     Grid.Row="1"
+                                                                       AllowDraggingColumns="True"
+                                                                       AllowEditing="False"
+                                                                       AllowFiltering="True"
+                                                                       AllowResizingColumns="True"
+                                                                       AllowSorting="True"
+                                                                       AllowGrouping="True"                                             
+                                                                       ShowGroupDropArea="True"
+                                                                       NavigationMode="Row" 
+                                                                       Height="800"
+                                                                       MaxWidth="1100"
+                                                                       Background="White"
+                                                                       BorderBrush="#3373f2">
+
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+
+                    <i:Interaction.Behaviors>
+                    <karveControls:GridColumnFilterBehaviour AssistProperties="{Binding Notification.AssistProperites}">
+
+                        </karveControls:GridColumnFilterBehaviour>
+                    </i:Interaction.Behaviors>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding SelectItemCommand}" CommandParameter="{Binding Path=SelectedItem, Mode=TwoWay}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </syncfusion:SfDataGrid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button AutomationProperties.AutomationId="ItemsSelectButton" Grid.Column="0" Margin="10" Command="{Binding SelectItemCommand}" CommandParameter="{Binding Path=SelectedItem,Mode=TwoWay}">Select Item</Button>
+                <Button AutomationProperties.AutomationId="ItemsCancelButton" Grid.Column="1" Margin="10" Command="{Binding CancelCommand}">Cancel</Button>
+            </Grid>
+        </Grid>
+
+          
+      
+        
+    </Grid>
+</UserControl>

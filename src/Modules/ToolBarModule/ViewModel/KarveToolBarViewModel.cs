@@ -309,7 +309,7 @@ namespace ToolBarModule
                 {
                     while (payLoad.Count > 0)
                     {
-                        DataPayLoad currentItem = payLoad.Dequeue();
+                        DataPayLoad currentItem = payLoad.Peek();
                         ExecuteCommand(currentItem);
                     }
                 }

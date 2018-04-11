@@ -24,6 +24,8 @@ using System.Windows;
 using  RegionMan = Prism.Regions.RegionManager;
 using Syncfusion.UI.Xaml.Grid;
 using KarveControls.Generic;
+using KarveControls.Interactivity;
+using Prism.Unity;
 using System.Collections;
 
 namespace MasterModule.Common
@@ -52,8 +54,7 @@ namespace MasterModule.Common
         ///  Each viewmodel refelct different types following the paylod that it receives
         /// </summary>
         protected DataPayLoad.Type CurrentOperationalState;
-
-
+        
         /// <summary>
         ///  The configuration service is a way to set/get configurartions
         /// </summary>
@@ -299,7 +300,7 @@ namespace MasterModule.Common
             {
             var fieldName = string.Empty;
             object valueName = null;
-
+           
             if (eventDictionary.ContainsKey("DataObject"))
             {
                 var data = eventDictionary["DataObject"];
@@ -320,7 +321,9 @@ namespace MasterModule.Common
                     ComponentUtils.SetPropValue(currentObject, "Value." + fieldName,valueName, true);
                     payLoad.DataObject = currentObject;
                 }
+
             }
+            
             }
         /// <summary>
         /// Object to warrant the notifications.
@@ -367,6 +370,9 @@ namespace MasterModule.Common
         /// </summary>
         public ICommand ClickSearchWebAddressCommand { get; set; }
 
+
+
+
         /// <summary>
         /// ViewModel base for the master registry.
         /// </summary>
@@ -374,22 +380,23 @@ namespace MasterModule.Common
         /// <param name="eventManager">The event manager</param>
         /// <param name="services">The dataservices value</param>
 
-        public MasterViewModuleBase(IConfigurationService configurationService,
+        public MasterViewModuleBase(
+            IConfigurationService configurationService,
             IEventManager eventManager,
             IDataServices services,
-            IAssistService assistService,
             IDialogService dialogService,
-            IRegionManager regionManager) : base(services, assistService, dialogService, eventManager)
+            IRegionManager regionManager,
+            IInteractionRequestController requestController) : base(services,requestController,  dialogService, eventManager)
         {
+           
             ConfigurationService = configurationService;
             EventManager = eventManager;
             DataServices = services;
             RegionManager = regionManager;
             _notifyState = 0;
             CurrentOperationalState = DataPayLoad.Type.Show;
-
-            EmailCommand = new Prism.Commands.DelegateCommand<object>(LaunchMailClient);
-            ClickSearchWebAddressCommand = new Prism.Commands.DelegateCommand<object>(LaunchWebBrowser);
+            EmailCommand = new DelegateCommand<object>(LaunchMailClient);
+            ClickSearchWebAddressCommand = new DelegateCommand<object>(LaunchWebBrowser);
             DeleteEventHandler += OnDeleteTask;
         }
 
@@ -423,9 +430,6 @@ namespace MasterModule.Common
                 dtoList = new ObservableCollection<T>(unionList.ToList());
             }
         }
-
-
-
 
         /// <summary>
         /// This is the handler for the grid messages.
@@ -523,8 +527,10 @@ namespace MasterModule.Common
             {
                 // This is the return value of the data subsystem.
                 DataPayLoad retValue = await GridChangedCommand<DtoType, EntityType>(obj, setPrimary, dataSub).ConfigureAwait(false);
+                
                 if (retValue != null)
                 {
+                    retValue.Subsystem = dataSub;
                     EventManager.NotifyToolBar(retValue);
                 }
             }

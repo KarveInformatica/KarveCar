@@ -1,0 +1,21 @@
+﻿<Window x:Class="AssistTestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AssistTestApp"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        
+    </Window.Resources>
+        <Grid>
+            
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Assit Application Service Test"></TextBlock>
+            <TextBlock Text="This small application test the assist service integration"/>
+            <TextBlock Text="Click "/>
+            <Button Content="Click For the Assist" Command="{Binding Command}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

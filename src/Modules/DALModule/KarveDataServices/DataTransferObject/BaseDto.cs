@@ -37,6 +37,7 @@ namespace KarveDataServices.DataTransferObject
             throw new NotImplementedException();
         }
 
+        public string CodeId { set; get; }
         /// <summary>
         ///  LastModification
         /// </summary>

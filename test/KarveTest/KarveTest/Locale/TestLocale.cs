@@ -54,7 +54,7 @@ namespace KarveTest.Locale
         }
 
         [Test]
-        public void Should_BeAbleToIterateFromResourceManager()
+        public void Should_BeAbleToIterate_FromResourceManager()
         {
             // arrange
             Assert.NotNull(_localeDataServices);

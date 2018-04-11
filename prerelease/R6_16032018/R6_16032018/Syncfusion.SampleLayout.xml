@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Syncfusion.SampleLayout</name>
+    </assembly>
+    <members>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.FindFile(System.String)">
+            <summary>
+            Helper method to find a given database file.
+            </summary>
+            <param name="fileName">Database file name.</param>
+            <returns>Path of the database file.</returns>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.OnLayoutControlUnloaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Called when [layout control unloaded].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.OnUserGuideNavigatorClick(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Called when [user guide navigator click].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.GetSetMetroMode(System.Windows.DependencyObject)">
+            <summary>
+            Gets the set metro mode.
+            </summary>
+            <param name="obj">The obj.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.SetSetMetroMode(System.Windows.DependencyObject,System.Boolean)">
+            <summary>
+            Sets the set metro mode.
+            </summary>
+            <param name="obj">The obj.</param>
+            <param name="value">if set to <c>true</c> [value].</param>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutControl.OnSetMetroModeChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when [set metro mode changed].
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="args">The <see cref="T:System.Windows.DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.GridView">
+            <summary>
+            Displays the grid.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.UserOptionsView">
+            <summary>
+            Displays User Options panel.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.UserOptionsVisibility">
+            <summary>
+            Gets or sets a value indicating whether to show or hide the User Options panel.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.SkinPickerVisibility">
+            <summary>
+            Gets or sets a value indicating whether to show or hide the skin picker.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.VisualStyle">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.HeaderText">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.GridViewBackground">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.HeaderPanelBackground">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.GridViewHeaderText">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.HeaderDescriptionText">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.HeaderPanelVisibility">
+            <summary>
+            Gets or sets the grid skin.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.UserGuideUri">
+            <summary>
+            Gets or sets the user guide URI.
+            </summary>
+            <value>The user guide URI.</value>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.LayoutControl.IsInDesignMode">
+            <summary>
+            Retruns true, if the application is in design mode; false otherwise.
+            </summary>
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutHelper.GetValues``1">
+            <summary>  
+            Get values of an enumeration of type T  
+            </summary>  
+            <typeparam name="T">Enumeration type</typeparam>  
+            <returns>List of types in a enumeration</returns>  
+        </member>
+        <member name="M:Syncfusion.Windows.Controls.Grid.LayoutHelper.GetValues(System.Type)">
+            <summary>  
+            Get all the values of an enumeration of Type enumType  
+            </summary>  
+            <param name="enumType">Enumeration type</param>  
+            <returns>Array of objects</returns>  
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.UserOptions.HeaderBackground">
+            <summary>
+            Displays the grid.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.UserOptions.HeaderText">
+            <summary>
+            Displays the grid.
+            </summary>
+        </member>
+        <member name="T:Syncfusion.Windows.Controls.Grid.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Syncfusion.Windows.Controls.Grid.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

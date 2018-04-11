@@ -47,8 +47,8 @@ namespace MasterModule.ViewModels
         /// <param name="dialogService">Dialog service for spotting errors in a modal way, respect MVVM.</param>
         /// <param name="regionManager">Region manager. Manager for registering a region and handling composite UI.</param>
 
-        public MasterControlViewModuleBase(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IAssistService assistService, IDialogService dialogService, IRegionManager regionManager) : base(configurationService, eventManager, 
-            services, assistService, dialogService, regionManager )
+        public MasterControlViewModuleBase(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IInteractionRequestController interactionService, IDialogService dialogService, IRegionManager regionManager) : base(configurationService, eventManager, 
+            services, dialogService, regionManager, interactionService )
 
         {
             _canDeleteRegion = false;

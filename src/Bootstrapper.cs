@@ -22,7 +22,7 @@ using CarModel;
 using MasterModule.Views.Clients;
 using DataAccessLayer.Logic;
 using AutoMapper;
-using AssistModule;
+
 
 namespace KarveCar.Boot
 {
@@ -80,6 +80,7 @@ namespace KarveCar.Boot
             catalog.AddModule(typeof(HelperModule.HelperModule));
             catalog.AddModule(typeof(MasterModule.MasterModule));
             catalog.AddModule(typeof(InvoiceModule.InvoiceModule));
+           
 
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
@@ -140,8 +141,11 @@ namespace KarveCar.Boot
                 object[] containerValue = new object[1];
                 containerValue[0] = Container.Resolve<IUnityContainer>();
                 InjectionConstructor injectContainer = new InjectionConstructor(containerValue); 
-                Container.RegisterType<IAssistService, AssistService>(new ContainerControlledLifetimeManager(), injectContainer);
+               
 
+                Container.RegisterType<IInteractionRequestController, KarveControls.Interactivity.RequestController>(new ContainerControlledLifetimeManager(), injectContainer);
+                Container.RegisterType<KarveControls.Interactivity.Views.InteractionRequestView>();
+               Container.RegisterType<KarveControls.Interactivity.ViewModels.InteractionRequestViewModel>();
             }
             catch (Exception e)
             {

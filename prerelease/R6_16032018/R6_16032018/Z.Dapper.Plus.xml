@@ -1,0 +1,2298 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Z.Dapper.Plus</name>
+    </assembly>
+    <members>
+        <member name="T:Z.Dapper.Plus.BaseDapperPlusActionSet">
+            <summary>A base dapper plus action set.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.BaseDapperPlusActionSet.Actions">
+            <summary>The actions.</summary>
+        </member>
+        <member name="P:Z.Dapper.Plus.BaseDapperPlusActionSet.Connection">
+            <summary>Gets or sets the connection.</summary>
+            <value>The connection.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.BaseDapperPlusActionSet.Transaction">
+            <summary>Gets or sets the transaction.</summary>
+            <value>The transaction.</value>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperPlusActionKind">
+            <summary>Values that represent action available in the Dapper Plus library.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusActionKind.Insert">
+            <summary>An enum constant representing the insert option.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusActionKind.Update">
+            <summary>An enum constant representing the update option.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusActionKind.Delete">
+            <summary>An enum constant representing the delete option.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusActionKind.Merge">
+            <summary>An enum constant representing the merge option.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusActionKind.Synchronize">
+            <summary>An enum constant representing the merge option.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusActionKind.ForEach">
+            <summary>An enum constant representing the ForEach option.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AddAction``1(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Func{``0,System.Object}[])">
+            <summary>Adds an action to the actionSet.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="selectors">The selection of entities to perform the action kind on.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AddAction(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Func{`0,System.Object}[])">
+            <summary>Adds an action to the actionSet.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="selectors">The selection of entities to perform the action kind on.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AddAction(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0})">
+            <summary>Adds an action to the actionSet.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="item">The item to perform the action kind on.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AddAction(System.String,Z.Dapper.Plus.DapperPlusActionKind,`0)">
+            <summary>Adds an action to the actionSet.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="item">The item to perform the action kind on.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AddAction(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>Adds an action to the actionSet.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="childs">The childs to perform the action kind on.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkDelete(System.Func{`0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression</summary>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkDelete(System.String,System.Func{`0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkInsert(System.Func{`0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression</summary>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkInsert(System.String,System.Func{`0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkMerge(System.Func{`0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkMerge(System.String,System.Func{`0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkSynchronize(System.Func{`0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression</summary>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkSynchronize(System.String,System.Func{`0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkUpdate(System.Func{`0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression</summary>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.AlsoBulkUpdate(System.String,System.Func{`0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression.</summary>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkDelete``1(``0[])">
+            <summary>DELETE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to delete</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkDelete``1(``0,System.Func{``0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="item">The item to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkDelete``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkDelete``1(System.String,``0[])">
+            <summary>DELETE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkDelete``1(System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkDelete``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkInsert``1(``0[])">
+            <summary>INSERT entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to insert</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkInsert``1(``0,System.Func{``0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="item">The item to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkInsert``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkInsert``1(System.String,``0[])">
+            <summary>INSERT entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkInsert``1(System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkInsert``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkMerge``1(``0[])">
+            <summary>MERGE (Upsert) entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to merge</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkMerge``1(``0,System.Func{``0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="item">The item to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkMerge``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkMerge``1(System.String,``0[])">
+            <summary>MERGE (Upsert) entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkMerge``1(System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkMerge``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkSynchronize``1(``0[])">
+            <summary>SYNCHRONIZE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to synchronize</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkSynchronize``1(``0,System.Func{``0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="item">The item to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkSynchronize``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkSynchronize``1(System.String,``0[])">
+            <summary>SYNCHRONIZE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkSynchronize``1(System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkSynchronize``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkUpdate``1(``0[])">
+            <summary>UPDATE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to update</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkUpdate``1(``0,System.Func{``0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="item">The item to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkUpdate``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="items">items to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkUpdate``1(System.String,``0[])">
+            <summary>UPDATE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkUpdate``1(System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.BulkUpdate``1(System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbConnection,System.Threading.CancellationToken)">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbConnection,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0})">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbConnection,System.String,Z.Dapper.Plus.DapperPlusActionKind,`0,System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="item">The item.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbConnection,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0},System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbTransaction,System.Threading.CancellationToken)">
+            <summary>Constructor.</summary>
+            <param name="transaction">The transaction.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbTransaction,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0})">
+            <summary>Constructor.</summary>
+            <param name="transaction">The transaction.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbTransaction,System.String,Z.Dapper.Plus.DapperPlusActionKind,`0,System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="transaction">The transaction.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="item">The item.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(System.Data.IDbTransaction,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0},System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="transaction">The transaction.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.DapperPlusActionSetBuilder(System.Data.IDbConnection,System.Data.IDbTransaction,System.Threading.CancellationToken)">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.DapperPlusActionSetBuilder(System.Data.IDbConnection,System.Data.IDbTransaction,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0})">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.DapperPlusActionSetBuilder(System.Data.IDbConnection,System.Data.IDbTransaction,System.String,Z.Dapper.Plus.DapperPlusActionKind,`0,System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="item">The item.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.DapperPlusActionSetBuilder(System.Data.IDbConnection,System.Data.IDbTransaction,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0},System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="connection">The connection.</param>
+            <param name="transaction">The transaction.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(Z.Dapper.Plus.BaseDapperPlusActionSet)">
+            <summary>Constructor.</summary>
+            <param name="oldActionSet">Set the old action belongs to.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(Z.Dapper.Plus.BaseDapperPlusActionSet,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0})">
+            <summary>Constructor.</summary>
+            <param name="oldActionSet">Set the old action belongs to.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(Z.Dapper.Plus.BaseDapperPlusActionSet,System.String,Z.Dapper.Plus.DapperPlusActionKind,`0,System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="oldActionSet">Set the old action belongs to.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="item">The item.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.#ctor(Z.Dapper.Plus.BaseDapperPlusActionSet,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{`0},System.Func{`0,System.Object}[])">
+            <summary>Constructor.</summary>
+            <param name="oldActionSet">Set the old action belongs to.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="items">The items.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusActionSet`1.CancellationToken">
+            <summary>Gets or sets the cancellation token.</summary>
+            <value>The cancellation token.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusActionSet`1.Current">
+            <summary>Gets or sets the current.</summary>
+            <value>The current.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusActionSet`1.CurrentItem">
+            <summary>Gets or sets the current item.</summary>
+            <value>The current item.</value>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.CreateDapperAction``2(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Func{``0,``1}[])">
+            <summary>Creates dapper action.</summary>
+            <typeparam name="T1">Generic type parameter.</typeparam>
+            <typeparam name="T2">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+            <returns>The new dapper action.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.CreateDapperAction``1(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Func{`0,``0}[])">
+            <summary>Creates dapper action.</summary>
+            <typeparam name="T2">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="selectors">A variable-length parameters list containing selectors.</param>
+            <returns>The new dapper action.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ImportConfiguration(Z.Dapper.Plus.BaseDapperPlusActionSet)">
+            <summary>Import configuration.</summary>
+            <param name="oldActionSet">The action set to import configuration from.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.Include(System.Action{Z.Dapper.Plus.DapperPlusActionSet{`0}})">
+            <summary>Includes the given action.</summary>
+            <param name="includeAction">The action to include.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkDelete``1(System.Func{`0,``0}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkDelete``1(System.String,System.Func{`0,``0}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkInsert``1(System.Func{`0,``0}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkInsert``1(System.String,System.Func{`0,``0}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkMerge``1(System.Func{`0,``0}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkMerge``1(System.String,System.Func{`0,``0}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkSynchronize``1(System.Func{`0,``0}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkSynchronize``1(System.String,System.Func{`0,``0}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkUpdate``1(System.Func{`0,``0}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenBulkUpdate``1(System.String,System.Func{`0,``0}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusActionSet`1.ThenForEach(System.Action{`0})">
+            <summary>Perform an action for each entity.</summary>
+            <param name="forEachAction">The ForEach Action.</param>
+            <returns>A DapperPlusActionSet&lt;TEntity&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkDelete``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkDelete``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,System.Object}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkInsert``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkInsert``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,System.Object}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkMerge``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkMerge``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,System.Object}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkSynchronize``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkSynchronize``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,System.Object}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkUpdate``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.AlsoBulkUpdate``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,System.Object}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkDelete``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,``1}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkDelete``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,``1}[])">
+            <summary>DELETE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkInsert``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,``1}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkInsert``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,``1}[])">
+            <summary>INSERT entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkMerge``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,``1}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkMerge``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,``1}[])">
+            <summary>MERGE (Upsert) entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkSynchronize``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,``1}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkSynchronize``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,``1}[])">
+            <summary>SYNCHRONIZE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkUpdate``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Func{``0,``1}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenBulkUpdate``2(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.String,System.Func{``0,``1}[])">
+            <summary>UPDATE entities in a database table or a view using a lambda expression.</summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>An IDapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.ThenForEach``1(Z.Dapper.Plus.IDapperPlusActionSet{System.Collections.Generic.IEnumerable{``0}},System.Action{``0})">
+            <summary>
+            An IDapperPlusActionSet&lt;IEnumerable&lt;TEntity&gt;&gt; extension method that perform an
+            action for each entity.
+            </summary>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+            <param name="actionSet">The actionSet to act on.</param>
+            <param name="forEachAction">The ForEach action.</param>
+            <returns>An IDapperPlusActionSet&lt;IEnumerable&lt;TEntity&gt;&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkActionAsync(System.Data.IDbConnection,System.Action{Z.Dapper.Plus.DapperPlusActionSet{System.Object}},System.Threading.CancellationToken)">
+            <summary>An IDbConnection extension method that bulk action asynchronous.</summary>
+            <param name="connection">The connection to act on.</param>
+            <param name="asyncAction">The asynchronous action.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A Task.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbConnection,``0[])">
+            <summary>
+                An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbConnection,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="item">The item to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbConnection,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbConnection,System.String,``0[])">
+            <summary>
+                An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbConnection,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbConnection,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbConnection,``0[])">
+            <summary>
+                An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbConnection,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="item">The item to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbConnection,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbConnection,System.String,``0[])">
+            <summary>
+                An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbConnection,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbConnection,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbConnection,``0[])">
+            <summary>
+                An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbConnection,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="item">The item to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbConnection,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbConnection,System.String,``0[])">
+            <summary>
+                An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbConnection,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbConnection,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbConnection,``0[])">
+            <summary>
+                An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbConnection,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="item">The item to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbConnection,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbConnection,System.String,``0[])">
+            <summary>
+                An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbConnection,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbConnection,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbConnection,``0[])">
+            <summary>
+                An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbConnection,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="item">The item to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbConnection,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="items">items to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbConnection,System.String,``0[])">
+            <summary>
+                An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbConnection,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbConnection,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+                An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="connection">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkActionAsync(System.Data.IDbTransaction,System.Action{Z.Dapper.Plus.DapperPlusActionSet{System.Object}},System.Threading.CancellationToken)">
+            <summary>An IDbConnection extension method that bulk action asynchronous.</summary>
+            <param name="transaction">The connection to act on.</param>
+            <param name="asyncAction">The asynchronous action.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>A Task.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbTransaction,``0[])">
+            <summary>
+            An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The connection to act on.</param>
+            <param name="items">items to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbTransaction,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The connection to act on.</param>
+            <param name="item">The item to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbTransaction,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The connection to act on.</param>
+            <param name="items">items to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbTransaction,System.String,``0[])">
+            <summary>
+            An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbTransaction,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkDelete``1(System.Data.IDbTransaction,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to DELETE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The connection to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to delete.</param>
+            <param name="selectors">The selection of entities to delete.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbTransaction,``0[])">
+            <summary>
+            An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbTransaction,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="item">The item to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbTransaction,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbTransaction,System.String,``0[])">
+            <summary>
+            An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbTransaction,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkInsert``1(System.Data.IDbTransaction,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to INSERT entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to insert.</param>
+            <param name="selectors">The selection of entities to insert.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbTransaction,``0[])">
+            <summary>
+            An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbTransaction,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="item">The item to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbTransaction,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbTransaction,System.String,``0[])">
+            <summary>
+            An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbTransaction,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkMerge``1(System.Data.IDbTransaction,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to MERGE (Upsert) entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to merge.</param>
+            <param name="selectors">The selection of entities to merge.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbTransaction,``0[])">
+            <summary>
+            An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbTransaction,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="item">The item to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbTransaction,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbTransaction,System.String,``0[])">
+            <summary>
+            An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbTransaction,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkSynchronize``1(System.Data.IDbTransaction,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to SYNCHRONIZE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to synchronize.</param>
+            <param name="selectors">The selection of entities to synchronize.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbTransaction,``0[])">
+            <summary>
+            An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbTransaction,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="item">The item to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbTransaction,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="items">items to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbTransaction,System.String,``0[])">
+            <summary>
+            An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbTransaction,System.String,``0,System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="item">The item to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExtensions.BulkUpdate``1(System.Data.IDbTransaction,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Object}[])">
+            <summary>
+            An IDbConnection extension method to UPDATE entities in a database table or a view.
+            </summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="transaction">The transaction to act on.</param>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="items">items to update.</param>
+            <param name="selectors">The selection of entities to update.</param>
+            <returns>A DapperPlusActionSet&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusAction.#ctor(Z.Dapper.Plus.BaseDapperPlusActionSet,System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Object)">
+            <summary>Constructor.</summary>
+            <param name="action">The action.</param>
+            <param name="key">The key.</param>
+            <param name="kind">The kind.</param>
+            <param name="dataSource">The data source.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusAction.#ctor(Z.Dapper.Plus.DapperPlusActionKind,System.Action)">
+            <summary>Constructor.</summary>
+            <param name="kind">The kind.</param>
+            <param name="forEachAction">for each action.</param>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.ForEachAction">
+            <summary>Gets or sets for each action.</summary>
+            <value>for each action.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.Key">
+            <summary>Gets or sets the key.</summary>
+            <value>The key.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.Kind">
+            <summary>Gets or sets the kind.</summary>
+            <value>The kind.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.Connection">
+            <summary>Gets or sets the connection.</summary>
+            <value>The connection.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.Transaction">
+            <summary>Gets or sets the transaction.</summary>
+            <value>The transaction.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.Config">
+            <summary>Gets or sets the configuration.</summary>
+            <value>The configuration.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.DataSource">
+            <summary>Gets or sets the data source.</summary>
+            <value>The data source.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusAction.IsExecuted">
+            <summary>Gets or sets a value indicating whether this object is executed.</summary>
+            <value>true if this object is executed, false if not.</value>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusAction.ApplyConfig(Z.BulkOperations.BulkOperation,Z.Dapper.Plus.DapperPlusEntityMapper)">
+            <summary>Applies the configuration.</summary>
+            <param name="bulkOperation">The bulk operation.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusAction.AutoMap(Z.BulkOperations.BulkOperation,Z.Dapper.Plus.DapperPlusEntityMapper)">
+            <summary>Automatic map.</summary>
+            <param name="entityMapper">The entity mapper.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusAction.Execute">
+            <summary>Executes this object.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusAction.Map(Z.BulkOperations.BulkOperation,Z.Dapper.Plus.DapperPlusEntityMapper)">
+            <summary>Maps.</summary>
+            <param name="bulkOperation">The bulk operation.</param>
+            <param name="config">The configuration.</param>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperPlusColumnMapping">
+            <summary>A dapper plus column mapping.</summary>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.SourceName">
+            <summary>Gets or sets the column source name.</summary>
+            <value>The column source name.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.SourceValue">
+            <summary>Gets or sets source value.</summary>
+            <value>The source value.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.DestinationName">
+            <summary>Gets or sets the column destination name.</summary>
+            <value>The column destination name.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.IsPrimaryKey">
+            <summary>Gets or sets a value indicating whether this column is primary key.</summary>
+            <value>true if this column is primary key, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.IsIdentity">
+            <summary>Gets or sets a value indicating whether this column is identity.</summary>
+            <value>true if this column is identity, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.IsOptional">
+            <summary>Gets or sets a value indicating whether this object is optional.</summary>
+            <value>True if this object is optional, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.Input">
+            <summary>Gets or sets a value indicating whether this column use the direction input.</summary>
+            <value>true if the column use the direction input, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.Output">
+            <summary>Gets or sets a value indicating whether this column use the direction output.</summary>
+            <value>true if the column use the direction output, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.IgnoreOnMergeInsert">
+            <summary>Gets or sets a value indicating whether this column is ignored when merge inserting.</summary>
+            <value>true if the column is ignored when merge inserting, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusColumnMapping.IgnoreOnMergeUpdate">
+            <summary>Gets or sets a value indicating whether this column is ignored when merge updating.</summary>
+            <value>true if the column is ignored when merge updating, false if not.</value>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperPlusEntityMapper">
+            <summary>A dapper plus entity mapper.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.#ctor">
+            <summary>Default constructor.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._batchDelayInterval">
+            <summary>The batch delay interval.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._batchSize">
+            <summary>Size of the batch.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._batchTimeout">
+            <summary>The batch timeout.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._configDelete">
+            <summary>The configuration delete.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._configInsert">
+            <summary>The configuration insert.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._configMerge">
+            <summary>The configuration merge.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._configUpdate">
+            <summary>The configuration update.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isMasterConfig">
+            <summary>true if this object is master configuration.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._masterConfig">
+            <summary>The master configuration.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._table">
+            <summary>The destination table name.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._columnMappings">
+            <summary>The column mappings.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._forceRemap">
+            <summary>The force remap.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._identityAccessors">
+            <summary>The identity accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._ignoreAccessors">
+            <summary>The ignore accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._ignoreOnMergeInsertAccessors">
+            <summary>The output accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._ignoreOnMergeUpdateAccessors">
+            <summary>The output accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isIdentityModified">
+            <summary>The value indicating if identity configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isIgnoreModified">
+            <summary>The value indicating if ignore configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isIgnoreOnMergeInsertModified">
+            <summary>The value indicating if IgnoreOnMergeInsert configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isIgnoreOnMergeUpdateModified">
+            <summary>The value indicating if IgnoreOnMergeUpdate configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isKeyModified">
+            <summary>The value indicating if key configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isMapModified">
+            <summary>The value indicating if map configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._isOutputModified">
+            <summary>The value indicating if output configuration is modified.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._keyAccessors">
+            <summary>The key accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._mapAccessors">
+            <summary>The map accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._outputAccessors">
+            <summary>The output accessors.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._sqlBulkCopyOptions">
+            <summary>Options for controlling the Sql bulk copy.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._temporaryTableBatchByTable">
+            <summary>The temporary table batch by table.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._temporaryTableInsertBatchSize">
+            <summary>Size of the temporary table insert batch.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._temporaryTableMinRecord">
+            <summary>The temporary table minimum record.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._temporaryTableSchemaName">
+            <summary>Name of the temporary table schema.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._retryCount">
+            <summary>Number of retries.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper._retryInterval">
+            <summary>The retry interval.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.BatchDelayInterval">
+            <summary>Gets the batch delay interval.</summary>
+            <returns>The batch delay interval</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.BatchSize">
+            <summary>Gets the batch size.</summary>
+            <summary>The batch size.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.BatchTimeout">
+            <summary>Gets the batch timeout.</summary>
+            <summary>The batch timeout.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.BatchDelayInterval(System.Int32)">
+            <summary>Sets the batch delay interval.</summary>
+            <param name="batchDelayInterval">The batch delay interval.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.BatchSize(System.Int32)">
+            <summary>Sets the batch size.</summary>
+            <param name="batchSize">The batch size.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.BatchTimeout(System.Int32)">
+            <summary>Sets the batch timeout.</summary>
+            <param name="batchTimeout">The batch timeout.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.Table">
+            <summary>Gets the destination table name.</summary>
+            <returns>The destination table name.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.Table(System.String)">
+            <summary>Sets the destination table name.</summary>
+            <param name="name">The destination table name.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIdentityModified">
+            <summary>Gets the value indicating if identity configuration is modified.</summary>
+            <returns>The value indicating if identity configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIgnoreModified">
+            <summary>Gets the value indicating if ignore configuration is modified.</summary>
+            <returns>The value indicating if ignore configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsKeyModified">
+            <summary>Gets the value indicating if key configuration is modified.</summary>
+            <returns>The value indicating if key configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsMapModified">
+            <summary>Gets the value indicating if map configuration is modified.</summary>
+            <returns>The value indicating if map configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsOutputModified">
+            <summary>Gets the value indicating if output configuration is modified.</summary>
+            <returns>The value indicating if output configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIgnoreOnMergeInsertModified">
+            <summary>Gets the value indicating if IgnoreOnMergeInsert configuration is modified.</summary>
+            <returns>The value indicating if IgnoreOnMergeInsert configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIgnoreOnMergeUpdateModified">
+            <summary>Gets the value indicating if IgnoreOnMergeUpdate configuration is modified.</summary>
+            <returns>The value indicating if IgnoreOnMergeUpdate configuration is modified.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIdentityModified(System.Boolean)">
+            <summary>Gets the value indicating if identity configuration is modified.</summary>
+            <param name="value">true if the identity is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIgnoreModified(System.Boolean)">
+            <summary>Sets the value indicating if ignore configuration is modified.</summary>
+            <param name="value">true if the ignore is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsKeyModified(System.Boolean)">
+            <summary>Sets the value indicating if key configuration is modified.</summary>
+            <param name="value">true if the key is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsMapModified(System.Boolean)">
+            <summary>Sets the value indicating if map configuration is modified.</summary>
+            <param name="value">true if the map is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsOutputModified(System.Boolean)">
+            <summary>Sets the value indicating if output configuration is modified.</summary>
+            <param name="value">true if the output is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIgnoreOnMergeInsertModified(System.Boolean)">
+            <summary>Sets the value indicating if IgnoreOnMergeInsert configuration is modified.</summary>
+            <param name="value">true if the IgnoreOnMergeInsert is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.IsIgnoreOnMergeUpdateModified(System.Boolean)">
+            <summary>Sets the value indicating if IgnoreOnMergeUpdate configuration is modified.</summary>
+            <param name="value">true if the IgnoreOnMergeUpdate is modified.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetKeyAccessors">
+            <summary>Gets key accessors.</summary>
+            <returns>The key accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetIdentityAccessors">
+            <summary>Gets identity accessors.</summary>
+            <returns>The identity accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetMapAccessors">
+            <summary>Gets map accessors.</summary>
+            <returns>The map accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetOutputAccessors">
+            <summary>Gets output accessors.</summary>
+            <returns>The output accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetIgnoreAccessors">
+            <summary>Gets ignore accessors.</summary>
+            <returns>The ignore accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetIgnoreOnMergeInsertAccessors">
+            <summary>Gets IgnoreOnMergeInsert accessors.</summary>
+            <returns>The IgnoreOnMergeInsert accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.GetIgnoreOnMergeUpdateAccessors">
+            <summary>Gets IgnoreOnMergeUpdate accessors.</summary>
+            <returns>The IgnoreOnMergeUpdate accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.SqlBulkCopyOptions">
+            <summary>Gets the Sql bulk copy options.</summary>
+            <returns>The Sql bulk copy options.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.SqlBulkCopyOptions(System.Data.SqlClient.SqlBulkCopyOptions)">
+            <summary>Sets the Sql bulk copy options.</summary>
+            <param name="sqlBulkCopyOptions">The Sql bulk copy options.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.InsertIfNotExists(System.Boolean)">
+            <summary>Inserts if not exists described by value.</summary>
+            <param name="value">true to value.</param>
+            <returns>A DapperPlusEntityMapper.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.KeepIdentity(System.Boolean)">
+            <summary>Keep identity.</summary>
+            <param name="value">true to keep identity.</param>
+            <returns>A DapperPlusEntityMapper.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableBatchByTable">
+            <summary>Gets the temporary table batch by table.</summary>
+            <returns>The temporary table batch by table.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableInsertBatchSize">
+            <summary>Gets the temporary table insert batch size.</summary>
+            <returns>The temporary table insert batch size.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableMinRecord">
+            <summary>Gets the temporary table minimum record.</summary>
+            <returns>The tTemporary table minimum record.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableSchemaName">
+            <summary>Gets the temporary table schema name.</summary>
+            <returns>The temporary table schema name.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableBatchByTable(System.Int32)">
+            <summary>Sets the temporary table batch by table.</summary>
+            <param name="temporaryTableBatchByTable">The temporary table batch by table.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableInsertBatchSize(System.Int32)">
+            <summary>Sets the temporary table insert batch size.</summary>
+            <param name="temporaryTableInsertBatchSize">Size of the temporary table insert batch.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableMinRecord(System.Int32)">
+            <summary>Sets the Temporary table minimum record.</summary>
+            <param name="temporaryTableMinRecord">The temporary table minimum record.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.TemporaryTableSchemaName(System.String)">
+            <summary>Sets the temporary table schema name.</summary>
+            <param name="temporaryTableSchemaName">Name of the temporary table schema.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.RetryCount">
+            <summary>Gets the retry count.</summary>
+            <returns>The retry count.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.RetryInterval">
+            <summary>Gets the retry interval.</summary>
+            <returns>The retry interval.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.RetryCount(System.Int32)">
+            <summary>Sets the retry count.</summary>
+            <param name="retryCount">The retry count.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper.RetryInterval(System.Int32)">
+            <summary>Sets the retry interval.</summary>
+            <param name="retryInterval">The retry interval.</param>
+            <returns>A DapperPlusActionSet.</returns>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperPlusEntityMapper`1">
+            <summary>A dapper plus entity mapper.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.#ctor">
+            <summary>Default constructor.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.#ctor(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Constructor.</summary>
+            <param name="master">The master.</param>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._afterActions">
+            <summary>The after actions.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._beforeActions">
+            <summary>The before actions.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._identity">
+            <summary>The identity.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._ignore">
+            <summary>The ignore.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._key">
+            <summary>The key.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._map">
+            <summary>The map.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._output">
+            <summary>The output.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._ignoreOnMergeInsert">
+            <summary>The IgnoreOnMergeInsert.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusEntityMapper`1._ignoreOnMergeUpdate">
+            <summary>The IgnoreOnMergeUpdate.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.BatchDelayInterval(System.Int32)">
+            <summary>Sets the batch delay interval.</summary>
+            <param name="batchDelayInterval">The batch delay interval.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.BatchSize(System.Int32)">
+            <summary>Sets the batch size.</summary>
+            <param name="batchSize">The batch size.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.BatchTimeout(System.Int32)">
+            <summary>Sets the batch timeout.</summary>
+            <param name="batchTimeout">The batch timeout.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Delete(System.Action{Z.Dapper.Plus.DapperPlusEntityMapper{`0}})">
+            <summary>Set the delete configuration with a lambda expression.</summary>
+            <param name="actionConfigurationFactory">The action delete configuration factory.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Insert(System.Action{Z.Dapper.Plus.DapperPlusEntityMapper{`0}})">
+            <summary>Set the insert configuration with a lambda expression.</summary>
+            <param name="actionConfigurationFactory">The action insert configuration factory.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Merge(System.Action{Z.Dapper.Plus.DapperPlusEntityMapper{`0}})">
+            <summary>Set the merge configuration with a lambda expression.</summary>
+            <param name="actionConfigurationFactory">The action merge configuration factory.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Update(System.Action{Z.Dapper.Plus.DapperPlusEntityMapper{`0}})">
+            <summary>Set the update configuration with a lambda expression.</summary>
+            <param name="actionConfigurationFactory">The action update configuration factory.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Table(System.String)">
+            <summary>Sets the destination table name.</summary>
+            <param name="name">The destination table name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.BeforeAction(System.Action{Z.Dapper.Plus.DapperPlusActionKind,`0})">
+            <summary>Before action.</summary>
+            <param name="action">The action.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.AfterAction(System.Action{Z.Dapper.Plus.DapperPlusActionKind,`0})">
+            <summary>After action.</summary>
+            <param name="action">The action.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Identity(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy identity configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Identity(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets identity accessor from the selectors.</summary>
+            <param name="selectors">The identity selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Identity(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>Sets identity accessor from the selectors.</summary>
+            <param name="selector">The identity selector.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Identity(System.String)">
+            <summary>Sets identity accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Identity(System.String,System.String)">
+            <summary>Sets identity accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Ignore(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy ignore configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Ignore(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets ignore accessor from the selectors.</summary>
+            <param name="selectors">The ignore selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Ignore(System.String)">
+            <summary>Sets ignore accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Ignore(System.String,System.String)">
+            <summary>Sets ignore accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeInsert(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy IgnoreOnMergeInsert configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeInsert(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets IgnoreOnMergeInsert accessor from the selectors.</summary>
+            <param name="selectors">The ignore selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeInsert(System.String)">
+            <summary>Sets IgnoreOnMergeInsert accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeInsert(System.String,System.String)">
+            <summary>Sets IgnoreOnMergeInsert accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeUpdate(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy IgnoreOnMergeUpdate configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeUpdate(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets IgnoreOnMergeUpdate accessor from the selectors.</summary>
+            <param name="selectors">The ignore selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeUpdate(System.String)">
+            <summary>Sets IgnoreOnMergeUpdate accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.IgnoreOnMergeUpdate(System.String,System.String)">
+            <summary>Sets IgnoreOnMergeUpdate accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Key(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy key configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Key(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets key accessor from the selectors.</summary>
+            <param name="selectors">The key selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Key(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>Sets key accessor from the selectors.</summary>
+            <param name="selector">The key selector.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Key(System.String)">
+            <summary>Sets key accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Key(System.String,System.String)">
+            <summary>Sets key accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Map(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy map configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Map(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets map accessor from the selectors.</summary>
+            <param name="selectors">The map selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Map(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>Sets map accessor from the selectors.</summary>
+            <param name="selector">The map selector.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Map(System.String)">
+            <summary>Sets map accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Map(System.String,System.String)">
+            <summary>Sets map accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Output(Z.Dapper.Plus.DapperPlusEntityMapper{`0})">
+            <summary>Copy output configuration from an existing mapper.</summary>
+            <param name="copyFromConfiguration">The configuration to copy from.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Output(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Sets output accessor from the selectors.</summary>
+            <param name="selectors">The output selectors.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Output(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>Sets output accessor from the selectors.</summary>
+            <param name="selector">The output selector.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Output(System.String)">
+            <summary>Sets output accessor from the selectors.</summary>
+            <param name="name">The name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.Output(System.String,System.String)">
+            <summary>Sets output accessor from the selectors.</summary>
+            <param name="sourceName">Name of the source.</param>
+            <param name="destinationName">The destination name.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetKeyAccessors">
+            <summary>Gets key accessors.</summary>
+            <returns>The key accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetIdentityAccessors">
+            <summary>Gets identity accessors.</summary>
+            <returns>The identity accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetMapAccessors">
+            <summary>Gets map accessors.</summary>
+            <returns>The map accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetIgnoreAccessors">
+            <summary>Gets ignore accessors.</summary>
+            <returns>The ignore accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetOutputAccessors">
+            <summary>Gets output accessors.</summary>
+            <returns>The output accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetIgnoreOnMergeInsertAccessors">
+            <summary>Gets IgnoreOnMergeInsert accessors.</summary>
+            <returns>The IgnoreOnMergeInsert accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetIgnoreOnMergeUpdateAccessors">
+            <summary>Gets IgnoreOnMergeUpdate accessors.</summary>
+            <returns>The IgnoreOnMergeUpdate accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.GetAccessors(System.Collections.Generic.List{Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper{`0}})">
+            <summary>Gets the accessors.</summary>
+            <exception cref="T:System.Exception">Thrown when an exception error condition occurs.</exception>
+            <param name="mapper">The mapper.</param>
+            <returns>The accessors.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.SqlBulkCopyOptions(System.Data.SqlClient.SqlBulkCopyOptions)">
+            <summary>Sets the Sql bulk copy options.</summary>
+            <param name="sqlBulkCopyOptions">The Sql bulk copy options.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.InsertIfNotExists(System.Boolean)">
+            <summary>Inserts if not exists described by value.</summary>
+            <param name="value">true to value.</param>
+            <returns>A DapperPlusEntityMapper.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.KeepIdentity(System.Boolean)">
+            <summary>Keep identity.</summary>
+            <param name="value">true to keep identity.</param>
+            <returns>A DapperPlusEntityMapper.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.TemporaryTableBatchByTable(System.Int32)">
+            <summary>Sets the temporary table batch by table.</summary>
+            <param name="temporaryTableBatchByTable">The temporary table batch by table.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.TemporaryTableInsertBatchSize(System.Int32)">
+            <summary>Sets the temporary table insert batch size.</summary>
+            <param name="temporaryTableInsertBatchSize">Size of the temporary table insert batch.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.TemporaryTableMinRecord(System.Int32)">
+            <summary>Sets the Temporary table minimum record.</summary>
+            <param name="temporaryTableMinRecord">The temporary table minimum record.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.TemporaryTableSchemaName(System.String)">
+            <summary>Sets the temporary table schema name.</summary>
+            <param name="temporaryTableSchemaName">Name of the temporary table schema.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.RetryCount(System.Int32)">
+            <summary>Sets the retry count.</summary>
+            <param name="retryCount">The retry count.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusEntityMapper`1.RetryInterval(System.Int32)">
+            <summary>Sets the retry interval.</summary>
+            <param name="retryInterval">The retry interval.</param>
+            <returns>A DapperPlusEntityMapper&lt;T&gt;</returns>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1">
+            <summary>A dapper plus expression mapper.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>Constructor.</summary>
+            <param name="selectorFactory">The selector factory.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1.#ctor(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>Constructor.</summary>
+            <param name="selectorFactory">The selector factory.</param>
+            <param name="destinationName">The destination name.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1.#ctor(System.String,System.String)">
+            <summary>Constructor.</summary>
+            <param name="sourceName">The source name.</param>
+            <param name="destinationName">The destination name.</param>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1.SelectorFactory">
+            <summary>Gets or sets the selector factory.</summary>
+            <value>The selector factory.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1.SourceName">
+            <summary>Gets or sets the source name.</summary>
+            <value>The source name.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusExpressionMapper.DapperPlusExpressionMapper`1.DestinationName">
+            <summary>Gets or sets the destination name.</summary>
+            <value>The destination name.</value>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperPlusManager">
+            <summary>Manager for dapper plus.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusManager._mapperCache">
+            <summary>The mapper cache.</summary>
+        </member>
+        <member name="F:Z.Dapper.Plus.DapperPlusManager._mapperFactory">
+            <summary>The mapper factory.</summary>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusManager.#cctor">
+            <summary>Static constructor.</summary>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusManager.MapperCache">
+            <summary>Gets or sets the mapper cache.</summary>
+            <value>The mapper cache.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.DapperPlusManager.MapperFactory">
+            <summary>Gets or sets the mapper factory.</summary>
+            <value>The mapper factory.</value>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusManager.AddLicense(System.String,System.String)">
+            <summary>Adds a PRO License to activate all features.</summary>
+            <param name="licenseName">The license name.</param>
+            <param name="licenseKey">The license key.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusManager.ValidateLicense(Z.Dapper.Plus.DapperProviderType)">
+            <summary>Validates if license added is valid.</summary>
+            <param name="provider">The provider specific for the license.</param>
+            <returns>true if it's valid, false if it's invalid.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusManager.ValidateLicense(System.String@,Z.Dapper.Plus.DapperProviderType)">
+            <summary>Validates the license.</summary>
+            <param name="errorMessage">[out] Message describing the error.</param>
+            <param name="provider">(Optional) The provider.</param>
+            <returns>True if it succeeds, false if it fails.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusManager.Entity``1(System.String)">
+            <summary>Get or create a new mapper for the specified type and mapper key</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <returns>A DapperPlusConfig&lt;T&gt;</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.DapperPlusManager.GetFullMapperKey``1(System.String)">
+            <summary>Gets the full mapper key used in the mapper cache.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <returns>The full mapper key used in the mapped cache.</returns>
+        </member>
+        <member name="T:Z.Dapper.Plus.DapperProviderType">
+            <summary>Values that represent Provider.</summary>
+        </member>
+        <member name="T:Z.Dapper.Plus.IDapperPlusActionSet`1">
+            <summary>Interface for DapperPlusActionSet.</summary>
+            <remarks>
+                This interface is used in extension method to allow chaining. The out parameter modifier
+                allow to support multiple type like IDapperPlusActionSet&lt;IEnumerable&lt;T&gt;&gt;. The
+                interface may look worthless but is very useful for keeping the IntelliSense with the lambda
+                expression.
+            </remarks>
+            <typeparam name="TEntity">Type of the entity.</typeparam>
+        </member>
+        <member name="M:Z.Dapper.Plus.IDapperPlusActionSet`1.AddAction``1(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Func{``0,System.Object}[])">
+            <summary>Adds an action to the action set.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="mapperKey">The mapper key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="selectors">The selection of entities to perform an action on.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.IDapperPlusActionSet`1.AddAction``1(Z.Dapper.Plus.DapperPlusActionKind,System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>Adds an action to the action set.</summary>
+            <typeparam name="T">Generic type parameter.</typeparam>
+            <param name="actionKind">The action kind.</param>
+            <param name="entities">The entities.</param>
+            <param name="forEachAction">for each action.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.IDapperPlusActionSet`1.CreateDapperAction``2(System.String,Z.Dapper.Plus.DapperPlusActionKind,System.Func{``0,``1}[])">
+            <summary>Creates a new dapper action and perform an action on the selection of entities.</summary>
+            <typeparam name="T1">Generic type parameter.</typeparam>
+            <typeparam name="T2">Generic type parameter.</typeparam>
+            <param name="mapperKey">The key.</param>
+            <param name="actionKind">The action kind.</param>
+            <param name="selectors">The selection of entities to perform an action on.</param>
+            <returns>The new dapper action.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.IDapperPlusActionSet`1.CreateDapperAction``1(Z.Dapper.Plus.DapperPlusActionKind,System.Action{``0})">
+            <summary>
+                Creates a new dapper action and perform an action on the selection of entities.
+            </summary>
+            <typeparam name="T1">Generic type parameter.</typeparam>
+            <param name="actionKind">The action kind.</param>
+            <param name="action">The action.</param>
+            <returns>The new dapper action.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.ExpressionExtensions.RemoveConvert(System.Linq.Expressions.Expression)">
+            <summary>
+                An Expression extension method that removes convert expression from the expression.
+            </summary>
+            <param name="expression">The expression to act on.</param>
+            <returns>An Expression without convert expression.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.ExpressionExtensions.GetPropertyOrFieldAccess(System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression,System.Reflection.MemberInfo)">
+            <summary>
+                An Expression extension method that gets a property or field access from an expression.
+            </summary>
+            <exception cref="T:System.Exception">Thrown when an exception error condition occurs.</exception>
+            <param name="expression">The expression to act on.</param>
+            <param name="parameterExpression">The parameter expression.</param>
+            <returns>The property or field access from the expression.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.LambdaExpressionExtensions.GetPropertyOrFieldAccessors(System.Linq.Expressions.LambdaExpression)">
+            <summary>
+                Gets the property or field accessors in this collection.
+            </summary>
+            <param name="expression">The expression to act on.</param>
+            <returns>An array of property or field accessor.</returns>
+        </member>
+        <member name="M:Z.Dapper.Plus.PropertyOrFieldAccessor.#ctor(System.Boolean)">
+            <summary>Constructor.</summary>
+            <param name="isCalculated">true if this object is calculated.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.PropertyOrFieldAccessor.#ctor(System.String,System.String)">
+            <summary>Constructor.</summary>
+            <param name="path">The full pathname of the file.</param>
+            <param name="member">The member.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.PropertyOrFieldAccessor.#ctor(System.Collections.ObjectModel.ReadOnlyCollection{System.Reflection.MemberInfo})">
+            <summary>Constructor.</summary>
+            <param name="propertyOrFieldPaths">The FieldPaths.</param>
+        </member>
+        <member name="M:Z.Dapper.Plus.PropertyOrFieldAccessor.#ctor(System.Reflection.MemberInfo)">
+            <summary>Constructor.</summary>
+            <param name="property">The property.</param>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.Path">
+            <summary>Gets or sets the full pathname of the file.</summary>
+            <value>The full pathname of the file.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.Member">
+            <summary>Gets or sets the member.</summary>
+            <value>The member.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.IsCalculated">
+            <summary>Gets or sets a value indicating whether this object is calculated.</summary>
+            <value>true if this object is calculated, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.CalculatedValue">
+            <summary>Gets or sets the calculated value.</summary>
+            <value>The calculated value.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.IsOptional">
+            <summary>Gets or sets a value indicating whether this object is optional.</summary>
+            <value>True if this object is optional, false if not.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.PropertyOrFieldPaths">
+            <summary>Gets or sets the FieldPaths.</summary>
+            <value>The FieldPaths.</value>
+        </member>
+        <member name="P:Z.Dapper.Plus.PropertyOrFieldAccessor.PropertyOrField">
+            <summary>Gets or sets the property.</summary>
+            <value>The property.</value>
+        </member>
+        <member name="M:Z.Dapper.Plus.PropertyOrFieldAccessor.ToString">
+            <summary>
+                Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
+    </members>
+</doc>

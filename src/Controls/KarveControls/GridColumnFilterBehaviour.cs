@@ -23,6 +23,8 @@ namespace KarveControls
                   typeof(GridColumnFilterBehaviour),
                   new PropertyMetadata(string.Empty, OnBuildSet));
 
+       
+
         private static void OnBuildSet(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             GridColumnFilterBehaviour filterBehaviour = d as GridColumnFilterBehaviour;
@@ -57,7 +59,6 @@ namespace KarveControls
               this.AssociatedObject.AutoGeneratingColumn +=  AssociatedObject_AutogenerateCols;
               base.OnAttached();
           }
-
         private void AssociatedObject_AutogenerateCols(object sender, AutoGeneratingColumnArgs e)
         {
 

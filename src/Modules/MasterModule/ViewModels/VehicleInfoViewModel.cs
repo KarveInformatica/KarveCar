@@ -352,9 +352,8 @@ namespace MasterModule.ViewModels
         /// <param name="services">Data access layer interface</param>
         public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, 
             IDialogService dialogService,
-            IAssistService assistService,
-            IDataServices services, IRegionManager regionManager) : 
-            base(eventManager, configurationService,services ,dialogService, assistService, regionManager)
+            IDataServices services, IRegionManager regionManager, IInteractionRequestController requestController) : 
+            base(eventManager, configurationService,services ,dialogService,regionManager, requestController)
         {
  			MailBoxHandler += MessageHandler;
             _vehicleDataServices = services.GetVehicleDataServices();

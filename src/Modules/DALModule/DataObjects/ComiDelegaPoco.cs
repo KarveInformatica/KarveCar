@@ -120,13 +120,16 @@ namespace DataAccessLayer.DataObjects
         ///  Set or get the PROV property.
         /// </summary>
         public PROVINCIA PROV { get; set; }
-	
- 
-	/// <summary>
-    ///  Set or get the cldCENTRAL property.
-    /// </summary>
-    
-		public byte? cldCENTRAL { get; set; }
+
+        /// <summary>
+        ///  Set or get the PAIS property.
+        /// </summary>
+        public string PAIS { get; set; }
+        /// <summary>
+        ///  Set or get the cldCENTRAL property.
+        /// </summary>
+
+        public byte? cldCENTRAL { get; set; }
  
 	/// <summary>
     ///  Set or get the cldDFSE property.

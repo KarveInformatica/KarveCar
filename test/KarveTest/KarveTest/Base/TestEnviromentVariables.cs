@@ -24,7 +24,7 @@ namespace KarveTest.Base
 
         }
         [Test]
-        public void Should_Env_Container_Not_Null()
+        public void Should_Env_ContainerNotNull()
         {
             _environ = _configuration.EnviromentVariables;
             Assert.NotNull(_environ);

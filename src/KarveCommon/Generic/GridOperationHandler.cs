@@ -43,7 +43,7 @@ namespace KarveCommon.Generic
                     );
                 if (newItems.Count() > 0)
                 {
-                    await _helperDataServices.ExecuteBulkInsertAsync<DtoType, T>(newItems);
+                    await _helperDataServices.ExecuteBulkInsertAsync<DtoType, T>(newItems).ConfigureAwait(false);
 
                 }
 
@@ -69,7 +69,7 @@ namespace KarveCommon.Generic
                 });
                 if (dtoValues.Count() > 0)
                 { 
-                    retValue = await _helperDataServices.ExecuteBulkDeleteAsync<DtoType, T>(dtoValues);
+                    retValue = await _helperDataServices.ExecuteBulkDeleteAsync<DtoType, T>(dtoValues).ConfigureAwait(false);
                 }
             }
             return retValue;
@@ -93,7 +93,7 @@ namespace KarveCommon.Generic
                 });
                 if (dtoValues.Count() > 0)
                 {
-                    retValue = await _helperDataServices.ExecuteBulkUpdateAsync<DtoType,T>(dtoValues);
+                    retValue = await _helperDataServices.ExecuteBulkUpdateAsync<DtoType,T>(newItems).ConfigureAwait(false);
                 }
             }
             return retValue;

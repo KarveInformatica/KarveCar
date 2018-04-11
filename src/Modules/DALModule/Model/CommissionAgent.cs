@@ -21,6 +21,8 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using Prism.Mvvm;
 using NLog;
+using DataAccessLayer.SQL;
+
 namespace DataAccessLayer.Model
 {
 
@@ -213,8 +215,8 @@ namespace DataAccessLayer.Model
 
         private string _queryCity = "SELECT * FROM POBLACIONES WHERE CP='{0}'";
 
-        private string _queryContactos = "SELECT CONTACTO as ContactoId,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CargoId, " +
-                                         "PG.NOMBRE AS CARGO, TELEFONO, MOVIL, " +
+        private string _queryContactos = "SELECT CONTACTO as ContactoId,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CARGO, " +
+                                         "PG.NOMBRE AS NOM_CARGO, TELEFONO, MOVIL, " +
                                          "FAX, EMAIL, CC.USUARIO, CC.ULTMODI, DL.CLDIDDELEGA as DelegaId, cldDelegacion " +
                                          "DELEGACC_NOM " +
                                          "FROM CONTACTOS_COMI AS CC " +
@@ -222,13 +224,13 @@ namespace DataAccessLayer.Model
                                          "LEFT OUTER JOIN COMI_DELEGA AS DL ON CC.DELEGA_CC = DL.CLDIDDELEGA " +
                                          "AND CC.COMISIO = DL.CLDIDCOMI WHERE COMISIO = '{0}' ORDER BY CC.CONTACTO";
 
-        private string _queryComiDelega = "SELECT cldIdDelega,{0},PV.PROV AS NOM_PROV, PV.SIGLAS FROM COMI_DELEGA CC " +
+        private string _queryComiDelega = "SELECT cldIdDelega,{0},PV.PROV AS NOM_PROV,PV.PAIS as PAIS, PV.SIGLAS FROM COMI_DELEGA CC " +
                                           "LEFT OUTER JOIN PROVINCIA PV ON PV.SIGLAS = CC.cldIdProvincia" +
                                           " WHERE cldIdCOMI='{1}' ORDER BY CC.cldIdDelega";
 
 
         private string _queryVisitas = "SELECT visIdVisita,visIdCliente,visIdContacto,visFecha,visIdVendedor, " +
-                                       "visIdVisitaTipo, PV.CONTACTO as IdContacto,TV.CODIGO_VIS as IdTipoVisita,NUM_VENDE as IdVendedor, PV.nom_contacto AS NOMCONTACTO, VE.NOMBRE FROM VISITAS_COMI CC " +
+                                       "visIdVisitaTipo, PV.CONTACTO as IdContacto,TV.CODIGO_VIS as IdTipoVisita,NUM_VENDE as IdVendedor, PV.nom_contacto AS NOMCONTACTO, VE.NOMBRE as FROM VISITAS_COMI CC " +
                                        "LEFT OUTER JOIN CONTACTOS_COMI PV ON PV.COMISIO = CC.VISIDCLIENTE AND PV.CONTACTO = CC.VISIDCONTACTO " +
                                        "LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO " +
                                        "LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE= '{0}' ORDER BY CC.visFECHA";
@@ -589,16 +591,15 @@ namespace DataAccessLayer.Model
                             _provinces = await _dbConnection.QueryAsync<PROVINCIA>(provinceQuery).ConfigureAwait(false);
                             ProvinceDto = _mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(_provinces);
                         }
-                        string queryContactos = string.Format(_queryContactos, _currentComisio.NUM_COMI);
-                        _contactos = await _dbConnection
-                            .QueryAsync<ContactsComiPoco, PERCARGOS, COMI_DELEGA, ContactsComiPoco>(queryContactos,
-                                (contacts, precargo, cc) =>
-                                {
-                                    contacts.percargos = precargo;
-                                    contacts.comiDelega = cc;
-                                    return contacts;
-                                }, splitOn: "ContactoId,CargoId,DelegaId");
+                        QueryStore store = QueryStore.GetInstance();
 
+                       
+
+                            store.AddParam(QueryType.QueryBrokerContacts, _currentComisio.NUM_COMI);
+                        var queryContactos = store.BuildQuery();
+                        _contactos = await _dbConnection
+                            .QueryAsync<ContactsComiPoco>(queryContactos);
+                            
                         ContactsDto = _mapper.Map<IEnumerable<ContactsComiPoco>, IEnumerable<ContactsDto>>(_contactos);
 
                         string queryTipoComi = string.Format(_queryTipoComi, tipoComiFields, _currentComisio.TIPOCOMI);
@@ -621,15 +622,10 @@ namespace DataAccessLayer.Model
                                 return branch;
                             }, splitOn: "SIGLAS");
                         DelegationDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
-                        string visitas = string.Format(_queryVisitas, _currentComisio.NUM_COMI);
-                        _visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco, CONTACTOS_COMI, TIPOVISITAS, VENDEDOR, VisitasComiPoco>(visitas,
-                            (visita, contactos, tipoVisitas, vendedor) =>
-                            {
-                                visita.ContactsComi = contactos;
-                                visita.VendedorComi = vendedor;
-                                visita.TipoVisitas = tipoVisitas;
-                                return visita;
-                            }, splitOn: "visIdVisita,IdContacto,IdTipoVisita,IdVendedor");
+                        store.Clear();
+                        store.AddParam(QueryType.QueryResellerByClient, _currentComisio.NUM_COMI);
+                        var visitas = store.BuildQuery();
+                        _visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco>(visitas);
                         VisitDto = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VisitsDto>>(_visitasComis);
                         logger.Debug("Executing AuxQueries.");
                         await BuildAuxQueryMultiple(_currentComisio, _dbConnection);
@@ -845,7 +841,7 @@ namespace DataAccessLayer.Model
                         }
                         var delegationRef = _delegations.FirstOrDefault(c => (c.cldIdCOMI == _currentComisio.NUM_COMI));
                         var visitasRef =
-                            _visitasComis.FirstOrDefault(c => (c.visIdCliente == _currentComisio.NUM_COMI));
+                            _visitasComis.FirstOrDefault(c => (c.VisitClientId == _currentComisio.NUM_COMI));
 
                         // This is very common.
                         if (delegationRef != null)

@@ -2212,4 +2212,13 @@
   <data name="lname" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="PersonalPositionTitle" xml:space="preserve">
+    <value>Personal Position</value>
+  </data>
+  <data name="MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia" xml:space="preserve">
+    <value>Province List</value>
+  </data>
+  <data name="lreseller" xml:space="preserve">
+    <value>Reseller</value>
+  </data>
 </root>

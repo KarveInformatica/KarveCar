@@ -23,6 +23,44 @@ namespace KarveControls
             NoResize,       //No resize of the state of the grid. When i have to resize a column.
             StartResize     // Resize of the state of the grid
         }
+
+        /// <summary>
+        ///  Each grid has an unique identifier.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemsProperty =
+            DependencyProperty.RegisterAttached(
+                "SelectedItems",
+                typeof(object),
+                typeof(KarveGridExt),
+                new PropertyMetadata(new object(), OnSelectedItem));
+
+        private static void OnSelectedItem(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SfDataGrid dataGrid = d as SfDataGrid;
+            if (dataGrid != null)
+            {
+
+                dataGrid.SelectionChanged += DataGrid_SelectionChanged;
+                    
+            }
+        }
+
+        private static void DataGrid_SelectionChanged(object sender, GridSelectionChangedEventArgs e)
+        {
+            SfDataGrid dataGrid = sender as SfDataGrid;
+            SetSelectedItems(dataGrid, e.AddedItems);
+        }
+
+        public static void SetSelectedItems(DependencyObject d, object value)
+        {
+            d.SetValue(SelectedItemsProperty, value);
+        }
+        public static object GetSelectedItems(DependencyObject d)
+        {
+            return d.GetValue(SelectedItemsProperty);
+        }
+
+
         /// <summary>
         ///  Resize of the current state.
         /// </summary>

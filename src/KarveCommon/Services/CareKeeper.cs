@@ -79,8 +79,11 @@ namespace KarveCommon.Services
                 {
                     _payLoad.Clear();
                 }
-                _payLoad.Enqueue(payload);
-                 _scheduledPayLoad = true;
+                if (!_payLoad.Contains(payload))
+                {
+                    _payLoad.Enqueue(payload);
+                }
+               _scheduledPayLoad = true;
             }
             Contract.Ensures(_payLoad!=null);
         }

@@ -14,7 +14,7 @@ namespace DataAccessLayer.Model
     /// </summary>
     class Company : ICompanyData
     {
-        public CompanyDto Value { get ; set ; }
+        public CompanyDto Value { get; set; }
         public IEnumerable<ProvinciaDto> ProvinciaDto { get; set; }
         public IEnumerable<CountryDto> CountryDto { get ; set; }
         public IEnumerable<CityDto> CityDto { get ; set; }

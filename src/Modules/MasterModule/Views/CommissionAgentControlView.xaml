@@ -65,9 +65,7 @@
                     <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=CommissionAgentSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-
-
-
+            
             <Syncfusion:SfDataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>

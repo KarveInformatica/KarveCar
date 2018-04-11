@@ -159,7 +159,7 @@ namespace KarveTest.DAL
         /// This is a valid sql to be returned.
         /// </summary>
         [Test]
-        public  void Shall_Return_A_Valid_SQL()
+        public  void Should_Return_AValidSQL()
         {
             string sqlStr = SqlQueryGenerate();
             Assert.AreEqual(sqlStr.Length, 433);

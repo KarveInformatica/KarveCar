@@ -5,14 +5,25 @@
     /// </summary>
     public class PersonalPositionDto: BaseDto
     {
+        private string _code = string.Empty;
+        private string _name = string.Empty;
+
         /// <summary>
         ///  Codigo
         /// </summary>
-        public int Code { get; set; }
+        public string Code
+        {
+            get { return _code; }
+            set { _code = value; RaisePropertyChanged(); }
+        }
         /// <summary>
         ///  Nombre
         /// </summary>
-        public string Name { get; set; }
+        public string Name {
+            get { return _name;  }
+            set
+            { _name = value; RaisePropertyChanged(); }
+        }
         
     }
 }

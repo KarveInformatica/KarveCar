@@ -12,6 +12,8 @@ using KarveCommonInterfaces;
 using System.Windows.Input;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
+using Syncfusion.UI.Xaml.Grid;
+using System.Linq;
 
 namespace MasterModule.ViewModels
 {
@@ -35,14 +37,15 @@ namespace MasterModule.ViewModels
         /// <param name="configurationService">Configuration Service. It allows the reconfiguration of the view model</param>
         /// <param name="dataServices">DataServices. It allows to fetch the data.</param>
         /// <param name="dialogService">DialogService. It allows spotting the error.</param>
-        /// <param name="assistService">AssistService. It allows the magnifier to spot a new grid</param>
+        /// <param name="controller">Interaction Request Contriller. I
+        /// It allows the controller to</param>
         /// <param name="manager">RegionManager. It handles the region manager.</param>
         public MasterInfoViewModuleBase(IEventManager eventManager,
                                         IConfigurationService configurationService,
                                         IDataServices dataServices, 
                                         IDialogService dialogService,
-                                        IAssistService assistService,
-                                        IRegionManager manager) : base(configurationService,eventManager,dataServices,  assistService, dialogService,manager)
+                                        IRegionManager manager,
+                                        IInteractionRequestController controller) : base(configurationService,eventManager,dataServices, dialogService,manager, controller)
         {
             _canDelete = true;
         }
@@ -61,22 +64,21 @@ namespace MasterModule.ViewModels
         {
 
         }
+        public IEnumerable<BranchesDto> BranchesDto { get; protected set; }
+        public IEnumerable<ContactsDto> ContactsDto { get; protected set; }
 
-
-        
         /// <summary>
         ///  Command for handling the province.
         /// </summary>
         /// <param item="">Item to be used.</param>
         protected async virtual void OnProvinceAssist(object item)
         {
-            IHelperDataServices services = DataServices.GetHelperDataServices();
-            var dtos = await services.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
-            AssistService.ShowAssistView<ProvinciaDto>(KarveLocale.Properties.Resources.MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia, dtos);
-            if (AssistService.SelectedItem!=null)
+            
+            await OnAssistAsync<ProvinciaDto, PROVINCIA>(KarveLocale.Properties.Resources.MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia, "Code,Name", async delegate (ProvinciaDto p)
             {
-                SetBranchProvince(AssistService.SelectedItem);
-            }
+                BranchesDto b = item as BranchesDto;
+                await SetBranchProvince(p, b).ConfigureAwait(false);     
+            }).ConfigureAwait(false);
         }
         /// <summary>
         /// OnContactsChargeAssist.
@@ -84,22 +86,26 @@ namespace MasterModule.ViewModels
         /// <param name="item"></param>
         protected async virtual void OnContactChargeAssist(object item)
         {
-            IEnumerable<ContactsDto> dtos = item as IEnumerable<ContactsDto>;
-            IHelperDataServices services = DataServices.GetHelperDataServices();
-            var currentServiceDto = await services.GetMappedAllAsyncHelper<PersonalPositionDto, PERCARGOS>();
-      
-            AssistService.ShowAssistView<PersonalPositionDto>(KarveLocale.Properties.Resources.MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia, currentServiceDto);
-            if (AssistService.SelectedItem != null)
+
+
+            await OnAssistAsync<PersonalPositionDto, PERCARGOS>(KarveLocale.Properties.Resources.lrgrPersonal, "Code,Name", async delegate (PersonalPositionDto p)
             {
-                SetContactsCharge(AssistService.SelectedItem);
-            }
+                ContactsDto b = item as ContactsDto;
+                await SetContactsCharge(p, b).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+            
+
         }
         
-        public virtual void SetContactsCharge(object charge)
+        public virtual async Task SetContactsCharge(PersonalPositionDto charge, ContactsDto item)
         {
+            item.Responsability = charge.Name;
+            await Task.Delay(1);
         }
-        public virtual void SetBranchProvince(object province)
+        // FIXME: this is not correct.
+        public async virtual Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
         {
+            await Task.Delay(1);
         }
         /// <summary>
         ///  This command has the resposability to be binded to the assist service 

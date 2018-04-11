@@ -105,5 +105,8 @@ namespace DataAccessLayer.DataObjects
         /// </summary>
 	    public COMI_DELEGA comiDelega { set; get; }
 
+        public int CargoId { set; get; }
+        public string DelegaId { set; get; }
+        
     }
 }

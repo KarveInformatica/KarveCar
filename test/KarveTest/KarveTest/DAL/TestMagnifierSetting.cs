@@ -57,10 +57,11 @@ namespace KarveTest.DAL
             return dto;
         }
         [Test]
-        public async void Should_Add_Magnifier_CurrentSettings()
+        public async Task Should_Add_Magnifier_CurrentSettings()
         {
             // prepare
             string path = @"TestSetting.xml";
+            
             GridSettingsDto dto = new GridSettingsDto();
             try
             {

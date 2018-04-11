@@ -12,6 +12,8 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 using Prism.Mvvm;
+using Syncfusion.UI.Xaml.Grid;
+
 namespace KarveCommon.Generic
 {
     /// <summary>
@@ -55,8 +57,6 @@ namespace KarveCommon.Generic
         /// </summary>
         protected PropertyChangedEventHandler AssistExecuted;
 
-
-
         /// <summary>
         ///  SqlQuery. This is an assist query.
         /// </summary>
@@ -73,6 +73,8 @@ namespace KarveCommon.Generic
         /// DataServices about grid parameters.
         /// </summary>
         protected IDataServices DataServices;
+
+        public IInteractionRequestController Controller { get; private set; }
 
         /// <summary>
         ///  Dialog service for showing the view model things.
@@ -97,7 +99,7 @@ namespace KarveCommon.Generic
         private KarveGridParameters _gridParm = new KarveGridParameters();
         private long _gridIdentifer = Int64.MinValue;
         private string _header;
-
+        private object _messageLock = new object();
         /// <summary>
         ///  empty constructor
         /// </summary>
@@ -109,7 +111,11 @@ namespace KarveCommon.Generic
         public KarveViewModelBase(IDataServices services)
         {
             DataServices = services;
-            AssistMapper = services.GetAssistDataServices().Mapper;
+            var assistDataService = services.GetAssistDataServices();
+            if (assistDataService != null)
+            {
+                AssistMapper = assistDataService.Mapper;
+            }
             HelperDataServices = services.GetHelperDataServices();
             InitViewModelState();
         }
@@ -117,10 +123,10 @@ namespace KarveCommon.Generic
         /// KarveViewModelBase. Base view model of the all structure
         /// </summary>
         /// <param name="services">DataServices to be used.</param>
-        public KarveViewModelBase(IDataServices services, IAssistService assistService): this(services)
+        public KarveViewModelBase(IDataServices services, IInteractionRequestController requestController) : this(services)
         {
             DataServices = services;
-            AssistService = assistService;
+            Controller = requestController;
             HelperDataServices = services.GetHelperDataServices();
         }
         /// <summary>
@@ -128,7 +134,7 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="services">DataServices to be used</param>
         /// <param name="dialogService">DialogServices to be used</param>
-        public KarveViewModelBase(IDataServices services, IAssistService assistService, IDialogService dialogService) : this(services,assistService)
+        public KarveViewModelBase(IDataServices services, IInteractionRequestController requestController, IDialogService dialogService) : this(services, requestController)
         {
             DialogService = dialogService;
         }
@@ -337,7 +343,46 @@ namespace KarveCommon.Generic
         {
             
         }
+        /// <summary>
+        ///  This function is a generic function to raise interaction request and select an item
+        /// </summary>
+        /// <typeparam name="Dto">Data Transfer Object to select</typeparam>
+        /// <typeparam name="Entity">Entity to select</typeparam>
+        /// <param name="title">Title of the dialogbox</param>
+        /// <param name="properties">Grid columns to filter</param>
+        /// <param name="item">Item selected from the column</param>
+        /// <param name="callback">Callback to be called</param>
+        
+       public async virtual Task OnAssistAsync<Dto, Entity>(string title, string properties, Action<Dto> callback)
+            where Dto : class
+            where Entity : class
+        {
+            IHelperDataServices services = DataServices.GetHelperDataServices();
+            var dtos = await services.GetMappedAllAsyncHelper<Dto, Entity>();
 
+            lock (_messageLock)
+            {
+                Controller.ShowAssistView<Dto>(title, dtos, properties);
+
+                if ((Controller.SelectedItem != null) && (Controller.SelectionState == SelectionState.OK))
+                {
+                    IList<object> items = Controller.SelectedItem as IList<object>;
+                    if (items != null)
+                    {
+                        var currentValue = items.FirstOrDefault();
+                        if (currentValue != null)
+                        {
+                            var rowInfo = currentValue as GridRowInfo;
+                            var dtoData = rowInfo.RowData as Dto;
+                            if (callback != null)
+                            {
+                                callback(dtoData);
+                            }
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// GridSettings.
         /// </summary>

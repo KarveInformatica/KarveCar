@@ -179,15 +179,19 @@ namespace MasterModule.ViewModels
         }
 
         public ICommand DelegationGridChangedCommand { set; get; }
+        
         /// <summary>
-        /// ProviderInfoViewModel. 
+        /// ProviderInfoViewModel.
         /// </summary>
         /// <param name="eventManager"></param>
         /// <param name="configurationService"></param>
         /// <param name="dataServices"></param>
+        /// <param name="dialogService"></param>
         /// <param name="manager"></param>
+        /// <param name="controller"></param>
         public ProviderInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
-             IDataServices dataServices, IDialogService dialogService, IAssistService assistService, IRegionManager manager) : base(eventManager, configurationService, dataServices, dialogService, assistService, manager)
+             IDataServices dataServices, IDialogService dialogService,
+             IRegionManager manager, IInteractionRequestController controller) : base(eventManager, configurationService, dataServices, dialogService, manager, controller)
         {
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;   

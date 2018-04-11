@@ -2,12 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestUIComponents"
         xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
         xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
+        xmlns:karveBehavior="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         mc:Ignorable="d"
-        Title="TestWindow" Height="300" Width="300">
+        Title="TestWindow" Height="300" Width="400">
     <Grid>
         <TabControl>
             <TabItem Header="TextControls"></TabItem>
@@ -15,6 +18,22 @@
                 <Grid>
                     <karveControls:HolidayCalendar></karveControls:HolidayCalendar>
                 </Grid>
+            </TabItem>
+            <TabItem Header="TestInteractionButton">
+                <Button>
+                    <i:Interaction.Behaviors>
+                        <karveBehavior:MagnifierButtonBehaviour 
+                            AssistName="Provincia"
+                            SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            RequestController="{Binding Controller, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            />
+                    </i:Interaction.Behaviors>
+                    
+                    <Button.Content>
+                            <TextBlock Text="Open interactive"></TextBlock>
+                    </Button.Content>
+                </Button>
             </TabItem>
         </TabControl>
     </Grid>

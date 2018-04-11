@@ -19,8 +19,7 @@ namespace KarveTest.ViewModels
                 _mockConfigurationService.Object,
                 _mockDataServices.Object,
                 _mockDialogService.Object,
-                _mockAssistService.Object,
-                _mockRegionManager.Object);
+                _mockRegionManager.Object, _mockRequestController.Object);
         }
         [Test]
         public void Should_Setup_Fare()

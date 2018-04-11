@@ -11,7 +11,7 @@ namespace KarveDataServices.DataTransferObject
     public class BranchesDto : BaseDto
     {
         private ProvinciaDto _provinciadto;
-        private ProvinciaDto _provincia;
+        private object _provincia;
 
         public BranchesDto()
         {
@@ -70,7 +70,7 @@ namespace KarveDataServices.DataTransferObject
         public object ProvinceSource {
             set
             {
-               // _provincia = value as ProvinciaDto; 
+                _provincia = value; 
                 RaisePropertyChanged();
             }
             get

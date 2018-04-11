@@ -38,19 +38,21 @@ namespace InvoiceModule.ViewModels
         private IUnityContainer _container;
         private IRegionManager _detailsRegionManager;
 
-    /// <summary>
-    /// Control view for the invoice.
-    /// </summary>
-    /// <param name="dataServices">DataServices. This service provide access to the data layer</param>
-    /// <param name="service">Dialog service. This service is used to show modal errors.</param>
-    /// <param name="manager">Region Manager. This service is used to compose regions.</param>
-    /// <param name="eventManager">Event Manager. This service is used to communicate with other viewmodels.</param>
+   /// <summary>
+   /// Control the invoce control view model.
+   /// </summary>
+   /// <param name="dataServices">Data Services</param>
+   /// <param name="container">Unity container</param>
+   /// <param name="service">Service</param>
+   /// <param name="manager">Region Manager</param>
+   /// <param name="requestService">Request service</param>
+   /// <param name="eventManager">Event manager</param>
     public InvoiceControlViewModel(IDataServices dataServices,
                                    IUnityContainer container,
                                    IDialogService service,
                                    IRegionManager manager,
-                                   IAssistService assistService,
-                                   IEventManager eventManager): base(dataServices,assistService, service, eventManager)
+                                   IInteractionRequestController requestService,
+                                   IEventManager eventManager): base(dataServices,requestService, service, eventManager)
         {
             _regionManager = manager;
             _isBusy = false;
