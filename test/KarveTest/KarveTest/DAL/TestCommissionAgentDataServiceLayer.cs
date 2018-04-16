@@ -377,7 +377,7 @@ namespace KarveTest.DAL
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
             ComisioDto internalValue = (ComisioDto) commissionAgent.Value;
-            IEnumerable<BranchesDto> branchesDto = commissionAgent.DelegationDto;
+            IEnumerable<BranchesDto> branchesDto = commissionAgent.BranchesDto;
             IEnumerable<ContactsDto> contactsDtos = commissionAgent.ContactsDto;
             IEnumerable<VisitsDto> visitsDtos = commissionAgent.VisitsDto;
             internalValue.NOMBRE = "Karve2Comission";

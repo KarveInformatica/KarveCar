@@ -3,6 +3,7 @@ using KarveCommonInterfaces;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;
 using Prism.Regions;
+using System.Threading.Tasks;
 
 namespace MasterModule.ViewModels
 {
@@ -45,6 +46,26 @@ namespace MasterModule.ViewModels
         {
             payLoad.Subsystem = DataSubSystem.FareSubsystem;
            
+        }
+
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <summary>

@@ -142,6 +142,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elige campo...
+        /// </summary>
+        public static string ComboAdvChangeBehavior_OnDetaching_EligeCampo {
+            get {
+                return ResourceManager.GetString("ComboAdvChangeBehavior_OnDetaching_EligeCampo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Commisiones.
         /// </summary>
         public static string Commisiones {
@@ -5245,6 +5254,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Seleccione .
+        /// </summary>
+        public static string lselectItem {
+            get {
+                return ResourceManager.GetString("lselectItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Si es cliente es agencia.
         /// </summary>
         public static string lsiesclienteesagencia {
@@ -5416,6 +5434,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Texto.
+        /// </summary>
+        public static string ltext {
+            get {
+                return ResourceManager.GetString("ltext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo.
         /// </summary>
         public static string ltipo {
@@ -5466,6 +5493,15 @@ namespace KarveLocale.Properties {
         public static string ltiposeguro {
             get {
                 return ResourceManager.GetString("ltiposeguro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo visita.
+        /// </summary>
+        public static string ltipovisita {
+            get {
+                return ResourceManager.GetString("ltipovisita", resourceCulture);
             }
         }
         

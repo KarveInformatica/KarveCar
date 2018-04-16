@@ -240,33 +240,34 @@ namespace MasterModule.ViewModels
         ///  Primary key on contacts.
         /// </summary>
         private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
-
+        /// <summary>
+        /// Primary key on visits.
+        /// </summary>
+        private event SetPrimaryKey<VisitsDto> _onVisitPrimaryKey;
+ 
         public ICommand PrintAssociate { set; get; }
-
         public ICommand DelegationChangedRowsCommand { set; get; }
-
         private IRegionManager _regionManager;
+
         private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
         private string _mailBoxName;
         private IEnumerable<CommissionTypeDto> _brokerType;
         
 
-
-        //
-        // A part of the ui is made up different objects inserted in a observable collection.
-        //
         /// <summary>
-        /// ViewModel for the commission agent. 
+        /// Commision agent info view model.
         /// </summary>
-        /// <param name="configurationService">The configuration service will be used in this case</param>
-        /// <param name="eventManager">Event manager</param>
-        /// <param name="services">Services to be used</param>
-
+        /// <param name="configurationService"></param>
+        /// <param name="eventManager"></param>
+        /// <param name="services"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="controller"></param>
         public CommissionAgentInfoViewModel(IConfigurationService configurationService,
                                             IEventManager eventManager,
                                             IDataServices services,
                                             IDialogService dialogService,
-                                            IRegionManager regionManager,                                                 IInteractionRequestController controller
+                                            IRegionManager regionManager,                                                        IInteractionRequestController controller
                                             ) : base(eventManager, 
                                                 configurationService,
                                                 services,
@@ -280,6 +281,9 @@ namespace MasterModule.ViewModels
             _visibility = Visibility.Collapsed;
             _commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             _regionManager = regionManager;
+            _onBranchesPrimaryKey += CommissionAgentInfoViewModel__onBranchesPrimaryKey;
+            _onContactsPrimaryKey += CommissionAgentInfoViewModel__onContactsPrimaryKey;
+            _onVisitPrimaryKey += CommissionAgentInfoViewModel__onVisitPrimaryKey;
             IsVisible = Visibility.Collapsed;
             AssistQueryDictionary = new Dictionary<string, string>();
             PrimaryKeyValue = string.Empty;
@@ -292,8 +296,6 @@ namespace MasterModule.ViewModels
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
         }
-        
-
 
 
         /// <summary>
@@ -340,14 +342,15 @@ namespace MasterModule.ViewModels
             RaisePropertyChanged("DataObject");
             RaisePropertyChanged("DataObject.ContactsDto");
         }
+
         /// <summary>
         ///  Set Branch province
         /// </summary>
         /// <param name="province">It allows the province branch.</param>
         /// <param name="branchesDto">It allows the branches dto.</param>
-        public override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
+        internal override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
         {
-            var delegation = DataObject.DelegationDto;
+            var delegation = DataObject.BranchesDto;
 
             Dictionary<string, object> ev = new Dictionary<string, object>();
             ev["DataObject"] = DataObject;
@@ -385,8 +388,6 @@ namespace MasterModule.ViewModels
             // craft the event dictionary.
             await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);   
         }
-
-        public ICommand ProvinceMagnifierCommand {set; get;}
         private void OnPrintCommand(object obj)
         {
         }
@@ -397,17 +398,22 @@ namespace MasterModule.ViewModels
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
         }
-
+        // TODO: remove duplications.
         private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
         {
+            primaryKey.CodeId = PrimaryKeyValue;
             primaryKey.ContactsKeyId = PrimaryKeyValue;
         }
-
         private void CommissionAgentInfoViewModel__onBranchesPrimaryKey(ref BranchesDto primaryKey)
         {
+            primaryKey.CodeId = PrimaryKeyValue;
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
-
+        private void CommissionAgentInfoViewModel__onVisitPrimaryKey(ref VisitsDto primaryKey)
+        {
+            primaryKey.CodeId = PrimaryKeyValue;
+            primaryKey.KeyId = PrimaryKeyValue;
+        }
         private void ItemChangedHandler(object obj)
         {
             _changeTask = NotifyTaskCompletion.Create(HandleChangedHandler(obj), changedTaskEvent);   
@@ -796,8 +802,10 @@ namespace MasterModule.ViewModels
             }
             else
             {
-                agent = await _commissionAgentDataServices.GetCommissionAgentDo(primaryKeyValue);
+                agent = await _commissionAgentDataServices.GetCommissionAgentDo(primaryKeyValue).ConfigureAwait(false);
+               
             }
+           
             return agent;
         }
 
@@ -1004,17 +1012,18 @@ namespace MasterModule.ViewModels
                 Country = _commissionAgentDo.CountryDto;
                 Products = _commissionAgentDo.ProductsDto;
                 Language = _commissionAgentDo.LanguageDto;  
-                Delegation = _commissionAgentDo.DelegationDto;
+                Delegation = _commissionAgentDo.BranchesDto;
                 TipoComission = _commissionAgentDo.CommisionTypeDto;
                 ClientOne = _commissionAgentDo.ClientsDto;
                 CityDto = _commissionAgentDo.CityDtos;
                 // configure branches command.
-                ConfigureBranchesCommand(_commissionAgentDo.DelegationDto);
+                ConfigureBranchesCommand(_commissionAgentDo.BranchesDto);
                 // configure contacts command.
                 ConfigureContactsCommand(_commissionAgentDo.ContactsDto);
 				// configure visits command.
 				ConfigureVisitsCommand(_commissionAgentDo.VisitsDto);
                 DataObject = _commissionAgentDo;
+                VisitTypeDto = _commissionAgentDo.VisitTypeDto;
                 RaisePropertyChanged("DataObject");
 
 
@@ -1103,8 +1112,56 @@ namespace MasterModule.ViewModels
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
             AssistCommand = new DelegateCommand<object>(MagnifierCommandHandler);
             MagnifierCommand = new DelegateCommand<object>(MagnifierCommandHandler);
-            ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
-            ProvinceMagnifierCommand = DelegationProvinceMagnifierCommand;   
+            ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);  
         }
+
+        internal override async Task SetClientData(ClientSummaryExtended p, VisitsDto visitsDto)
+        {
+        
+            var ev = CreateGridEvent<ClientSummaryExtended, VisitsDto>(p, visitsDto,  DataObject.VisitsDto, this.ClientMagnifierCommand);
+            visitsDto.ClientId = PrimaryKeyValue;
+            var newList = new List<VisitsDto>();
+            newList.Add(visitsDto);
+
+            var mergedList = DataObject.VisitsDto.Union<VisitsDto>(newList);
+            DataObject.VisitsDto = mergedList;
+            ev["DataObject"] = DataObject;
+            // craft the event dictionary.
+            await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+        }
+
+        internal override async Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+          
+            var ev = CreateGridEvent<ContactsDto, VisitsDto>(p, visitsDto, DataObject.VisitsDto, this.ContactMagnifierCommand);
+            visitsDto.ClientId = PrimaryKeyValue;
+            var newList = new List<VisitsDto>();
+            newList.Add(visitsDto);
+            var mergedList = DataObject.VisitsDto.Union<VisitsDto>(newList);
+            DataObject.VisitsDto = mergedList;
+            ev["DataObject"] = DataObject;
+            // Notify the toolbar.
+            await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+          //  RaisePropertyChanged("DataObject");
+          //  RaisePropertyChanged("DataObject.VisitDto");
+        }
+
+        internal override async Task SetVisitReseller(ResellerDto param, VisitsDto visitsDto)
+        {
+            var ev = CreateGridEvent<ResellerDto, VisitsDto>(param, visitsDto, DataObject.VisitsDto, this.ResellerMagnifierCommand);
+            visitsDto.ClientId = PrimaryKeyValue;
+            ev["DataObject"] = DataObject;
+            var newList = new List<VisitsDto>();
+            newList.Add(visitsDto);
+            var mergedList = DataObject.VisitsDto.Union<VisitsDto>(newList);
+            DataObject.VisitsDto = mergedList;
+
+            // craft the event dictionary.
+            await GridChangedNotification<VisitsDto, VENDEDOR>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+            RaisePropertyChanged("DataObject");
+            RaisePropertyChanged("DataObject.VisitDto");
+        }
+
+        
     }
 }

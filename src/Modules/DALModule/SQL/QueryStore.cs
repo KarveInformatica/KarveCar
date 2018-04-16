@@ -130,7 +130,8 @@ namespace DataAccessLayer.SQL
             {QueryType.QuerySellerSummary, "select NUM_VENDE, NOMBRE, DIRECCION, POBLACION, VENDEDOR.CP, PR.PROV as PROVINCIA, TELEFONO,MOVIL FROM VENDEDOR left outer join provincia as pr on pr.SIGLAS = VENDEDOR.PROVINCIA" },
             {QueryType.QueryCommissionAgentSummary, "SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, PROVINCIA.CP as Zip, POBLACION as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;"},
             { QueryType.QueryBrokerContacts, "SELECT CONTACTO,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CARGO, PG.NOMBRE AS NOM_CARGO, TELEFONO, MOVIL, FAX, EMAIL, CC.USUARIO, CC.ULTMODI, DL.CLDIDDELEGA as DelegaId, cldDelegacion DELEGACC_NOM FROM CONTACTOS_COMI AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.CARGO = PG.CODIGO LEFT OUTER JOIN COMI_DELEGA AS DL ON CC.DELEGA_CC = DL.CLDIDDELEGA AND CC.COMISIO = DL.CLDIDCOMI WHERE COMISIO = '{0}' ORDER BY CC.CONTACTO;" },
-            { QueryType.QueryResellerByClient, "SELECT visIdVisita as VisitId,visIdCliente as ClientId,visIdContacto as VisitClientId,visFecha as VisitDate,visIdVendedor as VisitResellerId,visIdVisitaTipo as VisitTypeId,PEDIDO as VisitOrder, PV.CONTACTO as ContactId,TV.CODIGO_VIS as VisitCode, NUM_VENDE as ResellerId, PV.nom_contacto AS ContactName, VE.NOMBRE as ResellerName, VE.MOVIL as ResellerCellPhone FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON PV.COMISIO = CC.VISIDCLIENTE AND PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE='{0}' ORDER BY CC.visFECHA;"}
+            { QueryType.QueryResellerByClient, "SELECT visIdVisita as VisitId,visIdCliente as ClientId,visIdContacto as VisitClientId,visFecha as VisitDate,visIdVendedor as VisitResellerId,visIdVisitaTipo as VisitTypeId,PEDIDO as VisitOrder, PV.CONTACTO as ContactId,TV.CODIGO_VIS as VisitCode, TV.NOMBRE_VIS as VisitTypeName, TV.ULTMODI as VisitTypeLastModification, TV.USUARIO as VisitTypeUser , NUM_VENDE as ResellerId, PV.nom_contacto AS ContactName, VE.NOMBRE as ResellerName, VE.MOVIL as ResellerCellPhone FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON PV.COMISIO = CC.VISIDCLIENTE AND PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE='{0}' ORDER BY CC.visFECHA;"},
+            { QueryType.QuerySupplierById, "SELECT PROVEE1.NUM_PROVEE as NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,DIREC2,CP,PROVEE2.COMERCIAL,PROVEE2.PREFIJO,PROVEE2.CONTABLE,PROVEE2.FORPA,PROVEE2.PLAZO,PROVEE2.PLAZO2,PROVEE2.PLAZO3,PROVEE2.DIA,PROVEE2.PALBARAN, PROVEE2.INTRACO,PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO,POBLACION,PROV,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA,          SUBLICEN,GESTION_IVA_IMPORTA,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA,MESVACA2,CC,IBAN,BANCO,SWIFT,IDIOMA_PR1,GESTION_IVA_IMPORTA,NOAUTOMARGEN,PROALB_COSTE_TRANSP,EXENCIONES_INT,CTALP,CONTABLE,CUGASTO,RETENCION,CTAPAGO,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO,CP_PAGO,POB_PAGO, PROV_PAGO,PAIS_PAGO,TELF_PAGO,FAX_PAGO, PERSONA_PAGO,MAIL_PAGO,DIR_DEVO,     DIR2_DEVO,POB_DEVO,CP_DEVO,PROV_DEVO,PAIS_DEVO,TELF_DEVO,FAX_DEVO,PERSONA_DEVO,MAIL_DEVO, DIR_RECLAMA,DIR2_RECLAMA,                                         CP_RECLAMA,POB_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6,CTAINTRACOP,ctaintracoPRep FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'"}
         };
         
         /// <summary>
@@ -264,16 +265,25 @@ namespace DataAccessLayer.SQL
             _memoryStore.Clear();
             return value;
         }
-
+        /// <summary>
+        ///  Clear the query store.
+        /// </summary>
         public void Clear()
         {
             _memoryStore.Clear();
         }
+        /// <summary>
+        ///  Add a parameter for the query type.
+        /// </summary>
+        /// <param name="query">Query type</param>
         public void AddParam(QueryType query)
         {
             _memoryStore.Add(query, string.Empty);
         }
-
+        /// <summary>
+        ///  Get an instanct of the query store
+        /// </summary>
+        /// <returns>An instance of the query store</returns>
         public static QueryStore GetInstance()
         {
             var qs = new QueryStore();

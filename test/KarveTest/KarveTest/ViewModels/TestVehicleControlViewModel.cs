@@ -60,7 +60,7 @@ namespace KarveTest.ViewModels
             Assert.AreSame(viewModel.Count<VehicleSummaryDto>(),4);
         }
         [Test]
-        public void Should_Open_A_New_ItemCorrectly()
+        public void Should_Open_AVehicleCorrectly()
         {
             bool navigateCalled = false;
             // arrange
@@ -79,7 +79,7 @@ namespace KarveTest.ViewModels
             summaryItem.Brand = "FIAT";
             command.Execute(summaryItem);
             // assert
-            Assert.AreSame(navigateCalled, true);
+            Assert.IsTrue(navigateCalled);
         }
     }
 }

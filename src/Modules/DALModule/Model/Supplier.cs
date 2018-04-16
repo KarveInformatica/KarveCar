@@ -20,6 +20,7 @@ using KarveCommon.Generic;
 using KarveDapper.Extensions;
 using NLog;
 using Prism.Mvvm;
+using DataAccessLayer.Crud;
 
 namespace DataAccessLayer.Model
 {
@@ -144,6 +145,10 @@ namespace DataAccessLayer.Model
         private IEnumerable<CityDto> _cityDtos = new ObservableCollection<CityDto>();
         private IEnumerable<DeliveringFormDto> _deliveringFormDto;
 
+        public Supplier()
+        {
+
+        }
         public Supplier(ISqlExecutor executor)
         {
             _sqlExecutor = executor;
@@ -427,7 +432,7 @@ namespace DataAccessLayer.Model
                 this.Value.NUM_PROVEE);
             await connection.ExecuteAsync(deleteAll);
             IMapper tmpMapper = MapperField.GetMapper();
-            foreach (var branch in this.BranchesDtos)
+            foreach (var branch in this.BranchesDto)
             {
                 ProDelega delega = tmpMapper.Map<BranchesDto, ProDelega>(branch);
                 delega.cldIdCliente = this.Value.NUM_PROVEE;
@@ -461,7 +466,7 @@ namespace DataAccessLayer.Model
                 this.Value.NUM_PROVEE);
             await connection.ExecuteAsync(deleteAll);
 
-            foreach (var c in this.ContactsDtos)
+            foreach (var c in this.ContactsDto)
             {
                 ProContactos cont = new ProContactos();
                 cont.ccoCargo = c.Responsability;
@@ -571,7 +576,7 @@ namespace DataAccessLayer.Model
 
         }
 
-
+//  TODO: Refactor this like the client loader. Too many queries.
 
         public async Task<bool> LoadValue(IDictionary<string, string> fields, string code)
         {
@@ -629,12 +634,12 @@ namespace DataAccessLayer.Model
                     
                     var tmp = _supplierMapper.Map<IEnumerable<ProDelega>, IEnumerable<BranchesDto>>(branches);
                     AdjustBranchWithProvince(ref tmp, ProvinciaDtos);
-                    BranchesDtos = tmp;
+                    BranchesDto = tmp;
                     var contacts =
                         await BuildAndExecute<ProContactos>(connection, GenericSql.ContactsQuery,
                             _supplierValue.NUM_PROVEE);
                     
-                    ContactsDtos = _supplierMapper.Map<IEnumerable<ProContactos>, IEnumerable<ContactsDto>>(contacts);
+                    ContactsDto = _supplierMapper.Map<IEnumerable<ProContactos>, IEnumerable<ContactsDto>>(contacts);
                     var months = await connection.QueryAsync<MESES>(MonthsSelect);
                     MonthsDtos = _supplierMapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(months);
                     var languages = await connection.QueryAsync<IDIOMAS>(LanguageSelect);
@@ -677,9 +682,10 @@ namespace DataAccessLayer.Model
                 }
                 catch (System.Exception e)
                 {
-                    throw new DataLayerExecutionException("Cannot load supplier " + e.Message);
+                    throw new DataLayerException("Cannot load supplier " + e.Message);
                 }
             }
+          
             return Valid;
         }
 
@@ -805,13 +811,13 @@ namespace DataAccessLayer.Model
             get { return _officeDtos; }
             set { _officeDtos = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<BranchesDto> BranchesDtos
+        public IEnumerable<BranchesDto> BranchesDto
         {
             get { return _branchesDtos; }
             set { _branchesDtos = value; RaisePropertyChanged(); }
         }
         public IEnumerable<ContactsDto>
-            ContactsDtos
+            ContactsDto
         {
             get { return _contactsDtos; }
             set { _contactsDtos = value; RaisePropertyChanged(); }
@@ -827,7 +833,7 @@ namespace DataAccessLayer.Model
             set { _paymentFormDtos = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<VisitsDto> VisitsDtos { get; set; }
+        public IEnumerable<VisitsDto> VisitsDto { get; set; }
 
         public IEnumerable<LanguageDto> LanguageDtos
         {

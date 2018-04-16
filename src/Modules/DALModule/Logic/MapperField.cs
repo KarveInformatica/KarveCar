@@ -831,7 +831,6 @@ namespace DataAccessLayer.Logic
     /// </summary>
     public class VisitaCommissionConverter : ITypeConverter<VisitasComiPoco, VisitsDto>
     {
-
         public VisitsDto Convert(VisitasComiPoco source, VisitsDto destination, ResolutionContext context)
         {
             VisitsDto visitsDto = new VisitsDto();
@@ -841,13 +840,17 @@ namespace DataAccessLayer.Logic
             visitsDto.Date = source.VisitDate;
             visitsDto.SellerId = source.ResellerId;
             visitsDto.VisitId = source.VisitId;
-            visitsDto.VisitType = source.VisitTypeId;
+            visitsDto.VisitType = new VisitTypeDto();
+            visitsDto.VisitType.Code = source.VisitTypeId;
+            visitsDto.VisitType.Name = source.VisitTypeName;
+            visitsDto.VisitType.LastModification = source.VisitTypeLastModification;
+            visitsDto.VisitType.User = source.VisitTypeUser;
             visitsDto.SellerSource = new ResellerDto();
             visitsDto.SellerSource.Code = source.ResellerId;
             visitsDto.SellerSource.Name = source.ResellerName;
             visitsDto.SellerSource.CellPhone = source.ResellerCellPhone;
-            visitsDto.LastModification = source.LastModification;
             visitsDto.User = source.User;
+            visitsDto.LastModification = source.LastModification;
             return visitsDto;
         }
     }
@@ -895,7 +898,7 @@ namespace DataAccessLayer.Logic
         {
             VISITAS_COMI comiVisita = new VISITAS_COMI();
             comiVisita.visIdCliente = source.VisitClientId;
-            comiVisita.visIdContacto = source.VisitContactId;
+            comiVisita.visIdContacto = source.ContactId;
             comiVisita.visAlta = source.VisitMembershipDate;
             comiVisita.visFecha = source.VisitDate;
             comiVisita.visIdVendedor = source.ResellerId;
@@ -973,6 +976,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ComisioDto, COMISIO>();
                 cfg.CreateMap<COMISIO, ComisioDto>();
                 cfg.CreateMap<VisitasComiPoco, VISITAS_COMI>().ConvertUsing(new VisitComiToVisit());
+               
                 cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
                 cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
                 cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
@@ -997,6 +1001,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+               
                 cfg.CreateMap<InvoiceDto, FACTURAS>().ConvertUsing(src =>
                 {
                     var value = new FACTURAS();
@@ -1081,6 +1086,37 @@ namespace DataAccessLayer.Logic
                     tipoComi.User = src.USUARIO;
                     */
                     return visits;
+                });
+                cfg.CreateMap<VisitsDto, VISITAS_COMI>().ConstructUsing(src =>
+                {
+                    var visit = new VISITAS_COMI();
+                    visit.visIdCliente = src.ClientId;
+                    visit.visIdContacto = src.ContactId;
+                    visit.visIdObra = src.WorkId;
+                    if (src.SellerSource != null)
+                    {
+                        visit.visIdVendedor = src.SellerSource.Code;
+                    }
+                    visit.visIdVisita = src.VisitId;
+                    if (src.VisitType!=null)
+                    {
+                        visit.visIdVisitaTipo = src.VisitType.Code;
+                    }
+                    visit.visTexto = src.Text;
+                    visit.visAlta = src.StartingDate;
+                    visit.visFecha = src.Date;
+                    visit.visMinutos = src.Minutes;
+                    visit.EMAIL = src.Email;
+                    if (src.IsOrder)
+                    {
+                        visit.PREAVISO =0;
+                    }
+                    else
+                    {
+                        visit.PREAVISO =1;
+                    }
+                    
+                    return visit;
                 });
                 cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
                 {

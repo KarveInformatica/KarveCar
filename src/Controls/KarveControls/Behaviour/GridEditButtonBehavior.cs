@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interactivity;
+
 
 namespace KarveControls.Behaviour
 {
-    public class GridEditButtonBehavior: Behavior<Button>
+    public class GridEditButtonBehavior: KarveBehaviorBase<Button>
     {
         private bool _shallShow = false;
         /// <summary>
@@ -51,34 +51,12 @@ namespace KarveControls.Behaviour
         }
 
         public static readonly DependencyProperty sourceViewProperty = DependencyProperty.Register("SourceView", typeof(object), typeof(GridEditButtonBehavior),
-          new UIPropertyMetadata(null, OnSourceViewChanged));
+          new UIPropertyMetadata(null));
 
 
         public static readonly DependencyProperty openGridProperty = DependencyProperty.Register("OpenGrid", typeof(bool), typeof(GridEditButtonBehavior));
 
-        /// <summary>
-        /// Set or Get the source view changed.
-        /// </summary>
-        /// <param name="d">Dependency Object</param>
-        /// <param name="e">Event changed</param>
-        private static void OnSourceViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            GridEditButtonBehavior buttonGrid = d as GridEditButtonBehavior;
-            if (buttonGrid!=null)
-            {
-                buttonGrid.OnSourceChanged(buttonGrid, e);
-            }
-        }
-        /// <summary>
-        ///  OnSourceChanged.
-        /// </summary>
-        /// <param name="bt">GridEditButtonBehavior</param>
-        /// <param name="e">Event parameter.</param>
-        public void OnSourceChanged(GridEditButtonBehavior bt, DependencyPropertyChangedEventArgs e)
-        {
-            BaseDto dto = e.NewValue as BaseDto;
-
-        }
+       
         /// <summary>
         /// Set or Get the command property.
         /// </summary>
@@ -98,37 +76,35 @@ namespace KarveControls.Behaviour
         /// <summary>
         ///  OnAttached property. Attach the property to an item.
         /// </summary>
-        protected override void OnAttached()
-        {
-            base.OnAttached();
+        protected override void OnSetup()
+        { 
             this.AssociatedObject.MouseDoubleClick += AssociatedObject_Click;   
         }
 
         private void AssociatedObject_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            Button currentButton = sender as Button;
             ICommand command = Command;
-            if (!_shallShow)
-            {
+           
                 if (command != null)
                 {
                     var v = Param;
+                    if (v == null)
+                    {
+                        v = currentButton.DataContext;
+                    }
+                    
                     
                     command.Execute(v);
                 }
-                _shallShow = true;
-            }
-            else
-            {
-                _shallShow = false;
-            }
         }
 
         /// <summary>
         ///  Detach the attached values.
         /// </summary>
-        protected override void OnDetaching()
+        protected override void OnCleanup()
         {
-            base.OnDetaching();
+            this.AssociatedObject.MouseDoubleClick -= AssociatedObject_Click;
         }
 
 

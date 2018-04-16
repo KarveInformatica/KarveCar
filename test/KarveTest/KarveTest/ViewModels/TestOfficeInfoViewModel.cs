@@ -19,7 +19,8 @@ namespace KarveTest.ViewModels
         private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
         private Mock<IInteractionRequestController> _interactionRequest = new Mock<IInteractionRequestController>();
         private CompanyInfoViewModel _companyInfoViewModel = null;
-        public TestOfficeInfoViewModel()
+        [OneTimeSetUp]
+        public void Setup()
         {
             _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices, _mockDialogService.Object,_regionManager.Object, _interactionRequest.Object);
         }
@@ -40,8 +41,7 @@ namespace KarveTest.ViewModels
             DataPayLoad dataPayLoad = new NullDataPayload();
             _companyInfoViewModel.IncomingPayload(dataPayLoad);
             var outObject = _companyInfoViewModel.DataObject;
-            Assert.NotNull(outObject);
-            Assert.Equals(outObject.CODIGO, outObject.CODIGO);
+            Assert.Null(outObject);
         }
         [Test]
         public void Shall_Refuse_An_Incoming_Payload_WithNullDO()

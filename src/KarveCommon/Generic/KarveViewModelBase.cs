@@ -399,12 +399,8 @@ namespace KarveCommon.Generic
             where Entity : class
         {
             IHelperDataServices services = DataServices.GetHelperDataServices();
-            var dtos = await services.GetMappedAllAsyncHelper<Dto, Entity>();
-
-            lock (_messageLock)
-            {
-                ShowDataTransferObjects<Dto>(dtos, title, properties, callback);
-            }
+            var dtos = await services.GetMappedAllAsyncHelper<Dto, Entity>().ConfigureAwait(false);
+            ShowDataTransferObjects<Dto>(dtos, title, properties, callback);            
         }
         /// <summary>
         /// GridSettings.
@@ -432,5 +428,7 @@ namespace KarveCommon.Generic
             get { return _sqlQuery; }
 
         }
+      
+
     }
 }

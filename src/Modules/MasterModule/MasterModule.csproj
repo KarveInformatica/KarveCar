@@ -214,6 +214,7 @@
     <Compile Include="Common\ContactsValidationBehavior.cs" />
     <Compile Include="Common\DataSetUtilities.cs" />
     <Compile Include="Common\DelegationValidationBehavior.cs" />
+    <Compile Include="Common\GridMagnifierHandler.cs" />
     <Compile Include="Common\IChangeHandler.cs" />
     <Compile Include="Common\MaintenanceValidationBehaviour.cs" />
     <Compile Include="Common\MasterModuleConstants.cs" />
@@ -671,17 +672,17 @@
       <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
       <Name>KarveDapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Controls\KarveControls\KarveControls.csproj">
+    <ProjectReference Include="..\..\Controls\KarveControls\KarveCar.Controls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
-      <Name>KarveControls</Name>
+      <Name>KarveCar.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+    <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
-      <Name>KarveCommonInterfaces</Name>
+      <Name>KarveCar.CommonInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KarveLocale\KarveLocale.csproj">
+    <ProjectReference Include="..\..\KarveLocale\KarveCar.Locale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
-      <Name>KarveLocale</Name>
+      <Name>KarveCar.Locale</Name>
     </ProjectReference>
     <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
       <Project>{140c1044-4f56-4855-af52-a2f91b369460}</Project>
@@ -691,9 +692,13 @@
       <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
+    <ProjectReference Include="..\..\KarveCommon\KarveCar.Common.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
-      <Name>KarveCommon</Name>
+      <Name>KarveCar.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HelperModule\HelperModule.csproj">
+      <Project>{4eaa0821-1dcd-4e61-ba42-05bfd973a399}</Project>
+      <Name>HelperModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

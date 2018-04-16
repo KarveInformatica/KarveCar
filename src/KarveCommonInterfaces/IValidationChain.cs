@@ -7,6 +7,6 @@ namespace KarveCommonInterfaces
     {
         bool Validate(T entity);
         IList<string> Errors { set; get; }
-       // QueryStore Store { get; set; }
+
     }
 }

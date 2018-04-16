@@ -35,6 +35,7 @@ namespace KarveTest.DAL
                 _mockSqlExecutor = new Mock<ISqlExecutor>();
                 _mockedDataService = new DataServiceImplementation(_mockSqlExecutor.Object);
                 _dataServices = new DataServiceImplementation(_sqlExecutor);
+                _clientDataServices = _dataServices.GetClientDataServices();
                 Assert.NotNull(_sqlExecutor);
                 Assert.NotNull(_dataServices);
             }

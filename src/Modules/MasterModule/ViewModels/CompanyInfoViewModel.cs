@@ -16,11 +16,22 @@ using System.Threading.Tasks;
 
 namespace MasterModule.ViewModels
 {
-    // This view model is useful fro 
+    /// <summary>
+    ///  This view model handles the view of company form.
+    /// </summary>
   internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
         private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="eventManager"></param>
+        /// <param name="configurationService"></param>
+        /// <param name="dataServices"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="manager"></param>
+        /// <param name="controller"></param>
         public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, 
             IDialogService dialogService,
             IRegionManager manager,
@@ -337,7 +348,27 @@ namespace MasterModule.ViewModels
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.CompanySubSystemName, this);
         }
 
-        
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
         #endregion
 
         #region Private Fields

@@ -5,13 +5,11 @@ using Dapper;
 using DataAccessLayer.Crud.Clients;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
-using KarveCommon.Generic;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.SQL;
-using System.Diagnostics;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -149,7 +147,6 @@ namespace DataAccessLayer
 
         /// <summary>
         ///  Value to save in the client data.
-        ///  REMARK: in this case the domain wrapper does the job, this might change in future because it is coupled.
         /// </summary>
         /// <param name="clientData"></param>
         /// <returns>True if the data has been saved correctly</returns>

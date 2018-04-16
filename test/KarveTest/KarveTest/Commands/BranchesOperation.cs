@@ -26,7 +26,27 @@ namespace KarveTest.Commands
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
            
-        }  
+        }
+
+        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
     }
     [TestFixture]
     public class BranchesOperation

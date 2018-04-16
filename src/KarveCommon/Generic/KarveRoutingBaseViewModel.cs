@@ -11,7 +11,12 @@ namespace KarveCommon.Generic
 {
     /* 
      *  This class has the single responsability to provide common primitives
-     *  for routing messages between view models and communication.
+     *  for routing messages between view models and communication. Between view model
+     *  we have an event manager. Event manager has the resposabilities to:
+     *  1. Implement a mailbox system. 
+     *     A mailbox system is a direct messaging mechanisms between view models.
+     *  2. Implement a observer for each subsystem
+     *  3. Implement toolbar notification.
      *  
      */
     public abstract class KarveRoutingBaseViewModel : KarveViewModelBase
@@ -107,6 +112,7 @@ namespace KarveCommon.Generic
         {
             if (MailBoxHandler != null)
             {
+               
                 EventManager.RegisterMailBox(mailboxName, MailBoxHandler);
             }
 
@@ -121,6 +127,7 @@ namespace KarveCommon.Generic
             if (MailBoxHandler != null)
             {
                 EventManager.DeleteMailBoxSubscription(mailboxName);
+                
             }
         }
         /// <summary>

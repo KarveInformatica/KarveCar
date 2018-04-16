@@ -19,7 +19,10 @@
         /// <summary>
         ///  ContactName
         /// </summary>
-        public string ContactName { set; get; }
+        public string ContactName
+        {
+            get; set;
+        }
         /// <summary>
         ///  Nif
         /// </summary>
@@ -80,7 +83,16 @@
         /// </summary>
         public string CurrentDelegation { get; set; }
         [PrimaryKey]
-        public string ContactId { get; set; }
+        public string ContactId {
+            get
+            {
+                return base.CodeId;
+            }
+            set
+            {
+                base.CodeId = value;
+            }
+        }
         /// <summary>
         ///  State.
         /// </summary>

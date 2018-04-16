@@ -380,6 +380,7 @@ namespace MasterModule.ViewModels
              get { return _vehicleRevision; }
             set { _vehicleRevision = value; RaisePropertyChanged(); }
         }
+        // TODO: using the configure
         private async void AssistCommandHelper(object param)
         {
             IDictionary<string, string> values = param as Dictionary<string, string>;
@@ -792,15 +793,6 @@ namespace MasterModule.ViewModels
             }
             
         }
-
-        public override void NewItem()
-        {
-        }
-        protected override void SetTable(DataTable table)
-        {
-           
-        }
-
         /// <summary>
         ///  This method set the registration payload.
         /// </summary>
@@ -809,9 +801,6 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
-        }
-        protected override void SetDataObject(object result)
-        {
         }
 
         /// <summary>
@@ -1085,6 +1074,26 @@ namespace MasterModule.ViewModels
                 }
             }
 
+        }
+
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new NotImplementedException();
         }
     }
 }

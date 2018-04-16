@@ -87,6 +87,7 @@
     <Compile Include="Assist\IAssist.cs" />
     <Compile Include="Assist\IAssistHandler.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
+    <Compile Include="DataObjects\IHelperMasterCommon.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
     <Compile Include="DataTransferObject\BrokerDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="DataTransferObject\OfficeSummaryDto.cs" />
     <Compile Include="DataTransferObject\OrigenDto.cs" />
     <Compile Include="DataTransferObject\OwnerDto.cs" />
+    <Compile Include="DataTransferObject\PackedDto.cs" />
     <Compile Include="DataTransferObject\PaymentFormDto.cs" />
     <Compile Include="DataTransferObject\PeoplePositionDto.cs" />
     <Compile Include="DataTransferObject\PersonalPositionDto.cs" />
@@ -229,9 +231,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+    <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
-      <Name>KarveCommonInterfaces</Name>
+      <Name>KarveCar.CommonInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

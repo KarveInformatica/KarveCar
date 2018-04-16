@@ -7,6 +7,8 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace ToolBarModule.Command
 {
@@ -47,11 +49,16 @@ namespace ToolBarModule.Command
         {
             eventManager.SendMessage(EventSubsystem.CommissionAgentSummaryVm, payLoad);
         }
-       
+
         private async Task<DataPayLoad> HandleCommissionAgentSave(DataPayLoad payLoad)
         {
             bool result = false;
             bool isInsert = false;
+            Contract.Ensures(payLoad != null);
+            Contract.Ensures(payLoad.DataObject != null);
+            var ensureAgent = payLoad.DataObject as ICommissionAgent;
+            Contract.Ensures(ensureAgent != null);
+
             ICommissionAgent agent = (ICommissionAgent)payLoad.DataObject;
             if (agent == null)
             {
@@ -70,21 +77,40 @@ namespace ToolBarModule.Command
                 case DataPayLoad.Type.UpdateInsertGrid:
                 case DataPayLoad.Type.DeleteGrid:
                     {
-                       
+
                         result = true;
-                        var task1 =  UpdateGridAsync<BranchesDto, COMI_DELEGA>(payLoad);
-                        var task2 =  UpdateGridAsync<ContactsDto, CONTACTOS_COMI>(payLoad);
+                        var task1 = UpdateGridAsync<BranchesDto, COMI_DELEGA>(payLoad);
+                        var task2 = UpdateGridAsync<ContactsDto, CONTACTOS_COMI>(payLoad);
+                        var task3 = UpdateGridAsync<VisitsDto, VISITAS_COMI>(payLoad);
+
                         IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
-                        if (branches!=null)
+                        IEnumerable<VisitsDto> visits = payLoad.RelatedObject as IEnumerable<VisitsDto>;
+                        try
                         {
-                            await task1;
+                            if (branches != null)
+                            {
+                                await task1;
+                            }
+                            else if (visits != null)
+                            {
+                                await task3;
+                            }
+                            else
+                            {
+                                await task2;
+                            }
                         }
-                        else
+                        catch (System.Exception e)
                         {
-                            await task2;
+                            payLoad.Sender = ToolBarModule.NAME;
+                            payLoad.PayloadType = DataPayLoad.Type.UpdateError;
+                            string message = isInsert ? "Error during the insert" : "Error during the update";
+                            payLoad.ResultString = message;
+                            OnErrorExecuting?.Invoke(message);
+                            throw new DataLayerException("CommissionAgent Grid insertion exception", e);
                         }
                         break;
-                    }  
+                    }
             }
 
             if (result)

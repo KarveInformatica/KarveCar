@@ -64,18 +64,7 @@ namespace KarveTest.ViewModels
             Assert.AreEqual(dto.OfferMargin, resultDto.OfferMargin);
             Assert.AreEqual(dto.TerminationDate, resultDto.TerminationDate);
         }
-        /// <summary>
-        ///  This should delete an entity when sent event.
-        /// </summary>
-        [Test]
-        private void Should_Delete_Entity_When_Sent_Event()
-        {
-
-        }
-        [Test]
-        private void Should_Insert_Entity_When_Sent_Event()
-        {   
-        }
+     
         [Test]
         private void Should_Update_After_ItemChangedCommand()
         {

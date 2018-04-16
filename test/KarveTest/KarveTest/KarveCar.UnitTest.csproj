@@ -60,8 +60,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -121,6 +119,7 @@
       <HintPath>..\..\..\src\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -135,6 +134,15 @@
   <ItemGroup>
     <Compile Include="Base\TestConfigurationService.cs" />
     <Compile Include="Base\TestEnviromentVariables.cs" />
+    <Compile Include="Behavior\TestBehavior.cs" />
+    <Compile Include="Behavior\XamlHelper.cs" />
+    <Compile Include="Behavior\Xaml\TestButtonBehavior.xaml.cs">
+      <DependentUpon>TestButtonBehavior.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behavior\Xaml\TestComboBehavior.xaml.cs">
+      <DependentUpon>TestComboBehavior.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behavior\Xaml\TestData.cs" />
     <Compile Include="Commands\BranchesOperation.cs" />
     <Compile Include="DAL\Crud\Client\TestClientCrud.cs" />
     <Compile Include="DAL\Crud\Office\TestOfficeCrud.cs" />
@@ -147,6 +155,7 @@
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestInvoiceDataLayer.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
+    <Compile Include="DAL\TestMappingData.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
     <Compile Include="KarveDapper\TestKarveDapperAsync.cs" />
@@ -182,6 +191,7 @@
     <Compile Include="Services\TestDtoFactory.cs" />
     <Compile Include="Services\TestInteractionService.cs" />
     <Compile Include="TestBootStrapper.cs" />
+    <Compile Include="ViewModels\TestToolBarViewModel.cs" />
     <Compile Include="UI\GUITests.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
     <Compile Include="UI\VehicleUITests.cs" />
@@ -193,6 +203,7 @@
     <Compile Include="ViewModels\TestGridChangeViewModel.cs" />
     <Compile Include="ViewModels\TestInvoiceControlViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
+    <Compile Include="ViewModels\TestMasterInfoViewModuleBase.cs" />
     <Compile Include="ViewModels\TestOfficeInfoViewModel.cs" />
     <Compile Include="ViewModels\TestShowDialogMagnifier.cs" />
     <Compile Include="ViewModels\TestVehicleControlViewModel.cs" />
@@ -209,25 +220,25 @@
       <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
       <Name>KarveDapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\Controls\KarveControls\KarveControls.csproj">
+    <ProjectReference Include="..\..\..\src\Controls\KarveControls\KarveCar.Controls.csproj">
       <Project>{183A9EC4-DC89-411D-975D-C67FA4C01747}</Project>
-      <Name>KarveControls</Name>
+      <Name>KarveCar.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\KarveCar.csproj">
       <Project>{d670e5eb-634c-41e4-a7dd-3621e80e5ef7}</Project>
       <Name>KarveCar</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+    <ProjectReference Include="..\..\..\src\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
-      <Name>KarveCommonInterfaces</Name>
+      <Name>KarveCar.CommonInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\KarveCommon\KarveCommon.csproj">
+    <ProjectReference Include="..\..\..\src\KarveCommon\KarveCar.Common.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
-      <Name>KarveCommon</Name>
+      <Name>KarveCar.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\KarveLocale\KarveLocale.csproj">
+    <ProjectReference Include="..\..\..\src\KarveLocale\KarveCar.Locale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
-      <Name>KarveLocale</Name>
+      <Name>KarveCar.Locale</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Modules\CarModel\CarModel\CarModelModule.csproj">
       <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>
@@ -278,6 +289,16 @@
   <ItemGroup>
     <Content Include="DAL\TestSettings.xml" />
     <Content Include="ViewModels\TestSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Behavior\Xaml\TestButtonBehavior.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Behavior\Xaml\TestComboBehavior.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

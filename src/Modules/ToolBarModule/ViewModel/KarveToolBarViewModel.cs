@@ -441,7 +441,7 @@ namespace ToolBarModule
         /// <summary>
         ///  New command tab
         /// </summary>
-        public DelegateCommand NewCommand { set; get; }
+        public ICommand NewCommand { set; get; }
 
         /// <summary>
         ///  Delete command view module.

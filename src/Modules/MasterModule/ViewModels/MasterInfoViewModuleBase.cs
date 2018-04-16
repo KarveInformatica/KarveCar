@@ -12,6 +12,11 @@ using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
 using Prism.Commands;
 using System;
+using System.Linq;
+using KarveControls;
+using System.Diagnostics.Contracts;
+using System.Reflection;
+using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
@@ -30,6 +35,7 @@ namespace MasterModule.ViewModels
     public abstract class MasterInfoViewModuleBase : MasterViewModuleBase
     {
         private bool _canDelete = true;
+        private IEnumerable<VisitTypeDto> _visitTypeDto = new ObservableCollection<VisitTypeDto>();
 
         /// <summary>
         /// The MasterInfoViewModuleBase is a view model that overrides no requested operation in the InfoViewModels.
@@ -44,25 +50,18 @@ namespace MasterModule.ViewModels
         /// <param name="manager">RegionManager. It handles the region manager.</param>
         public MasterInfoViewModuleBase(IEventManager eventManager,
                                         IConfigurationService configurationService,
-                                        IDataServices dataServices, 
+                                        IDataServices dataServices,
                                         IDialogService dialogService,
                                         IRegionManager manager,
-                                        IInteractionRequestController controller) : base(configurationService,eventManager,dataServices, dialogService,manager, controller)
+                                        IInteractionRequestController controller) : base(configurationService, eventManager, dataServices, dialogService, manager, controller)
         {
             _canDelete = true;
-                DelegationProvinceMagnifierCommand = new DelegateCommand<object>(OnProvinceAssist);
+            DelegationProvinceMagnifierCommand = new DelegateCommand<object>(OnProvinceAssist);
             ContactChargeMagnifierCommand = new DelegateCommand<object>(OnContactChargeAssist);
             ClientMagnifierCommand = new DelegateCommand<object>(OnClientMagnifier);
             ResellerMagnifierCommand = new DelegateCommand<object>(OnResellerMagnifier);
             ContactMagnifierCommand = new DelegateCommand<object>(OnContactMagnifier);
         }
-
-        
-
-
-
-
-
         /// <summary>
         ///  Abstract the delete async. Nothing happens in case of the MasterInfoViewModels.
         /// </summary>
@@ -74,6 +73,8 @@ namespace MasterModule.ViewModels
             await Task.Delay(1);
             return false;
         }
+
+       
         /// <summary>
         ///  Abstract the new item. Nothing happens in the case of *InfoViewModels since the new item
         ///  is managed by the controller.
@@ -91,58 +92,112 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Returns the branch lists associated to the *InfoViewModels.
         /// </summary>
-        public IEnumerable<BranchesDto> BranchesDto { get; protected set; }
+        public IEnumerable<BranchesDto> BranchesDto { get; set; }
         /// <summary>
         ///  Returns the contact list associated to the *InfoViewModels.
         /// </summary>
-        public IEnumerable<ContactsDto> ContactsDto { get; protected set; }
+        public IEnumerable<ContactsDto> ContactsDto { get; set; }
+
+        /// <summary>
+        ///  Map the kind of visit inside the visit grid.
+        /// </summary>
+        public IEnumerable<VisitTypeDto> VisitTypeDto
+        {
+            get
+            {
+                return _visitTypeDto;
+            }
+            set
+            {
+                _visitTypeDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         ///  ResellerMagnifier of a grid.
         /// </summary>
-        public ICommand ResellerMagnifierCommand { get; protected set; }
+        public ICommand ResellerMagnifierCommand { get; set; }
         /// <summary>
         ///  ClientMagnifierCommand of a grid.
         /// </summary>
-        public ICommand ClientMagnifierCommand { get; protected set; }
+        public ICommand ClientMagnifierCommand { get; set; }
         /// <summary>
         /// ContactMagnifierCommand of a grid.
         /// </summary>
-        public ICommand ContactMagnifierCommand { get; protected set; }
-        
+        public ICommand ContactMagnifierCommand { get; set; }
+
+
+
         /// <summary>
         /// Client handler. A client has associated a
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">Client magnifier</param>
         protected async virtual void OnClientMagnifier(object item)
         {
-            await OnAssistAsyncClient(KarveLocale.Properties.Resources.ClientsControlViewModel_NewItem_NuevoCliente, "Code,Name", async delegate (ClientSummaryExtended p)
+            if (item == null)
+                return;
+
+            await OnAssistAsyncClient(KarveLocale.Properties.Resources.lcliente, "Code,Name", async delegate (ClientSummaryExtended p)
             {
                 VisitsDto b = item as VisitsDto;
                 await SetClientData(p, b).ConfigureAwait(false);
             }).ConfigureAwait(false);
-         }
-
-        private async Task SetClientData(ClientSummaryExtended p, VisitsDto b)
-        {
-            await Task.Delay(1);
         }
+        /// <summary>
+        ///  Data grid handling in the visit data.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        internal abstract Task SetClientData(ClientSummaryExtended p, VisitsDto b);
+        /// <summary>
+        ///  Data grid handling in  the contacts.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="visitsDto"></param>
+        /// <returns></returns>
+        internal abstract Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto);
+        /// <summary>
+        ///  Data grid branch province.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        internal abstract Task SetBranchProvince(ProvinciaDto p, BranchesDto b);
 
+        internal abstract Task SetVisitReseller(ResellerDto param, VisitsDto b);
+
+        static internal VisitsDto SetDtoCrossReference(ContactsDto contacts, VisitsDto visit)
+        {
+            visit.ContactsSource = contacts;
+            visit.ContactName = contacts.ContactName;
+            visit.ContactId = contacts.ContactId;
+            return visit;
+        }
+        static internal BranchesDto SetDtoCrossReference(ProvinciaDto province, BranchesDto branch) 
+        {
+            branch.ProvinceSource = province;
+            branch.ProvinceId = province.Code;
+            branch.ProvinceName = province.Name;
+            branch.Province = province;
+            return branch;
+        }
+        // TODO: too many responsabilities. See if the magnifier handling can be placed in another place.
         /// <summary>
         /// Contact Magnifier.
         /// </summary>
         /// <param name="obj">Contact magnifier.</param>
         protected async virtual void OnContactMagnifier(object item)
         {
+            if (item == null)
+                return;
             await OnAssistAsync<ContactsDto, CONTACTOS_COMI>(
-                KarveLocale.Properties.Resources.lcontactos, "ContactsName,Nif,Telefono,Movil,Email", delegate (ContactsDto p)
+                KarveLocale.Properties.Resources.lcontactos, "ContactId,ContactName,Nif,Telefono,Movil,Email", delegate (ContactsDto p)
                  {
                      VisitsDto visitsDto = item as VisitsDto;
-                     SetContacts(p, visitsDto);
+                     SetVisitContacts(p, visitsDto);
                  }).ConfigureAwait(false);
-        }
-        private void SetContacts(ContactsDto p, VisitsDto visitsDto)
-        {
-            visitsDto.ContactsSource = p;
         }
         /// <summary>
         /// Province handler. A branch has associated a province to be selected.
@@ -150,36 +205,112 @@ namespace MasterModule.ViewModels
         /// <param name="item">Branches to be associated a province.</param>
         protected async virtual void OnProvinceAssist(object item)
         {
-            
+            if (item == null)
+                return;
             await OnAssistAsync<ProvinciaDto, PROVINCIA>(KarveLocale.Properties.Resources.MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia, "Code,Name", async delegate (ProvinciaDto p)
             {
                 BranchesDto b = item as BranchesDto;
-                await SetBranchProvince(p, b).ConfigureAwait(false);     
+                await SetBranchProvince(p, b).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
-
-        private void OnResellerMagnifier(object obj)
+        /// <summary>
+        ///  ResellerMagnifier.
+        /// </summary>
+        /// <param name="item"></param>
+        protected async virtual void OnResellerMagnifier(object item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+                return;
+            await OnAssistAsync<ResellerDto, VENDEDOR>(KarveLocale.Properties.Resources.lvendidor, "Code,Name,CellPhone", async delegate (ResellerDto param)
+            {
+                VisitsDto v = item as VisitsDto;
+                await SetVisitReseller(param, v).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
-
-
         /// <summary>
         /// Personal Position handler. A contact has associated a personal position in the company to be selected.
         /// </summary>
         /// <param name="item">Contacts to be associated with a position.</param>
         protected async virtual void OnContactChargeAssist(object item)
         {
-
-
             await OnAssistAsync<PersonalPositionDto, PERCARGOS>(KarveLocale.Properties.Resources.lrgrPersonal, "Code,Name", async delegate (PersonalPositionDto p)
             {
                 ContactsDto b = item as ContactsDto;
                 await SetContactsCharge(p, b).ConfigureAwait(false);
             }).ConfigureAwait(false);
-            
+
 
         }
+
+        protected virtual IDictionary<string, object> CreateGridEvent<InnerDto, OuterDto>(InnerDto innerDto, OuterDto outerDto, IEnumerable<OuterDto> outerDtoList, ICommand showCommand) where InnerDto : BaseDto
+        where OuterDto : BaseDto
+        {
+            Dictionary<string, object> ev = new Dictionary<string, object>();
+            var items = new List<BaseDto>();
+            var outerDtoCandidate = outerDtoList.Where(x => x.CodeId == outerDto.CodeId).FirstOrDefault();
+            if (outerDtoCandidate == null)
+            {
+                ev["Operation"] = ControlExt.GridOp.Insert;
+
+            }
+            else
+            {
+                ev["Operation"] = ControlExt.GridOp.Update;
+                outerDtoCandidate.IsChanged = true;
+            }
+            outerDtoCandidate = outerDto;
+            outerDtoCandidate.IsNew = true;
+            outerDtoCandidate.IsDirty = true;
+            innerDto.ShowCommand = showCommand;
+            var outerDtoPromoted = SetDtoCorrelation<InnerDto,OuterDto>(innerDto, outerDto);
+            // add the changed value to the branch.
+            items.Add(outerDtoPromoted);
+            ev["ChangedValue"] = items;
+            return ev;
+        }
+
+        private BaseDto SetDtoCorrelation<InnerDto, OuterDto>(InnerDto innerDto, OuterDto outerDto)
+            where InnerDto : BaseDto
+            where OuterDto : BaseDto
+        {
+            BaseDto dto = new BaseDto();
+            if ((innerDto.GetType() == typeof(ContactsDto)) && (outerDto.GetType() == typeof(VisitsDto)))
+            {
+                var inner = innerDto as ContactsDto;
+                var outer = outerDto as VisitsDto;
+                dto =  SetDtoCrossReference(inner, outer);
+
+            }
+            if ((innerDto.GetType() == typeof(ResellerDto)) && (outerDto.GetType() == typeof(VisitsDto)))
+            {
+                var inner = innerDto as ResellerDto;
+                var outer = outerDto as VisitsDto;
+                dto = SetDtoCrossReference(inner, outer);
+
+            }
+            if ((innerDto.GetType() == typeof(ClientDto)) && (outerDto.GetType() == typeof(VisitsDto)))
+            {
+                var inner = innerDto as ClientDto;
+                var outer = outerDto as VisitsDto;
+                dto = SetDtoCrossReference(inner, outer);
+            }
+            return dto;
+        }
+
+        private BaseDto SetDtoCrossReference(ClientDto inner, VisitsDto outer)
+        {
+            outer.ClientSource = inner;
+            outer.ClientId = inner.NUMERO_CLI;
+            return outer;
+        }
+
+        private BaseDto SetDtoCrossReference(ResellerDto inner, VisitsDto outer)
+        {
+            outer.SellerId = inner.Code;
+            outer.SellerSource = inner;
+            return outer;
+        }
+
         /// <summary>
         ///  Callback to be executed. Currently it maskes.
         /// </summary>
@@ -191,16 +322,7 @@ namespace MasterModule.ViewModels
             item.Responsability = charge.Name;
             await Task.Delay(1);
         }
-        /// <summary>
-        ///  Callback to be executed after retrieving the branch.
-        /// </summary>
-        /// <param name="province"></param>
-        /// <param name="branchesDto"></param>
-        /// <returns></returns>
-        public async virtual Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
-        {
-            await Task.Delay(1);
-        }
+
         /// <summary>
         ///  This command has the resposability to be binded to the assist service 
         ///  in order to see the provinces inside a delegation.
@@ -210,7 +332,7 @@ namespace MasterModule.ViewModels
         ///  This command has the responsability to be binded to the 
         ///  contact charge command inside the contact.
         /// </summary>
-        public ICommand ContactChargeMagnifierCommand { set; get; } 
+        public ICommand ContactChargeMagnifierCommand { set; get; }
         /// <summary>
         ///  This build a data payload, enforcing the value that cames from the UI.
         /// </summary>
@@ -228,7 +350,7 @@ namespace MasterModule.ViewModels
             {
                 if (eventDictionary["DataObject"] == null)
                 {
-                    if (DialogService!=null)
+                    if (DialogService != null)
                     {
                         DialogService.ShowErrorMessage("DataObject is null");
                     }
@@ -263,7 +385,7 @@ namespace MasterModule.ViewModels
             get { return _canDelete; }
         }
         /// <summary>
-        ///  Deprecated.
+        ///  
         /// </summary>
         /// <param name="result"></param>
         protected override void SetDataObject(object result)
@@ -291,7 +413,7 @@ namespace MasterModule.ViewModels
 
                 v.ShowCommand = DelegationProvinceMagnifierCommand;
             }
-          
+
         }
         /// <summary>
         /// This configure the resposabilty in contacts dto list.

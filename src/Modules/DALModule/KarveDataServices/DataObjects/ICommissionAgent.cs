@@ -8,7 +8,7 @@ namespace KarveDataServices.DataObjects
     /// The commission interface. It is a wrapper over the pocos.
     /// 
     /// </summary>
-    public interface ICommissionAgent
+    public interface ICommissionAgent: IHelperMasterCommon
     {
         /// <summary>
         ///   This is a property to verify if the domain object commission agent is correctly loaded.
@@ -18,14 +18,7 @@ namespace KarveDataServices.DataObjects
         ///  Data transfer object for province
         /// </summary>
         IEnumerable<ProvinciaDto> ProvinceDto { set; get; }
-        /// <summary>
-        ///  Data transfer objects for contancts
-        /// </summary>
-        IEnumerable<ContactsDto> ContactsDto { set; get; }
-        /// <summary>
-        ///  Data Transfer object for delegations.
-        /// </summary>
-        IEnumerable<BranchesDto> DelegationDto { set; get; }
+
         /// A commission agent can be in one city. City data transfer object.
         IEnumerable<CityDto> CityDtos { get; set; }
         /// <summary>
@@ -71,12 +64,7 @@ namespace KarveDataServices.DataObjects
         /// Clientes data transfer object.
         /// </summary>
         IEnumerable<ClientDto> ClientsDto { get; set; }
-
-        /// <summary>
-        /// Visits dataa trasnfer object.
-        /// </summary>
-        IEnumerable<VisitsDto> VisitsDto { get; set; }
-
+        
         /// <summary>
         /// Origen data transfer object.
         /// </summary>
@@ -85,6 +73,11 @@ namespace KarveDataServices.DataObjects
         /// Cliente data transfer object.
         /// </summary>
         IEnumerable<ZonaOfiDto> ZonaOfiDto { get; set; }
+
+        /// <summary>
+        /// Visit type dto.
+        /// </summary>
+        IEnumerable<VisitTypeDto> VisitTypeDto { get; set; }
         /// <summary>
         ///  This load the value for the current commission agent.
         /// </summary>

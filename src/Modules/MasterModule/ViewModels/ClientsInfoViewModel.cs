@@ -27,7 +27,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// This class is responsible for allowing the client info view to communicate with the other levels.
     /// </summary>
-    class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
+    internal sealed class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
         #region Private Fields
         private IClientData _clientData;
@@ -658,10 +658,29 @@ namespace MasterModule.ViewModels
                     ActiveSubSystem();
                     NavigateDefault();
 
-
                    // RaisePropertyChanged("ClientHelper");
                 }
             }
+        }
+
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new NotImplementedException();
         }
     }
 }

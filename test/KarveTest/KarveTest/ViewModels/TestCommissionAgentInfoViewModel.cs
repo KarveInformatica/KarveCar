@@ -67,7 +67,7 @@ namespace KarveTest.ViewModels
             var param = new BranchesDto();
             var raisedOnceChange = false;
             // act
-            _commissionAgentInfoViewModel.ProvinceMagnifierCommand.Execute(param);
+            _commissionAgentInfoViewModel.DelegationProvinceMagnifierCommand.Execute(param);
             _commissionAgentInfoViewModel.PropertyChanged += delegate(object sender, System.ComponentModel.PropertyChangedEventArgs e)
             {
                 raisedOnceChange = true;
@@ -92,5 +92,7 @@ namespace KarveTest.ViewModels
             Assert.GreaterOrEqual(_commissionAgentInfoViewModel.DataObject.ContactsDto.Count(), 0);
 
         }
+
+       
     }
 }

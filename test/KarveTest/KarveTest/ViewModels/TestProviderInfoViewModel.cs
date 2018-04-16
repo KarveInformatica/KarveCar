@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -35,22 +33,11 @@ namespace KarveTest.ViewModels
             _mockDialogService.Object,
             _mockRegionManager.Object, 
             _mockRequestController.Object);
-            // _serviceConf = base.SetupConfigurationService();
-            try
-            {
-            //    ISqlExecutor executor = SetupSqlQueryExecutor();
-             //   _dataServices = new DataServiceImplementation(executor);
-              //  _supplierDataServices = _dataServices.GetSupplierDataServices();
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
-           
+         
         }
 
         [Test]
-        public async void Shall_Update_The_View_with_a_new_payload()
+        public async void Should_Update_SupplierViewWithANewPayload()
         {
             IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
@@ -64,13 +51,13 @@ namespace KarveTest.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.Show;
             _infoViewModel.IncomingPayload(payLoad);
             Assert.AreSame(_infoViewModel.DataObject, payLoad.DataObject);
-            Assert.AreEqual(_infoViewModel.DelegationCollection, dataObject.BranchesDtos);
-            Assert.AreEqual(_infoViewModel.ContactsCollection, dataObject.ContactsDtos);
+            Assert.AreEqual(_infoViewModel.DelegationCollection, dataObject.BranchesDto);
+            Assert.AreEqual(_infoViewModel.ContactsCollection, dataObject.ContactsDto);
            
         }
 
         [Test]
-        public async void Should_Update_View_Item()
+        public async void Should_Update_ViewItem()
         {
             IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
@@ -124,7 +111,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public async void Should_Avoid_Deletion_From_AnotherSubsystem()
+        public async Task Should_AvoidDeletion_FromAnotherSubsystem()
         {
             var dataObject = await ArrangeDataObject();
             Assert.NotNull(dataObject);

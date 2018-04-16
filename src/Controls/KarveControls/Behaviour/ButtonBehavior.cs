@@ -11,7 +11,7 @@ namespace KarveControls.Behaviour
     /// <summary>
     ///  This is a button behavior.
     /// </summary>
-    class ButtonBehavior : Behavior<ButtonAdv>
+    class ButtonBehavior : KarveBehaviorBase<ButtonAdv>
     {
 
         /// <summary>
@@ -62,5 +62,6 @@ namespace KarveControls.Behaviour
             base.OnDetaching();
         }
 
+        
     }
 }

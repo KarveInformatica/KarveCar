@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="KarveTest.Behavior.Xaml.TestComboBehavior"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveTest.Behavior.Xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+            
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.DataContext>
+            <local:TestData></local:TestData>
+        </Grid.DataContext>
+        <syncfusion:ComboBoxAdv xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" x:Name="ComboBehavior" DisplayMemberPath="VisitType" ItemsSource="{Binding Data}">
+            <i:Interaction.Behaviors>
+                <behaviour:ComboAdvChangeBehavior/>
+            </i:Interaction.Behaviors>
+        </syncfusion:ComboBoxAdv>
+    </Grid>
+</UserControl>

@@ -138,45 +138,51 @@ namespace ToolBarModule.Command
             GridOperationHandler<Dto> gridOperationHandler = new GridOperationHandler<Dto>(DataServices);
             IEnumerable<Dto> dtoValues = payLoad.RelatedObject as IEnumerable<Dto>;
             // ok now we can see if it is an insert or a delete.
-            if (dtoValues != null)
+            try
             {
-                var newItems = dtoValues.Where(x =>
+                if (dtoValues != null)
                 {
-                    BaseDto baseDto = x as BaseDto;
-                    return (baseDto.IsNew == true);
-                });
-                if (newItems.Count() > 0)
-                {
-                    await gridOperationHandler.ExecuteInsertAsync<Entity>(newItems);
-                }
-
-                var itemsToDelete = dtoValues.Where(x=>
-                {
-                    BaseDto baseDto = x as BaseDto;
-                    return (baseDto.IsDeleted == true);
-                });
-                if (itemsToDelete.Count()>0)
-                {
-                    await gridOperationHandler.ExecuteDeleteAsync<Entity>(itemsToDelete);
-                }
-                var updateItems = dtoValues.Where(x =>
-                {
-                    BaseDto baseDto = x as BaseDto;
-                    return ((baseDto.IsDirty == true) && (baseDto.IsNew == false));
-                });
-                if (updateItems.Count() > 0)
-                {
-                    await gridOperationHandler.ExecuteUpdateAsync<Entity>(updateItems);
-                }
-                for (int i = 0; i < updateItems.Count(); ++i)
-                {
-                    BaseDto baseDto = updateItems.ElementAt(i) as BaseDto;
-                    if (baseDto != null)
+                    var newItems = dtoValues.Where(x =>
                     {
-                        baseDto.IsNew = false;
-                        baseDto.IsDirty = false;
+                        BaseDto baseDto = x as BaseDto;
+                        return (baseDto.IsNew == true);
+                    });
+                    if (newItems.Count() > 0)
+                    {
+                        await gridOperationHandler.ExecuteInsertAsync<Entity>(newItems).ConfigureAwait(false);
+                    }
+
+                    var itemsToDelete = dtoValues.Where(x =>
+                    {
+                        BaseDto baseDto = x as BaseDto;
+                        return (baseDto.IsDeleted == true);
+                    });
+                    if (itemsToDelete.Count() > 0)
+                    {
+                        await gridOperationHandler.ExecuteDeleteAsync<Entity>(itemsToDelete).ConfigureAwait(false);
+                    }
+                    var updateItems = dtoValues.Where(x =>
+                    {
+                        BaseDto baseDto = x as BaseDto;
+                        return ((baseDto.IsDirty == true) && (baseDto.IsNew == false));
+                    });
+                    if (updateItems.Count() > 0)
+                    {
+                        await gridOperationHandler.ExecuteUpdateAsync<Entity>(updateItems).ConfigureAwait(false);
+                    }
+                    for (int i = 0; i < updateItems.Count(); ++i)
+                    {
+                        BaseDto baseDto = updateItems.ElementAt(i) as BaseDto;
+                        if (baseDto != null)
+                        {
+                            baseDto.IsNew = false;
+                            baseDto.IsDirty = false;
+                        }
                     }
                 }
+            } catch (Exception e)
+            {
+                throw new DataLayerException("UpdateGridException", e);
             }
         }
 

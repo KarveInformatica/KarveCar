@@ -14,7 +14,7 @@ namespace KarveControls.Behaviour
     /// <summary>
     ///  GridInsertionBehaviour. This is a behaviour for the grid.
     /// </summary>
-    public class MagnifierGridBehavior: Behavior<SfDataGrid>
+    public class MagnifierGridBehavior: KarveBehaviorBase<SfDataGrid>
     {
         public static readonly DependencyProperty showCommandProperty = DependencyProperty.Register("ShowCommand", typeof(ICommand), typeof(MagnifierGridBehavior));
 
@@ -29,11 +29,19 @@ namespace KarveControls.Behaviour
                 SetValue(showCommandProperty, value);
             }
         }
-        protected override void OnAttached()
-        {
-            base.OnAttached();
+
+        protected override void OnSetup() {
             this.AssociatedObject.CurrentCellBeginEdit += AssociatedObject_CurrentCellBeginEdit;
+
         }
+
+        /// <summary>
+        /// Cleanup the behavior.
+        /// </summary>
+        protected override void OnCleanup() {
+            this.AssociatedObject.CurrentCellBeginEdit -= AssociatedObject_CurrentCellBeginEdit;
+        }
+
         private void AssociatedObject_CurrentCellBeginEdit(object sender, CurrentCellBeginEditEventArgs e)
 
         {
@@ -53,10 +61,6 @@ namespace KarveControls.Behaviour
                 }
             }
         }
-        protected override void OnDetaching()
-        {
-            this.AssociatedObject.CurrentCellBeginEdit -= AssociatedObject_CurrentCellBeginEdit;
-            base.OnDetaching();
-        }
+        
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Interactivity;
 
 namespace KarveControls.Behaviour
 {
-    public class ComboChangeBehaviour: Behavior<ComboBox>
+    public class ComboChangeBehaviour: KarveBehaviorBase<ComboBox>
     {
 
         /// <summary>
@@ -62,14 +62,12 @@ namespace KarveControls.Behaviour
             }
         }
 
-        protected override void OnAttached()
+        protected override void OnSetup()
         {
-            base.OnAttached();
             this.AssociatedObject.SelectionChanged+= AssociatedObject_SelectionChanged;
         }
-        protected override void OnDetaching()
+        protected override void OnCleanup()
         {
-            base.OnDetaching();
             this.AssociatedObject.SelectionChanged -= AssociatedObject_SelectionChanged;
         }
 

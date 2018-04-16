@@ -46,7 +46,7 @@
                                Foreground="#FF808080"
                                RowSelectionBrush="#FF8CC63F"
                                HeaderRowHeight="32"
-                               AutoGenerateColumns="True"               
+                               AutoGenerateColumns="False"               
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
@@ -61,9 +61,40 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Code" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Name" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Nif" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                
+                <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Phone" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+            </Syncfusion:SfDataGrid.Columns>
 
-
-                    <Syncfusion:SfDataGrid.Resources>
+            <Syncfusion:SfDataGrid.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
                                 <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />

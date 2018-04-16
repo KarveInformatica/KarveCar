@@ -399,6 +399,26 @@ namespace MasterModule.ViewModels
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.OfficeSubSytemName, this);
             AssistExecuted -= OfficeAssistResult;
         }
+
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region Private Fields

@@ -34,6 +34,11 @@ namespace KarveCommon.Services
         /// <returns></returns>
         // FixMe shall return an iterator.
         Queue<DataPayLoad> GetScheduledPayload();
+        /// <summary>
+        ///  Number of scheduled payloads.
+        /// </summary>
+        /// <returns></returns>
+        int ScheduledPayloadCount();
        
     }
 }

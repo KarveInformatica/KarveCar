@@ -117,10 +117,10 @@ namespace KarveTest.DAL
           
         }
         [Test]
-        public async void Should_Fail_Load_Magnifier_Settings()
+        public async Task Should_Fail_Load_Magnifier_Settings()
         {
             GridSettingsDto dataValue = await _settingsDataService.GetMagnifierSettings(long.MaxValue);
-            Assert.Null(dataValue);
+            Assert.AreEqual(null, dataValue.GridName);            
         }
     }
 }

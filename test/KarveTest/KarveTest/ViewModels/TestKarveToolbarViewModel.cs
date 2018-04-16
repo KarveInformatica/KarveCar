@@ -110,6 +110,12 @@ namespace KarveTest.ViewModels
             // the value shall avoid saving 
 
         }
+
+        [Test]
+        public void Should_Save_ACorrectVisitList()
+        {
+
+        }
        
 
     }

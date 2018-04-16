@@ -525,21 +525,21 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Controls\KarveControls\KarveControls.csproj">
+    <ProjectReference Include="Controls\KarveControls\KarveCar.Controls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
-      <Name>KarveControls</Name>
+      <Name>KarveCar.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="KarveCommonInterfaces\KarveCommonInterfaces.csproj">
+    <ProjectReference Include="KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
-      <Name>KarveCommonInterfaces</Name>
+      <Name>KarveCar.CommonInterfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="KarveCommon\KarveCommon.csproj">
+    <ProjectReference Include="KarveCommon\KarveCar.Common.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
-      <Name>KarveCommon</Name>
+      <Name>KarveCar.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="KarveLocale\KarveLocale.csproj">
+    <ProjectReference Include="KarveLocale\KarveCar.Locale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
-      <Name>KarveLocale</Name>
+      <Name>KarveCar.Locale</Name>
     </ProjectReference>
     <ProjectReference Include="Modules\CarModel\CarModel\CarModelModule.csproj">
       <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>

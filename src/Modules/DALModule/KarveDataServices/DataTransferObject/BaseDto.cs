@@ -36,8 +36,16 @@ namespace KarveDataServices.DataTransferObject
         {
             throw new NotImplementedException();
         }
+        public string KeyId { set; get; }
 
-        public string CodeId { set; get; }
+        /// <summary>
+        ///  it is an alias for code
+        ///  
+        /// </summary>
+        public string CodeId
+        {
+            set; get;
+        }
         /// <summary>
         ///  LastModification
         /// </summary>

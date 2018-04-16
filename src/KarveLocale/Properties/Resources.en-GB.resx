@@ -2221,4 +2221,13 @@
   <data name="lreseller" xml:space="preserve">
     <value>Reseller</value>
   </data>
+  <data name="ComboAdvChangeBehavior_OnDetaching_EligeCampo" xml:space="preserve">
+    <value>Choose item..</value>
+  </data>
+  <data name="ltext" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="lselectItem" xml:space="preserve">
+    <value>Select Item</value>
+  </data>
 </root>

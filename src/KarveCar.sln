@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar", "KarveCar.csproj", "{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCommon", "KarveCommon\KarveCommon.csproj", "{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Common", "KarveCommon\KarveCar.Common.csproj", "{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveTest", "..\test\KarveTest\KarveTest\KarveTest.csproj", "{B1BCB441-8F41-4B63-9FAD-2EB0083260A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.UnitTest", "..\test\KarveTest\KarveTest\KarveCar.UnitTest.csproj", "{B1BCB441-8F41-4B63-9FAD-2EB0083260A0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataServices", "Module
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolBarModule", "Modules\ToolBarModule\ToolBarModule.csproj", "{55CE0DE8-792F-49FC-8E90-6C3F9CD75486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveControls", "Controls\KarveControls\KarveControls.csproj", "{183A9EC4-DC89-411D-975D-C67FA4C01747}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Controls", "Controls\KarveControls\KarveCar.Controls.csproj", "{183A9EC4-DC89-411D-975D-C67FA4C01747}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{769174BC-9025-4AAF-9846-B06A619ABF05}"
 EndProject
@@ -27,17 +27,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterModule", "Modules\Mas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDapper", "..\KarveDapper\KarveDapper.csproj", "{082CB8C5-29D4-4D51-BE0A-06DEB8D7F871}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCommonInterfaces", "KarveCommonInterfaces\KarveCommonInterfaces.csproj", "{E9C77593-B656-45DA-BAE1-91AF97491069}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.CommonInterfaces", "KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj", "{E9C77593-B656-45DA-BAE1-91AF97491069}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelperModule", "Modules\HelperModule\HelperModule.csproj", "{4EAA0821-1DCD-4E61-BA42-05BFD973A399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveLocale", "KarveLocale\KarveLocale.csproj", "{D1D7504F-994C-42FB-A78F-B6078F460F7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Locale", "KarveLocale\KarveCar.Locale.csproj", "{D1D7504F-994C-42FB-A78F-B6078F460F7F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarModelModule", "Modules\CarModel\CarModel\CarModelModule.csproj", "{88410E16-A500-4947-B11B-BCA1A73D4FC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTypeModule", "Modules\PaymentsTypeModule\PaymentTypeModule.csproj", "{3F0503DE-3DDE-40A4-AF70-F698BFA9F844}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceModule", "Modules\InvoiceModule\InvoiceModule.csproj", "{2636E89F-C157-4346-BAB0-FC774BAC26AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Integration", "..\test\KarveTest\KarveCar.Integration\KarveCar.Integration.csproj", "{64F060FA-12AD-4227-B22E-DF068C8AB047}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -229,6 +231,18 @@ Global
 		{2636E89F-C157-4346-BAB0-FC774BAC26AF}.Release|x64.Build.0 = Release|Any CPU
 		{2636E89F-C157-4346-BAB0-FC774BAC26AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{2636E89F-C157-4346-BAB0-FC774BAC26AF}.Release|x86.Build.0 = Release|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Debug|x64.Build.0 = Debug|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Debug|x86.Build.0 = Debug|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x64.ActiveCfg = Release|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x64.Build.0 = Release|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x86.ActiveCfg = Release|Any CPU
+		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

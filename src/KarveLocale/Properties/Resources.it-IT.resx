@@ -2591,4 +2591,13 @@
   <data name="lreseller" xml:space="preserve">
     <value>Venditore</value>
   </data>
+  <data name="ComboAdvChangeBehavior_OnDetaching_EligeCampo" xml:space="preserve">
+    <value>Scegli campo..</value>
+  </data>
+  <data name="ltext" xml:space="preserve">
+    <value>Testo</value>
+  </data>
+  <data name="lselectItem" xml:space="preserve">
+    <value>Seleziona</value>
+  </data>
 </root>

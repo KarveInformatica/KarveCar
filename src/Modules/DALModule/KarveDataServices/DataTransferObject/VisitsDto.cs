@@ -10,7 +10,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Data Transfer object for the visit.
     /// </summary>
-    public class VisitsDto: BaseDto
+    public class VisitsDto : BaseDto
     {
         /// <summary>
         ///  Identifier for the visit.
@@ -37,9 +37,9 @@ namespace KarveDataServices.DataTransferObject
         private ClientDto _clients;
 
         /// <summary>
-        ///  This is the order of the things.
+        ///  If the visit is pending or not.
         /// </summary>
-        private bool IsOrder { set; get; }
+        public bool IsOrder { set; get; }
         /// <summary>
         ///  Seller identifier
         /// </summary>
@@ -49,7 +49,8 @@ namespace KarveDataServices.DataTransferObject
         ///  Type of the visit
         /// </summary>
         [Display(GroupName = "Tipo Visita")]
-        public string VisitType { get; set; }
+        public VisitTypeDto VisitType { get; set; }
+
         /// <summary>
         ///  Name of the contact.
         /// </summary>
@@ -93,7 +94,7 @@ namespace KarveDataServices.DataTransferObject
         {
             get
             {
-                
+
                 return _clients;
             }
             set
@@ -103,6 +104,11 @@ namespace KarveDataServices.DataTransferObject
                 RaisePropertyChanged();
             }
         }
-
-     }
+        [Display(GroupName = "Texto")]
+        public string Text { set; get; }
+        public string WorkId { get; set; }
+        public DateTime? StartingDate { get; set; }
+        public int? Minutes { get; set; }
+        public string Email { get; set; }
+    }
 }

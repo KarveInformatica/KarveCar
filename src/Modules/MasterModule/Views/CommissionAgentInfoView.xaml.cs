@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System;
 using System.Globalization;
 using System.Diagnostics;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.Views
 {
@@ -17,11 +18,12 @@ namespace MasterModule.Views
     /// </summary>
     public partial class CommissionAgentInfoView : UserControl, ICommissionAgentView, INavigationAware
     {
-       public CommissionAgentInfoView()
+        public CommissionAgentInfoView()
         {
             InitializeComponent();
+         
+           
         }
-        
         public string Header
         { set; get; }
 

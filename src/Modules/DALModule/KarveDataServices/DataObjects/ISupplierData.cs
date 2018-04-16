@@ -10,7 +10,7 @@ namespace KarveDataServices.DataObjects
     ///  Interface for giving information about suppliers.
     /// </summary>
     /// 
-    public interface ISupplierData
+    public interface ISupplierData: IHelperMasterCommon
     {
         /// <summary>
         ///  This delete all data in async way 
@@ -72,17 +72,7 @@ namespace KarveDataServices.DataObjects
         ///  ViasDto
         /// </summary>
         IEnumerable<ViaDto> ViasDtos { get; set; }
-
-        /// <summary>
-        ///  Branches
-        /// </summary>
-        IEnumerable<BranchesDto> BranchesDtos { set; get; }
-
-        /// <summary>
-        ///  Contacts
-        /// </summary>
-        IEnumerable<ContactsDto> ContactsDtos { set; get; }
-
+        
         /// <summary>
         ///  Months dto.
         /// </summary>
@@ -90,7 +80,6 @@ namespace KarveDataServices.DataObjects
         // PaymentDto.
 
         IEnumerable<PaymentFormDto> PaymentDtos { set; get; }
-        IEnumerable<VisitsDto> VisitsDtos { get; set; }
         IEnumerable<LanguageDto> LanguageDtos { get; set; }
         IEnumerable<CurrencyDto> CurrencyDtos { get; set; }
         IEnumerable<OfficeDtos> OfficeDtos { get; set; }

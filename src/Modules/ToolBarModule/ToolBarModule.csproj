@@ -163,9 +163,9 @@
       <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
       <Name>KarveDataServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KarveCommon\KarveCommon.csproj">
+    <ProjectReference Include="..\..\KarveCommon\KarveCar.Common.csproj">
       <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
-      <Name>KarveCommon</Name>
+      <Name>KarveCar.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class ClientSummaryExtended
+    public class ClientSummaryExtended: BaseDto
     {
         private string _eMail;
 
@@ -41,9 +41,9 @@ namespace KarveDataServices.DataTransferObject
         public string Pais { get; set; }
 
         [Display(Name = "Numero")]
-        public string Code { set; get; }
+        public  string  Code { set; get; }
         [Display(Name = "Nombre Cliente")]
-        public string Name { set; get; }
+        public  string Name { set; get; }
         [Display(Name = "Nif")]
         public string Nif { set; get; }
         [DataType(DataType.PhoneNumber)]

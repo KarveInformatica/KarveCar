@@ -45,6 +45,7 @@ namespace DataAccessLayer.SQL
         QuerySupplierSummary,
         QueryVehicleSummaryPaged,
         QuerySupplierSummaryPaged,
+        QuerySupplierById,
         QueryBrokerSummary,
         QueryBroker,
         QuerySellerSummary,
@@ -54,6 +55,8 @@ namespace DataAccessLayer.SQL
         QueryClientSummaryExt,
         QueryCommissionAgentSummary,
         QueryBrokerContacts,
-        QueryResellerByClient
+        QueryResellerByClient,
+        QuerySuppliersBranches,
+        QuerySupplierBranchesPaged
     };
 }

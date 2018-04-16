@@ -33,22 +33,30 @@ namespace KarveCommon.Generic
         public async Task ExecuteInsertAsync<T>(object sender) where T : class
         {
             IEnumerable<DtoType> dtoValues = sender as IEnumerable<DtoType>;
-            if (dtoValues != null)
+            bool retValue = false;
+            try
             {
-                var newItems = dtoValues.Where(x =>
+                if (dtoValues != null)
                 {
-                    BaseDto baseDto = x as BaseDto;
-                    return (baseDto.IsNew == true);
-                }
-                    );
-                if (newItems.Count() > 0)
-                {
-                    await _helperDataServices.ExecuteBulkInsertAsync<DtoType, T>(newItems).ConfigureAwait(false);
+
+                    var newItems = dtoValues.Where(x =>
+                    {
+                        BaseDto baseDto = x as BaseDto;
+                        return (baseDto.IsNew == true);
+                    }
+                        );
+                    if (newItems.Count() > 0)
+                    {
+                        retValue = await _helperDataServices.ExecuteBulkInsertAsync<DtoType, T>(newItems).ConfigureAwait(false);
+
+                    }
 
                 }
-
+            } catch (Exception ex)
+            {
+                throw new DataLayerException(ex.Message, ex);
             }
-
+            
         }
         /// <summary>
         /// Execute a delete of a grid.

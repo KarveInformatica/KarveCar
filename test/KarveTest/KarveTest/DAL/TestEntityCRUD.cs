@@ -6,6 +6,7 @@ using DataAccessLayer.Model;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace KarveTest.DAL
 {
@@ -41,7 +42,7 @@ namespace KarveTest.DAL
         ///  This test for a entity that load correctly.
         /// </summary>
         [Test]
-        public async void Should_Load_Entities_Modify_And_Save_Correctly()
+        public async Task Should_Load_Entities_Modify_And_Save_Correctly()
         {
             SupplierDto value = new SupplierDto();
             value.NUM_PROVEE = "91892291";

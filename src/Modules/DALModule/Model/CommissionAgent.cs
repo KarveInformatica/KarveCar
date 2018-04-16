@@ -249,6 +249,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<VisitsDto> _visitDto = new List<VisitsDto>();
         private IEnumerable<POBLACIONES> _poblaciones;
         private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
+        private IEnumerable<VisitTypeDto> _visitTypeDto;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -273,7 +274,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  DelegationDto.
         /// </summary>
-        public IEnumerable<BranchesDto> DelegationDto
+        public IEnumerable<BranchesDto> BranchesDto
         {
             get { return _delegationDto; }
             set
@@ -309,8 +310,6 @@ namespace DataAccessLayer.Model
         /// </summary>
         public IEnumerable<ClientDto> ClientsDto { get; set; }
 
-        public IEnumerable<VisitsDto> VisitsDto { get; set; }
-
         /// <summary>
         ///  Vendedor Dto
         /// </summary>
@@ -343,12 +342,24 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Visits dto.
         /// </summary>
-        public IEnumerable<VisitsDto> VisitDto
+        public IEnumerable<VisitsDto> VisitsDto
         {
             get { return _visitDto; }
             set
             {
                 _visitDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        /// Set or Get the visit type dto.
+        /// </summary>
+        public IEnumerable<VisitTypeDto> VisitTypeDto
+        {
+            get { return _visitTypeDto; }
+            set
+            {
+                _visitTypeDto = value;
                 RaisePropertyChanged();
             }
         }
@@ -448,7 +459,8 @@ namespace DataAccessLayer.Model
             }
             return defaultFields;
         }
-        /// This function is too big. it shall be extracted to an object.
+        /// TODO: This function is too big. it shall be extracted to an object. 
+		/// It is sloppy as well. Too much resposabilities.
         /// <summary>
         /// Execute multiple queries.
         /// </summary>
@@ -539,8 +551,12 @@ namespace DataAccessLayer.Model
                 _idiomas = await _dbConnection.QueryAsync<IDIOMAS>(tmpQuery);
                 LanguageDto = _mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(_idiomas);
             }
+           
+        
         }
 
+
+       
 
         /// <summary>
         ///  Load single value. It loads a commission agent.
@@ -618,12 +634,15 @@ namespace DataAccessLayer.Model
                                 branch.PROV = prov;
                                 return branch;
                             }, splitOn: "SIGLAS");
-                        DelegationDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
+                        BranchesDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
                         store.Clear();
                         store.AddParam(QueryType.QueryResellerByClient, _currentComisio.NUM_COMI);
                         var visitas = store.BuildQuery();
                         _visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco>(visitas);
-                        VisitDto = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VisitsDto>>(_visitasComis);
+                        VisitsDto = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VisitsDto>>(_visitasComis);
+                        var visitType = await _dbConnection.GetAsyncAll<TIPOVISITAS>();
+                        VisitTypeDto = _mapper.Map<IEnumerable<TIPOVISITAS>, IEnumerable<VisitTypeDto>>(visitType);
+                        
                         logger.Debug("Executing AuxQueries.");
                         await BuildAuxQueryMultiple(_currentComisio, _dbConnection);
                     }
@@ -663,7 +682,7 @@ namespace DataAccessLayer.Model
             Contract.Requires(_currentComisio != null, "Current CommissionAgent is null");
 
             bool retValue = false;
-            var delegations = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<COMI_DELEGA>>(DelegationDto, res => res.Items.Add("RefId", _currentComisio.NUM_COMI));
+            var delegations = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<COMI_DELEGA>>(BranchesDto, res => res.Items.Add("RefId", _currentComisio.NUM_COMI));
             logger.Debug("Opening connection for saving.");
 
             // the open shall be reverted.
@@ -783,7 +802,7 @@ namespace DataAccessLayer.Model
                         // now we have to add the new connection.
                         retValue = await connection.UpdateAsync(_currentComisio);
                         retValue = retValue && await SaveContacts(connection, ContactsDto, _currentComisio.NUM_COMI, _contactos);
-                        retValue = retValue && await SaveBranches(connection, DelegationDto, _currentComisio.NUM_COMI, _delegations);
+                        retValue = retValue && await SaveBranches(connection, BranchesDto, _currentComisio.NUM_COMI, _delegations);
                         if (_visitasComis.Count() != 0)
                         {
                             var mappedVisits = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VISITAS_COMI>>(_visitasComis);

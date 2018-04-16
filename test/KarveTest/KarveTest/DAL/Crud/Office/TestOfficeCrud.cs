@@ -118,10 +118,6 @@ namespace KarveTest.DAL.Crud.Office
             // assert
 
         }
-        [Test]
-        public async Task Should_Handle_Exception_Correctly_While_Loading()
-        {
-
-        }
+        
     }
 }

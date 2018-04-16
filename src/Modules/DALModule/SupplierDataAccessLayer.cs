@@ -13,6 +13,8 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using NLog;
+using System.Diagnostics;
+
 namespace DataAccessLayer
 {
 
@@ -24,6 +26,7 @@ namespace DataAccessLayer
       
         private readonly ISqlExecutor _executor;
         
+
         public const string SupplierTable1 = "PROVEE1";
         public const string SupplierTable2 = "PROVEE2";
         public const string PrimaryKey = "NUM_PROVEE";
@@ -42,6 +45,7 @@ namespace DataAccessLayer
 
       
         private static Logger _logger = LogManager.GetCurrentClassLogger();
+     
 
 
         /// <summary>
@@ -52,6 +56,7 @@ namespace DataAccessLayer
         public SupplierDataAccessLayer(ISqlExecutor mapper) :base(mapper)
         { 
             this._executor = mapper;
+           
            
         }
         /// <summary>
@@ -206,11 +211,15 @@ namespace DataAccessLayer
             return name;
         }
 
-
-        public async Task<ISupplierData> GetAsyncSupplierDo(string validSupplierCode)
+        /// <summary>
+        /// GetAsyncSupplierCodeDo. Returns a data object from a supplierCode.
+        /// </summary>
+        /// <param name="supplierCode"></param>
+        /// <returns></returns>
+        public async Task<ISupplierData> GetAsyncSupplierDo(string supplierCode)
         {
             Supplier supplier = new Supplier(_executor);
-            bool loaded = await supplier.LoadValue(null, validSupplierCode);
+            bool loaded = await supplier.LoadValue(null, supplierCode);
             if (loaded)
             {
                 return supplier;
