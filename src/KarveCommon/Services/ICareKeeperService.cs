@@ -1,5 +1,6 @@
 ﻿using KarveCommon.Command;
 using System.Collections.Generic;
+using System;
 
 namespace KarveCommon.Services
 {
@@ -39,6 +40,10 @@ namespace KarveCommon.Services
         /// </summary>
         /// <returns></returns>
         int ScheduledPayloadCount();
-       
+        /// <summary>
+        ///  Delete all items that are scheduled.
+        /// </summary>
+        /// <param name="objectPath"></param>
+        void DeleteItems(Uri objectPath);
     }
 }

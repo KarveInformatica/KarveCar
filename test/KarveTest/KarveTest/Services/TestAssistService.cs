@@ -57,7 +57,7 @@ namespace KarveTest.Services
                 Assert.NotNull(p);
                 receivedResult.Add(p);
             };
-            IInteractionRequestController controller =             _unityContainer.Resolve<IInteractionRequestController>();
+            IInteractionRequestController controller = _unityContainer.Resolve<IInteractionRequestController>();
             BranchesDto dto = new BranchesDto();
             KarveViewModelBase kvm = new KarveViewModelBase(_dataServicesMock.Object, controller);
             await kvm.OnAssistAsync<ProvinciaDto, PROVINCIA>("ListaProvincia", "Code,Name", action);

@@ -16,6 +16,7 @@
              xmlns:common="clr-namespace:MasterModule.Common"
              xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+             xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200"
             >
@@ -38,8 +39,7 @@
                             <karveControls:DataField x:Name="Numero" TextContentWidth="100" IsReadOnly="True"
                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      DataSourcePath="NUM_COMI"
-                                
-                                                     TextContent="{Binding DataObject.Value.NUM_COMI}"
+                                     TextContent="{Binding DataObject.Value.NUM_COMI}"
                                      ItemChangedCommand="{Binding ItemChangedCommand}"
                                      LabelTextWidth="50" LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
 
@@ -52,7 +52,7 @@
                                 LabelTextWidth="50" 
                                 DataSourcePath="PERSONA"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
-                                LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
+                                LabelText="{Binding lpersona, Source={StaticResource ResourceLanguage}}" 
                                 LabelVisible="True">
 
                             </karveControls:DataField>
@@ -217,10 +217,18 @@
                                             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                             SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <i:Interaction.Behaviors>
+                                                <behaviors:ChangeRuleBehavior
+                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               RelatedObject="{Binding ElementName=Province}">
+
+                                                </behaviors:ChangeRuleBehavior>
+                                            </i:Interaction.Behaviors>
 
                                         </karveControls:DualFieldSearchBox>
                                     </StackPanel>
-                                    <karveControls:DualFieldSearchBox LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" 
+                                    <karveControls:DualFieldSearchBox x:Name="Province" 
+                                                                  LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" 
                                                                   LabelTextWidth="100" 
                                                                   TextContentFirstWidth="50"
                                                                   TextContentSecondWidth="200"
@@ -294,32 +302,33 @@
                                                      />
 
                                     <WrapPanel Orientation="Horizontal">
-                                        <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
-                                                              DataDatePickerHeight="30" 
-                                                              LabelTextWidth="100" 
-                                                              LabelVisible="True"
-                                                              PickerContentWidth="150"
-                                                                      
-                                
-                                                              DateContent="{Binding Path=DataObject.Value.ALTA_COMI, Mode=TwoWay,
-                                                                            ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
-                                                              >
-
+                                        <karveControls:DataDatePicker Grid.Column="0" Grid.Row="0" 
+                                                              Height="35" MinWidth="100"
+                                                              LabelTextWidth="100"
+                                                              LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
+                                                              karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                              karveControls:ControlExt.DataSourcePath="ALTA_COMI" Margin="10,8,4,8" Width="Auto">
+                                        
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="DataDatePickerChanged">
                                                     <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </karveControls:DataDatePicker>
-                                        <karveControls:DataDatePicker LabelText="{Binding StringConstants_FechaDeBaja, 
-                                                Source={StaticResource ResourceLanguage}}"
-                                                              LabelVisible="True"
-                                                              LabelTextWidth="100" 
-                                                              PickerContentWidth="100" 
-                                                              DataDatePickerHeight="30"
-                                                              DateContent="{Binding DataObject.Value.BAJA_COMI,
-                                                              Mode=TwoWay,
-                                                              ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
+
+                                        <karveControls:DataDatePicker Grid.Column="0" Grid.Row="0" 
+                                                                   
+                                                              Height="35" MinWidth="100"
+                                                              LabelTextWidth="100"
+                                                              LabelText="{Binding StringConstants_FechaDeBaja, Source={StaticResource ResourceLanguage}}"
+                                                              karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                              karveControls:ControlExt.DataSourcePath="BAJA_COMI" Margin="10,8,4,8" Width="Auto">
+
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="DataDatePickerChanged">
+                                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                         </karveControls:DataDatePicker>
                                     </WrapPanel>
                                     <karveControls:DualFieldSearchBox 

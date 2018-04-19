@@ -6,9 +6,11 @@ using System.Windows.Input;
 
 namespace KarveControls.Behaviour
 {
+    /// <summary>
+    /// GridEditButtonBehavior is a behaviour that allows to trigger a window.
+    /// </summary>
     public class GridEditButtonBehavior: KarveBehaviorBase<Button>
     {
-        private bool _shallShow = false;
         /// <summary>
         ///  This is a property for the cell presentation.
         /// </summary>

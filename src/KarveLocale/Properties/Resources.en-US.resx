@@ -2239,4 +2239,7 @@
   <data name="lselectItem" xml:space="preserve">
     <value>Select Item</value>
   </data>
+  <data name="Elenco" xml:space="preserve">
+    <value>List</value>
+  </data>
 </root>

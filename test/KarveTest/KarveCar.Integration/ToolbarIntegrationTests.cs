@@ -103,7 +103,45 @@ namespace KarveCar.IntegrationTest
         }
 
         [Test]
-        public async Task Should_Throw_ErrorWithInvalidVisit()
+        public async Task WhenIntegratedShould_Save_NewSupplierContact()
+        {
+            // arrange
+            var supplierServices = _dataServices.GetSupplierDataServices();
+            var allSuppliers = await supplierServices.GetSupplierAsyncSummaryDo();
+            var supplier = allSuppliers.FirstOrDefault();
+            var codeId = supplier.Codigo;
+            var supplierItem = await supplierServices.GetAsyncSupplierDo(codeId);
+            ContactsDto dto = new ContactsDto();
+            dto.ResponsabilitySource = new PersonalPositionDto();
+            dto.ResponsabilitySource.Code = "1";
+            dto.ResponsabilitySource.Name = "GERENTE";
+            dto.Responsability = "1";
+            dto.Movil = "657837133";
+            dto.Nif = "Y167821S";
+            dto.Email = "carlos@gmail.com";
+            dto.IsNew = true;
+            dto.IsDirty = true;
+            dto.LastModification = DateTime.Now.ToString("yyyyMMddHH:mm");
+            dto.User = "CV";
+            List<ContactsDto> contactsDto = new List<ContactsDto>();
+            contactsDto.Add(dto);
+            supplierItem.ContactsDto = supplierItem.ContactsDto.Union(contactsDto);
+            DataPayLoad payload = new DataPayLoad();
+            payload.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
+            payload.RelatedObject = dto;
+            // act
+            _carveBarViewModel.IncomingPayload(payload);
+            _carveBarViewModel.SaveCommand.Execute();
+            // assert
+            var contacts =  await supplierServices.GetAsyncContacts(codeId);
+           
+
+
+
+        }
+
+        [Test]
+        public async Task WhenIntegratedShould_Throw_ErrorWithInvalidVisit()
         {
             // arrange
             var id = await GetSampleId();
@@ -120,8 +158,9 @@ namespace KarveCar.IntegrationTest
             // Assert.Throws(_carveBarViewModel.SaveCommand.Execute();
             var message= ex.Message;
         }
+       
         [Test]
-        public async Task Should_Save_CommissionAgent_Visits()
+        public async Task WhenIntegratedShould_Save_CommissionAgent_Visits()
         {
             DataPayLoad payload = new DataPayLoad();
            IHelperDataServices helperDataService = _dataServices.GetHelperDataServices();

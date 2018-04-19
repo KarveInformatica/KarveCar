@@ -220,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\ButtonBehavior.cs" />
+    <Compile Include="Behaviour\ChangeRuleBehavior.cs" />
     <Compile Include="Behaviour\ComboAdvChangeBehavior.cs" />
     <Compile Include="Behaviour\GridEditButtonBehavior.cs" />
     <Compile Include="Behaviour\Grid\GridDefaultBehavior.cs" />

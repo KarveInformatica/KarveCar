@@ -29,7 +29,15 @@
                         </Style>
                     </ResourceDictionary>
                 </Grid.Resources>
-                <Syncfusion:SfDataGrid x:Name="CompanyControlSummary"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"></RowDefinition>
+            <RowDefinition Height="80*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock FontWeight="Bold" Text="Listado "></TextBlock>
+            <TextBlock FontWeight="Bold" Text="{Binding ItemName}"></TextBlock>
+        </StackPanel>
+        <Syncfusion:SfDataGrid x:Name="CompanyControlSummary"
                                ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"

@@ -61,6 +61,7 @@ namespace MasterModule.ViewModels
             _container = container;
             _dataServices = services;
             _dialogService = dialogService;
+            ItemName = KarveLocale.Properties.Resources.lrbtnComisionistas;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
 

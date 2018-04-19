@@ -391,6 +391,10 @@ namespace DataAccessLayer
             }
             return queryAsync;
         }
-        
+
+        public Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

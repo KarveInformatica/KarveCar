@@ -23,7 +23,7 @@ namespace KarveCommon.Generic
     {
 
         protected IEventManager EventManager;
-
+        
         /// <summary>
         /// Base view model for routing.
         /// </summary>

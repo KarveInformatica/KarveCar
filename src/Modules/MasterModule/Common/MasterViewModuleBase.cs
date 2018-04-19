@@ -291,15 +291,30 @@ namespace MasterModule.Common
                 return helper;
             });
         }
-        /// <summary>
-        ///  This function enforces the base payload.
-        /// </summary>
-        /// <param name="eventDictionary">Dictionary of events</param>
-        /// <param name="payLoad">Payload</param>
-        protected void  SetBasePayLoad(IDictionary<string, object> eventDictionary, ref DataPayLoad payLoad) 
+
+
+        
+
+        protected object EnforceCityChangeRule(object dataObject)
+        {
+            var newDataObject = dataObject;
+            var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", ControlExt.DataType.Any);
+            if (cpValue != null)
             {
-            var fieldName = string.Empty;
-            object valueName = null;
+                var provinceValue = cpValue.Substring(0, 2);
+                ComponentUtils.SetPropValue(newDataObject, "PROV", provinceValue);
+            }
+            return newDataObject;
+        }
+            /// <summary>
+            ///  This function enforces the base payload.
+            /// </summary>
+            /// <param name="eventDictionary">Dictionary of events</param>
+            /// <param name="payLoad">Payload</param>
+            protected void  SetBasePayLoad(IDictionary<string, object> eventDictionary, ref DataPayLoad payLoad) 
+            {
+                var fieldName = string.Empty;
+                object valueName = null;
            
             if (eventDictionary.ContainsKey("DataObject"))
             {
@@ -307,6 +322,10 @@ namespace MasterModule.Common
                 if (eventDictionary.ContainsKey("Field"))
                 {
                     fieldName = eventDictionary["Field"] as string;
+                    if (fieldName == "CP")
+                    {
+                        data = EnforceCityChangeRule(data);
+                    }
 
                 }
                if (eventDictionary.ContainsKey("ChangedValue"))
@@ -320,8 +339,7 @@ namespace MasterModule.Common
                     var currentObject = payLoad.DataObject;
                     ComponentUtils.SetPropValue(currentObject, "Value." + fieldName,valueName, true);
                     payLoad.DataObject = currentObject;
-                }
-
+                }   
             }
             
             }
@@ -851,13 +869,12 @@ namespace MasterModule.Common
         
         
         /// <summary>
-        /// SetDataObject. 
+        /// SetDataObject. The idea is to provide a common inteface to trigger in a base class the raise propery changed.
         /// </summary>
         /// <param name="result">DataObject to be set.</param>
         protected abstract void SetDataObject(object result);
 
        
-        
 
         /// <summary>
         ///  Navigation support.

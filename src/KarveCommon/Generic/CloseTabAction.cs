@@ -10,6 +10,7 @@ using Syncfusion.Windows.Controls;
 using Syncfusion.Windows.Tools.Controls;
 using Prism.Regions;
 using System.Windows.Media;
+using System.Reflection;
 
 namespace KarveCommon.Generic
 {
@@ -61,7 +62,6 @@ namespace KarveCommon.Generic
                 region.Remove(item);
             }
         }
-
         void InvokeOnNavigatedFrom(object item, NavigationContext navigationContext)
         {
             var navigationAwareItem = item as INavigationAware;
@@ -75,10 +75,21 @@ namespace KarveCommon.Generic
                 if (navigationAwareDataContext != null)
                 {
                     navigationAwareDataContext.OnNavigatedFrom(navigationContext);
+
+                }
+                if (frameworkElement != null)
+                {
+                    var viewModel = frameworkElement.DataContext;
+                    Type viewModelType = viewModel.GetType();
+                    MethodInfo methodInfo = viewModelType.GetMethod("DisposeEvents");
+                    if (methodInfo != null)
+                    {
+                        methodInfo.Invoke(viewModel, null);
+                    }
                 }
             }
         }
-
+       
         bool CanRemove(object item, NavigationContext navigationContext)
         {
             bool canRemove = true;

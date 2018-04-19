@@ -119,7 +119,8 @@ namespace KarveControls
         /// </summary>
         public DataArea(): base()
         {
-            
+            /// default height
+            Height = 300;
             
         }
 
@@ -133,13 +134,13 @@ namespace KarveControls
                 _editorText.LostFocus += EditorTextOnLostFocus;
                 _editorText.GotFocus += EditorTextOnGotFocus;
             }
-            _searchButton = GetTemplateChild("PART_SearchButton") as Button;
+           /* _searchButton = GetTemplateChild("PART_SearchButton") as Button;
             if (_searchButton != null)
             {
-                _searchButton.Click += OnSearchTerm;
+               _searchButton.Click += OnSearchTerm;
             }
             _searchTextBlock = GetTemplateChild("PART_SearchTextBlock") as TextBlock;
-
+            */
         }
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class SupplierSummaryDto
+    public class SupplierSummaryDto: BaseDto
     {
         public string Codigo { get; set; }
 
@@ -58,6 +58,13 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public DateTime? F_AEAT { get; set; }
-
+        // cuenta gasto.
+        public string CuentaGasto { get; set; }
+        // usuario
+        public string Usuario { get; set; }
+        /// <summary>
+        ///  ultima modifica.
+        /// </summary>
+        public string UltimaModifica { get; set; }
     }
 }

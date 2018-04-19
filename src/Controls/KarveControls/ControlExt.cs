@@ -307,7 +307,19 @@ namespace KarveControls
             if (dependencyObject is DataFieldCheckBox)
             {
                 DataFieldCheckBox checkBox = dependencyObject as DataFieldCheckBox;
-                checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
+                var path = ControlExt.GetDataSourcePath(checkBox);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    var tmp = ControlExt.GetDataSource(checkBox);
+                    if (tmp != null)
+                    {
+                        var propValue = ComponentUtils.GetPropValue(tmp, path);
+                        checkBox.IsChecked = Convert.ToBoolean(propValue);
+                    }
+                }
+                 //checkBox.Checked += CheckBox_DataChecked;
+                 // checkBox.Unchecked += CheckBox_DataUnChecked;
+                 //  checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
                 return;
             }
             if (dependencyObject is CheckBox)
@@ -329,7 +341,34 @@ namespace KarveControls
                 }
             }
         }
-
+        private static void CheckBox_DataChecked(object sender, RoutedEventArgs e)
+        {
+            DataFieldCheckBox dataFieldCheckBox = sender as DataFieldCheckBox;
+            var path = ControlExt.GetDataSourcePath(dataFieldCheckBox);
+            if (!string.IsNullOrEmpty(path))
+            {
+                var tmp = ControlExt.GetDataSource(dataFieldCheckBox);
+                if (tmp!=null)
+                {
+                    var propValue = ComponentUtils.GetPropValue(tmp, path);
+                    dataFieldCheckBox.IsChecked = true;
+                    ControlExt.SetDataSource(dataFieldCheckBox, true);
+                }
+            }
+        }
+        private static void CheckBox_DataUnChecked(object sender, RoutedEventArgs e)
+        {
+            DataFieldCheckBox dataFieldCheckBox = sender as DataFieldCheckBox;
+            var path = ControlExt.GetDataSourcePath(dataFieldCheckBox);
+            if (path != null)
+            {
+                var tmp = ControlExt.GetDataSource(dataFieldCheckBox);
+                if (tmp is bool)
+                {
+                    ControlExt.SetDataSource(dataFieldCheckBox, false);
+                }
+            }
+        }
         private static void checkBox_Clicked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
@@ -610,25 +649,17 @@ namespace KarveControls
         /// <param name="e"></param>
         private static void CheckBox_DataFieldCheckBoxChanged(object sender, RoutedEventArgs e)
         {
+            var value = e as DataFieldCheckBoxEventArgs;
             var dataFieldCheckBox = sender as DataFieldCheckBox;
             if (dataFieldCheckBox != null)
             {
-                var command = dataFieldCheckBox.GetValue(ItemChangedCommandProperty) as ICommand;
-                
+                var command = dataFieldCheckBox.GetValue(ItemChangedCommandProperty) as ICommand;    
                 if (command != null)
                 {
-                    var sourceObject = GetDataSource(dataFieldCheckBox);
-                    var sourceObjectPath = GetDataSourcePath(dataFieldCheckBox);
-                  
-                    ComponentUtils.SetPropValue(sourceObject, sourceObjectPath, dataFieldCheckBox.IsChecked);
-                    SetDataSource(dataFieldCheckBox, sourceObject);
-                    IDictionary<string, object> objectName = new Dictionary<string, object>();
-                    objectName["DataObject"] = sourceObject;
-                    objectName["DataSourcePath"] = sourceObjectPath;
-                    objectName["ChangedValue"] = dataFieldCheckBox.IsChecked;
-                    command.Execute(objectName);
+                    command.Execute(value.ChangedValuesObjects);
                 }
             }
+            
         }
 
        

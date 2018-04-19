@@ -34,7 +34,16 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding ItemName}"></TextBlock>
+        </StackPanel>
         <Syncfusion:SfDataGrid x:Name="CommissionAgentSummary"
+                               Grid.Row="1"
                                ColumnSizer="AutoWithLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"

@@ -11,7 +11,6 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Commands;
-using Prism.Mvvm;
 using AutoMapper;
 using DataAccessLayer.Logic;
 using KarveCommon.Generic;

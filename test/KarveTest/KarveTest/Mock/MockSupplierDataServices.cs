@@ -32,6 +32,11 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Tuple<string, DataSet>> GetAsyncDelegations(string supplierId)
         {
             throw new NotImplementedException();

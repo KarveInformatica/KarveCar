@@ -144,6 +144,7 @@
     </Compile>
     <Compile Include="Behavior\Xaml\TestData.cs" />
     <Compile Include="Commands\BranchesOperation.cs" />
+    <Compile Include="Common\TestCareKeeper.cs" />
     <Compile Include="DAL\Crud\Client\TestClientCrud.cs" />
     <Compile Include="DAL\Crud\Office\TestOfficeCrud.cs" />
     <Compile Include="DAL\TestBuildQuery.cs" />
@@ -282,6 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Toolbar\" />
+    <Folder Include="UI\KarveControls\DataAreaTest\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />
     <Folder Include="UI\KarveControls\VehicleInfoViewTest\" />
     <Folder Include="Views\MasterModule\" />

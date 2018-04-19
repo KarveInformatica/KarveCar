@@ -141,6 +141,19 @@ namespace KarveControls
                 RoutingStrategy.Bubble,
                 typeof(RoutedEventHandler),
                 typeof(DualFieldSearchBox));
+
+        /// <summary>
+        /// SelectedItem
+        /// </summary>
+        public static readonly RoutedEvent SelectedItemEvent =
+            EventManager.RegisterRoutedEvent(
+                "SelectedItem",
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(DualFieldSearchBox));
+
+
+
         /// <summary>
         ///  DataTable or data object associated with the item source.
         /// </summary>
@@ -397,6 +410,17 @@ namespace KarveControls
             add => AddHandler(MagnifierPressEvent, value);
             remove => RemoveHandler(MagnifierPressEvent, value);
         }
+
+
+        // This is needed fro InvokeCommand Prism 
+        /// <summary>
+        ///  Get the event handler from the magnifier.
+        /// </summary>
+        public event RoutedEventHandler SelectedItem
+        {
+            add => AddHandler(SelectedItemEvent, value);
+            remove => RemoveHandler(SelectedItemEvent, value);
+        }
         /// <summary>
         ///  Button image to be associated to the magnifier
         /// </summary>
@@ -606,6 +630,20 @@ namespace KarveControls
                 SetValue(DataSourceDependencyProperty, value);
             }
         }
+
+        internal object DataView
+        {
+            get
+            {
+                return GetValue(DataSourceDependencyProperty);
+            }
+            set
+            {
+                var dep = new DependencyPropertyChangedEventArgs(DataSourceDependencyProperty, null, value);
+                OnDataSourceChanged(dep);
+                SetValue(DataSourceDependencyProperty, value);
+            }
+        }
         /// <summary>
         ///  This gives us a data source changed.
         /// </summary>
@@ -677,6 +715,7 @@ namespace KarveControls
             var source = SourceView as IEnumerable;
             if (source != null)
             {
+               
                 // find the code in _sourceView
                 foreach (var assistValue in source)
                 {
@@ -1205,6 +1244,7 @@ namespace KarveControls
                 RaiseEvent(args);
 
             }
+
         }
         private void RaiseMagnifierPressEvent()
         {
@@ -1457,6 +1497,7 @@ namespace KarveControls
                 valueDictionary["ChangedCode"] = TextContentFirst;
                 valueDictionary["ChangedValue"] = TextContentFirst;
                 valueDictionary["ChangedValue2"] = TextContentSecond; 
+
                 if (ItemChangedCommand != null)
                 {
                     if (ItemChangedCommand.CanExecute(valueDictionary))
@@ -1465,7 +1506,9 @@ namespace KarveControls
                     }
                 }
                 ev.ChangedValuesObjects = valueDictionary;
+
                 RaiseEvent(ev);
+
             }
         }
         private void MagnifierGrid_OnSelectionRowChanged(object sender, GridSelectionChangedEventArgs e)

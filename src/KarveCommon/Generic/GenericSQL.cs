@@ -28,12 +28,12 @@ namespace KarveCommon.Generic
 
         public const string AccountSummaryQuery = "select codigo,descrip,cc from cu1";
 
-        public const string SupplierSummaryQuery = "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Provedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE";
+        public const string SupplierSummaryQuery = "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE";
 
     
 
         public const string SupplierQuery =
-            "SELECT PROVEE1.NUM_PROVEE AS Code, PROVEE1.NOMBRE AS Nombre, NIF as Nif ,COMERCIAL as Comercial, " +
+            "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif ,COMERCIAL as Comercial, " +
             "TELEFONO as Telefono, DIRECCION as Direccion, CP, POBLACION,EMAIL, F_AEAT, FORMA, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, " +
             "PROVEE2.PLAZO as Plazo, PROVEE2.PLAZO2 as Plazo2, PROVEE2.PLAZO3 as Palzo3, PROVEE2.DIA as Dia, PROVEE2.DIA2 as Dia2, PROVEE2.DIA3 as Dia3, " +
             "PROVEE1.MESVACA as MesVacaciones, PROVEE1.MESVACA2 as MesVacaciones2, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
@@ -49,8 +49,15 @@ namespace KarveCommon.Generic
         public const string DelegationQuery = "SELECT cldIdDelega, cldDelegacion,  " +
                                               "cldDireccion1, " +
                                               "cldDireccion2, " +
-                                              "cldCP, cldIdProvincia, cldPoblacion, cldTelefono1, cldTelefono2, cldEmail " +
+                                              "cldCP, cldIdProvincia, cldPoblacion, cldTelefono1, cldTelefono2, cldEmail,cldFax, ULTMODI,USUARIO" +
                                               "FROM ProDelega  WHERE cldIdCliente={0} ORDER BY cldIdCliente";
+
+        public const string DelegationQueryPoco = "SELECT cldIdDelega, cldDelegacion,  " +
+                                              "cldDireccion1, " +
+                                              "cldDireccion2, " +
+                                              "cldCP, cldIdProvincia, cldPoblacion, cldTelefono1, cldTelefono2, cldEmail, cldFax, ULTMODI,USUARIO" +
+                                              "FROM ProDelega  WHERE cldIdCliente={0} ORDER BY cldIdCliente";
+
 
         public const string DeliveringFromQuery = "SELECT CODIGO, NOMBRE FROM FORMAS_PEDENT where CODIGO='{0}'";
         public const string DeliveringWay = "SELECT CODIGO, NOMBRE FROM VIASPEDIPRO where CODIGO='{0}'";

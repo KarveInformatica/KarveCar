@@ -74,7 +74,7 @@ namespace MasterModule.ViewModels
             return false;
         }
 
-       
+
         /// <summary>
         ///  Abstract the new item. Nothing happens in the case of *InfoViewModels since the new item
         ///  is managed by the controller.
@@ -158,14 +158,98 @@ namespace MasterModule.ViewModels
         /// <param name="visitsDto"></param>
         /// <returns></returns>
         internal abstract Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto);
+
         /// <summary>
-        ///  Data grid branch province.
+        /// This set the branch province.
         /// </summary>
         /// <param name="p"></param>
         /// <param name="b"></param>
         /// <returns></returns>
+
         internal abstract Task SetBranchProvince(ProvinciaDto p, BranchesDto b);
 
+
+        protected IDictionary<string, object> SetContacts(PersonalPositionDto personal, 
+            ContactsDto contactsDto,
+            object dataObject, 
+            IEnumerable<ContactsDto> contacts)
+        {
+            Dictionary<string, object> ev = new Dictionary<string, object>();
+            ev["DataObject"] = dataObject;
+            var items = new List<ContactsDto>();
+            var contact = contacts.Where(x => x.ContactId == contactsDto.ContactId).FirstOrDefault();
+            if (contact == null)
+            {
+                ev["Operation"] = ControlExt.GridOp.Insert;
+                // insert case
+                contact = contactsDto;
+                contact.IsNew = true;
+                contact.IsDirty = true;
+            }
+            else
+            {
+                contact = contactsDto;
+                ev["Operation"] = ControlExt.GridOp.Update;
+                contact.IsChanged = true;
+                contact.IsDirty = true;
+                contact.IsNew = false;
+               
+            }
+            contact.ResponsabilitySource = personal;
+            personal.ShowCommand = this.ContactChargeMagnifierCommand;
+            contact.ResponsabilitySource = personal;
+            // add the changed value to the branch.
+            items.Add(contact);
+            ev["ChangedValue"] = items;
+            return ev;
+        }       
+    /// <summary>
+    /// Craft the dictionary to send when the magnifier triggers an event. 
+    /// </summary>
+    /// <param name="province"></param>
+    /// <param name="branchesDto"></param>
+    /// <param name="DataObject"></param>
+    /// <param name="delegation"></param>   
+    /// <returns></returns>
+internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto, 
+            object DataObject, IEnumerable<BranchesDto> delegation)
+        {
+
+            Dictionary<string, object> ev = new Dictionary<string, object>();
+            ev["DataObject"] = DataObject;
+            var items = new List<BranchesDto>();
+            var branch = delegation.Where(x => x.BranchId == branchesDto.BranchId).FirstOrDefault();
+            if (branch == null)
+            {
+                ev["Operation"] = ControlExt.GridOp.Insert;
+                // insert case
+                branch = branchesDto;
+                branch.IsNew = true;
+                branch.IsDirty = true;
+            }
+            else
+            {
+                ev["Operation"] = ControlExt.GridOp.Update;
+
+                branch = branchesDto;
+                branch.IsChanged = true;
+                branch.IsDirty = true;
+                branch.IsNew = false;
+            }
+            branch.ProvinceSource = province;
+            province.ShowCommand = DelegationProvinceMagnifierCommand;
+            branch.ProvinceId = province.Code;
+            branch.ProvinceName = province.Name;
+            branch.Province = province;
+            branch.ProvinceSource = province;
+            // add the changed value to the branch.
+            items.Add(branch);
+            ev["ChangedValue"] = items;
+            RaisePropertyChanged("DataObject");
+            return ev;
+        }
+
+        protected IReadOnlyDictionary<string, object> EventDictionary { get; set; }
         internal abstract Task SetVisitReseller(ResellerDto param, VisitsDto b);
 
         static internal VisitsDto SetDtoCrossReference(ContactsDto contacts, VisitsDto visit)
@@ -341,6 +425,7 @@ namespace MasterModule.ViewModels
         protected DataPayLoad BuildDataPayload(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = new DataPayLoad();
+            payLoad.ObjectPath = ViewModelUri;
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
@@ -367,6 +452,8 @@ namespace MasterModule.ViewModels
             }
             return payLoad;
         }
+
+
         /// <summary>
         ///  Name of the routing. We overrdie the name to provide a default.
         /// </summary>
@@ -376,6 +463,7 @@ namespace MasterModule.ViewModels
         {
             return "";
         }
+       
         /// <summary>
         ///  Specify if we can delete a region
         /// </summary>

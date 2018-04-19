@@ -167,28 +167,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCommonInterfaces.csproj">
-      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
-      <Name>KarveCommonInterfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\KarveCommon\KarveCommon.csproj">
-      <Project>{49feb437-7f5a-4c7b-870c-a9bb5fc809fd}</Project>
-      <Name>KarveCommon</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\KarveLocale\KarveLocale.csproj">
-      <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
-      <Name>KarveLocale</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Modules\InteractModule\KarveInteract\InteractivityModule.csproj">
-      <Project>{aeeb75ff-86ed-441c-8ea1-45a8500c35f3}</Project>
-      <Name>InteractivityModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KarveControls.csproj">
-      <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
-      <Name>KarveControls</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>

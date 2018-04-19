@@ -86,6 +86,8 @@ namespace MasterModule.ViewModels
             StateVisible = true;
             _clientData =_clientDataServices.GetNewClientAgentDo("0");
             eventHandler += OnDriverUpdate;
+            ViewModelUri = new Uri("karve://client/viewmodel?id=" + Guid.ToString());
+
             ActiveSubSystem();
            
           
@@ -253,40 +255,8 @@ namespace MasterModule.ViewModels
         /// <param name="eventDictionary"></param>
         private void OnChangedField(IDictionary<string, object>  eventDictionary)
         {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.Subsystem = DataSubSystem.ClientSubsystem;
-            payLoad.SubsystemName = MasterModuleConstants.ClientSubSystemName;
-            payLoad.PayloadType = DataPayLoad.Type.Update;
-            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
-            {
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-
-            }
-            if (eventDictionary.ContainsKey("DataObject"))
-            {
-                if (eventDictionary["DataObject"] == null)
-                {
-                    MessageBox.Show("DataObject is null.");
-                }
-
-                var data = eventDictionary["DataObject"];
-                if (eventDictionary.ContainsKey("Field"))
-                {
-                    var name = eventDictionary["Field"] as string;
-                    if (eventDictionary.ContainsKey("ChangedCode"))
-                    {
-                        GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedCode"]);
-                    }
-                    else
-                    {
-                        GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
-                    }
-                }
-                payLoad.DataObject = data; 
-                payLoad.HasDataObject = true;
-                eventDictionary["DataObject"] = data;
-
-            }
+            DataPayLoad payLoad = BuildDataPayload(eventDictionary);
+           
             ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,
                 DataSubSystem.ClientSubsystem);
 

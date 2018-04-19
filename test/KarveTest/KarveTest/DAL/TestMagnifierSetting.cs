@@ -104,8 +104,16 @@ namespace KarveTest.DAL
                         serialize.GRID_ID = 1;
                         serialize.GRID_NAME = "Named";
                         serialize.SERILIZED_DATA = base64;
-                        var value = await connection.InsertAsync<GRID_SERIALIZATION>(serialize);
-                        Assert.GreaterOrEqual(value, 0);
+                        bool value = false;
+                        if (!connection.IsPresent<GRID_SERIALIZATION>(serialize))
+                        {
+                            value = await connection.InsertAsync<GRID_SERIALIZATION>(serialize) > 0;
+                        }
+                        else
+                        {
+                            value = await connection.UpdateAsync<GRID_SERIALIZATION>(serialize);
+                        }
+                        Assert.IsTrue(value);
                     }
                 }
             }

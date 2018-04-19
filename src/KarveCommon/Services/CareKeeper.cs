@@ -105,15 +105,11 @@ namespace KarveCommon.Services
         {
             if ((payload != null) && (payload.DataObject!=null))
             {
-                if (EnqueueSingle(payload))
-                {
-                    _payLoad.Clear();
-                }
                 if (!_payLoad.Contains(payload))
                 {
                     _payLoad.Enqueue(payload);
                 }
-               _scheduledPayLoad = true;
+               _scheduledPayLoad = _payLoad.Count() > 0;
             }
             Contract.Ensures(_payLoad!=null);
         }
@@ -124,6 +120,17 @@ namespace KarveCommon.Services
         public int ScheduledPayloadCount()
         {
             return _payLoad.Count();
+        }
+
+        public void DeleteItems(Uri objectPath)
+        {
+            var currentList = _payLoad.ToList();
+            currentList.RemoveAll(x => x.ObjectPath == objectPath);
+            _payLoad.Clear();
+            foreach (var i in currentList)
+            {
+                _payLoad.Enqueue(i);
+            }
         }
     }
     }

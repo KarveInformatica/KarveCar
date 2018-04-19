@@ -132,31 +132,105 @@ namespace KarveTest.DAL
             bool value = await _supplierDataServices.Save(data);
             Assert.True(value);
         }
-        /// <summary>
-        ///  Should udpate and save a vehicle.
-        /// </summary>
-        /// <returns></returns>
-        /*
-        public async Task Should_Update_Save_A_Vehicle()
-        {
-            IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
-            ISupplierData supplierData = supplierCollection.FirstOrDefault();
-            Assert.NotNull(supplierData);
-            bool value = await _supplierDataServices.SaveChanges(supplierData);
-
-        }*/
-        /*
         [Test]
-        public async Task Should_Give_Me_A_Valid_Supplier()
+        public async Task Should_Update_SupplierBranches()
         {
             // arrange
-            IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
-            ISupplierData validSupplier = supplierCollection.FirstOrDefault();
-            Assert.NotNull(validSupplier);
-            ISupplierData supplier = await _supplierDataServices.GetAsyncSupplierDo(validSupplier.Value.NUM_PROVEE);
+            var suppliers = await _supplierDataServices.GetSupplierAsyncSummaryDo();
+            SupplierSummaryDto supplierSummaryDto =  suppliers.FirstOrDefault();
+            var id = supplierSummaryDto.Codigo;
+            var province = new ProvinciaDto();
+            province.Name = "Barcelona";
+            province.Code = "08";
+            province.Country = "Spain";
+            Random rand = new Random();
+            var branches = new List<BranchesDto>()
+            {
+                new BranchesDto() { BranchKeyId = id,
+                                    BranchId = (rand.Next() % 5000).ToString(),
+                                    Branch="EAE",
+                                    ProvinceSource = province,
+                                    City = "Barcelona",
+                                    Address = "Calle Rocafort 137",
+                                    Address2 = "Calle Arago 65",
+                                    Email = "carlos.velasco@gmail.com",
+                                    Notes = "MyNotes",
+                                    Fax ="+33889381982"
+                                    },
+                 new BranchesDto() { BranchKeyId = id,
+                                    BranchId = (rand.Next() % 5000).ToString(),
+                                    Branch="Scala",
+                                    ProvinceSource = province,
+                                    City = "Barcelona",
+                                    Address = "Calle Rocafort 189",
+                                    Address2 = "Calle Arago 123",
+                                    Email = "carlos.velasco@gmail.com",
+                                    Notes = "MyNotes",
+                                    Fax ="+33889381982"
+                                    },
+                  new BranchesDto() { BranchKeyId = id,
+                                    BranchId = (rand.Next() % 5000).ToString(),
+                                    Branch="Scala",
+                                    ProvinceSource = province,
+                                    City = "Barcelona",
+                                    Address = "Calle Rocafort 189",
+                                    Address2 = "Calle Arago 123",
+                                    Email = "carlos.velasco@gmail.com",
+                                    Notes = "MyNotes",
+                                    Fax ="+33889381982"
+                                    }
+                };
+            var dataObject = await _supplierDataServices.GetAsyncSupplierDo(id);
+            Assert.NotNull(dataObject);
+            dataObject.BranchesDto = dataObject.BranchesDto.Union(branches);
+            //act
+            bool retValue = await _supplierDataServices.Save(dataObject);
+            // assert.
+            Assert.IsTrue(retValue);
+            var savedObject = await _supplierDataServices.GetAsyncSupplierDo(id);
+            var currentObject = savedObject.BranchesDto.Intersect(branches);
+            Assert.AreEqual(currentObject.Count(), branches.Count());
+        }
+
+        [Test]
+        public async Task Should_Load_AValid_Supplier()
+        {
+            // arrange
+            var supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
+            var codeId = supplierCollection.FirstOrDefault().Codigo;
+            // act
+            var supplier = await _supplierDataServices.GetAsyncSupplierDo(codeId);
+            // assert
             Assert.True(supplier.Valid);
-            Assert.AreEqual(validSupplier, supplier);
-        }*/
+            Assert.NotNull(supplier.Value);
+
+        }
+        [Test]
+        public async Task Should_Insert_NewSupplierWithAllFields()
+        {
+            Dictionary<string, object> mapperProperties = new Dictionary<string, object>();
+            // arrange
+            var supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
+            var codeId = supplierCollection.FirstOrDefault().Codigo;
+            // act
+            var supplier = await _supplierDataServices.GetAsyncSupplierDo(codeId);
+            SupplierDto value = supplier.Value;
+            value.NOMBRE = "GZopSoft";
+            value.DIRECCION = "Calle Paris 39";
+            value.POBLACION = "VITORIA-GASTEITZ";
+
+            // assert
+            //Assert.True(supplier.Valid);
+            //Assert.NotNull(supplier.Value);
+        }
+
+        /*     [Test]
+             public async Task Should_Insert_NewSupplierWithAllFields()
+             {
+                 private Dictionary<string, object> mapperProperties = new Dictionary<string, object>();
+           await Task.Delay();
+             }
+             */
 
         // <summary>
         // This is an asynchronous test where for each supplier we get the information for its supplierId.

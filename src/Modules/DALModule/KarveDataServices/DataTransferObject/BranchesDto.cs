@@ -78,5 +78,7 @@ namespace KarveDataServices.DataTransferObject
                 return _provincia;
             }
         }
+
+        public string CellPhone { get; set; }
     }
 }

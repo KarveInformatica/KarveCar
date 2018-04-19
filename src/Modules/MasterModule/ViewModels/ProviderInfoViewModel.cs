@@ -16,6 +16,7 @@ using NLog;
 using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Linq;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;
@@ -38,7 +39,7 @@ namespace MasterModule.ViewModels
         private string _accountAssistQuery = "SELECT CODIGO, DESCRIP, CC FROM CU1;";
         private bool _delegationReadonly;
         private ISupplierData _supplierData;
-        private object _dataObject;
+        private ISupplierData _dataObject;
         private Visibility _visibility;
         private IEnumerable<ProvinciaDto> _provinciaDtos = new ObservableCollection<ProvinciaDto>();
         private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
@@ -163,21 +164,6 @@ namespace MasterModule.ViewModels
             get { return _formaDtos; }
         }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public override void OnNavigatedTo(NavigationContext navigationContext)
-        {
-
-        }
-
-        public override void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
-        }
-
         public ICommand DelegationGridChangedCommand { set; get; }
         
         /// <summary>
@@ -202,7 +188,7 @@ namespace MasterModule.ViewModels
             _onBranchesPrimaryKey += ProviderInfoViewModel__onBranchesPrimaryKey;
             _onContactsPrimaryKey += ProviderInfoViewModel__onContactsPrimaryKey;
             _uniqueCounter++;
-           
+            ViewModelUri = new Uri("karve://supplier/viewmodel?id=" + Guid.ToString());
             InitVmCommands();
         }
 
@@ -229,9 +215,7 @@ namespace MasterModule.ViewModels
         {
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
-
         
-
         /// <summary>
         ///  Handle the delegation grid changes.
         /// </summary>
@@ -252,8 +236,8 @@ namespace MasterModule.ViewModels
         private void OnAssistCommand(object param)
         {
             IDictionary<string, string> values = (Dictionary<string, string>)param;
-            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
-            string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
+            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : string.Empty;
+            string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : string.Empty;
             AssistQueryRequestHandler(assistTableName, assistQuery);
         }
 
@@ -287,7 +271,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data object.
         /// </summary>
-        public object DataObject
+        public ISupplierData DataObject
         {
             set
             {
@@ -614,6 +598,7 @@ namespace MasterModule.ViewModels
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = BuildDataPayload(eventDictionary);
+            
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
             payLoad.SubsystemName = MasterModuleConstants.ProviderSubsystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
@@ -813,7 +798,7 @@ namespace MasterModule.ViewModels
                 Logger.Info("ProviderInfoViewModel has received payload type " + payload.PayloadType.ToString());
                 var supplierData = payload.DataObject as ISupplierData;
                 DataObject = supplierData;
-                Logger.Log(LogLevel.Debug, "Received PoblaPago" + supplierData.Value.POB_RECLAMA);               
+              
                 ProvinceDto = supplierData.ProvinciaDtos;
                 ProvinceDto1 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
                 CountryDto1 = new  ObservableCollection<CountryDto>(supplierData.CountryDtos);
@@ -889,9 +874,6 @@ namespace MasterModule.ViewModels
             {
                 supplier = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(primaryKeyValue);
                 DataObject = supplier;
-                var supplierData = DataObject as ISupplierData;
-                Logger.Log(LogLevel.Debug, "Received PoblaPago" + supplierData.Value.POB_PAGO);
-
             }
             return supplier;
         }
@@ -955,7 +937,7 @@ namespace MasterModule.ViewModels
                             if (payload.HasDataObject)
                             {
                                 DataObject = null;
-                                DataObject = payload.DataObject;
+                                DataObject = payload.DataObject as ISupplierData;
                                 _supplierData = DataObject as ISupplierData;
                             }
                             break;
@@ -1005,6 +987,11 @@ namespace MasterModule.ViewModels
         {
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
+            DataPayLoad payload = new DataPayLoad();
+            payload.ObjectPath = ViewModelUri;
+            payload.PayloadType = DataPayLoad.Type.Dispose;
+            EventManager.NotifyToolBar(payload);
+
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
@@ -1019,19 +1006,51 @@ namespace MasterModule.ViewModels
         {
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
         {
-            throw new NotImplementedException();
+            var supplierData = DataObject as ISupplierData;
+            IEnumerable<ContactsDto> contactsDtos = supplierData.ContactsDto;
+            var ev = SetContacts(personal, contactsDto, DataObject, contactsDtos);
+            await GridChangedNotification<ContactsDto, ProContactos>(ev, _onContactsPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+            RaisePropertyChanged("DataObject");
+            RaisePropertyChanged("DataObject.ContactsDto");
+        }
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto visitsDto)
+        {
+            throw new NotImplementedException();     
+       
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override async Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
         {
-            throw new NotImplementedException();
+            var currentObject = DataObject as ISupplierData;
+            var ev = CreateGridEvent<ContactsDto, VisitsDto>(p, visitsDto, currentObject.VisitsDto, this.ContactMagnifierCommand);
+            visitsDto.ClientId = PrimaryKeyValue;
+            var newList = new List<VisitsDto>();
+            newList.Add(visitsDto);
+            var exitDto = currentObject.VisitsDto;
+            var mergedList = exitDto.Union<VisitsDto>(newList);
+            currentObject.VisitsDto = mergedList;
+            ev["DataObject"] =currentObject;
+            // Notify the toolbar.
+            await GridChangedNotification<VisitsDto, VISITAS_PROV>(ev, _onVisitPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+        
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        private void _onVisitPrimaryKey(ref VisitsDto visitsDto)
         {
-            throw new NotImplementedException();
+            visitsDto.KeyId = PrimaryKey;
+        }
+
+        internal override async Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        {
+            var currentObject = DataObject as ISupplierData;
+            if (currentObject!=null)
+            {
+                var ev = SetBranchProvince(p, b, DataObject, currentObject.BranchesDto);
+                await GridChangedNotification<BranchesDto, ProDelega>(ev, _onBranchesPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+            }
+           
         }
 
         internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)

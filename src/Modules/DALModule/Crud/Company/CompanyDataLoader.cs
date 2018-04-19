@@ -10,6 +10,8 @@ using AutoMapper;
 using DataAccessLayer.Logic;
 using Dapper;
 using System.Linq;
+using System;
+using System.Collections.ObjectModel;
 
 namespace DataAccessLayer.Crud.Company
 {
@@ -23,6 +25,7 @@ namespace DataAccessLayer.Crud.Company
         private IHelperData _helperBase;
         private long _currentPos;
         private QueryStoreFactory _queryStoreFactory;
+        private List<EntityDecorator> _output = new List<EntityDecorator>();
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -66,13 +69,68 @@ namespace DataAccessLayer.Crud.Company
                     SqlMapper.GridReader reader = null;
                     IQueryStore store = CreateQueryStore(companyDto);
                     string multipleQuery = store.BuildQuery();
-                    reader = await connection.QueryMultipleAsync(multipleQuery);
-                    // set the helpers and maps the offices that belong to a company.
-                    SetDataTransferObject(reader, value, ref companyDto);
 
+                    IList<object> entities = new List<object>()
+                    {
+                        new POBLACIONES(),
+                        new PROVINCIA(),
+                        new OFICINAS()
+                    };
+                    IList<object> dto = new List<object>()
+                    {
+                        new CityDto(),
+                        new ProvinciaDto(),
+                        new OfficeDtos()
+                    };
+                  
+                    EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
+
+                    reader = await connection.QueryMultipleAsync(multipleQuery);
+                    while (!reader.IsConsumed)
+                    {
+                        var row = reader.Read();
+                        
+                        foreach (var singleValue in row)
+                        {
+                            var deserialized = deserializer.Deserialize(singleValue);
+                            if (deserialized != null)
+                            {
+                                _output.Add(deserialized);
+                            }
+                        }
+                    }
+                    var v = _output;
+
+                    companyDto.City = SelectDto<POBLACIONES,CityDto>(v).FirstOrDefault();
+                    companyDto.Province = SelectDto<PROVINCIA, ProvinciaDto>(v).FirstOrDefault();
+                    var selectedDto = SelectDto<OFICINAS, OfficeDtos>(v);
+                    var offices = new ObservableCollection<OfficeDtos>();
+                    foreach (var selected in selectedDto)
+                    {
+                        offices.Add(selected);
+                    }
+                    companyDto.Offices = offices;
                 }
             }
             return companyDto;
+        }
+        /// <summary>
+        ///  Select a dto from a list of values.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="decorator">Decorator to be used.</param>
+        /// <returns>A list of values</returns>
+        public IEnumerable<T1> SelectDto<T,T1>(List<EntityDecorator> decorator) where T: class
+        {
+            IList<T1> selectedValues = new List<T1>();
+            var values = decorator.Where(x => x.DtoType == typeof(T1));
+            foreach (var v in values)
+            {
+                var currentEntity = v.Value as T;
+                var item = _mapper.Map<T,T1>(currentEntity);
+                selectedValues.Add(item);
+            }
+            return selectedValues;
         }
         /// <summary>
         /// Load at most N async values.
@@ -141,10 +199,9 @@ namespace DataAccessLayer.Crud.Company
         private IQueryStore CreateQueryStore(CompanyDto company)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
-            store.AddParam(QueryType.QueryCity, company.City.Code);
-            store.AddParam(QueryType.QueryCountry, company.Country.Code);
-            store.AddParam(QueryType.QueryProvince, company.Province.Code);
-            store.AddParam(QueryType.QueryOffice, company.Code);
+            store.AddParam(QueryType.QueryCity, company.CP);
+            store.AddParam(QueryType.QueryProvince, company.PROVINCIA);
+            store.AddParam(QueryType.QueryCompanyOffices, company.Code);
             return store;
         }
         /// <summary>

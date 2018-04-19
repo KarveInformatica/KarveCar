@@ -10,7 +10,8 @@
   xmlns:interactivity="http://prismlibrary.com/"
   xmlns:calendar="clr-namespace:KarveControls.Calendar"
   xmlns:photo="clr-namespace:KarveControls.PhotoFrame"
-  mc:Ignorable="d">
+    xmlns:behaviors="clr-namespace:KarveControls.Behaviour"
+    mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
   <SolidColorBrush x:Key="DataField_Foreground" Color="Black" />
   <LinearGradientBrush x:Key="DataField_Border" StartPoint="0,0" EndPoint="0,1">
@@ -90,7 +91,8 @@
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
-                            <CheckBox x:Name="PART_CheckBox" Content="{Binding RelativeSource={RelativeSource TemplatedParent},
+                            <CheckBox x:Name="PART_CheckBox" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=IsChecked}" Content="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=Content}"></CheckBox>
                         </Border>
                     </Grid>
@@ -159,12 +161,30 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                     <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"/>
-                    <DatePicker x:Name="PART_DatePicker" 
+                        <Syncfusion:SfDatePicker x:Name="PART_DatePicker"
+                                                  Grid.Column="1"
+                                                
+                                Margin="5,0,0,0"
+                                Width="200"
+                                Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
+                            <Syncfusion:SfDatePicker.SelectorStyle>
+
+                                <Style TargetType="Syncfusion:SfDateSelector">
+
+                                    <Setter Property="Header" Value="Seleciona data"/>
+
+                                </Style>
+
+                            </Syncfusion:SfDatePicker.SelectorStyle>
+                        </Syncfusion:SfDatePicker>
+                        <!--
+                                    <DatePicker x:Name="PART_DatePicker" 
                                 Grid.Column="1"
                                 Margin="5,0,0,0" 
                                 Height="50"
                                 SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
                     </DatePicker>
+                                    -->
                 
                 </Grid>
             </ControlTemplate>
@@ -194,8 +214,9 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    
                                 </Grid.RowDefinitions>
+                                <!--
                                 <StackPanel Orientation="Horizontal"  
                                             Background="White"
                                             Grid.Row="0">
@@ -218,8 +239,9 @@
                                                Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxHeight}"
                                                Visibility="Collapsed"></TextBlock>
                                 </StackPanel>
-
-                                <StackPanel  Grid.Row="1" Orientation="Horizontal">
+-->
+                              
+                                <StackPanel  Grid.Row="0" Orientation="Horizontal">
 
                                 <TextBlock HorizontalAlignment="Left" x:Name="PART_DataAreaText"
                                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaLabel}"
@@ -230,13 +252,18 @@
                                     <TextBox
                                          x:Name="PART_EditorText"
                                         TextWrapping="Wrap"
+                                        TextAlignment="Left"
+                                        VerticalAlignment="Top"
                                         AcceptsReturn="True"
-                                        VerticalScrollBarVisibility="Visible"
+                                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                        ScrollViewer.CanContentScroll="True"
                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}"
                                                               HorizontalContentAlignment="Left" 
-                                                              VerticalContentAlignment="Center"
+                                                              VerticalContentAlignment="Top"
+                                                              Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height, Mode=TwoWay}"
                                                               Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaWidth, Mode=TwoWay}"
-                                                              Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height, Mode=TwoWay}">
+                                                              >
                                         
                                     </TextBox>
 
@@ -547,6 +574,16 @@
                                 ButtonImage="/KarveControls;component/Images/search.png"
                                 SourceView="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CitySourceView}"
                                 DataSource="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=DataObject}">
+
+                                <i:Interaction.Behaviors>
+                                    <behaviors:ChangeRuleBehavior
+                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               RelatedObject="{Binding ElementName=PART_ProvinceSearchBox}"
+                                               Path="{Binding RelativeSource={RelativeSource TemplatedParent},Path=City}"
+                                               RelatedPath="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Province}">
+
+                                    </behaviors:ChangeRuleBehavior>
+                                </i:Interaction.Behaviors>
                             </local:DualFieldSearchBox>
                             <local:DualFieldSearchBox 
                                 x:Name="PART_ProvinceSearchBox"

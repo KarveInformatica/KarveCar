@@ -388,6 +388,17 @@ namespace ToolBarModule
                         }
                         break;
                     }
+                case DataPayLoad.Type.Dispose:
+                    {
+                        var objectPath = payload.ObjectPath;
+                        CleanCareKeeper(objectPath);
+                        bool empty = this._careKeeper.ScheduledPayloadCount() == 0;
+                        if (empty)
+                        {
+                            CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+                        }
+                        break;
+                    }
                 case DataPayLoad.Type.Delete:
                     {
                         string primaryKeyValue = payload.PrimaryKeyValue;
@@ -434,6 +445,13 @@ namespace ToolBarModule
                     }
             }
         }
+
+        private void CleanCareKeeper(Uri objectPath)
+        {
+            this._careKeeper.DeleteItems(objectPath);
+           
+        }
+
         /// <summary>
         /// Save command current tab.
         /// </summary>

@@ -421,6 +421,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Listado.
+        /// </summary>
+        public static string Elenco {
+            get {
+                return ResourceManager.GetString("Elenco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Emite Empresa y Paga Clientes.
         /// </summary>
         public static string EmiteEmpresaYPagaClientes {

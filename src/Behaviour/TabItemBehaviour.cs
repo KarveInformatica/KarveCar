@@ -4,11 +4,14 @@ using Syncfusion.Windows.Tools.Controls;
 using Prism.Regions;
 using System;
 using System.Reflection;
+using KarveControls.Behaviour;
 
 namespace KarveCar.Behaviour
 {
-
-    public class TabItemBehaviour : Behavior<TabControlExt>
+    /// <summary>
+    ///  Not more needed. we use closeTabAction.
+    /// </summary>
+    public class TabItemBehaviour : KarveBehaviorBase<TabControlExt>
     {
 
       
@@ -16,11 +19,15 @@ namespace KarveCar.Behaviour
         {
            
         }
-        protected override void OnAttached()
+        protected override void OnSetup()
         {
-            base.OnAttached();
+          
             this.AssociatedObject.TabClosed += AssociatedObject_TabClosed;
           
+        }
+        protected override void OnCleanup()
+        {
+            this.AssociatedObject.TabClosed -= AssociatedObject_TabClosed;
         }
 
         

@@ -21,7 +21,7 @@ namespace KarveCar.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private IUnityContainer _container;
-        private const string _title = "KarveWin 0.9";
+        private string _title = "KarveWin 0.9 - Beta" + DateTime.Now.ToString(); 
         /// <summary>
         ///  servicio de configuracion.
         /// </summary>

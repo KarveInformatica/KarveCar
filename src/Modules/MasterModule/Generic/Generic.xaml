@@ -3,6 +3,7 @@
                     xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
+                    xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
                     xmlns:mvvm1="http://prismlibrary.com/"
                     xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
                     xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
@@ -11,7 +12,9 @@
                     xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                      xmlns:gridbehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
                      xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls">
-
+    
+    <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
+    <converter:NullBoleanToBooleanConverter x:Key="NullableBooleanConverter"></converter:NullBoleanToBooleanConverter>
     <Color x:Key="detailMark">#FFA1A9B3</Color>
     <SolidColorBrush x:Key="detailMarkBrush" Color="{StaticResource ResourceKey=detailMark}" />
     
@@ -1245,7 +1248,9 @@
             <Syncfusion:SfDataGrid.Columns>
 
                 <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif"/>
+                <!--
+                To keep homogeneus all the grids the contacts we have removed the nif.
+                -->
 
                 <Syncfusion:GridTemplateColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}"
                                                                         Width="200"
@@ -1471,8 +1476,11 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ProvinceSource.Code, Mode=TwoWay}"></TextBox>
                                 <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ProvinceSource.Name, Mode=TwoWay}"></TextBlock>
-                                <Button Grid.Column="2" Width="30" Command="{Binding Path=ProvinceSource.ShowCommand}" CommandParameter="{Binding}">
+                                <Button Grid.Column="2" Width="30">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
+                                    <i:Interaction.Behaviors>
+                                        <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.DelegationProvinceMagnifierCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                    </i:Interaction.Behaviors>
                                 </Button>
                             </Grid>
                         </DataTemplate>

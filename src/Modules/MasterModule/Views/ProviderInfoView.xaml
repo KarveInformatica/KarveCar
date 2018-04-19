@@ -16,7 +16,8 @@
              xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
                xmlns:uiObjects="clr-namespace:KarveControls.UIObjects;assembly=KarveControls"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
-             xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+             xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
@@ -31,6 +32,7 @@
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate x:Key="ProviderUpperBar">
                 <Grid>
+                    
 
                     <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
                         <StackPanel Name="ContextLayout" Orientation="Horizontal">
@@ -60,7 +62,7 @@
                                                   TextContentFirstWidth="50"
                                                   LabelTextWidth="100"
                                                   LabelText="{Binding ltipoproveedor, Source={StaticResource ResourceLanguage}}" 
-                                                  Height="25"
+                                                  Height="30"
                                                   ItemChangedCommand="{Binding ItemChangedCommand }"
                                                   LabelVisible="True"
                                                   AssistProperties="Codigo,Nombre"
@@ -87,7 +89,7 @@
                                              LabelVisible="True"
                                              DataAllowed="Email"
                                              IsReadOnly="False"
-                                             DataFieldHeight="25"
+                                             DataFieldHeight="30"
                                              DataSourcePath="EMAIL">
 
                         <i:Interaction.Triggers>
@@ -106,12 +108,16 @@
         </ResourceDictionary>
 
     </UserControl.Resources>
+
+   
+
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <mvvm1:InvokeCommandAction Command="{Binding ActiveSubsystemCommand}"/>
             </i:EventTrigger>
         </i:Interaction.Triggers>
+      
         <Grid ShowGridLines="False">
             <StackPanel Orientation="Vertical">
              
@@ -211,11 +217,20 @@
                                                           SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
+
+                                        <i:Interaction.Behaviors>
+                                            <behaviors:ChangeRuleBehavior
+                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               RelatedObject="{Binding ElementName=Provincia}">
+
+                                            </behaviors:ChangeRuleBehavior>
+                                        </i:Interaction.Behaviors>
+                                        
                                     </karveControls:DualFieldSearchBox>
 
 
                                 </Grid>
-                                <karveControls:DualFieldSearchBox DataFieldFirst="PROV"
+                                <karveControls:DualFieldSearchBox x:Name="Provincia" DataFieldFirst="PROV"
                                                           AssistTableName="PROVINCIA"
                                                           AssistDataFieldFirst="SIGLAS"
                                                           AssistDataFieldSecond="PROV"
@@ -242,7 +257,7 @@
                                                                TriggerParameterPath="ChangedValuesObjects"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-
+                                 
                                 </karveControls:DualFieldSearchBox>
 
 
@@ -388,7 +403,7 @@
                                                                    Grid.Row="12"
                                                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
                                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"          
-                                                          Height="25"
+                                                          Height="30"
                                                           IsReadOnlySecond="True"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
@@ -429,18 +444,25 @@
                             <GroupBox Header="{Binding lfacturacion, Source={StaticResource ResourceLanguage}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition>
+                                        <RowDefinition Height="Auto">
 
                                         </RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal">
-                                        <karveControls:DualFieldSearchBox
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <karveControls:DualFieldSearchBox Grid.Column="0"
+                                            
                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 AssistDataFieldFirst="CODIGO"
                 AssistDataFieldSecond="NOMBRE"
@@ -457,92 +479,99 @@
                                     Height="25"
                 SourceView="{Binding Path=PaymentDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="FORPA"/>
-
-
-                                        <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <Grid Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
+                                                <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
                                                      Margin="0,5,0,0"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
+                                                </karveControls:DataField>
 
-                                        </karveControls:DataField>
-
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO2"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
-                                                     Height="25"
+                                                     Height="30"
                                                          Margin="0,5,0,0"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        </karveControls:DataField>
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                     DataSourcePath="PLAZO2"
+                                            </karveControls:DataField>
+                                            <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     DataSourcePath="PLAZO3"
                                                      LabelVisible="False"
                                                          Margin="0,5,0,0"
                                                      TextContentWidth="50"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        </karveControls:DataField>
-                                        <TextBlock Text="{Binding ldiadepago, Source={StaticResource ResourceLanguage}}" Margin="5,0,0,5"></TextBlock>
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            </karveControls:DataField>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid Grid.Column="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="{Binding ldiadepago, Source={StaticResource ResourceLanguage}}" Margin="5,0,0,5"></TextBlock>
+                                            <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="DIA"
                                                          Margin="0,5,0,0"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        </karveControls:DataField>
+                                            </karveControls:DataField>
 
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <karveControls:DataField Grid.Column="1" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="DIA2"
                                                          Margin="0,5,0,0"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        </karveControls:DataField>
+                                            </karveControls:DataField>
 
 
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <karveControls:DataField Grid.Column="2" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="DIA3"
                                                          Margin="0,5,0,0"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
-                                        </karveControls:DataField>
-                                        <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            </karveControls:DataField>
+                                        </Grid>
+                                        <karveControls:DataField Grid.Column="3" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="DTO"
                                                          Margin="0,5,0,0"
                                                      LabelVisible="True"
                                                      LabelText="{Binding ldescuento, Source={StaticResource ResourceLanguage}}"
                                                      LabelTextWidth="90"
                                                      TextContentWidth="100"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                         </karveControls:DataField>
 
 
 
-                                    </StackPanel>
+                                    </Grid>
                                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                                         <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PP"
                                                      LabelVisible="True"
-                                                     Margin="0,5,0,0"
                                                      LabelText="{Binding lprontopago, Source={StaticResource ResourceLanguage}}"
                                                      LabelTextWidth="150"
                                                      TextContentWidth="100"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                         </karveControls:DataField>
@@ -553,7 +582,7 @@
                                                      LabelText="{Binding ltipoiva, Source={StaticResource ResourceLanguage}}"
                                                      LabelTextWidth="80"
                                                      TextContentWidth="100"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                         </karveControls:DataField>
@@ -625,7 +654,7 @@
                                                           Margin="0,5,0,0"
                                                      LabelTextWidth="150"
                                                      TextContentWidth="200"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                         </karveControls:DataField>
@@ -633,10 +662,10 @@
                                                      DataSourcePath="IBAN"
                                                      LabelVisible="True"
                                                      LabelText="{Binding liban, Source={StaticResource ResourceLanguage}}"
-                                                         Margin="0,5,0,0"
+                                                     Margin="0,5,0,0"
                                                      LabelTextWidth="60"
-                                                     TextContentWidth="100"
-                                                     Height="25"
+                                                     TextContentWidth="200"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                         </karveControls:DataField>
@@ -650,7 +679,7 @@
                                                          Margin="0,5,0,0"
                                                      LabelTextWidth="150"
                                                      TextContentWidth="100"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
                                         </karveControls:DataField>
 
@@ -697,45 +726,56 @@
                                 </Grid>
                             </GroupBox>
                             <GroupBox Header="{Binding lalbanares, Source={StaticResource ResourceLanguage}}">
+                                
                                 <StackPanel Orientation="Horizontal">
-                                    <karveControls:DataFieldCheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}"
-                                                          Margin="10,0,0,0"
-                                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                          karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                          karveControls:ControlExt.DataSourcePath="PALBARAN"
-                                                            >
+                                 
+                                    <karveControls:DataFieldCheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}" 
+                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                  karveControls:ControlExt.DataSourcePath="Value.PALBARAN">
+
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
 
                                     </karveControls:DataFieldCheckBox>
+
+                                    
                                     <karveControls:DataFieldCheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
-                                                          karveControls:ControlExt.DataSourcePath="INTRACO"
-                                                          karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                          
-                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         >
-
+                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                          karveControls:ControlExt.DataSourcePath="Value.PALBARAN">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </karveControls:DataFieldCheckBox>
+
                                     <karveControls:DataFieldCheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
-                                                          karveControls:ControlExt.DataSourcePath="GESTION_IVA_IMPORTA"
-                                                          karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                           
-                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                         >
-
+                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"            
+                                                          karveControls:ControlExt.DataSourcePath="Value.GESTION_IVA_IMPORTA">
+                                        
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </karveControls:DataFieldCheckBox>
+
                                     <karveControls:DataFieldCheckBox Content="{Binding lmargennoautomatico, Source={StaticResource ResourceLanguage}}"
-                                                          Margin="10,0,0,0"
-                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                                      DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               karveControls:ControlExt.DataSourcePath="NOAUTOMARGEN">
-
-
+                                                          Margin="10,0,0,0"                                                         
+                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"            
+                                                          karveControls:ControlExt.DataSourcePath="Value.NOAUTOMARGEN">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </karveControls:DataFieldCheckBox>
-
+                                   
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}">
@@ -750,7 +790,7 @@
                                                          Margin="0,5,0,0"
                                                      LabelTextWidth="120"
                                                      TextContentWidth="100"
-                                                     Height="25"
+                                                     Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
                                             </karveControls:DataField>
 
@@ -769,7 +809,7 @@
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                                     LabelTextWidth="150"
                                     TextContentFirstWidth="100"
-                                    Height="25"
+                                    Height="30"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account1Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                                             </karveControls:DualFieldSearchBox>
@@ -806,7 +846,7 @@
                                     Margin="0,5,0,0"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                                     LabelTextWidth="120"
-                                        Height="25"
+                                        Height="30"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account3Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -827,7 +867,7 @@
                                     Margin="0,5,0,0"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                                     LabelTextWidth="120"
-                                    Height="25"
+                                    Height="30"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account4Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -853,7 +893,7 @@
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                                     LabelTextWidth="120"
-                                    Height="25"
+                                    Height="30"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account5Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -872,7 +912,7 @@
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelTextWidth="120"
-                                    Height="25"
+                                    Height="30"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account6Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -896,7 +936,7 @@
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                                     LabelTextWidth="120"
-                                    Height="25"
+                                    Height="30"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account7Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -916,7 +956,7 @@
                                     MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
                                     LabelTextWidth="120"
-                                    Height="25"
+                                    Height="30"
                                     TextContentFirstWidth="100"
                                     TextContentSecondWidth="200"
                                     SourceView="{Binding Path=Account8Dtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1094,7 +1134,7 @@
                                         </CheckBox>
                                         <CheckBox Margin="40, 0, 0, 0" Name="NoConfirmityProvider" Content="{Binding lnumeromaximo, Source={StaticResource ResourceLanguage}}">
 
-                                        </CheckBox>
+                                        </>
                                         <Label Margin="40, 0, 0, 0" Content="{Binding lfaprobacion, Source={StaticResource ResourceLanguage}}"></Label>
                                         <DatePicker Name="ProviderApproveDate"></DatePicker>
                                         <Label Margin="40, 0, 0, 0" Content="{Binding lfvalidez, Source={StaticResource ResourceLanguage}}"></Label>

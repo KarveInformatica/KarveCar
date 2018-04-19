@@ -649,6 +649,7 @@ namespace KarveControls
         {
             TextBox textField = GetTemplateChild("PART_TextField") as TextBox;
 
+           
             if (textField?.Text.Length > 0 && (_textContentChanged))
             {
                 DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent)

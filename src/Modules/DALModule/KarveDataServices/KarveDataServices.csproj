@@ -231,13 +231,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
-      <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
-      <Name>KarveCar.CommonInterfaces</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
+      <Project>{E9C77593-B656-45DA-BAE1-91AF97491069}</Project>
+      <Name>KarveCar.CommonInterfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

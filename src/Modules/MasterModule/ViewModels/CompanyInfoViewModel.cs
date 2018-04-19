@@ -12,7 +12,7 @@ using System.ComponentModel;
 using KarveCommon.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
-
+using System;
 
 namespace MasterModule.ViewModels
 {
@@ -43,7 +43,9 @@ namespace MasterModule.ViewModels
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
             ShowOfficesCommand = new DelegateCommand<object>(ShowOffices);
             AssistExecuted += CompanyAssistResult;
-            EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);    
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);
+            ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
+
             ActiveSubSystem();
         }
         #endregion
@@ -299,8 +301,11 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.CompanySubsystem;
             payLoad.SubsystemName = MasterModuleConstants.CompanySubSystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
+            var uid = "client://" + Guid.ToString();
+            payLoad.ObjectPath = new Uri(uid);
             ChangeFieldHandlerDo<CompanyDto> handlerDo = new ChangeFieldHandlerDo<CompanyDto>(EventManager,DataSubSystem.CompanySubsystem);
 
+            
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);

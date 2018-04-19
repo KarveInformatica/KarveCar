@@ -28,7 +28,10 @@ namespace KarveCommon.Generic
         protected const string UpdateState = " Estado Modificar.";
         protected const string DeletedSuccess = "Valor borrado con exito.";
         protected const string DefaultState = "Estado consultar.";
-
+        /// <summary>
+        /// Each view model has associated an unique uri.
+        /// </summary>
+        protected Uri ViewModelUri;
         /// <summary>
         /// Each view model has a mailbox. 
         /// A mailbox is a way to receive messages through the event manager/ event dispatcher.
@@ -100,6 +103,8 @@ namespace KarveCommon.Generic
         private long _gridIdentifer = Int64.MinValue;
         private string _header;
         private object _messageLock = new object();
+        private string _itemName;
+
         /// <summary>
         ///  empty constructor
         /// </summary>
@@ -144,7 +149,21 @@ namespace KarveCommon.Generic
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
             GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
         }
-
+        /// <summary>
+        /// Name of the item to be used.
+        /// </summary>
+        public string ItemName
+        {
+            get => _itemName;
+            set
+            {
+                _itemName = (string)value;
+                RaisePropertyChanged("ItemName");
+            }
+        }
+        /// <summary>
+        ///  Name of the header to be used.
+        /// </summary>
         public string Header
         {
             get => _header;

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using KarveControls.Generic;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.Windows.Shared;
+using System.Linq;
 
 namespace KarveControls
 {
@@ -321,6 +322,28 @@ namespace KarveControls
                 "City",
                 typeof(string),
                 typeof(DirectionInfo), new PropertyMetadata(string.Empty));
+
+        private static void OnCityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DirectionInfo info = d as DirectionInfo;
+            if (info!=null)
+            {
+                info.ChangeCity(e.NewValue as string);
+            }
+
+        }
+
+        private void ChangeCity(string value)
+        {
+            var codeCity = CitySourceView.Where(x=>x.Code == value).FirstOrDefault();
+            if (codeCity!=null)
+            {
+                var  zip = codeCity.Code.Substring(0,2);
+                Province = zip;
+            }
+            
+
+        }
 
         public string City
         {

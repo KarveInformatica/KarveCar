@@ -414,7 +414,7 @@ namespace DataAccessLayer.Model
             var dto = new ComisioDto();
             if (_mapper != null)
             {
-                dto = _mapper.Map<ComisioDto>(comisio);
+                dto = _mapper.Map<COMISIO,ComisioDto>(comisio);
             }
             return dto;
         }
@@ -423,7 +423,7 @@ namespace DataAccessLayer.Model
             var c = new COMISIO();
             if (_mapper!=null)
             {
-                c = _mapper.Map<COMISIO>(comisio);
+                c = _mapper.Map<ComisioDto, COMISIO>(comisio);
             }
             return c;
         }
@@ -437,6 +437,10 @@ namespace DataAccessLayer.Model
             set
             {
                 _currentComisio = ConvertBack(value);
+                if (_currentComisio == null)
+                {
+                    _currentComisio = new COMISIO();
+                }
                 isChanged = true;
                 RaisePropertyChanged();
             }

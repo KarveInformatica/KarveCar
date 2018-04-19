@@ -117,5 +117,11 @@ namespace KarveDataServices
         /// <param name="supplierData"></param>
         /// <returns></returns>
         Task<bool> SaveChanges(ISupplierData supplierData);
+        /// <summary>
+        ///  This returns the contacts.
+        /// </summary>
+        /// <param name="codeId">id of the contacs</param>
+        /// <returns></returns>
+        Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId);
     }
 }

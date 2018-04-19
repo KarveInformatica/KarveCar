@@ -659,7 +659,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the GESTION_IVA_IMPORTA property.
             /// </summary>
 
-            public byte? GESTION_IVA_IMPORTA { get; set; }
+            public bool GESTION_IVA_IMPORTA { get; set; }
 
             /// <summary>
             ///  Set or get the NUMCOMI_PR property.
@@ -911,7 +911,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the NOAUTOMARGEN property.
             /// </summary>
 
-            public byte? NOAUTOMARGEN { get; set; }
+            public bool NOAUTOMARGEN { get; set; }
 
             /// <summary>
             ///  Set or get the TIPO_PROVEE_IVA property.
@@ -1085,7 +1085,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the INTRACO property.
             /// </summary>
 
-            public byte? INTRACO { get; set; }
+            public bool INTRACO { get; set; }
 
             /// <summary>
             ///  Set or get the PREFIJO property.
@@ -1169,7 +1169,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the PALBARAN property.
             /// </summary>
 
-            public Boolean? PALBARAN { get; set; }
+            public Boolean PALBARAN { get; set; }
 
             /// <summary>
             ///  Set or get the EXCLUSIVIDAD property.

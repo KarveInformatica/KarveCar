@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 using DataAccessLayer;
 using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
@@ -131,7 +130,7 @@ namespace KarveTest.DAL
         }
 
         [Test]
-        public async Task Should_Insert_A_New_Value()
+        public async Task Should_Insert_A_NewClient()
         {
             using (IDbConnection dbConnection = _sqlExecutor.OpenNewDbConnection())
             {

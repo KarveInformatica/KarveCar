@@ -57,6 +57,7 @@ namespace DataAccessLayer.SQL
         QueryBrokerContacts,
         QueryResellerByClient,
         QuerySuppliersBranches,
-        QuerySupplierBranchesPaged
+        QuerySupplierBranchesPaged,
+        QueryCompanyOffices
     };
 }

@@ -48,7 +48,8 @@ namespace KarveCommon.Services
             DeleteGrid = 10,
             RevertChanges = 11,
             UpdateError = 12,
-            UnregisterPayload = 13
+            UnregisterPayload = 13,
+            Dispose = 14
         };
 
         private Type _payLoadType = Type.Insert;

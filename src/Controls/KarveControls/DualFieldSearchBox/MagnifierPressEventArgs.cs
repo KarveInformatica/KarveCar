@@ -6,6 +6,12 @@ namespace KarveControls
 {
     public partial class DualFieldSearchBox
     {
+
+
+        public class SelectedItemEventArgs: KarveRoutedEventsArgs
+        {
+
+        }
         /// <summary>
         /// MagnifierPressEventArgs. This is the event pressed when
         /// </summary>

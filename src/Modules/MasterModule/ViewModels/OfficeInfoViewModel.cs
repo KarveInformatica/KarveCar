@@ -35,6 +35,8 @@ namespace MasterModule.ViewModels
             DataObject = new OfficeDtos();
             DateTime dt = DateTime.Now;
             CurrentYear = dt.Year.ToString();
+            ViewModelUri = new Uri("karve://office/viewmodel?id=" + Guid.ToString());
+          
         }
         #endregion
         #region Properties
@@ -338,6 +340,7 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.OfficeSubsystem;
             payLoad.SubsystemName = MasterModuleConstants.OfficeSubSytemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
+            payLoad.ObjectPath = ViewModelUri;
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;

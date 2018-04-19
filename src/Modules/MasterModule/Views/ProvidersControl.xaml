@@ -33,7 +33,16 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}"></TextBlock>
+        </StackPanel>
         <Syncfusion:SfDataGrid x:Name="SupplierSummary"
+                               Grid.Row="1"
                                ColumnSizer="Auto"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -93,13 +102,7 @@
                     </Syncfusion:GridTemplateColumn.CellTemplate>
 
                 </Syncfusion:GridTemplateColumn>
-<!--
-                
-                   "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF , TIPOPROVE.NOMBRE as Provvedor, COMERCIAL as Comercial, " +
-            "TELEFONO as Telefono, DIRECCION as Direccion, CP, POBLACION,F_AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGastos, " +
-             "PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1, " +
-            "PROVEE2, TIPOPROVE WHERE PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE AND PROVEE1.TIPO=TIPOPROVE.NUM_TIPROVE";
-                -->
+
 
                 <Syncfusion:GridTemplateColumn  HeaderText="{Binding lnif, Source={StaticResource ResourceLanguage}}" MappingName="Nif" FilterPopupStyle="{StaticResource GenericCodeStyle}">
                     <Syncfusion:GridTemplateColumn.CellTemplate>
@@ -108,8 +111,8 @@
                         </DataTemplate>
                     </Syncfusion:GridTemplateColumn.CellTemplate>
                 </Syncfusion:GridTemplateColumn>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lproveedor, Source={StaticResource ResourceLanguage}}" MappingName="Proveedor" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lcomercial, Source={StaticResource ResourceLanguage}}" MappingName="Comercial" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lproveedor, Source={StaticResource ResourceLanguage}}" MappingName="Proveedor" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Telefono" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direccion" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="CP" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
@@ -120,18 +123,7 @@
             </Syncfusion:SfDataGrid.Columns>
 
         </Syncfusion:SfDataGrid>
-        <!--
-        <karveGrid:KarveGridView x:Name="ProviderSupplierSummary" PageSize="25" Grid.IsSharedSizeScope="True"
-                                                 ReadOnly="True" ColumnWidth="100" SourceView="{Binding SummaryView}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="RowMouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=ProviderSupplierSummary, Path=SelectedRow}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-
-                
-                </karveGrid:KarveGridView>
-       -->
+      
     </Grid>
 
 </UserControl>

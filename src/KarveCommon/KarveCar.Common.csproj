@@ -52,6 +52,8 @@
     <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Dragablz, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Dragablz.dll</HintPath>
@@ -155,6 +157,7 @@
     <Compile Include="Converter\DebugDataBindingConverter.cs" />
     <Compile Include="Converter\GridCellConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
+    <Compile Include="Converter\NullBoleanToBooleanConverter.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
     <Compile Include="Converter\StringToByteConverter.cs" />
     <Compile Include="Converter\StringToIntegerConverter.cs" />

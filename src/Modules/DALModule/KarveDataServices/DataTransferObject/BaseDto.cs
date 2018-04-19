@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KarveCommonInterfaces;
 using System.Windows.Input;
-using Prism.Mvvm;
 using Syncfusion.Windows.Shared;
+using KarveCommonInterfaces;
 
 namespace KarveDataServices.DataTransferObject
 {

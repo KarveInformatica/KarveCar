@@ -36,22 +36,17 @@ namespace DataAccessLayer.Crud.Company
         /// <returns>True if the action has been completed successfully</returns>
         private async Task<bool> DeleteOfficesAsync(IDbConnection connection, IEnumerable<OfficeDtos> listOfOffices)
         {
-            IEnumerable<OFICINAS> offices = _mapper.Map<IEnumerable<OfficeDtos>, IEnumerable<OFICINAS>>(listOfOffices);
-            bool retValue = false;
-
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            bool retValue = true;
+            if (listOfOffices.Count() > 0)
             {
-                await connection.BulkActionAsync(x =>
+                IEnumerable<OFICINAS> offices = _mapper.Map<IEnumerable<OfficeDtos>, IEnumerable<OFICINAS>>(listOfOffices);
+                retValue = false;
+
+                using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    if (offices.Count<OFICINAS>() > 0)
-                    {
-                        x.BulkDelete(offices);
-                    }
-                });
-                // check who many 
-                IEnumerable<OFICINAS> value = await connection.GetAllAsync<OFICINAS>();
-                retValue = (value.Count<OFICINAS>() == 0);
-                scope.Complete();
+                    retValue = await connection.DeleteCollectionAsync<OFICINAS>(offices).ConfigureAwait(false);
+                    scope.Complete();
+                }
             }
 
             return retValue;
@@ -71,7 +66,7 @@ namespace DataAccessLayer.Crud.Company
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     retValue = await connection.DeleteAsync<SUBLICEN>(value);
-                    retValue = retValue && await DeleteOfficesAsync(connection, data.Offices);
+                    retValue = retValue && await DeleteOfficesAsync(connection, data.Offices).ConfigureAwait(false);
                     scope.Complete();
                 }
 

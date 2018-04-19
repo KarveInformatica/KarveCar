@@ -99,7 +99,7 @@ namespace ToolBarModule.Command
                         {
                             foreach (var branch in branches)
                             {
-                                if (branch.IsDirty)
+                                if (branch.IsDeleted)
                                 {
                                     // a delete bulk.
                                     result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, ProDelega>(branch);

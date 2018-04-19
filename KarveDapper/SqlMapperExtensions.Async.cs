@@ -423,6 +423,7 @@ namespace KarveDapper.Extensions
                     sb.Append(";");
                 }
             }
+            var query = sb.ToString();
             var deleted = await connection.ExecuteAsync(sb.ToString(), null, transaction, commandTimeout).ConfigureAwait(false);
             return deleted > 0;
 

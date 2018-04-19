@@ -290,12 +290,17 @@ namespace MasterModule.ViewModels
             ConfigurationService = configurationService;
             InitEvents();
             InitCommands();
+            ViewModelUri = new Uri("karve://broker/viewmodel?id=" + Guid.ToString());
+
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             // update the assist.
             UpdateAssist(ref _leftSideDualDfSearchBoxes);
+            UpdateChangeCommand(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
         }
+
+       
 
 
         /// <summary>
@@ -305,8 +310,7 @@ namespace MasterModule.ViewModels
         /// <param name="contactsDto">Contacts Dto.</param>
         public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
         {
-                var contacts = DataObject.ContactsDto;
-
+            var contacts = DataObject.ContactsDto;
             Dictionary<string, object> ev = new Dictionary<string, object>();
             ev["DataObject"] = DataObject;
             var items = new List<ContactsDto>();
@@ -350,43 +354,11 @@ namespace MasterModule.ViewModels
         /// <param name="branchesDto">It allows the branches dto.</param>
         internal override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
         {
-            var delegation = DataObject.BranchesDto;
-
-            Dictionary<string, object> ev = new Dictionary<string, object>();
-            ev["DataObject"] = DataObject;
-            var items = new List<BranchesDto>();
-            
-           
-            var branch = delegation.Where(x => x.BranchId == branchesDto.BranchId).FirstOrDefault();
-            if (branch == null)
-            {
-                ev["Operation"] = ControlExt.GridOp.Insert;
-                // insert case
-                branch = branchesDto;
-                branch.IsNew = true;
-                branch.IsDirty = true;
-            }
-            else
-            {
-                ev["Operation"] = ControlExt.GridOp.Update;
-                
-                branch = branchesDto;
-                branch.IsChanged = true;
-                branch.IsDirty = true;
-                branch.IsNew = false;
-            }
-            branch.ProvinceSource = province;
-            province.ShowCommand = DelegationProvinceMagnifierCommand;
-            branch.ProvinceId = province.Code;
-            branch.ProvinceName = province.Name;
-            branch.Province = province;
-            branch.ProvinceSource = province;
-            // add the changed value to the branch.
-            items.Add(branch);
-            ev["ChangedValue"] = items;
-            RaisePropertyChanged("DataObject");
-            // craft the event dictionary.
-            await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);   
+            // set the base event dictionary
+            IDictionary<string,object> ev = SetBranchProvince(province, branchesDto, DataObject, DataObject.BranchesDto);
+            // send the opportune event where it is needed.
+            await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev, 
+                _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);   
         }
         private void OnPrintCommand(object obj)
         {
@@ -394,9 +366,14 @@ namespace MasterModule.ViewModels
 
         public override void DisposeEvents()
         {
+            base.DisposeEvents();
             EventManager.DeleteObserver(this);
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
+            DataPayLoad payload = new DataPayLoad();
+            payload.ObjectPath = ViewModelUri;
+            payload.PayloadType = DataPayLoad.Type.Dispose;
+            EventManager.NotifyToolBar(payload);
         }
         // TODO: remove duplications.
         private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
@@ -663,6 +640,15 @@ namespace MasterModule.ViewModels
 
             }
         }
+        private void UpdateChangeCommand(ref ObservableCollection<UiDfSearch> search)
+        {
+            for (int i = 0; i < search.Count; ++i)
+            {
+                search[i].ChangedItem = new Prism.Commands.DelegateCommand<object>(ItemChangedHandler);
+
+            }
+
+        }
 
 
 
@@ -853,7 +839,7 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
             payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-
+            payLoad.ObjectPath = ViewModelUri;
 
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
@@ -883,7 +869,7 @@ namespace MasterModule.ViewModels
                     handlerDo.OnUpdate(payLoad, eventDictionary);
                 }
                 // this will refresh the change through the visual tree.
-                DataObject = handlerDo.DataObject;
+               // DataObject = handlerDo.DataObject;
             }
 
         }
@@ -1162,6 +1148,6 @@ namespace MasterModule.ViewModels
             RaisePropertyChanged("DataObject.VisitDto");
         }
 
-        
+      
     }
 }

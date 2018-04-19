@@ -74,10 +74,7 @@
         ///  Email
         /// </summary>
         public string Email { get; set; }
-        /// <summary>
-        ///  Last modification.
-        /// </summary>
-        public string LastMod { get; set; }
+     
         /// <summary>
         ///  Current delegation.
         /// </summary>
