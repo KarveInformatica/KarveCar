@@ -66,6 +66,10 @@ namespace DataAccessLayer
 
 
                     var dto = await dbConnection.GetAsync<GRID_SERIALIZATION>(idValue);
+                    if (dto == null)
+                    {
+                        throw new DataLayerException("Error retrieving the settings");
+                    }
                     settingsDto = mapper.Map<GRID_SERIALIZATION, GridSettingsDto>(dto);
                     return settingsDto;
 

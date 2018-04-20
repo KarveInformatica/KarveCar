@@ -2233,4 +2233,28 @@
   <data name="Elenco" xml:space="preserve">
     <value>List</value>
   </data>
+  <data name="AdmiteReservaOFFLine" xml:space="preserve">
+    <value>Allow Offline Booking</value>
+  </data>
+  <data name="AdmiteReservaOnline" xml:space="preserve">
+    <value>Allow Online Booking</value>
+  </data>
+  <data name="Bloqueado" xml:space="preserve">
+    <value>Blocked</value>
+  </data>
+  <data name="ltipovisita" xml:space="preserve">
+    <value>Visit Type</value>
+  </data>
+  <data name="LugarDeEntregas" xml:space="preserve">
+    <value>Delivering Places</value>
+  </data>
+  <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
+    <value>Budget Key</value>
+  </data>
+  <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
+    <value>New Vehicle</value>
+  </data>
+  <data name="DatosEmpresa" xml:space="preserve">
+    <value>Company Data</value>
+  </data>
 </root>

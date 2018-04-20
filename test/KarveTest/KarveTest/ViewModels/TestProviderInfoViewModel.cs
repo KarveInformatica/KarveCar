@@ -86,7 +86,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public async void Should_Delete_SupplierItem()
+        public async Task Should_Delete_SupplierItem()
         {
 
             // arrange

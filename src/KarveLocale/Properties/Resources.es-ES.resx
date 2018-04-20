@@ -2011,7 +2011,7 @@
     <value>Seguro</value>
   </data>
   <data name="VencimentoSeguro" xml:space="preserve">
-    <value>Vencimiento Seguro</value>
+    <value>Vencimento Seguro</value>
   </data>
   <data name="Prov" xml:space="preserve">
     <value>Prov.</value>
@@ -2237,5 +2237,74 @@
   </data>
   <data name="Elenco" xml:space="preserve">
     <value>Listado</value>
+  </data>
+  <data name="AdmiteReservaOFFLine" xml:space="preserve">
+    <value>Admite Reserva OFF Line</value>
+  </data>
+  <data name="AdmiteReservaOnline" xml:space="preserve">
+    <value>Admite Reserva ON Line</value>
+  </data>
+  <data name="Bloqueado" xml:space="preserve">
+    <value>Bloqueado</value>
+  </data>
+  <data name="Facturacion" xml:space="preserve">
+    <value>Facturacion</value>
+  </data>
+  <data name="FetchingData" xml:space="preserve">
+    <value>Prelevar Datos</value>
+  </data>
+  <data name="Moroso" xml:space="preserve">
+    <value>Moroso</value>
+  </data>
+  <data name="NifExtranjero" xml:space="preserve">
+    <value>Nif Extranjero</value>
+  </data>
+  <data name="PeoplePosition_CargoDePersonal" xml:space="preserve">
+    <value>Cargo de Personal</value>
+  </data>
+  <data name="PrefijoContrato" xml:space="preserve">
+    <value>Prefijo Contrato: </value>
+  </data>
+  <data name="RepresentanteLegal" xml:space="preserve">
+    <value>Representante Legal</value>
+  </data>
+  <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
+    <value>NuevoVehiculos</value>
+  </data>
+  <data name="ltipovisita" xml:space="preserve">
+    <value>Tipo Visita</value>
+  </data>
+  <data name="LugarDeEntregas" xml:space="preserve">
+    <value>Lugar de entregas</value>
+  </data>
+  <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
+    <value>Claves de presuppuesto</value>
+  </data>
+  <data name="CanonOtros" xml:space="preserve">
+    <value>Canon Otros: </value>
+  </data>
+  <data name="Carga" xml:space="preserve">
+    <value>Carga..</value>
+  </data>
+  <data name="CódigoIATA" xml:space="preserve">
+    <value>Código IATA: </value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="DatosCliente" xml:space="preserve">
+    <value>Datos Cliente</value>
+  </data>
+  <data name="Delegacion" xml:space="preserve">
+    <value>Delegacion</value>
+  </data>
+  <data name="AdmiteRecogidaFueraDeBase" xml:space="preserve">
+    <value>Admite Recogida Fuera de base</value>
+  </data>
+  <data name="EmpresaDeProspeccion" xml:space="preserve">
+    <value>Empresa de Prospeccion</value>
+  </data>
+  <data name="DatosEmpresa" xml:space="preserve">
+    <value>DatosEmpresa</value>
   </data>
 </root>

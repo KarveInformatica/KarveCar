@@ -2603,4 +2603,25 @@
   <data name="Elenco" xml:space="preserve">
     <value>Elenco</value>
   </data>
+  <data name="AdmiteReservaOFFLine" xml:space="preserve">
+    <value>Ammette Prenotazioni Offline</value>
+  </data>
+  <data name="AdmiteReservaOnline" xml:space="preserve">
+    <value>Ammette Prenotazioni Online</value>
+  </data>
+  <data name="Bloqueado" xml:space="preserve">
+    <value>Verstopft</value>
+  </data>
+  <data name="ltipovisita" xml:space="preserve">
+    <value>Tipo Visita</value>
+  </data>
+  <data name="LugarDeEntregas" xml:space="preserve">
+    <value>Luoghi di consegna</value>
+  </data>
+  <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
+    <value>Presupposto</value>
+  </data>
+  <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
+    <value>Nuovo Veicolo</value>
+  </data>
 </root>

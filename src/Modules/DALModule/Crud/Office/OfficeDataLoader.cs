@@ -10,6 +10,8 @@ using KarveDapper.Extensions;
 using KarveDapper;
 using AutoMapper;
 using Dapper;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 
 namespace DataAccessLayer.Crud.Office
 {
@@ -27,10 +29,10 @@ namespace DataAccessLayer.Crud.Office
         ///  Constructor
         /// </summary>
         /// <param name="executor">Executor</param>
-        public OfficeDataLoader(ISqlExecutor executor)
+        public OfficeDataLoader(ISqlExecutor executor, IMapper mapper)
         {
             _executor = executor;
-            _mapper = MapperField.GetMapper();
+            _mapper = mapper;
             _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
@@ -56,12 +58,27 @@ namespace DataAccessLayer.Crud.Office
         /// <returns>An office data transfer object</returns>
         public async Task<OfficeDtos> LoadValueAsync(string code)
         {
+
+            Contract.Requires(!string.IsNullOrEmpty(code));
             OfficeDtos officeDtos = new OfficeDtos();
+            IList<object> entities = new List<object>()
+           {
+               new CURRENCIES(),
+               new FESTIVOS_OFICINA()
+           };
+            IList<object> dto = new List<object>()
+            {
+               new CurrenciesDto(),
+               new ClientDto()
+            };
+            EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
+            var output = new List<EntityDecorator>();
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<OFICINAS>(code);
                 officeDtos = _mapper.Map<OFICINAS, OfficeDtos>(value);
-                
+
+
                 if (value != null)
                 {
                     IQueryStore queryStore = _queryStoreFactory.GetQueryStore();
@@ -69,13 +86,21 @@ namespace DataAccessLayer.Crud.Office
                     queryStore.AddParam(QueryType.HolidaysByOffice, value.CODIGO);
                     var queryHolidays = queryStore.BuildQuery();
                     var reader = await connection.QueryMultipleAsync(queryHolidays);
-                    var offices = reader.Read<CURRENCIES>();
-                    if (!reader.IsConsumed)
+                    while (!reader.IsConsumed)
                     {
-                        var holidaysByOffice = reader.Read<FESTIVOS_OFICINA>();
-                        officeDtos.HolidayDates = _mapper.Map<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<HolidayDto>>(holidaysByOffice);
+                        var row = reader.Read();
+
+                        foreach (var singleValue in row)
+                        {
+                            var deserialized = deserializer.Deserialize(singleValue);
+                            if (deserialized != null)
+                            {
+                                output.Add(deserialized);
+                            }
+                        }
                     }
-                    
+                    officeDtos.Currencies =deserializer.SelectDto<CURRENCIES, CurrenciesDto>(_mapper, output);
+                    officeDtos.HolidayDates = deserializer.SelectDto<FESTIVOS_OFICINA, HolidayDto>(_mapper, output);
                 }
             }
             return officeDtos;

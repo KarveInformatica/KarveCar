@@ -1,5 +1,7 @@
-﻿using DataAccessLayer.Crud.Clients;
+﻿using AutoMapper;
+using DataAccessLayer.Crud.Clients;
 using DataAccessLayer.Crud.Office;
+using DataAccessLayer.Logic;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 namespace DataAccessLayer.Crud
@@ -10,9 +12,11 @@ namespace DataAccessLayer.Crud
     public class CrudFactory
     {
         private ISqlExecutor _executor;
+        private IMapper _mapper;
 
         private CrudFactory(ISqlExecutor executor)
         {
+            _mapper = MapperField.GetMapper();
             _executor = executor;
         }
         public static CrudFactory GetFactory(ISqlExecutor executor)
@@ -25,7 +29,6 @@ namespace DataAccessLayer.Crud
         /// </summary>
         /// <returns>An interface for loading the entities..</returns>
         public IDataLoader<ClientDto> ClientLoader => new ClientDataLoader(_executor);
-
         /// <summary>
         ///  client saver
         /// </summary>
@@ -42,23 +45,18 @@ namespace DataAccessLayer.Crud
         ///  Office deleter
         /// </summary>
         /// <returns></returns>
-        public IDataDeleter<OfficeDtos> GetOfficeDeleter() => new OfficeDataDeleter(_executor);
+        public IDataDeleter<OfficeDtos> GetOfficeDeleter() => new OfficeDataDeleter(_executor, _mapper);
 
         /// <summary>
         /// Office loader factory
         /// </summary>
         /// <returns>Return an office loader. That has the resposability of load offices</returns>
-        public IDataLoader<OfficeDtos> GetOfficeLoader()
-        {
-            return new OfficeDataLoader(_executor);
-        }
+        public IDataLoader<OfficeDtos> GetOfficeLoader() => new OfficeDataLoader(_executor, _mapper);
         /// <summary>
         ///  office saver.
         /// </summary>
         /// <returns></returns>
-        public IDataSaver<OfficeDtos> GetOfficeSaver()
-        {
-            return new OfficeDataSaver(_executor);
-        }
+        public IDataSaver<OfficeDtos> GetOfficeSaver() => new OfficeDataSaver(_executor, _mapper);
+        
     }
 }

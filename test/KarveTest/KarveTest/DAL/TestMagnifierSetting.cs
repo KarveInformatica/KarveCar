@@ -114,8 +114,10 @@ namespace KarveTest.DAL
                             value = await connection.UpdateAsync<GRID_SERIALIZATION>(serialize);
                         }
                         Assert.IsTrue(value);
+                        connection.DeleteAll<GRID_SERIALIZATION>();
                     }
                 }
+               
             }
             catch (Exception e)
             {
@@ -125,10 +127,9 @@ namespace KarveTest.DAL
           
         }
         [Test]
-        public async Task Should_Fail_Load_Magnifier_Settings()
+        public void Should_Fail_LoadMagnifierSettingsWithInvalidId()
         {
-            GridSettingsDto dataValue = await _settingsDataService.GetMagnifierSettings(long.MaxValue);
-            Assert.AreEqual(null, dataValue.GridName);            
+            Assert.Throws<DataLayerException>(() => _settingsDataService.GetMagnifierSettings(long.MaxValue));
         }
     }
 }

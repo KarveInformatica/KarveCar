@@ -101,9 +101,9 @@ namespace DataAccessLayer.Crud.Company
                     }
                     var v = _output;
 
-                    companyDto.City = SelectDto<POBLACIONES,CityDto>(v).FirstOrDefault();
-                    companyDto.Province = SelectDto<PROVINCIA, ProvinciaDto>(v).FirstOrDefault();
-                    var selectedDto = SelectDto<OFICINAS, OfficeDtos>(v);
+                    companyDto.City = deserializer.SelectDto<POBLACIONES,CityDto>(_mapper,v).FirstOrDefault();
+                    companyDto.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper,v).FirstOrDefault();
+                    var selectedDto = deserializer.SelectDto<OFICINAS, OfficeDtos>(_mapper,v);
                     var offices = new ObservableCollection<OfficeDtos>();
                     foreach (var selected in selectedDto)
                     {
@@ -114,24 +114,7 @@ namespace DataAccessLayer.Crud.Company
             }
             return companyDto;
         }
-        /// <summary>
-        ///  Select a dto from a list of values.
-        /// </summary>
-        /// <typeparam name="T">Type of the value</typeparam>
-        /// <param name="decorator">Decorator to be used.</param>
-        /// <returns>A list of values</returns>
-        public IEnumerable<T1> SelectDto<T,T1>(List<EntityDecorator> decorator) where T: class
-        {
-            IList<T1> selectedValues = new List<T1>();
-            var values = decorator.Where(x => x.DtoType == typeof(T1));
-            foreach (var v in values)
-            {
-                var currentEntity = v.Value as T;
-                var item = _mapper.Map<T,T1>(currentEntity);
-                selectedValues.Add(item);
-            }
-            return selectedValues;
-        }
+  
         /// <summary>
         /// Load at most N async values.
         /// </summary>

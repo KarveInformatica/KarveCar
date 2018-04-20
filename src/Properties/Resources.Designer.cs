@@ -3328,6 +3328,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid office identifier .
+        /// </summary>
+        public static string OfficeDataService_GetAsyncOfficeDo_InvalidOfficeIdentifier {
+            get {
+                return ResourceManager.GetString("OfficeDataService_GetAsyncOfficeDo_InvalidOfficeIdentifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pase Remesa a Contabilidad.
         /// </summary>
         public static string rbtnPaseRemesaContabilidad {

@@ -1,4 +1,5 @@
-﻿using KarveDapper.Extensions;
+﻿using AutoMapper;
+using KarveDapper.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -34,7 +35,24 @@ namespace DataAccessLayer.DataObjects
                 KeyPropertiesCache(e.GetType());
             }
         }
-        
+        /// <summary>
+        ///  Select a dto from a list of values.
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <param name="decorator">Decorator to be used.</param>
+        /// <returns>A list of values</returns>
+        public IEnumerable<T1> SelectDto<T, T1>(IMapper mapper, List<EntityDecorator> decorator) where T : class
+        {
+            IList<T1> selectedValues = new List<T1>();
+            var values = decorator.Where(x => x.DtoType == typeof(T1));
+            foreach (var v in values)
+            {
+                var currentEntity = v.Value as T;
+                var item = mapper.Map<T, T1>(currentEntity);
+                selectedValues.Add(item);
+            }
+            return selectedValues;
+        }
         private List<PropertyInfo> KeyPropertiesCache(Type type)
         {
             if (KeyProperties.TryGetValue(type.TypeHandle, out IEnumerable<PropertyInfo> pi))

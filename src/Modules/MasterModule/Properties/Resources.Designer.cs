@@ -61,6 +61,51 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abre contratos S/N.
+        /// </summary>
+        internal static string AbreContratosSN {
+            get {
+                return ResourceManager.GetString("AbreContratosSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admite Recogida fuera de base.
+        /// </summary>
+        internal static string AdmiteRecogidaFueraDeBase {
+            get {
+                return ResourceManager.GetString("AdmiteRecogidaFueraDeBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admite Reserva ON Line.
+        /// </summary>
+        internal static string AdmiteReservaONLine {
+            get {
+                return ResourceManager.GetString("AdmiteReservaONLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canon Fijo Mes: .
+        /// </summary>
+        internal static string CanonFijoMes {
+            get {
+                return ResourceManager.GetString("CanonFijoMes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codigo Sociedad.
+        /// </summary>
+        internal static string CodigoSociedad {
+            get {
+                return ResourceManager.GetString("CodigoSociedad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacto.
         /// </summary>
         internal static string Contacto {
@@ -70,11 +115,29 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contraseña WS:.
+        /// </summary>
+        internal static string ContraseñaWS {
+            get {
+                return ResourceManager.GetString("ContraseñaWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CP.
         /// </summary>
         internal static string CP {
             get {
                 return ResourceManager.GetString("CP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credenciales Web.
+        /// </summary>
+        internal static string CredencialesWeb {
+            get {
+                return ResourceManager.GetString("CredencialesWeb", resourceCulture);
             }
         }
         
@@ -106,6 +169,24 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Datos Empresa.
+        /// </summary>
+        internal static string DatosEmpresa {
+            get {
+                return ResourceManager.GetString("DatosEmpresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Devolución fuera de Horas: .
+        /// </summary>
+        internal static string DevoluciónFueraDeHoras {
+            get {
+                return ResourceManager.GetString("DevoluciónFueraDeHoras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dirección.
         /// </summary>
         internal static string Dirección {
@@ -124,11 +205,47 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DTO Máximo .
+        /// </summary>
+        internal static string DTOMáximo {
+            get {
+                return ResourceManager.GetString("DTOMáximo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         internal static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email. Confirmed Res.: .
+        /// </summary>
+        internal static string EmailConfirmedRes {
+            get {
+                return ResourceManager.GetString("EmailConfirmedRes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email. On-Request Res.:.
+        /// </summary>
+        internal static string EmailOnRequestRes {
+            get {
+                return ResourceManager.GetString("EmailOnRequestRes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email. Rejected Res.: .
+        /// </summary>
+        internal static string EmailRejectedRes {
+            get {
+                return ResourceManager.GetString("EmailRejectedRes", resourceCulture);
             }
         }
         
@@ -151,11 +268,38 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entrega fuera de Horas: .
+        /// </summary>
+        internal static string EntregaFueraDeHoras {
+            get {
+                return ResourceManager.GetString("EntregaFueraDeHoras", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Es Aeropuerto S/N .
+        /// </summary>
+        internal static string EsAeropuertoSN {
+            get {
+                return ResourceManager.GetString("EsAeropuertoSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Es Intracomunitario.
         /// </summary>
         internal static string EsIntracomunitario {
             get {
                 return ResourceManager.GetString("EsIntracomunitario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Estación de tren .
+        /// </summary>
+        internal static string EstaciónDeTren {
+            get {
+                return ResourceManager.GetString("EstaciónDeTren", resourceCulture);
             }
         }
         
@@ -205,6 +349,24 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Festividad.
+        /// </summary>
+        internal static string Festividad {
+            get {
+                return ResourceManager.GetString("Festividad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Festivos.
+        /// </summary>
+        internal static string Festivos {
+            get {
+                return ResourceManager.GetString("Festivos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forma de Pago.
         /// </summary>
         internal static string FormaDePago {
@@ -223,11 +385,56 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gestion Festividades.
+        /// </summary>
+        internal static string GestionFestividades {
+            get {
+                return ResourceManager.GetString("GestionFestividades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vehiculos.
         /// </summary>
         internal static string Header_Vehiculos {
             get {
                 return ResourceManager.GetString("Header_Vehiculos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Horario Desde.
+        /// </summary>
+        internal static string HorarioDesde {
+            get {
+                return ResourceManager.GetString("HorarioDesde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID. Cliente.
+        /// </summary>
+        internal static string IDCliente {
+            get {
+                return ResourceManager.GetString("IDCliente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.Contrato SAVIA: .
+        /// </summary>
+        internal static string IDContratoSAVIA {
+            get {
+                return ResourceManager.GetString("IDContratoSAVIA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.Local SAVIA: .
+        /// </summary>
+        internal static string IDLocalSAVIA {
+            get {
+                return ResourceManager.GetString("IDLocalSAVIA", resourceCulture);
             }
         }
         
@@ -286,6 +493,15 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No &apos;On-Request&apos; .
+        /// </summary>
+        internal static string NoOnRequest {
+            get {
+                return ResourceManager.GetString("NoOnRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Notas.
         /// </summary>
         internal static string Notas {
@@ -322,6 +538,24 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ofi. Flota .
+        /// </summary>
+        internal static string OfiFlota {
+            get {
+                return ResourceManager.GetString("OfiFlota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On way nacional, On request .
+        /// </summary>
+        internal static string OnWayNacionalOnRequest {
+            get {
+                return ResourceManager.GetString("OnWayNacionalOnRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Via.
         /// </summary>
         internal static string OrderCommunicationWay_Via {
@@ -336,6 +570,15 @@ namespace MasterModule.Properties {
         internal static string Pais {
             get {
                 return ResourceManager.GetString("Pais", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password Web.
+        /// </summary>
+        internal static string PasswordWeb {
+            get {
+                return ResourceManager.GetString("PasswordWeb", resourceCulture);
             }
         }
         
@@ -367,6 +610,24 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pon hora de ida.
+        /// </summary>
+        internal static string PonHoraDeIda {
+            get {
+                return ResourceManager.GetString("PonHoraDeIda", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pon hora de vuelta.
+        /// </summary>
+        internal static string PonHoraDeVuelta {
+            get {
+                return ResourceManager.GetString("PonHoraDeVuelta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prefijo.
         /// </summary>
         internal static string Prefijo {
@@ -385,11 +646,47 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recogida en Festivo NO &apos;On-Request&apos; &quot; .
+        /// </summary>
+        internal static string RecogidaEnFestivoNOOnRequest {
+            get {
+                return ResourceManager.GetString("RecogidaEnFestivoNOOnRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Seguro.
         /// </summary>
         internal static string Seguro {
             get {
                 return ResourceManager.GetString("Seguro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send Bookings by Mail.
+        /// </summary>
+        internal static string SendBookingsByMail {
+            get {
+                return ResourceManager.GetString("SendBookingsByMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Siempre On request .
+        /// </summary>
+        internal static string SiempreOnRequest {
+            get {
+                return ResourceManager.GetString("SiempreOnRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sin Coste .
+        /// </summary>
+        internal static string SinCoste {
+            get {
+                return ResourceManager.GetString("SinCoste", resourceCulture);
             }
         }
         
@@ -430,11 +727,47 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Temporada Apertura.
+        /// </summary>
+        internal static string TemporadaApertura {
+            get {
+                return ResourceManager.GetString("TemporadaApertura", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo IVA Web.
+        /// </summary>
+        internal static string TipoIVAWeb {
+            get {
+                return ResourceManager.GetString("TipoIVAWeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo Prov..
         /// </summary>
         internal static string TipoProv {
             get {
                 return ResourceManager.GetString("TipoProv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuario Web.
+        /// </summary>
+        internal static string UsuarioWeb {
+            get {
+                return ResourceManager.GetString("UsuarioWeb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuario WS:.
+        /// </summary>
+        internal static string UsuarioWS {
+            get {
+                return ResourceManager.GetString("UsuarioWS", resourceCulture);
             }
         }
         

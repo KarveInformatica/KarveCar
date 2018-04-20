@@ -219,4 +219,19 @@
   <data name="Header_Vehiculos" xml:space="preserve">
     <value>Vehicles</value>
   </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>Not Defined</value>
+  </data>
+  <data name="EstaciónDeTren" xml:space="preserve">
+    <value>Train Station</value>
+  </data>
+  <data name="AdmiteReservaONLine" xml:space="preserve">
+    <value>Allow Online Booking</value>
+  </data>
+  <data name="EmailConfirmedRes" xml:space="preserve">
+    <value>Confirmed Email Res.</value>
+  </data>
+  <data name="PasswordWeb" xml:space="preserve">
+    <value>Web Password</value>
+  </data>
 </root>

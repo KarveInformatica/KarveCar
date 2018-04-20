@@ -11,6 +11,9 @@ using Dapper;
 using KarveDapper.Extensions;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Crud;
+using AutoMapper;
+using DataAccessLayer.Logic;
+using System.Linq;
 
 namespace DataAccessLayer
 {
@@ -20,10 +23,12 @@ namespace DataAccessLayer
     internal class OfficeDataService: IOfficeDataServices
     {
         private ISqlExecutor _sqlExecutor;
+        private IMapper _mapper;
         private OfficeDataLoader _loader;
         private OfficeDataSaver _saver;
         private OfficeDataDeleter _deleter;
         private QueryStoreFactory _queryStoreFactory;
+      
         /// <summary>
         ///  Office data service constructor
         /// </summary>
@@ -31,9 +36,10 @@ namespace DataAccessLayer
         public OfficeDataService(ISqlExecutor sqlExecutor)
         {
             _sqlExecutor = sqlExecutor;
-            _loader = new OfficeDataLoader(sqlExecutor);
-            _saver = new OfficeDataSaver(sqlExecutor);
-            _deleter = new OfficeDataDeleter(sqlExecutor);
+            _mapper = MapperField.GetMapper();
+            _loader = new OfficeDataLoader(sqlExecutor, _mapper);
+            _saver = new OfficeDataSaver(sqlExecutor, _mapper);
+            _deleter = new OfficeDataDeleter(sqlExecutor, _mapper);
             _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
@@ -75,6 +81,10 @@ namespace DataAccessLayer
                 office.Value = data;
                 office.Valid = true;
             }
+            else
+            {
+                throw new DataLayerException("Invalid office identifier " + identifier);
+            }
           return office;
         }
         /// <summary>
@@ -94,6 +104,8 @@ namespace DataAccessLayer
             }
             return summaryCollection;
         }
+
+ 
         /// <summary>
         ///  Get an unique id for the office table. The id is a new identifier that it can be used for inserting 
         ///  a new office in the database
@@ -118,12 +130,57 @@ namespace DataAccessLayer
         {
             OfficeDtos data = new OfficeDtos();
             data.Codigo = code;
-         
             IOfficeData office = new Office();
             office.Value = data;
             office.Valid = true;
             return office;
         }
+        /// <summary>
+        /// Get the time table from asynchronous office.
+        /// </summary>
+        /// <param name="officeId">Office identifier</param>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>The timetable of the office for the week</returns>
+        public async Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId)
+        {
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.Clear();
+            IEnumerable<DailyTime> times = new List<DailyTime>();
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                IList<string> param = new List<string>();
+                param.Add(officeId);
+                param.Add(companyId);
+                var query = store.BuildQuery(QueryType.QueryOfficeByCompany, param);
+                var offices = await connection.QueryAsync<OFICINAS>(query);
+                var currentOffice = offices.FirstOrDefault();
+                if (currentOffice != null)
+                {
+                    times = _mapper.Map<OFICINAS, IList<DailyTime>>(currentOffice);
+                }
+            }
+            return times;
+        }
+        /// <summary>
+        /// The holidays for the office
+        /// </summary>
+        /// <param name="officeId">Identifier of the office</param>
+        /// <returns>The list of the office company</returns>
+        public async Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
+        {
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            IEnumerable<HolidayDto> times = new List<HolidayDto>();
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                store.AddParam(QueryType.HolidaysByOffice, officeId);
+                var build = store.BuildQuery();
+                var holidays = await connection.QueryAsync<FESTIVOS_OFICINA>(build);
+                times = _mapper.Map<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<HolidayDto>>(holidays);
+            }
+            return times;
+        }
+
+
         /// <summary>
         ///  This save/insert asynchronously an office.
         /// </summary>

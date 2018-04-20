@@ -114,7 +114,7 @@ namespace KarveTest.KarveDapper
             }
         }
         [Test]
-        public async Task Should_Update_A_CollectionFromDto()
+        public async Task Should_Update_CollectionEntitiesFromDto()
         {
             IList<CLIENTES1> clientes = await FetchClientes();
             // arrange the items to update.

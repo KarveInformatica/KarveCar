@@ -143,7 +143,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
         private IEnumerable<CityDto> _cityDtos = new ObservableCollection<CityDto>();
         private IEnumerable<DeliveringFormDto> _deliveringFormDto;
-        private IMapper _globalMapper;
+       
         public Supplier()
         {
 
@@ -276,25 +276,31 @@ namespace DataAccessLayer.Model
         public async Task<bool> SaveBranches(IDbConnection connection)
         {
             bool retValue = true;
-            string deleteAll = string.Format("DELETE FROM ProDelega WHERE cldIdCliente='{0}'",
+            /*string deleteAll = string.Format("DELETE FROM ProDelega WHERE cldIdCliente='{0}'",
                 this.Value.NUM_PROVEE);
             await connection.ExecuteAsync(deleteAll);
+            */
             IMapper tmpMapper = MapperField.GetMapper();
             foreach (var branch in this.BranchesDto)
             {
-                ProDelega delega = _globalMapper.Map<BranchesDto, ProDelega>(branch);
-                delega.cldIdCliente = this.Value.NUM_PROVEE;
-                
+                ProDelega delega = _supplierMapper.Map<BranchesDto, ProDelega>(branch);
+                delega.cldIdCliente = this.Value.NUM_PROVEE;  
                 try
 
                 {
-                    int value = await connection.InsertAsync(delega);
-                   
+                    if (branch.IsNew)
+                    {
+                        int value = await connection.InsertAsync(delega);
+                    }
+                    else
+                    {
+                        await connection.UpdateAsync(delega);
+                    }
                 }
                 catch (System.Exception e)
                 {
                     retValue = false;
-                    string message = "Transaction Scope Exception in Vehicle Insertion. Reason: " + e.Message;
+                    string message = "Transaction Scope Exception in Delete Insertion. Reason: " + e.Message;
                     logger.Error(message);
                     DataLayerExecutionException dataLayer = new DataLayerExecutionException(message);
                     throw dataLayer;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1202,5 +1202,20 @@
   </data>
   <data name="msgError683" xml:space="preserve">
     <value>Cadena de texto excede el tamaño establecido</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="Commisiones" xml:space="preserve">
+    <value>Commisiones</value>
+  </data>
+  <data name="VencimentoSeguro" xml:space="preserve">
+    <value>Vencimento Seguro</value>
+  </data>
+  <data name="EnterSearchTerm" xml:space="preserve">
+    <value>Entra Termino Busqueda</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Dati Usuario</value>
   </data>
 </root>

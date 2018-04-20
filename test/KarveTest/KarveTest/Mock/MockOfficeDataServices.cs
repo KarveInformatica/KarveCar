@@ -65,6 +65,12 @@ namespace KarveTest.Mock
             await Task.Delay(1000);
             return officeSummary;
         }
+
+        public Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public string GetNewId()
         {
             return "00001";
@@ -76,6 +82,11 @@ namespace KarveTest.Mock
             data.Value = dto;
             data.Valid = true;
             return data;
+        }
+
+        public Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId)
+        {
+            throw new System.NotImplementedException();
         }
 
         public async Task<bool> SaveAsync(IOfficeData clientData)

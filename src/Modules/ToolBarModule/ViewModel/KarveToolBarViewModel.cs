@@ -90,7 +90,7 @@ namespace ToolBarModule
             this._careKeeper = careKeeper;
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
             this.NewCommand = new DelegateCommand(DoNewCommand);
-            this.DeleteCommand = new DelegateCommand(DoDeleteCommand);
+            this.DeleteCommand = new DelegateCommand<object>(DoDeleteCommand);
             this._dataServices = dataServices;
             this._configurationService = configurationService;
             this._eventManager = eventManager;
@@ -116,7 +116,16 @@ namespace ToolBarModule
                 ConfirmationRequest.Raise(request);
                 if (request.Confirmed)
                 {
-                    DeleteCommand.Execute();
+                    string value = string.Empty;
+                    var singleView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+                    var headerProp = singleView.GetType().GetProperty("Header");
+                    var header = headerProp.GetValue(singleView) as string;
+                    if (header != null)
+                    {
+                        value = header.Split('.')[0];
+                    }
+
+                    DeleteCommand.Execute(value);
                 }
 
             });
@@ -140,17 +149,11 @@ namespace ToolBarModule
             _uniqueId = ObserverName + Guid.NewGuid();
         }
 
-        private void DoDeleteCommand()
+        private void DoDeleteCommand(object key)
         {
-
-            var value = "";
-            var singleView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-            var headerProp = singleView.GetType().GetProperty("Header");
-            var header = headerProp.GetValue(singleView) as string;
-            if (header != null)
-            {
-                value = header.Split('.')[0];
-            }
+            var value = string.Empty;
+            value = key as string;
+            
             _states = ToolbarStates.Delete;
             DataPayLoad payLoad = new DataPayLoad
             {
@@ -464,7 +467,7 @@ namespace ToolBarModule
         /// <summary>
         ///  Delete command view module.
         /// </summary>
-        public DelegateCommand DeleteCommand { set; get; }
+        public DelegateCommand<object> DeleteCommand { set; get; }
         /// <summary>
         ///  Returns the currenct active payload in the toolbar if any
         /// </summary>

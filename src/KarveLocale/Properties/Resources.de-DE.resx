@@ -2599,4 +2599,25 @@
   <data name="Elenco" xml:space="preserve">
     <value>List</value>
   </data>
+  <data name="AdmiteReservaOFFLine" xml:space="preserve">
+    <value>Offline Buchung erlauben</value>
+  </data>
+  <data name="AdmiteReservaOnline" xml:space="preserve">
+    <value>Online Buchung erlauben</value>
+  </data>
+  <data name="Bloqueado" xml:space="preserve">
+    <value>Verstopft</value>
+  </data>
+  <data name="ltipovisita" xml:space="preserve">
+    <value>Typ Besuch</value>
+  </data>
+  <data name="LugarDeEntregas" xml:space="preserve">
+    <value>Lieferort</value>
+  </data>
+  <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
+    <value>Budgetschlüssel</value>
+  </data>
+  <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
+    <value>Neue Fahrzeug</value>
+  </data>
 </root>

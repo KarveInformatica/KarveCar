@@ -1583,4 +1583,7 @@
   <data name="lprovincecode" xml:space="preserve">
     <value></value>
   </data>
+  <data name="OfficeDataService_GetAsyncOfficeDo_InvalidOfficeIdentifier" xml:space="preserve">
+    <value>Invalid office identifier </value>
+  </data>
 </root>

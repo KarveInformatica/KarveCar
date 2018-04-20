@@ -336,32 +336,11 @@ namespace MasterModule.ViewModels
 
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
-            DataPayLoad payLoad = new DataPayLoad();
+            DataPayLoad payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = DataSubSystem.OfficeSubsystem;
             payLoad.SubsystemName = MasterModuleConstants.OfficeSubSytemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.ObjectPath = ViewModelUri;
-            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
-            {
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
 
-            }
-            if (eventDictionary.ContainsKey("DataObject"))
-            {
-                if (eventDictionary["DataObject"] == null)
-                {
-                    MessageBox.Show("DataObject is null.");
-                }
-               
-                var data = eventDictionary["DataObject"];
-                if (eventDictionary.ContainsKey("Field"))
-                {
-                    var name = eventDictionary["Field"] as string;
-                    GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
-                   
-                }
-                payLoad.DataObject = data;
-            }
             ChangeFieldHandlerDo<OfficeDtos> handlerDo = new ChangeFieldHandlerDo<OfficeDtos>(EventManager, DataSubSystem.OfficeSubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
@@ -402,25 +381,33 @@ namespace MasterModule.ViewModels
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.OfficeSubSytemName, this);
             AssistExecuted -= OfficeAssistResult;
         }
-
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+       
+       /* TODO this means that we shal have an interaface segragation, at the base class.
+       * The interface and related stuff to a grid shall be separated in another class to give an option to implement or not
+       * that interface.
+       */
+        internal override  Task SetClientData(ClientSummaryExtended p, VisitsDto b)
         {
-            throw new NotImplementedException();
+            var t = Task.FromResult(0);
+            return t;
         }
 
         internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
         {
-            throw new NotImplementedException();
+            var t = Task.FromResult(0);
+            return t;
         }
 
         internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
         {
-            throw new NotImplementedException();
+            var t = Task.FromResult(0);
+            return t;
         }
 
         internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
         {
-            throw new NotImplementedException();
+            var t = Task.FromResult(0);
+            return t;
         }
         #endregion
 

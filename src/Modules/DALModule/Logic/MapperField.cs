@@ -7,7 +7,6 @@ using KarveDataServices.DataTransferObject;
 using System.Reflection;
 using KarveDataServices.DataObjects;
 using DataAccessLayer.Model;
-using DataAccessLayer.Logic;
 
 namespace DataAccessLayer.Logic
 {
@@ -967,331 +966,331 @@ namespace DataAccessLayer.Logic
         {
             var config = new MapperConfiguration(cfg =>
             {
-            cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new PropieToOwnerDtoConverter());
-            cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
-            cfg.CreateMap<CommissionTypeDto, TIPOCOMI>().ConvertUsing(new TipoCommisionBackConverter());
-            cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
-            cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
-            cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
-            cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
-            cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
-            cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
-            cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
-            cfg.CreateMap<ComisioDto, COMISIO>();
-            cfg.CreateMap<COMISIO, ComisioDto>();
-            cfg.CreateMap<VisitasComiPoco, VISITAS_COMI>().ConvertUsing(new VisitComiToVisit());
+                cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new PropieToOwnerDtoConverter());
+                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
+                cfg.CreateMap<CommissionTypeDto, TIPOCOMI>().ConvertUsing(new TipoCommisionBackConverter());
+                cfg.CreateMap<PROVINCIA, ProvinciaDto>().ConvertUsing(new ProvinciaConverter());
+                cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(new ProvinciaConverterToPOCO());
+                cfg.CreateMap<Country, CountryDto>().ConvertUsing(new CountryConverter());
+                cfg.CreateMap<CountryDto, Country>().ConvertUsing(new Country2PocoConverter());
+                cfg.CreateMap<OFICINAS, OfficeDtos>().ConvertUsing(new OfficeConverter());
+                cfg.CreateMap<ZONAOFI, ZonaOfiDto>().ConvertUsing(new ZonaOfiConverter());
+                cfg.CreateMap<OfficeDtos, OFICINAS>().ConvertUsing(new OfficeConverterBack());
+                cfg.CreateMap<ComisioDto, COMISIO>();
+                cfg.CreateMap<COMISIO, ComisioDto>();
+                cfg.CreateMap<VisitasComiPoco, VISITAS_COMI>().ConvertUsing(new VisitComiToVisit());
 
-            cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
-            cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
-            cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
-            cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
-            cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
-            cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
-            cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
-            cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
-            cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
-            cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
-            cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
-            cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
-            cfg.CreateMap<BranchesDto, cliDelega>().ConvertUsing(new BranchesToCliDelega());
-            cfg.CreateMap<CliDelegaPoco, BranchesDto>().ConvertUsing(new ClientBranchesConverter());
-            cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
-            cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
-            cfg.CreateMap<CONTACTOS_COMI, ContactsDto>().ConvertUsing(new ContactsComiToDto());
-            cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
-            cfg.CreateMap<CLIENTES1, ClientDto>().ConvertUsing(new ClientToClientes1());
-            cfg.CreateMap<CLIENTES2, ClientDto>().ConvertUsing(new ClientToClientes2());
-            cfg.CreateMap<ClientDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
-            cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
-            cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
-            cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+                cfg.CreateMap<PRODUCTS, ProductsDto>().ConvertUsing(new ProductsConverter());
+                cfg.CreateMap<MERCADO, MercadoDto>().ConvertUsing(new MercadoConverter());
+                cfg.CreateMap<MercadoDto, MERCADO>().ConvertUsing(new Poco2MercadoConverter());
+                cfg.CreateMap<NEGOCIO, BusinessDto>().ConvertUsing(new NegocioConverter());
+                cfg.CreateMap<VENDEDOR, ResellerDto>().ConvertUsing(new VendedorConverter());
+                cfg.CreateMap<ORIGEN, OrigenDto>().ConvertUsing(new OrigenConverter());
+                cfg.CreateMap<CLAVEPTO, ClavePtoDto>().ConvertUsing(new ClavePtoConverter());
+                cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
+                cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
+                cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
+                cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
+                cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
+                cfg.CreateMap<BranchesDto, cliDelega>().ConvertUsing(new BranchesToCliDelega());
+                cfg.CreateMap<CliDelegaPoco, BranchesDto>().ConvertUsing(new ClientBranchesConverter());
+                cfg.CreateMap<ContactsComiPoco, ContactsDto>().ConvertUsing(new ContactsConverter());
+                cfg.CreateMap<ContactsDto, CONTACTOS_COMI>().ConvertUsing(new ContactsComi());
+                cfg.CreateMap<CONTACTOS_COMI, ContactsDto>().ConvertUsing(new ContactsComiToDto());
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(new Poco2BrandVehicle());
+                cfg.CreateMap<CLIENTES1, ClientDto>().ConvertUsing(new ClientToClientes1());
+                cfg.CreateMap<CLIENTES2, ClientDto>().ConvertUsing(new ClientToClientes2());
+                cfg.CreateMap<ClientDto, CLIENTES1>().ConvertUsing(new ClientDtoToClientes1());
+                cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
+                cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
+                cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
 
-            cfg.CreateMap<InvoiceDto, FACTURAS>().ConvertUsing(src =>
-            {
-                var value = new FACTURAS();
-                var genericConverter = new GenericConverter<InvoiceDto, FACTURAS>();
-                return genericConverter.Convert(src, null, null);
-            });
-            cfg.CreateMap<FACTURAS, InvoiceDto>().ConvertUsing(src =>
-            {
-                var genericConverter = new GenericConverter<FACTURAS, InvoiceDto>();
-                return genericConverter.Convert(src, null, null);
-            });
-
-
-            cfg.CreateMap<LIFAC, InvoiceSummaryDto>().ConvertUsing(src =>
-            {
-                var invoiceItem = new InvoiceSummaryDto();
-                invoiceItem.Subtotal = src.SUBTOTAL_LIF;
-                invoiceItem.FileNumber = src.EXPEDIENTE_LIF;
-                invoiceItem.Discount = src.DTO_LIF;
-                invoiceItem.Description = src.DESCRIP_LIF;
-                invoiceItem.Iva = src.IVA;
-                invoiceItem.VehicleCode = src.VEHICULO_LIF;
-                invoiceItem.User = src.USUARIO_LIF;
-                invoiceItem.Unity = src.UNIDAD_LIF;
-                invoiceItem.Quantity = src.CANTIDAD_LIF;
-
-                return invoiceItem;
-            });
-
-            cfg.CreateMap<CurrenciesDto, CURRENCIES>().ConvertUsing(
-                src =>
+                cfg.CreateMap<InvoiceDto, FACTURAS>().ConvertUsing(src =>
                 {
-                    var currencies = new CURRENCIES();
-                    currencies.CODIGO_CUR = src.Code;
-                    currencies.NOMBRE_CUR = src.Name;
-                    return currencies;
+                    var value = new FACTURAS();
+                    var genericConverter = new GenericConverter<InvoiceDto, FACTURAS>();
+                    return genericConverter.Convert(src, null, null);
                 });
-            cfg.CreateMap<CURRENCIES, CurrenciesDto>().ConvertUsing(
-                src =>
+                cfg.CreateMap<FACTURAS, InvoiceDto>().ConvertUsing(src =>
                 {
-                    var currencies = new CurrenciesDto();
-                    currencies.Code = src.CODIGO_CUR;
-                    currencies.Name = src.NOMBRE_CUR;
-                    return currencies;
+                    var genericConverter = new GenericConverter<FACTURAS, InvoiceDto>();
+                    return genericConverter.Convert(src, null, null);
                 });
-            cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
 
-            cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
-            {
-                var tipoComi = new CommissionTypeDto();
-                tipoComi.Codigo = src.NUM_TICOMI;
-                tipoComi.Nombre = src.NOMBRE;
-                tipoComi.LastModification = src.ULTMODI;
-                tipoComi.User = src.USUARIO;
-                return tipoComi;
-            });
-            cfg.CreateMap<COMISIO, ComisioDto>();
-            cfg.CreateMap<cliDelega, BranchesDto>().ConvertUsing(src =>
-            {
-                var delegation = new BranchesDto();
-                delegation.BranchId = src.cldIdDelega;
-                delegation.Address = src.cldDireccion1;
-                delegation.Address2 = src.cldDireccion2;
-                delegation.City = src.cldPoblacion;
-                delegation.Branch = src.cldDelegacion;
-                delegation.Email = src.cldEMail;
-                delegation.Notes = src.cldObservaciones;
-                delegation.Phone = src.cldTelefono1;
-                delegation.Phone2 = src.cldTelefono2;
-                delegation.LastModification = src.ULTMODI;
-                delegation.User = src.USUARIO;
-                return delegation;
-            });
 
-            cfg.CreateMap<Visitas, VisitsDto>().ConvertUsing(src =>
-            {
-                var visits = new VisitsDto();
-                    /*
+                cfg.CreateMap<LIFAC, InvoiceSummaryDto>().ConvertUsing(src =>
+                {
+                    var invoiceItem = new InvoiceSummaryDto();
+                    invoiceItem.Subtotal = src.SUBTOTAL_LIF;
+                    invoiceItem.FileNumber = src.EXPEDIENTE_LIF;
+                    invoiceItem.Discount = src.DTO_LIF;
+                    invoiceItem.Description = src.DESCRIP_LIF;
+                    invoiceItem.Iva = src.IVA;
+                    invoiceItem.VehicleCode = src.VEHICULO_LIF;
+                    invoiceItem.User = src.USUARIO_LIF;
+                    invoiceItem.Unity = src.UNIDAD_LIF;
+                    invoiceItem.Quantity = src.CANTIDAD_LIF;
+
+                    return invoiceItem;
+                });
+
+                cfg.CreateMap<CurrenciesDto, CURRENCIES>().ConvertUsing(
+                    src =>
+                    {
+                        var currencies = new CURRENCIES();
+                        currencies.CODIGO_CUR = src.Code;
+                        currencies.NOMBRE_CUR = src.Name;
+                        return currencies;
+                    });
+                cfg.CreateMap<CURRENCIES, CurrenciesDto>().ConvertUsing(
+                    src =>
+                    {
+                        var currencies = new CurrenciesDto();
+                        currencies.Code = src.CODIGO_CUR;
+                        currencies.Name = src.NOMBRE_CUR;
+                        return currencies;
+                    });
+                cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
+
+                cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
+                {
+                    var tipoComi = new CommissionTypeDto();
                     tipoComi.Codigo = src.NUM_TICOMI;
                     tipoComi.Nombre = src.NOMBRE;
                     tipoComi.LastModification = src.ULTMODI;
                     tipoComi.User = src.USUARIO;
-                    */
-                return visits;
-            });
-            cfg.CreateMap<VisitsDto, VISITAS_COMI>().ConstructUsing(src =>
-            {
-                var visit = new VISITAS_COMI();
-                visit.visIdCliente = src.ClientId;
-                visit.visIdContacto = src.ContactId;
-                visit.visIdObra = src.WorkId;
-                if (src.SellerSource != null)
+                    return tipoComi;
+                });
+                cfg.CreateMap<COMISIO, ComisioDto>();
+                cfg.CreateMap<cliDelega, BranchesDto>().ConvertUsing(src =>
                 {
-                    visit.visIdVendedor = src.SellerSource.Code;
-                }
-                visit.visIdVisita = src.VisitId;
-                if (src.VisitType != null)
-                {
-                    visit.visIdVisitaTipo = src.VisitType.Code;
-                }
-                visit.visTexto = src.Text;
-                visit.visAlta = src.StartingDate;
-                visit.visFecha = src.Date;
-                visit.visMinutos = src.Minutes;
-                visit.EMAIL = src.Email;
-                if (src.IsOrder)
-                {
-                    visit.PREAVISO = 0;
-                }
-                else
-                {
-                    visit.PREAVISO = 1;
-                }
+                    var delegation = new BranchesDto();
+                    delegation.BranchId = src.cldIdDelega;
+                    delegation.Address = src.cldDireccion1;
+                    delegation.Address2 = src.cldDireccion2;
+                    delegation.City = src.cldPoblacion;
+                    delegation.Branch = src.cldDelegacion;
+                    delegation.Email = src.cldEMail;
+                    delegation.Notes = src.cldObservaciones;
+                    delegation.Phone = src.cldTelefono1;
+                    delegation.Phone2 = src.cldTelefono2;
+                    delegation.LastModification = src.ULTMODI;
+                    delegation.User = src.USUARIO;
+                    return delegation;
+                });
 
-                return visit;
-            });
-            cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
-            {
-                var marcas = new BrandVehicleDto
+                cfg.CreateMap<Visitas, VisitsDto>().ConvertUsing(src =>
                 {
-                    Code = src.CODIGO,
-                    Name = src.NOMBRE,
-                    LastModification = src.ULTMODI,
-                    User = src.USUARIO
-                };
-                return marcas;
-            });
+                    var visits = new VisitsDto();
+                /*
+                tipoComi.Codigo = src.NUM_TICOMI;
+                tipoComi.Nombre = src.NOMBRE;
+                tipoComi.LastModification = src.ULTMODI;
+                tipoComi.User = src.USUARIO;
+                */
+                    return visits;
+                });
+                cfg.CreateMap<VisitsDto, VISITAS_COMI>().ConstructUsing(src =>
+                {
+                    var visit = new VISITAS_COMI();
+                    visit.visIdCliente = src.ClientId;
+                    visit.visIdContacto = src.ContactId;
+                    visit.visIdObra = src.WorkId;
+                    if (src.SellerSource != null)
+                    {
+                        visit.visIdVendedor = src.SellerSource.Code;
+                    }
+                    visit.visIdVisita = src.VisitId;
+                    if (src.VisitType != null)
+                    {
+                        visit.visIdVisitaTipo = src.VisitType.Code;
+                    }
+                    visit.visTexto = src.Text;
+                    visit.visAlta = src.StartingDate;
+                    visit.visFecha = src.Date;
+                    visit.visMinutos = src.Minutes;
+                    visit.EMAIL = src.Email;
+                    if (src.IsOrder)
+                    {
+                        visit.PREAVISO = 0;
+                    }
+                    else
+                    {
+                        visit.PREAVISO = 1;
+                    }
 
-            cfg.CreateMap<SITUACION, CurrentSituationDto>().ConvertUsing(src =>
-            {
-                var marcas = new CurrentSituationDto()
+                    return visit;
+                });
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
                 {
-                    Code = src.NUMERO,
-                    Name = src.NOMBRE,
-                    LastModification = src.ULTMODI,
-                    User = src.USUARIO
-                };
-                return marcas;
-            });
-            cfg.CreateMap<CurrentSituationDto, SITUACION>().ConvertUsing(src =>
-            {
-                var marcas = new SITUACION()
-                {
-                    NUMERO = src.Code,
-                    NOMBRE = src.Name,
-                    ULTMODI = src.LastModification,
-                    USUARIO = src.User
-                };
-                return marcas;
-            });
+                    var marcas = new BrandVehicleDto
+                    {
+                        Code = src.CODIGO,
+                        Name = src.NOMBRE,
+                        LastModification = src.ULTMODI,
+                        User = src.USUARIO
+                    };
+                    return marcas;
+                });
 
-            cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
-            {
-                var vehicle = new ModelVehicleDto
+                cfg.CreateMap<SITUACION, CurrentSituationDto>().ConvertUsing(src =>
                 {
-                    Codigo = src.CODIGO,
-                    Variante = src.VARIANTE,
-                    Nombre = src.NOMBRE,
-                    Marca = src.MARCA,
-                    NomeMarca = src.NOMMARCA,
-                    Categoria = src.CATEGORIA,
-                    Referencia = src.REFERENCIA_MO,
-                    Chassis = src.CHASIS
-                };
-                return vehicle;
-            });
-            cfg.CreateMap<GRUPOS, VehicleGroupDto>().ConvertUsing(
-                src =>
+                    var marcas = new CurrentSituationDto()
+                    {
+                        Code = src.NUMERO,
+                        Name = src.NOMBRE,
+                        LastModification = src.ULTMODI,
+                        User = src.USUARIO
+                    };
+                    return marcas;
+                });
+                cfg.CreateMap<CurrentSituationDto, SITUACION>().ConvertUsing(src =>
                 {
-                    var grupos = new VehicleGroupDto()
+                    var marcas = new SITUACION()
+                    {
+                        NUMERO = src.Code,
+                        NOMBRE = src.Name,
+                        ULTMODI = src.LastModification,
+                        USUARIO = src.User
+                    };
+                    return marcas;
+                });
+
+                cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
+                {
+                    var vehicle = new ModelVehicleDto
                     {
                         Codigo = src.CODIGO,
-                        Nombre = src.NOMBRE
+                        Variante = src.VARIANTE,
+                        Nombre = src.NOMBRE,
+                        Marca = src.MARCA,
+                        NomeMarca = src.NOMMARCA,
+                        Categoria = src.CATEGORIA,
+                        Referencia = src.REFERENCIA_MO,
+                        Chassis = src.CHASIS
                     };
-                    return grupos;
+                    return vehicle;
+                });
+                cfg.CreateMap<GRUPOS, VehicleGroupDto>().ConvertUsing(
+                    src =>
+                    {
+                        var grupos = new VehicleGroupDto()
+                        {
+                            Codigo = src.CODIGO,
+                            Nombre = src.NOMBRE
+                        };
+                        return grupos;
+                    });
+
+
+                cfg.CreateMap<SupplierPoco, SupplierDto>().
+                    ForMember(x => x.NOAUTOMARGEN, opt => opt.MapFrom(
+                       src => (src.NOAUTOMARGEN.HasValue) ? (src.NOAUTOMARGEN.Value == 1) : false)).
+                       ForMember(x => x.PALBARAN, opt => opt.MapFrom(
+                       src => (src.PALBARAN.HasValue) ? (src.PALBARAN.Value) : false)).
+                       ForMember(x => x.GESTION_IVA_IMPORTA, opt => opt.MapFrom(
+                       src => (src.GESTION_IVA_IMPORTA.HasValue) ? (src.GESTION_IVA_IMPORTA.Value == 1) : false)).
+                       ForMember(x => x.INTRACO, opt => opt.MapFrom(
+                       src => (src.INTRACO.HasValue) ? (src.INTRACO.Value == 1) : false));
+
+
+
+                cfg.CreateMap<SupplierDto, SupplierPoco>();
+                cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
+                {
+                    var accountDto = new AccountDto();
+                    accountDto.Codigo = src.CODIGO;
+                    accountDto.Description = src.DESCRIP;
+                    accountDto.Cuenta = src.CC;
+                    return accountDto;
+                }
+
+                    );
+                cfg.CreateMap<AccountDto, CU1>().ConvertUsing(src =>
+                {
+                    var accountDto = new CU1();
+                    accountDto.CODIGO = src.Codigo;
+                    accountDto.DESCRIP = src.Description;
+                    return accountDto;
+                }
+
+                );
+
+
+
+                cfg.CreateMap<DIVISAS, CurrencyDto>();
+                cfg.CreateMap<MESES, MonthsDto>();
+
+                cfg.CreateMap<FORMAS, PaymentFormDto>();
+                cfg.CreateMap<SupplierPoco, PROVEE1>().ConvertUsing<PocoToProvee1>();
+                cfg.CreateMap<SupplierPoco, PROVEE2>().ConvertUsing<PocoToProvee2>();
+                cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(src =>
+                {
+                    var provincia = new PROVINCIA();
+                    provincia.SIGLAS = src.Code;
+                    provincia.PROV = src.Name;
+                    return provincia;
+                });
+                cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(src =>
+                {
+                    var language = new LanguageDto();
+                    language.Nombre = src.NOMBRE;
+                    language.Codigo = Convert.ToString(src.CODIGO);
+                    return language;
+                });
+                cfg.CreateMap<BANCO, BanksDto>().ConvertUsing(
+                    src =>
+                    {
+                        var banks = new BanksDto();
+                        banks.Code = src.CODBAN;
+                        banks.Name = src.NOMBRE;
+                        banks.Swift = src.SWIFT;
+                        banks.LastModification = src.ULTMODI;
+                        banks.Usuario = src.USUARIO;
+                        return banks;
+                    }
+                );
+
+                cfg.CreateMap<ProDelega, BranchesDto>().ConvertUsing(src =>
+                {
+                    var branchesDto = new BranchesDto();
+                    branchesDto.BranchId = src.cldIdDelega;
+                    branchesDto.Address = src.cldDireccion1;
+                    branchesDto.Address2 = src.cldDireccion2;
+                    branchesDto.Branch = src.cldDelegacion;
+                    branchesDto.City = src.cldPoblacion;
+                    branchesDto.Email = src.cldEMail;
+                    branchesDto.Phone = src.cldTelefono1;
+                    branchesDto.Phone2 = src.cldTelefono2;
+                    branchesDto.BranchKeyId = src.cldIdCliente;
+                    branchesDto.Branch = src.cldDelegacion;
+                    branchesDto.Fax = src.cldFax;
+                    branchesDto.Province = new ProvinciaDto();
+                    branchesDto.Province.Code = src.cldIdProvincia;
+                    return branchesDto;
+                });
+
+                cfg.CreateMap<ProContactos, ContactsDto>().ConvertUsing(src =>
+                {
+                    var contactDto = new ContactsDto();
+                    contactDto.Email = src.ccoMail;
+                    contactDto.LastModification = src.ULTMODI;
+                    contactDto.ContactId = src.ccoIdContacto;
+                    contactDto.ContactName = src.ccoContacto;
+                    contactDto.Fax = src.ccoFax;
+                    contactDto.Movil = src.ccoMovil;
+                    contactDto.CurrentDelegation = src.ccoIdDelega;
+                    contactDto.Telefono = src.ccoTelefono;
+                    contactDto.Responsability = src.ccoCargo;
+                    contactDto.ContactsKeyId = src.ccoIdCliente;
+
+                    return contactDto;
                 });
 
 
-            cfg.CreateMap<SupplierPoco, SupplierDto>().
-                ForMember(x => x.NOAUTOMARGEN, opt => opt.MapFrom(
-                   src => (src.NOAUTOMARGEN.HasValue) ? (src.NOAUTOMARGEN.Value == 1) : false)).
-                   ForMember(x => x.PALBARAN, opt => opt.MapFrom(
-                   src => (src.PALBARAN.HasValue) ? (src.PALBARAN.Value) : false)).
-                   ForMember(x => x.GESTION_IVA_IMPORTA, opt => opt.MapFrom(
-                   src => (src.GESTION_IVA_IMPORTA.HasValue) ? (src.GESTION_IVA_IMPORTA.Value == 1) : false)).
-                   ForMember(x => x.INTRACO, opt => opt.MapFrom(
-                   src => (src.INTRACO.HasValue) ? (src.INTRACO.Value == 1) : false));
 
 
 
-                    cfg.CreateMap<SupplierDto, SupplierPoco>();
-                    cfg.CreateMap<CU1, AccountDto>().ConvertUsing(src =>
-                    {
-                        var accountDto = new AccountDto();
-                        accountDto.Codigo = src.CODIGO;
-                        accountDto.Description = src.DESCRIP;
-                        accountDto.Cuenta = src.CC;
-                        return accountDto;
-                    }
-
-                        );
-                    cfg.CreateMap<AccountDto, CU1>().ConvertUsing(src =>
-                    {
-                        var accountDto = new CU1();
-                        accountDto.CODIGO = src.Codigo;
-                        accountDto.DESCRIP = src.Description;
-                        return accountDto;
-                    }
-
-                    );
-
-                
-                     
-                    cfg.CreateMap<DIVISAS, CurrencyDto>();
-                    cfg.CreateMap<MESES, MonthsDto>();
-
-                    cfg.CreateMap<FORMAS, PaymentFormDto>();
-                    cfg.CreateMap<SupplierPoco, PROVEE1>().ConvertUsing<PocoToProvee1>();
-                    cfg.CreateMap<SupplierPoco, PROVEE2>().ConvertUsing<PocoToProvee2>();
-                    cfg.CreateMap<ProvinciaDto, PROVINCIA>().ConvertUsing(src =>
-                    {
-                        var provincia = new PROVINCIA();
-                        provincia.SIGLAS = src.Code;
-                        provincia.PROV = src.Name;
-                        return provincia;
-                    });
-                    cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(src =>
-                    {
-                        var language = new LanguageDto();
-                        language.Nombre = src.NOMBRE;
-                        language.Codigo = Convert.ToString(src.CODIGO);
-                        return language;
-                    });
-                    cfg.CreateMap<BANCO, BanksDto>().ConvertUsing(
-                        src =>
-                        {
-                            var banks = new BanksDto();
-                            banks.Code = src.CODBAN;
-                            banks.Name = src.NOMBRE;
-                            banks.Swift = src.SWIFT;
-                            banks.LastModification = src.ULTMODI;
-                            banks.Usuario = src.USUARIO;
-                            return banks;
-                        }
-                    );
-
-                    cfg.CreateMap<ProDelega, BranchesDto>().ConvertUsing(src =>
-                    {
-                        var branchesDto = new BranchesDto();
-                        branchesDto.BranchId = src.cldIdDelega;
-                        branchesDto.Address = src.cldDireccion1;
-                        branchesDto.Address2 = src.cldDireccion2;
-                        branchesDto.Branch = src.cldDelegacion;
-                        branchesDto.City = src.cldPoblacion;
-                        branchesDto.Email = src.cldEMail;
-                        branchesDto.Phone = src.cldTelefono1;
-                        branchesDto.Phone2 = src.cldTelefono2;
-                        branchesDto.BranchKeyId = src.cldIdCliente;
-                        branchesDto.Branch = src.cldDelegacion;
-                        branchesDto.Fax = src.cldFax;
-                        branchesDto.Province = new ProvinciaDto();
-                        branchesDto.Province.Code = src.cldIdProvincia;
-                        return branchesDto;
-                    });
-
-                    cfg.CreateMap<ProContactos, ContactsDto>().ConvertUsing(src =>
-                    {
-                        var contactDto = new ContactsDto();
-                        contactDto.Email = src.ccoMail;
-                        contactDto.LastModification = src.ULTMODI;
-                        contactDto.ContactId = src.ccoIdContacto;
-                        contactDto.ContactName = src.ccoContacto;
-                        contactDto.Fax = src.ccoFax;
-                        contactDto.Movil = src.ccoMovil;
-                        contactDto.CurrentDelegation = src.ccoIdDelega;
-                        contactDto.Telefono = src.ccoTelefono;
-                        contactDto.Responsability = src.ccoCargo;
-                        contactDto.ContactsKeyId = src.ccoIdCliente;
-
-                        return contactDto;
-                    });
-
-               
-                    
-
-               
                 cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
                 {
                     var tipoComi = new SupplierTypeDto();
@@ -1379,7 +1378,7 @@ namespace DataAccessLayer.Logic
                     return model;
                 });
 
-                cfg.CreateMap<ProDelegaPoco, BranchesDto>().ConvertUsing(src=>
+                cfg.CreateMap<ProDelegaPoco, BranchesDto>().ConvertUsing(src =>
                 {
                     BranchesDto bdto = new BranchesDto();
                     bdto.BranchId = src.cldIdDelega;
@@ -1501,6 +1500,55 @@ namespace DataAccessLayer.Logic
                     model.VehicleType = new VehicleTypeDto();
                     model.VehicleType.Code = src.CODIGO.ToString();
                     return model;
+                });
+
+
+                cfg.CreateMap<OFICINAS, IList<DailyTime>>().ConvertUsing(src =>
+                {
+                    var dayOfTheWeek = new List<DailyTime>
+                    {
+                        new DailyTime()
+                        {
+                            Morning = new OfficeOpenClose() { Open = src.ABRE_MA_LUNES , Close = src.CIERRA_MA_LUNES },
+                            Afternoon = new OfficeOpenClose() { Open = src.ABRE_TA_LUNES, Close = src.CIERRA_TA_LUNES }
+                        },
+                        new DailyTime()
+                        {
+                           Morning = new OfficeOpenClose() { Open = src.ABRE_MA_MARTES, Close = src.CIERRA_MA_MARTES },
+                           Afternoon = new OfficeOpenClose() { Open = src.ABRE_TA_MARTES, Close = src.CIERRA_TA_MARTES }
+                        },
+                        new DailyTime()
+                        {
+                              Morning = new OfficeOpenClose() { Open = src.ABRE_MA_MIERCOLES, Close = src.CIERRA_MA_MIERCOLES },
+                              Afternoon = new OfficeOpenClose() { Open = src.ABRE_TA_MIERCOLES, Close = src.CIERRA_TA_MIERCOLES }
+                        },
+                        new DailyTime()
+                        {
+                            Morning = new OfficeOpenClose() { Open = src.ABRE_MA_MIERCOLES, Close = src.CIERRA_MA_MIERCOLES },
+                            Afternoon =  new OfficeOpenClose() { Open = src.ABRE_TA_MIERCOLES, Close = src.CIERRA_TA_MIERCOLES }
+                        },
+                        new DailyTime()
+                        {
+                            Morning = new OfficeOpenClose() { Open = src.ABRE_MA_JUEVES, Close = src.CIERRA_MA_JUEVES },
+                            Afternoon =  new OfficeOpenClose() { Open = src.ABRE_TA_JUEVES, Close = src.CIERRA_TA_JUEVES }
+                        },
+                        new DailyTime()
+                        {
+                            Morning= new OfficeOpenClose() { Open = src.ABRE_MA_VIERNES, Close = src.CIERRA_MA_VIERNES },
+                            Afternoon =  new OfficeOpenClose() { Open = src.ABRE_TA_VIERNES, Close = src.CIERRA_TA_VIERNES }
+                        },
+                        new DailyTime()
+                        {
+                            Morning = new OfficeOpenClose() { Open = src.ABRE_MA_SABADO, Close = src.CIERRA_MA_SABADO },
+                            Afternoon= new OfficeOpenClose() { Open = src.ABRE_TA_SABADO, Close = src.CIERRA_TA_SABADO }
+                        },
+                        new DailyTime()
+                        {
+                            Morning = new OfficeOpenClose() { Open = src.ABRE_MA_DOMINGO, Close = src.CIERRA_MA_DOMINGO },
+                            Afternoon = new OfficeOpenClose() { Open = src.ABRE_TA_DOMINGO, Close = src.CIERRA_TA_DOMINGO }
+                        }
+                    };
+                    return dayOfTheWeek;
                 });
                 cfg.CreateMap<CliContactsPoco, ContactsDto>().ConvertUsing(src =>
                 {
@@ -2272,6 +2320,7 @@ internal class OfficeDtoToOficinaConverter: ITypeConverter<OFICINAS, O>
                 office.USUARIO = "GUEST";
             }
             office.NOMBRE = source.Nombre;
+            
             IList<DailyTime> timeTable = source.TimeTable;
             if (timeTable != null)
             {
@@ -2280,6 +2329,7 @@ internal class OfficeDtoToOficinaConverter: ITypeConverter<OFICINAS, O>
                     FillDate(i, timeTable[i], ref office);
                 }
             }
+
             return office;
         }
 

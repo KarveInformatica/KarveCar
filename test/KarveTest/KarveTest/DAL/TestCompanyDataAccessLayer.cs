@@ -114,6 +114,55 @@ namespace KarveTest.DAL
             }
         }
         [Test]
+        public void Should_Throws_WithNullId()
+        {
+            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            {
+                var companyId = _companyDataService.GetNewId();
+                var company = _companyDataService.GetNewCompanyDo(companyId);
+                var officeId = _dataServices.GetOfficeDataServices().GetNewId();
+                CompanyDto c = company.Value;
+                Random random = new Random();
+                c.NOMBRE = null;
+                c.CODIGO = null;
+                c.POBLACION = "Barcelona";
+                c.PROVINCIA = "08";
+                c.CP = "08100";
+                c.FAX = "3489498";
+                c.TELEFONO = "349019";
+                c.ULTMODI = DateTime.Now.ToString("yyyyMMddHH:mm");
+                c.NIF = "Y17267";
+                c.RESPDNI = "Y7376161";
+                c.USUARIO = "CV";
+                c.OBS1 = "Great company";
+                c.USUARIOWEB_EMP = "karlos";
+                c.PWDWEB_EMP = "Password";
+                c.FEC_ALTA = DateTime.Now;
+                c.FEC_BAJA = DateTime.Now.AddDays(30);
+                c.DIRECCION = "Calle Rocafort 239";
+                if (c != null)
+                {
+                    c.Offices = new List<OfficeDtos>()
+                    {
+                        new OfficeDtos()
+                        {
+                            Codigo = officeId,
+                            Nombre = "LaViaZia",
+                            DIRECCION="CalleToma",
+                            PROVINCIA="08",
+                            CP="08",
+                            NACIO="34",
+                            POBLACION="Barcelona"
+                        }
+                    };
+                }
+                // prepare
+                company.Value = c;
+                Assert.Throws<Exception>(async () => await _companyDataService.SaveAsync(company));
+            }
+        }
+
+        [Test]
         public async Task Should_Delete_ACompanyCorrectly()
         {
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
@@ -140,7 +189,23 @@ namespace KarveTest.DAL
                 var company = _companyDataService.GetNewCompanyDo(companyId);
                 var officeId = _dataServices.GetOfficeDataServices().GetNewId();
                 CompanyDto c = company.Value;
-                c.NOMBRE = "Karve2000";
+                Random random = new Random();
+                c.NOMBRE = "Karve" + random.Next() % 1000;
+                c.POBLACION = "Barcelona";
+                c.PROVINCIA = "08";
+                c.CP = "08100";
+                c.FAX = "3489498";
+                c.TELEFONO = "349019";
+                c.ULTMODI = DateTime.Now.ToString("yyyyMMddHH:mm");
+                c.NIF = "Y17267"  ;
+                c.RESPDNI = "Y7376161"  ;
+                c.USUARIO = "CV";
+                c.OBS1 = "Great company";
+                c.USUARIOWEB_EMP = "karlos";
+                c.PWDWEB_EMP = "Password";
+                c.FEC_ALTA = DateTime.Now;
+                c.FEC_BAJA = DateTime.Now.AddDays(30);
+                c.DIRECCION = "Calle Rocafort 239";
                 if (c != null)
                 {
                     c.Offices = new List<OfficeDtos>()
@@ -152,6 +217,7 @@ namespace KarveTest.DAL
                             DIRECCION="CalleToma",
                             PROVINCIA="08",
                             CP="08",
+                            NACIO="34",
                             POBLACION="Barcelona"
                         }
                     };
@@ -160,7 +226,10 @@ namespace KarveTest.DAL
                 company.Value = c;
                 bool value = await _companyDataService.SaveAsync(company);
                 Assert.IsTrue(value);
-            }
+                var companyValue =  await _companyDataService.GetAsyncCompanyDo(companyId);
+                Assert.NotNull(companyValue);
+                Assert.AreEqual(companyValue.Value.NOMBRE, c.NOMBRE);
+             }
         }
 
     }

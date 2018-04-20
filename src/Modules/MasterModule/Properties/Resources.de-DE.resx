@@ -163,4 +163,16 @@
   <data name="Móvil" xml:space="preserve">
     <value>Handy</value>
   </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>Nicht definiert</value>
+  </data>
+  <data name="EstaciónDeTren" xml:space="preserve">
+    <value> Bahnhof</value>
+  </data>
+  <data name="AdmiteReservaONLine" xml:space="preserve">
+    <value>Online Buchung erlauben</value>
+  </data>
+  <data name="PasswordWeb" xml:space="preserve">
+    <value>Web Password</value>
+  </data>
 </root>

@@ -180,6 +180,7 @@
     <Compile Include="Generic\LinqToTreeExtensions.cs" />
     <Compile Include="Generic\LinqToVisualTree.cs" />
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
+    <Compile Include="Generic\NullTask.cs" />
     <Compile Include="Generic\RegionManagerBehavior.cs" />
     <Compile Include="Generic\RegionNames.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />

@@ -12,8 +12,15 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Daily open for the open.
     /// </summary>
-    public struct DailyTime
+    public class DailyTime
     {
+
+        public DailyTime()
+        {
+            Morning = new OfficeOpenClose();
+            Afternoon = new OfficeOpenClose();
+        }
+
         /// <summary>
         ///  Morning daily office open.
         /// </summary>
@@ -28,6 +35,13 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class OfficeDtos : BaseDto
     {
+
+        public OfficeDtos(): base()
+        {
+            HolidayDates = new List<HolidayDto>();
+            TimeTable = new List<DailyTime>();
+            Currencies = new List<CurrenciesDto>();
+        }
         [Display(GroupName = "Codigo Oficina")]
         public string Codigo { get; set; }
         [Display(GroupName = "Nombre Oficina")]
@@ -40,6 +54,11 @@ namespace KarveDataServices.DataTransferObject
         ///  Weekly time table, morning afternoon.
         /// </summary>
         public IList<DailyTime> TimeTable { set; get; }
+
+        /// <summary>
+        ///  Currencies dto.
+        /// </summary>
+        public IEnumerable<CurrenciesDto> Currencies { set; get; }
 
         /// <summary>
         ///  Set or get the SUBLICEN property.

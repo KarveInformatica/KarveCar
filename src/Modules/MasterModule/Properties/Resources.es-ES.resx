@@ -219,4 +219,142 @@
   <data name="Header_Vehiculos" xml:space="preserve">
     <value>Vehiculos</value>
   </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>No Definido</value>
+  </data>
+  <data name="EstaciónDeTren" xml:space="preserve">
+    <value>Estación de tren </value>
+  </data>
+  <data name="AdmiteReservaONLine" xml:space="preserve">
+    <value>Admite Reserva ON Line</value>
+  </data>
+  <data name="EmailConfirmedRes" xml:space="preserve">
+    <value>Email. Confirmed Res.: </value>
+  </data>
+  <data name="EmailOnRequestRes" xml:space="preserve">
+    <value>Email. On-Request Res.:</value>
+  </data>
+  <data name="EmiteYPagaClientes" xml:space="preserve">
+    <value>Emite y Paga Clientes</value>
+  </data>
+  <data name="EntregaFueraDeHoras" xml:space="preserve">
+    <value>Entrega fuera de Horas: </value>
+  </data>
+  <data name="EsAeropuertoSN" xml:space="preserve">
+    <value>Es Aeropuerto S/N </value>
+  </data>
+  <data name="FechaFabricacion" xml:space="preserve">
+    <value>Fecha Fabricacion</value>
+  </data>
+  <data name="FechaMatriculacion" xml:space="preserve">
+    <value>Fecha Matriculacion</value>
+  </data>
+  <data name="Festividad" xml:space="preserve">
+    <value>Festividad</value>
+  </data>
+  <data name="Festivos" xml:space="preserve">
+    <value>Festivos</value>
+  </data>
+  <data name="EmailRejectedRes" xml:space="preserve">
+    <value>Email. Rejected Res.: </value>
+  </data>
+  <data name="GestionFestividades" xml:space="preserve">
+    <value>Gestion Festividades</value>
+  </data>
+  <data name="HorarioDesde" xml:space="preserve">
+    <value>Horario Desde</value>
+  </data>
+  <data name="IDCliente" xml:space="preserve">
+    <value>ID. Cliente</value>
+  </data>
+  <data name="IDContratoSAVIA" xml:space="preserve">
+    <value>ID.Contrato SAVIA: </value>
+  </data>
+  <data name="IDLocalSAVIA" xml:space="preserve">
+    <value>ID.Local SAVIA: </value>
+  </data>
+  <data name="NoOnRequest" xml:space="preserve">
+    <value>No 'On-Request' </value>
+  </data>
+  <data name="OfiFlota" xml:space="preserve">
+    <value>Ofi. Flota </value>
+  </data>
+  <data name="OnWayNacionalOnRequest" xml:space="preserve">
+    <value>On way nacional, On request </value>
+  </data>
+  <data name="PolizaAssistenciaAddicional" xml:space="preserve">
+    <value>Poliza assistencia addicional</value>
+  </data>
+  <data name="PonHoraDeIda" xml:space="preserve">
+    <value>Pon hora de ida</value>
+  </data>
+  <data name="PonHoraDeVuelta" xml:space="preserve">
+    <value>Pon hora de vuelta</value>
+  </data>
+  <data name="RecogidaEnFestivoNOOnRequest" xml:space="preserve">
+    <value>Recogida en Festivo NO 'On-Request' " </value>
+  </data>
+  <data name="Seguro" xml:space="preserve">
+    <value>Seguro</value>
+  </data>
+  <data name="SendBookingsByMail" xml:space="preserve">
+    <value>Send Bookings by Mail</value>
+  </data>
+  <data name="SiempreOnRequest" xml:space="preserve">
+    <value>Siempre On request </value>
+  </data>
+  <data name="SinCoste" xml:space="preserve">
+    <value>Sin Coste </value>
+  </data>
+  <data name="TemporadaApertura" xml:space="preserve">
+    <value>Temporada Apertura</value>
+  </data>
+  <data name="TipoIVAWeb" xml:space="preserve">
+    <value>Tipo IVA Web</value>
+  </data>
+  <data name="UsuarioWS" xml:space="preserve">
+    <value>Usuario WS:</value>
+  </data>
+  <data name="AdmiteRecogidaFueraDeBase" xml:space="preserve">
+    <value>Admite Recogida Fuera de Base</value>
+  </data>
+  <data name="CanonFijoMes" xml:space="preserve">
+    <value>Conon Fijo Mes</value>
+  </data>
+  <data name="ContraseñaWS" xml:space="preserve">
+    <value>Contraseña WS:</value>
+  </data>
+  <data name="DevoluciónFueraDeHoras" xml:space="preserve">
+    <value>Devolución fuera de Horas: </value>
+  </data>
+  <data name="DTOMáximo" xml:space="preserve">
+    <value>DTO Máximo </value>
+  </data>
+  <data name="AbreContratosSN" xml:space="preserve">
+    <value>Abre contratos S/N</value>
+  </data>
+  <data name="StringConstants_ClavePpto" xml:space="preserve">
+    <value>Clave.Ppto</value>
+  </data>
+  <data name="StringConstants_FechaCompra" xml:space="preserve">
+    <value>Fecha compra</value>
+  </data>
+  <data name="StringConstants_Observation" xml:space="preserve">
+    <value>Observation</value>
+  </data>
+  <data name="DatosEmpresa" xml:space="preserve">
+    <value>Datos empresa</value>
+  </data>
+  <data name="CodigoSociedad" xml:space="preserve">
+    <value>Codigo Sociedad</value>
+  </data>
+  <data name="CredencialesWeb" xml:space="preserve">
+    <value>Credenciales Web</value>
+  </data>
+  <data name="UsuarioWeb" xml:space="preserve">
+    <value>Usuario Web</value>
+  </data>
+  <data name="PasswordWeb" xml:space="preserve">
+    <value>Password Web</value>
+  </data>
 </root>

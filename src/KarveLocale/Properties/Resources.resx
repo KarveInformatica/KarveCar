@@ -2688,4 +2688,31 @@
   <data name="Elenco" xml:space="preserve">
     <value>Listado</value>
   </data>
+  <data name="LugarDeEntregas" xml:space="preserve">
+    <value>Lugar de entregas</value>
+  </data>
+  <data name="AdmiteReservaOFFLine" xml:space="preserve">
+    <value>Admite Reserva OFF Line</value>
+  </data>
+  <data name="AdmiteReservaOnline" xml:space="preserve">
+    <value>Admite Reserva ON Line</value>
+  </data>
+  <data name="CódigoIATA" xml:space="preserve">
+    <value>Código IATA: </value>
+  </data>
+  <data name="CanonOtros" xml:space="preserve">
+    <value>Canon Otros: </value>
+  </data>
+  <data name="PrefijoContrato" xml:space="preserve">
+    <value>Prefijo Contrato: </value>
+  </data>
+  <data name="AdmiteRecogidaFueraDeBase" xml:space="preserve">
+    <value>AdmiteRecogidaFueraDeBase</value>
+  </data>
+  <data name="EmpresaDeProspeccion" xml:space="preserve">
+    <value>Empresa de Prospeccion</value>
+  </data>
+  <data name="DatosEmpresa" xml:space="preserve">
+    <value>DatosEmpresa</value>
+  </data>
 </root>

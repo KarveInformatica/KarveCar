@@ -21,10 +21,15 @@ namespace DataAccessLayer.Crud.Office
         private ISqlExecutor _executor;
         private IMapper _mapper;
 
-        public OfficeDataDeleter(ISqlExecutor executor)
+        /// <summary>
+        ///  constructor
+        /// </summary>
+        /// <param name="executor">Query executor for lower level</param>
+        /// <param name="mapper">Automapper instance for mapping the entities to data transfer object</param>
+        public OfficeDataDeleter(ISqlExecutor executor, IMapper mapper)
         {
             _executor = executor;
-            _mapper = MapperField.GetMapper();
+            _mapper = mapper;
         }
         /// <summary>
         ///  Delete an office 

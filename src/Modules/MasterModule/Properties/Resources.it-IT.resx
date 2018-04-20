@@ -162,4 +162,16 @@
   <data name="Móvil" xml:space="preserve">
     <value>Cellulare</value>
   </data>
+  <data name="NoDefinido" xml:space="preserve">
+    <value>No Definido</value>
+  </data>
+  <data name="EstaciónDeTren" xml:space="preserve">
+    <value>Stazione dei Treni</value>
+  </data>
+  <data name="AdmiteReservaONLine" xml:space="preserve">
+    <value>Ammette Prenotazioni Onlne</value>
+  </data>
+  <data name="DatosEmpresa" xml:space="preserve">
+    <value>Dati Compagnia</value>
+  </data>
 </root>

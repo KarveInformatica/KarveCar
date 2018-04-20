@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 namespace KarveDataServices
 {
+    /// <summary>
+    ///  This interface specified all the service repository to handle the crud of a single office.
+    /// </summary>
     public interface IOfficeDataServices
     {
         /// <summary>
@@ -17,16 +20,18 @@ namespace KarveDataServices
         /// <param name="code">Code to return.</param>
         /// <returns></returns>
         IOfficeData GetNewOfficeDo(string code);
-        /// <summary>
-        ///  This is a delete client.
-        /// </summary>
-        Task<bool> DeleteOfficeAsyncDo(IOfficeData commissionAgent);
+      /// <summary>
+      ///  This function delete the office data.
+      /// </summary>
+      /// <param name="data">Data of the office.</param>
+      /// <returns></returns>
+        Task<bool> DeleteOfficeAsyncDo(IOfficeData data);
         /// <summary>
         ///  This save the office data.
         /// </summary>
-        /// <param name="clientData"></param>
+        /// <param name="data">Office data to be saved</param>
         /// <returns>true or false in case of a client.</returns>
-        Task<bool> SaveAsync(IOfficeData clientData);
+        Task<bool> SaveAsync(IOfficeData data);
         /// <summary>
         ///  Client data object
         /// </summary>
@@ -44,5 +49,17 @@ namespace KarveDataServices
         /// <param name="companyCode">Code of the company</param>
         /// <returns>Returns the list of offices in a company</returns>
         Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode);
+        /// <summary>
+        ///  Returns just the holidays for a given office id.
+        /// </summary>
+        /// <param name="officeId">Office identifier</param>
+        /// <returns>Holiday List</returns>
+        Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId);
+        /// <summary>
+        ///  Return just the holidayus for a given office identifer
+        /// </summary>
+        /// <param name="officeId">Office identifier</param>
+        /// <returns>A list of daily opening/ closing</returns>
+        Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId);
     }
 }

@@ -220,10 +220,10 @@
                 </StackPanel>
                 <karveControls:DataArea Grid.Column="0" Grid.RowSpan="2" Grid.Row="10" DataAreaTitle="Observaciones" DataAreaWidth="200" Height="Auto" TextContent="{Binding Path=DataObject.OBS1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="oBS1" Margin="1,5,1,2" Width="Auto" />
 
-                <GroupBox Grid.Row="12" Grid.Column="0" Header="Credenciales Web" HorizontalAlignment="Left" Height="92" Margin="0,7.25,0,0"  VerticalAlignment="Top" Width="540" Grid.RowSpan="2">
+                <GroupBox Grid.Row="12" Grid.Column="0" Header="{Binding CredencialesWeb, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Left" Height="92" Margin="0,7.25,0,0"  VerticalAlignment="Top" Width="540" Grid.RowSpan="2">
                     <StackPanel>
-                        <karveControls:DataField LabelText="Usuario Web"   TextContent="{Binding DataObject.USUARIOWEB_EMP, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" x:Name="uSUARIOWEB_EMP_Copy"/>
-                        <karveControls:DataField LabelText="Password Web" TextContent="{Binding Path=DataObject.PWDWEB_EMP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="pWDWEB_EMP"/>
+                        <karveControls:DataField LabelText="{Binding UsuarioWeb, Source={StaticResource ResourceLanguage}}"  TextContent="{Binding DataObject.USUARIOWEB_EMP, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" x:Name="uSUARIOWEB_EMP_Copy"/>
+                        <karveControls:DataField LabelText="{Binding PasswordWeb, Source={StaticResource ResourceLanguage}}" TextContent="{Binding Path=DataObject.PWDWEB_EMP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="pWDWEB_EMP"/>
                     </StackPanel>
                 </GroupBox>
 
@@ -272,7 +272,7 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Grid.Column="1" Grid.Row="6" Header="Datos Empresa" HorizontalAlignment="Left" 
+                <GroupBox Grid.Column="1" Grid.Row="6" Header="{Binding DatosEmpresa,  Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Left" 
                       Margin="5,4,0,0" VerticalAlignment="Top" Width="540" Grid.RowSpan="5" Height="189">
                     <StackPanel>
                         <karveControls:DataField
@@ -287,14 +287,14 @@
                         DataObject="{Binding DataObject, Mode=TwoWay}"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         LabelText="Facturacion Prevista" LabelTextWidth="110" TextContent="{Binding Path=DataObject.FAC_PREV, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fAC_PREV"/>
-                        <karveControls:DataField LabelText="Codigo Sociedad" 
+                        <karveControls:DataField LabelText="{Binding CodigoSociedad, Source={StaticResource ResourceLanguage}}" 
                                      DataObject="{Binding DataObject, Mode=TwoWay}"
                                      TextContent="{Binding DataObject.COD_SOCIEDAD, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="cOD_SOCIEDAD" Margin="0,0,-51,0"/>
                         <karveControls:DataFieldCheckBox 
                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
                         karveControls:ControlExt.DataSourcePath="PROSPECCION"
                         karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        Content="Empresa de Prospeccion" Height="30" x:Name="pROSPECCION" />
+                        Content="{Binding EmpresaDeProspeccion, Source={StaticResource ResourceLanguage}}" Height="30" x:Name="pROSPECCION" />
 
                     </StackPanel>
                 </GroupBox>

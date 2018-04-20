@@ -16,6 +16,7 @@
              xmlns:tripleButton="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControl"
     xmlns:tripleButton1="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControls"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:properties="clr-namespace:KarveLocale.Properties;assembly=KarveLocale"
     mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="1600">
 
@@ -395,7 +396,7 @@
                                           Margin="5,0,0,0"
                                           VerticalAlignment="Top" Width="540" Grid.Column="1">
                                     <StackPanel>
-                                        <karveControls:DataField LabelText="Usuario Web"  TextContent="{Binding DataObject.USUARIOWEB, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" x:Name="uSUARIOWEB_EMP_Copy"/>
+                                        <karveControls:DataField LabelText="{Binding UsuarioWeb, Source={StaticResource ResourceLanguage}}"  TextContent="{Binding DataObject.USUARIOWEB, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" x:Name="uSUARIOWEB_EMP_Copy"/>
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>

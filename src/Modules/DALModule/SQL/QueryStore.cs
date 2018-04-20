@@ -8,7 +8,11 @@ using KarveDataServices;
 
 namespace DataAccessLayer.SQL
 {
-    // This class has the responsability to memorize all the queries and format properly
+    /*
+     * This class has the responsability to memorize all the queries and format properly.
+     *  This class will use a Working Memory for manipulate the queries, concatenate queries in an unique query to
+     *  be executed from the Dapper.
+     */
     [Serializable]
     [XmlRoot("QueryStore")]
     public class QueryStore: IQueryStore
@@ -114,6 +118,7 @@ namespace DataAccessLayer.SQL
                                                     },
             {QueryType.QueryClientContacts, @"SELECT ccoIdContacto, ccoContacto,DL.cldIdDelega as idDelegacion, DL.cldDelegacion as nombreDelegacion,NIF, ccoCargo,ccoTelefono, ccoMovil, ccoFax, ccoMail,CC.ULTMODI as ULTMODI,CC.USUARIO as USUARIO FROM CliContactos AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente='{0}' ORDER BY CC.ccoContacto"},
             { QueryType.QuerySupplierSummary, @"SELECT " },
+            { QueryType.QueryOfficeByCompany, @"SELECT * FROM OFICINAS WHERE CODIGO='{0}' AND SUBLICEN='{1}'"},
             { QueryType.QueryVehicleSummary, @"SELECT vehiculo1.codiint As Code, matricula as Matricula, 
                 MARCAS.NOMBRE as Marca, modelo as Model, grupo as Group, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALES as LeasingCompany, FSEGB as LeavingDate, FSEGA as StartingDate, CLIENTE1.NUMERO_CLI as ClientNumber, CLIENTE1.NOMBRE as Client, TIPOREV as Policy,    
                  VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, KeyCode as LLAVE, LLAVE2 as StorageKey  FROM VEHICULO1 " +
@@ -291,5 +296,37 @@ namespace DataAccessLayer.SQL
             var qs = new QueryStore();
             return qs;
         }
+
+        public void AddParam<T1, T2>(QueryType queryType, T1 firstCode, T2 secondCode)
+        {
+            string code = firstCode.ToString();
+            string code2 = secondCode.ToString();
+            IList<string> par = new List<string>();
+            par.Add(code);
+            par.Add(code2);
+            this.AddParam(queryType, par);
+        }
+        /// <summary>
+        /// Build a query without passing through the working memory.
+        /// </summary>
+        /// <param name="queryType"></param>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public string BuildQuery(QueryType query, IList<string> param)
+        {
+
+            object[] args = new object[param.Count];
+            int k = 0;
+            foreach (var p in param)
+            {
+                args[k] = p;
+                k++;
+            }
+            var tmpQuery = "";
+            _dictionary.TryGetValue(query, out tmpQuery);
+            tmpQuery = string.Format(tmpQuery, args);
+            return tmpQuery;
+        }
+
     }
 }

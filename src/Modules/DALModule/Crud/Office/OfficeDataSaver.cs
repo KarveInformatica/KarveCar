@@ -33,11 +33,11 @@ namespace DataAccessLayer.Crud.Office
         /// Client data saver
         /// </summary>
         /// <param name="executor">Sql command executor</param>
-        public OfficeDataSaver(ISqlExecutor executor)
+        public OfficeDataSaver(ISqlExecutor executor, IMapper mapper)
         {
             _executor = executor;
             /// FIXME: violate the law of demter.
-            _mapper = MapperField.GetMapper();
+            _mapper = mapper;
             _queryStoreFactory = new QueryStoreFactory();
         }
         /// <summary>
