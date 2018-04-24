@@ -28,7 +28,16 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding lrgrMaestrosVehiculos, Source={StaticResource ResourceLanguage}}"></TextBlock>
+        </StackPanel>
         <syncfusion:SfDataGrid x:Name="VehicleSummary"
+                               Grid.Row="1"
                                ColumnSizer="AutoLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -42,21 +51,20 @@
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
-                                   
-                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="True">
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
             <i:Interaction.Behaviors>
 
-                <behaviour:LineGridBehaviour GridColumns="{Binding AllowedGridColumns, Mode=OneWay}">
-
-                </behaviour:LineGridBehaviour>
+               
             </i:Interaction.Behaviors>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenItem}" CommandParameter="{Binding ElementName=VehicleSummary, Path=SelectedItem}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <!--
+            
+            -->
             
             
 

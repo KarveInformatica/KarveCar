@@ -36,7 +36,17 @@
                 
             </ResourceDictionary>
         </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="Clientes"></TextBlock>
+        </StackPanel>
         <syncfusion:SfDataGrid x:Name="ClientSummary"
+                               Grid.Row="1"
                                ColumnSizer="Auto"
                                AllowDraggingColumns="True"
                                AllowEditing="False"

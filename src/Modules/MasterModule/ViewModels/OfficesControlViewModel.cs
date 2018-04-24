@@ -34,7 +34,8 @@ namespace MasterModule.ViewModels
         public OfficesControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
             InitViewModel();
-         
+            _officeDataServices = services.GetOfficeDataServices();
+
         }
 
         /// <summary>
@@ -71,12 +72,33 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void NewItem()
         {
+            string name = "Nueva Oficina";
+            string officeId = DataServices.GetOfficeDataServices().GetNewId();
+
+            string viewNameValue = name + "." + officeId;
+            // here shall be added to the region
+            var navigationParameters = new NavigationParameters
+            {
+                { "id", officeId },
+                { ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue }
+            };
+            var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
+            RegionManager.RequestNavigate("TabRegion", uri);
+            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
+            currentPayload.Subsystem = DataSubSystem.OfficeSubsystem;
+            currentPayload.PayloadType = DataPayLoad.Type.Insert;
+            currentPayload.PrimaryKeyValue = officeId;
+            currentPayload.DataObject = _officeDataServices.GetNewOfficeDo(officeId);
+            currentPayload.HasDataObject = true;
+            currentPayload.Sender = EventSubsystem.OfficeSummaryVm;
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
+            /*
             string name =KarveLocale.Properties.Resources.OfficesControlViewModel_NewItem_NuevaOfficina;
             string officeId = DataServices.GetOfficeDataServices().GetNewId();
             string viewNameValue = name + "." + officeId;
             // here shall be added to the region
             var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("id", officeId);
+            navigationParameters.Add("Id", officeId);
             navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
             var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
             RegionManager.RequestNavigate("TabRegion", uri);
@@ -89,6 +111,7 @@ namespace MasterModule.ViewModels
             currentPayload.HasDataObject = true;
             currentPayload.Sender = EventSubsystem.OfficeSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
+            */
         }
         /// <summary>
         ///  This initalize the view model.
@@ -167,8 +190,7 @@ namespace MasterModule.ViewModels
                 RegionManager.RequestNavigate("TabRegion", uri);
                 Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
                 IOfficeData provider = await DataServices.GetOfficeDataServices().GetAsyncOfficeDo(id);
-
-                  
+                provider.Value.Empresa = summaryItem.CompanyName;
                 Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
                 currentPayload.PrimaryKeyValue = id;
@@ -258,6 +280,8 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> InitializationNotifierOffice;
         private IEnumerable<OfficeSummaryDto> _sourceView;
         private string _mailBoxName;
+        private IOfficeDataServices _officeDataServices;
+
         /// <summary>
         ///  This is the client subsystem prefix module.
         /// </summary>

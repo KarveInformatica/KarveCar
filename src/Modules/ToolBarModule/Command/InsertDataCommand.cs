@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using KarveCommon.Command;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using ToolBarModule.Command;
@@ -13,26 +14,20 @@ namespace ToolBarModule
 {
     internal class InsertDataCommand : BaseToolBarCommand
     {
-        private IDataServices _dataServices;
-        private ICareKeeperService _careKeeper;
-        private IEventManager _eventManager;
-        private IConfigurationService _configurationService;
-        // FIXME: move the payload handlers in an upper class.
+        private readonly IDataServices _dataServices;
+        private readonly IEventManager _eventManager;
+
         private ISqlValidationRule<DataPayLoad> _sqlValidationRule;
-       
+
         /// <summary>
         /// This is the configuratin of an insert command.
         /// </summary>
         /// <param name="dataServices"></param>
-        /// <param name="careKeeper"></param>
         /// <param name="eventManager"></param>
-        /// <param name="configurationService"></param>
-        public InsertDataCommand(IDataServices dataServices, ICareKeeperService careKeeper, IEventManager eventManager, IConfigurationService configurationService): base()
+        public InsertDataCommand(IDataServices dataServices, IEventManager eventManager): base()
         {
             _dataServices = dataServices;
-            _careKeeper = careKeeper;
             _eventManager = eventManager;
-            _configurationService = configurationService;
             InitHandlers();
         }
         /// <summary>

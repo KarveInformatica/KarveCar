@@ -218,7 +218,7 @@ namespace KarveCommon.Generic
                 {
                     PropertyChanged += ev;
                 }
-                if (task.IsCompleted)
+                if ((task.IsCompleted) && (!task.IsFaulted))
                 {
                     TaskCompleted = _completedTaskValue;
                     var propertyChanged = PropertyChanged;
@@ -227,7 +227,7 @@ namespace KarveCommon.Generic
                     propertyChanged(this, new PropertyChangedEventArgs("IsSuccessfullyCompleted"));
                     return;
                 }
-
+           
                 var scheduler = (SynchronizationContext.Current == null) ? TaskScheduler.Current : TaskScheduler.FromCurrentSynchronizationContext();
                 TaskCompleted = task.ContinueWith(t =>
                     {

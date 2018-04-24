@@ -44,14 +44,17 @@ namespace KarveDataAccessLayer.DAL.Crud
         }
 
         [Test]
-        public async Task Should_Load_A_Client_Entity()
+        public async Task Should_Load_AClientEntity()
         {
-            string currentCode = string.Empty;
+            string currentCode = "2782728";
             using (IDbConnection db = _sqlExecutor.OpenNewDbConnection())
             {
                 var cli = await db.GetAsyncAll<DataAccessLayer.DataObjects.CLIENTES1>();
                 var value = cli.OrderByDescending(p => p.NUMERO_CLI).FirstOrDefault();
-                currentCode = value.NUMERO_CLI;
+                if (value != null)
+                {
+                    currentCode = value.NUMERO_CLI;
+                }
             }
             Assert.AreNotEqual(currentCode, string.Empty);
         }
@@ -59,12 +62,12 @@ namespace KarveDataAccessLayer.DAL.Crud
         public async Task Should_Load_Client_Correctly()
         {
             // arrange
-            string currentCode = string.Empty;
+            string currentCode = "282278";
             using (IDbConnection db = _sqlExecutor.OpenNewDbConnection())
             {
                 var cli = await db.GetAsyncAll<DataAccessLayer.DataObjects.CLIENTES1>();
                 var value = cli.OrderByDescending(p=>p.NUMERO_CLI).FirstOrDefault();
-                currentCode = value.NUMERO_CLI;
+                if (value != null) currentCode = value.NUMERO_CLI;
             }
             ClientDto dto = await _clientDataLoader.LoadValueAsync(currentCode);
             Assert.AreEqual(dto.NUMERO_CLI, currentCode); 

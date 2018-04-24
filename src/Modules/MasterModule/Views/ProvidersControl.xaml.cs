@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using MasterModule.Interfaces;
 
@@ -16,7 +17,7 @@ namespace MasterModule.Views
                 InitializeComponent();
             } catch (Exception e)
             {
-                var ex = e.Message;
+               MessageBox.Show(e.Message);
             }
         }
 

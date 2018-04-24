@@ -2624,4 +2624,13 @@
   <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
     <value>Nuovo Veicolo</value>
   </data>
+  <data name="KarveToolBarViewModel_QuieresBorrarElRegistro" xml:space="preserve">
+    <value>Vuoi cancellare il registro?</value>
+  </data>
+  <data name="webUser" xml:space="preserve">
+    <value>Utente Web</value>
+  </data>
+  <data name="DatosEmpresa" xml:space="preserve">
+    <value>Dati Compagnia.</value>
+  </data>
 </root>

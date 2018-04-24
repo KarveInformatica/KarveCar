@@ -46,6 +46,8 @@ namespace KarveDataServices.DataTransferObject
         public string Codigo { get; set; }
         [Display(GroupName = "Nombre Oficina")]
         public string Nombre { get; set; }
+
+        public string Empresa { get; set; }
         /// <summary>
         ///  This returns the dates of holiday of a single office.
         /// </summary>
@@ -665,5 +667,7 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public Decimal? CANON_OTROS { get; set; }
 
+        public IEnumerable<CityDto> City { get; set; }
+        public IEnumerable<ProvinciaDto> Province { get; set; }
     }
 }

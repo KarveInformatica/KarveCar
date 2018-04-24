@@ -357,6 +357,11 @@ namespace KarveCommon.Generic
             {
                 region.Add(view, viewName, CreateRegionManagerScope(view));  
             }
+
+            if (view is UserControl control)
+            {
+                control.Focus();
+            }
             // Stopwatch start = new Stopwatch();
 //            start.Start();
 

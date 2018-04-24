@@ -7,6 +7,7 @@ using NUnit.Framework;
 using KarveDataServices;
 using DataAccessLayer;
 using KarveDataServices.DataTransferObject;
+using DataAccessLayer.DataObjects;
 
 namespace KarveTest.DAL.Crud.Office
 {
@@ -93,17 +94,29 @@ namespace KarveTest.DAL.Crud.Office
         public async Task Should_Create_A_NewOffice_Per_Company()
         {
             // arrange: delete the office if exists
-            OfficeDtos dto = new OfficeDtos();
-            dto.Codigo = "09";
-            var holiday = new List<HolidayDto>();
-            holiday.Add(Craft_Holiday_Date());
-            dto.HolidayDates = holiday;
-            bool value =  await _officeDataDeleter.DeleteAsync(dto);
-            Assert.IsTrue(value);
-            // act: now we act to receive an office.
-            value = await _officeDataSaver.SaveAsync(dto);
-            // assert: now we assert to get correctly and office.
-            Assert.IsTrue(value);
+            IOfficeDataServices officeDataServices = _dataServices.GetOfficeDataServices();
+            IHelperDataServices helperData = _dataServices.GetHelperDataServices();
+            var asyncOffice = await helperData.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>();
+            var dto = asyncOffice.FirstOrDefault();
+            if (dto != null)
+            {
+                var holiday = new List<HolidayDto> {Craft_Holiday_Date()};
+                bool value = await _officeDataDeleter.DeleteAsync(dto);
+                Assert.IsTrue(value);
+                // act: now we act to receive an office.
+                dto.HolidayDates = holiday;
+                value = await _officeDataSaver.SaveAsync(dto);
+               
+                // assert: now we assert to get correctly and office.
+                var currentOffice = await officeDataServices.GetAsyncOfficeDo(dto.Codigo);
+                var dates = currentOffice.Value.HolidayDates;
+                Assert.AreEqual(holiday,dates);
+                Assert.IsTrue(value);
+            }
+            else
+            {
+                Assert.Fail();
+            }
         }
         [Test]
         public async Task Should_Update_An_Office_Detail()

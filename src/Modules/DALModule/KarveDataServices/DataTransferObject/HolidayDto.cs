@@ -6,7 +6,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     /// Date time of the holiday date. It allows to say which holiday is possible. 
     /// </summary>
-    public class HolidayDto
+    public class HolidayDto: IComparable
     {
 
         /// <summary>
@@ -38,6 +38,14 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public TimeSpan? HORA_HASTA { get; set; }
-        
+
+        public int CompareTo(object obj)
+        {
+            if (obj is HolidayDto tmp)
+            {
+                return tmp.FESTIVO.CompareTo(this.FESTIVO);
+            }
+            return 1;
+        }
     }
 }

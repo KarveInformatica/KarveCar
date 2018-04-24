@@ -103,9 +103,10 @@ namespace KarveControls
                 }
 
             }
+
+            if (calendar == null)
+            { return;}
             calendar.RaisePropertyChanged("Months");
-
-
         }
 
         private void ChangeYearMonth(int i, string currentMonth)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -17,17 +18,18 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
+    /// <inheritdoc />
     /// <summary>
     ///  DataLayer service for handling the offices.
     /// </summary>
-    internal class OfficeDataService: IOfficeDataServices
+    internal sealed class OfficeDataService: IOfficeDataServices
     {
-        private ISqlExecutor _sqlExecutor;
-        private IMapper _mapper;
-        private OfficeDataLoader _loader;
-        private OfficeDataSaver _saver;
-        private OfficeDataDeleter _deleter;
-        private QueryStoreFactory _queryStoreFactory;
+        private readonly ISqlExecutor _sqlExecutor;
+        private readonly IMapper _mapper;
+        private readonly OfficeDataLoader _loader;
+        private readonly OfficeDataSaver _saver;
+        private readonly OfficeDataDeleter _deleter;
+        private readonly QueryStoreFactory _queryStoreFactory;
       
         /// <summary>
         ///  Office data service constructor
@@ -57,8 +59,8 @@ namespace DataAccessLayer
         /// <returns>A list of summary office data transfer objects</returns>
         public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
         {
-            IEnumerable<OfficeSummaryDto> summaryCollection = new List<OfficeSummaryDto>();
-            IQueryStore qs = _queryStoreFactory.GetQueryStore();
+            IEnumerable<OfficeSummaryDto> summaryCollection;
+            var qs = _queryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryOfficeSummary);
             var query = qs.BuildQuery();
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
@@ -74,10 +76,11 @@ namespace DataAccessLayer
         /// <returns>A single office data</returns>
         public async Task<IOfficeData> GetAsyncOfficeDo(string identifier)
         {
-           OfficeDtos data =  await _loader.LoadValueAsync(identifier).ConfigureAwait(false);
-            IOfficeData office = new Office();
+            var data =  await _loader.LoadValueAsync(identifier).ConfigureAwait(false);
+            var office = new Office();
             if (data != null)
             { 
+                
                 office.Value = data;
                 office.Valid = true;
             }
@@ -94,11 +97,11 @@ namespace DataAccessLayer
         /// <returns>Returns the collection of offices.</returns>
         public async Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode)
         {
-            IEnumerable<OfficeSummaryDto> summaryCollection = new List<OfficeSummaryDto>();
-            IQueryStore qs = _queryStoreFactory.GetQueryStore();
+            IEnumerable<OfficeSummaryDto> summaryCollection;
+            var qs = _queryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryOfficeSummaryByCompany, companyCode);
             var query = qs.BuildQuery();
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                 summaryCollection = await conn.QueryAsync<OfficeSummaryDto>(query).ConfigureAwait(false);
             }
@@ -113,9 +116,9 @@ namespace DataAccessLayer
         /// <returns>Return a new identifier</returns>
         public string GetNewId()
         {
-            OFICINAS oficinas = new OFICINAS();
-            string id = string.Empty;
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            var oficinas = new OFICINAS();
+            var id = string.Empty;
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                 id = conn.UniqueId<OFICINAS>(oficinas);
             }
@@ -128,11 +131,25 @@ namespace DataAccessLayer
         /// <returns>Returns a new office.</returns>
         public IOfficeData GetNewOfficeDo(string code)
         {
-            OfficeDtos data = new OfficeDtos();
-            data.Codigo = code;
-            IOfficeData office = new Office();
-            office.Value = data;
-            office.Valid = true;
+
+            var data = new OfficeDtos
+            {
+                Codigo = code
+                
+            };
+            
+            var office = new Office
+            {
+                ClientZoneDto = new ObservableCollection<ZonaOfiDto>(),
+                ContableDelegaDto = new ObservableCollection<DelegaContableDto>(),
+                CountryDto = new ObservableCollection<CountryDto>(),
+                CityDto = new ObservableCollection<CityDto>(),
+                CurrenciesDto = new ObservableCollection<CurrenciesDto>(),
+                ProvinciaDto =  new ObservableCollection<ProvinciaDto>(),
+                ZoneDto = new ObservableCollection<ClientZoneDto>(),
+                Value = data,
+                Valid = true
+            };
             return office;
         }
         /// <summary>
@@ -169,8 +186,8 @@ namespace DataAccessLayer
         public async Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
-            IEnumerable<HolidayDto> times = new List<HolidayDto>();
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            IEnumerable<HolidayDto> times;
+            using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 store.AddParam(QueryType.HolidaysByOffice, officeId);
                 var build = store.BuildQuery();

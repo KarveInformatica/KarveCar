@@ -23,27 +23,42 @@ namespace ToolBarModule.Command
             EventManager = manager;
             ToolbarInitializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(_payload), ExecutedPayloadHandler);
         }
-        protected async override Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
+        protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
         {
             Contract.Requires(payLoad != null, "The payload at company data shall be not null");
             Contract.Requires(payLoad.DataObject != null, "Payload shall have data object");
-            OfficeDtos dto = payLoad.DataObject as OfficeDtos;
-            IOfficeData data = _officeDataServices.GetNewOfficeDo(dto.Codigo);
-            data.Value = dto;
-            bool result = await _officeDataServices.SaveAsync(data).ConfigureAwait(false);
-            // FIXME: where it is used current payload. shall enforce dry.
-            if (result)
+            if (payLoad.DataObject is OfficeDtos dto)
             {
-                payLoad.Sender = ToolBarModule.NAME;
-                payLoad.PayloadType = DataPayLoad.Type.UpdateView;
-                // see if currentPayload make sense.
-                CurrentPayload = new DataPayLoad();
-                CurrentPayload.PayloadType = DataPayLoad.Type.UpdateView;
-                CurrentPayload.Sender = ToolBarModule.NAME;
-                CurrentPayload.HasDataObject = true;
-                CurrentPayload.Subsystem = payLoad.Subsystem;
-                CurrentPayload.DataObject = data;
+                IOfficeData data = _officeDataServices.GetNewOfficeDo(dto.Codigo);
+                data.Value = dto;
+                bool result = false;
+                try
+                {
+                   result = await _officeDataServices.SaveAsync(data).ConfigureAwait(false);
+                }
+                catch (DataLayerException e)
+                {
+                    throw new DataLayerException("Error during saving", e);
+                }
+               
+
+            // FIXME: where it is used current payload. shall enforce dry.
+                if (result)
+                {
+                    payLoad.Sender = ToolBarModule.NAME;
+                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                    // see if currentPayload make sense.
+                    CurrentPayload = new DataPayLoad
+                    {
+                        PayloadType = DataPayLoad.Type.UpdateView,
+                        Sender = ToolBarModule.NAME,
+                        HasDataObject = true,
+                        Subsystem = payLoad.Subsystem,
+                        DataObject = data
+                    };
+                }
             }
+
             Contract.Ensures(payLoad != null);
             return payLoad;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using MasterModule.Common;
@@ -25,17 +26,24 @@ namespace KarveTest.ViewModels
         private Mock<IVehicleDataServices> _veichleDataServices = new Mock<IVehicleDataServices>();
         private KarveToolBarViewModel _carveBarViewModel;
         private Mock<IRegionManager> _regionManager;
+        private Mock<IDialogService> _dialogService = new Mock<IDialogService>();
         private Mock<IConfigurationService> _configurationService;
-
+        private bool _messageErrorCalled = false;
         private void InitToolBar()
         {
             _carveBarViewModel = new KarveToolBarViewModel(_dataServices.Object, 
                                                            _eventManager.Object, 
                                                            _careKeeperService.Object,
                                                            _regionManager.Object,
+                                                           _dialogService.Object,
                                                            _configurationService.Object
                                                            );
-            
+            _dialogService.Setup(x => x.ShowErrorMessage(It.IsAny<string>())).Callback(() =>
+                {
+                    _messageErrorCalled = true;
+                });
+
+
         }
         /// <summary>
         ///  Ok setup 

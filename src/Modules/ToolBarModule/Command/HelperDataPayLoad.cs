@@ -8,12 +8,11 @@ namespace ToolBarModule.Command
 {
     internal class HelperDataPayLoad : ToolbarDataPayload
     {
-        private IHelperDataServices _helperDataServices;
+       
         public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
             DataServices = services;
             EventManager = manager;
-            _helperDataServices = services.GetHelperDataServices();
             CurrentPayload = payLoad;
             ToolbarInitializationNotifier = NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(payLoad), ExecutedPayloadHandler);
         }

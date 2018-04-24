@@ -102,10 +102,15 @@ namespace DataAccessLayer
         /// <returns>Create a new company.</returns>
         public ICompanyData GetNewCompanyDo(string code)
         {
-            CompanyDto dto = new CompanyDto();
-            dto.Code = code;
-            ICompanyData data = new Company();
-            data.Value = dto;
+            CompanyDto dto = new CompanyDto
+            {
+                Code = code,
+                CODIGO = code
+            };
+            ICompanyData data = new Company
+            {
+                Value = dto
+            };
             return data;
         }
         /// <summary>

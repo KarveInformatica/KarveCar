@@ -240,7 +240,7 @@ namespace MasterModule.ViewModels
 
             var uri = new Uri(typeof(CommissionAgentInfoView).FullName + navigationParameters, UriKind.Relative);
             RegionManager.RequestNavigate("TabRegion", uri);
-            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
+            var currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;

@@ -39,6 +39,7 @@ namespace DataAccessLayer.Model
         public IEnumerable<CountryDto> CountryDto { get; set; }
         public IEnumerable<CityDto> CityDto { get; set; }
         public IEnumerable<ClientZoneDto> ZoneDto { get; set; }
+        public IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
         public IEnumerable<OrigenDto> OrigenDto { get; set; }
         public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
         public IEnumerable<MercadoDto> ClientMarketDto { get; set; }

@@ -2,11 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -34,7 +31,6 @@ namespace MasterModule.ViewModels
         private string _currentName = "";
         private string _labelType = "";
         private string _dataFieldSearch = "";
-        private string _assistDataFieldFirst = "";
         private string _assistDataFieldSecond = "";
         private string _assistTable = "";
         protected IMapper _mapper;
@@ -75,7 +71,7 @@ namespace MasterModule.ViewModels
         public string PathCode
         {
             set { _pathType = value;  RaisePropertyChanged();}
-            get { return _pathType; }
+            get => _pathType;
         }
         /// <summary>
         ///  Path person.
@@ -83,7 +79,7 @@ namespace MasterModule.ViewModels
         public string PathPerson
         {
             set { _pathPerson = value; RaisePropertyChanged();}
-            get { return _pathPerson; }
+            get => _pathPerson;
         }
 
         /// <summary>
@@ -102,7 +98,7 @@ namespace MasterModule.ViewModels
 
 
         public string LabelTypeSearch {
-            get { return _labelType; }
+            get => _labelType;
             set { _labelType = value;
                 RaisePropertyChanged();
             }
@@ -115,14 +111,8 @@ namespace MasterModule.ViewModels
         }
    
 
-        public string AssistDataFieldFirst {
-            get
-            {
-                return _assistDataFieldFirst; 
-                
-            }
-            set { _assistDataFieldFirst = value; }
-          }
+        public string AssistDataFieldFirst { get; set; } = "";
+
         public string AssistDataFieldSecond
         {
             get

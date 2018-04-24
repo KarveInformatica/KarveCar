@@ -21,8 +21,6 @@ namespace KarveDataServices.DataTransferObject
 
         public BaseDto()
         {
-            IsDirty = false;
-            IsNew = false;
             ErrorsChanged += BaseDto_ErrorsChanged;
         }
 
@@ -55,11 +53,13 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  This specify if the dto is dirty.
         /// </summary>
-        public virtual bool IsDirty { set; get; }
+        public virtual bool IsDirty { set; get; } = false;
+
         /// <summary>
         ///  This is specifies if the dto is new.
         /// </summary>
-        public virtual bool IsNew { set; get; }
+        public virtual bool IsNew { set; get; } = false;
+
         /// <summary>
         ///  This return the value of the object itself.
         /// </summary>
@@ -67,7 +67,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Validation chain.
         /// </summary>
-        public IValidationChain<BaseDto> ValidationChain 
+        public ValidationChain<BaseDto> ValidationChain 
             { get; set;}
         public IEnumerable GetErrors(string propertyName)
         {

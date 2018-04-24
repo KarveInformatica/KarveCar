@@ -5,18 +5,84 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
+using Prism.Mvvm;
 
 namespace DataAccessLayer
 {
-    internal class HelperBase: IHelperData
+    internal class HelperBase: BindableBase, IHelperData
     {
-        public IEnumerable<ActividadDto> ActivityDto { get; set; }
-        public IEnumerable<ClientTypeDto> ClientTypeDto { get; set; }
-        public IEnumerable<CreditCardDto> CreditCardType { get; set; }
-        public IEnumerable<ProvinciaDto> ProvinciaDto { get; set; }
-        public IEnumerable<CountryDto> CountryDto { get; set; }
-        public IEnumerable<CityDto> CityDto { get; set; }
+        private IEnumerable<ActividadDto> _activityDto;
+        private IEnumerable<ClientTypeDto> _clientTypeDto;
+        private IEnumerable<CreditCardDto> _creditCardType;
+        private IEnumerable<ProvinciaDto> _provinciaDto;
+        private IEnumerable<CountryDto> _countryDto;
+        private IEnumerable<CityDto> _cityDto;
+
+        public IEnumerable<ActividadDto> ActivityDto
+        {
+            get => _activityDto;
+            set
+            {
+                _activityDto = value;
+                RaisePropertyChanged();
+
+            }
+        }
+
+        public IEnumerable<ClientTypeDto> ClientTypeDto
+        {
+            get
+            {
+                return _clientTypeDto;
+            }
+            set {
+                _clientTypeDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        public IEnumerable<CreditCardDto> CreditCardType
+        {
+            get
+            {
+                return _creditCardType;
+            }
+            set
+            {
+                _creditCardType = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<ProvinciaDto> ProvinciaDto
+        {
+            get
+            {
+                return _provinciaDto; 
+
+            }
+            set
+            {
+                _provinciaDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        public IEnumerable<CountryDto> CountryDto
+        {
+            get
+            {
+                return _countryDto;
+
+            }
+            set { _countryDto = value; }
+        }
+
+        public IEnumerable<CityDto> CityDto
+        {
+            get { return _cityDto; }
+            set { _cityDto = value; RaisePropertyChanged(); }
+        }
         public IEnumerable<ClientZoneDto> ZoneDto { get; set; }
+        public IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
         public IEnumerable<OrigenDto> OrigenDto { get; set; }
         public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
         public IEnumerable<MercadoDto> ClientMarketDto { get; set; }

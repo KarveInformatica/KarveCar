@@ -73,7 +73,7 @@ namespace KarveTest.DAL
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task Should_LoadItem_Correctly()
+        public async Task Should_Load_InvoiceCorrectly()
         {
             // arrange
             try

@@ -72,17 +72,18 @@ namespace DataAccessLayer.Crud.Office
                 IEnumerable<FESTIVOS_OFICINA> currentHolidays = await connection.QueryAsync<FESTIVOS_OFICINA>(query);
                 if (currentHolidays.Count<FESTIVOS_OFICINA>() == 0)
                 {
-                    connection.BulkInsert(holidayOffice);
+                    saved = await connection.InsertAsync(holidayOffice).ConfigureAwait(false) > 0;
+                        
                 }
                 else
                 {
                     // FIXME : check for concurrent optimistic lock.               
                     var holidaysToBeInserted = holidayOffice.Except(currentHolidays);
-                    connection.BulkInsert<FESTIVOS_OFICINA>(holidaysToBeInserted);
+                    saved =  await connection.InsertAsync(holidaysToBeInserted).ConfigureAwait(false)>0;
                     var holidaysToBeUpdated = holidayOffice.Intersect(currentHolidays);
-                    connection.BulkUpdate<FESTIVOS_OFICINA>(holidaysToBeUpdated);
+                    saved = saved && await connection.UpdateAsync(holidaysToBeUpdated).ConfigureAwait(false);
                 }
-                saved = true;
+                
             }
             catch (System.Exception e)
             {
@@ -104,14 +105,14 @@ namespace DataAccessLayer.Crud.Office
             OFICINAS currentPoco;
             currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
             Contract.Assert(currentPoco != null, "Invalid Poco");
-            bool retValue = false;
+            var retValue = false;
           
             
             using (connection = _executor.OpenNewDbConnection())
             {
                 try
                 {
-                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         try
                         {
@@ -126,7 +127,11 @@ namespace DataAccessLayer.Crud.Office
                                 retValue = await connection.UpdateAsync<OFICINAS>(currentPoco);
 
                             }
-                            await SaveHolidayOfficeAsync(connection, currentPoco, office.HolidayDates);
+
+                            if (retValue)
+                            {
+                               await SaveHolidayOfficeAsync(connection, currentPoco, office.HolidayDates).ConfigureAwait(false);
+                            }
                             scope.Complete();
                         } catch (System.Exception e )
                         {

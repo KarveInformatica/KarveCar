@@ -3,5 +3,6 @@
     // marker interface.
     public interface IValueObject
     {
+       
     }
 }

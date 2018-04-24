@@ -357,4 +357,10 @@
   <data name="CodigoSociedad" xml:space="preserve">
     <value>Codigo Sociedad</value>
   </data>
+  <data name="Carga" xml:space="preserve">
+    <value>Carga..</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
 </root>

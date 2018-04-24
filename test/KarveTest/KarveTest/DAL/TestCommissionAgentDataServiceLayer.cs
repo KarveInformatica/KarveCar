@@ -64,7 +64,7 @@ namespace KarveTest.DAL
         /// </summary>
         /// <returns></returns>
         [Test]
-        public async Task Should_Load_A_CommissionAgent()
+        public async Task Should_Load_ACommissionAgent()
         {
             CommissionAgent agent = new CommissionAgent(_sqlExecutor);
             Assert.NotNull(agent);

@@ -78,24 +78,19 @@ namespace ToolBarModule.Command
 
 
                         result = true;
-                        var task1 = UpdateGridAsync<BranchesDto, ProDelega>(payLoad);
-                        var task2 = UpdateGridAsync<ContactsDto, ProContactos>(payLoad);
-                        IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
-                        if (branches != null)
+                        if (payLoad.RelatedObject is IEnumerable<BranchesDto>)
                         {
-                            await task1;
+                            await UpdateGridAsync<BranchesDto, ProDelega>(payLoad); 
                         }
                         else
                         {
-                            await task2;
+                            await UpdateGridAsync<ContactsDto, ProContactos>(payLoad); 
                         }
                         break;
                     }
                 case DataPayLoad.Type.DeleteGrid:
                     {
-                        IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
-
-                        if (branches != null)
+                        if (payLoad.RelatedObject is IEnumerable<BranchesDto> branches)
                         {
                             foreach (var branch in branches)
                             {

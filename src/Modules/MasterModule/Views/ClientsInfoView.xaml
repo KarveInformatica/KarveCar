@@ -180,6 +180,7 @@
                     </GroupBox>
                 </Grid>
             </DataTemplate>
+
             <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
@@ -360,7 +361,7 @@
                     </Syncfusion:TabItemExt>
 
                     <Syncfusion:TabItemExt x:Name="Delegaciones" Header="{Binding Delegaciones, Source={StaticResource ResourceLanguage}}">
-                        <ContentControl x:Name="ClientDelegacion" Content="{Binding}" ContentTemplate="{StaticResource BranchesGrid}"></ContentControl>
+                        <ContentControl x:Name="ClientDelegacion" Content="{Binding}" ContentTemplate="{StaticResource BranchGrid}"></ContentControl>
                     </Syncfusion:TabItemExt>
 
 
@@ -393,7 +394,7 @@
                             </Grid.RowDefinitions>
                             <photoframe:PhotoFrame Margin="20,0,566,0" Width="666" HorizontalAlignment="Left"></photoframe:PhotoFrame>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-                                <Button>Carga..</Button>
+                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}"></Button>
                                 <Button>Adquirir..</Button>
                             </StackPanel>
                         </Grid>

@@ -24,7 +24,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// CompanyControlBViewModel.
     /// </summary>
-    internal sealed class CompanyControlViewModel : MasterControlViewModuleBase
+    public sealed class CompanyControlViewModel : MasterControlViewModuleBase
     {
         
         /// <summary>
@@ -40,9 +40,12 @@ namespace MasterModule.ViewModels
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             InitEventHandler += LoadNotificationHandler;
             _mailBoxName = EventSubsystem.CompanySummaryVm;
+            _companyDataServices = DataServices.GetCompanyDataServices();
             InitViewModel();
             ActiveSubSystem();
         }
+
+       
 
         #region Public Properties
         public IEnumerable<CompanySummaryDto> SourceView
@@ -75,8 +78,7 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
 
         {
-            ICompanyDataServices companyDataService = DataServices.GetCompanyDataServices();
-            InitializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(companyDataService.GetAsyncAllCompanySummary(), InitEventHandler);
+            InitializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetAsyncAllCompanySummary(), InitEventHandler);
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);
             ActiveSubSystem();
@@ -145,20 +147,23 @@ namespace MasterModule.ViewModels
 
         public override void NewItem()
         {
-            string name = KarveLocale.Properties.Resources.CompanyControlViewModel_NewItem_NuevaEmpresa;
-            string companyId = DataServices.GetCompanyDataServices().GetNewId();
+            string name = "Nueva Empresa"; 
+                //KarveLocale.Properties.Resources.CompanyControlViewModel_NewItem_NuevaEmpresa;
+            string companyId = _companyDataServices.GetNewId();
             string viewNameValue = name + "." + companyId;
             // here shall be added to the region
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("id", companyId);
-            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
+            var navigationParameters = new NavigationParameters
+            {
+                { "id", companyId },
+                { ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue }
+            };
             var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
             RegionManager.RequestNavigate("TabRegion", uri);
             DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.CompanySubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = companyId;
-            currentPayload.DataObject = DataServices.GetCompanyDataServices().GetNewCompanyDo(companyId);
+            currentPayload.DataObject = _companyDataServices.GetNewCompanyDo(companyId);
             currentPayload.HasDataObject = true;
             currentPayload.Sender = EventSubsystem.CompanySummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
@@ -223,6 +228,11 @@ namespace MasterModule.ViewModels
         ///  This is the client subsystem prefix module.
         /// </summary>
         private const string ClientModuleRoutePrefix = MasterModuleConstants.ClientSubSystemName;
+        private IConfigurationService _configurationService;
+        private IEventManager object1;
+        private IDataServices _dataServices;
+        private IRegionManager object2;
+        private ICompanyDataServices _companyDataServices;
 
 
         #endregion

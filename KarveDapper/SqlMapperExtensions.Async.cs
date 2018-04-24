@@ -377,10 +377,18 @@ namespace KarveDapper.Extensions
                     builder.Append(" WHERE ");
                     builder.Append(info.Name);
                     builder.Append("=");
-                    builder.Append(string.Format("'{0}'", id));
+                    builder.Append($"'{id}'");
                     var statement = $"select * from {name} " + builder.ToString();
-                    collection = connection.Query<T>(statement);
-                    ++tries;
+                    try
+                    {
+                        collection = connection.Query<T>(statement);
+                    }
+                    catch (Exception e)
+                    {
+                        collection = new List<T>();
+                    }
+              
+                        ++tries;
                 }
             } while ((collection.Count() != 0) && (tries < 10));
             return id;

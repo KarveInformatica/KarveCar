@@ -33,7 +33,7 @@ namespace KarveCommon.Generic
         public async Task ExecuteInsertAsync<T>(object sender) where T : class
         {
             IEnumerable<DtoType> dtoValues = sender as IEnumerable<DtoType>;
-            bool retValue = false;
+            var retValue = false;
             try
             {
                 if (dtoValues != null)

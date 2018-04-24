@@ -1,7 +1,6 @@
 ﻿using MasterModule.Common;
 using System;
 using System.Data;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveCommon.Services;
@@ -17,7 +16,6 @@ using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
 using Syncfusion.UI.Xaml.Grid;
 using System.Linq;
-using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {
@@ -93,7 +91,7 @@ namespace MasterModule.ViewModels
         private void OnClientDataLoaded(object sender, PropertyChangedEventArgs e)
         {
             INotifyTaskCompletion<IClientData> notification = sender as INotifyTaskCompletion<IClientData>;
-            if (notification.IsSuccessfullyCompleted)
+            if (notification != null && notification.IsSuccessfullyCompleted)
             {
               
                 IClientData provider = notification.Task.Result;
@@ -135,7 +133,7 @@ namespace MasterModule.ViewModels
         private void DeleteClientHandler(object sender, PropertyChangedEventArgs e)
         {
             INotifyTaskCompletion completion = sender as INotifyTaskCompletion;
-            if (completion.IsSuccessfullyCompleted)
+            if (completion != null && completion.IsSuccessfullyCompleted)
             {
                 CanDeleteRegion = true;
             }
@@ -189,11 +187,9 @@ namespace MasterModule.ViewModels
             bool retValue = await _clientDataServices.DeleteClientAsyncDo(clientData);
             return retValue;
         }
-        private void OpenCurrentItem(object currentItem)
+        private async void OpenCurrentItem(object currentItem)
         {
             object current = currentItem;
-          
-            
             ClientSummaryExtended summaryItem = current as ClientSummaryExtended;
             if (summaryItem != null)
             {
@@ -201,10 +197,23 @@ namespace MasterModule.ViewModels
                 string name = summaryItem.Name;
                 string clientId = summaryItem.Code;
                 string tabName = clientId + "." + name;
-                _clientDataLoader = NotifyTaskCompletion.Create(_clientDataServices.GetAsyncClientDo(clientId), this._clientDataLoaded);
-                
-                
-               
+                var loadedClient = await _clientDataServices.GetAsyncClientDo(clientId);
+                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, loadedClient);
+                currentPayload.PrimaryKeyValue = loadedClient.Value.NUMERO_CLI;
+                currentPayload.Sender = _mailBoxName;
+                try
+                {
+                    var navigationParameters = new NavigationParameters();
+                    navigationParameters.Add("Id", loadedClient.Value.NUMERO_CLI);
+                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                    var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
+                    _regionManager.RequestNavigate("TabRegion", uri);
+                    EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
+                }
+                catch (Exception ex)
+                {
+                    var value = ex.Message;
+                }
             }
         }
         /// <summary>
@@ -244,7 +253,10 @@ namespace MasterModule.ViewModels
         {
             var list = _clientSummaryDtos.Skip(baseIndex).Take(100).ToList();
             var summary = SummaryView as IncrementalList<ClientSummaryExtended>;
-            summary.LoadItems(list);
+            if (summary != null)
+            {
+                summary.LoadItems(list);
+            }
         }
 
         protected override void SetResult<T>(IEnumerable<T> result)

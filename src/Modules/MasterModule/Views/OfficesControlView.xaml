@@ -117,9 +117,9 @@
                     <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                     <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="Zip" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                     <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lprovicia, Source={StaticResource ResourceLanguage}}" MappingName="Province" 
+                    <Syncfusion:GridTextColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Province" 
                                                    FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lzona, Source={StaticResource ResourceLanguage}}" MappingName="OfficeZone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                    <Syncfusion:GridTextColumn HeaderText="{Binding lrbtnZonasOficina, Source={StaticResource ResourceLanguage}}" MappingName="OfficeZone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 </Syncfusion:SfDataGrid.Columns>
             </Syncfusion:SfDataGrid>
 

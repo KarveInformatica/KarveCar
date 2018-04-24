@@ -13,6 +13,8 @@ namespace KarveControls.Behaviour
     public class ComboChangeBehaviour: KarveBehaviorBase<ComboBox>
     {
 
+        // avoid the first 
+        private bool first = true;
         /// <summary>
         ///  Command dependency property
         /// </summary>
@@ -73,14 +75,16 @@ namespace KarveControls.Behaviour
 
         private void AssociatedObject_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            IDictionary<string, object> ev = new Dictionary<string, object>(); 
+            IDictionary<string, object> ev = new Dictionary<string, object>();
+            if (first)
+            {
+                first = false;
+                return;
+            }
             ev["DataObject"] = DataObject;
             ev["ChangedIndex"] = this.AssociatedObject.SelectedIndex;
-            ICommand cmd = Command;
-            if (cmd != null)
-            {
-                cmd.Execute(ev);
-            }
+            var cmd = Command;
+            cmd?.Execute(ev);
         }
     }
 }

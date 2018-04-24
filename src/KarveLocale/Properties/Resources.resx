@@ -2715,4 +2715,19 @@
   <data name="DatosEmpresa" xml:space="preserve">
     <value>DatosEmpresa</value>
   </data>
+  <data name="lrbrnLoad" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="KarveToolBarViewModel_QuieresBorrarElRegistro" xml:space="preserve">
+    <value>Quieres borrar el registro?</value>
+  </data>
+  <data name="KarveToolBarViewModel_QuieresGuardarElRegistro" xml:space="preserve">
+    <value>Quieres guardar el registro?</value>
+  </data>
+  <data name="Nif" xml:space="preserve">
+    <value>Nif</value>
+  </data>
+  <data name="webUser" xml:space="preserve">
+    <value>UsuarioWeb</value>
+  </data>
 </root>

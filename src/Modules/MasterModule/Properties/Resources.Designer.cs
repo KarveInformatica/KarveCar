@@ -97,6 +97,15 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Carga...
+        /// </summary>
+        internal static string Carga {
+            get {
+                return ResourceManager.GetString("Carga", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Codigo Sociedad.
         /// </summary>
         internal static string CodigoSociedad {
@@ -570,6 +579,15 @@ namespace MasterModule.Properties {
         internal static string Pais {
             get {
                 return ResourceManager.GetString("Pais", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
             }
         }
         

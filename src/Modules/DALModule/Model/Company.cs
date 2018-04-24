@@ -21,6 +21,7 @@ namespace DataAccessLayer.Model
         // fixme this no makes sense
         public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set ; }
         public IEnumerable<ClientZoneDto> ZoneDto { get ; set; }
+        public IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
         public IEnumerable<OfficeDtos> OfficeDto { get; set ; }
     }
 }

@@ -1,12 +1,6 @@
 ﻿using KarveControls.Generic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveControls.Behaviour
 {
@@ -123,31 +117,67 @@ namespace KarveControls.Behaviour
             this.AssociatedObject.DataSearchTextBoxChanged -= AssociatedObject_DataSearchTextBoxChanged;
             
         }
-      
+
+        private void SetValues(string provinceValue, string provField, string proveExt, object newDataObject)
+        {
+            var prov = ComponentUtils.GetTextDo(newDataObject, provField, ControlExt.DataType.Any);
+            if (!string.IsNullOrEmpty(prov))
+            {
+                ComponentUtils.SetPropValue(newDataObject, provField, provinceValue);
+            }
+            else
+            {
+                var provincia =
+                    ComponentUtils.GetTextDo(newDataObject, proveExt, ControlExt.DataType.Any);
+                if (!string.IsNullOrEmpty(provincia))
+                {
+                    ComponentUtils.SetPropValue(newDataObject, proveExt, provinceValue);
+                }
+            }
+        }
+
+        private void ExecuteRuleOnPobla(object newValue)
+        {
+            var newDataObject = newValue;
+            var box = this.RelatedObject as DualFieldSearchBox;
+
+
+            var cpValue = ComponentUtils.GetTextDo(newDataObject, "POBLACION", ControlExt.DataType.Any);
+            if (!string.IsNullOrEmpty(cpValue))
+            {
+                var provinceValue = cpValue.Substring(0, 2);
+                if (newValue is BaseDto)
+                {
+                    SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);
+                }
+                else
+                {
+                    SetValues(provinceValue, "Value.PROV", "Value.PROVINCIA", newDataObject);
+                }
+
+            }
+        }
         private void ExecuteRules(object newValue)
         {
             var newDataObject = newValue;
-            var associated = this.AssociatedObject;
-            var  box = this.RelatedObject as DualFieldSearchBox;
+            var box = this.RelatedObject as DualFieldSearchBox;
+
+           
             var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", ControlExt.DataType.Any);
             if (cpValue != null)
             {
                 var provinceValue = cpValue.Substring(0, 2);
-                var prov = ComponentUtils.GetTextDo(newDataObject, "Value.PROV", ControlExt.DataType.Any);
-                if (!string.IsNullOrEmpty(prov))
+                if (newValue is BaseDto)
                 {
-                    ComponentUtils.SetPropValue(newDataObject, "Value.PROV", provinceValue);
+                    SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);                    
                 }
                 else
                 {
-                    var provincia = ComponentUtils.GetTextDo(newDataObject, "Value.PROVINCIA", ControlExt.DataType.Any);
-                    if (!string.IsNullOrEmpty(provincia))
-                    {
-                        ComponentUtils.SetPropValue(newDataObject, "Value.PROVINCIA", provinceValue);
-                    }
+                    SetValues(provinceValue, "Value.PROV", "Value.PROVINCIA", newDataObject);
                 }
 
             }
+            ExecuteRuleOnPobla(newValue);
 
             /*
              * Basically this does the same as above but with the related paths.
@@ -158,9 +188,17 @@ namespace KarveControls.Behaviour
                 if (!string.IsNullOrEmpty(relatedValue))
                 {
                     var provinceValue = relatedValue.Substring(0, 2);
-                    var pathStr = "Value." + RelatedPath;
-                    ComponentUtils.SetPropValue(newDataObject,pathStr,provinceValue);
-                  
+                    string pathStr;
+                    if (newDataObject is BaseDto)
+                    {
+                        pathStr = RelatedPath;
+                    }
+                    else
+                    {
+                        pathStr = "Value." + RelatedPath;
+
+                    }
+                    ComponentUtils.SetPropValue(newDataObject, pathStr, provinceValue);                    
                 }
             }
             if (box != null)

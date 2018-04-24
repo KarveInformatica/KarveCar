@@ -30,6 +30,8 @@ namespace DataAccessLayer.Crud.Clients
         private IHelperData _helper = new HelperBase();
         private long _currentQueryPos;
         private QueryStoreFactory _queryStoreFactory;
+
+        private EntityMapper _entityMapper = new EntityMapper();
         /// <summary>
         ///  Query delegation.
         /// </summary>
@@ -106,6 +108,39 @@ namespace DataAccessLayer.Crud.Clients
             IDbConnection conn = null;
             bool returnValue = false;
 
+            IList<object> entities = new List<object>() { new POBLACIONES(),
+                new TIPOCLI(),
+                new MERCADO(),
+                new ZONAS(),
+                new IDIOMAS(),
+                new TARCREDI(),
+                new CANAL(),
+                new SUBLICEN(),
+                new OFICINAS(),
+                new USO_ALQUILER(),
+                new ACTIVI(),
+                new ClientSummaryDto(),
+                new CliContactsPoco(),
+                new PaymentFormDto()
+            };
+            IList<object> dto = new List<object>()
+            {
+                new CityDto(),
+                new ClientTypeDto(),
+                new MercadoDto(),
+                new ClientZoneDto(),
+                new LanguageDto(),
+                new CreditCardDto(),
+                new ChannelDto(),
+                new CompanyDto(),
+                new OfficeDtos(),
+                new RentingUseDto(),
+                new ActividadDto(),
+                new ClientSummaryDto(),
+                new CliContactsPoco(),
+                new PaymentFormDto()
+            };
+
             if (_sqlExecutor.Open())
             {
                 conn = _sqlExecutor.Connection;
@@ -123,9 +158,17 @@ namespace DataAccessLayer.Crud.Clients
                     if (!string.IsNullOrEmpty(multipleQuery))
                     {
                         reader = await conn.QueryMultipleAsync(multipleQuery);
-                        SetDataTransferObject(reader, _currentPoco);
-                        
+                        EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
+                        var mappedEntity = _entityMapper.Map(reader, deserializer);             
                         string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
+                        _currentPoco.Helper.ActivityDto =
+                            deserializer.SelectDto<ACTIVI, ActividadDto>(_mapper, mappedEntity);
+                        _currentPoco.Helper.CityDto = deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, mappedEntity);
+                        _currentPoco.Helper.ClientTypeDto =
+                            deserializer.SelectDto<TIPOCLI, ClientTypeDto>(_mapper, mappedEntity);
+                        _currentPoco.Helper.ClientMarketDto =
+                            deserializer.SelectDto<MERCADO, MercadoDto>(_mapper, mappedEntity);
+
                         var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
                             (branch, prov) =>
                             {
@@ -151,87 +194,7 @@ namespace DataAccessLayer.Crud.Clients
             return returnValue;
         }
 
-        /// <summary>
-        ///  Set the transfer objects. We create the transfer object from the entity.
-        /// </summary>
-        /// <param name="reader">GridReader reader of dapper results</param>
-        /// <param name="clientPoco">Poco to check if there is a null parameter.</param>
-        /// 
-        private void SetDataTransferObject(SqlMapper.GridReader reader, ClientDto clientPoco)
-        {
-            if (reader == null)
-                return;
-            while (!reader.IsConsumed)
-            {
-                var row = reader.Read().FirstOrDefault();
-                if (row != null)
-                {
-                    var entity = MapSingleEntity(row);
-                    if (entity != null)
-                    {
-                        var currentType = entity.Type as Type;
-                        var dtoType = entity.DtoType as Type;
-                        var mappedDto = MapperUtils.GetMappedValue(_mapper, entity.Value, currentType, dtoType);
-                        
-                        if ((mappedDto != null) && (mappedDto.Count>=0))
-                        {
-                            var currentValue = mappedDto[0];
-                            if (clientPoco != null)
-                            {
-                                SetHelper(currentValue, dtoType);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-       
-
-        private EntityDecorator MapSingleEntity(dynamic row)
-        {
-            var first = row as IDictionary<string, object>;
-          
-            IList<object> entities = new List<object>() { new POBLACIONES(),
-                                                          new TIPOCLI(),
-                                                          new MERCADO(),
-                                                          new ZONAS(),
-                                                          new IDIOMAS(),
-                                                          new TARCREDI(),
-                                                          new CANAL(),
-                                                          new SUBLICEN(),
-                                                          new OFICINAS(),
-                                                          new USO_ALQUILER(),
-                                                          new ACTIVI(),
-                                                          new ClientSummaryDto(),
-                                                          new CliContactsPoco(),
-                                                          new PaymentFormDto()
-                                                         };
-            IList<object> dto = new List<object>()
-            {
-                new CityDto(),
-                new ClientTypeDto(),
-                new MercadoDto(),
-                new ClientZoneDto(),
-                new LanguageDto(),
-                new CreditCardDto(),
-                new ChannelDto(),
-                new CompanyDto(),
-                new OfficeDtos(),
-                new RentingUseDto(),
-                new ActividadDto(),
-                new ClientSummaryDto(),
-                new CliContactsPoco(),
-                new PaymentFormDto()
-            };
-            EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
-            EntityDecorator dec = deserializer.Deserialize(row);
-            return dec;
-
-        }
-
-
-
+      
         /// <summary>
         ///  Return all dtos mapped from the entities.
         /// </summary>

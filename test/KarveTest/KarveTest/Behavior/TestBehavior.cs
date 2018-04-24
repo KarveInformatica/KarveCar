@@ -8,9 +8,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using KarveCommon.Services;
+using KarveDataServices;
+using KarveTest.Behavior;
 
 namespace KarveTest.Behavior
 {
+    public class TriggerChangedRule : ChangeRuleBehavior
+    {
+        private object _valueObject;
+        public TriggerChangedRule(object dataObject) : base()
+        {
+            _valueObject = dataObject;
+        }
+
+        protected override void OnSetup()
+        {
+           
+
+        }   
+    }
+        
+   
     [TestFixture]
     public class TestBehavior
     {
@@ -33,10 +52,10 @@ namespace KarveTest.Behavior
             PROVEE1 dataObject = new PROVEE1();
             dataObject.CP = "082788";
             dataObject.PROV = "38";
-            var changeRule = new ChangeRuleBehavior();
-            changeRule.DataObject = dataObject;
-            var result = changeRule.DataObject;
-            Assert.AreEqual(dataObject.PROV, "08");
+            var changeRule = new ChangeRuleBehavior {DataObject = dataObject};
+           
+            var result = changeRule.DataObject as PROVEE1;
+            Assert.AreEqual(result, "08");
         }
        
        

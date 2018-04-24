@@ -26,6 +26,8 @@ namespace DataAccessLayer.Crud.Company
         private long _currentPos;
         private QueryStoreFactory _queryStoreFactory;
         private List<EntityDecorator> _output = new List<EntityDecorator>();
+        private EntityMapper _entityMapper = new EntityMapper();
+
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -52,6 +54,7 @@ namespace DataAccessLayer.Crud.Company
             }
             return companyDto;
         }
+
         /// <summary>
         ///  Load just a company with a code primary key value
         /// </summary>
@@ -59,58 +62,44 @@ namespace DataAccessLayer.Crud.Company
         /// <returns>The company data transfer object.</returns>
         public async Task<CompanyDto> LoadValueAsync(string code)
         {
-            CompanyDto companyDto = new CompanyDto();
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            var companyDto = new CompanyDto();
+            using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<SUBLICEN>(code);
                 companyDto = _mapper.Map<SUBLICEN, CompanyDto>(value);
-                if (value != null)
+                if (value == null)
                 {
-                    SqlMapper.GridReader reader = null;
-                    IQueryStore store = CreateQueryStore(companyDto);
-                    string multipleQuery = store.BuildQuery();
-
-                    IList<object> entities = new List<object>()
-                    {
-                        new POBLACIONES(),
-                        new PROVINCIA(),
-                        new OFICINAS()
-                    };
-                    IList<object> dto = new List<object>()
-                    {
-                        new CityDto(),
-                        new ProvinciaDto(),
-                        new OfficeDtos()
-                    };
-                  
-                    EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
-
-                    reader = await connection.QueryMultipleAsync(multipleQuery);
-                    while (!reader.IsConsumed)
-                    {
-                        var row = reader.Read();
-                        
-                        foreach (var singleValue in row)
-                        {
-                            var deserialized = deserializer.Deserialize(singleValue);
-                            if (deserialized != null)
-                            {
-                                _output.Add(deserialized);
-                            }
-                        }
-                    }
-                    var v = _output;
-
-                    companyDto.City = deserializer.SelectDto<POBLACIONES,CityDto>(_mapper,v).FirstOrDefault();
-                    companyDto.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper,v).FirstOrDefault();
-                    var selectedDto = deserializer.SelectDto<OFICINAS, OfficeDtos>(_mapper,v);
-                    var offices = new ObservableCollection<OfficeDtos>();
-                    foreach (var selected in selectedDto)
-                    {
-                        offices.Add(selected);
-                    }
-                    companyDto.Offices = offices;
+                    return companyDto;
                 }
+                SqlMapper.GridReader reader = null;
+                var store = CreateQueryStore(companyDto);
+                var multipleQuery = store.BuildQuery();
+
+                IList<object> entities = new List<object>()
+                {
+                    new POBLACIONES(),
+                    new PROVINCIA(),
+                    new OFICINAS()
+                };
+                IList<object> dto = new List<object>()
+                {
+                    new CityDto(),
+                    new ProvinciaDto(),
+                    new OfficeDtos()
+                };
+                  
+                var deserializer = new EntityDeserializer(entities, dto);
+                reader = await connection.QueryMultipleAsync(multipleQuery);
+                var v = _entityMapper.Map(reader, deserializer);
+                companyDto.City = deserializer.SelectDto<POBLACIONES,CityDto>(_mapper,v).FirstOrDefault();
+                companyDto.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper,v).FirstOrDefault();
+                var selectedDto = deserializer.SelectDto<OFICINAS, OfficeDtos>(_mapper,v);
+                var offices = new ObservableCollection<OfficeDtos>();
+                foreach (var selected in selectedDto)
+                {
+                    offices.Add(selected);
+                }
+                companyDto.Offices = offices;
             }
             return companyDto;
         }
@@ -182,6 +171,7 @@ namespace DataAccessLayer.Crud.Company
         private IQueryStore CreateQueryStore(CompanyDto company)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.Clear();
             store.AddParam(QueryType.QueryCity, company.CP);
             store.AddParam(QueryType.QueryProvince, company.PROVINCIA);
             store.AddParam(QueryType.QueryCompanyOffices, company.Code);

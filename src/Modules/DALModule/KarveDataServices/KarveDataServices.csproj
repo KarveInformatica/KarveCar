@@ -91,6 +91,7 @@
     <Compile Include="DataObjects\IInvoiceData.cs" />
     <Compile Include="DataTransferObject\BrokerDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
+    <Compile Include="DataTransferObject\DelegaContableDto.cs" />
     <Compile Include="DataTransferObject\InvoiceDto.cs" />
     <Compile Include="DataTransferObject\ContractDto.cs" />
     <Compile Include="DataTransferObject\ContractSummaryDto.cs" />
@@ -212,7 +213,6 @@
     <Compile Include="IOfficeDataServices.cs" />
     <Compile Include="ISettingsDataService.cs" />
     <Compile Include="DataObjects\IValueObject.cs" />
-    <Compile Include="SqlValidationRule.cs" />
     <Compile Include="DataTransferObject\VehicleDto.cs" />
     <Compile Include="DataTransferObject\ResellerDto.cs" />
     <Compile Include="DataTransferObject\VisitsDto.cs" />

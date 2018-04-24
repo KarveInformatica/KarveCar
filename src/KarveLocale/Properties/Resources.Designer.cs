@@ -610,6 +610,24 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quieres borrar el registro?.
+        /// </summary>
+        public static string KarveToolBarViewModel_QuieresBorrarElRegistro {
+            get {
+                return ResourceManager.GetString("KarveToolBarViewModel_QuieresBorrarElRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quieres guardar el registro?.
+        /// </summary>
+        public static string KarveToolBarViewModel_QuieresGuardarElRegistro {
+            get {
+                return ResourceManager.GetString("KarveToolBarViewModel_QuieresGuardarElRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accessorios.
         /// </summary>
         public static string laccessorios {
@@ -2469,6 +2487,15 @@ namespace KarveLocale.Properties {
         public static string lrapmnitSalir {
             get {
                 return ResourceManager.GetString("lrapmnitSalir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lrbrnLoad {
+            get {
+                return ResourceManager.GetString("lrbrnLoad", resourceCulture);
             }
         }
         
@@ -5983,6 +6010,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nif.
+        /// </summary>
+        public static string Nif {
+            get {
+                return ResourceManager.GetString("Nif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nif Extranjero.
         /// </summary>
         public static string NifExtranjero {
@@ -6627,6 +6663,15 @@ namespace KarveLocale.Properties {
         public static string Visitas {
             get {
                 return ResourceManager.GetString("Visitas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UsuarioWeb.
+        /// </summary>
+        public static string webUser {
+            get {
+                return ResourceManager.GetString("webUser", resourceCulture);
             }
         }
     }

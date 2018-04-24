@@ -19,7 +19,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  This view model handles the view of company form.
     /// </summary>
-  internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
+  internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
     {
         private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
@@ -112,6 +112,8 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public bool CreateRegionManagerScope => true;
         #endregion
 
 

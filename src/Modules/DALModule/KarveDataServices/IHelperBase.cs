@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace KarveDataServices
 {
+    /// <summary>
+    /// This is the structure of the helperbase. 
+    /// </summary>
     public interface IHelperBase
     {
         /// <summary>
@@ -25,6 +28,9 @@ namespace KarveDataServices
         ///  Base zona 
         /// </summary>
         IEnumerable<ClientZoneDto> ZoneDto { get; set; }
-
+        /// <summary>
+        ///  Set or Get ContableDelegaDto.
+        /// </summary>
+        IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
     }
 }

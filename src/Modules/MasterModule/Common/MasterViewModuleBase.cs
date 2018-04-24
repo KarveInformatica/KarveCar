@@ -69,7 +69,7 @@ namespace MasterModule.Common
         /// <summary>
         ///  Mailbox where each view model can receive a message from other view models.
         /// </summary>
-        protected MailBoxMessageHandler MessageHandlerMailBox;
+        public MailBoxMessageHandler MessageHandlerMailBox;
 
         /// <summary>
         ///  This is a registry of an assit handlers.
@@ -168,7 +168,11 @@ namespace MasterModule.Common
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<CurrenciesDto, CURRENCIES>();
                 return helper;
             });
-
+            AssistMapper.Configure("CONTABLE_DELEGA_ASSIST", async (query) =>
+            {
+                var helper = await HelperDataServices.GetMappedAllAsyncHelper<DelegaContableDto, DELEGA>();
+                return helper;
+            });
             AssistMapper.Configure("PROVINCE_ASSIST", async (query) => {
                 var helper = await HelperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
                 return helper;

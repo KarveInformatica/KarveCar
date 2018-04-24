@@ -21,10 +21,10 @@ namespace DataAccessLayer.Crud.Office
     /// </summary>
     public class OfficeDataLoader: IDataLoader<OfficeDtos> 
     {
-        private ISqlExecutor _executor;
-        private IMapper _mapper;
+        private readonly ISqlExecutor _executor;
+        private readonly IMapper _mapper;
         private long _currentPos;
-        private QueryStoreFactory _queryStoreFactory;
+        private readonly QueryStoreFactory _queryStoreFactory;
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -59,17 +59,21 @@ namespace DataAccessLayer.Crud.Office
         public async Task<OfficeDtos> LoadValueAsync(string code)
         {
 
-            Contract.Requires(!string.IsNullOrEmpty(code));
-            OfficeDtos officeDtos = new OfficeDtos();
+            Contract.Requires(condition: !string.IsNullOrEmpty(code));
+            OfficeDtos officeDtos;
             IList<object> entities = new List<object>()
            {
+               new POBLACIONES(),
+               new PROVINCIA(),
                new CURRENCIES(),
                new FESTIVOS_OFICINA()
            };
             IList<object> dto = new List<object>()
             {
-               new CurrenciesDto(),
-               new ClientDto()
+                new CityDto(),
+                new ProvinciaDto(),
+                new CurrenciesDto(),
+                new ClientDto()
             };
             EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
             var output = new List<EntityDecorator>();
@@ -82,6 +86,8 @@ namespace DataAccessLayer.Crud.Office
                 if (value != null)
                 {
                     IQueryStore queryStore = _queryStoreFactory.GetQueryStore();
+                    queryStore.AddParam(QueryType.QueryCity, officeDtos.POBLACION);
+                    queryStore.AddParam(QueryType.QueryProvince, officeDtos.PROVINCIA);
                     queryStore.AddParam(QueryType.QueryCurrency);
                     queryStore.AddParam(QueryType.HolidaysByOffice, value.CODIGO);
                     var queryHolidays = queryStore.BuildQuery();
@@ -99,6 +105,8 @@ namespace DataAccessLayer.Crud.Office
                             }
                         }
                     }
+                    officeDtos.City = deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, output);
+                    officeDtos.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper, output);
                     officeDtos.Currencies =deserializer.SelectDto<CURRENCIES, CurrenciesDto>(_mapper, output);
                     officeDtos.HolidayDates = deserializer.SelectDto<FESTIVOS_OFICINA, HolidayDto>(_mapper, output);
                 }
@@ -108,7 +116,7 @@ namespace DataAccessLayer.Crud.Office
 
         public async Task<IEnumerable<OfficeDtos>> LoadValueAtMostAsync(int n, int back = 0)
         {
-            IEnumerable<OfficeDtos> officeDtos = new List<OfficeDtos>();
+            IEnumerable<OfficeDtos> officeDtos;
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
@@ -121,15 +129,6 @@ namespace DataAccessLayer.Crud.Office
             return officeDtos;
             
         }
-
-        private IQueryStore CreateQueryStore(OFICINAS office)
-        {
-            IQueryStore store = _queryStoreFactory.GetQueryStore();
-            store.AddParam(QueryType.QueryCity, office.CP);
-            store.AddParam(QueryType.QueryOfficeZone, office.ZONAOFI);
-            return store;
-        }
-
     }
 
 }

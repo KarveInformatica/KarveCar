@@ -143,6 +143,7 @@
     <Compile Include="Crud\Clients\ClientDataLoaderEx.cs" />
     <Compile Include="Crud\Clients\ClientDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDeleter.cs" />
+    <Compile Include="Crud\EntityMapper.cs" />
     <Compile Include="Crud\HelperBase.cs" />
     <Compile Include="Crud\Clients\DataLayerInvalidClientException.cs" />
     <Compile Include="Crud\Company\CompanyDataDeleter.cs" />

@@ -216,6 +216,7 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>()));
 
         private Tuple<DateTime, bool> CreateCommand(int day, bool enable)
         {
+           
             var value = YearMonthArray();
             var year = Convert.ToInt16(value[0]);
             var month = Convert.ToInt16(value[1]);

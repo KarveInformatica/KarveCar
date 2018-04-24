@@ -2307,4 +2307,10 @@
   <data name="DatosEmpresa" xml:space="preserve">
     <value>DatosEmpresa</value>
   </data>
+  <data name="KarveToolBarViewModel_QuieresBorrarElRegistro" xml:space="preserve">
+    <value>Queires borrar el registro?</value>
+  </data>
+  <data name="webUser" xml:space="preserve">
+    <value>Usuario Web</value>
+  </data>
 </root>

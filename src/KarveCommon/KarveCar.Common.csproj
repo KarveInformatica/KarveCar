@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Generic\AssistProperties.cs" />
     <Compile Include="Generic\CloseTabAction.cs" />
+    <Compile Include="Generic\ContactsDtoValidation.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\GenericSQL.cs" />
@@ -181,10 +182,14 @@
     <Compile Include="Generic\LinqToVisualTree.cs" />
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
     <Compile Include="Generic\NullTask.cs" />
+    <Compile Include="Generic\OfficeDtoValidation.cs" />
     <Compile Include="Generic\RegionManagerBehavior.cs" />
     <Compile Include="Generic\RegionNames.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
     <Compile Include="Generic\ScopedRegionNavigationContentLoader.cs" />
+    <Compile Include="Generic\SuppliersValidationRule.cs" />
+    <Compile Include="Generic\ValidationChainBuilder.cs" />
+    <Compile Include="Generic\VehicleValidationRule.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
     <Compile Include="Services\EventDispatcher.cs" />
     <Compile Include="Services\IEnviromentVariables.cs" />

@@ -1178,8 +1178,13 @@ namespace KarveControls
                         {
                            
                             this.Popup.IsOpen = true;
-
-                            this.Popup.Width = MagnifierGrid.ActualWidth + _widthOffSet;
+                            var magnifier = MagnifierGrid.ActualWidth;
+                            if (magnifier == 0)
+                            {
+                                magnifier = 1024;
+                                MagnifierGrid.Width = magnifier;
+                            }
+                            this.Popup.Width = magnifier + _widthOffSet;
                             _buttonManifierState = 0;
                         }
 

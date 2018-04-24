@@ -11,13 +11,16 @@ using KarveCommon.Generic;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 using System.Linq;
+using System.Windows;
+using KarveCommonInterfaces;
+
 
 namespace ToolBarModule
 {
     /// <summary>
     /// View model that is able to manage the tool bar.
     /// </summary>
-    public class KarveToolBarViewModel : BindableBase, IToolBarViewModel, IEventObserver
+    public class KarveToolBarViewModel : KarveViewModelBase, IToolBarViewModel, IEventObserver
     {
         public enum ToolbarStates
         {
@@ -38,13 +41,14 @@ namespace ToolBarModule
             { DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm }
           };
         private ToolbarStates _states;
-        private ICareKeeperService _careKeeper;
-        private IDataServices _dataServices;
+        private readonly ICareKeeperService _careKeeper;
+        private readonly IDataServices _dataServices;
+        private readonly IConfigurationService _configurationService;
+        private readonly IEventManager _eventManager;
+
         private bool _buttonEnabled = false;
         private bool _isNewEnabled = true;
-        private IConfigurationService _configurationService;
         private Stack<DataPayLoad> _dataPayLoadLifo = new Stack<DataPayLoad>();
-        private IEventManager _eventManager;
         private const string currentSaveImage = @"/KarveCar;component/Images/save_toolbar.png";
         private const string currentSaveImageModified = @"/KarveCar;component/Images/modified.png";
         private const string ObserverName = "KarveToolBarViewModel.";
@@ -53,8 +57,8 @@ namespace ToolBarModule
         private ISqlValidationRule<DataPayLoad> _validationRules;
         private IDictionary<string, DataSubSystem> _subSystems = new Dictionary<string, DataSubSystem>();
         private DataSubSystem _activeSubSystem = DataSubSystem.None;
-        private string confirmDelete = "Quieres borrar el registro?";
-        private string confirmSave = "Quieres guardar el registro?";
+        private readonly string confirmDelete = "Quieres Borrar El Registro?";
+        private string confirmSave = "Quieres Salvar El Registro?";
         private string currentViewObjectId = string.Empty;
         private Stack<Uri> viewStack = new Stack<Uri>();
 
@@ -66,24 +70,28 @@ namespace ToolBarModule
         public ICommand SaveValueCommand { get; set; }
         private IRegionManager _regionManager;
         private bool _isDeleteEnabled;
-        private string noActiveValue;
+        private string _noActiveValue;
+        private IDialogService _dialogService;
 
 
         /// <summary>
         /// KarveToolBarViewModel is a view model to modle the toolbar behaviour.
         /// </summary>
-        /// <param name="dataServices"></param>
-        /// <param name="eventManager"></param>
-        /// <param name="careKeeper"></param>
-        /// <param name="regionManager"></param>
-        /// <param name="configurationService"></param>
+        /// <param name="dataServices">Service for fetching datas</param>
+        /// <param name="eventManager">Service for communicate with other view models</param>
+        /// <param name="careKeeper">Service for caring command and storing/undoing command</param>
+        /// <param name="regionManager">Service for region handling</param>
+        /// <param name="dialogService">Service for spotting the dialog</param>
+        /// <param name="configurationService">Service for the configuraration parameters</param>
         public KarveToolBarViewModel(IDataServices dataServices,
                                  IEventManager eventManager,
                                  ICareKeeperService careKeeper,
                                  IRegionManager regionManager,
-                                 IConfigurationService configurationService)
+                                 IDialogService dialogService,
+                                 IConfigurationService configurationService): base(dataServices,null, dialogService)
         {
             this._dataServices = dataServices;
+            this._dialogService = dialogService;
             this._configurationService = configurationService;
             this._eventManager = eventManager;
             this._eventManager.RegisterObserverToolBar(this);
@@ -91,14 +99,14 @@ namespace ToolBarModule
             this.SaveCommand = new DelegateCommand(DoSaveCommand);
             this.NewCommand = new DelegateCommand(DoNewCommand);
             this.DeleteCommand = new DelegateCommand<object>(DoDeleteCommand);
-            this._dataServices = dataServices;
+            this._dataServices= dataServices;
             this._configurationService = configurationService;
             this._eventManager = eventManager;
             this._eventManager.RegisterObserverToolBar(this);
             this.CurrentSaveImagePath = currentSaveImage;
             _regionManager = regionManager;
             _states = ToolbarStates.None;
-            noActiveValue = string.Empty;
+            _noActiveValue = string.Empty;
             this.IsSaveEnabled = false;
             this.IsDeleteEnabled = false;
             this.IsNewEnabled = false;
@@ -118,11 +126,16 @@ namespace ToolBarModule
                 {
                     string value = string.Empty;
                     var singleView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-                    var headerProp = singleView.GetType().GetProperty("Header");
-                    var header = headerProp.GetValue(singleView) as string;
-                    if (header != null)
+                    if (singleView != null)
                     {
-                        value = header.Split('.')[0];
+                        var headerProp = singleView.GetType().GetProperty("Header");
+                        if (headerProp != null)
+                        {
+                            if (headerProp.GetValue(singleView) is string header)
+                            {
+                                value = header.Split('.')[0];
+                            }
+                        }
                     }
 
                     DeleteCommand.Execute(value);
@@ -145,23 +158,22 @@ namespace ToolBarModule
                 }
             });
 
-            SetInsertValidationChain();
+            AddValidationChain();
             _uniqueId = ObserverName + Guid.NewGuid();
         }
 
         private void DoDeleteCommand(object key)
         {
-            var value = string.Empty;
-            value = key as string;
+            var value = key as string;
             
             _states = ToolbarStates.Delete;
             DataPayLoad payLoad = new DataPayLoad
             {
                 PayloadType = DataPayLoad.Type.Delete,
                 PrimaryKeyValue = value,
-                Subsystem = _activeSubSystem
+                Subsystem = _activeSubSystem,
+                PrimaryKey = value
             };
-            payLoad.PrimaryKey = value;
             payLoad.PrimaryKeyValue = value;
 
             if (!string.IsNullOrEmpty(currentViewObjectId))
@@ -174,16 +186,20 @@ namespace ToolBarModule
 
         }
 
-        private void SetInsertValidationChain()
+        private void AddValidationChain()
         {
-            // SqlValidationRule crossDomain = new CrossReferenceValidationRule();
-            _validationRules = new RemoveDuplicateSqlValidationRule();
-            // _validationRules.SetSuccessor(crossDomain);
+            var chainBuilder = new ValidationChainBuilder<DataPayLoad>();
+            chainBuilder.AddItem(new VehicleValidationRule());
+            chainBuilder.AddItem(new SuppliersValidationRule());
+            chainBuilder.AddItem(new OfficeDtoValidation());
+            chainBuilder.AddItem(new RelatedDtoValidation());
+            _validationRules = chainBuilder.First;
+                
         }
 
         private void DoNewCommand()
         {
-            DataPayLoad payLoad = new DataPayLoad
+            var payLoad = new DataPayLoad
             {
                 PayloadType = DataPayLoad.Type.Insert
             };
@@ -206,7 +222,7 @@ namespace ToolBarModule
         /// </summary>
         public bool IsNewEnabled
         {
-            get { return _isNewEnabled; }
+            get => _isNewEnabled;
             set { _isNewEnabled = value; RaisePropertyChanged("IsNewEnabled"); }
         }
 
@@ -215,7 +231,7 @@ namespace ToolBarModule
         /// </summary>
         public bool IsDeleteEnabled
         {
-            get { return _isDeleteEnabled; }
+            get => _isDeleteEnabled;
             set { _isDeleteEnabled = value; RaisePropertyChanged("IsDeleteEnabled"); }
         }
         /// <summary>
@@ -223,7 +239,7 @@ namespace ToolBarModule
         /// </summary>
         public bool IsSaveEnabled
         {
-            get { return _buttonSaveEnabled; }
+            get => _buttonSaveEnabled;
             set
             {
                 _buttonSaveEnabled = value;
@@ -235,22 +251,20 @@ namespace ToolBarModule
         /// </summary>
         public bool ButtonEnabled
         {
-            get { return _buttonEnabled; }
+            get => _buttonEnabled;
             set
             {
                 _buttonEnabled = value;
                 RaisePropertyChanged();
             }
         }
+
         /// <summary>
-        /// Return curren 
+        /// Return the current saved image.
         /// </summary>
         public string CurrentSaveImagePath
         {
-            get
-            {
-                return _currentSaveImage;
-            }
+            get => _currentSaveImage;
             set
             {
                 _currentSaveImage = value;
@@ -259,66 +273,87 @@ namespace ToolBarModule
 
         }
 
+        private bool CheckValidation(AbstractCommand command, DataPayLoad payLoad)
+        {
+            if (!command.CanExecute(payLoad))
+            {
+                return false;
+            }
+            _careKeeper.Do(new CommandWrapper(command));
+            _states = ToolbarStates.None;
+            return true;
+
+        }
         private void ExecuteCommand(DataPayLoad payLoad)
         {
-            if (payLoad != null)
+            if (payLoad == null)
             {
-                if ((payLoad.PayloadType == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
-                {
-                    InsertDataCommand dataCommand = new InsertDataCommand(this._dataServices,
-                        this._careKeeper,
-                        this._eventManager,
-                        this._configurationService)
-                    {
-                        ValidationRules = this._validationRules
-                    };
-                    _careKeeper.Do(new CommandWrapper(dataCommand));
-                    _states = ToolbarStates.None;
-                }
-                else
-                {
+                return;
+            }
 
-                    SaveDataCommand dataCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
-                         this._eventManager, this._configurationService);
-                    _careKeeper.Do(new CommandWrapper(dataCommand));
+            var insertDataCommand= new InsertDataCommand(this._dataServices,
+                this._eventManager)
+            {
+                ValidationRules = this._validationRules
+            };
+            var saveCommand = new SaveDataCommand(this._dataServices, this._careKeeper,
+                this._eventManager, this._configurationService)
+            {
+                ValidationRules = this._validationRules
+            };
+           
 
-                }
-                // in case of the helper subsystem it is the same view model to handle the stuff,
-                if (payLoad.Subsystem != DataSubSystem.HelperSubsytsem)
+            if ((payLoad.PayloadType == DataPayLoad.Type.Insert) || (_states == ToolbarStates.Insert))
+            {
+                var validated = CheckValidation(insertDataCommand, payLoad);
+                if (!validated)
                 {
-                    payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                    _dialogService?.ShowErrorMessage("Data invalid. Please check the form!");
+                    
                 }
+            }
+            else
+            {
+                _careKeeper.Do(new CommandWrapper(saveCommand));
 
-                if (payLoad.ObjectPath != null)
-                {
-                    // we deliver the answer to theobject itself.
-                    _eventManager.SendMessage(payLoad.ObjectPath.ToString(), payLoad);
-                }
-                else
-                {
-                    // we deliver directly to the controller of the subsystem
-                    DeliverIncomingNotify(payLoad.Subsystem, payLoad);
-                }
+            }
+            // in case of the helper subsystem it is the same view model to handle the stuff,
+            if (payLoad.Subsystem != DataSubSystem.HelperSubsytsem)
+            {
+                payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+            }
+
+            if (payLoad.ObjectPath != null)
+            {
+                // we deliver the answer to theobject itself.
+                _eventManager.SendMessage(payLoad.ObjectPath.ToString(), payLoad);
+            }
+            else
+            {
+                // we deliver directly to the controller of the subsystem
+                DeliverIncomingNotify(payLoad.Subsystem, payLoad);
             }
         }
+
+      
         private void DoSaveCommand()
         {
-            if (this.IsSaveEnabled)
+            if (!this.IsSaveEnabled)
             {
-                this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
-                // this.IsSaveEnabled = false;
-                Queue<DataPayLoad> payLoad = _careKeeper.GetScheduledPayload();
-                if (payLoad != null)
-                {
-                    while (payLoad.Count > 0)
-                    {
-                        DataPayLoad currentItem = payLoad.Peek();
-                        ExecuteCommand(currentItem);
-                    }
-                }
-                this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
-                this.IsSaveEnabled = false;
+                return;
             }
+             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+            var payLoad = _careKeeper.GetScheduledPayload();
+            if (payLoad != null)
+            {
+                while (payLoad.Count > 0)
+                {
+                    DataPayLoad currentItem = payLoad.Peek();
+                    ExecuteCommand(currentItem);
+                }
+            }
+            this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+            this.IsSaveEnabled = false;
 
         }
 
@@ -335,23 +370,14 @@ namespace ToolBarModule
 
 
             payLoad.Subsystem = subSystem;
-            string destinationSubsystem = "";
-            _dictionary.TryGetValue(payLoad.Subsystem, out destinationSubsystem);
+            _dictionary.TryGetValue(payLoad.Subsystem, out var destinationSubsystem);
             if (!string.IsNullOrEmpty(destinationSubsystem))
             {
                 _eventManager.SendMessage(destinationSubsystem, payLoad);
             }
         }
 
-        /// <summary>
-        /// Return the subscription uniqueId.
-        /// </summary>
-        public string UniqueId
-        {
-
-            get { return _uniqueId; }
-            set { _uniqueId = value; }
-        }
+        
 
         /// <summary>
         ///  Each different subsytem call this method to notify a change in the system to the toolbar.
@@ -404,10 +430,9 @@ namespace ToolBarModule
                     }
                 case DataPayLoad.Type.Delete:
                     {
-                        string primaryKeyValue = payload.PrimaryKeyValue;
                         _activeSubSystem = payload.Subsystem;
                         _states = ToolbarStates.None;
-                        DataPayLoad payLoad = new DataPayLoad
+                        var payLoad = new DataPayLoad
                         {
                             PayloadType = DataPayLoad.Type.UpdateView
                         };
@@ -448,7 +473,10 @@ namespace ToolBarModule
                     }
             }
         }
-
+        /// <summary>
+        ///  Clean the carekeeper.
+        /// </summary>
+        /// <param name="objectPath">Path of the object</param>
         private void CleanCareKeeper(Uri objectPath)
         {
             this._careKeeper.DeleteItems(objectPath);

@@ -31,6 +31,9 @@ namespace MasterModule.ViewModels
         ///  Client Zone Data Transfer Object
         /// </summary>
         public IEnumerable<ClientZoneDto> ZoneDto { get; set; }
+
+        public IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
+
         /// <summary>
         /// Origen Data Transfer Object
         /// </summary>

@@ -183,8 +183,7 @@ namespace MasterModule.ViewModels
         private void OnCompanyOrDriver(object selectionEvent)
         {
             System.Windows.Controls.SelectionChangedEventArgs ev = selectionEvent as System.Windows.Controls.SelectionChangedEventArgs;
-            ComboBox item = ev?.Source as ComboBox;
-            if (item != null)
+            if (ev?.Source is ComboBox item)
             {
                
                 StateVisible = (item.SelectedIndex == 0);

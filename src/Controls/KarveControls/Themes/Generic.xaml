@@ -400,7 +400,8 @@
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
                                     </Button>
 
-                                    <Popup x:Name="PART_PopUp" Placement="Relative" PlacementTarget="{Binding ElementName=RibbonWindow}"
+                                    <Popup x:Name="PART_PopUp" Placement="Relative" PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType={x:Type Window}}}"
                                             
                        
                       >

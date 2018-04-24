@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 
 namespace KarveCommon.Generic
@@ -11,9 +12,9 @@ namespace KarveCommon.Generic
     /// <summary>
     ///  This is a validation rule that avoid duplicates
     /// </summary>
-    public class RemoveDuplicateSqlValidationRule: ISqlValidationRule<DataPayLoad>
+    public class RemoveDuplicateSqlValidationRule: ValidationChain<DataPayLoad>
     {
-        public bool Validate(DataPayLoad request)
+        public override  bool Validate(DataPayLoad request)
         {
             return true;
         }

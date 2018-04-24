@@ -100,11 +100,13 @@ namespace KarveTest.DAL
                 {
                     using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        GRID_SERIALIZATION serialize = new GRID_SERIALIZATION();
-                        serialize.GRID_ID = 1;
-                        serialize.GRID_NAME = "Named";
-                        serialize.SERILIZED_DATA = base64;
-                        bool value = false;
+                        var serialize = new GRID_SERIALIZATION
+                        {
+                            GRID_ID = 1,
+                            GRID_NAME = "Named",
+                            SERILIZED_DATA = base64
+                        };
+                        var value = false;
                         if (!connection.IsPresent<GRID_SERIALIZATION>(serialize))
                         {
                             value = await connection.InsertAsync<GRID_SERIALIZATION>(serialize) > 0;

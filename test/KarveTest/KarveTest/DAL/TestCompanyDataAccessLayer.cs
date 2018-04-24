@@ -229,7 +229,10 @@ namespace KarveTest.DAL
                 var companyValue =  await _companyDataService.GetAsyncCompanyDo(companyId);
                 Assert.NotNull(companyValue);
                 Assert.AreEqual(companyValue.Value.NOMBRE, c.NOMBRE);
-             }
+                Assert.AreEqual(companyValue.Value.TELEFONO, c.TELEFONO);
+                Assert.AreEqual(companyValue.Value.NIF, c.NIF);
+                Assert.AreEqual(companyValue.Value.CP, c.CP);
+            }
         }
 
     }

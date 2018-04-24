@@ -1,11 +1,12 @@
 ﻿using System.Windows.Controls;
+using KarveCommonInterfaces;
 
 namespace MasterModule.Views
 {
     /// <summary>
     /// Interaction logic for OfficesControlSummary.xaml
     /// </summary>
-    public partial class OfficesControlView : UserControl
+    public partial class OfficesControlView : UserControl, ICreateRegionManagerScope
     {
         private string _header = KarveLocale.Properties.Resources.lrbtnOficinas;
         public OfficesControlView()
@@ -23,5 +24,7 @@ namespace MasterModule.Views
                 return _header;
             }
         }
+
+        public bool CreateRegionManagerScope => false;
     }
 }

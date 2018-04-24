@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
+using Dapper;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 
@@ -16,8 +17,8 @@ namespace KarveCommon.Services
     /// </summary>
     public class CareKeeper : ICareKeeperService
     {
-        private CommandHistory _history;
-        private Queue<DataPayLoad> _payLoad; 
+        private readonly CommandHistory _history;
+        private readonly Queue<DataPayLoad> _payLoad; 
 
         private bool _scheduledPayLoad;
       
@@ -36,13 +37,14 @@ namespace KarveCommon.Services
         public DataPayLoad Do(CommandWrapper w)
         {
             var currentPayload = new DataPayLoad();
-            if (_payLoad.Count > 0)
+            if (_payLoad.Count <= 0)
             {
-                currentPayload = _payLoad.Dequeue();
-                w.Parameters = currentPayload;
-                _history.DoCommand(w);
-                _scheduledPayLoad = _payLoad.Count > 0;
+                return currentPayload;
             }
+            currentPayload = _payLoad.Dequeue();
+            w.Parameters = currentPayload;
+            _history.DoCommand(w);
+            _scheduledPayLoad = _payLoad.Count > 0;
             return currentPayload;
         }
         /// <summary>
@@ -79,12 +81,7 @@ namespace KarveCommon.Services
             {
                 type = front.PayloadType;
             }
-            if (_scheduledPayLoad)
-            {
-                return type;   
-            }
-            return DataPayLoad.Type.Any;
-            
+            return _scheduledPayLoad ? type : DataPayLoad.Type.Any;
         }
         /// <summary>
         ///  Enqueue a single payload
@@ -103,15 +100,41 @@ namespace KarveCommon.Services
         /// <param name="payload">Payload to be scheduled</param>
         public void Schedule(DataPayLoad payload)
         {
-            if ((payload != null) && (payload.DataObject!=null))
+            if (payload?.DataObject == null)
             {
-                if (!_payLoad.Contains(payload))
-                {
-                    _payLoad.Enqueue(payload);
-                }
-               _scheduledPayLoad = _payLoad.Count() > 0;
+                return;
             }
-            Contract.Ensures(_payLoad!=null);
+            if (!_payLoad.Contains(payload))
+            {
+                MergePayLoad(payload);
+            }
+            _scheduledPayLoad = _payLoad.Any();
+
+        }
+
+        public void MergePayLoad(DataPayLoad payLoad)
+        {
+            var payLoads = _payLoad.AsList();
+            if (payLoad.ObjectPath != null)
+            {
+                var samePayLoads = payLoads.Where(x => x.ObjectPath == payLoad.ObjectPath);
+                if (EnqueueSingle(payLoad))
+                {
+                    var otherPayloads = payLoads.Except(samePayLoads);
+                    IList<DataPayLoad> payload = new List<DataPayLoad>();
+                    payload.Add(payLoad);
+                    var unionPayLoad =  otherPayloads.Union(payload);
+                    _payLoad.Clear();
+                    foreach (var p in unionPayLoad )
+                    {
+                        _payLoad.Enqueue(p);
+                    }
+                }
+                else
+                {
+                    _payLoad.Enqueue(payLoad);
+                }
+            }
         }
         /// <summary>
         ///  Return the number of scheudled payload.

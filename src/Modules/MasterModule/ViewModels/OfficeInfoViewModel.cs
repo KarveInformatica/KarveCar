@@ -9,23 +9,31 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using KarveCommon.Generic;
-using System.Windows;
 using System.Diagnostics.Contracts;
 using KarveDataServices.DataObjects;
 using System;
-using System.Linq;
 using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
 
-    internal sealed class OfficeInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
+    internal sealed class OfficeInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
     {
+       
         #region Constructor 
-        public OfficeInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, 
+        /// <summary>
+        /// Office Info view model.
+        /// </summary>
+        /// <param name="eventManager">Event manager</param>
+        /// <param name="configurationService">Configuration service</param>
+        /// <param name="dataServices">Data services</param>
+        /// <param name="dialogService">Dialog services</param>
+        /// <param name="manager">Region Manager</param>
+        /// <param name="requestController">Request controller</param>
+        public OfficeInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
             IDataServices dataServices, IDialogService dialogService,
             IRegionManager manager,
-            IInteractionRequestController requestController) : base(eventManager, configurationService, dataServices,dialogService, manager, requestController)
+            IInteractionRequestController requestController) : base(eventManager, configurationService, dataServices, dialogService, manager, requestController)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
@@ -36,7 +44,24 @@ namespace MasterModule.ViewModels
             DateTime dt = DateTime.Now;
             CurrentYear = dt.Year.ToString();
             ViewModelUri = new Uri("karve://office/viewmodel?id=" + Guid.ToString());
-          
+            TimePickerSaveCommand = new DelegateCommand<object>(OnPickerSaveCommand);
+            TimePickerDeleteCommand= new DelegateCommand<object>(OnPickerDeleteCommand);
+            TimePickerResetCommand = new DelegateCommand<object>(OnPickerResetCommand);
+        }
+
+        private void OnPickerResetCommand(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnPickerDeleteCommand(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnPickerSaveCommand(object obj)
+        {
+            throw new NotImplementedException();
         }
         #endregion
         #region Properties
@@ -66,20 +91,33 @@ namespace MasterModule.ViewModels
                 _officeHelper = value;
                 RaisePropertyChanged();
             }
-            get
+            get => _officeHelper;
+        }
+
+
+        public DateTime HolidayTimeFrom
+        {
+            set
             {
-                return _officeHelper;
+                _holidayTimeFrom = value;
+                RaisePropertyChanged();
             }
+            get => _holidayTimeFrom;
+        }
+
+        public DateTime HolidayTimeTo
+        {
+            set { _holidayTimeTo = value;
+                RaisePropertyChanged();
+            }
+            get => _holidayTimeTo;
         }
         /// <summary>
         ///  Days. It is the weekly opening.
         /// </summary>
         public ObservableCollection<DailyTime> Days
         {
-            get
-            {
-                return _openDays;
-            }
+            get => _openDays;
             set
             {
                 _openDays = value;
@@ -92,10 +130,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public string CurrentYear
         {
-            get
-            {
-                return _currentYear;
-            }
+            get => _currentYear;
             set
             {
                 _currentYear = value;
@@ -105,10 +140,9 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  BrokersDto
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokersDto { get
-            {
-                return _brokers;
-            }
+        public IEnumerable<CommissionAgentSummaryDto> BrokersDto
+        {
+            get => _brokers;
             set
             {
                 _brokers = value;
@@ -123,10 +157,7 @@ namespace MasterModule.ViewModels
                 _currencyDto = value;
                 RaisePropertyChanged();
             }
-            get
-            {
-                return _currencyDto;
-            }
+            get => _currencyDto;
         }
 
         /// <summary>
@@ -134,16 +165,15 @@ namespace MasterModule.ViewModels
         /// </summary>
         public IEnumerable<ClientSummaryDto> ClientDto
         {
-            get
-            {
-                return _client;
-            }
-           set
+            get => _client;
+            set
             {
                 _client = value;
                 RaisePropertyChanged();
             }
         }
+
+        public bool CreateRegionManagerScope => true;
         #endregion
 
 
@@ -188,7 +218,7 @@ namespace MasterModule.ViewModels
                             if (string.IsNullOrEmpty(PrimaryKeyValue))
                             {
                                 PrimaryKeyValue = DataServices.GetOfficeDataServices().GetNewId();
-                                
+
                                 CurrentOperationalState = DataPayLoad.Type.Insert;
                             }
                             Init(PrimaryKeyValue, payload, true);
@@ -214,18 +244,30 @@ namespace MasterModule.ViewModels
             if (payload.HasDataObject)
             {
                 Logger.Info("OfficeInfoViewModel has received payload type " + payload.PayloadType.ToString());
-                var officeData = payload.DataObject as IOfficeData;
-                if (officeData != null)
+
+                switch (payload.DataObject)
                 {
-                    _officeData = officeData;
-                    DataObject = _officeData.Value;
-                    Helper = officeData;
-                    PrimaryKey = primaryKey;
-            //        Days = new ObservableCollection<DailyTime>(DataObject.TimeTable);
-                    Logger.Info("OfficeInfoViewModel has activated the client subsystem as current with directive " +
+                    case null:
+                        return;
+                    case IOfficeData officeData:
+                        {
+
+                            _officeData = officeData;
+                            DataObject = _officeData.Value;
+                            Helper = officeData;
+                            Helper.ProvinciaDto =
+                                _officeData.Value.Province ?? new ObservableCollection<ProvinciaDto>();
+                            Helper.CityDto = _officeData.Value.City ?? new ObservableCollection<CityDto>();
+                            PrimaryKeyValue = primaryKey;
+                            //var value = new List<DailyTime>(DataObject.TimeTable);
+                            Logger.Info(
+                                "OfficeInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
-                    ActiveSubSystem();
-                    RaisePropertyChanged("Helper");
+                            ActiveSubSystem();
+                            RaisePropertyChanged($"Helper");
+                        }
+                        break;
+
                 }
             }
         }
@@ -255,18 +297,20 @@ namespace MasterModule.ViewModels
 
         private void OfficeAssistResult(object sender, PropertyChangedEventArgs e)
         {
-            string propertyName = e.PropertyName;
-            if (propertyName.Equals("Status"))
+            var propertyName = e.PropertyName;
+            if (propertyName != null && propertyName.Equals("Status"))
             {
                 if (AssistNotifierInitialized.IsSuccessfullyCompleted)
                 {
                     bool value = AssistNotifierInitialized.Task.Result;
-                    if (!value)
-                    {
-                        Logger.Error("Executed Assist invalid");
-                        MessageBox.Show("Exectued");
-                    }
+                    if (value) return;
+                    
 
+                }
+                else
+                {
+                    DialogService?.ShowErrorMessage("Error looking up data");
+                    Logger.Error("Executed Assist invalid");
                 }
             }
 
@@ -297,7 +341,19 @@ namespace MasterModule.ViewModels
                             retValue = true;
                             break;
                         }
+                     case "CONTABLE_DELEGA_ASSIST":
+                        {
+                            Helper.ContableDelegaDto = (IEnumerable<DelegaContableDto>) value;
+                            retValue = true;
+                            break;
+                        }
+                    case "OFFICE_ZONE_ASSIST":
+                        {
+                            Helper.ClientZoneDto = (IEnumerable<ZonaOfiDto>)value;
+                            retValue = true;
 
+                            break;
+                        }
                     case "BROKER_ASSIST":
                         {
                             BrokersDto = (IEnumerable<CommissionAgentSummaryDto>)value;
@@ -313,9 +369,6 @@ namespace MasterModule.ViewModels
                     case "CURRENCY_ASSIST":
                         {
                             CurrenciesDto = (IEnumerable<CurrenciesDto>)value;
-                            
-
-                           // RaisePropertyChanged("CurrenciesDto");
                             break;
                         }
                 }
@@ -374,19 +427,22 @@ namespace MasterModule.ViewModels
                 }
             }
         }
-      
+
         public override void DisposeEvents()
         {
             EventManager.DeleteMailBoxSubscription(_mailBoxName);
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.OfficeSubSytemName, this);
-            AssistExecuted -= OfficeAssistResult;
+            if (AssistExecuted != null)
+            {
+                AssistExecuted -= OfficeAssistResult;
+            }
         }
-       
-       /* TODO this means that we shal have an interaface segragation, at the base class.
-       * The interface and related stuff to a grid shall be separated in another class to give an option to implement or not
-       * that interface.
-       */
-        internal override  Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+
+        /* TODO this means that we shal have an interaface segragation, at the base class.
+        * The interface and related stuff to a grid shall be separated in another class to give an option to implement or not
+        * that interface.
+        */
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
         {
             var t = Task.FromResult(0);
             return t;
@@ -410,17 +466,26 @@ namespace MasterModule.ViewModels
             return t;
         }
         #endregion
+     
+
+        public DelegateCommand<object> TimePickerSaveCommand { set; get; }
+        public DelegateCommand<object> TimePickerDeleteCommand { set; get; }
+        public DelegateCommand<object> TimePickerResetCommand { get; }
+
 
         #region Private Fields
         private IOfficeData _officeData;
         private string _mailBoxName;
         private IHelperBase _officeHelper;
-        private OfficeDtos _currentOfficeDto;
+        private OfficeDtos _currentOfficeDto = new OfficeDtos();
         private string _currentYear;
         private IEnumerable<CommissionAgentSummaryDto> _brokers;
         private IEnumerable<ClientSummaryDto> _client;
         private IEnumerable<CurrenciesDto> _currencyDto;
         private ObservableCollection<DailyTime> _openDays;
+        private DateTime _holidayTimeFrom;
+        private DateTime _holidayTimeTo;
+
         #endregion
 
 
