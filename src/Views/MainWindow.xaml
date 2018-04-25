@@ -1825,13 +1825,14 @@
                 </dragablz:TabablzControl>
                 -->
                 <syncfusion:TabControlExt x:Name="NewTabControl"  
-                                           Grid.Row="1" 
+                                          
                                            EnableLabelEdit="False"
                                            CloseButtonType="Common"
                                           TabScrollStyle="Extended"
                                            TabScrollButtonVisibility="Auto"
                                            syncfusion:SkinStorage.VisualStyle="Metro"
                                            prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.TabRegion}">
+                    
                     
                     <syncfusion:TabControlExt.ItemContainerStyle>
                         <Style TargetType="{x:Type syncfusion:TabItemExt}">
@@ -1864,7 +1865,7 @@
                             </Setter>
                         </Style>
                     </syncfusion:TabControlExt.ItemContainerStyle>
-
+                        
                     </syncfusion:TabControlExt>
             </Grid>
 

@@ -73,8 +73,8 @@ namespace DataAccessLayer.Crud.Clients
         {
             _sqlExecutor = executor;
             _mapper = MapperField.GetMapper();
-            _currentPoco = new ClientDto();
-            _currentPoco.Helper = new HelperBase(); 
+            _currentPoco = new ClientDto {Helper = new HelperBase()};
+
             Valid = true;
             _currentQueryPos = 0;
             _queryStoreFactory = new QueryStoreFactory();
@@ -161,25 +161,29 @@ namespace DataAccessLayer.Crud.Clients
                         EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
                         var mappedEntity = _entityMapper.Map(reader, deserializer);             
                         string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
-                        _currentPoco.Helper.ActivityDto =
-                            deserializer.SelectDto<ACTIVI, ActividadDto>(_mapper, mappedEntity);
-                        _currentPoco.Helper.CityDto = deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, mappedEntity);
-                        _currentPoco.Helper.ClientTypeDto =
-                            deserializer.SelectDto<TIPOCLI, ClientTypeDto>(_mapper, mappedEntity);
-                        _currentPoco.Helper.ClientMarketDto =
-                            deserializer.SelectDto<MERCADO, MercadoDto>(_mapper, mappedEntity);
-
-                        var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
-                            (branch, prov) =>
-                            {
-                                branch.PROV = prov;
-                                return branch;
-                            }, splitOn: "SIGLAS");
-
-                        if (delegations != null)
+                        if (_currentPoco.Helper != null)
                         {
-                            branchesDto =
-                                _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
+                            _currentPoco.Helper.ActivityDto =
+                                deserializer.SelectDto<ACTIVI, ActividadDto>(_mapper, mappedEntity);
+                            _currentPoco.Helper.CityDto =
+                                deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, mappedEntity);
+                            _currentPoco.Helper.ClientTypeDto =
+                                deserializer.SelectDto<TIPOCLI, ClientTypeDto>(_mapper, mappedEntity);
+                            _currentPoco.Helper.ClientMarketDto =
+                                deserializer.SelectDto<MERCADO, MercadoDto>(_mapper, mappedEntity);
+
+                            var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
+                                (branch, prov) =>
+                                {
+                                    branch.PROV = prov;
+                                    return branch;
+                                }, splitOn: "SIGLAS");
+
+                            if (delegations != null)
+                            {
+                                branchesDto =
+                                    _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
+                            }
                         }
                     }
                 }
@@ -280,7 +284,10 @@ namespace DataAccessLayer.Crud.Clients
             var pocoReader = await conn.QueryMultipleAsync(query);
             var clients1 = pocoReader.Read<CLIENTES1>().FirstOrDefault();
             var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
-            ClientDto outClient = new ClientDto();
+            var outClient = new ClientDto
+            {
+                Helper = new HelperBase()
+            };
             var outType = outClient.GetType();
             if (clients1 != null)
             {

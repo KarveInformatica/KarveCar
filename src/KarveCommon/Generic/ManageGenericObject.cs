@@ -103,7 +103,7 @@ namespace KarveCommon.Generic
             }
             catch (Exception e)
             {
-                throw new KarveCommonException(e.Message);
+                //throw new KarveCommonException(e.Message);
             }
         }
 

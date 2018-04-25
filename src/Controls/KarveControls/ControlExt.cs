@@ -314,7 +314,19 @@ namespace KarveControls
                     if (tmp != null)
                     {
                         var propValue = ComponentUtils.GetPropValue(tmp, path);
-                        checkBox.IsChecked = Convert.ToBoolean(propValue);
+                        if (propValue is string)
+                        {
+                            byte value = Convert.ToByte(propValue);
+                            if (value > 0)
+                            {
+                                checkBox.IsChecked = true;
+                            }
+                        }
+                        else
+                        {
+                            checkBox.IsChecked = Convert.ToBoolean(propValue);
+                        }
+                        
                     }
                 }
                  //checkBox.Checked += CheckBox_DataChecked;

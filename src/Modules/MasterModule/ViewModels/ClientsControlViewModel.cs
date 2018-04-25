@@ -90,8 +90,7 @@ namespace MasterModule.ViewModels
 
         private void OnClientDataLoaded(object sender, PropertyChangedEventArgs e)
         {
-            INotifyTaskCompletion<IClientData> notification = sender as INotifyTaskCompletion<IClientData>;
-            if (notification != null && notification.IsSuccessfullyCompleted)
+            if (sender is INotifyTaskCompletion<IClientData> notification && notification.IsSuccessfullyCompleted)
             {
               
                 IClientData provider = notification.Task.Result;
@@ -102,9 +101,11 @@ namespace MasterModule.ViewModels
                 currentPayload.Sender = _mailBoxName;
                 try
                 {
-                    var navigationParameters = new NavigationParameters();
-                    navigationParameters.Add("Id", provider.Value.NUMERO_CLI);
-                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                    var navigationParameters = new NavigationParameters
+                    {
+                        { "Id", provider.Value.NUMERO_CLI },
+                        { ScopedRegionNavigationContentLoader.DefaultViewName, tabName }
+                    };
                     var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
                     _regionManager.RequestNavigate("TabRegion", uri);
 

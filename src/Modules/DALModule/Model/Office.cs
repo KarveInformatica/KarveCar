@@ -26,8 +26,18 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  This returns the value of an office.
         /// </summary>
-        public OfficeDtos Value { get ; set ; }
-
+        public OfficeDtos Value
+        {
+            set
+            {
+                _value = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _value;
+            }
+        }
         /// <summary>
         ///  Check if the province is valid or not.
         /// </summary>

@@ -35,6 +35,8 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class OfficeDtos : BaseDto
     {
+        private IEnumerable<CityDto> _cities;
+        private IEnumerable<ProvinciaDto> _province;
 
         public OfficeDtos(): base()
         {
@@ -667,7 +669,26 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public Decimal? CANON_OTROS { get; set; }
 
-        public IEnumerable<CityDto> City { get; set; }
-        public IEnumerable<ProvinciaDto> Province { get; set; }
+        public IEnumerable<CityDto> City
+        {
+            get
+            {
+                return _cities;
+            }
+            set { _cities = value; }
+        }
+        public IEnumerable<ProvinciaDto> 
+            
+            Province {
+            get
+            {
+                return _province;
+            }
+            set
+            {
+                _province = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

@@ -89,7 +89,7 @@ namespace KarveTest.DAL
         }
 
         [Test]
-        public async Task Shall_Update_OrInsert_Grid_Serialized()
+        public async Task Should_UpdateOrInsert_GridSerialized()
         {
             byte[] currentBytes= {0x10, 0xFF, 0x23, 0x25, 0x23, 0x80};
             var base64 = Convert.ToBase64String(currentBytes);

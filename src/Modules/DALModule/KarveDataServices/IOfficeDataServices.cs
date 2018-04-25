@@ -56,10 +56,11 @@ namespace KarveDataServices
         /// <returns>Holiday List</returns>
         Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId);
         /// <summary>
-        ///  Return just the holidayus for a given office identifer
+        /// This a time table.
         /// </summary>
-        /// <param name="officeId">Office identifier</param>
-        /// <returns>A list of daily opening/ closing</returns>
+        /// <param name="officeId">Identifier of the office</param>
+        /// <param name="companyId">Identifier of the company</param>
+        /// <returns></returns>
         Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId);
     }
 }

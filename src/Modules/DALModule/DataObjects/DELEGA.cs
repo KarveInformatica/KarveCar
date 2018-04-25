@@ -1,18 +1,20 @@
+using KarveDapper.Extensions;
 using System;
  
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a DELEGA.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class DELEGA 
+    /// <summary>
+    /// Represents a DELEGA.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("DELEGA")]
+    public class DELEGA 
 	{
 	
 	/// <summary>
     ///  Set or get the NUM_DELEGA property.
     /// </summary>
-    
+        [Key]   
 		public string NUM_DELEGA { get; set; }
  
 	/// <summary>

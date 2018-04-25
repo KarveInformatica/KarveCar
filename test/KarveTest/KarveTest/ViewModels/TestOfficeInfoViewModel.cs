@@ -67,7 +67,7 @@ namespace KarveTest.ViewModels
             Assert.Equals(outObject.CODIGO, IdDefault);
         }
         [Test]
-        public void Shall_Refuse_An_Incoming_Null_Payload()
+        public void Should_Refuse_An_Incoming_Null_Payload()
         {
             DataPayLoad dataPayLoad = new NullDataPayload();
             _companyInfoViewModel.IncomingPayload(dataPayLoad);
@@ -75,7 +75,7 @@ namespace KarveTest.ViewModels
             Assert.Null(outObject);
         }
         [Test]
-        public void Shall_Refuse_An_Incoming_Payload_WithNullDO()
+        public void Should_Refuse_An_Incoming_Payload_WithNullDO()
         {
             DataPayLoad dataPayLoad = new NullDataPayload();
             dataPayLoad.DataObject = null;

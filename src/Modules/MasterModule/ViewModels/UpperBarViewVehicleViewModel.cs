@@ -22,9 +22,9 @@ namespace MasterModule.ViewModels
 
     public class UpperBarViewVehicleViewModel : BindableBase, IDisposable, IEventObserver
     {
-        private IDataServices _dataServices;
-        private IEventManager _eventManager;
-        private MailBoxMessageHandler MailBoxHandler;
+        private readonly IDataServices _dataServices;
+        private readonly IEventManager _eventManager;
+        private readonly MailBoxMessageHandler MailBoxHandler;
         public const string Name = "MasterModule.UpperBarViewVehicleViewModel";
         private const string AssistQuery = "AssistQuery";
         private IVehicleData _dataObject = null;
@@ -83,7 +83,7 @@ namespace MasterModule.ViewModels
                 _sourceView = value;
                 RaisePropertyChanged();
             }
-            get { return _sourceView; }
+            get => _sourceView;
         }
 
         /// <summary>
@@ -111,10 +111,6 @@ namespace MasterModule.ViewModels
             set => _uniqueValue = value;
         }
 
-        public UpperBarViewVehicleViewModel()
-        {
-
-        }
 
         /// <summary>
         /// This is the upperBarView that it can be customized as we wish

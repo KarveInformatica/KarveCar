@@ -13,13 +13,15 @@ using System.Diagnostics.Contracts;
 using KarveDataServices.DataObjects;
 using System;
 using System.Collections.ObjectModel;
+using DataAccessLayer.Model;
+using Microsoft.Practices.Unity;
 
 namespace MasterModule.ViewModels
 {
 
-    internal sealed class OfficeInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
+    internal sealed class OfficeInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
-       
+
         #region Constructor 
         /// <summary>
         /// Office Info view model.
@@ -28,25 +30,37 @@ namespace MasterModule.ViewModels
         /// <param name="configurationService">Configuration service</param>
         /// <param name="dataServices">Data services</param>
         /// <param name="dialogService">Dialog services</param>
+        /// <param name="container">Unity Manager</param>
         /// <param name="manager">Region Manager</param>
         /// <param name="requestController">Request controller</param>
+       
         public OfficeInfoViewModel(IEventManager eventManager, IConfigurationService configurationService,
-            IDataServices dataServices, IDialogService dialogService,
+            IDataServices dataServices, 
+            IDialogService dialogService,
+            IUnityContainer container,
             IRegionManager manager,
             IInteractionRequestController requestController) : base(eventManager, configurationService, dataServices, dialogService, manager, requestController)
         {
             base.ConfigureAssist();
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
-            AssistExecuted += OfficeAssistResult;
-            EventManager.RegisterObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, this);
+            AssistExecuted += OfficeAssistResult; 
+              
             DataObject = new OfficeDtos();
             DateTime dt = DateTime.Now;
+            _provinciaDto = new ObservableCollection<ProvinciaDto>();
+            ProvinciaDto = _provinciaDto;
+            var officeHelper = new Office();
+            officeHelper.ProvinciaDto = new ObservableCollection<ProvinciaDto>();
+            OfficeHelper = officeHelper;
             CurrentYear = dt.Year.ToString();
             ViewModelUri = new Uri("karve://office/viewmodel?id=" + Guid.ToString());
             TimePickerSaveCommand = new DelegateCommand<object>(OnPickerSaveCommand);
             TimePickerDeleteCommand= new DelegateCommand<object>(OnPickerDeleteCommand);
             TimePickerResetCommand = new DelegateCommand<object>(OnPickerResetCommand);
+            EventManager.RegisterObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, this);
+            ActiveSubSystem();
+
         }
 
         private void OnPickerResetCommand(object obj)
@@ -75,16 +89,13 @@ namespace MasterModule.ViewModels
                 _currentOfficeDto = value;
                 RaisePropertyChanged();
             }
-            get
-            {
-                return _currentOfficeDto;
-            }
+            get => _currentOfficeDto;
         }
 
         /// <summary>
         ///  Helper data.
         /// </summary>
-        public IHelperBase Helper
+        public IHelperBase OfficeHelper
         {
             set
             {
@@ -94,6 +105,16 @@ namespace MasterModule.ViewModels
             get => _officeHelper;
         }
 
+        public IEnumerable<ProvinciaDto> ProvinciaDto
+        {
+            get => _provinciaDto;
+            set
+            {
+                _provinciaDto = value;
+                RaisePropertyChanged();
+            }
+        }
+      
 
         public DateTime HolidayTimeFrom
         {
@@ -173,7 +194,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public bool CreateRegionManagerScope => true;
+       
         #endregion
 
 
@@ -215,11 +236,10 @@ namespace MasterModule.ViewModels
                     case DataPayLoad.Type.Insert:
                         {
                             CurrentOperationalState = DataPayLoad.Type.Insert;
+                            PrimaryKeyValue = payload.PrimaryKeyValue;
                             if (string.IsNullOrEmpty(PrimaryKeyValue))
                             {
                                 PrimaryKeyValue = DataServices.GetOfficeDataServices().GetNewId();
-
-                                CurrentOperationalState = DataPayLoad.Type.Insert;
                             }
                             Init(PrimaryKeyValue, payload, true);
                             break;
@@ -251,20 +271,19 @@ namespace MasterModule.ViewModels
                         return;
                     case IOfficeData officeData:
                         {
-
+                         
                             _officeData = officeData;
                             DataObject = _officeData.Value;
-                            Helper = officeData;
-                            Helper.ProvinciaDto =
-                                _officeData.Value.Province ?? new ObservableCollection<ProvinciaDto>();
-                            Helper.CityDto = _officeData.Value.City ?? new ObservableCollection<CityDto>();
-                            PrimaryKeyValue = primaryKey;
+                            OfficeHelper = officeData;
+                            OfficeHelper.ProvinciaDto = _officeData.Value.Province ?? new ObservableCollection<ProvinciaDto>();
+                            OfficeHelper.CityDto = _officeData.Value.City ?? new ObservableCollection<CityDto>();
+                            //PrimaryKeyValue = primaryKey;
                             //var value = new List<DailyTime>(DataObject.TimeTable);
                             Logger.Info(
                                 "OfficeInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                             ActiveSubSystem();
-                            RaisePropertyChanged($"Helper");
+                            
                         }
                         break;
 
@@ -292,27 +311,27 @@ namespace MasterModule.ViewModels
             IDictionary<string, string> values = (Dictionary<string, string>)param;
             string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
-            this.AssistNotifierInitialized = NotifyTaskCompletion.Create<bool>(AssistQueryRequestHandler(assistTableName, assistQuery), AssistExecuted);
+            AssistNotifierInitialized = NotifyTaskCompletion.Create<bool>(AssistQueryRequestHandler(assistTableName, assistQuery), AssistExecuted);
         }
 
         private void OfficeAssistResult(object sender, PropertyChangedEventArgs e)
-        {
-            var propertyName = e.PropertyName;
-            if (propertyName != null && propertyName.Equals("Status"))
+        { 
+            string propertyName = e.PropertyName;
+            if (propertyName.Equals("Status"))
             {
                 if (AssistNotifierInitialized.IsSuccessfullyCompleted)
                 {
                     bool value = AssistNotifierInitialized.Task.Result;
-                    if (value) return;
-                    
+                    if (!value)
+                    {
+                        Logger.Error("Executed Assist invalid");
+                    }
 
                 }
-                else
-                {
-                    DialogService?.ShowErrorMessage("Error looking up data");
-                    Logger.Error("Executed Assist invalid");
-                }
             }
+
+
+            
 
         }
         private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
@@ -325,31 +344,31 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                         {
-                            Helper.CityDto = (IEnumerable<CityDto>)value;
+                            OfficeHelper.CityDto = (IEnumerable<CityDto>)value;
                             retValue = true;
                             break;
                         }
                     case "PROVINCE_ASSIST":
-                        {
-                            Helper.ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
+                    {
+                            OfficeHelper.ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
                             retValue = true;
                             break;
                         }
                     case "COUNTRY_ASSIST":
                         {
-                            Helper.CountryDto = (IEnumerable<CountryDto>)value;
+                            OfficeHelper.CountryDto = (IEnumerable<CountryDto>)value;
                             retValue = true;
                             break;
                         }
                      case "CONTABLE_DELEGA_ASSIST":
                         {
-                            Helper.ContableDelegaDto = (IEnumerable<DelegaContableDto>) value;
+                            OfficeHelper.ContableDelegaDto = (IEnumerable<DelegaContableDto>) value;
                             retValue = true;
                             break;
                         }
                     case "OFFICE_ZONE_ASSIST":
                         {
-                            Helper.ClientZoneDto = (IEnumerable<ZonaOfiDto>)value;
+                            OfficeHelper.ClientZoneDto = (IEnumerable<ZonaOfiDto>)value;
                             retValue = true;
 
                             break;
@@ -372,7 +391,8 @@ namespace MasterModule.ViewModels
                             break;
                         }
                 }
-                RaisePropertyChanged("Helper");
+                RaisePropertyChanged("OfficeHelper");
+              
             }
             return retValue;
         }
@@ -438,7 +458,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        /* TODO this means that we shal have an interaface segragation, at the base class.
+        /* TODO this means that we shal have an interface segragation, at the base class.
         * The interface and related stuff to a grid shall be separated in another class to give an option to implement or not
         * that interface.
         */
@@ -474,9 +494,9 @@ namespace MasterModule.ViewModels
 
 
         #region Private Fields
-        private IOfficeData _officeData;
+        private IOfficeData _officeData = new Office();
         private string _mailBoxName;
-        private IHelperBase _officeHelper;
+        private IHelperBase _officeHelper = new Office();
         private OfficeDtos _currentOfficeDto = new OfficeDtos();
         private string _currentYear;
         private IEnumerable<CommissionAgentSummaryDto> _brokers;
@@ -485,6 +505,8 @@ namespace MasterModule.ViewModels
         private ObservableCollection<DailyTime> _openDays;
         private DateTime _holidayTimeFrom;
         private DateTime _holidayTimeTo;
+        private IEnumerable<ProvinciaDto> _provinciaDto;
+        private UnityContainer _unityContainer;
 
         #endregion
 

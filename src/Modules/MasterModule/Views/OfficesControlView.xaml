@@ -12,24 +12,41 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              d:DesignHeight="300" d:DesignWidth="300">
-        <Grid>
-            <Grid.Resources>
-                <ResourceDictionary>
-                    <ObjectDataProvider x:Key="FilterMode"
+
+
+
+    <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <prism:InvokeCommandAction Command="{Binding ActiveSubsystemCommand }"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ObjectDataProvider x:Key="FilterMode"
                                     MethodName="GetValues"
                                     ObjectType="{x:Type system:Enum}">
-                        <ObjectDataProvider.MethodParameters>
-                            <x:Type TypeName="Syncfusion:FilterMode" />
-                        </ObjectDataProvider.MethodParameters>
-                    </ObjectDataProvider>
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="Syncfusion:FilterMode" />
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
 
-                    <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
-                        <Setter Property="FilterMode" Value="Both" />
-                    </Style>
-                </ResourceDictionary>
-            </Grid.Resources>
-            <Syncfusion:SfDataGrid x:Name="OfficeControlSummary"
-                               ColumnSizer="Star"
+                <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
+                    <Setter Property="FilterMode" Value="Both" />
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding ItemName}"></TextBlock>
+        </StackPanel>
+        <Syncfusion:SfDataGrid x:Name="OfficeAgentSummary"
+                               Grid.Row="1"
+                               ColumnSizer="AutoWithLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
@@ -49,51 +66,26 @@
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                   
                                ItemsSource="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 
 
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=OfficeControlSummary, Path=SelectedItem}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=OfficeAgentSummary, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
-<!--
-                
-                public string Code { set; get; }
-        /// <summary>
-        ///  Nombre name
-        /// </summary>
-        public string Name { set; get; }
-        /// <summary>
-        ///  Direction.
-        /// </summary>
-        public string Direction { set; get; }
-        /// <summary>
-        ///  City
-        /// </summary>
-        public string City { set; get; }
-        /// <summary>
-        ///  Company name
-        /// </summary>
-        public string CompanyName { set; get; }
-        /// <summary>
-        ///  Office zone/
-        /// </summary>
-        public string OfficeZone { set; get; }
-    }
-                -->
-
-                <Syncfusion:SfDataGrid.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </Syncfusion:SfDataGrid.Resources>
-                <Syncfusion:SfDataGrid.Columns>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
+            <Syncfusion:SfDataGrid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Syncfusion:SfDataGrid.Resources>
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
                                            MappingName="Code" 
                                            TextAlignment="Left"
                                            AllowFiltering="True"                                
@@ -101,7 +93,7 @@
                                            AllowEditing="False"
                                            AllowGrouping="True"/>
 
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
                                                             MappingName="Name"
                                                             TextAlignment="Left"
                                                             AllowFiltering="True"
@@ -109,21 +101,26 @@
                                                             AllowGrouping="True"
                                                             FilterPopupStyle="{StaticResource GenericCodeStyle}">
 
-                    </Syncfusion:GridTextColumn>
+                </Syncfusion:GridTextColumn>
 
-                    <Syncfusion:GridTextColumn  HeaderText="Empresa" 
+                <Syncfusion:GridTextColumn  HeaderText="Empresa" 
                                                         MappingName="CompanyName" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="Zip" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Province" 
+                <Syncfusion:GridTextColumn HeaderText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" MappingName="Phone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding ldireccion, Source={StaticResource ResourceLanguage}}" MappingName="Direction" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcp, Source={StaticResource ResourceLanguage}}" MappingName="Zip" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}" MappingName="City" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" MappingName="Province" 
                                                    FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lrbtnZonasOficina, Source={StaticResource ResourceLanguage}}" MappingName="OfficeZone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                </Syncfusion:SfDataGrid.Columns>
-            </Syncfusion:SfDataGrid>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lrbtnZonasOficina, Source={StaticResource ResourceLanguage}}" MappingName="OfficeZone" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+            </Syncfusion:SfDataGrid.Columns>
+          
 
-        </Grid>
+        </Syncfusion:SfDataGrid>
+
+    </Grid>
+
+    
+   
        
     
 </UserControl>

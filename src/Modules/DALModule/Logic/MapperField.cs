@@ -2324,6 +2324,18 @@ internal class OfficeDtoToOficinaConverter: ITypeConverter<OFICINAS, O>
             office.LastModification = source.ULTMODI;
             office.User = source.USUARIO;
             office.POBLACION = source.POBLACION;
+            if (office.TIPO1 == null)
+            {
+                office.TIPO1 = "0";
+            }
+            if (office.TIPO2 == null)
+            {
+                office.TIPO2 = "0";
+            }
+            if (office.TIPO3 == null)
+            {
+                office.TIPO3 = "0";
+            }
             return office;
         }
     }

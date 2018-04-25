@@ -64,17 +64,16 @@ namespace KarveControls
             DragDeltaEventArgs e)
         {
             Thumb thumb = (Thumb)sender;
-            Popup popup = thumb.Tag as Popup;
+            Popup popup = thumb?.Tag as Popup;
 
+            
             if (popup == null)
             {
                 return;
             }
-            if (popup != null)
-            {
-                popup.HorizontalOffset += e.HorizontalChange;
-                popup.VerticalOffset += e.VerticalChange;
-            }
+
+            popup.HorizontalOffset += e.HorizontalChange;
+            popup.VerticalOffset += e.VerticalChange;
 
             if (thumb.Cursor == Cursors.SizeWE || thumb.Cursor == Cursors.SizeNWSE)
             {
@@ -96,7 +95,7 @@ namespace KarveControls
         private static void Thumb_DragStarted(object sender,
             DragStartedEventArgs e)
         {
-            Thumb thumb = (Thumb)sender;
+            var thumb = (Thumb)sender;
             thumb.Cursor = Cursors.Hand;
         }
         #endregion

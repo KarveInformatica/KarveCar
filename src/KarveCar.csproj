@@ -236,6 +236,7 @@
     <Compile Include="Commands\Generic\RelayCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
+    <Compile Include="DebugTraceListener.cs" />
     <Compile Include="Logic\Generic\ConfigurationService.cs" />
     <Compile Include="Logic\Generic\EnviromentVariableContainer.cs" />
     <Compile Include="Properties\Resources.ca-ES.Designer.cs">

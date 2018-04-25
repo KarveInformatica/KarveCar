@@ -157,9 +157,7 @@ namespace MasterModule.ViewModels
                             {
                                 PrimaryKeyValue = DataServices.GetCompanyDataServices().GetNewId();
 
-                                DataServices.GetClientDataServices().GetNewId();
-
-                                CurrentOperationalState = DataPayLoad.Type.Insert;
+                              
                             }
                             Init(PrimaryKeyValue, payload, true);
                             break;
@@ -197,7 +195,7 @@ namespace MasterModule.ViewModels
                     Logger.Info("CompanyInfoViewModel has activated the client subsystem as current with directive " +
                                 payload.PayloadType.ToString());
                     ActiveSubSystem();
-                    RaisePropertyChanged("Helper");
+                   
                 }
             }
         }

@@ -81,10 +81,14 @@ namespace KarveControls.Behaviour
                 first = false;
                 return;
             }
-            ev["DataObject"] = DataObject;
-            ev["ChangedIndex"] = this.AssociatedObject.SelectedIndex;
-            var cmd = Command;
-            cmd?.Execute(ev);
+
+            if (DataObject != null)
+            {
+                ev["DataObject"] = DataObject;
+                ev["ChangedIndex"] = this.AssociatedObject.SelectedIndex;
+                var cmd = Command;
+                cmd?.Execute(ev);
+            }
         }
     }
 }

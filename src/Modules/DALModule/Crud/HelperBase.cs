@@ -17,6 +17,9 @@ namespace DataAccessLayer
         private IEnumerable<ProvinciaDto> _provinciaDto;
         private IEnumerable<CountryDto> _countryDto;
         private IEnumerable<CityDto> _cityDto;
+        private IEnumerable<DelegaContableDto> _contableDelega;
+        private IEnumerable<ClientZoneDto> _clientZoneDto;
+        private IEnumerable<OrigenDto> _origenDto;
 
         public IEnumerable<ActividadDto> ActivityDto
         {
@@ -73,7 +76,7 @@ namespace DataAccessLayer
                 return _countryDto;
 
             }
-            set { _countryDto = value; }
+            set { _countryDto = value; RaisePropertyChanged(); }
         }
 
         public IEnumerable<CityDto> CityDto
@@ -81,9 +84,24 @@ namespace DataAccessLayer
             get { return _cityDto; }
             set { _cityDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ClientZoneDto> ZoneDto { get; set; }
-        public IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
-        public IEnumerable<OrigenDto> OrigenDto { get; set; }
+        public IEnumerable<ClientZoneDto> ZoneDto
+        {
+            get { return _clientZoneDto; }
+            set { _clientZoneDto = value; } }
+
+        public IEnumerable<DelegaContableDto> ContableDelegaDto
+        {
+            get { return _contableDelega; }
+            set
+            {
+                _contableDelega = value;
+                RaisePropertyChanged();
+            }
+        }
+        public IEnumerable<OrigenDto> OrigenDto {
+            get { return _origenDto; }
+            set { _origenDto = value; RaisePropertyChanged(); }
+        }
         public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
         public IEnumerable<MercadoDto> ClientMarketDto { get; set; }
         public IEnumerable<ResellerDto> ResellerDto { get; set; }

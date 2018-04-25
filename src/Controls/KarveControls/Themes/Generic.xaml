@@ -400,7 +400,7 @@
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
                                     </Button>
 
-                                    <Popup x:Name="PART_PopUp" Placement="Relative" PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                    <Popup x:Name="PART_PopUp" Placement="Center" StaysOpen="True" PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType={x:Type Window}}}"
                                             
                        
@@ -429,10 +429,11 @@
                                                 <local:TextedThumb Grid.Row="0" Width="Auto" Height="40" FontWeight="Bold" FontSize="24"
                                                                    Foreground="White"
                                                     Title="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
-                                   Tag="{Binding ElementName=PART_PopUp}"
-
-                                   local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
+                                   Tag="{Binding ElementName=PART_PopUp}">
                                                     <!--
+                                                    
+                                                    local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
+
                                                     <Thumb.Template>
                                                         <ControlTemplate>
                                                             <Border  Width="Auto" Height="40" 
@@ -452,8 +453,7 @@
                                                     </Thumb.Template>
                                                     -->
                                                 </local:TextedThumb>
-
-                                                
+                                             
                                                 
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
                                                                        ColumnSizer="AutoWithLastColumnFill"
@@ -480,13 +480,14 @@
                                                             </ResourceDictionary.MergedDictionaries>
                                                         </ResourceDictionary>
                                                     </Syncfusion:SfDataGrid.Resources>
-                                                  
+                                                 
                                                     <i:Interaction.Behaviors>
                                                         <local:GridColumnFilterBehaviour 
                                                             AssistProperties="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=AssistProperties}"
                                                             ></local:GridColumnFilterBehaviour>
                                                     </i:Interaction.Behaviors>
-                                                                                                    </Syncfusion:SfDataGrid>
+                                                    </Syncfusion:SfDataGrid>
+                                                
                                               <!--
                                                 <Border Grid.Row="2" Height="60"
                                                         VerticalAlignment="Bottom"

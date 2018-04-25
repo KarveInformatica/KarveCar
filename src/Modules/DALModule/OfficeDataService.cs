@@ -137,9 +137,10 @@ namespace DataAccessLayer
                 Codigo = code
                 
             };
-            
+           
             var office = new Office
             {
+               
                 ClientZoneDto = new ObservableCollection<ZonaOfiDto>(),
                 ContableDelegaDto = new ObservableCollection<DelegaContableDto>(),
                 CountryDto = new ObservableCollection<CountryDto>(),

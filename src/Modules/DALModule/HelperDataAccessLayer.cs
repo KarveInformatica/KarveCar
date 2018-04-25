@@ -285,10 +285,15 @@ namespace DataAccessLayer
                 connection = _sqlExecutor.OpenNewDbConnection();
                 needToClose = true;
             }
+
             try
             {
                 var values = await connection.QueryAsync<T>(query);
                 result = _mapper.Map<IEnumerable<DtoTransfer>>(values);
+            }
+            catch (System.Exception e)
+            {
+                var exception = "message";
             }
             finally
             {

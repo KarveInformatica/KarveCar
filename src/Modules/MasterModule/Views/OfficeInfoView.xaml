@@ -239,8 +239,8 @@
 
                     <ContentControl  Grid.Row="0"  Content="{Binding}" ContentTemplate="{StaticResource UpperBarViewOffice}"></ContentControl>
 
-                    <TabControl Grid.Row="1" TabStripPlacement="Left">
-                        <TabItem Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" 
+                    <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left">
+                        <syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" 
                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                             <Grid Margin="10,0,-10,0" >
                                 <Grid.ColumnDefinitions>
@@ -308,7 +308,7 @@
                                               TextContentFirstWidth="100"
                                               TextContentSecondWidth="150"
                                                          
-                                              SourceView="{Binding Path=Helper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=OfficeHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <karveControls:DualFieldSearchBox DataFieldFirst="PROVINCIA"
@@ -321,7 +321,7 @@
                                               TextContentSecondWidth="150"
                                               MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=Helper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=OfficeHelper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2"/>
                                 <karveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="6" 
                                               LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
@@ -335,7 +335,7 @@
                                               MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=Helper.CountryDto, UpdateSourceTrigger=PropertyChanged}" Margin="0,0.125"
+                                              SourceView="{Binding Path=OfficeHelper.CountryDto, UpdateSourceTrigger=PropertyChanged}" Margin="0,0.125"
             />
                                 <karveControls:DataField Grid.Column="0"  Grid.Row="7" LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" 
                                      DataObject="{Binding DataObject, Mode=TwoWay}"
@@ -535,7 +535,7 @@
 
                                 </GroupBox>
                             </Grid>
-                        </TabItem>
+                        </syncfusion:TabItemExt>
                         <TabItem Header="Lugar de entregas">
 
                             <Grid>
@@ -915,7 +915,7 @@
                             </Grid>
                         </TabItem>
 
-                    </TabControl>
+                    </syncfusion:TabControlExt>
 
                 </Grid>
             </ScrollViewer>

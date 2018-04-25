@@ -15,6 +15,7 @@ using System.Windows;
 using System.Diagnostics.Contracts;
 using Prism.Commands;
 using System.Diagnostics;
+using Microsoft.Practices.Unity;
 using NLog;
 
 namespace MasterModule.ViewModels
@@ -31,10 +32,17 @@ namespace MasterModule.ViewModels
         /// <param name="eventManager">Event manager</param>
         /// <param name="services">Data Services</param>
         /// <param name="regionManager">Region manager</param>
-        public OfficesControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
+        /// <param name="container">Container</param>
+        
+        public OfficesControlViewModel(IConfigurationService configurationService, 
+            IEventManager  eventManager, 
+            IDataServices  services, 
+            IRegionManager regionManager) :
+            base(configurationService, eventManager, services, regionManager)
         {
             InitViewModel();
             _officeDataServices = services.GetOfficeDataServices();
+            ItemName = "Oficinas";
 
         }
 
@@ -72,14 +80,14 @@ namespace MasterModule.ViewModels
         /// </summary>
         public override void NewItem()
         {
-            string name = "Nueva Oficina";
+           
+            string name = "NuevaOficina";
             string officeId = DataServices.GetOfficeDataServices().GetNewId();
-
-            string viewNameValue = name + "." + officeId;
+            string viewNameValue = officeId + "." + name;
             // here shall be added to the region
             var navigationParameters = new NavigationParameters
             {
-                { "id", officeId },
+                { "Id", officeId },
                 { ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue }
             };
             var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
@@ -91,27 +99,8 @@ namespace MasterModule.ViewModels
             currentPayload.DataObject = _officeDataServices.GetNewOfficeDo(officeId);
             currentPayload.HasDataObject = true;
             currentPayload.Sender = EventSubsystem.OfficeSummaryVm;
-            EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
-            /*
-            string name =KarveLocale.Properties.Resources.OfficesControlViewModel_NewItem_NuevaOfficina;
-            string officeId = DataServices.GetOfficeDataServices().GetNewId();
-            string viewNameValue = name + "." + officeId;
-            // here shall be added to the region
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("Id", officeId);
-            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
-            var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
-            RegionManager.RequestNavigate("TabRegion", uri);
-            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
-            currentPayload.Subsystem = DataSubSystem.OfficeSubsystem;
-            currentPayload.PayloadType = DataPayLoad.Type.Insert;
-            currentPayload.PrimaryKeyValue = officeId;
-            var dataValue = DataServices.GetOfficeDataServices().GetNewOfficeDo(officeId);
-            currentPayload.DataObject = dataValue;
-            currentPayload.HasDataObject = true;
-            currentPayload.Sender = EventSubsystem.OfficeSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
-            */
+            
         }
         /// <summary>
         ///  This initalize the view model.
@@ -137,8 +126,7 @@ namespace MasterModule.ViewModels
         }
         private void OfficeDeleteHandler(object sender, PropertyChangedEventArgs ev)
         {
-            INotifyTaskCompletion<bool> value = sender as INotifyTaskCompletion<bool>;
-            if (value != null)
+            if (sender is INotifyTaskCompletion<bool> value)
             {
                 if (value.IsSuccessfullyCompleted)
                 {
@@ -169,35 +157,39 @@ namespace MasterModule.ViewModels
         }
         /// <summary>
         ///  Open a new item.
+        ///  When know that Async void is bad. Speaking with Dan Kegel and Briand Lagunas explained the rational that in case of a command there is no bad
+        ///  thing.
         /// </summary>
         /// <param name="selectedItem">Selected command</param>
         private async void OnOpenItemCommand(object selectedItem)
         {
             OfficeSummaryDto summaryItem = selectedItem as OfficeSummaryDto;
-            Stopwatch watch = new Stopwatch();
             
             if (selectedItem != null)
             {
-                watch.Start();
-                string name = summaryItem.Name;
-                string id = summaryItem.Code;
-                string tabName = id + "." + name;
-                var navigationParameters = new NavigationParameters();
-                navigationParameters.Add("Id", id);
-                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
-                Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                RegionManager.RequestNavigate("TabRegion", uri);
-                Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                IOfficeData provider = await DataServices.GetOfficeDataServices().GetAsyncOfficeDo(id);
-                provider.Value.Empresa = summaryItem.CompanyName;
-                Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
-                currentPayload.PrimaryKeyValue = id;
-                currentPayload.Sender = _mailBoxName;
-                watch.Stop();
-                Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Opening Office Tab: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
+                if (summaryItem != null)
+                {
+                    Stopwatch  watch = new Stopwatch();
+                    string name = summaryItem.Name;
+                    string id = summaryItem.Code;
+                    string tabName = id + "." + name;
+                    var navigationParameters = new NavigationParameters();
+                    navigationParameters.Add("Id", id);
+                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                    var uri = new Uri(typeof(OfficeInfoView).FullName + navigationParameters, UriKind.Relative);
+                    Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    RegionManager.RequestNavigate("TabRegion", uri);
+                    Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    IOfficeData provider = await DataServices.GetOfficeDataServices().GetAsyncOfficeDo(id);
+                    provider.Value.Empresa = summaryItem.CompanyName;
+                    Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
+                    currentPayload.PrimaryKeyValue = id;
+                    currentPayload.Sender = _mailBoxName;
+                    watch.Stop();
+                    Logger.Log(LogLevel.Debug, "[UI] OfficeInfoViewModel. Opening Office Tab: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
+                }
             }
         }
 
@@ -280,13 +272,8 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> InitializationNotifierOffice;
         private IEnumerable<OfficeSummaryDto> _sourceView;
         private string _mailBoxName;
-        private IOfficeDataServices _officeDataServices;
-
-        /// <summary>
-        ///  This is the client subsystem prefix module.
-        /// </summary>
-        private const string ClientModuleRoutePrefix = MasterModuleConstants.ClientSubSystemName;
-
+        private readonly IOfficeDataServices _officeDataServices;
+        private IUnityContainer _container;
 
         #endregion
     }
