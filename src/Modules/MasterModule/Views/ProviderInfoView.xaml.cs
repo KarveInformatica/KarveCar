@@ -44,7 +44,8 @@ namespace MasterModule.Views
             }
             catch (Exception e)
             {
-                var c = e.StackTrace;
+                var currentVariable = e.Message;
+                MessageBox.Show(e.Message);
             }
         }
 

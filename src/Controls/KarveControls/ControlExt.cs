@@ -275,7 +275,7 @@ namespace KarveControls
                
                 currentDataGrid.RowValidated += CurrentDataGrid_RowValidated;
             }
-            if (dependencyObject != null && dependencyObject is DataArea)
+            if (dependencyObject is DataArea)
             {
                 var dataArea = dependencyObject as DataArea;
                 dataArea.ItemChangedCommand = GetItemChangedCommand(dataArea);
@@ -692,7 +692,7 @@ namespace KarveControls
         /// <summary>
         ///  DataSource: data table or data object associaed with this control.
         /// </summary>
-        public static DependencyProperty DataSourceDependencyProperty
+        public static DependencyProperty DataSourceProperty
             = DependencyProperty.RegisterAttached(
                 "DataSource",
                 typeof(object),
@@ -855,7 +855,7 @@ namespace KarveControls
         
         public static object GetDataSource(DependencyObject ds)
         {
-           return ds.GetValue(DataSourceDependencyProperty);
+           return ds.GetValue(DataSourceProperty);
         }
         /// <summary>
         /// Set DataSource
@@ -864,7 +864,7 @@ namespace KarveControls
         /// <param name="item"></param>
         public static void SetDataSource(DependencyObject ds, object item)
         {
-            ds.SetValue(DataSourceDependencyProperty, item);
+            ds.SetValue(DataSourceProperty, item);
         }
 
         /// <summary>
@@ -874,7 +874,7 @@ namespace KarveControls
         /// <param name="item">Item to set</param>
         public static void SetDataSourcePath(DependencyObject dspm, string item)
         {
-            dspm.SetValue(DataSourcePathDependencyProperty, item);
+            dspm.SetValue(DataSourcePathProperty, item);
         }
         /// <summary>
         /// Get the data source path.
@@ -883,13 +883,13 @@ namespace KarveControls
         /// <returns></returns>
         public static string  GetDataSourcePath(DependencyObject dps)
         {
-            return (string)dps.GetValue(DataSourcePathDependencyProperty);
+            return (string)dps.GetValue(DataSourcePathProperty);
         }
         
         /// <summary>
         ///  Data Source Path to be used.
         /// </summary>
-        public static DependencyProperty DataSourcePathDependencyProperty
+        public static DependencyProperty DataSourcePathProperty
             = DependencyProperty.RegisterAttached(
                 "DataSourcePath",
                 typeof(string),

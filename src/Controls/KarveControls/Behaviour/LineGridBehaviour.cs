@@ -113,6 +113,7 @@ namespace KarveControls.Behaviour
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 objectName["ChangedValue"] = e.RowData;
+               // objectName[""]
                // objectName["PreviousValue"] = lastChangedRow;
                //objectName["Operation"] = GridOp.Update;
                 objectName["DeletedItems"] = false;

@@ -294,6 +294,7 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
                     GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
                 }
                 payLoad.DataObject = data;
+                payLoad.HasDataObject = true;
                 eventDictionary["DataObject"] = data;
                 payLoad.DataDictionary = eventDictionary;
             }

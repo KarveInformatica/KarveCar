@@ -121,7 +121,7 @@ namespace KarveDataServices.DataTransferObject
             }
             get
             {
-                _subtotal = (Quantity * 100) * ((100 - Discount) / 100); 
+                _subtotal = ((Quantity * 100) * ((100 - Discount) / 100)) * Price; 
                 return _subtotal;
             }
         }

@@ -5,11 +5,13 @@ using Prism.Interactivity.InteractionRequest;
 using Prism.Mvvm;
 using System;
 using System.Windows.Input;
+using KarveCommon.Generic;
+using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveControls.Interactivity.ViewModels
 {
-    public class ItemSelectionViewModel : BindableBase, IInteractionRequestAware
+    public class ItemSelectionViewModel : KarveViewModelBase, IInteractionRequestAware
     {
         private ItemSelectionNotification notification;
 

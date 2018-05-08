@@ -149,6 +149,7 @@ namespace KarveCommon.Generic
         private void InitViewModelState()
         {
             Guid = Guid.NewGuid();
+            //GridIdentifier = ""
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
             GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
         }
@@ -252,8 +253,9 @@ namespace KarveCommon.Generic
 
         private async Task<ObservableCollection<GridSettingsDto>> LoadSettings(IDataServices services, long id)
         {
-            List<long> numberLists = new List<long> {id};
-            var settingsDto =
+           List<long> numberLists = new List<long>();
+           numberLists.Add(id);
+           ObservableCollection<GridSettingsDto> settingsDto =
                 await services.GetSettingsDataService().GetMagnifierSettingByIds(numberLists);
            return settingsDto;
         }
@@ -263,29 +265,40 @@ namespace KarveCommon.Generic
         ///  Command happened during the resize.
         /// </summary>
         /// <param name="var"></param>
-        private void OnGridResize(object var)
+        private async void OnGridResize(object var)
         {
-            if (var is KarveGridParameters param)
+            KarveGridParameters param = var as KarveGridParameters;
+            if (param != null)
             {
-                var dataService = DataServices.GetSettingsDataService();
-                var settingsDto = new GridSettingsDto
+                ISettingsDataServices dataService = DataServices.GetSettingsDataService();
+                GridSettingsDto settingsDto = new GridSettingsDto();
+                settingsDto.GridName = param.GridName;
+                settingsDto.GridIdentifier = param.GridIdentifier;
+                settingsDto.XmlBase64 = param.Xml;
+                var value = false;
+                try
                 {
-                    GridName = param.GridName,
-                    GridIdentifier = param.GridIdentifier,
-                    XmlBase64 = param.Xml
-                };
-                dataService.SaveMagnifierSettings(settingsDto);
+
+                  value = await dataService.SaveMagnifierSettings(settingsDto).ConfigureAwait(false); 
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
             }
         }
 
         private void OnGridRegister(object var)
         {
-            if (!(var is KarveGridParameters param))
+            KarveGridParameters param = var as KarveGridParameters;
+            if (param != null)
             {
-                return;
+                
+                RegisteredGridIds.Add(param.GridIdentifier);
+                InitGridSettings(DataServices, param.GridIdentifier);
             }
-            RegisteredGridIds.Add(param.GridIdentifier);
-            InitGridSettings(DataServices, param.GridIdentifier);
         }
 
         /// <summary>
@@ -308,7 +321,8 @@ namespace KarveCommon.Generic
             }
             else if (propertyName.Equals("IsSuccessfullyCompleted"))
             {
-                if (sender is INotifyTaskCompletion<ObservableCollection<GridSettingsDto>> task)
+                INotifyTaskCompletion<ObservableCollection<GridSettingsDto>> task = sender as INotifyTaskCompletion<ObservableCollection<GridSettingsDto>>;
+                if (task != null)
                 {
                    
                     ObservableCollection<GridSettingsDto> m = task.Result;
@@ -316,14 +330,12 @@ namespace KarveCommon.Generic
                     OnGridChange(m);
                 }
             }
-
-            if ((DialogService == null) || (MagnifierInitializationNotifier == null))
+            if ((DialogService!=null) && (MagnifierInitializationNotifier != null))
             {
-                return;
-            }
-            if (MagnifierInitializationNotifier.IsFaulted)
-            {
-                DialogService.ShowErrorMessage(MagnifierInitializationNotifier.ErrorMessage);
+                if (MagnifierInitializationNotifier.IsFaulted)
+                {
+                    DialogService.ShowErrorMessage(MagnifierInitializationNotifier.ErrorMessage);
+                }
             }
         }
 
@@ -333,23 +345,26 @@ namespace KarveCommon.Generic
         /// <param name="dto"></param>
         protected virtual void OnGridChange(ObservableCollection<GridSettingsDto> dto)
         {
-            var gridSettingsDto = dto?.FirstOrDefault();
-            if (gridSettingsDto != null)
+            if (dto != null)
             {
-                GridParam = new KarveGridParameters(gridSettingsDto.GridIdentifier, gridSettingsDto.GridName,
-                    gridSettingsDto.XmlBase64);
+                GridSettingsDto gridSettingsDto = dto.FirstOrDefault();
+                if (gridSettingsDto != null)
+                {
+                    GridParam = new KarveGridParameters(gridSettingsDto.GridIdentifier, gridSettingsDto.GridName,
+                        gridSettingsDto.XmlBase64);
+                }
             }
         }
         public KarveGridParameters GridParam
         {
             set { _gridParm = value; RaisePropertyChanged(); }
-            get => _gridParm;
+            get { return _gridParm; }
         }
 
         public long GridIdentifier
         {
             set { _gridIdentifer = value; RaisePropertyChanged(); }
-            get => _gridIdentifer;
+            get { return _gridIdentifer; }
         }
         ///<summary>
         /// When a region get destroyed we can dispose the events.
@@ -453,7 +468,7 @@ namespace KarveCommon.Generic
         public GridSettingsDto GridSettings
         {
             set { _gridParameters = value; RaisePropertyChanged(); }
-            get => _gridParameters;
+            get { return _gridParameters; }
         }
       
         /// <summary>
@@ -470,7 +485,8 @@ namespace KarveCommon.Generic
                 _sqlQuery = value;
                 RaisePropertyChanged();
             }
-            get => _sqlQuery;
+            get { return _sqlQuery; }
+
         }
       
 

@@ -367,6 +367,7 @@ namespace KarveControls
                 }
                 _currentState = ResizeState.NoResize;
             }
+           
         }
         private static void DataGrid_ResizingColumns(object sender, ResizingColumnsEventArgs e)
         {

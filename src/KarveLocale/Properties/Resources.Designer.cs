@@ -2059,6 +2059,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nombre Propietario.
+        /// </summary>
+        public static string lnameproprietario {
+            get {
+                return ResourceManager.GetString("lnameproprietario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nuevo.
         /// </summary>
         public static string lnew {

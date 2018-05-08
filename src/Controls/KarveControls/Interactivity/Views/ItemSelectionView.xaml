@@ -35,6 +35,7 @@
                                    karveControls:KarveGridExt.SelectedItems="{Binding Path=SelectedItem, Mode=TwoWay}" 
                                     ItemsSource="{Binding Notification.Items}"
                                      Grid.Row="1"
+                                       
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
                                                                        AllowFiltering="True"

@@ -83,7 +83,7 @@ namespace MasterModule.ViewModels
 
         private void InitViewModel()
         {
-            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.Supplier;
+            base.GridIdentifier = GridIdentifiers.Supplier;
             StartAndNotify();
             ActiveSubSystem();
         }

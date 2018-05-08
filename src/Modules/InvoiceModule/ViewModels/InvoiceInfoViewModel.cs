@@ -8,12 +8,15 @@ using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using InvoiceModule.Common;
 using InvoiceModule.Views;
 using KarveCommon;
+using KarveControls;
 using KarveDataServices.DataTransferObject;
 using KarveControls.Behaviour.Grid;
 using KarveControls.HeaderedWindow;
@@ -27,12 +30,13 @@ using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Cells;
 namespace InvoiceModule.ViewModels
 {
+    /// <inheritdoc />
     /// <summary>
     ///  View model for the info view.
     /// </summary>
     public class InvoiceInfoViewModel : KarveRoutingBaseViewModel, IEventObserver, IDisposeEvents
     {
-       
+
 
         /// <summary>
         /// InvoiceInfoViewModel.
@@ -47,20 +51,20 @@ namespace InvoiceModule.ViewModels
         public InvoiceInfoViewModel(IDataServices dataServices,
                                     IDialogService dialogServices,
                                     IEventManager manager,
-                                    
-                                    IRegionManager regionManager, 
-                                    IInteractionRequestController controller): base(dataServices,
-                                                                                    controller, 
+
+                                    IRegionManager regionManager,
+                                    IInteractionRequestController controller) : base(dataServices,
+                                                                                    controller,
                                                                                     dialogServices,
                                                                                     manager)
         {
             _dataServices = dataServices;
             _regionManager = regionManager;
             _invoiceDataService = _dataServices.GetInvoiceDataServices();
-            
+
             SourceView = new ObservableCollection<InvoiceSummaryDto>();
-            AssistMapper=_dataServices.GetAssistDataServices().Mapper;
-            ItemChangedCommand = new Prism.Commands.DelegateCommand<IDictionary<string,object>>(OnChangedCommand);
+            AssistMapper = _dataServices.GetAssistDataServices().Mapper;
+            ItemChangedCommand = new Prism.Commands.DelegateCommand<IDictionary<string, object>>(OnChangedCommand);
             NavigateCommand = new DelegateCommand<object>(OnNavigate);
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             AddNewClientCommand = new DelegateCommand<object>(OnAddNewClientCommand);
@@ -70,13 +74,9 @@ namespace InvoiceModule.ViewModels
             CompanyName = String.Empty;
             AddressName = String.Empty;
             List<string> colList;
-            colList = new List<string>();
             var genericInovice = new InvoiceSummaryDto();
-            foreach (var value in genericInovice.GetType().GetProperties())
-            {
-                colList.Add(value.Name);
-            }
-         
+            colList = genericInovice.GetType().GetProperties().Select(value => value.Name).ToList();
+
             GridColumns = new List<string>()
             {
                 "AgreementCode","VehicleCode", "Opciones", "Description", "Quantity", "Price", "Discount", "Subtotal",
@@ -85,14 +85,15 @@ namespace InvoiceModule.ViewModels
             /*
              * This is a cell grid presentation item 
              */
-           var presenter = new ObservableCollection<CellPresenterItem>()
+            var presenter = new ObservableCollection<CellPresenterItem>()
             {
                 new NavigationAwareItem() { DataTemplateName="NavigateInvoiceItem", MappingName="AgreementCode", RegionName=RegionNames.LineRegion},
                 new NavigationAwareItem() { DataTemplateName="NavigateVehicleItem", MappingName="VehicleCode", RegionName=RegionNames.LineRegion}
             };
-            CellGridPresentation= presenter;
+            CellGridPresentation = presenter;
             EventManager.RegisterObserverSubsystem(InvoiceModule.InvoiceSubSystem, this);
             var gid = Guid.NewGuid();
+            GridIdentifier = GridIdentifiers.InvoiceLineGrids;
             ViewModelUri = new Uri("karve://invoice/viewmodel?id=" + gid.ToString());
             MailBoxHandler += IncomingMailBox;
             RegisterMailBox(ViewModelUri.ToString());
@@ -101,31 +102,31 @@ namespace InvoiceModule.ViewModels
         {
             var payLoadType = payload.PayloadType;
             var key = payload.PrimaryKeyValue;
-            
-                if ((payload.Sender != null) && (payload.Sender == ViewModelUri.ToString()))
-                {
-                    return;
-                }
 
-                if (payLoadType == DataPayLoad.Type.Delete && payload.PrimaryKeyValue == PrimaryKeyValue)
-                {
-                    base.HandleMessageBoxPayLoad(payload);
-                    DeleteItem(payload);
-                    PrimaryKeyValue = "";
-                }
+            if ((payload.Sender != null) && (payload.Sender == ViewModelUri.ToString()))
+            {
+                return;
+            }
 
-                // forward to the controller
-                if (payload.PayloadType == DataPayLoad.Type.Insert)
-                {
-                    payload.Sender = ViewModelUri.ToString();
-                    EventManager.NotifyObserverSubsystem(InvoiceModule.InvoiceSubSystem, payload);
-                }
-            
+            if (payLoadType == DataPayLoad.Type.Delete && payload.PrimaryKeyValue == PrimaryKeyValue)
+            {
+                base.HandleMessageBoxPayLoad(payload);
+                DeleteItem(payload);
+                PrimaryKeyValue = "";
+            }
+
+            // forward to the controller
+            if (payload.PayloadType == DataPayLoad.Type.Insert)
+            {
+                payload.Sender = ViewModelUri.ToString();
+                EventManager.NotifyObserverSubsystem(InvoiceModule.InvoiceSubSystem, payload);
+            }
+
 
         }
 
         protected override void DeleteItem(DataPayLoad payLoad)
-        {   
+        {
             NotifyTaskCompletion.Create<bool>(this.DeleteAsync(payLoad),
                 ev: (sender, args) =>
                 {
@@ -152,7 +153,7 @@ namespace InvoiceModule.ViewModels
 
                     DeleteRegion();
                 });
-               
+
         }
 
         protected async Task<bool> DeleteAsync(DataPayLoad payLoad)
@@ -203,7 +204,7 @@ namespace InvoiceModule.ViewModels
         /// <param name="obj"></param>
         private void OnAddNewClientCommand(object obj)
         {
-            var clientDataServices = _dataServices.GetClientDataServices(); 
+            var clientDataServices = _dataServices.GetClientDataServices();
             var code = clientDataServices.GetNewId();
             Navigate(code, "NuevoCliente");
             var currentPayload = new DataPayLoad
@@ -270,7 +271,7 @@ namespace InvoiceModule.ViewModels
             var interpeter = new PayloadInterpeter<IInvoiceData>();
             var currentId = _invoiceDataService.NewId();
             interpeter.Init = Init;
-            interpeter.CleanUp= CleanUp;
+            interpeter.CleanUp = CleanUp;
             if (string.IsNullOrEmpty(PrimaryKeyValue))
             {
                 PrimaryKeyValue = dataPayLoad.PrimaryKeyValue;
@@ -289,7 +290,7 @@ namespace InvoiceModule.ViewModels
                         if (domainObject.Value.NUMERO_FAC != PrimaryKeyValue)
                         {
                             return;
-                            
+
                         }
                     }
                 }
@@ -304,11 +305,11 @@ namespace InvoiceModule.ViewModels
                 }
             }
             OperationalState = interpeter.CheckOperationalType(dataPayLoad);
-          //  PrimaryKeyValue = dataPayLoad.PrimaryKeyValue;
+            //  PrimaryKeyValue = dataPayLoad.PrimaryKeyValue;
             interpeter.ActionOnPayload(dataPayLoad, PrimaryKeyValue, currentId, DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm);
         }
 
-        
+
         private void CleanUp(string primarykey, DataSubSystem subsystem, string subsystemName)
         {
             DeleteEventCleanup(primarykey, PrimaryKeyValue, DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm);
@@ -328,7 +329,7 @@ namespace InvoiceModule.ViewModels
                 case HeaderedWindow _:
                     if (activeRegion is HeaderedWindow invoiceInfo)
                     {
-                    _regionManager.Regions[RegionName].Remove(invoiceInfo);
+                        _regionManager.Regions[RegionName].Remove(invoiceInfo);
                     }
                     break;
                 case FrameworkElement _:
@@ -356,20 +357,20 @@ namespace InvoiceModule.ViewModels
             switch (assistTableName)
             {
                 case ClientAssist:
-                {
-                    this.ClientDto = (IEnumerable<ClientSummaryDto>) value;
-                    break;
-                }
+                    {
+                        this.ClientDto = (IEnumerable<ClientSummaryDto>)value;
+                        break;
+                    }
                 case InvoiceAssist:
-                {
-                    this._invoiceSummary = (IEnumerable<InvoiceSummaryValueDto>) value;
-                    InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
-                    break;
-                }
+                    {
+                        this._invoiceSummary = (IEnumerable<InvoiceSummaryValueDto>)value;
+                        InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
+                        break;
+                    }
                 default:
-                {
-                    throw new ArgumentException("In the assist you neeed simply a valid tag");
-                }
+                    {
+                        throw new ArgumentException("In the assist you neeed simply a valid tag");
+                    }
 
             }
 
@@ -391,11 +392,17 @@ namespace InvoiceModule.ViewModels
             if (payload.DataObject is IInvoiceData invoiceData)
             {
                 _invoiceData = invoiceData;
-                DataObject = _invoiceData.Value;
-                ClientDto= _invoiceData.ClientSummary;
+                var dataObject = _invoiceData.Value;
+                dataObject.InvoiceItems = _invoiceData.InvoiceItems;
+                if (!dataObject.DTOPP.HasValue)
+                {
+                    dataObject.DTOPP = new decimal(0.03);
+                }
+                DataObject = ComputeTotals(dataObject);
+                ClientDto = _invoiceData.ClientSummary;
                 SourceView = _invoiceData.InvoiceItems;
                 _invoiceSummary = _invoiceData.InvoiceSummary;
-                InvoiceDtos  = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
+                InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
 
                 ActiveSubSystem();
             }
@@ -416,10 +423,10 @@ namespace InvoiceModule.ViewModels
                                      "ClientNumber,Client,Policy,Kilometers,PurchaseInvoice,Frame,MotorNumber," +
                                      "ModelYear,Referencia,KeyCode,StorageKey";
 
-                await OnVehicleSummaryAsync("Vehiculos", query ,async delegate (VehicleSummaryDto vsdto)
+                await OnVehicleSummaryAsync("Vehiculos", query, async delegate (VehicleSummaryDto vsdto)
                 {
                     var dto = vsdto as VehicleSummaryDto;
-                      
+
                     await SetVehicleSummary(vsdto);
 
                 }).ConfigureAwait(false);
@@ -427,20 +434,20 @@ namespace InvoiceModule.ViewModels
             else
             {
 
-     
+
                 const string contractValues = "Code,StartingFrom,ReturnDate,DeliveringPlace,Name," +
                                                 "ClientCode,ClientName,DriverCode,DriverName,VehicleCode,RegistrationNumber,VehicleBrand,VehicleModel";
-                await OnContractSummaryAsync("Contractos", contractValues, async delegate(ContractSummaryDto cdto)
+                await OnContractSummaryAsync("Contractos", contractValues, async delegate (ContractSummaryDto cdto)
                 {
                     var dto = cdto as ContractSummaryDto;
                     await SetContractSummary(cdto);
                 }).ConfigureAwait(false);
 
-                
+
             }
         }
 
-        private  async Task SetContractSummary(ContractSummaryDto cdto)
+        private async Task SetContractSummary(ContractSummaryDto cdto)
         {
             await Task.Delay(1);
         }
@@ -493,25 +500,45 @@ namespace InvoiceModule.ViewModels
             }
         }
 
-        /// <summary>
-        /// OnChangedCommand. It is a command to be changed.
-        /// </summary>
-        /// <param name="dict">Dictionary</param>
+         /// <summary>
+         ///  Change the value on input
+         /// </summary>
+         /// <param name="eventDictionary">Event dictionary to be changed.</param>
         private void OnChangedCommand(IDictionary<string, object> eventDictionary)
         {
-            DataPayLoad payLoad = BuildDataPayload(eventDictionary);
+
+            var evDictionary = eventDictionary as IDictionary<string, object>;
+            var changedDataObject = evDictionary["DataObject"];
+            var payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
             payLoad.SubsystemName = InvoiceModule.InvoiceSubsystemName;
-            payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.PrimaryKeyValue = PrimaryKeyValue;
-            payLoad.HasDataObject = true;
-            var dto = DataObject;
-            dto.InvoiceItems = SourceView as IEnumerable<InvoiceSummaryDto>;
-            payLoad.DataObject = DataObject;
-            var uid = "invoice://" + Guid.ToString();
-            payLoad.ObjectPath = new Uri(uid);
-            var handlerDo = new ChangeFieldHandlerDo<InvoiceDto>(EventManager, DataSubSystem.InvoiceSubsystem);
 
+            if (changedDataObject is IEnumerable<InvoiceSummaryDto> ev)
+            {
+                var invoiceSummaryDtos = ev as InvoiceSummaryDto[] ?? ev.ToArray();
+                var aggregateRows = UpdateObject(evDictionary, invoiceSummaryDtos);
+
+                var data = ComputeTotals(aggregateRows);
+             //   data.InvoiceItems = invoiceSummaryDtos;
+                DataObject = data;
+                payLoad.DataObject = data;
+                payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
+                payLoad.Sender = ViewModelUri.ToString();
+                payLoad.ObjectPath = ViewModelUri;
+            }
+            else
+            {
+               
+                payLoad.PayloadType = DataPayLoad.Type.Update;
+                payLoad.PrimaryKeyValue = PrimaryKeyValue;
+                payLoad.HasDataObject = true;
+                var dto = DataObject;
+                dto.InvoiceItems = SourceView as IEnumerable<InvoiceSummaryDto>;
+                payLoad.DataObject = DataObject;
+                var uid = "invoice://" + Guid.ToString();
+                payLoad.ObjectPath = new Uri(uid);
+            }
+            var handlerDo = new ChangeFieldHandlerDo<InvoiceDto>(EventManager, DataSubSystem.InvoiceSubsystem);
             if (OperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);
@@ -519,11 +546,94 @@ namespace InvoiceModule.ViewModels
             else
             {
                 payLoad.PayloadType = DataPayLoad.Type.Update;
-                
+
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
 
         }
+
+        InvoiceDto UpdateObject(IDictionary<string, object> ev, IEnumerable<InvoiceSummaryDto> invoiceSummaryDtos)
+        {
+            var op = (ControlExt.GridOp) ev["Operation"];
+            var dataObject = DataObject;
+
+            if (ev.ContainsKey("ChangedValue"))
+            {
+                IEnumerable<InvoiceSummaryDto> summaryDtos = new List<InvoiceSummaryDto>();
+                if (ev["ChangedValue"] is IEnumerable<object> changedValue)
+                {
+                    var localDtos = new List<InvoiceSummaryDto>();
+                    foreach (var v in changedValue)
+                    {
+                        InvoiceSummaryDto dto = v as InvoiceSummaryDto;
+                        localDtos.Add(dto);
+                    }
+
+                    switch (op)
+                    {
+                        case ControlExt.GridOp.Insert:
+                            var currentValue = invoiceSummaryDtos.ToList();
+                            summaryDtos = localDtos.Union(currentValue);
+                            break;
+                        case ControlExt.GridOp.Delete:
+                            summaryDtos = invoiceSummaryDtos.Except(localDtos);
+                            break;
+                        case ControlExt.GridOp.Update:
+                            var localIds = from x in localDtos select x.KeyId;
+                            var enumerable = invoiceSummaryDtos as InvoiceSummaryDto[] ?? invoiceSummaryDtos.ToArray();
+                            var toReplace = enumerable.Where(x => localIds.Contains(x.KeyId));
+                            var invoiceDto = enumerable.Except(toReplace);
+                            summaryDtos = invoiceDto.Union(localDtos);
+                            break;
+                    }
+                }
+
+                if (summaryDtos.Any())
+                {
+                    dataObject.InvoiceItems = summaryDtos;
+                }
+
+             
+            }
+            return dataObject;
+        }
+
+        InvoiceDto ComputeTotals(InvoiceDto aggregated)
+        {
+            // Fetch the data object and compute the totals.
+            if (aggregated == null)
+                return null;
+
+            var dataObject = aggregated;
+          
+            var discount = new decimal(3);
+            var ivaValue = new decimal(0.21);
+         
+            if (dataObject.DTOPP.HasValue)
+            {
+                discount = dataObject.DTOPP.Value;
+            }
+            if (dataObject.IVAPOR_FAC.HasValue)
+            {
+                ivaValue = dataObject.IVAPOR_FAC.Value;
+            }
+
+            var c = dataObject.InvoiceItems.Count();
+
+            var grossTotal = InvoiceHelpers.ComputeGrossTotal(dataObject.InvoiceItems);
+                var baseValue = InvoiceHelpers.ComputeBase(dataObject.InvoiceItems, discount);
+                dataObject.BRUTO_FAC = grossTotal;
+                dataObject.BASE_FAC = baseValue;
+                var computeIva = InvoiceHelpers.ComputeIva(baseValue, ivaValue);
+                dataObject.TODO_FAC = baseValue + computeIva;
+            
+
+            return dataObject;
+        }
+
+
+
+
         /// <summary>
         ///  Items to be shown in the lower grid.
         /// </summary>
@@ -549,7 +659,8 @@ namespace InvoiceModule.ViewModels
         /// <summary>
         ///  Columns of the grid.
         /// </summary>
-        public List<string> GridColumns {
+        public List<string> GridColumns
+        {
             set
             {
                 _gridView = value;
@@ -597,7 +708,7 @@ namespace InvoiceModule.ViewModels
         private IRegionManager _regionManager;
         private IInvoiceDataServices _invoiceDataService;
         private IUnityContainer _unityContainer;
-      
+
         private object _sourceView;
         private List<string> _gridView;
         private InteractionRequest<INotification> _notificationRequest;

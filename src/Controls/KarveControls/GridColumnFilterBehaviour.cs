@@ -18,7 +18,7 @@ namespace KarveControls
           /// <summary>
           ///  Each grid has an unique identifier.
           /// </summary>
-          private SortedSet<string> _sortedSet = new SortedSet<string>();
+          private readonly SortedSet<string> _sortedSet = new SortedSet<string>();
           public static readonly DependencyProperty AssistPropertiesDependencyProperty =
               DependencyProperty.Register(
                   "AssistProperties",

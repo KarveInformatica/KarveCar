@@ -37,6 +37,7 @@ namespace KarveDataServices.DataTransferObject
         public string Color { set; get; }
         [Display(Name = "Propietario", Description = "Propietario vehiculo")]
         public string Owner { set; get; }
+      
         [Display(Name = "Compania de seguro", Description = "Compania seguro")]
         public string AssuranceCompany { set; get; }
         [Display(Name = "Poliza", Description = "Poliza")]

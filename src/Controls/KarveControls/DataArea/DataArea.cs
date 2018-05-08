@@ -254,7 +254,7 @@ namespace KarveControls
         /// <summary>
         ///  Path of the control.
         /// </summary>
-        public static DependencyProperty DataAreaDependencyProperty =
+        public static DependencyProperty DataSourcePathProperty =
             DependencyProperty.Register(
                 "DataSourcePath",
                 typeof(string),
@@ -266,8 +266,8 @@ namespace KarveControls
         /// </summary>
         public string DataSourcePath
         {
-            get { return (string)GetValue(DataAreaDependencyProperty); }
-            set { SetValue(DataAreaDependencyProperty, value); }
+            get { return (string)GetValue(DataSourcePathProperty); }
+            set { SetValue(DataSourcePathProperty, value); }
         }
         private static void OnDataAreaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -284,6 +284,10 @@ namespace KarveControls
         /// <param name="path">Path of the property.</param>
         private void CheckAndAssignText(object sourceNew, string path)
         {
+            if (sourceNew == null)
+            {
+                return;
+            }
             if (string.IsNullOrEmpty(path))
                 return;
             // first try without the value part

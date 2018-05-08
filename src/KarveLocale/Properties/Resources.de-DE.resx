@@ -2689,4 +2689,7 @@
   <data name="ListadoDeVehiculos" xml:space="preserve">
     <value>Liste der Fahrzeuge</value>
   </data>
+  <data name="lnameproprietario" xml:space="preserve">
+    <value>DNamen des Eigentümer</value>
+  </data>
 </root>

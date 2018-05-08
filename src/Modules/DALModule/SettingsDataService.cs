@@ -58,7 +58,7 @@ namespace DataAccessLayer
         public async Task<GridSettingsDto> GetMagnifierSettings(long idValue)
         {
             IMapper mapper = MapperField.GetMapper();
-            GridSettingsDto settingsDto;
+            GridSettingsDto settingsDto = new GridSettingsDto();
             if (_executorSql.State != ConnectionState.Open)
             {
                 using (var dbConnection = _executorSql.OpenNewDbConnection())
@@ -68,9 +68,9 @@ namespace DataAccessLayer
                     var dto = await dbConnection.GetAsync<GRID_SERIALIZATION>(idValue);
                     if (dto == null)
                     {
-                        throw new DataLayerException("Error retrieving the settings");
+                        settingsDto = mapper.Map<GRID_SERIALIZATION, GridSettingsDto>(dto);
                     }
-                    settingsDto = mapper.Map<GRID_SERIALIZATION, GridSettingsDto>(dto);
+
                     return settingsDto;
 
                 }
@@ -101,7 +101,7 @@ namespace DataAccessLayer
                             // update
                           string updateSql = string.Format(GenericSql.GridSettingsUpdate, serialize.GRID_ID,
                                 serialize.GRID_NAME, serialize.SERILIZED_DATA);
-                          var executedUpdate = await dbConnection.ExecuteAsync(updateSql);
+                          bool v = await dbConnection.ExecuteAsync(updateSql) > 0;
                            
                         }
                         else
@@ -130,7 +130,7 @@ namespace DataAccessLayer
             IMapper mapper = MapperField.GetMapper();
             GRID_SERIALIZATION serialize = mapper.Map<GridSettingsDto, GRID_SERIALIZATION>(settingsDto);
             Contract.Requires(serialize != null);
-            value = await SaveOrUpdate(serialize);
+            value = await SaveOrUpdate(serialize).ConfigureAwait(false);
             
             return value;
         }
