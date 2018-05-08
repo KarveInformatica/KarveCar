@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using DataAccessLayer;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Model;
+using InvoiceModule.ViewModels;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
@@ -11,8 +14,10 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using KarveTest.DAL;
 using MasterModule.ViewModels;
+using Microsoft.Practices.Unity;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using Prism.Regions;
 using ToolBarModule;
 
@@ -28,6 +33,8 @@ namespace KarveCar.Integration
         private readonly Mock<IEventManager> _eventManager = new Mock<IEventManager>();
         private readonly TestBase _testBase = new TestBase();
         private readonly Mock<IDialogService> _dialogService = new Mock<IDialogService>();
+        private readonly  Mock<IInteractionRequestController> _interactionRequestController = new Mock<IInteractionRequestController>();
+        private readonly Mock<IUnityContainer> _unityContainer = new Mock<IUnityContainer>();
         private IDataServices _dataServices;
         private ICareKeeperService _careKeeperService = new CareKeeper();
         private IConfigurationService _configurationService;
@@ -37,6 +44,8 @@ namespace KarveCar.Integration
         private string _subSystem = string.Empty;
         private DataPayLoad _notifiedPayLoad = new DataPayLoad();
         private DataPayLoad _receivedPayLoad = new DataPayLoad();
+        private DataPayloadFactory _factory = DataPayloadFactory.GetInstance();
+       
 
         /// <summary>
         ///  Helper function for getting a new id for the commission agent.
@@ -52,9 +61,9 @@ namespace KarveCar.Integration
             {
                 retValue = firstDefault.Code;
             }
-           
             return retValue;
         }
+
         /// <summary>
         ///  Create a visit duplicated id for the commission agent integration.
         /// </summary>
@@ -64,44 +73,50 @@ namespace KarveCar.Integration
         {
             var visitDto = new List<VisitsDto>()
             {
-                new VisitsDto() { ClientId = id,
-                                  VisitId = "200100",
-                                  ContactsSource = new ContactsDto()
-                                  {
-                                     ContactName = "Giorgio",
-                                     ContactId = "181928"
-                                  }, Date = DateTime.Now,
-                                    Email = "giorgio@apache.org",
-                                    IsNew = true,
-                                    IsChanged = true,
-                                    IsDirty = true,
-                                    IsOrder = false,
-                                    LastModification = DateTime.Now.ToString("yyyMMddHHmmss"),
-                                    User="cv",
-                                    VisitType = new VisitTypeDto(){ Code = "1", Name="23"}
+                new VisitsDto()
+                {
+                    ClientId = id,
+                    VisitId = "200100",
+                    ContactsSource = new ContactsDto()
+                    {
+                        ContactName = "Giorgio",
+                        ContactId = "181928"
+                    },
+                    Date = DateTime.Now,
+                    Email = "giorgio@apache.org",
+                    IsNew = true,
+                    IsChanged = true,
+                    IsDirty = true,
+                    IsOrder = false,
+                    LastModification = DateTime.Now.ToString("yyyMMddHHmmss"),
+                    User = "cv",
+                    VisitType = new VisitTypeDto() {Code = "1", Name = "23"}
                 },
-                new VisitsDto() {
-                                  ClientId = id,
-                                  VisitId = "200100",
-                                  ContactsSource = new ContactsDto()
-                                  {
-                                     ContactName = "Giorgio",
-                                     ContactId = "181928"
-                                  }, Date = DateTime.Now,
-                                    Email = "giorgio@apache.org",
-                                    IsNew = true,
-                                    IsChanged = true,
-                                    IsDirty = true,
-                                    IsOrder = false,
-                                    LastModification = DateTime.Now.ToString("yyyMMddHHmmss"),
-                                    User="cv",
-                                    VisitType = new VisitTypeDto(){ Code = "1", Name="NotInMyName"}
+                new VisitsDto()
+                {
+                    ClientId = id,
+                    VisitId = "200100",
+                    ContactsSource = new ContactsDto()
+                    {
+                        ContactName = "Giorgio",
+                        ContactId = "181928"
+                    },
+                    Date = DateTime.Now,
+                    Email = "giorgio@apache.org",
+                    IsNew = true,
+                    IsChanged = true,
+                    IsDirty = true,
+                    IsOrder = false,
+                    LastModification = DateTime.Now.ToString("yyyMMddHHmmss"),
+                    User = "cv",
+                    VisitType = new VisitTypeDto() {Code = "1", Name = "NotInMyName"}
                 }
 
 
-        };
+            };
             return visitDto;
         }
+
         /// <summary>
         ///  This fill the commission payload.
         /// </summary>
@@ -112,6 +127,7 @@ namespace KarveCar.Integration
         {
             var newPayLoad = new DataPayLoad
             {
+                ObjectPath = new Uri("karve://commission/viewmodel/id/839328"),
                 DataObject = dataObject,
                 HasDataObject = true,
                 HasRelatedObject = true,
@@ -119,6 +135,7 @@ namespace KarveCar.Integration
             };
             return newPayLoad;
         }
+
         /// <summary>
         /// Setup of the toolbar.
         /// </summary>
@@ -129,30 +146,28 @@ namespace KarveCar.Integration
             _configurationService = _testBase.SetupConfigurationService();
             var executor = _testBase.SetupSqlQueryExecutor();
             _dataServices = new DataServiceImplementation(executor);
-            _dialogService.Setup(x => x.ShowErrorMessage(It.IsAny<string>())).Callback(() =>
-            {
-                MessageErrorCalled = true;
-            });
-            _regionManager.Setup(x => x.RequestNavigate(It.IsAny<string>(), It.IsAny<Uri>())).Callback(() =>
-                {
-                    IsNavigated = true;
-                });
-            _eventManager.Setup(x=>x.NotifyObserverSubsystem(It.IsAny<string>(), It.IsAny<DataPayLoad>())).Callback<string, DataPayLoad>(
-                (subsystem, payload) =>
-                {
-                    _notifiedPayLoad = payload;
-                    _subSystem = subsystem;
-                });
+            _dialogService.Setup(x => x.ShowErrorMessage(It.IsAny<string>()))
+                .Callback(() => { MessageErrorCalled = true; });
+            _regionManager.Setup(x => x.RequestNavigate(It.IsAny<string>(), It.IsAny<Uri>()))
+                .Callback(() => { IsNavigated = true; });
+            _eventManager.Setup(x => x.NotifyObserverSubsystem(It.IsAny<string>(), It.IsAny<DataPayLoad>()))
+                .Callback<string, DataPayLoad>(
+                    (subsystem, payload) =>
+                    {
+                        _notifiedPayLoad = payload;
+                        _subSystem = subsystem;
+                    });
             _eventManager.Setup(x => x.SendMessage(It.IsAny<string>(), It.IsAny<DataPayLoad>()))
                 .Callback<string, DataPayLoad>(
                     (x1, x2) => { _receivedPayLoad = x2; });
             _carveBarViewModel = new KarveToolBarViewModel(_dataServices,
-                 _eventManager.Object,
-                 _careKeeperService,
-                 _regionManager.Object,
+                _eventManager.Object,
+                _careKeeperService,
+                _regionManager.Object,
                 _dialogService.Object,
-                 _configurationService);
+                _configurationService);
         }
+
         /// <summary>
         ///  This test verify the process of saving a new supplier contact.
         /// </summary>
@@ -172,6 +187,7 @@ namespace KarveCar.Integration
                 var random = new Random();
                 var rand = random.Next() % 2000;
                 dto.ContactId = rand.ToString();
+                dto.ContactsKeyId = codeId;
                 dto.ResponsabilitySource = new PersonalPositionDto
                 {
                     Code = "1",
@@ -195,9 +211,11 @@ namespace KarveCar.Integration
                 // we fail.
                 var payload = new DataPayLoad
                 {
+                    HasRelatedObject = true,
                     PayloadType = DataPayLoad.Type.UpdateInsertGrid,
                     RelatedObject = supplierItem.ContactsDto,
                     DataObject = supplierItem,
+                    ObjectPath = new Uri("office://supplier/viewmodel/id/28928"),
                     Subsystem = DataSubSystem.SupplierSubsystem
                 };
                 // act
@@ -205,45 +223,40 @@ namespace KarveCar.Integration
                 _carveBarViewModel.SaveCommand.Execute();
                 // assert
                 var savedSupplier = await supplierServices.GetAsyncSupplierDo(codeId);
-                var value = supplierItem.ContactsDto.Count();
+                var supplierItemContactsDto =
+                    supplierItem.ContactsDto as ContactsDto[] ?? supplierItem.ContactsDto.ToArray();
+                var value = supplierItemContactsDto.Count();
+                var currentContact = supplierItemContactsDto.FirstOrDefault(x => x.ContactId == dto.ContactId);
+
+
                 Assert.AreEqual(value, savedSupplier.ContactsDto.Count());
+                Assert.NotNull(currentContact);
+                Assert.AreEqual(currentContact.ContactId, dto.ContactId);
+                Assert.AreEqual(currentContact.ContactsKeyId, dto.ContactsKeyId);
+                Assert.AreEqual(currentContact.Email, dto.Email);
+                Assert.AreEqual(currentContact.Nif, dto.Nif);
+                Assert.AreEqual(currentContact.Movil, dto.Movil);
+                Assert.AreEqual(currentContact.User, dto.User);
+
+
                 return;
             }
+
             Assert.Fail("Cannot retrieve the suppliers");
-        }
-        /// <summary>
-        /// This test verify the throw of an exception 
-        /// </summary>
-        /// <returns></returns>
-        [Test]
-        public async Task WhenIntegratedShould_Throw_ErrorWithInvalidVisit()
-        {
-            // arrange
-            var id = await GetSampleBrokerId();
-            var commissionAgent = _dataServices.GetCommissionAgentDataServices();
-            var agent = await commissionAgent.GetCommissionAgentDo(id);
-            var visitDto = CreateVisitDuplicatedList(id);
-            var payload = FillCommissionPayLoad(agent, visitDto);
-            payload.Subsystem = DataSubSystem.CommissionAgentSubystem;
-            payload.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
-            _carveBarViewModel.IncomingPayload(payload);
-            Assert.GreaterOrEqual(_careKeeperService.ScheduledPayloadCount(), 1);
-            // execute
-            var ex = Assert.Throws<DataLayerException>(() => _carveBarViewModel.SaveCommand.Execute());
-            var message = ex.Message;
         }
 
         [Test]
         public async Task WhenIntegratedShould_Save_CommissionAgent_Visits()
         {
-           
+
             var payload = new DataPayLoad();
             var helperDataService = _dataServices.GetHelperDataServices();
             var helper = await helperDataService.GetMappedAllAsyncHelper<ComisioDto, COMISIO>().ConfigureAwait(false);
             var firstCommisionAgent = helper.FirstOrDefault();
             if (firstCommisionAgent != null)
             {
-                var commissionAgent = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(firstCommisionAgent.NUM_COMI);
+                var commissionAgent = await _dataServices.GetCommissionAgentDataServices()
+                    .GetCommissionAgentDo(firstCommisionAgent.NUM_COMI);
                 payload.Subsystem = DataSubSystem.CommissionAgentSubystem;
                 payload.HasRelatedObject = true;
                 payload.DataObject = commissionAgent;
@@ -253,41 +266,47 @@ namespace KarveCar.Integration
                 var countVisit = commissionAgent.VisitsDto.Count();
                 var visitDto = new List<VisitsDto>()
                 {
-                    new VisitsDto() { ClientId = commissionAgent.Value.NUM_COMI,
+                    new VisitsDto()
+                    {
+                        ClientId = commissionAgent.Value.NUM_COMI,
                         VisitId = rValue.ToString(),
                         ContactsSource = new ContactsDto()
                         {
                             ContactName = "Giorgio",
                             ContactId = "181928"
-                        }, Date = DateTime.Now,
+                        },
+                        Date = DateTime.Now,
                         Email = "giorgio@apache.org",
                         IsNew = true,
                         IsChanged = true,
                         IsDirty = true,
                         IsOrder = false,
                         LastModification = DateTime.Now.ToString("yyyMMddHHmmss"),
-                        User="cv",
-                        VisitType = new VisitTypeDto(){ Code = "01", Name="23"}
+                        User = "cv",
+                        VisitType = new VisitTypeDto() {Code = "01", Name = "23"}
                     },
-                    new VisitsDto() {
+                    new VisitsDto()
+                    {
                         ClientId = commissionAgent.Value.NUM_COMI,
                         VisitId = (rValue + 10).ToString(),
                         ContactsSource = new ContactsDto()
                         {
                             ContactName = "Giorgio",
                             ContactId = "181928"
-                        }, Date = DateTime.Now,
+                        },
+                        Date = DateTime.Now,
                         Email = "giorgio@apache.org",
                         IsNew = true,
                         IsChanged = true,
                         IsDirty = true,
                         IsOrder = false,
                         LastModification = DateTime.Now.ToString("yyyMMddHHmmss"),
-                        User="cv",
-                        VisitType = new VisitTypeDto(){ Code = "01", Name="NotInMyName"}
+                        User = "cv",
+                        VisitType = new VisitTypeDto() {Code = "01", Name = "NotInMyName"}
                     }
                 };
                 // act.
+                payload.ObjectPath = new Uri("office://identifier");
                 payload.RelatedObject = visitDto;
                 payload.Subsystem = DataSubSystem.CommissionAgentSubystem;
                 payload.PayloadType = DataPayLoad.Type.UpdateInsertGrid;
@@ -302,15 +321,18 @@ namespace KarveCar.Integration
                 {
                     Assert.Fail(e.Message);
                 }
+
                 // now i shall assert from the helper data service that is all ok.
                 var commisionAgentDataService = _dataServices.GetCommissionAgentDataServices();
-                ICommissionAgent agent = await commisionAgentDataService.GetCommissionAgentDo(commissionAgent.Value.NUM_COMI);
+                ICommissionAgent agent =
+                    await commisionAgentDataService.GetCommissionAgentDo(commissionAgent.Value.NUM_COMI);
                 Assert.NotNull(agent);
                 IEnumerable<VisitsDto> visit = agent.VisitsDto;
                 Assert.NotNull(agent.VisitsDto);
                 Assert.AreEqual(visit.Count(), countVisit + 2);
             }
         }
+
         private async Task<OfficeDtos> SendPacketOfficeToToolbar(DataPayLoad.Type type)
         {
 
@@ -325,12 +347,13 @@ namespace KarveCar.Integration
                 payload.Subsystem = DataSubSystem.OfficeSubsystem;
                 payload.PayloadType = type;
                 payload.HasRelatedObject = true;
-                payload.DataObject = office;
+                payload.DataObject = officeData;
             }
 
             _carveBarViewModel.IncomingPayload(payload);
             return officeData;
         }
+
         /// <summary>
         ///  Sedn packet company to toolbar.
         /// </summary>
@@ -350,22 +373,26 @@ namespace KarveCar.Integration
             return company;
 
         }
+
         private OfficeDtos SendPacketInsertToToolbar(DataPayLoad.Type type)
         {
 
-            var payload = new DataPayLoad();
             var officeDataService = _dataServices.GetOfficeDataServices();
             var officeId = officeDataService.GetNewId();
             var office = officeDataService.GetNewOfficeDo(officeId);
-       
-            payload.Subsystem = DataSubSystem.OfficeSubsystem;
-            payload.PayloadType = type;
-            payload.HasRelatedObject = false;
-            payload.DataObject = office.Value;
+            // mandatory for the payload are the following fields.
+            var payload = new DataPayLoad
+            {
+                ObjectPath = new Uri("office://identifier"),
+                Subsystem = DataSubSystem.OfficeSubsystem,
+                PayloadType = type,
+                HasRelatedObject = false,
+                DataObject = office.Value
+            };
             _carveBarViewModel.IncomingPayload(payload);
             return office.Value;
         }
-       
+
         [Test]
         public async Task WhenIntegratedShould_Save_Office()
         {
@@ -380,6 +407,7 @@ namespace KarveCar.Integration
             {
                 Assert.Fail(e.Message);
             }
+
             var offices = await officeDataService.GetAsyncOfficeDo(officeData.Codigo);
             Assert.NotNull(offices);
             Assert.AreEqual(offices.Value.Codigo, officeData.Codigo);
@@ -409,7 +437,7 @@ namespace KarveCar.Integration
         public async Task WhenIntegratedShould_Insert_ACompany()
         {
             _receivedPayLoad = null;
-           
+
             var companyDataServices = _dataServices.GetCompanyDataServices();
             var viewModel = new CompanyControlViewModel(_configurationService,
                 _eventManager.Object,
@@ -430,7 +458,7 @@ namespace KarveCar.Integration
             }
 
             viewModel.NewItem();
-           
+
             Assert.AreEqual("CompanySystemName", this._subSystem);
             if (_notifiedPayLoad.DataObject is ICompanyData data)
             {
@@ -442,8 +470,9 @@ namespace KarveCar.Integration
                 Assert.AreEqual(company.Value.NOMBRE, dto.NOMBRE);
                 Assert.AreEqual(company.Value.CODIGO, dto.CODIGO);
             }
-            
+
         }
+
         /// <summary>
         /// Update A Company.
         /// </summary>
@@ -471,6 +500,7 @@ namespace KarveCar.Integration
                 _carveBarViewModel.IncomingPayload(payLoad);
             }
         }
+
         /// <summary>
         /// When integrated should delete a company.
         /// </summary>
@@ -480,24 +510,34 @@ namespace KarveCar.Integration
         {
             _receivedPayLoad = null;
             var companyDataServices = _dataServices.GetCompanyDataServices();
+            var helperDataService = _dataServices.GetHelperDataServices();
             var viewModel = new CompanyControlViewModel(_configurationService,
                 _eventManager.Object,
                 _dialogService.Object,
                 _dataServices,
                 _regionManager.Object);
-          
+            var helper = await helperDataService.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>().ConfigureAwait(false);
+            var companyData = helper.FirstOrDefault();
+            if (companyData != null)
+            {
+               
+            }
+
         }
+
+
+
         [Test]
         public async Task WhenIntegratedShould_Delete_Office()
         {
             bool sentDeleteMessage = false;
             DataPayLoad payload = new DataPayLoad();
-            _eventManager.Setup(x => x.SendMessage(It.IsAny<string>(),It.IsAny<DataPayLoad>())).Callback(() => {
-                sentDeleteMessage = true;
-            });
+            _eventManager.Setup(x => x.SendMessage(It.IsAny<string>(), It.IsAny<DataPayLoad>()))
+                .Callback(() => { sentDeleteMessage = true; });
             // arrange
-           
-            var viewModel = new OfficesControlViewModel(_configurationService, _eventManager.Object, _dataServices, _regionManager.Object);
+
+            var viewModel = new OfficesControlViewModel(_configurationService, _eventManager.Object, _dataServices,
+                _regionManager.Object);
 
             var helperDataService = _dataServices.GetHelperDataServices();
             var helper = await helperDataService.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>().ConfigureAwait(false);
@@ -529,6 +569,7 @@ namespace KarveCar.Integration
                 {
                     Assert.Fail(e.Message);
                 }
+
                 // assert. Check if the exception shall be thrown.
                 bool retValue = await viewModel.DeleteAsync(officeData.Codigo, payload);
                 Assert.AreEqual(retValue, true);
@@ -537,7 +578,7 @@ namespace KarveCar.Integration
 
         }
 
-  
+
         public IList<HolidayDto> CraftGoodHolidays(string officeId)
         {
             IList<HolidayDto> holidays = new List<HolidayDto>()
@@ -545,23 +586,23 @@ namespace KarveCar.Integration
                 new HolidayDto()
                 {
                     OFICINA = officeId,
-                    FESTIVO= DateTime.Now.AddDays(1),
+                    FESTIVO = DateTime.Now.AddDays(1),
                     HORA_DESDE = new TimeSpan(8, 0, 0),
-                    HORA_HASTA = new TimeSpan(18,0,0)
-                } ,
-                new HolidayDto()
-                {
-                    OFICINA = officeId,
-                    FESTIVO= DateTime.Now.AddDays(200),
-                    HORA_DESDE = new TimeSpan(8, 0, 0),
-                    HORA_HASTA = new TimeSpan(18,0,0)
+                    HORA_HASTA = new TimeSpan(18, 0, 0)
                 },
                 new HolidayDto()
                 {
                     OFICINA = officeId,
-                    FESTIVO= DateTime.Now.AddDays(150),
+                    FESTIVO = DateTime.Now.AddDays(200),
                     HORA_DESDE = new TimeSpan(8, 0, 0),
-                    HORA_HASTA = new TimeSpan(18,0,0)
+                    HORA_HASTA = new TimeSpan(18, 0, 0)
+                },
+                new HolidayDto()
+                {
+                    OFICINA = officeId,
+                    FESTIVO = DateTime.Now.AddDays(150),
+                    HORA_DESDE = new TimeSpan(8, 0, 0),
+                    HORA_HASTA = new TimeSpan(18, 0, 0)
                 }
             };
             return holidays;
@@ -572,47 +613,50 @@ namespace KarveCar.Integration
             var timeTable = new List<DailyTime>()
             {
                 new DailyTime()
-                { Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
-                },
-                new DailyTime()
-                { Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
-                },
-                new DailyTime()
-                { Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
+                {
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
                 },
                 new DailyTime()
                 {
-                  Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
                 },
                 new DailyTime()
                 {
-                  Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
                 },
                 new DailyTime()
                 {
-                  Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
                 },
                 new DailyTime()
                 {
-                  Morning = new OfficeOpenClose() { Open = new TimeSpan(8,0,0), Close = new TimeSpan(14,0,0)},
-                  Afternoon = new OfficeOpenClose() { Open = new TimeSpan(15,0,0), Close = new TimeSpan(18,0,0)},
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
+                },
+                new DailyTime()
+                {
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
+                },
+                new DailyTime()
+                {
+                    Morning = new OfficeOpenClose() {Open = new TimeSpan(8, 0, 0), Close = new TimeSpan(14, 0, 0)},
+                    Afternoon = new OfficeOpenClose() {Open = new TimeSpan(15, 0, 0), Close = new TimeSpan(18, 0, 0)},
                 }
             };
             return timeTable;
         }
 
-    
+
 
         [Test]
-        public async Task WhenIntegratedDataLayerShould_Insert_Office()
+        public async Task WhenIntegratedShould_Insert_Office()
         {
-            
+
             var payload = new DataPayLoad();
             var companyDs = await _dataServices.GetCompanyDataServices().GetAsyncAllCompanySummary();
 
@@ -632,10 +676,10 @@ namespace KarveCar.Integration
                     SUBLICEN = companyCode,
                     CP = "08006",
                     Nombre = "KARVE",
-                    EMAIL_OFI = "giorgio@gmail.com",
+                    DIRECCION = "Calle Roma 233",
                     IsDirty = true,
                     IsNew = true,
-                    Codigo= officeId
+                    Codigo = officeId
                 };
                 officeDo.Valid = true;
                 officeDo.Value = officeDtos;
@@ -643,12 +687,210 @@ namespace KarveCar.Integration
                 Assert.IsTrue(value);
                 var office = await officeDataService.GetAsyncOfficeDo(officeId);
                 Assert.AreEqual(officeId, office.Value.Codigo);
-                
+
                 var expectedHolidayDtos = officeDtos.HolidayDates.OrderBy(x => x.FESTIVO);
                 var realholidayDates = officeDtos.HolidayDates.OrderBy(x => x.FESTIVO);
                 Assert.AreEqual(expectedHolidayDtos, realholidayDates);
                 CollectionAssert.AreEqual(expectedHolidayDtos, realholidayDates);
                 Assert.AreEqual(officeDtos.TimeTable.Count, timeTable.Count);
+            }
+        }
+
+        [Test]
+        public async Task WhenIntegratedShould_Save_AnInvoice()
+        {
+            /*
+             * 1. Get the invoice.
+             * 2. Get his lines.
+             * 3. Add new lines.
+             * 4. Compute the invoice.
+             * 5. Save the invoice.
+             */
+            var invoiceDs = await _dataServices.GetInvoiceDataServices().GetInvoiceSummaryAsync();
+            var singleInvoice = invoiceDs.FirstOrDefault();
+            var payload = new DataPayLoad
+            {
+                ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892891"),
+                DataObject = singleInvoice,
+                HasDataObject = true,
+                Subsystem = DataSubSystem.InvoiceSubsystem,
+                HasRelatedObject = false, 
+                PayloadType = DataPayLoad.Type.Update
+            };
+            var registrationPayLoad = new DataPayLoad
+            {
+                ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892892"),
+                DataObject = singleInvoice,
+                Subsystem = DataSubSystem.InvoiceSubsystem,
+                HasDataObject = false,
+                PayloadType = DataPayLoad.Type.RegistrationPayload,
+                HasRelatedObject = false
+            };
+            Assert.NotNull(singleInvoice);
+
+            var invoiceItem =
+                    await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceCode);
+
+            var invoiceComponent = new InvoiceSummaryDto
+            {
+                Iva = 20,
+                VehicleCode= "29209",
+                Price = 666,
+                Subtotal = 700,
+                Quantity = 1
+            };
+            var list = new List<InvoiceSummaryDto> {invoiceComponent};
+            invoiceItem.InvoiceItems = invoiceItem.InvoiceItems != null ? invoiceItem.InvoiceItems.Union(list) : list;
+
+            payload.DataObject = invoiceItem;
+            // act
+            try
+            {
+                // incoming payload.
+                _carveBarViewModel.IncomingPayload(registrationPayLoad);
+                // incoming payload.
+                _carveBarViewModel.IncomingPayload(payload);
+                _carveBarViewModel.SaveCommand.Execute();
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+            // get the daved invoice.
+            var savedInvoice =
+                await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceCode);
+            var item = savedInvoice.InvoiceItems.FirstOrDefault(x=>x.Price==invoiceComponent.Price);
+            Assert.NotNull(item);
+            Assert.AreEqual(invoiceComponent.Iva, item.Iva);
+            Assert.AreEqual(invoiceComponent.Subtotal, item.Subtotal);
+            Assert.AreEqual(invoiceComponent.Quantity, item.Quantity);        
+        }
+
+
+        /// <summary>
+        ///  The invoice should be integrated.
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task WhenIntegratedShould_Insert_InvoiceLine()
+        {
+            var invoiceDs = _dataServices.GetInvoiceDataServices();
+            var summary = await invoiceDs.GetInvoiceSummaryAsync();
+            var singleInvoice = summary.FirstOrDefault();
+            var dataPayLoad = new DataPayLoad
+            {
+                ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892892"),
+                HasRelatedObject = true,
+                DataObject = singleInvoice,
+                PayloadType = DataPayLoad.Type.UpdateInsertGrid,
+                Subsystem = DataSubSystem.InvoiceSubsystem,
+                RelatedObject = new InvoiceItem()
+                {
+                   IVA = 25,
+                   DIAS = 4,
+                   COSTE = 777,
+                   SUBTOTAL_LIF = 25,
+                   CANTIDAD_LIF = 2,
+                   PRE_LIF = 205,
+                   DPT_LF = "DepositoFacturas"
+                }
+
+            };
+            try
+            {
+                var factory = DataPayloadFactory.GetInstance();
+                var registrationPayLoad = factory.BuildRegistrationPayLoad("invoice://viewmodel/id/invoice/21829", singleInvoice, DataSubSystem.InvoiceSubsystem);
+                var payload = dataPayLoad;
+                // incoming payload.
+                _carveBarViewModel.IncomingPayload(registrationPayLoad);
+                // incoming payload.
+                _carveBarViewModel.IncomingPayload(payload);
+                _carveBarViewModel.SaveCommand.Execute();
+                
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+        }
+        /// <summary>
+        ///  When the integrated should insert an invoice.
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public void WhenIntegratedShould_Insert_AnInvoice()
+        {
+
+            _receivedPayLoad = null;
+            var notifiedPayload = new DataPayLoad();
+            var manager = new Mock<IEventManager>();
+            manager.Setup(x => x.NotifyObserverSubsystem(It.IsAny<string>(), It.IsAny<DataPayLoad>()))
+                .Callback((DataPayLoad p) => { _receivedPayLoad = p; });
+            manager.Setup(x => x.NotifyToolBar(It.IsAny<DataPayLoad>()))
+                .Callback((DataPayLoad p) => { notifiedPayload = p; });
+
+            var viewModel = new InvoiceControlViewModel(_dataServices,
+                _unityContainer.Object,
+                _dialogService.Object,
+                _regionManager.Object,
+                null,
+                manager.Object);
+
+            DataPayLoad registrationPayload = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.RegistrationPayload,
+                Subsystem = DataSubSystem.InvoiceSubsystem
+            };
+            _carveBarViewModel.IncomingPayload(registrationPayload);
+            _carveBarViewModel.NewCommand.Execute(null);
+            viewModel.IncomingPayload(_receivedPayLoad);
+            if (_receivedPayLoad != null)
+            {
+                Assert.AreEqual(_receivedPayLoad.PayloadType, DataPayLoad.Type.Insert);
+            }
+            Assert.NotNull(notifiedPayload);
+          
+        }
+
+     
+        [Test]
+        public async Task WhenIntegratedShould_Delete_AnInvoice()
+        {
+            // arrange
+            _receivedPayLoad = null;
+            var invoiceDataService = _dataServices.GetInvoiceDataServices();
+            var invoiceDs = await invoiceDataService.GetInvoiceSummaryAsync();
+            var invoiceDo = invoiceDs.FirstOrDefault();
+            Assert.NotNull(invoiceDo);
+            var code = invoiceDo.InvoiceCode;
+            var registrationPayLoad = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.RegistrationPayload,
+                Subsystem = DataSubSystem.InvoiceSubsystem
+            };
+            _carveBarViewModel.IncomingPayload(registrationPayLoad);
+            var payload = new DataPayLoad()
+            {
+                PayloadType = DataPayLoad.Type.Delete,
+                Subsystem = DataSubSystem.InvoiceSubsystem,
+                DataObject = invoiceDo,
+                ObjectPath = new Uri("invoice://viewmodel/id/2920290")
+            };
+            Assert.NotNull(invoiceDo);
+            // act
+            _carveBarViewModel.IncomingPayload(registrationPayLoad);
+            _carveBarViewModel.IncomingPayload(payload);
+            _carveBarViewModel.DeleteCommand.Execute(null);
+            // assert.
+            try
+            {
+                var resultedDs = await invoiceDataService.GetInvoiceDoAsync(code);
+               Assert.IsInstanceOf(typeof(NullInvoice), resultedDs);
+
+            }
+            catch (Exception e)
+            {
+
             }
         }
     }

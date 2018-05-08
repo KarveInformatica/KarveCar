@@ -51,7 +51,45 @@ namespace DataAccessLayer.Crud.Office
             }
             return officeDtos;
         }
-        /// <summary>
+
+        private async Task<OfficeDtos> LoadAuxAsync(IDbConnection connection, 
+                                                    EntityDeserializer deserializer, 
+                                                    OfficeDtos officeDtos, OFICINAS value)
+        {
+            var output = new List<EntityDecorator>();
+            if (value != null)
+            {
+                IQueryStore queryStore = _queryStoreFactory.GetQueryStore();
+                queryStore.AddParam(QueryType.QueryCity, officeDtos.POBLACION);
+                queryStore.AddParam(QueryType.QueryProvince, officeDtos.PROVINCIA);
+                queryStore.AddParam(QueryType.QueryCurrency);
+                queryStore.AddParam(QueryType.HolidaysByOffice, value.CODIGO);
+                var queryHolidays = queryStore.BuildQuery();
+                var reader = await connection.QueryMultipleAsync(queryHolidays);
+                while (!reader.IsConsumed)
+                {
+                    var row = reader.Read();
+
+                    foreach (var singleValue in row)
+                    {
+                        var deserialized = deserializer.Deserialize(singleValue);
+                        if (deserialized != null)
+                        {
+                            output.Add(deserialized);
+                        }
+                    }
+                }
+
+                officeDtos.City = deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, output);
+                officeDtos.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper, output);
+                officeDtos.Currencies = deserializer.SelectDto<CURRENCIES, CurrenciesDto>(_mapper, output);
+                officeDtos.HolidayDates = deserializer.SelectDto<FESTIVOS_OFICINA, HolidayDto>(_mapper, output);
+            }
+
+            return officeDtos;
+        }
+
+        // <summary>
         /// Load asynchronous values.
         /// </summary>
         /// <param name="code">Code to be used</param>
@@ -73,43 +111,15 @@ namespace DataAccessLayer.Crud.Office
                 new CityDto(),
                 new ProvinciaDto(),
                 new CurrenciesDto(),
-                new ClientDto()
+                new HolidayDto()
             };
             EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
             var output = new List<EntityDecorator>();
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            using (var connection = _executor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<OFICINAS>(code);
                 officeDtos = _mapper.Map<OFICINAS, OfficeDtos>(value);
-
-
-                if (value != null)
-                {
-                    IQueryStore queryStore = _queryStoreFactory.GetQueryStore();
-                    queryStore.AddParam(QueryType.QueryCity, officeDtos.POBLACION);
-                    queryStore.AddParam(QueryType.QueryProvince, officeDtos.PROVINCIA);
-                    queryStore.AddParam(QueryType.QueryCurrency);
-                    queryStore.AddParam(QueryType.HolidaysByOffice, value.CODIGO);
-                    var queryHolidays = queryStore.BuildQuery();
-                    var reader = await connection.QueryMultipleAsync(queryHolidays);
-                    while (!reader.IsConsumed)
-                    {
-                        var row = reader.Read();
-
-                        foreach (var singleValue in row)
-                        {
-                            var deserialized = deserializer.Deserialize(singleValue);
-                            if (deserialized != null)
-                            {
-                                output.Add(deserialized);
-                            }
-                        }
-                    }
-                    officeDtos.City = deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, output);
-                    officeDtos.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper, output);
-                    officeDtos.Currencies =deserializer.SelectDto<CURRENCIES, CurrenciesDto>(_mapper, output);
-                    officeDtos.HolidayDates = deserializer.SelectDto<FESTIVOS_OFICINA, HolidayDto>(_mapper, output);
-                }
+                officeDtos = await LoadAuxAsync(connection, deserializer, officeDtos, value).ConfigureAwait(false);
             }
             return officeDtos;
         }

@@ -115,7 +115,7 @@ namespace DataAccessLayer.DataObjects
                 IDictionary<string, object> valueRow = row as IDictionary<string, object>;
                 if (row == null)
                     return null;
-               bool sameEntity = IsSameEntity(e.GetType().GetProperties(), valueRow.Keys);
+               var sameEntity = valueRow != null && IsSameEntity(e.GetType().GetProperties(), valueRow.Keys);
                if (sameEntity)
                {
                     var entityValue = Activator.CreateInstance(e.GetType());
@@ -124,13 +124,19 @@ namespace DataAccessLayer.DataObjects
                         var sinkProperty = entityValue.GetType().GetProperty(property.Name);
                         if (sinkProperty != null)
                         {
-                            sinkProperty.SetValue(entityValue, valueRow[property.Name]);
+                           //  if (valueRow[property.Name])
+                                sinkProperty.SetValue(entityValue, valueRow[property.Name]);
+                            
+                            
                         }
                     }
-                    EntityDecorator decorator = new EntityDecorator();
-                    decorator.Value = entityValue;
-                    decorator.Type = e.GetType();
-                    if (i < _dtos.Count())
+
+                   var decorator = new EntityDecorator
+                   {
+                       Value = entityValue,
+                       Type = e.GetType()
+                   };
+                   if (i < _dtos.Count())
                     {
                         decorator.DtoType = _dtos[i].GetType();                   
                     }

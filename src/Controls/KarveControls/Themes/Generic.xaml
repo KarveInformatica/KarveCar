@@ -160,12 +160,13 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                    <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"/>
+                    <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"
+                                Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelWidth}"/>
                         <Syncfusion:SfDatePicker x:Name="PART_DatePicker"
                                                   Grid.Column="1"
                                                 
-                                Margin="5,0,0,0"
-                                Width="200"
+                                Margin="20,0,0,0"
+                                Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PickerWidth}"
                                 Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
                             <Syncfusion:SfDatePicker.SelectorStyle>
 
@@ -177,14 +178,7 @@
 
                             </Syncfusion:SfDatePicker.SelectorStyle>
                         </Syncfusion:SfDatePicker>
-                        <!--
-                                    <DatePicker x:Name="PART_DatePicker" 
-                                Grid.Column="1"
-                                Margin="5,0,0,0" 
-                                Height="50"
-                                SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
-                    </DatePicker>
-                                    -->
+                      
                 
                 </Grid>
             </ControlTemplate>
@@ -251,7 +245,6 @@
 
                                     <TextBox
                                          x:Name="PART_EditorText"
-                                        TextWrapping="Wrap"
                                         TextAlignment="Left"
                                         VerticalAlignment="Top"
                                         AcceptsReturn="True"
@@ -396,8 +389,8 @@
                                 <StackPanel Background="Azure">
                                     
                                     <Button x:Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" HorizontalAlignment="Left" 
-                                            Background="Lavender">
-                                        <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}" Height="18"/>
+                                            Background="Lavender" Height="{Binding  RelativeSource={RelativeSource TemplatedParent},Path=Height}">
+                                        <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}"/>
                                     </Button>
 
                                     <Popup x:Name="PART_PopUp" Placement="Center" StaysOpen="True" PlacementTarget="{Binding RelativeSource={RelativeSource Mode=FindAncestor,

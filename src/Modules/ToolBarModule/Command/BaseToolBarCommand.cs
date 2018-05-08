@@ -19,7 +19,8 @@ namespace ToolBarModule.Command
                 { DataSubSystem.HelperSubsytsem, new HelperDataPayLoad() },
                 { DataSubSystem.ClientSubsystem, new ClientDataPayload() },
                 { DataSubSystem.OfficeSubsystem, new OfficeDataPayload() },
-                { DataSubSystem.CompanySubsystem, new CompanyDataPayload() }
+                { DataSubSystem.CompanySubsystem, new CompanyDataPayload() },
+               { DataSubSystem.InvoiceSubsystem, new InvoiceDataPayload()}
            };
 
         public abstract void Dispose();

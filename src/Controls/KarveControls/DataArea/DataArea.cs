@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using KarveControls.Generic;
 using System.Text.RegularExpressions;
+using KarveCommon;
 
 namespace KarveControls
 {

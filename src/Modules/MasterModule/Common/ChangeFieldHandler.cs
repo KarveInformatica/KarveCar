@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using KarveCommon;
 using KarveCommon.Services;
 
 namespace MasterModule.Common

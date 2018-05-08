@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Input;
 namespace KarveDataServices.DataTransferObject
@@ -10,7 +11,7 @@ namespace KarveDataServices.DataTransferObject
     {
         private string _agreementCode;
         private string _vehicleCode;
-        private long _opciones;
+        private int _opciones;
         private string _description;
         private decimal? _quantity;
         private long _price;
@@ -19,9 +20,9 @@ namespace KarveDataServices.DataTransferObject
         private string _unity;
         private string _fileNumber;
         private decimal? _iva;
+        private string _number;
 
         [Display(Name = "Contracto", Description = "Codigo de Contracto")]
-        
         public string AgreementCode
         {
             set
@@ -29,10 +30,7 @@ namespace KarveDataServices.DataTransferObject
                 _agreementCode = value;
                 RaisePropertyChanged("AgreementCode");
             }
-            get
-            {
-                return _agreementCode;
-            }
+            get => _agreementCode;
         }
         
         [Display(Name = "Vehiculo", Description = "Codigo de Vehiculo")]
@@ -43,22 +41,16 @@ namespace KarveDataServices.DataTransferObject
                 _vehicleCode = value;
                 RaisePropertyChanged("Vehiculo");
             }
-            get
-            {
-                return _vehicleCode;
-            }
+            get => _vehicleCode;
         }
-        [Display(Name = "Opciones", Description = "Codigo de Vehiculo")]
-        public long Opciones {
+        [Display(Name = "Concepto", Description = "Concessine")]
+        public int Opciones {
             set
             {
                 _opciones = value;
-                RaisePropertyChanged("Opciones");
+                RaisePropertyChanged("Concessione");
             }
-            get
-            {
-                return _opciones;
-            }
+            get => _opciones;
         }
         [Display(Name = "Descripcion", Description = "Description")]
         public string Description
@@ -68,23 +60,19 @@ namespace KarveDataServices.DataTransferObject
                 _description = value;
                 RaisePropertyChanged("Description");
             }
-            get
-            {
-                return _description;
-            }
+            get => _description;
         }
         [Display(Name = "Cantidad", Description = "Cantidad")]
+        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public decimal? Quantity
         {
             set
             {
                 _quantity = value;
                 RaisePropertyChanged("Quantity");
+                RaisePropertyChanged("Subtotal");
             }
-            get
-            {
-                return _quantity;
-            }
+            get => _quantity;
         }
         [Display(Name = "Precio", Description = "Precio")]
         public long Price
@@ -94,27 +82,24 @@ namespace KarveDataServices.DataTransferObject
                 _price = value;
                 RaisePropertyChanged("Price");
             }
-            get
-            {
-                return _price;
-            }
+            get => _price;
         }
         [Display(Name = "Descuento", Description = "Descuento")]
+        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public decimal? Discount
         {
             set
             {
                 _discount = value;
                 RaisePropertyChanged("Discount");
+                RaisePropertyChanged("Subtotal");
             }
-            get
-            {
-                return _discount;
-            }
+            get => _discount;
         }
 
 
         [Display(Name = "Iva", Description = "Iva")]
+        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public decimal? Iva
         {
             set
@@ -122,37 +107,34 @@ namespace KarveDataServices.DataTransferObject
                 _iva = value;
                 RaisePropertyChanged("Iva");
             }
-            get
-            {
-                return _iva;
-            }
+            get => _iva;
         }
-
         [Display(Name = "Subtotal", Description = "Subtotal")]
+        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
+        [ReadOnly(true)]
         public decimal? Subtotal
         {
             set
             {
                 _subtotal = value;
-                RaisePropertyChanged("Subtotal");
+                RaisePropertyChanged();
             }
             get
             {
+                _subtotal = (Quantity * 100) * ((100 - Discount) / 100); 
                 return _subtotal;
             }
         }
+
         [Display(Name = "Unidad", Description = "Unidad")]
         public string Unity
         {
             set
             {
                 _unity = value;
-                RaisePropertyChanged("Unidad");
+                RaisePropertyChanged();
             }
-            get
-            {
-                return _unity;
-            }
+            get => _unity;
         }
         [Display(Name = "Expediente", Description = "Expendiente")]
         public string FileNumber
@@ -162,10 +144,19 @@ namespace KarveDataServices.DataTransferObject
                 _fileNumber = value;
                 RaisePropertyChanged("FileNumber");
             }
-            get
+            get => _fileNumber;
+        }
+        [Required]
+        [Display(Name = "NumeroLinea", Description = "NumeroLinea")]
+        public string Number
+        {
+            set
             {
-                return _fileNumber;
+                _number = value; RaisePropertyChanged();
+
             }
+            get => _number;
+
         }
     }
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using KarveCommon.Generic;
 
 namespace KarveControls.UIObjects
 {
@@ -28,7 +29,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         ///  Data not allowed.
         /// </summary>
-        public ControlExt.DataType DataAllowed
+        public DataType DataAllowed
         {
             get { return _leftUiDfObject.DataAllowed; }
             set { _leftUiDfObject.DataAllowed = value; }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
+using KarveCommon;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -79,7 +80,7 @@ namespace MasterModule.Common
                     if (valueName != null)
                     {
                         currentObject = dataObjectValue;
-                        ComponentUtils.SetPropValue(currentObject, "Value." + fieldName, valueName, true);
+                        KarveCommon.ComponentUtils.SetPropValue(currentObject, "Value." + fieldName, valueName, true);
                         //payLoad.DataObject = currentObject;
                     }
                 }

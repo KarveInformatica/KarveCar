@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System;
 using KarveControls.Behaviour.Grid;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace KarveControls.Behaviour
 {
@@ -16,54 +18,39 @@ namespace KarveControls.Behaviour
     ///  This blend behaviour change the behavior of the grid.
     ///  
     /// </summary>
-    public class LineGridBehaviour : Behavior<SfDataGrid>
+    public class LineGridBehaviour : KarveBehaviorBase<SfDataGrid>
     {
         
         /// <summary>
         ///  This is the list of the allowed columns. If a column is not in this list.
         /// </summary>
         public static readonly DependencyProperty gridColumns = DependencyProperty.Register("GridColumns",
-            typeof(List<string>), typeof(LineGridBehaviour));
+            typeof(ICollection<string>), typeof(LineGridBehaviour));
 
-        /// <summary>
-        ///  GridColumns Property.
-        /// </summary>
-
-        public List<string> GridColumns
+       /// <summary>
+       ///  GridColumns.
+       /// </summary>
+        public ICollection<string> GridColumns
         {
-            set
-            {
-                SetValue(gridColumns, value);
-            }
-            get
-            {
-                return (List<string>)GetValue(gridColumns);
-            }
+            set => SetValue(gridColumns, value);
+            get => (ICollection<string>)GetValue(gridColumns);
         }
-
 
         /// <summary>
         ///  This is a property for the cell presentation.
         /// </summary>
         /// 
-        public static readonly DependencyProperty cellPresenterItemsProperty = DependencyProperty.Register("CellPresenterItems", typeof(ObservableCollection<CellPresenterItem>), typeof(LineGridBehaviour), new UIPropertyMetadata(new ObservableCollection<CellPresenterItem>()));
+        public static readonly DependencyProperty cellPresenterItemsProperty = DependencyProperty.Register("CellPresenterItems", typeof(ICollection<CellPresenterItem>), typeof(LineGridBehaviour), 
+            new UIPropertyMetadata(new ObservableCollection<CellPresenterItem>()));
 
         /// <summary>
         ///  CellPresenterItems Property.
         /// </summary>
-        public ObservableCollection<CellPresenterItem> CellPresenterItems
+        public ICollection<CellPresenterItem> CellPresenterItems
         {
-            set
-            {
-                SetValue(cellPresenterItemsProperty, value);
-            }
-            get
-            {
-                return (ObservableCollection<CellPresenterItem>)GetValue(cellPresenterItemsProperty);
-            }
+            set => SetValue(cellPresenterItemsProperty, value);
+            get => (ObservableCollection<CellPresenterItem>)GetValue(cellPresenterItemsProperty);
         }
-
-        
         /// <summary>
         ///  DependencyProperty. ItemChangedCommand.
         /// </summary>
@@ -74,18 +61,12 @@ namespace KarveControls.Behaviour
         /// </summary>
         public ICommand ItemChangedCommand
         {
-            set
-            {
-                SetValue(ItemChangedCommandProperty, value);
-            }
-            get
-            {
-                return (ICommand)GetValue(ItemChangedCommandProperty);
-            }
+            set => SetValue(ItemChangedCommandProperty, value);
+            get => (ICommand)GetValue(ItemChangedCommandProperty);
         }
 
      
-        protected override void OnAttached()
+        protected override void OnSetup()
         {
             base.OnAttached();
             this.AssociatedObject.GridCopyOption = GridCopyOption.CopyData | GridCopyOption.CutData;
@@ -97,7 +78,7 @@ namespace KarveControls.Behaviour
             this.AssociatedObject.CurrentCellValueChanged += dataGrid_CurrentCellValueChanged;
             this.AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
         }
-        protected override void OnDetaching()
+        protected override void OnCleanup()
         {
             base.OnAttached();
             this.AssociatedObject.AutoGeneratingColumn -= AssociatedObject_AutogenerateCols;
@@ -187,12 +168,9 @@ namespace KarveControls.Behaviour
                              */
                             if (!string.IsNullOrEmpty(navigationAwareItem.DataTemplateName))
                             {
-                                var resource = this.AssociatedObject.FindResource(navigationAwareItem.DataTemplateName) as DataTemplate;
-
-
-                                if (resource != null)
+                                if (this.AssociatedObject.FindResource(navigationAwareItem.DataTemplateName) is DataTemplate resource)
                                 {
-                                    e.Column.CellTemplate = resource;
+                                    e.Column.CellTemplate = resource;   
 
                                 }
                             }
@@ -207,6 +185,29 @@ namespace KarveControls.Behaviour
 
 
             }              
+        }
+        private ChildControl FindVisualChild<ChildControl>(DependencyObject DependencyObj)
+            where ChildControl : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(DependencyObj); i++)
+            {
+                DependencyObject Child = VisualTreeHelper.GetChild(DependencyObj, i);
+
+                if (Child != null && Child is ChildControl)
+                {
+                    return (ChildControl)Child;
+                }
+                else
+                {
+                    ChildControl ChildOfChild = FindVisualChild<ChildControl>(Child);
+
+                    if (ChildOfChild != null)
+                    {
+                        return ChildOfChild;
+                    }
+                }
+            }
+            return null;
         }
         private string _editedMappedName;
         private object _editCellValue;

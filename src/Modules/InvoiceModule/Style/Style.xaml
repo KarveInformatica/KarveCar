@@ -237,8 +237,8 @@
         <GradientStop Offset="1" Color="#FFECECEC" />
     </LinearGradientBrush>
     <LinearGradientBrush x:Key="GridHeaderCellBackground" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="0" Color="#FF161D37" />
-        <GradientStop Offset="1" Color="#E94649" />
+        <GradientStop Offset="0" Color="CadetBlue" />
+        <GradientStop Offset="1" Color="CadetBlue" />
     </LinearGradientBrush>
 
     <!--  Header Cell Style  -->

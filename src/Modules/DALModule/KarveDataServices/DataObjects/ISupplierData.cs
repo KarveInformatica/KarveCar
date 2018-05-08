@@ -10,7 +10,7 @@ namespace KarveDataServices.DataObjects
     ///  Interface for giving information about suppliers.
     /// </summary>
     /// 
-    public interface ISupplierData: IHelperMasterCommon
+    public interface ISupplierData: IHelperMasterCommon, IValidDomainObject
     {
         /// <summary>
         ///  This delete all data in async way 
@@ -44,10 +44,8 @@ namespace KarveDataServices.DataObjects
         SupplierDto Value { set; get; }
 
         /// <summary>
-        ///  This tells us if the data is valid or not.
+        ///  Return the type
         /// </summary>
-        bool Valid { get; set; }
-
         IEnumerable<ISupplierTypeData> Type { set; get; }
 
         /// <summary>

@@ -14,11 +14,16 @@ namespace InvoiceModule
     {
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
-        private const string _name = "InvoiceModule";
+        private const string ModuleName = "InvoiceModule";
+        internal const string InvoiceSubSystem = "InvoiceSubsystem";
+
         /// <summary>
         ///  Return the name of the module
         /// </summary>
-        public string Name => _name;
+        public string Name => ModuleName;
+
+        public static string InvoiceSubsystemName { get; internal set; }
+
         /// <summary>
         /// Module to handle an invoice.
         /// </summary>
@@ -37,6 +42,8 @@ namespace InvoiceModule
             _container.RegisterType<object, InvoiceControlView>("Invoices");
             _container.RegisterType<object, InvoiceControlViewModel>("InvoiceControlVM");
             _container.RegisterType<object, InvoiceSummaryFooter>("InvoiceSummaryFooter");
+            _container.RegisterType<object, InvoiceInfoViewModel>("InvoiceInfoViewModel");
+
         }
     }
 

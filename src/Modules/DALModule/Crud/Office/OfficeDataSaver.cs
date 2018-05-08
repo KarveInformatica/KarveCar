@@ -25,9 +25,9 @@ namespace DataAccessLayer.Crud.Office
     /// </summary>
     class OfficeDataSaver : IDataSaver<OfficeDtos>
     {
-        private ISqlExecutor _executor;
-        private IMapper _mapper;
-        private QueryStoreFactory _queryStoreFactory;
+        private readonly ISqlExecutor _executor;
+        private readonly IMapper _mapper;
+        private readonly QueryStoreFactory _queryStoreFactory;
         private IValidationChain<ClientDto> _validationChain;
         /// <summary>
         /// Client data saver
@@ -69,8 +69,9 @@ namespace DataAccessLayer.Crud.Office
             // we shall insert or merge.
             try
             {
-                IEnumerable<FESTIVOS_OFICINA> currentHolidays = await connection.QueryAsync<FESTIVOS_OFICINA>(query);
-                if (currentHolidays.Count<FESTIVOS_OFICINA>() == 0)
+                var currentHolidays = await connection.QueryAsync<FESTIVOS_OFICINA>(query);
+                var festivosOficinas = currentHolidays as FESTIVOS_OFICINA[] ?? currentHolidays.ToArray();
+                if (!festivosOficinas.Any())
                 {
                     saved = await connection.InsertAsync(holidayOffice).ConfigureAwait(false) > 0;
                         
@@ -78,9 +79,10 @@ namespace DataAccessLayer.Crud.Office
                 else
                 {
                     // FIXME : check for concurrent optimistic lock.               
-                    var holidaysToBeInserted = holidayOffice.Except(currentHolidays);
+                    var enumerable = holidayOffice as FESTIVOS_OFICINA[] ?? holidayOffice.ToArray();
+                    var holidaysToBeInserted = enumerable.Except(festivosOficinas);
                     saved =  await connection.InsertAsync(holidaysToBeInserted).ConfigureAwait(false)>0;
-                    var holidaysToBeUpdated = holidayOffice.Intersect(currentHolidays);
+                    var holidaysToBeUpdated = enumerable.Intersect(festivosOficinas);
                     saved = saved && await connection.UpdateAsync(holidaysToBeUpdated).ConfigureAwait(false);
                 }
                 
@@ -102,8 +104,7 @@ namespace DataAccessLayer.Crud.Office
         {
             Contract.Assert(office != null, "Invalid Poco");
             IDbConnection connection = null;
-            OFICINAS currentPoco;
-            currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
+            var currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
             Contract.Assert(currentPoco != null, "Invalid Poco");
             var retValue = false;
           

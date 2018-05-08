@@ -438,32 +438,64 @@ namespace KarveTest.DAL
         public async Task Should_InsertContacts_Correctly()
         {
             // arrange
-            IDictionary<string, string> fields = new Dictionary<string, string>();
-            fields.Add(CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI");
-            fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
-            fields.Add(CommissionAgent.Visitas, " * ");
-            fields.Add(CommissionAgent.Branches, "* ");
+            IDictionary<string, string> fields;
+            fields = new Dictionary<string, string>
+            {
+                {CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI"},
+                {CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE"},
+                {CommissionAgent.Visitas, " * "},
+                {CommissionAgent.Branches, "* "}
+            };
             string numComi = await GetFirstId();
             ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi);
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
             ComisioDto internalValue = (ComisioDto)commissionAgent.Value;
             ContactsDto contactsDto = new ContactsDto();
+            string contactosId = string.Empty;
+            int comiDelega = 0;
+            // this open a db connection and ensure that the primary key is unique.
+            using (var dbconnection = _sqlExecutor.OpenNewDbConnection())
+            {
+                CONTACTOS_COMI comi = new CONTACTOS_COMI();
+                contactosId  = dbconnection.UniqueId(comi);
+                var allDelega = await dbconnection.GetAsyncAll<COMI_DELEGA>();
+                var singleDelega = allDelega.FirstOrDefault();
+                if (singleDelega != null)
+                {
+                    comiDelega = singleDelega.cldIdDelega;
+                }
+            }
             Random random = new Random();
-            contactsDto.ContactId = (random.Next() % 2000).ToString();
-            contactsDto.ContactName = "Pina";
+            contactsDto.ContactId = contactosId;
+            contactsDto.ContactName = "Pineapple";
             contactsDto.ContactsKeyId = internalValue.NUM_COMI;
-            contactsDto.CodeId= (random.Next() % 2000).ToString();
             contactsDto.Nif = "Y171559F";
+            contactsDto.Email = "pineapple@microsoft.com";
+            contactsDto.Movil = "33409304";
+            contactsDto.State = 0;
+            contactsDto.ResponsabilitySource = new PersonalPositionDto();
+            contactsDto.ResponsabilitySource.Code = "1";
+            contactsDto.ResponsabilitySource.Name = "GERENTE";
+            contactsDto.CurrentDelegation = comiDelega.ToString();
             contactsDto.IsDirty = true;
             contactsDto.IsNew = true;
-            contactsDto.CodeId = "92";
             IHelperDataServices helper = _dataServices.GetHelperDataServices();
             IList<ContactsDto> entities = new List<ContactsDto>();
             entities.Add(contactsDto);
-            // executre
+            // act
             bool inserted = await helper.ExecuteBulkInsertAsync<ContactsDto, CONTACTOS_COMI>(entities);
+            var allSavedContacts = await helper.GetMappedAllAsyncHelper<ContactsDto, CONTACTOS_COMI>();
+            var singleContact = allSavedContacts.FirstOrDefault(x => x.ContactId == contactosId);
             Assert.True(inserted);
+            Assert.NotNull(singleContact);
+            Assert.AreEqual(singleContact.ContactsKeyId, contactsDto.ContactsKeyId);
+            Assert.AreEqual(singleContact.Email, contactsDto.Email);
+            Assert.AreEqual(singleContact.Nif, contactsDto.Nif);
+            Assert.AreEqual(singleContact.Movil, contactsDto.Movil);
+            Assert.AreEqual(singleContact.State, contactsDto.State);
+            Assert.AreEqual(singleContact.ResponsabilitySource.Code, contactsDto.ResponsabilitySource.Code);
+            Assert.AreEqual(singleContact.ResponsabilitySource.Name, contactsDto.ResponsabilitySource.Name);
         }
 
     }

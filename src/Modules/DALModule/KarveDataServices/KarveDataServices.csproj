@@ -89,9 +89,11 @@
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="DataObjects\IHelperMasterCommon.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
+    <Compile Include="DataObjects\IValidDomainObject.cs" />
     <Compile Include="DataTransferObject\BrokerDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
     <Compile Include="DataTransferObject\DelegaContableDto.cs" />
+    <Compile Include="DataTransferObject\InvoiceComponent.cs" />
     <Compile Include="DataTransferObject\InvoiceDto.cs" />
     <Compile Include="DataTransferObject\ContractDto.cs" />
     <Compile Include="DataTransferObject\ContractSummaryDto.cs" />

@@ -1,23 +1,35 @@
-﻿using System;
-using DevExpress.Xpo;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices.DataObjects
 {
     /// <summary>
     ///  Marker interface
     /// </summary>
-    public interface IInvoiceData
+    public interface IInvoiceData: IValidDomainObject
     {
         /// <summary>
         ///  Return the value object from an entity.
         /// </summary>
         InvoiceDto Value { set; get; }
         /// <summary>
-        /// Invoice item to be modeled.
+        /// ContractSummary 
         /// </summary>
-        IEnumerable<InvoiceItem>  InvoiceItems { get; set;} 
+        IEnumerable<ContractDto> ContractSummary { get; }
+        /// <summary>
+        /// Client summary dto.
+        /// </summary>
+        IEnumerable<ClientSummaryDto> ClientSummary { get; }
+
+        /// <summary>
+        /// InvoiceSummary
+        /// </summary>
+        IEnumerable<InvoiceSummaryDto> InvoiceItems { get; set; }
+        /// <summary>
+        /// InvoiceSummary
+        /// </summary>
+        IEnumerable<InvoiceSummaryValueDto> InvoiceSummary { get; }
+
     }
 
 }

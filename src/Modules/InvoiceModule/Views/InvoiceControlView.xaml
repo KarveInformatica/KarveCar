@@ -16,6 +16,7 @@
     <Grid>
         
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -35,25 +36,157 @@
                     </Style>
                 </ResourceDictionary>
             </Grid.Resources>
-            <Syncfusion:SfDataGrid x:Name="InvoiceControlSummary"
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding ItemName}"></TextBlock>
+        </StackPanel>
+
+        <Syncfusion:SfDataGrid x:Name="InvoiceControlSummary"
                                ColumnSizer="AutoLastColumnFill"
-                               Grid.Row="0"
-                                   AutoGenerateColumns="True"
-                                    AllowDraggingColumns="True"
+                               Grid.Row="1"
+                               AutoGenerateColumns="False"
+                               AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
                                AllowResizingColumns="True"
                                AllowSorting="True"
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
-                                  
-                            
                                NavigationMode="Row"
-                 
+                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                >
+                <!--
+           OfficeCode,InvoiceType,Seat
+            -->
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnumerofactura, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="InvoiceName" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lseriefactura, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="InvoiceSerie" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False"
+                                           AllowGrouping="True"/>
 
+                <Syncfusion:GridTextColumn HeaderText="{Binding lreferenciafactura, Source={StaticResource ResourceLanguage}}" 
+                                           
+                                           MappingName="InvoiceRef" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False"
+                                           AllowGrouping="True"/>
 
+                <Syncfusion:GridTemplateColumn  HeaderText="{Binding lcodigocliente, Source={StaticResource ResourceLanguage}}" 
+                                                MappingName="InvoiceCode" FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock  DockPanel.Dock="Left" Padding="2,0" Text="{Binding InvoiceCode}" />
+                                <Button DockPanel.Dock="Right" Command="{Binding ShowCommand}" CommandParameter="{Binding InvoiceCode}" Height="20" Width="20">
+                                    <Image Source="/KarveControls;component/Images/goarrow.png"></Image>
+                                </Button>
+                            </DockPanel>
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                </Syncfusion:GridTemplateColumn>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lclientname, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="ClientName" 
+                                           TextAlignment="Left"
+                                           MinimumWidth="180"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcontract, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="InvoiceContract" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+               
+                <Syncfusion:GridDateTimeColumn HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}"
+                                               MappingName="InvoiceDate"
+                                               TextAlignment="Center"
+                                               AllowFiltering="True"                                
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="False"
+                                               AllowGrouping="True">
+                </Syncfusion:GridDateTimeColumn>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lbase, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="InvoiceBase"
+                                           TextAlignment="Center"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False" 
+                                           AllowGrouping="True">
+
+                </Syncfusion:GridTextColumn>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcuota, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="InvoiceFee"
+                                           TextAlignment="Center"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False" 
+                                           AllowGrouping="True">
+
+                </Syncfusion:GridTextColumn>
+               
+                <Syncfusion:GridTextColumn HeaderText="{Binding ltotal, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="TotalInvoice" 
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnombreempresa, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="CompanyName" 
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding loficina, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="OfficeCode" 
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding ltipofactura, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="InvoiceType" 
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding lasiento, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Seat" 
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+            </Syncfusion:SfDataGrid.Columns>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenItemCommand}" CommandParameter="{Binding ElementName=InvoiceControlSummary, Path=SelectedItem}"/>
@@ -69,40 +202,7 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Syncfusion:SfDataGrid.Resources>
-                <!--
-                <Syncfusion:SfDataGrid.Columns>
-                    <Syncfusion:GridTextColumn HeaderText="" 
-                                           MappingName="Invoice" 
-                                           TextAlignment="Left"
-                                           AllowFiltering="True"                                
-                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="False"
-                                           AllowGrouping="True"/>
-
-                    <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" 
-                                                            MappingName="Name"
-                                                            TextAlignment="Left"
-                                                            AllowFiltering="True"
-                                                            AllowEditing="False"
-                                                            AllowGrouping="True"
-                                                            FilterPopupStyle="{StaticResource GenericCodeStyle}">
-
-                    </Syncfusion:GridTextColumn>
-
-                    <Syncfusion:GridTextColumn  HeaderText="{Binding lcliente, Source={StaticResource ResourceLanguage}}" 
-                                                        MappingName="Client" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcontracto, Source={StaticResource ResourceLanguage}}" MappingName="Contract" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}" MappingName="Date" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcuota, Source={StaticResource ResourceLanguage}}" MappingName="Fee" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lbase, Source={StaticResource ResourceLanguage}}" MappingName="Base" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="Total" MappingName="Total" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcompany, Source={StaticResource ResourceLanguage}}" MappingName="Company" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lrbtnOficina, Source={StaticResource ResourceLanguage}}" MappingName="Office" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding ltipo, Source={StaticResource ResourceLanguage}}" MappingName="Type" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <Syncfusion:GridTextColumn HeaderText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" MappingName="Number" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-
-            </Syncfusion:SfDataGrid.Columns>
--->
+            
             
         </Syncfusion:SfDataGrid>
         <Border Height="60"
@@ -111,7 +211,7 @@
             BorderBrush="Black"
             BorderThickness="1"
             Opacity="50"
-                Grid.Row="1"
+                Grid.Row="2"
             Visibility="{Binding IsBusy,
                                  Mode=TwoWay,
                                  Converter={StaticResource VisibilityConverter}}">

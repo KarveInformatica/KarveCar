@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using KarveControls.Generic;
 using System.Windows.Input;
+using KarveCommon;
+using KarveCommon.Generic;
 
 namespace KarveControls
 {
@@ -108,7 +110,7 @@ namespace KarveControls
         /// Data object dependency properties.
         /// </summary>
         public static readonly DependencyProperty DataAllowedDependencyProperty =
-            DependencyProperty.Register("DataAllowed", typeof(ControlExt.DataType), typeof(DataField), new PropertyMetadata(ControlExt.DataType.Any, OnDataAllowedChanged));
+            DependencyProperty.Register("DataAllowed", typeof(DataType), typeof(DataField), new PropertyMetadata(DataType.Any, OnDataAllowedChanged));
 
         private static void OnDataAllowedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -118,16 +120,16 @@ namespace KarveControls
 
         private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e)
         {
-            ControlExt.DataType dataType = (ControlExt.DataType)e.NewValue;
+            DataType dataType = (DataType)e.NewValue;
         }
 
         #region
         /// <summary>
         /// DataAllowed.
         /// </summary>
-        public ControlExt.DataType DataAllowed
+        public DataType DataAllowed
         {
-            get { return (ControlExt.DataType)GetValue(DataAllowedDependencyProperty); }
+            get { return (DataType)GetValue(DataAllowedDependencyProperty); }
             set { SetValue(DataAllowedDependencyProperty, value); }
         }
         #endregion
@@ -138,7 +140,7 @@ namespace KarveControls
             if (value != null)
             {
                 string objectValue = value.ToString();
-                if (DataAllowed == ControlExt.DataType.Email)
+                if (DataAllowed == DataType.Email)
                 {
                     objectValue = objectValue.Replace("#", "@");
                 }
@@ -431,7 +433,7 @@ namespace KarveControls
             if (textField != null)
             {
                 string tmpValue = value;
-                if (DataAllowed == ControlExt.DataType.Email)
+                if (DataAllowed == DataType.Email)
                 {
                     tmpValue = value.Replace("@", "#");
                 }
@@ -501,7 +503,7 @@ namespace KarveControls
 
         #endregion
         #region LabelTextWidth 
-        public readonly static DependencyProperty LabelTextWidthDependencyProperty =
+        public static readonly DependencyProperty LabelTextWidthDependencyProperty =
             DependencyProperty.Register(
                 "LabelTextWidth",
                 typeof(double),

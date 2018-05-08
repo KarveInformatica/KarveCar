@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccessLayer.Model;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using KarveTest.Mock;
 using MasterModule.ViewModels;
 using Moq;
 using NUnit.Framework.Internal;
@@ -17,32 +19,28 @@ namespace KarveTest.ViewModels
     [TestFixture]
     internal class TestProviderInfoViewModel: TestViewModelBase
     {
-        private IDataServices _dataServices;
-        private IConfigurationService _serviceConf;
-        private Mock<IEventManager> _eventManager  = new Mock<IEventManager>();
-        private Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
-        private ProviderInfoViewModel _infoViewModel; 
-
+        private ProviderInfoViewModel _infoViewModel;
+        private readonly Mock<ISupplierDataServices> _supplierDataServices = new Mock<ISupplierDataServices>();
         [OneTimeSetUp]
         public void SetUp()
         {
-            _dataServices = null;
             _infoViewModel = new ProviderInfoViewModel(_mockEventManager.Object,
             _mockConfigurationService.Object,
             _mockDataServices.Object,
             _mockDialogService.Object,
             _mockRegionManager.Object, 
             _mockRequestController.Object);
+           // _supplierDataServices.Setup(x=>x.GetAsyncSupplierDo())
          
         }
 
         [Test]
         public async void Should_Update_SupplierViewWithANewPayload()
         {
-            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
-            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
+            ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
            
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
@@ -59,10 +57,10 @@ namespace KarveTest.ViewModels
         [Test]
         public async void Should_Update_ViewItem()
         {
-            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
-            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
+            ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
@@ -73,10 +71,10 @@ namespace KarveTest.ViewModels
         [Test]
         public async Task Should_Insert_NewProvider()
         {
-            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
-            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
+            ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
@@ -89,21 +87,25 @@ namespace KarveTest.ViewModels
         public async Task Should_Delete_SupplierItem()
         {
 
+            ISupplierData data = new Supplier();
+            data.Value = new SupplierDto();
+            data.Value.NUM_PROVEE = "01";
+            var dataServices = new Mock<IDataServices>();
+            var supplierDataServices = new Mock<ISupplierDataServices>();
+            supplierDataServices.Setup(x=>x.GetAsyncSupplierDo(It.IsAny<string>())).ReturnsAsync(data);
+            supplierDataServices.Setup(c => c.DeleteAsyncSupplierDo(It.IsAny<ISupplierData>())).ReturnsAsync(true);
+            dataServices.Setup(x=>x.GetSupplierDataServices()).Returns(supplierDataServices.Object);
             // arrange
-            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
-            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
-            Mock<IDataServices> dataServices = new Mock<IDataServices>();
-            Mock<IConfigurationService> serviceConf = new Mock<IConfigurationService>();
-            Mock<ISupplierDataServices> supplierDataServices= new Mock<ISupplierDataServices>();
+            ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
             DataPayLoad payLoad = new DataPayLoad();
             payLoad.HasDataObject = true;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Delete;
-            supplierDataServices.Setup(c => c.DeleteAsyncSupplierDo(dataObject)).ReturnsAsync(true);
-            _eventManager.Setup(notify => notify.NotifyToolBar(payLoad)).Verifiable();
+            _mockEventManager.Setup(notify => notify.NotifyToolBar(payLoad)).Verifiable();
            
             // Act.
             _infoViewModel.IncomingPayload(payLoad);
@@ -124,7 +126,7 @@ namespace KarveTest.ViewModels
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Delete;
             supplierDataServices.Verify(c => c.DeleteAsyncSupplierDo(dataObject), Times.Never);
-            _eventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never);
+            _mockEventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never);
             // Act.
             _infoViewModel.IncomingPayload(payLoad);
 
@@ -152,19 +154,19 @@ namespace KarveTest.ViewModels
         [Test]
         private async Task<ISupplierData> Should_Load_A_Supplier_Correctly()
         {
-            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
-            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
+            ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
             Assert.AreEqual(value, dataObject.Value.NUM_PROVEE);
             return dataObject;
         }
         private async Task<ISupplierData> ArrangeDataObject()
         {
-            IEnumerable<SupplierSummaryDto> summary = await _dataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
+            IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
-            ISupplierData dataObject = await _dataServices.GetSupplierDataServices().GetAsyncSupplierDo(value.Codigo);
+            ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
             return dataObject;
         }
         [Test]
@@ -178,14 +180,14 @@ namespace KarveTest.ViewModels
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            _eventManager.Setup(notify => notify.NotifyToolBar(payLoad)).Verifiable();
+           _mockEventManager.Setup(notify => notify.NotifyToolBar(payLoad)).Verifiable();
             IDictionary<string,object> eventDictionary = new Dictionary<string, object>();
             eventDictionary["DataObject"] = dataObject;
             _infoViewModel.ItemChangedCommand.Execute(eventDictionary);
         }
 
         [Test]
-        public async void Should_Avoid_Notification_WithBad_Keys_During_A_Change()
+        public async Task Should_Avoid_Notification_WithBad_Keys_During_A_Change()
         {
             ISupplierData dataObject = await ArrangeDataObject();
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
@@ -195,14 +197,14 @@ namespace KarveTest.ViewModels
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            _eventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never());
+            _mockEventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never());
             IDictionary<string, object> eventDictionary = new Dictionary<string, object>();
             eventDictionary["DataParameters"] = dataObject;
             _infoViewModel.ItemChangedCommand.Execute(eventDictionary);
         }
 
         [Test]
-        public async void Should_Avoid_Notification_With_BadSubSystem_During_A_Change()
+        public async Task Should_Avoid_Notification_With_BadSubSystem_During_A_Change()
         {
             ISupplierData dataObject = await ArrangeDataObject();
             Mock<IDataServices> dataServices = new Mock<IDataServices>();
@@ -212,7 +214,7 @@ namespace KarveTest.ViewModels
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
             payLoad.DataObject = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            _eventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never());
+            _mockEventManager.Verify(notify => notify.NotifyToolBar(payLoad), Times.Never());
             IDictionary<string, object> eventDictionary = new Dictionary<string, object>();
             eventDictionary["DataParameters"] = dataObject;
             _infoViewModel.ItemChangedCommand.Execute(eventDictionary);

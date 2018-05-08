@@ -109,11 +109,13 @@
     <Compile Include="Command\CompanyDataPayload.cs" />
     <Compile Include="Command\HelperDataPayLoad.cs" />
     <Compile Include="Command\IDataPayLoadHandler.cs" />
+    <Compile Include="Command\InvoiceDataPayload.cs" />
     <Compile Include="Command\OfficeDataPayload.cs" />
     <Compile Include="Command\SaveDataLayerCommand.cs" />
     <Compile Include="Command\SupplierDataPayload.cs" />
     <Compile Include="Command\ToolBarCommand.cs" />
     <Compile Include="Command\ToolbarDataPayload.cs" />
+    <Compile Include="Command\ToolbarException.cs" />
     <Compile Include="Command\VehicleDataPayload.cs" />
     <Compile Include="IMessageHandler.cs" />
     <Compile Include="IToolBarView.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="ToolBarModule.cs" />
     <Compile Include="Command\InsertDataCommand.cs" />
     <Compile Include="ViewModel\KarveToolBarViewModel.cs" />
+    <Compile Include="ViewModel\SubsystemFactory.cs" />
     <Compile Include="View\KarveToolBarView.xaml.cs">
       <DependentUpon>KarveToolBarView.xaml</DependentUpon>
     </Compile>

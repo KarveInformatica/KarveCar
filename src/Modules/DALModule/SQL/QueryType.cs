@@ -52,6 +52,8 @@ namespace DataAccessLayer.SQL
         QueryInvoiceSummary,
         QueryInvoiceSummaryExtended,
         QueryInvoiceSummaryPaged,
+        QueryInvoiceSingle,
+        QueryInvoiceSingleByDate,
         QueryClientSummaryExt,
         QueryCommissionAgentSummary,
         QueryBrokerContacts,
@@ -59,6 +61,16 @@ namespace DataAccessLayer.SQL
         QuerySuppliersBranches,
         QuerySupplierBranchesPaged,
         QueryCompanyOffices,
-        QueryOfficeByCompany
+        QueryOfficeByCompany,
+        HolidaysOfficeDelete,
+        QueryInvoiceItem,
+        QueryVehicleModel,
+        QueryVehicleColor,
+        QueryBrandByVehicle,
+        QueryVehicleBrand,
+        QueryVehiclePhoto,
+        QueryVehicleActivity,
+        QueryClientSummaryExtById,
+        QueryContractSummaryBasic
     };
 }

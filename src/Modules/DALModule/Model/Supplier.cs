@@ -144,26 +144,23 @@ namespace DataAccessLayer.Model
         private IEnumerable<CityDto> _cityDtos = new ObservableCollection<CityDto>();
         private IEnumerable<DeliveringFormDto> _deliveringFormDto;
        
-        public Supplier()
+        public Supplier(): this(null, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
-
         }
-        public Supplier(ISqlExecutor executor)
+        public Supplier(ISqlExecutor executor) : this(executor, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
-            _sqlExecutor = executor;
-            _supplierValue = new SupplierPoco();
-            _supplierDto = new SupplierDto();
-            _supplierMapper = MapperField.GetMapper();
         }
-
-        public Supplier(ISqlExecutor executor, string id)
+        public Supplier(ISqlExecutor executor, string id): this(executor, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
-            _sqlExecutor = executor;
-            _supplierValue = new SupplierPoco();
-            _supplierDto = new SupplierDto();
             _supplierValue.NUM_PROVEE = id;
             _supplierDto.NUM_PROVEE = id;
-            _supplierMapper = MapperField.GetMapper();
+        }
+        public Supplier(ISqlExecutor executor, IMapper mapper, SupplierPoco supplierPoco, SupplierDto dto)
+        {
+            _supplierValue = supplierPoco;
+            _supplierDto = dto;
+            _sqlExecutor = executor;
+            _supplierMapper = mapper;
         }
         /**
          *  This code copy all properties in commmon to a soruce to a destination

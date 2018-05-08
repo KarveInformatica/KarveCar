@@ -8,5 +8,6 @@ namespace DataAccessLayer.DataObjects
         public string Name { get; set; }
         public string Country { get; set; }
         public string CountryCode { get; set; }
+        public bool Valid { get; set; }
     }
 }

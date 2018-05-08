@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using KarveCommon.Generic;
 
 namespace KarveControls.UIObjects
 {
@@ -16,7 +17,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         ///  Data Allowed
         /// </summary>
-        public ControlExt.DataType DataAllowed { get ; set ; }
+        public DataType DataAllowed { get ; set ; }
         /// <summary>
         ///  If it is allowed empty.
         /// </summary>

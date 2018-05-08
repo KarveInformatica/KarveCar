@@ -56,38 +56,7 @@ namespace KarveTest.DAL
             }
             return dto;
         }
-        [Test]
-        public async Task Should_Add_MagnifierCurrentSettings()
-        {
-            // prepare
-            string path = @"TestSetting.xml";
-            
-            GridSettingsDto dto = new GridSettingsDto();
-            try
-            {
-                dto = LoadFileFromSettings(path, 2);
-            }
-            catch (IOException e)
-            {
-                Assert.Fail(e.Message);
-            }
-            // act
-            try
-            {
-                bool currentValue = await _settingsDataService.SaveMagnifierSettings(dto);
-                // check if the value has been added
-                GridSettingsDto dataValue = await _settingsDataService.GetMagnifierSettings(dto.GridIdentifier);
-                // assert
-                Assert.AreEqual(currentValue, true);
-                Assert.AreEqual(dataValue.GridIdentifier, dto.GridIdentifier);
-
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
-            }
-        }
-
+       
         [Test]
         public async Task Should_UpdateOrInsert_GridSerialized()
         {

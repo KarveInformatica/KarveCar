@@ -73,14 +73,13 @@ namespace KarveTest.DAL
         public async Task Should_Fail_With_An_EmptyValue()
         {
             // prepare.
-            using (IDbConnection dbConnection = _sqlExecutor.OpenNewDbConnection())
-            {
+           
                 var singleValue = string.Empty;
                 // Act.
                 IClientData data = await _clientDataServices.GetAsyncClientDo(singleValue);
                 // Assert
                 Assert.AreEqual(data.Valid, false);
-            }
+            
         }
         /// <summary>
         ///  This test shall fail with a bad value for the client entity

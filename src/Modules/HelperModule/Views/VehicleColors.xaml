@@ -78,8 +78,10 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Syncfusion:SfDataGrid.Resources>
-                <i:Interaction.Behaviors>
-                    <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <i:Interaction.Behaviors>
+                        <karveControls:GridColumnFilterBehaviour 
+                            AssistProperties="{Binding Path=AssistProperties}"/>
+                        <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </i:Interaction.Behaviors>
              
 
@@ -89,3 +91,4 @@
             </GroupBox>
     </Grid>
 </UserControl>
+

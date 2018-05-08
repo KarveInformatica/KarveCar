@@ -139,32 +139,29 @@
 
                         </KarveControls:DualFieldSearchBox>
 
-
-                        <KarveControls:DualFieldSearchBox x:Name="Modelo"
+                <KarveControls:DualFieldSearchBox x:Name="Modelo"
                                                   TextContentFirstWidth="50"
                                                   TextContentSecondWidth="150"
                                                   LabelTextWidth="50"
                                                   Height="30"
                                                   LabelText="{Binding lmodelo, Source={StaticResource ResourceLanguage}}"
-                                                 
                                                   AssistTableName="MODELO"
                                                   IsReadOnlySecond="True"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SourceView="{Binding Path=ModelDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  DataFieldFirst="MODELO"
+                                                  SourceView="{Binding Path=ModelDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="MO1"
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
-                                                  AssistDataFieldSecond="Nombre"
-                                                  AssistDataFieldFirst="Code"
+                                                  AssistProperties="Codigo,Nombre,Marca,NomeMarca,Variante,Categoria,Chassis,Referencia"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
                         </KarveControls:DualFieldSearchBox>
                         <KarveControls:DataField x:Name="Variante" 
                                          DataFieldHeight="30"
                                          ItemChangedCommand="{Binding ItemChangedCommand}"
-                                         TextContent="{Binding ElementName=Modelo, Path=SelectedItem.Variante}"
+                                         TextContent="{Binding ElementName=Modelo, Path=SelectedObject.Variante, Mode=TwoWay}"
                                          TextContentWidth="100" 
                                          DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         DataSourcePath="" LabelTextWidth="60" LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
+                                         LabelTextWidth="60" LabelText="{Binding lvariante, Source={StaticResource ResourceLanguage}}" LabelVisible="True">
                         </KarveControls:DataField>
 
                     </av:WrapPanel>

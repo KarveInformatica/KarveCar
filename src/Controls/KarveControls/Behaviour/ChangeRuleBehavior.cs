@@ -1,5 +1,7 @@
 ﻿using KarveControls.Generic;
 using System.Windows;
+using KarveCommon;
+using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveControls.Behaviour
@@ -120,7 +122,7 @@ namespace KarveControls.Behaviour
 
         private void SetValues(string provinceValue, string provField, string proveExt, object newDataObject)
         {
-            var prov = ComponentUtils.GetTextDo(newDataObject, provField, ControlExt.DataType.Any);
+            var prov = ComponentUtils.GetTextDo(newDataObject, provField, DataType.Any);
             if (!string.IsNullOrEmpty(prov))
             {
                 ComponentUtils.SetPropValue(newDataObject, provField, provinceValue);
@@ -128,7 +130,7 @@ namespace KarveControls.Behaviour
             else
             {
                 var provincia =
-                    ComponentUtils.GetTextDo(newDataObject, proveExt, ControlExt.DataType.Any);
+                    ComponentUtils.GetTextDo(newDataObject, proveExt, DataType.Any);
                 if (!string.IsNullOrEmpty(provincia))
                 {
                     ComponentUtils.SetPropValue(newDataObject, proveExt, provinceValue);
@@ -142,7 +144,7 @@ namespace KarveControls.Behaviour
             var box = this.RelatedObject as DualFieldSearchBox;
 
 
-            var cpValue = ComponentUtils.GetTextDo(newDataObject, "POBLACION", ControlExt.DataType.Any);
+            var cpValue = ComponentUtils.GetTextDo(newDataObject, "POBLACION", DataType.Any);
             if (!string.IsNullOrEmpty(cpValue))
             {
                 var provinceValue = cpValue.Substring(0, 2);
@@ -163,7 +165,7 @@ namespace KarveControls.Behaviour
             var box = this.RelatedObject as DualFieldSearchBox;
 
            
-            var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", ControlExt.DataType.Any);
+            var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", DataType.Any);
             if (cpValue != null)
             {
                 var provinceValue = cpValue.Substring(0, 2);
@@ -184,7 +186,7 @@ namespace KarveControls.Behaviour
              */
             if (!string.IsNullOrEmpty(RelatedPath))
             {
-                var relatedValue = ComponentUtils.GetTextDo(newDataObject, Path, ControlExt.DataType.Any);
+                var relatedValue = ComponentUtils.GetTextDo(newDataObject, Path, DataType.Any);
                 if (!string.IsNullOrEmpty(relatedValue))
                 {
                     var provinceValue = relatedValue.Substring(0, 2);

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls;
 using KarveDataServices.DataTransferObject;
@@ -45,7 +46,7 @@ namespace MasterModule.ViewModels
                     AssistTableName = "MERCADO",
                     AssistDataFieldFirst = "CODIGO",
                     AssistDataFieldSecond = "NOMBRE",
-                    DataAllowed = ControlExt.DataType.Any,
+                    DataAllowed = DataType.Any,
                     DataField = "MERCADO",
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
@@ -62,7 +63,7 @@ namespace MasterModule.ViewModels
                     AssistDataFieldFirst = "CODIGO",
                     AssistDataFieldSecond = "NOMBRE",
                     AssistProperties = "Code,Name",
-                    DataAllowed = ControlExt.DataType.Any,
+                    DataAllowed = DataType.Any,
                     DataField = "NEGOCIO",
                     SourceView = new DataTable(),
                     DataSource = new object(),
@@ -81,7 +82,7 @@ namespace MasterModule.ViewModels
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
                     AssistProperties = "Code,Name",
-                    DataAllowed = ControlExt.DataType.Any,
+                    DataAllowed = DataType.Any,
                     SourceView = new DataTable(),
                     DataSource = new object(),
                     LabelVisible = true,
@@ -95,7 +96,7 @@ namespace MasterModule.ViewModels
                     AssistDataFieldFirst = "COD_CLAVE",
                     AssistDataFieldSecond = "NOMBRE",
                     AssistProperties = "Numero, Nombre",
-                    DataAllowed = ControlExt.DataType.Any,
+                    DataAllowed = DataType.Any,
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
                     SourceView = new DataTable(),
@@ -112,7 +113,7 @@ namespace MasterModule.ViewModels
                     AssistDataFieldSecond = "NOMBRE",
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
-                    DataAllowed = ControlExt.DataType.Any,
+                    DataAllowed = DataType.Any,
                     AssistProperties = "Code,Name",
                     SourceView =  new DataTable(),
                     DataSource = new object(),

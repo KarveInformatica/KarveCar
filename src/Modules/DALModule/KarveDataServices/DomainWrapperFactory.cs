@@ -10,7 +10,7 @@ namespace KarveDataServices
     /// </summary>
     public class AbstractDomainWrapperFactory
     {
-        private IDataServices _services;
+        private readonly IDataServices _services;
         private static AbstractDomainWrapperFactory value = null;
         // singleton factory for the domain.
         
@@ -81,5 +81,10 @@ namespace KarveDataServices
             return data;
         }
 
+        public IInvoiceData CreateInvoice(string s)
+        {
+            var services = _services.GetInvoiceDataServices();
+            return services.GetNewInvoiceDo(s);
+        }
     }
 }

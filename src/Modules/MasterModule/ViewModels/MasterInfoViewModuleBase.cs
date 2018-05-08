@@ -5,17 +5,13 @@ using KarveCommon.Services;
 using MasterModule.Common;
 using Prism.Regions;
 using KarveDataServices;
-using KarveCommon.Generic;
 using KarveCommonInterfaces;
 using System.Windows.Input;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
 using Prism.Commands;
-using System;
 using System.Linq;
 using KarveControls;
-using System.Diagnostics.Contracts;
-using System.Reflection;
 using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
@@ -48,7 +44,7 @@ namespace MasterModule.ViewModels
         /// <param name="controller">Interaction Request Contriller. I
         /// It allows the controller to</param>
         /// <param name="manager">RegionManager. It handles the region manager.</param>
-        public MasterInfoViewModuleBase(IEventManager eventManager,
+        protected MasterInfoViewModuleBase(IEventManager eventManager,
                                         IConfigurationService configurationService,
                                         IDataServices dataServices,
                                         IDialogService dialogService,
@@ -133,7 +129,7 @@ namespace MasterModule.ViewModels
         /// Client handler. A client has associated a
         /// </summary>
         /// <param name="obj">Client magnifier</param>
-        protected async virtual void OnClientMagnifier(object item)
+        protected virtual async void OnClientMagnifier(object item)
         {
             if (item == null)
                 return;
@@ -177,7 +173,7 @@ namespace MasterModule.ViewModels
             Dictionary<string, object> ev = new Dictionary<string, object>();
             ev["DataObject"] = dataObject;
             var items = new List<ContactsDto>();
-            var contact = contacts.Where(x => x.ContactId == contactsDto.ContactId).FirstOrDefault();
+            var contact = contacts.FirstOrDefault(x => x.ContactId == contactsDto.ContactId);
             if (contact == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;
@@ -218,7 +214,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
             Dictionary<string, object> ev = new Dictionary<string, object>();
             ev["DataObject"] = DataObject;
             var items = new List<BranchesDto>();
-            var branch = delegation.Where(x => x.BranchId == branchesDto.BranchId).FirstOrDefault();
+            var branch = delegation.FirstOrDefault(x => x.BranchId == branchesDto.BranchId);
             if (branch == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;
@@ -252,14 +248,14 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         protected IReadOnlyDictionary<string, object> EventDictionary { get; set; }
         internal abstract Task SetVisitReseller(ResellerDto param, VisitsDto b);
 
-        static internal VisitsDto SetDtoCrossReference(ContactsDto contacts, VisitsDto visit)
+        internal static VisitsDto SetDtoCrossReference(ContactsDto contacts, VisitsDto visit)
         {
             visit.ContactsSource = contacts;
             visit.ContactName = contacts.ContactName;
             visit.ContactId = contacts.ContactId;
             return visit;
         }
-        static internal BranchesDto SetDtoCrossReference(ProvinciaDto province, BranchesDto branch) 
+        internal static BranchesDto SetDtoCrossReference(ProvinciaDto province, BranchesDto branch) 
         {
             branch.ProvinceSource = province;
             branch.ProvinceId = province.Code;
@@ -272,7 +268,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// Contact Magnifier.
         /// </summary>
         /// <param name="obj">Contact magnifier.</param>
-        protected async virtual void OnContactMagnifier(object item)
+        protected virtual async void OnContactMagnifier(object item)
         {
             if (item == null)
                 return;
@@ -287,7 +283,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// Province handler. A branch has associated a province to be selected.
         /// </summary>
         /// <param name="item">Branches to be associated a province.</param>
-        protected async virtual void OnProvinceAssist(object item)
+        protected virtual async void OnProvinceAssist(object item)
         {
             if (item == null)
                 return;
@@ -301,7 +297,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         ///  ResellerMagnifier.
         /// </summary>
         /// <param name="item"></param>
-        protected async virtual void OnResellerMagnifier(object item)
+        protected virtual async void OnResellerMagnifier(object item)
         {
             if (item == null)
                 return;
@@ -315,9 +311,9 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// Personal Position handler. A contact has associated a personal position in the company to be selected.
         /// </summary>
         /// <param name="item">Contacts to be associated with a position.</param>
-        protected async virtual void OnContactChargeAssist(object item)
+        protected virtual async void OnContactChargeAssist(object item)
         {
-            await OnAssistAsync<PersonalPositionDto, PERCARGOS>(KarveLocale.Properties.Resources.lrgrPersonal, "Code,Name", async delegate (PersonalPositionDto p)
+            await OnAssistAsync<PersonalPositionDto, PERCARGOS>("Personal", "Code,Name", async delegate (PersonalPositionDto p)
             {
                 ContactsDto b = item as ContactsDto;
                 await SetContactsCharge(p, b).ConfigureAwait(false);
@@ -331,7 +327,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         {
             Dictionary<string, object> ev = new Dictionary<string, object>();
             var items = new List<BaseDto>();
-            var outerDtoCandidate = outerDtoList.Where(x => x.CodeId == outerDto.CodeId).FirstOrDefault();
+            var outerDtoCandidate = outerDtoList.FirstOrDefault(x => x.CodeId == outerDto.CodeId);
             if (outerDtoCandidate == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;
@@ -417,42 +413,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         ///  contact charge command inside the contact.
         /// </summary>
         public ICommand ContactChargeMagnifierCommand { set; get; }
-        /// <summary>
-        ///  This build a data payload, enforcing the value that cames from the UI.
-        /// </summary>
-        /// <param name="eventDictionary">Dictionary that it cames from the UI components</param>
-        /// <returns>A payload to be sent to other view models.</returns>
-        protected DataPayLoad BuildDataPayload(IDictionary<string, object> eventDictionary)
-        {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.ObjectPath = ViewModelUri;
-            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
-            {
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                payLoad.PayloadType = DataPayLoad.Type.Update;
-            }
-            if (eventDictionary.ContainsKey("DataObject"))
-            {
-                if (eventDictionary["DataObject"] == null)
-                {
-                    if (DialogService != null)
-                    {
-                        DialogService.ShowErrorMessage("DataObject is null");
-                    }
-                }
-                var data = eventDictionary["DataObject"];
-                if (eventDictionary.ContainsKey("Field"))
-                {
-                    var name = eventDictionary["Field"] as string;
-                    GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
-                }
-                payLoad.DataObject = data;
-                eventDictionary["DataObject"] = data;
-                payLoad.DataDictionary = eventDictionary;
-            }
-            return payLoad;
-        }
-
+        
 
         /// <summary>
         ///  Name of the routing. We overrdie the name to provide a default.
@@ -509,13 +470,12 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// <param name="dtos">This is a list of contacts dto.</param>
         protected void ConfigureContactsCommand(IEnumerable<ContactsDto> dtos)
         {
-            if (dtos != null)
+            if (dtos == null)
+                return;
+            foreach (var c in dtos)
             {
-                foreach (var c in dtos)
-                {
-                    BaseDto v = c.ResponsabilitySource as BaseDto;
-                    v.ShowCommand = ContactChargeMagnifierCommand;
-                }
+                var v = c.ResponsabilitySource as BaseDto;
+                v.ShowCommand = ContactChargeMagnifierCommand;
             }
         }
         /// <summary>
@@ -524,25 +484,23 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// <param name="dtos">This is a list of dto.</param>
         protected void ConfigureVisitsCommand(IEnumerable<VisitsDto> dtos)
         {
-            if (dtos != null)
+            if (dtos == null)
+                return;
+            foreach (var c in dtos)
             {
-                foreach (var c in dtos)
+                if (c.ContactsSource is BaseDto contacts)
                 {
-                    var contacts = c.ContactsSource as BaseDto;
-                    if (contacts != null)
-                    {
-                        contacts.ShowCommand = ContactMagnifierCommand;
-                    }
-                    var reseller = c.SellerSource as BaseDto;
-                    if (reseller != null)
-                    {
-                        reseller.ShowCommand = ResellerMagnifierCommand;
-                    }
-                    var client = c.ClientSource as BaseDto;
-                    if (client != null)
-                    {
-                        client.ShowCommand = ClientMagnifierCommand;
-                    }
+                    contacts.ShowCommand = ContactMagnifierCommand;
+                }
+
+                if (c.SellerSource is BaseDto reseller)
+                {
+                    reseller.ShowCommand = ResellerMagnifierCommand;
+                }
+
+                if (c.ClientSource is BaseDto client)
+                {
+                    client.ShowCommand = ClientMagnifierCommand;
                 }
             }
         }

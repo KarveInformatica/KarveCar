@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="InvoiceModule.Views.InvoiceHeaderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InvoiceModule.Views"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <karveControls:DataField x:Name="InvoiceName"
+                                                 DataSourcePath="NUMERO_FAC"
+                                                  Height="30"
+                                                  IsReadOnly="True"
+                                                  LabelTextWidth="80"
+                                                  TextContentWidth="100"
+                                                  LabelText="{Binding lnumerofactura, Source={StaticResource ResourceLanguage}}"                                                
+                                                  Grid.Column="0"    
+                                                  ItemChangedCommand="{Binding ItemChangedCommand }"
+                                                  LabelVisible="True"
+                                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Margin="0,4,0,5"/>
+        <karveControls:DataDatePicker Grid.Column="1" 
+                                      LabelText="{Binding StringConstants_FechaFactura, Source={StaticResource ResourceLanguage}}" 
+                                      Grid.Row="0"
+                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                      karveControls:ControlExt.DataSourcePath="FECHA_FAC"
+                                      karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                      PickerWidth="100"
+                                      SelectedDate="{Binding Path=DataObject.FECHA_FAC, Mode=TwoWay, 
+                                      ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                                      x:Name="InvoiceDate" Height="Auto" Margin="25,4,33,5" Width="Auto" />
+
+        <Grid x:Name="InvoiceColumns" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <karveControls:DualFieldSearchBox x:Name="Client"
+                                                  Grid.Column="0"
+                                                  TextContentSecondWidth="200"
+                                                  TextContentFirstWidth="100"
+                                                  LabelTextWidth="50"
+                                              AssistProperties="Code,Name,Nif,Direction,Telefono,Movil,Email,CreditCardType, NUmberCreditCard,AccountableAccount,Zip,City,Sector,Reseller,Oficina,Falta"
+                                                  LabelText="{Binding lcliente, Source={StaticResource ResourceLanguage}}" 
+                                                  Height="30"                                                
+                                                  ItemChangedCommand="{Binding ItemChangedCommand }"
+                                                  LabelVisible="True"
+                                                  MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding ClientDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataFieldFirst="CLIENTE_FAC"
+                                                  AssistTableName="CLIENT_ASSIST">
+            </karveControls:DualFieldSearchBox>
+            <Button Command="{Binding AddNewClientCommand}" Grid.Column="1" Height="30">
+                <Image Source="/KarveControls;component/Images/bt_add.png" Height="30" Width="20" ToolTip="Añade cliente"></Image>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -8,8 +8,10 @@ using System.Diagnostics.Contracts;
 using DataAccessLayer.DataObjects;
 using AutoMapper;
 using System.Transactions;
+using Dapper;
 using KarveDapper.Extensions;
 using DataAccessLayer.Logic;
+using DataAccessLayer.SQL;
 
 namespace DataAccessLayer.Crud.Office
 {
@@ -18,8 +20,8 @@ namespace DataAccessLayer.Crud.Office
     /// </summary>
     internal sealed class OfficeDataDeleter: IDataDeleter<OfficeDtos>
     {
-        private ISqlExecutor _executor;
-        private IMapper _mapper;
+        private readonly ISqlExecutor _executor;
+        private readonly IMapper _mapper;
 
         /// <summary>
         ///  constructor
@@ -40,19 +42,25 @@ namespace DataAccessLayer.Crud.Office
         {
             Contract.Assert(data != null, "Invalid data transfer object");
             var currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(data);
-            bool retValue = false;
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            var retValue = false;
+            using (var connection = _executor.OpenNewDbConnection())
             {
                 try
                 {
-                    using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         retValue = await connection.DeleteAsync<OFICINAS>(currentPoco);
-                        if ((retValue) && (data.HolidayDates.Count<HolidayDto>()>0))
+                        if ((retValue) && (data.HolidayDates.Any()))
                         {
+                            QueryStore store = QueryStore.GetInstance();
+                            store.AddParam(QueryType.HolidaysOfficeDelete, currentPoco.CODIGO);
+                            var q = store.BuildQuery();
+                            var execQuery = await connection.ExecuteAsync(q);
+                            
+                            //var connection = await connection.DeleteAsync();
                             // now we can delete the associated holidays.
-                            var holidays=_mapper.Map<IEnumerable<HolidayDto>, IEnumerable<FESTIVOS_OFICINA>>(data.HolidayDates);
-                            retValue = await connection.DeleteAsync(holidays);
+                            //var holidays=_mapper.Map<IEnumerable<HolidayDto>, IEnumerable<FESTIVOS_OFICINA>>(data.HolidayDates);
+                            // retValue = await connection.DeleteAsync(holidays);
                         }
                         scope.Complete();
                     }

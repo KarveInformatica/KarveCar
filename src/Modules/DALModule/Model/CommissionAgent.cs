@@ -248,7 +248,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<BranchesDto> _delegationDto = new List<BranchesDto>();
         private IEnumerable<VisitsDto> _visitDto = new List<VisitsDto>();
         private IEnumerable<POBLACIONES> _poblaciones;
-        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
+     
         private IEnumerable<VisitTypeDto> _visitTypeDto;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
@@ -428,6 +428,7 @@ namespace DataAccessLayer.Model
             return c;
         }
 
+        /// <inheritdoc />
         /// <summary>
         /// This load the single value.
         /// <returns>This returns a bool value</returns>

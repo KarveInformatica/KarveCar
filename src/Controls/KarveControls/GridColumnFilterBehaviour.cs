@@ -9,7 +9,10 @@ using System.Windows.Interactivity;
 
 namespace KarveControls
 {
-    
+    /// <summary>
+    ///  This is a behaviour for filtering the columns to be generated in the grid.
+    ///  If the assist properties is empty we shall generate all columns.
+    /// </summary>
       public  class GridColumnFilterBehaviour : Behavior<SfDataGrid>
       {
           /// <summary>
@@ -27,8 +30,7 @@ namespace KarveControls
 
         private static void OnBuildSet(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            GridColumnFilterBehaviour filterBehaviour = d as GridColumnFilterBehaviour;
-            if (filterBehaviour != null)
+            if (d is GridColumnFilterBehaviour filterBehaviour)
             {
                 var properties = filterBehaviour.AssistProperties;
                 if (!string.IsNullOrEmpty(properties))
@@ -61,6 +63,11 @@ namespace KarveControls
           }
         private void AssociatedObject_AutogenerateCols(object sender, AutoGeneratingColumnArgs e)
         {
+            var assist = AssistProperties;
+            if (string.IsNullOrEmpty(assist))
+            {
+                return;
+            }
 
             if (!_sortedSet.Contains(e.Column.MappingName))
             {

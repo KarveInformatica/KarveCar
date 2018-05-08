@@ -42,6 +42,9 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
@@ -130,6 +133,9 @@
     <Compile Include="Views\HeaderDataView.xaml.cs">
       <DependentUpon>HeaderDataView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\InvoiceHeaderView.xaml.cs">
+      <DependentUpon>InvoiceHeaderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\InvoiceControlView.xaml.cs">
       <DependentUpon>InvoiceControlView.xaml</DependentUpon>
     </Compile>
@@ -159,6 +165,10 @@
     <Page Include="Views\HeaderDataView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InvoiceHeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InvoiceControlView.xaml">
       <SubType>Designer</SubType>
@@ -204,9 +214,17 @@
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveCar.Locale</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140C1044-4F56-4855-AF52-A2F91B369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DALModule\KarveDataServices\KarveDataServices.csproj">
       <Project>{83407587-1785-481b-a4fb-23e035173190}</Project>
       <Name>KarveDataServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MasterModule\MasterModule.csproj">
+      <Project>{59B99363-3561-4B1F-94FB-136BECBAA675}</Project>
+      <Name>MasterModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -45,7 +45,7 @@
         </DockPanel>
         <ContentControl Grid.Row="1" Content="{Binding}" ContentTemplate="{StaticResource HeaderView}" ></ContentControl>
         <Grid Grid.Row="2">
-           
+              <local:InvoiceHeaderView></local:InvoiceHeaderView>
         </Grid>
     </Grid>
 </UserControl>

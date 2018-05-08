@@ -14,6 +14,8 @@ namespace KarveTest.DAL
             @"SELECT * FROM POBLACIONES WHERE CP = '0001';SELECT * FROM IDIOMAS WHERE CODIGO='0001';";
         private const string Query2 = @"SELECT * FROM POBLACIONES WHERE CP = '1892829';SELECT * FROM OFICINAS WHERE SUBLICEN='282998';";
         private const string Query3 = @"SELECT * FROM OFICINAS WHERE SUBLICEN='282998';";
+        private const string Query4 = @"SELECT * FROM OFICINAS WHERE SUBLICEN='282998';";
+
         [OneTimeSetUp]
         public void Setup()
         {
@@ -72,7 +74,7 @@ namespace KarveTest.DAL
             {
                 CP = null,
                 PROVINCIA = null,
-                Code = "2289"
+                Code = "282998"
             };
             IQueryStore store = _storeFactory.GetQueryStore();
             store.Clear();
@@ -83,5 +85,6 @@ namespace KarveTest.DAL
             var q = store.BuildQuery();
             Assert.AreEqual(q, Query3);
         }
+        
     }
 }

@@ -315,6 +315,11 @@ namespace DataAccessLayer
                 var helper = await _dataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
                 return helper;
             });
+            _assistMapper.Configure("INVOICE_ASSIST", async (query) =>
+            {
+                var helper = await _dataServices.GetInvoiceDataServices().GetInvoiceSummaryAsync();
+                return helper;
+            });
             _assistMapper.Configure("CLIENT_ASSIST", async (query) =>
             {
                 var helper = await _dataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);

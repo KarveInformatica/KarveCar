@@ -24,17 +24,36 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="ColName" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}" 
+                    <TextBox x:Name="ColName" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}"
                            Width="80"></TextBox>
                     <Button Grid.Column="1" x:Name="NavigateButton" BorderBrush="Transparent" Background="Transparent" 
                                         Width="50"
                                         Height="20"
-                                        Command="{Binding NavigateCommand}" 
+                                        Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
                                         CommandParameter="{Binding ElementName=ColName}">
-                    <Image Source="/KarveControls;component/Images/GoArrow.png"></Image>
+                  
+                        <Image Source="/KarveControls;component/Images/contract.png"></Image>
                 </Button>
             </Grid>
         </DataTemplate>
+            <DataTemplate x:Key="NavigateVehicleItem">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="VehicleItemBox" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}"
+                             Width="80"></TextBox>
+                    <Button Grid.Column="1" x:Name="NavigateButtonVehicle" BorderBrush="Transparent" Background="Transparent" 
+                            Width="50"
+                            Height="20"
+                            Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
+                            CommandParameter="{Binding ElementName=VehicleItemBox}">
+                  
+                        <Image Source="/KarveControls;component/Images/cars.png"></Image>
+                    </Button>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -76,6 +95,7 @@
                                     SelectionForegroundBrush="Black"
                                     NavigationMode="Cell"
                                     AddNewRowPosition="Bottom"
+                                    karveControls:ControlExt.SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     karveControls:ControlExt.DataSource="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                     ShowGroupDropArea="True"
@@ -100,11 +120,10 @@
                 <syncfusion:SfDataGrid.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
                            
                         </ResourceDictionary.MergedDictionaries>
-                       
-                        <Style TargetType="{x:Type syncfusion:AddNewRowControl}">
+                            <Style TargetType="{x:Type syncfusion:AddNewRowControl}">
                             <Setter Property="FontSize" Value="12" />
                             <Setter Property="Foreground" Value="#FF808080" />
                             <Setter Property="BorderBrush" Value="#FF7fd0de" />

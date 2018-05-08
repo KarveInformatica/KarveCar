@@ -27,5 +27,6 @@ namespace KarveDataServices.DataTransferObject
         public string Prefix { get; set; }
         // value of the province.
         public CountryDto CountryValue { set; get; }
+        public bool Valid { get; set; }
     }
 }

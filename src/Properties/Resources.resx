@@ -1586,4 +1586,7 @@
   <data name="OfficeDataService_GetAsyncOfficeDo_InvalidOfficeIdentifier" xml:space="preserve">
     <value>Invalid office identifier </value>
   </data>
+  <data name="lbaseinvoice" xml:space="preserve">
+    <value>Base factura</value>
+  </data>
 </root>

@@ -8,6 +8,8 @@ using KarveControls.Generic;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.Windows.Shared;
 using System.Linq;
+using KarveCommon;
+using KarveCommon.Generic;
 
 namespace KarveControls
 {
@@ -117,50 +119,55 @@ namespace KarveControls
 
         private static void OnDataObjectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DirectionInfo info = d as DirectionInfo;
-            if (info != null)
+            if (d is DirectionInfo info)
             {
                 info.UpdateValues(e);
             }
         }
 
-        private string GetPropertyValue(object dataObject, string name, ControlExt.DataType type)
+        private string GetPropertyValue(object dataObject, string name, DataType type)
         {
-            if (dataObject != null)
+            if (dataObject == null)
             {
-                var tmp = ComponentUtils.GetTextDo(dataObject, name, type);
-                if (type == ControlExt.DataType.Email)
-                {
-                    tmp = tmp.Replace("#", "@"); ;
-                }
+                return string.Empty;
+            }
+            var tmp = ComponentUtils.GetTextDo(dataObject, name, type);
+            if (type != DataType.Email)
+            {
                 return tmp;
             }
-            return string.Empty;
+            tmp = tmp.Replace("#", "@"); ;
+            return tmp;
         }
 
-        private string GetDependencyValue(object dataObject, DependencyProperty dependencyProperty, ControlExt.DataType type)
+        private string GetDependencyValue(object dataObject, DependencyProperty dependencyProperty, DataType type)
         {
-            string tmp = string.Empty;
+            var tmp = string.Empty;
             if ((dataObject == null))
             {
                 return string.Empty;
             }
             var value = GetValue(dependencyProperty) as string;
-            if (!string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
-                var tmpValue = value.Split('.');
-                if (tmpValue.Length == 2)
-                {
+                return tmp;
+            }
+            var tmpValue = value.Split('.');
+            switch (tmpValue.Length)
+            {
+                case 1:
+                    tmp = GetPropertyValue(dataObject, tmpValue[0], type);
+                    break;
+                case 2:
                     tmp = GetPropertyValue(dataObject, tmpValue[1], type);
-                }
-                else if (tmpValue.Length == 1)
-                {
-                     tmp = GetPropertyValue(dataObject, tmpValue[0], type);
-                }
+                    break;
+               
+                default:
+                    break;
             }
             return tmp;
         }
-        private void GetAndSetDependency(object dataObject, DependencyProperty dependencyProperty, ref TextBox box, ControlExt.DataType type)
+        private void GetAndSetDependency(object dataObject, DependencyProperty dependencyProperty, ref TextBox box, DataType type)
         {
             if ((dataObject == null) || (box == null))
             {
@@ -175,7 +182,7 @@ namespace KarveControls
 
         private void UpdateValues(DependencyPropertyChangedEventArgs ev)
         {
-            object dataObject = ev.NewValue;
+            var dataObject = ev.NewValue;
             UpdateControls(dataObject);
         }
 
@@ -183,10 +190,10 @@ namespace KarveControls
         {
             if (dataObject != null)
             {
-                ControlExt.DataType type = ControlExt.DataType.Any;
+                var type = DataType.Any;
                 GetAndSetDependency(dataObject, DirectionDependencyProperty, ref _firstDirection, type);
                 GetAndSetDependency(dataObject, Direction2DependencyProperty, ref _secondDirection, type);
-                GetAndSetDependency(dataObject, EmailDependencyProperty, ref _emailTextBox, ControlExt.DataType.Email);
+                GetAndSetDependency(dataObject, EmailDependencyProperty, ref _emailTextBox, DataType.Email);
                 GetAndSetDependency(dataObject, FaxDependencyProperty, ref _faxTextBox, type);
                 GetAndSetDependency(dataObject, PhoneDependencyProperty, ref _phoneTextBox, type);
                 GetAndSetDependency(dataObject, WebDependencyProperty, ref _webTextBox, type);
@@ -243,8 +250,7 @@ namespace KarveControls
         }
         private static void HideDirectionChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DirectionInfo directionInfo = d as DirectionInfo;
-            if (directionInfo != null)
+            if (d is DirectionInfo directionInfo)
             {
                 directionInfo.HideOrShowSecondDirection(e.NewValue);
             }
@@ -556,6 +562,9 @@ namespace KarveControls
                 return (string)GetValue(WebDependencyProperty);
             }
         }
+        /// <summary>
+        ///  This is a command for the assit.
+        /// </summary>
         public ICommand AssistCommand { set; get; }
         public ICommand EmailCommand { set; get; }
         public ICommand WebCommand { set; get; }
@@ -621,7 +630,7 @@ namespace KarveControls
 
         private void LaunchMailClient(object value)
         {
-            var tmp = GetDependencyValue(DataObject, EmailDependencyProperty, ControlExt.DataType.Email);
+            var tmp = GetDependencyValue(DataObject, EmailDependencyProperty, DataType.Email);
             if (tmp?.Length>0)
             {
                 string emailUrl = "mailto:" + tmp + "?subject=KarveCar";

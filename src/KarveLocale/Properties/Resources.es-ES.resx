@@ -1524,7 +1524,7 @@
   <data name="lempresaproprietario" xml:space="preserve">
     <value>Empresa Proprietario</value>
   </data>
-  <data name="lproprietario" xml:space="preserve">
+  <data name="lse" xml:space="preserve">
     <value>Propietario</value>
   </data>
   <data name="loficinaactual" xml:space="preserve">
@@ -1938,7 +1938,7 @@
   <data name="StringConstants_ImpuestoMatriculacion" xml:space="preserve">
     <value>Impuesto Matriculacion</value>
   </data>
-  <data name="StringConstants_NumFactura" xml:space="preserve">
+  <data name="lnumerofactura" xml:space="preserve">
     <value>Num.Factura</value>
   </data>
   <data name="DatoGenerales" xml:space="preserve">
@@ -2007,7 +2007,7 @@
   <data name="StringConstants_FechaCompra" xml:space="preserve">
     <value>Fecha compra</value>
   </data>
-  <data name="Seguro" xml:space="preserve">
+  <data name="lseguro" xml:space="preserve">
     <value>Seguro</value>
   </data>
   <data name="VencimentoSeguro" xml:space="preserve">
@@ -2312,5 +2312,65 @@
   </data>
   <data name="webUser" xml:space="preserve">
     <value>Usuario Web</value>
+  </data>
+  <data name="lcubemeters" xml:space="preserve">
+    <value>Metros Cubico</value>
+  </data>
+  <data name="lleasing" xml:space="preserve">
+    <value>Leasing</value>
+  </data>
+  <data name="lclientnumber" xml:space="preserve">
+    <value>Numero Cliente</value>
+  </data>
+  <data name="lnumeromotor" xml:space="preserve">
+    <value>Numero Motor</value>
+  </data>
+  <data name="llastmodification" xml:space="preserve">
+    <value>Ultima modificacion</value>
+  </data>
+  <data name="lstoragekey" xml:space="preserve">
+    <value>Llave magazzino</value>
+  </data>
+  <data name="ltotal" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="lnew" xml:space="preserve">
+    <value>Nuevo</value>
+  </data>
+  <data name="lsave" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="ldelete" xml:space="preserve">
+    <value>Borrar</value>
+  </data>
+  <data name="lseriefactura" xml:space="preserve">
+    <value>Serie Factura</value>
+  </data>
+  <data name="lreferenciafactura" xml:space="preserve">
+    <value>Referencia Factura</value>
+  </data>
+  <data name="lcodigocliente" xml:space="preserve">
+    <value>Codigo Cliente</value>
+  </data>
+  <data name="lclientname" xml:space="preserve">
+    <value>Nombre Cliente</value>
+  </data>
+  <data name="lcontract" xml:space="preserve">
+    <value>Contracto</value>
+  </data>
+  <data name="lnombreempresa" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="ltipofactura" xml:space="preserve">
+    <value>Tipo Factura</value>
+  </data>
+  <data name="lasiento" xml:space="preserve">
+    <value>Asiento</value>
+  </data>
+  <data name="ldtopp" xml:space="preserve">
+    <value>Dto PP</value>
+  </data>
+  <data name="ListadoDeVehiculos" xml:space="preserve">
+    <value>Listado de Vehiculos</value>
   </data>
 </root>

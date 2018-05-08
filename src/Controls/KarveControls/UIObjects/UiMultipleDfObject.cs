@@ -6,6 +6,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using KarveCommon.Generic;
 using Prism.Mvvm;
 
 namespace KarveControls.UIObjects
@@ -75,7 +76,7 @@ namespace KarveControls.UIObjects
         }
         public string Description { get; set; }
         [XmlIgnore]
-        public ControlExt.DataType DataAllowed { get; set; }
+        public DataType DataAllowed { get; set; }
         [XmlIgnore]
         public bool AllowedEmpty { get; set; }
         [XmlIgnore]

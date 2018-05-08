@@ -12,6 +12,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
                xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1152" >
     <UserControl.Resources>
         <ResourceDictionary>
@@ -152,8 +153,8 @@
                 <ContentControl Content="{Binding}" Grid.Column="0" Grid.Row="0" ContentTemplate="{StaticResource FareGeneralUpper}" ></ContentControl>
                 <ContentControl Content="{Binding}" Grid.Column="0" Grid.Row="1" ContentTemplate="{StaticResource CompanyAndMoney}" ></ContentControl>
             </Grid>
-            <TabControl Grid.Row="1" TabStripPlacement="Left">
-                <TabItem Header="General">
+            <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left">
+                <syncfusion:TabItemExt Header="General">
                     <ScrollViewer>
 
                         <Grid>
@@ -324,7 +325,7 @@
                             </Grid>
                         </Grid>
                     </ScrollViewer>
-                </TabItem>
+                </syncfusion:TabItemExt>
                 <TabItem Header="Tramos">
                     
                 </TabItem>
@@ -337,7 +338,7 @@
                 <TabItem Header="Destinos">
                     
                 </TabItem>
-            </TabControl>
+            </syncfusion:TabControlExt>
         </Grid>
     </ScrollViewer>
 </UserControl>

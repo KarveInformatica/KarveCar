@@ -25,9 +25,8 @@ namespace KarveControls.Interactivity
             if (_unityContainter != null)
             {
                 InteractionRequestView modalView = _unityContainter.Resolve<InteractionRequestView>();
-                InteractionRequestViewModel vm = modalView.DataContext as InteractionRequestViewModel;
-                
-                if (vm != null)
+
+                if (modalView.DataContext is InteractionRequestViewModel vm)
                 {
                     vm.OnSelectedItem += Vm_OnSelectedItem;
                     vm.DataSource = dataObjects;

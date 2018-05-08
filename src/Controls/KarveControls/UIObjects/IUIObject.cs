@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Xml.Serialization;
+using KarveCommon.Generic;
 
 namespace KarveControls.UIObjects
 {
@@ -19,7 +20,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         /// Data Type of the user object
         /// </summary>
-        ControlExt.DataType DataAllowed { set; get; }
+        DataType DataAllowed { set; get; }
         /// <summary>
         /// Is empty is allowed.
         /// </summary>

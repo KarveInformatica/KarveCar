@@ -59,6 +59,7 @@
     <Compile Include="IDisposeEvents.cs" />
     <Compile Include="IInteractionRequestController.cs" />
     <Compile Include="ILinqToTree.cs" />
+    <Compile Include="IPayloadInterpeter.cs" />
     <Compile Include="IRegionManagerAware.cs" />
     <Compile Include="ISqlValidationRule.cs" />
     <Compile Include="IValidationChain.cs" />

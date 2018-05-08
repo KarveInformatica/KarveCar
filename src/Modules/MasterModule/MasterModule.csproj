@@ -208,14 +208,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ChangeFieldHandler.cs" />
-    <Compile Include="Common\ChangeFieldHandlerDo.cs" />
     <Compile Include="Common\CommissionAgentConstants.cs" />
     <Compile Include="Common\CommonPageBuilder.cs" />
     <Compile Include="Common\ContactsValidationBehavior.cs" />
     <Compile Include="Common\DataSetUtilities.cs" />
     <Compile Include="Common\DelegationValidationBehavior.cs" />
     <Compile Include="Common\GridMagnifierHandler.cs" />
-    <Compile Include="Common\IChangeHandler.cs" />
     <Compile Include="Common\MaintenanceValidationBehaviour.cs" />
     <Compile Include="Common\MasterModuleConstants.cs" />
     <Compile Include="Common\MasterViewModuleBase.cs" />

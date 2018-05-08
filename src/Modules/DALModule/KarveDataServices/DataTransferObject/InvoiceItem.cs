@@ -1,14 +1,20 @@
 ﻿using System;
 
-namespace KarveDataServices.DataObjects
+namespace KarveDataServices.DataTransferObject
 {
-    public class InvoiceItem
+    /// <inheritdoc />
+    /// <summary>
+    ///  InvoiceItem. This is an item
+    /// </summary>
+    public class InvoiceItem : InvoiceComponent
     {
+        private decimal? COSTE_LIF;
+
         // <summary>
         ///  Set or get the CONCEPTO_LIF property.
         /// </summary>
 
-        public Int32? CONCEPTO_LIF { get; set; }
+        public int? CONCEPTO_LIF { get; set; }
 
         /// <summary>
         ///  Set or get the DESCRIP_LIF property.
@@ -20,13 +26,13 @@ namespace KarveDataServices.DataObjects
         ///  Set or get the DTO_LIF property.
         /// </summary>
 
-        public Decimal? DTO_LIF { get; set; }
+        public decimal? DTO_LIF { get; set; }
 
         /// <summary>
         ///  Set or get the PRE_LIF property.
         /// </summary>
 
-        public Decimal? PRE_LIF { get; set; }
+        public decimal? PRE_LIF { get; set; }
 
         /// <summary>
         ///  Set or get the ULTMODI_LIF property.
@@ -68,13 +74,13 @@ namespace KarveDataServices.DataObjects
         ///  Set or get the CANTIDAD_LIF property.
         /// </summary>
 
-        public Decimal? CANTIDAD_LIF { get; set; }
+        public decimal? CANTIDAD_LIF { get; set; }
 
         /// <summary>
         ///  Set or get the SUBTOTAL_LIF property.
         /// </summary>
 
-        public Decimal? SUBTOTAL_LIF { get; set; }
+        public decimal? SUBTOTAL_LIF { get; set; }
 
         /// <summary>
         ///  Set or get the DTO_SN property.
@@ -98,19 +104,19 @@ namespace KarveDataServices.DataObjects
         ///  Set or get the IVA property.
         /// </summary>
 
-        public Decimal? IVA { get; set; }
+        public decimal? IVA { get; set; }
 
         /// <summary>
         ///  Set or get the LINEA property.
         /// </summary>
 
-        public Int32? LINEA { get; set; }
+        public int? LINEA { get; set; }
 
         /// <summary>
         ///  Set or get the CLAVE_LF property.
         /// </summary>
 
-        public Int32 CLAVE_LF { get; set; }
+        public int CLAVE_LF { get; set; }
 
         /// <summary>
         ///  Set or get the FAC_REC_DIRECTA_LF property.
@@ -128,43 +134,43 @@ namespace KarveDataServices.DataObjects
         ///  Set or get the DIAS property.
         /// </summary>
 
-        public Int32? DIAS { get; set; }
+        public int? DIAS { get; set; }
 
         /// <summary>
         ///  Set or get the IMPORTE_ANULADA property.
         /// </summary>
 
-        public Decimal? IMPORTE_ANULADA { get; set; }
+        public decimal? IMPORTE_ANULADA { get; set; }
 
         /// <summary>
         ///  Set or get the CUOTA_LIF property.
         /// </summary>
 
-        public Decimal? CUOTA_LIF { get; set; }
+        public decimal? CUOTA_LIF { get; set; }
 
         /// <summary>
         ///  Set or get the SUPLIDO property.
         /// </summary>
 
-        public Decimal? SUPLIDO { get; set; }
+        public decimal? SUPLIDO { get; set; }
 
         /// <summary>
         ///  Set or get the KM_TOTAL property.
         /// </summary>
 
-        public Decimal? KM_TOTAL { get; set; }
+        public decimal? KM_TOTAL { get; set; }
 
         /// <summary>
         ///  Set or get the KMCONTRA property.
         /// </summary>
 
-        public Decimal? KMCONTRA { get; set; }
+        public decimal? KMCONTRA { get; set; }
 
         /// <summary>
         ///  Set or get the CUOTA property.
         /// </summary>
 
-        public Int32? CUOTA { get; set; }
+        public int? CUOTA { get; set; }
 
         /// <summary>
         ///  Set or get the SERIECUOTA_LIF property.
@@ -291,5 +297,32 @@ namespace KarveDataServices.DataObjects
         /// </summary>
 
         public string FAC_ABONO_RECUPERA_LF { get; set; }
+
+        /// <inheritdoc />
+        /// <summary>
+        ///  This will give an uniform structure to our invoice.
+        /// </summary>
+
+        public decimal Subtotal
+        {
+            get => SUBTOTAL_LIF ?? 0;
+            set => SUBTOTAL_LIF = value;
+        }
+
+        public decimal Coste {
+            get =>COSTE_LIF ?? 0;
+            set=>COSTE_LIF = value;
+        }
+
+        public decimal Iva
+        {
+            get => IVA ?? 0;
+            set => IVA = value;
+        }
+        public decimal Cantidad
+        {
+            get =>CANTIDAD_LIF ?? 0;
+            set =>CANTIDAD_LIF = value;
+        }
     }
 }

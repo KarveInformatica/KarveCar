@@ -15,9 +15,9 @@ namespace ToolBarModule.Command
     /// <summary>
     ///  Internal class with data payload
     /// </summary>
-    abstract class  ToolbarDataPayload : IDataPayLoadHandler
+    public abstract class  ToolbarDataPayload : IDataPayLoadHandler
     {
-        private IEventManager CurrentEventManager;
+        protected IEventManager CurrentEventManager;
         protected DataPayLoad CurrentPayload;
         private IDataServices _dataServices;
         protected readonly PropertyChangedEventHandler ExecutedPayloadHandler;
@@ -84,6 +84,7 @@ namespace ToolBarModule.Command
                     if (ToolbarInitializationNotifier.IsFaulted)
                     {
                         SendError(ToolbarInitializationNotifier.ErrorMessage);
+                        throw new DataLayerException("Exception in the data layer", ToolbarInitializationNotifier.Exception);
                     }
                 }
             }
@@ -147,7 +148,7 @@ namespace ToolBarModule.Command
                         BaseDto baseDto = x as BaseDto;
                         return (baseDto.IsNew == true);
                     });
-                    if (newItems.Count() > 0)
+                    if (newItems.Any())
                     {
                         await gridOperationHandler.ExecuteInsertAsync<Entity>(newItems).ConfigureAwait(false);
                     }

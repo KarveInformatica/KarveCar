@@ -17,6 +17,7 @@ using System.Linq;
 using InvoiceModule.Views;
 using Microsoft.Practices.Unity;
 using KarveControls.HeaderedWindow;
+using MasterModule.Views;
 
 namespace InvoiceModule.ViewModels
 {
@@ -24,21 +25,23 @@ namespace InvoiceModule.ViewModels
     /// <summary>
     ///  This object has the resposability to show the list of invoices.
     /// </summary>
-    public sealed class InvoiceControlViewModel: KarveRoutingBaseViewModel, INavigationAware, IEventObserver
+    public sealed class InvoiceControlViewModel: KarveRoutingBaseViewModel, INavigationAware, IEventObserver, IDisposeEvents
     {
         /// <summary>
         ///  data to be load
         /// </summary>
         private INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>> _taskInit;
         private PropertyChangedEventHandler _initEventHandler;
-        public const string InvoiceSubSystem = "InvoiceSubsystem";
-        private const string _mailboxName = "InvoiceSubsystemVM";
+       
+        private const string MailboxName = "InvoiceSubsystemVM";
+        private const string SummaryViewConst = "SummaryView";
         private IEnumerable<InvoiceSummaryValueDto> _invoiceSummaryDtos;
         private bool _isBusy;
-        private IUnityContainer _container;
+        private readonly IUnityContainer _container;
         private IRegionManager _detailsRegionManager;
+        private const int LoadStep = 50;
 
-   /// <summary>
+        /// <summary>
    /// Control the invoce control view model.
    /// </summary>
    /// <param name="dataServices">Data Services</param>
@@ -55,19 +58,68 @@ namespace InvoiceModule.ViewModels
                                    IEventManager eventManager): base(dataServices,requestService, service, eventManager)
         {
             _regionManager = manager;
-            _isBusy = false;
+            IsBusy = false;
             _container = container;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
+            ItemName = "Facturas";
+            ShowClientCommand = new DelegateCommand<object>(OnShowClient);
+               
+            ViewModelUri = new Uri("karve://invoice/viewmodel?id=" + UniqueId);
+            EventManager.RegisterObserverSubsystem(InvoiceModule.InvoiceSubSystem, this);
+            RegisterMailBox(ViewModelUri.ToString());
             StartAndNotify();
         }
+
+        private async void OnShowClient(object obj)
+        {
+            var code = obj as string;
+            if (code == null)
+            {
+                return;
+            }
+
+            var clientServices = DataServices.GetClientDataServices();
+            var data = await  clientServices.GetAsyncClientDo(code);
+            // i want just avoid a fetch of the client name.
+            var viewName = data.Value.NUMERO_CLI + data.Value.NOMBRE;
+            var navigationParameters = new NavigationParameters
+            {
+                { "id", code },
+                { ScopedRegionNavigationContentLoader.DefaultViewName, viewName }
+            };
+            var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
+            _regionManager.RequestNavigate("TabRegion", uri);
+            var currentPayload = new DataPayLoad
+            {
+                Subsystem = DataSubSystem.ClientSubsystem,
+                PayloadType = DataPayLoad.Type.Show,
+                PrimaryKeyValue = code,
+                HasDataObject = true,
+                DataObject = data,
+                Sender = EventSubsystem.ClientSummaryVm
+            };
+            EventManager.NotifyObserverSubsystem(EventSubsystem.ClientSummaryVm, currentPayload);
+        }
+
         /// <summary>
         ///  This is a mailbox handler name.
         /// </summary>
         /// <param name="payLoad">Payload of the mailbox.</param>
         private void MailboxHandlerName(DataPayLoad payLoad)
         {
-            
+            if (payLoad != null)
+            {
+                if (payLoad.PayloadType == DataPayLoad.Type.Insert)
+                {
+                    NewItem();
+                }
+
+                if (payLoad.PayloadType == DataPayLoad.Type.Delete)
+                {
+                    var delete = "";
+                }
+            }
         }
         /// <summary>
         ///  Start the asynchronous load of the invoice.
@@ -83,10 +135,21 @@ namespace InvoiceModule.ViewModels
         /// <returns>This returns the summary value data transfer object</returns>
         private async Task<IEnumerable<InvoiceSummaryValueDto>> LoadAsync()
         {
-            IInvoiceDataServices dataServices = DataServices.GetInvoiceDataServices();
+            var dataServices = DataServices.GetInvoiceDataServices();
             var value = await dataServices.GetInvoiceSummaryAsync();
-            return value;
+            if (value == null)
+            {
+                return value;
+            }
+            var invoiceSummaryValueDtos = value as InvoiceSummaryValueDto[] ?? value.ToArray();
+            foreach (var item in invoiceSummaryValueDtos )
+            {
+                item.ShowCommand = ShowClientCommand;
+            }
+            return invoiceSummaryValueDtos;
         }
+
+        public ICommand ShowClientCommand { set; get; }
         /// <summary>
         ///  OpenItemCommand.
         /// </summary>
@@ -96,14 +159,11 @@ namespace InvoiceModule.ViewModels
         /// This view is a summary to fill the control table for the invoice.
         /// </summary>
         public IncrementalList<InvoiceSummaryValueDto> SummaryView { 
-            get
-            {
-                return _summaryView;
-            }
+            get => _summaryView;
             set
             {
                 _summaryView = value;
-                RaisePropertyChanged("SummaryView");
+                RaisePropertyChanged(SummaryViewConst);
             }
         }
 
@@ -112,10 +172,11 @@ namespace InvoiceModule.ViewModels
         /// </summary>
         private void InitViewModel()
         {
+           
             GridIdentifier = GridIdentifiers.InvoiceSummaryGrid;
             MailBoxHandler += MailboxHandlerName;
-            MailboxName = _mailboxName;
-            RegisterMailBox(_mailboxName);
+            base.MailboxName = MailboxName;
+          //  RegisterMailBox(ViewModelUri.ToString());
         }
         /// <summary>
         ///  This is an handler after loading the summary view
@@ -125,19 +186,16 @@ namespace InvoiceModule.ViewModels
         private void OnLoadedSummary(object sender, PropertyChangedEventArgs e)
         {
             INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>> s = sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>>;
-            if (s.IsSuccessfullyCompleted)
+            if (s != null && s.IsSuccessfullyCompleted)
             {
                 /* this is the correct mechanism for any summary grid to support incremental loading */
                 _invoiceSummaryDtos = s.Task.Result;
                 SummaryView = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummaryDtos.Count() };
                
             }
-            if (s.IsFaulted)
+            if (s != null && s.IsFaulted)
             {
-                if (DialogService!=null)
-                {
-                    DialogService.ShowErrorMessage(s.ErrorMessage);
-                }
+                DialogService?.ShowErrorMessage(s.ErrorMessage);
             }
         }
         /// <summary>
@@ -145,16 +203,16 @@ namespace InvoiceModule.ViewModels
         /// </summary>
         public bool IsBusy
         {
-            get { return _isBusy; }
+            get => _isBusy;
             set { _isBusy = value; RaisePropertyChanged("IsBusy"); }
         }
 
         private void LoadMoreItems(uint count, int baseIndex)
         {
-            _isBusy = true;
-            var list = _invoiceSummaryDtos.Skip(baseIndex).Take(100).ToList();
+            IsBusy = true;
+            var list = _invoiceSummaryDtos.Skip(baseIndex).Take(LoadStep).ToList();
             SummaryView.LoadItems(list);
-            _isBusy = false;
+            IsBusy = false;
         }
 
         /// <summary>
@@ -164,45 +222,44 @@ namespace InvoiceModule.ViewModels
         /// <returns></returns>
         protected override string GetRouteName(string name)
         {
-            var route = @"invoice://"+InvoiceSubSystem + "//" + name;
-            string routedName = new Uri(route).AbsoluteUri;
+            var route = @"invoice://"+ InvoiceModule.InvoiceSubSystem + "//" + name;
+            var routedName = new Uri(route).AbsoluteUri;
             return routedName;
         }
         /// <summary>
-        ///  This open a current item value. 
-        ///  TODO: see if a delegate command support a better way than an async.
+        ///  This open a current item value.
+        ///  Asyc void shall be considered bad always
+        ///  except when used through command.s 
         /// </summary>
         /// <param name="value">value recevied</param>
         private async void OpenCurrentItem(object value)
         {
-            InvoiceSummaryValueDto invoice = value as InvoiceSummaryValueDto;
-            if (invoice != null)
+            if (!(value is InvoiceSummaryValueDto invoice))
             {
-                string name = invoice.ClientName;
-                string id = invoice.InvoiceName;
-                string tabName = id + "." + name;
-                CreateNewItem(tabName);
-                IInvoiceData provider = await DataServices.GetInvoiceDataServices().GetInvoiceDoAsync(id);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
-                currentPayload.DataObject = provider;
-                currentPayload.Subsystem = DataSubSystem.InvoiceSubsystem;
-                currentPayload.PrimaryKeyValue = id;
-                EventManager.RegisterObserverSubsystem(InvoiceSubSystem, this);
-                ActiveSubSystem();
-                currentPayload.Sender = MailboxName;
-                EventManager.NotifyObserverSubsystem(InvoiceSubSystem, currentPayload);
+                return;
             }
+            var name = invoice.ClientName;
+            var id = invoice.InvoiceName;
+            var tabName = id + "." + name;
+            CreateNewItem(tabName);
+            var provider = await DataServices.GetInvoiceDataServices().GetInvoiceDoAsync(id);
+            var currentPayload = BuildShowPayLoadDo(tabName, provider);
+            currentPayload.DataObject = provider;
+            currentPayload.Subsystem = DataSubSystem.InvoiceSubsystem;
+            currentPayload.PrimaryKeyValue = id;
+          //  EventManager.RegisterObserverSubsystem(InvoiceModule.InvoiceSubSystem, this);
+            ActiveSubSystem();
+            currentPayload.Sender = base.MailboxName;
+            EventManager.NotifyObserverSubsystem(InvoiceModule.InvoiceSubSystem, currentPayload);
 
         }
         private void CreateNewItem(string name)
         {
             // The composite.
-            IRegion detailsRegion = this._regionManager.Regions[RegionNames.TabRegion];
+            var detailsRegion = this._regionManager.Regions[RegionNames.TabRegion];
             var headeredWindow = _container.Resolve<HeaderedWindow>();
             headeredWindow.Header = name;
-            /// header for the invoice
             var infoView = _container.Resolve<InvoiceInfoView>();
-            /// header for the line
             var lineview = _container.Resolve<KarveControls.HeaderedWindow.LineGridView>();
             var footerView = _container.Resolve<InvoiceSummaryFooter>();
             /* 
@@ -215,14 +272,13 @@ namespace InvoiceModule.ViewModels
             lineview.DataContext = vm;
             footerView.DataContext = vm;
             headeredWindow.DataContext = vm;
-            bool createRegionManagerScope = true;
-            _detailsRegionManager = detailsRegion.Add(headeredWindow, null, createRegionManagerScope);
+            _detailsRegionManager = detailsRegion.Add(headeredWindow, null, true);
             var headerRegion = _detailsRegionManager.Regions[RegionNames.HeaderRegion];
             var lineRegion = _detailsRegionManager.Regions[RegionNames.LineRegion];
             var footerRegion = _detailsRegionManager.Regions[RegionNames.FooterRegion];
-            lineRegion.Add(lineview, null, createRegionManagerScope);
-            headerRegion.Add(infoView,null, createRegionManagerScope);
-            footerRegion.Add(footerView, null, createRegionManagerScope);
+            lineRegion.Add(lineview, null, true);
+            headerRegion.Add(infoView,null, true);
+            footerRegion.Add(footerView, null, true);
             headeredWindow.Focus();
         }
 
@@ -252,8 +308,12 @@ namespace InvoiceModule.ViewModels
         }
         public override void DisposeEvents()
         {
-            MailBoxHandler -= MailboxHandlerName;
-            DeleteMailBox(_mailboxName);
+            if (MailBoxHandler != null)
+            {
+                MailBoxHandler -= MailboxHandlerName;
+            }
+            EventManager.DeleteObserverSubSystem(InvoiceModule.InvoiceSubSystem, this);
+            DeleteMailBox(MailboxName);
             // do what to do with _detailsRegionManager.
         }
 
@@ -265,16 +325,43 @@ namespace InvoiceModule.ViewModels
 
         public void IncomingPayload(DataPayLoad payload)
         {
-            ///throw new NotImplementedException();
+            if (payload.Sender == ViewModelUri.ToString()) return;
+            switch (payload.PayloadType)
+            {
+                case DataPayLoad.Type.UpdateView:
+                    StartAndNotify();
+                    break;
+                case DataPayLoad.Type.Insert:
+                    NewItem();
+                    break;
+            }
         }
 
         #region attributes
 
-        private IRegionManager _regionManager;
+        private readonly IRegionManager _regionManager;
         private IncrementalList<InvoiceSummaryValueDto> _summaryView;
 
         #endregion
 
+        /// <summary>
+        ///  Create a new invoice.
+        /// </summary>
+        protected override void NewItem()
+        {
+            var viewName = string.Empty;
+            var invoiceDataServices = DataServices.GetInvoiceDataServices();
+            var id = invoiceDataServices.NewId();
+            var invoiceDs = invoiceDataServices.GetNewInvoiceDo(id);
+            var tabName = "Nuova "+ "." + id;
+            CreateNewItem(id);
+            var currentPayload = BuildShowPayLoadDo<IInvoiceData>(viewName,invoiceDs);
+            currentPayload.Subsystem = DataSubSystem.InvoiceSubsystem;
+            currentPayload.PayloadType = DataPayLoad.Type.Insert;
+            currentPayload.PrimaryKeyValue = id;
+            currentPayload.Sender = ViewModelUri.ToString();
+            EventManager.NotifyObserverSubsystem(InvoiceModule.InvoiceSubSystem, currentPayload);
+        }
     }
 
 }

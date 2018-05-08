@@ -422,7 +422,7 @@ namespace KarveDapper.Extensions
                 for (var i = 0; i < keyProperties.Count; i++)
                 {
                     var property = keyProperties[i];
-                    sb.AppendFormat("{0}={1}", property.Name, property.GetValue(currentEntity));
+                    sb.AppendFormat("{0}={1}", property.Name, property.GetValue(currentEntity).ToString());
                     if (i < keyProperties.Count - 1)
                         sb.AppendFormat(" AND ");
                 }
@@ -449,8 +449,9 @@ namespace KarveDapper.Extensions
         {
 
             StringBuilder currentBuilder = new StringBuilder();
-            var maxNumber = entitiesToUpdate.Count<T>();
-            T entityToUpdate = entitiesToUpdate.FirstOrDefault<T>();
+            var toUpdate = entitiesToUpdate as T[] ?? entitiesToUpdate.ToArray();
+            var maxNumber = toUpdate.Count<T>();
+            T entityToUpdate = toUpdate.FirstOrDefault<T>();
             var type = typeof(T);
 
             if (type.IsArray)
@@ -496,8 +497,17 @@ namespace KarveDapper.Extensions
             sb.Clear();
             string value = currentBuilder.ToString();
             int updated = 0;
-            updated = await connection.ExecuteAsync(value, entitiesToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
-           
+            try
+            {
+                updated = await connection
+                    .ExecuteAsync(value, entitiesToUpdate, commandTimeout: commandTimeout, transaction: transaction)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                throw new DataException(e.Message,e);
+            }
+
             return updated > 0;
         }
 

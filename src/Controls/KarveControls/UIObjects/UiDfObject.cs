@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Serialization;
+using KarveCommon.Generic;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -35,7 +36,7 @@ namespace KarveControls.UIObjects
         public ICommand ChangedItem { set; get; }
 
         private string _description;
-        private ControlExt.DataType _dataAllowed;
+        private DataType _dataAllowed;
         private bool _allowedEmpty;
         private bool _upperCase;
         private string _labelText;
@@ -88,7 +89,7 @@ namespace KarveControls.UIObjects
         ///  Data allowed for having control validation rules.
         /// </summary>
         [XmlAttribute("DataAllowed")]
-        public ControlExt.DataType DataAllowed
+        public DataType DataAllowed
         {
             set { _dataAllowed = value; RaisePropertyChanged(); }
             get { return _dataAllowed; }

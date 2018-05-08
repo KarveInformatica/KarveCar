@@ -223,6 +223,15 @@ namespace KarveCar.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base factura.
+        /// </summary>
+        public static string lbaseinvoice {
+            get {
+                return ResourceManager.GetString("lbaseinvoice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
         public static string lprovincecode {

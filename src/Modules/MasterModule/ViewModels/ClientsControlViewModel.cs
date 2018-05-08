@@ -22,7 +22,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  Control view model for the clients
     /// </summary>
-    class ClientsControlViewModel: MasterControlViewModuleBase
+    public class ClientsControlViewModel: MasterControlViewModuleBase
     {
         /// <summary>
         ///  Data layer to the the services
@@ -95,7 +95,6 @@ namespace MasterModule.ViewModels
               
                 IClientData provider = notification.Task.Result;
                 var tabName = provider.Value.NUMERO_CLI + "." + provider.Value.NOMBRE;
-
                 DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
                 currentPayload.PrimaryKeyValue = provider.Value.NUMERO_CLI;
                 currentPayload.Sender = _mailBoxName;
@@ -109,7 +108,8 @@ namespace MasterModule.ViewModels
                     var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
                     _regionManager.RequestNavigate("TabRegion", uri);
 
-                    EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
+                   // EventManager.SendMessage(pro);
+                   /// EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, //currentPayload);
                 } catch (Exception ex)
                 {
                     var value = ex.Message; 
@@ -165,9 +165,11 @@ namespace MasterModule.ViewModels
         /// <param name="viewName">Viewname to view</param>
         private void Navigate(string code, string viewName)
         {
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("id", code);
-            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewName);
+            var navigationParameters = new NavigationParameters
+            {
+                {"id", code},
+                {ScopedRegionNavigationContentLoader.DefaultViewName, viewName}
+            };
             var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
             _regionManager.
                 RequestNavigate("TabRegion", uri);
@@ -190,23 +192,24 @@ namespace MasterModule.ViewModels
         }
         private async void OpenCurrentItem(object currentItem)
         {
-            object current = currentItem;
-            ClientSummaryExtended summaryItem = current as ClientSummaryExtended;
-            if (summaryItem != null)
+            var current = currentItem;
+            if (current is ClientSummaryExtended summaryItem)
             {
               
-                string name = summaryItem.Name;
-                string clientId = summaryItem.Code;
-                string tabName = clientId + "." + name;
+                var name = summaryItem.Name;
+                var clientId = summaryItem.Code;
+                var tabName = clientId + "." + name;
                 var loadedClient = await _clientDataServices.GetAsyncClientDo(clientId);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, loadedClient);
+                var currentPayload = BuildShowPayLoadDo(tabName, loadedClient);
                 currentPayload.PrimaryKeyValue = loadedClient.Value.NUMERO_CLI;
                 currentPayload.Sender = _mailBoxName;
                 try
                 {
-                    var navigationParameters = new NavigationParameters();
-                    navigationParameters.Add("Id", loadedClient.Value.NUMERO_CLI);
-                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                    var navigationParameters = new NavigationParameters
+                    {
+                        {"Id", loadedClient.Value.NUMERO_CLI},
+                        {ScopedRegionNavigationContentLoader.DefaultViewName, tabName}
+                    };
                     var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
                     _regionManager.RequestNavigate("TabRegion", uri);
                     EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
@@ -220,7 +223,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Set the table to be views. It get called from the master. TODO: see if it possible unify this.
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="table">Table to be set</param>
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;  
@@ -230,6 +233,7 @@ namespace MasterModule.ViewModels
             EventManager.DeleteMailBoxSubscription(EventSubsystem.ClientSummaryVm);
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///  This returns a registration payload for the subsystem.
         /// </summary>
@@ -239,22 +243,21 @@ namespace MasterModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.ClientSubsystem;
         }
-        // TODO: refactor this.
+      
         protected override void SetDataObject(object result)
         {
             // there is no single data object. Need for just a control interface and refacto.
         }
         protected override string GetRouteName(string name)
         {
-            string routedName = ClientModuleRoutePrefix + name;
+            string routedName =  "InvoiceModule:" + name;
             return routedName;
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
             var list = _clientSummaryDtos.Skip(baseIndex).Take(100).ToList();
-            var summary = SummaryView as IncrementalList<ClientSummaryExtended>;
-            if (summary != null)
+            if (SummaryView is IncrementalList<ClientSummaryExtended> summary)
             {
                 summary.LoadItems(list);
             }

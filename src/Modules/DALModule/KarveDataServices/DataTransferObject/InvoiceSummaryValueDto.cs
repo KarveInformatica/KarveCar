@@ -7,22 +7,8 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  This class is resposible for showing the values of all invoices present in the system.
     /// </summary>
-    /*
-     select numero_fac as InvoiceName, serie_fac as InvoiceSerie, 
-referen_fac as InvoiceRef, cliente_fac as InvoiceCode, l.CONTRATO_LIF as InvoiceContract,c.nombre as ClientName, 
-fecha_fac as InvoiceDate, cuota_fac as InvoiceFee, basesin as InvoiceBase, todo_fac as TotalInvoice, f.FRATIPIMPR as InvoiceType,
-c2.contable as Account, sublicen_fac as CompanyCode, s.NOMBRE as CompanyName, oficina_fac as OfficeCode, asiento_fac as Seat, fserv_a as InvoiceTo, 
-fserv_de as InvoiceFrom,
-observaciones_fac as Notes, usuario_fac as InvoiceUser, ultmodi_fac as LastModificatoin, 
-vienede_fac as ComeFrom 
-from facturas as f
-left outer join sublicen as s on f.sublicen_fac = s.CODIGO
-left outer join Lifac as l on l.NUMERO_LIF = f.NUMERO_FAC
-inner join clientes1 as c on f.cliente_fac = c.numero_cli 
-inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
-         
-         */
-    public class InvoiceSummaryValueDto : NotificationObject, IEquatable<InvoiceSummaryValueDto>
+    
+    public class InvoiceSummaryValueDto : BaseDto, IEquatable<InvoiceSummaryValueDto>
     {
         private string _invoiceCode;
         private string _client;
@@ -38,16 +24,7 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
         private string _invoiceName;
         private string _invoiceSerie;
         private string _invoiceRef;
-
-        /*
-
-{QueryType.QueryInvoiceSummaryExtended, "select numero_fac as InvoiceName, serie_fac as InvoiceSerie, referen_fac as InvoiceRef, cliente_fac as InvoiceCode, l.CONTRATO_LIF as InvoiceContract,c.nombre as ClientName, fecha_fac as InvoiceDate, cuota_fac as InvoiceFee, basesin as InvoiceBase, todo_fac as TotalInvoice, f.FRATIPIMPR as InvoiceType, c2.contable as Account, sublicen_fac as CompanyCode, s.NOMBRE as CompanyName, oficina_fac as OfficeCode, asiento_fac as Seat, fserv_a as InvoiceTo, fserv_de as InvoiceFrom, observaciones_fac as Notes, usuario_fac as InvoiceUser, ultmodi_fac as LastModificatoin, vienede_fac as ComeFrom from facturas as f " +
-"left outer join sublicen as s on f.sublicen_fac = s.CODIGO " +
-"left outer join Lifac as l on l.NUMERO_LIF = f.NUMERO_FAC " +
-"inner join clientes1 as c on f.cliente_fac = c.numero_cli " +
-"inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" }
-*/
-
+        private string _amountTotal;
 
         /// <summary>
         ///  Set or Get the InvoiceCode.
@@ -56,7 +33,7 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
         public string InvoiceName
         {
             set { _invoiceName = value; RaisePropertyChanged("InvoiceName"); }
-            get { return _invoiceName; }
+            get => _invoiceName;
         }
 
         /// <summary>
@@ -84,12 +61,12 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
         public string InvoiceCode
         {
             set { _invoiceCode = value; RaisePropertyChanged("InvoiceCode"); }
-            get { return _invoiceCode; }
+            get => _invoiceCode;
         }
         /// <summary>
         ///  Set or Get the Client name.
         /// </summary>
-        [Display(Name = "Cliente", Description = "Codigo de Cliente")]
+        [Display(Name = "Cliente", Description = "Nombre de Cliente")]
         public string ClientName
         {
             set
@@ -102,11 +79,13 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
                 return _client;
             }
         }
+    
 
-        /// <summary>
-        ///  Set or Get the contract name.
-        /// </summary>
-        [Display(Name = "Contracto", Description = "Numero Contracto")]
+
+            /// <summary>
+            ///  Set or Get the contract name.
+            /// </summary>
+            [Display(Name = "Contracto", Description = "Numero Contracto")]
         public string InvoiceContract
         {
             set
@@ -119,7 +98,20 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
                 return _contract;
             }
         }
-
+        /// </summary>
+        ///
+       /*
+        [Display(Name = "TI", Description = "Total Importe")]
+        public string TotalImporte
+        {
+            set
+            {
+                _amountTotal = value;
+                RaisePropertyChanged("AmountTotal");
+            }
+            get => _amountTotal;
+        }
+        */
         /// <summary>
         ///  Get or Set the date.
         /// </summary>
@@ -134,22 +126,6 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
             get
             {
                 return _date;
-            }
-        }
-        /// <summary>
-        ///  Set or get the quota
-        /// </summary>
-        [Display(Name = "Cuota", Description = "Cuota")]
-        public double InvoiceFee
-        {
-            set
-            {
-                _fee = value;
-                RaisePropertyChanged("InvoiceFee");
-            }
-            get
-            {
-                return _fee;
             }
         }
 
@@ -171,6 +147,24 @@ inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;
 
             }
         }
+        /// <summary>
+        ///  Set or get the quota
+        /// </summary>
+        [Display(Name = "Cuota", Description = "Cuota")]
+        public double InvoiceFee
+        {
+            set
+            {
+                _fee = value;
+                RaisePropertyChanged("InvoiceFee");
+            }
+            get
+            {
+                return _fee;
+            }
+        }
+
+        
 
         /// <summary>
         ///  set or get the total

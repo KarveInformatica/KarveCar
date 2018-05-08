@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KarveCommon.Generic;
 using KarveControls;
 using KarveControls.UIObjects;
 using MasterModule.Properties;
@@ -45,7 +46,7 @@ namespace MasterModule.Common
             dataDfObject.ButtonImage = MasterModuleConstants.EmailImagePath;
             dataDfObject.DataField = databaseFields["DataField"];
             dataDfObject.LabelText = databaseFields["Label"];
-            dataDfObject.DataAllowed = ControlExt.DataType.Email;
+            dataDfObject.DataAllowed = DataType.Email;
             dataDfObject.LabelVisible = true;
             dataDfObject.TextContentWidth = UiConstants.TextBoxWidthDefault;
             dataDfObject.Height = UiConstants.TextboxHeight;

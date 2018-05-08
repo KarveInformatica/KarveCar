@@ -293,7 +293,7 @@ namespace DataAccessLayer
             }
             catch (System.Exception e)
             {
-                var exception = "message";
+                throw new DataLayerException("MappedEntity", e);
             }
             finally
             {

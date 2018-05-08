@@ -21,6 +21,8 @@ using MasterModule.Views;
 using Syncfusion.UI.Xaml.Grid;
 using System.ComponentModel;
 using DataAccessLayer.SQL;
+using KarveCommon;
+
 
 namespace MasterModule.ViewModels
 {
@@ -157,6 +159,11 @@ namespace MasterModule.ViewModels
             RegionManager.RequestNavigate("ContentRegion",typeof(DriversControlView).FullName);
         }
 
+        public override void StartAndNotify()
+        {
+
+        }
+       
         /// <summary>
         ///  Initialize view model.
         /// </summary>
@@ -495,6 +502,13 @@ namespace MasterModule.ViewModels
                         CurrentOperationalState = DataPayLoad.Type.Show;
                         break;
                     }
+                    // in this case load the item after a navigate.
+                    case DataPayLoad.Type.ShowNavigate:
+                    {
+                        StartAndNotify();
+                        break;
+                    }
+                    
                     case DataPayLoad.Type.Insert:
                     {
                         CurrentOperationalState = DataPayLoad.Type.Insert;
@@ -642,9 +656,12 @@ namespace MasterModule.ViewModels
             throw new NotImplementedException();
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override async Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
         {
-            throw new NotImplementedException();
+            IDictionary<string, object> ev = SetBranchProvince(p, b, DataObject, DataObject.BranchesDto);
+            // send the opportune event where it is needed.
+            await GridChangedNotification<BranchesDto, cliDelega>(ev,
+                _onBranchesPrimaryKey, DataSubSystem.ClientSubsystem).ConfigureAwait(false);
         }
 
         internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)

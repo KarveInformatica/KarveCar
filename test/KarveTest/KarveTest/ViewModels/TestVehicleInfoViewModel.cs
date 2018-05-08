@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KarveCommon.Services;
-using KarveDataServices;
-using KarveDataServices.DataObjects;
+﻿using KarveCommon.Services;
 using Moq;
 using NUnit.Framework;
 using MasterModule.ViewModels;
@@ -30,12 +23,15 @@ namespace KarveTest.ViewModels
         /// <summary>
         /// Should correct and point out other subsystem.
         /// </summary>
+        [Test]
         public void Should_Point_Not_Correct_Subsystem()
         {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.HasDataObject = true;
-            payLoad.PayloadType = DataPayLoad.Type.Show;
-            payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
+            var payLoad = new DataPayLoad
+            {
+                HasDataObject = true,
+                PayloadType = DataPayLoad.Type.Show,
+                Subsystem = DataSubSystem.CommissionAgentSubystem
+            };
             _vehicleInfoViewModel.IncomingPayload(payLoad);
             Assert.NotNull(_vehicleInfoViewModel.Error);
             Assert.Null(_vehicleInfoViewModel);
@@ -43,21 +39,24 @@ namespace KarveTest.ViewModels
         /// <summary>
         /// Shall discard invalid payload.
         /// </summary>
+        [Test]
         public void Should_Discard_Invalid_Payload()
         {
-            DataPayLoad payLoad = null;
-            _vehicleInfoViewModel.IncomingPayload(payLoad);
-            Assert.Null(payLoad);
+            _vehicleInfoViewModel.IncomingPayload(null);
+            Assert.Null(_vehicleInfoViewModel.DataObject);
         }
         /// <summary>
         ///  Shall show correctly the vehicle.
         /// </summary>
-        public void Shall_ShowCorrectly_TheVehicle()
+        [Test]
+        public void Should_ShowCorrectly_TheVehicle()
         {
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.HasDataObject = true;
-            payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
-            payLoad.PayloadType = DataPayLoad.Type.Show;
+            DataPayLoad payLoad = new DataPayLoad
+            {
+                HasDataObject = true,
+                Subsystem = DataSubSystem.VehicleSubsystem,
+                PayloadType = DataPayLoad.Type.Show
+            };
             _vehicleInfoViewModel.IncomingPayload(payLoad);
             Assert.NotNull(_vehicleInfoViewModel.DataObject);
         }

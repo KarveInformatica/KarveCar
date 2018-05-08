@@ -32,7 +32,7 @@ namespace KarveTest.Common
                 _careKeeper.Schedule(payload);
 
             }
-            Assert.AreEqual(10, _careKeeper.ScheduledPayloadCount());
+            Assert.AreEqual(1, _careKeeper.ScheduledPayloadCount());
             _careKeeper.DeleteItems(uri);
             Assert.AreEqual(0, _careKeeper.ScheduledPayloadCount());
         }

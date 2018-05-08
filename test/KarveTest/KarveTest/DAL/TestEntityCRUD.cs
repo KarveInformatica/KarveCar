@@ -7,6 +7,7 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using DataAccessLayer.DataObjects;
 
 namespace KarveTest.DAL
 {
@@ -17,9 +18,9 @@ namespace KarveTest.DAL
     class TestEntityCrud: TestBase
     {
         private ISqlExecutor _sqlExecutor;
-        private IDataLoader<SupplierDto> _dataLoader;
-        private IDataSaver<SupplierDto> _dataSaver;
-        private IDataDeleter<SupplierDto> _dataDeleter;
+        private IDataLoader<ComisioDto> _dataLoader;
+        private IDataSaver<ComisioDto> _dataSaver;
+        private IDataDeleter<ComisioDto> _dataDeleter;
         /// <summary>
         /// This setup the test for entity modification.
         /// </summary>
@@ -29,9 +30,9 @@ namespace KarveTest.DAL
             try
             {
                 _sqlExecutor = SetupSqlQueryExecutor();
-                _dataLoader = new DataLoader<SupplierPoco, SupplierDto>(_sqlExecutor);
-                _dataSaver = new DataSaver<SupplierPoco, SupplierDto>(_sqlExecutor);
-                _dataDeleter = new DataDeleter<SupplierPoco,SupplierDto>(_sqlExecutor);
+                _dataLoader = new DataLoader<COMISIO, ComisioDto>(_sqlExecutor);
+                _dataSaver = new DataSaver<COMISIO,ComisioDto>(_sqlExecutor);
+                _dataDeleter = new DataDeleter<COMISIO,ComisioDto>(_sqlExecutor);
             }
             catch (Exception e)
             {
@@ -44,33 +45,33 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Load_Entities_Modify_And_Save_Correctly()
         {
-            SupplierDto value = new SupplierDto();
-            value.NUM_PROVEE = "91892291";
-            SupplierDto dtoValue = await  _dataLoader.LoadValueAsync(value.NUM_PROVEE);
-            Assert.AreEqual(value.NUM_PROVEE, dtoValue.NUM_PROVEE);
+            var value = new ComisioDto
+            {
+                NUM_COMI = "91892291"
+            };
+            var dtoValue = await  _dataLoader.LoadValueAsync(value.NUM_COMI);
+            Assert.AreEqual(value.NUM_COMI, dtoValue.NUM_COMI);
             value.NOMBRE = "BasicSupplier";
-            bool result = await _dataSaver.SaveAsync(value);
+            var result = await _dataSaver.SaveAsync(value);
             Assert.AreEqual(result, true);
         }
         /// <summary>
         ///  This test detect and error and save entities in not a correct way.
         /// </summary>
         [Test]
-        public async void Should_Detect_Error_Saving_Entities_A_Not_Correct_Data()
+        public async Task Should_Detect_Error_Saving_Entities_A_Not_Correct_Data()
         {
-            SupplierDto value = new SupplierDto();
-            value.NUM_PROVEE = "";
-            bool result = await _dataSaver.SaveAsync(value);
+            ComisioDto value = new ComisioDto {NUM_COMI = ""};
+            var result = await _dataSaver.SaveAsync(value);
             Assert.AreEqual(result, false);
         }
         /// <summary>
         ///  This test insert and delete an entity correctly.
         /// </summary>
         [Test]
-        public async void Should_Entity_Insert_And_Delete_A_Correctly()
+        public async Task Should_Entity_Insert_And_Delete_A_Correctly()
         {
-            SupplierDto value = new SupplierDto();
-            value.NUM_PROVEE = "891892";
+            var value = new ComisioDto {NUM_COMI = "891892"};
             bool result = await _dataSaver.SaveAsync(value);
             Assert.IsTrue(result);
             bool dataDeleter = await _dataDeleter.DeleteAsync(value);
@@ -80,7 +81,7 @@ namespace KarveTest.DAL
         ///  This test should delete and insert data correctly.
         /// </summary>
         [Test]
-        public async  void Should_Delete_And_Insert_Data_Correnctly()
+        public async Task  Should_Delete_And_Insert_Data_Correnctly()
         {
             var allValues = await _dataLoader.LoadAsyncAll();
             var valueToDelete = allValues.FirstOrDefault();

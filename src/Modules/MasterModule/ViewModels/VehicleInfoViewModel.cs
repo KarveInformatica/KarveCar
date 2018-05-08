@@ -19,6 +19,7 @@ using Prism.Commands;
 using Prism.Regions;
 using KarveCommonInterfaces;
 using DataAccessLayer.SQL;
+using KarveCommon;
 
 namespace MasterModule.ViewModels
 {
@@ -32,7 +33,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Vehicle Data Services.
         /// </summary>
-        private IVehicleDataServices _vehicleDataServices;
+        private readonly IVehicleDataServices _vehicleDataServices;
         private IVehicleData _vehicleDo;
         private object _dataObject;
         private object _deleteNotifyTaskCompletion;
@@ -57,7 +58,7 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<ObservableCollection<ElementDto>> _elementLoadNotifyTaskCompletion;
 
         // this is in the vehicle stuff.
-        private PropertyChangedEventHandler _deleteEventHandler;
+        private readonly PropertyChangedEventHandler _deleteEventHandler;
         /// <summary>
         ///  vehicle revision
         /// </summary>
@@ -81,10 +82,11 @@ namespace MasterModule.ViewModels
         private ObservableCollection<CompanyDto> _otherOffice2Dto = new ObservableCollection<CompanyDto>();
         private ObservableCollection<CompanyDto> _otherOffice3Dto = new ObservableCollection<CompanyDto>();
         private IEnumerable<BrandVehicleDto> _brandDtos;
-        private IEnumerable<ModelVehicleDto> _modelDtos;
+        private IEnumerable<ModelVehicleDto> _modelDtos = new ObservableCollection<ModelVehicleDto>();
         private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
         private IEnumerable<ColorDto> _colorDto;
-        private QueryStoreFactory _queryStoreFactory;
+        private readonly QueryStoreFactory _queryStoreFactory;
+        private ICollection<string> _dataFieldCollection;
 
 
         // This returns the list of activity when asked.
@@ -142,6 +144,7 @@ namespace MasterModule.ViewModels
             }
         }
 
+      
 
 
         /// <summary>
@@ -344,11 +347,13 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
         /// <summary>
         ///  Constructor
         /// </summary>
         /// <param name="configurationService">This is the configurartion service</param>
         /// <param name="eventManager"> The event manager for sending/recieving messages from the view model</param>
+        /// <param name="dialogService"></param>
         /// <param name="services">Data access layer interface</param>
         public VehicleInfoViewModel(IConfigurationService configurationService, IEventManager eventManager, 
             IDialogService dialogService,
@@ -367,6 +372,7 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
             _queryStoreFactory = new QueryStoreFactory();
+           
             ActiveSubSystem();
         }
       
@@ -384,200 +390,205 @@ namespace MasterModule.ViewModels
         private async void AssistCommandHelper(object param)
         {
             IDictionary<string, string> values = param as Dictionary<string, string>;
-            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"]  : null;
+            string assistTableName = values != null && values.ContainsKey("AssistTable") ? values["AssistTable"]  : null;
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"]  : null;
             /*  ok now i have to handle the assist helper.
              *  The smartest thing is to detect the table from the query.
              */
             IMapper mapper = MapperField.GetMapper();
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-            assistTableName = assistTableName.ToUpper();
-
-            switch (assistTableName)
+            if (assistTableName != null)
             {
-                
-               
-                case "ACTIVEHI":
-                {
-                    var act =
-                        await helperDataServices.GetMappedAsyncHelper<VehicleActivitiesDto, ACTIVEHI>(assistQuery);
-                    ActivityDtos = new ObservableCollection<VehicleActivitiesDto>(act);
-                    break;
-                }
-                case "PROPIE":
-                {
-                   var propie = await helperDataServices.GetMappedAllAsyncHelper<OwnerDto, PROPIE>();
-                   var ownerDtos = new ObservableCollection<OwnerDto>(propie);
-                   OwnerDtos = ownerDtos;
-                   break;
-                }
-                case "AGENTES":
-                {
-                   
-                    var agents = await helperDataServices.GetAsyncHelper<AgentDto>(assistQuery);
-                    ObservableCollection<AgentDto> agentDtos = new ObservableCollection<AgentDto>(agents);   
-                    AgentDtos = agentDtos;
-                    break;
-                }
-                case "ASSURANCE":
-                {
-                    var provee =
-                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
-                    AssuranceDtos = new ObservableCollection<SupplierSummaryDto>(provee);
-                    break;
-                }
-                case "ASSURANCE_1":
-                {
-                    AssistancePolicyAssuranceDtos = await FetchSupplierCollection();
-                    break;
-                }
-                case "ASSURANCE_2":
-                {
+                assistTableName = assistTableName.ToUpper();
 
-                    AdditionalAssuranceDtos = await FetchSupplierCollection();
-                    break;
-                }
-                case "ASSURANCE_3":
+                switch (assistTableName)
                 {
-                    AssistanceAssuranceDtos = await FetchSupplierCollection();
-                    break;
-                }
-                case "ASSURANCE_AGENT":
-                {
-                    AssuranceAgentDtos = await FetchSupplierCollection();
-                    break;
-                }
-                case "PROVEE1":
-                {
-                    ProveeDto = await FetchSupplierCollection();
-                    break;
-                }
-                case "PROVEE2":
-                {
-                    var provee =
-                        await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
-                    ProveeDto2 = new ObservableCollection<SupplierSummaryDto>(provee);
-                    break;
-                }
-                  
-                case "CU1":
-                {
-                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                    AccountDtos = new ObservableCollection<AccountDto>(contable);
-                    break;
-                }
-                case "FORMAS":
-                {
-                    var paymentForm = await helperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();    
-                    PaymentFormDto = new ObservableCollection<PaymentFormDto>(paymentForm);
-                    break;
-                }
-                case "CLIENTES1":
-                {
-                    var clientes = await helperDataServices.GetAsyncHelper<ClientsSummaryDto>(GenericSql.SupplierSummaryQuery);
-                    ClientsDto = new ObservableCollection<ClientsSummaryDto>(clientes);
-                    break;
-                }
-                case "ACCOUNT_INMOVILIZADO":
-                {
-                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                    AccountDtosImmobilized= new ObservableCollection<AccountDto>(contable);
-                    break;
-                }
-                case "ACCOUNT_PAYMENT_ACCOUNT":
-                {
-                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                    AccountDtoPaymentAccount = new ObservableCollection<AccountDto>(contable);
-                    break;
-                }
-                case "ACCOUNT_PREVIUOS_PAYMENT":
-                {
-                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                    AccountDtoPreviousRepayment = new ObservableCollection<AccountDto>(contable);
-                    break;
-                }
-                case "ACCOUNT_ACCUMULATED_REPAYMENT":
-                {
-                    var contable = await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                    AccountDtoAccmulatedRepayment = new ObservableCollection<AccountDto>(contable);
-                    break;
-                }
-                case "POBLACIONES":
-                {
-                    var prov = await helperDataServices.GetAsyncHelper<POBLACIONES>(assistQuery);
-                    IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
-                    CityDto = new ObservableCollection<CityDto>(cities);
-                    break;
-
-                 }
-                case "OFICINA1":
-                {
-                    var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
-                    OtherOffice1Dto = new ObservableCollection<CompanyDto>(oficina);
-                    break;
-                }
-                case "OFICINA2":
-                {
-                    var oficina2 = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
-                    OtherOffice2Dto = new ObservableCollection<CompanyDto>(oficina2);
+                    case "ACTIVEHI":
+                    {
+                        var act =
+                            await helperDataServices.GetMappedAsyncHelper<VehicleActivitiesDto, ACTIVEHI>(assistQuery);
+                        ActivityDtos = new ObservableCollection<VehicleActivitiesDto>(act);
                         break;
-                }
-                case "OFICINA3":
-                {
-                    var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
-                    OtherOffice3Dto = new ObservableCollection<CompanyDto>(oficina);
-                    break;
-                }
-                   
-                case "COLORFL":
+                    }
+                    case "PROPIE":
+                    {
+                        var propie = await helperDataServices.GetMappedAllAsyncHelper<OwnerDto, PROPIE>();
+                        var ownerDtos = new ObservableCollection<OwnerDto>(propie);
+                        OwnerDtos = ownerDtos;
+                        break;
+                    }
+                    case "AGENTES":
+                    {
+                        var agents = await helperDataServices.GetAsyncHelper<AgentDto>(assistQuery);
+                        ObservableCollection<AgentDto> agentDtos = new ObservableCollection<AgentDto>(agents);
+                        AgentDtos = agentDtos;
+                        break;
+                    }
+                    case "ASSURANCE":
+                    {
+                        var provee =
+                            await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql
+                                .SupplierSummaryQuery);
+                        AssuranceDtos = new ObservableCollection<SupplierSummaryDto>(provee);
+                        break;
+                    }
+                    case "ASSURANCE_1":
+                    {
+                        AssistancePolicyAssuranceDtos = await FetchSupplierCollection();
+                        break;
+                    }
+                    case "ASSURANCE_2":
+                    {
+                        AdditionalAssuranceDtos = await FetchSupplierCollection();
+                        break;
+                    }
+                    case "ASSURANCE_3":
+                    {
+                        AssistanceAssuranceDtos = await FetchSupplierCollection();
+                        break;
+                    }
+                    case "ASSURANCE_AGENT":
+                    {
+                        AssuranceAgentDtos = await FetchSupplierCollection();
+                        break;
+                    }
+                    case "PROVEE1":
+                    {
+                        ProveeDto = await FetchSupplierCollection();
+                        break;
+                    }
+                    case "PROVEE2":
+                    {
+                        var provee =
+                            await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql
+                                .SupplierSummaryQuery);
+                        ProveeDto2 = new ObservableCollection<SupplierSummaryDto>(provee);
+                        break;
+                    }
+
+                    case "CU1":
+                    {
+                        var contable =
+                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                        AccountDtos = new ObservableCollection<AccountDto>(contable);
+                        break;
+                    }
+                    case "FORMAS":
+                    {
+                        var paymentForm = await helperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
+                        PaymentFormDto = new ObservableCollection<PaymentFormDto>(paymentForm);
+                        break;
+                    }
+                    case "CLIENTES1":
+                    {
+                        var clientes =
+                            await helperDataServices.GetAsyncHelper<ClientsSummaryDto>(GenericSql.SupplierSummaryQuery);
+                        ClientsDto = new ObservableCollection<ClientsSummaryDto>(clientes);
+                        break;
+                    }
+                    case "ACCOUNT_INMOVILIZADO":
+                    {
+                        var contable =
+                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                        AccountDtosImmobilized = new ObservableCollection<AccountDto>(contable);
+                        break;
+                    }
+                    case "ACCOUNT_PAYMENT_ACCOUNT":
+                    {
+                        var contable =
+                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                        AccountDtoPaymentAccount = new ObservableCollection<AccountDto>(contable);
+                        break;
+                    }
+                    case "ACCOUNT_PREVIUOS_PAYMENT":
+                    {
+                        var contable =
+                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                        AccountDtoPreviousRepayment = new ObservableCollection<AccountDto>(contable);
+                        break;
+                    }
+                    case "ACCOUNT_ACCUMULATED_REPAYMENT":
+                    {
+                        var contable =
+                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
+                        AccountDtoAccmulatedRepayment = new ObservableCollection<AccountDto>(contable);
+                        break;
+                    }
+                    case "POBLACIONES":
+                    {
+                        var prov = await helperDataServices.GetAsyncHelper<POBLACIONES>(assistQuery);
+                        IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
+                        CityDto = new ObservableCollection<CityDto>(cities);
+                        break;
+                    }
+                    case "OFICINA1":
+                    {
+                        var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                        OtherOffice1Dto = new ObservableCollection<CompanyDto>(oficina);
+                        break;
+                    }
+                    case "OFICINA2":
+                    {
+                        var oficina2 = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                        OtherOffice2Dto = new ObservableCollection<CompanyDto>(oficina2);
+                        break;
+                    }
+                    case "OFICINA3":
+                    {
+                        var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                        OtherOffice3Dto = new ObservableCollection<CompanyDto>(oficina);
+                        break;
+                    }
+
+                    case "COLORFL":
                     {
                         var colos = await helperDataServices.GetMappedAllAsyncHelper<ColorDto, COLORFL>();
                         ColorDtos = new ObservableCollection<ColorDto>(colos);
                         break;
                     }
-                case "MARCAS":
+                    case "MARCAS":
                     {
-                   
                         var brands = await helperDataServices.GetMappedAllAsyncHelper<BrandVehicleDto, MARCAS>();
                         BrandDtos = brands;
                         break;
                     }
-                case "MODELO":
+                    case "MODELO":
                     {
                         var models = await helperDataServices.GetMappedAllAsyncHelper<ModelVehicleDto, MODELO>();
-                        ModelDtos = models;
+                        ModelDtos = new ObservableCollection<ModelVehicleDto>(models);
                         break;
                     }
-                case "GRUPOS":
+                    case "GRUPOS":
                     {
                         var vehicles = await helperDataServices
                             .GetMappedAllAsyncHelper<VehicleGroupDto, GRUPOS>();
                         VehicleGroupDtos = vehicles;
                         break;
                     }
-                case "SITUATION":
-                {
-                    var sit = await helperDataServices.GetMappedAllAsyncHelper<CurrentSituationDto,SITUACION>();
-                    CurrentSituationDto = new ObservableCollection<CurrentSituationDto>(sit);
-                    break;
-                }
-                case "ROAD_TAXES_CITY":
+                    case "SITUATION":
+                    {
+                        var sit = await helperDataServices.GetMappedAllAsyncHelper<CurrentSituationDto, SITUACION>();
+                        CurrentSituationDto = new ObservableCollection<CurrentSituationDto>(sit);
+                        break;
+                    }
+                    case "ROAD_TAXES_CITY":
                     {
                         var prov = await helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
                         RoadTaxesCityDto = new ObservableCollection<CityDto>(prov);
                         break;
                     }
-                case "ROAD_TAXES_ZONAOFI":
-                {
-                    var oficinas = await helperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
-                    RoadTaxesOfficeZoneDto = new ObservableCollection<ZonaOfiDto>(oficinas);
-                    break;
-                }
-                case "VENDEDOR":
-                {
-                    var vendedor = await helperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
-                    VendedorDtos = new ObservableCollection<ResellerDto>(vendedor);
-                    break;
+                    case "ROAD_TAXES_ZONAOFI":
+                    {
+                        var oficinas = await helperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
+                        RoadTaxesOfficeZoneDto = new ObservableCollection<ZonaOfiDto>(oficinas);
+                        break;
+                    }
+                    case "VENDEDOR":
+                    {
+                        var vendedor = await helperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
+                        VendedorDtos = new ObservableCollection<ResellerDto>(vendedor);
+                        break;
+                    }
                 }
             }
         }
@@ -617,12 +628,19 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public ICollection<string> DataFieldList
+        {
+            get => _dataFieldCollection;
+            set
+            {
+                _dataFieldCollection = value;
+                RaisePropertyChanged();
+            }
+        }
         public ObservableCollection<CurrentSituationDto> SituationDto
         {
-            get
-            {
-                return _situationDto;
-            }
+            get => _situationDto;
             set
             {
                 _situationDto = value;
@@ -649,7 +667,7 @@ namespace MasterModule.ViewModels
 
         public object DataObject
         {
-            get { return _dataObject; }
+            get => _dataObject;
             set { _dataObject = value;
                 MetaDataObject = InitAssuranceObject();
                 DataFieldCollection = InitDataField();
@@ -696,14 +714,14 @@ namespace MasterModule.ViewModels
             {
                 IVehicleData vehicle = (IVehicleData) sender;
                 DataObject = vehicle;
+             
             }
         }
       
 
         private void ChangeUnpack(object value)
         {
-            IDictionary<string,object> changedItem = value as IDictionary<string,object>;
-            if (changedItem != null)
+            if (value is IDictionary<string, object> changedItem)
             {
                 OnChangedField(changedItem);
             }
@@ -750,7 +768,7 @@ namespace MasterModule.ViewModels
             {
                 vehicle = await _vehicleDataServices.GetVehicleDo(primaryKeyValue);
                 DataObject = vehicle;
-                
+               
             }
             return vehicle;
         }
@@ -826,14 +844,17 @@ namespace MasterModule.ViewModels
             if (payload.HasDataObject)
             {
                 _vehicleDo = (IVehicleData) payload.DataObject;
-              
                 DataObject = _vehicleDo;
+                ModelDtos = _vehicleDo.ModelDtos;
+                BrandDtos = _vehicleDo.BrandDtos;
+                ColorDtos = _vehicleDo.ColorDtos;
+                VehicleGroupDtos = _vehicleDo.VehicleGroupDtos;
+              
                 if (_vehicleDo.MaintenanceHistory != null)
                 {
                     MaintenanceCollection = new ObservableCollection<MaintainanceDto>(_vehicleDo.MaintenanceHistory);
                 }
                 RevisionObject = InitRevisionComposedFieldObjects();
-             //  EventManager.SendMessage(UpperBarViewVehicleViewModel.Name, payload);
                 ActiveSubSystem();
             }
             srStopwatch.Stop();
@@ -849,9 +870,11 @@ namespace MasterModule.ViewModels
             string primaryKey = primaryKeyValue;
             if (primaryKey == PrimaryKeyValue)
             {
-                DataPayLoad dataPayload = new DataPayLoad();
-                dataPayload.HasDataObject = true;
-                dataPayload.PrimaryKeyValue = PrimaryKeyValue;
+                DataPayLoad dataPayload = new DataPayLoad
+                {
+                    HasDataObject = true,
+                    PrimaryKeyValue = PrimaryKeyValue
+                };
                 _deleteNotifyTaskCompletion = NotifyTaskCompletion.Create<DataPayLoad>(HandleDeleteItem(dataPayload), _deleteEventHandler);
                 
               
@@ -964,10 +987,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public IEnumerable<ModelVehicleDto> ModelDtos
         {
-            get
-            {
-                return _modelDtos;
-            }
+            get => _modelDtos;
             set
             {
                 _modelDtos = value;
@@ -1078,7 +1098,7 @@ namespace MasterModule.ViewModels
 
         internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
         {
-            throw new NotImplementedException();
+                 throw new NotImplementedException();
         }
 
         internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)

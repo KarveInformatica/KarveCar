@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KarveControls;
-using MasterModule.Interfaces;
-using MasterModule.ViewModels;
+﻿using MasterModule.ViewModels;
 using MasterModule.Views;
 using MasterModule.Views.Clients;
 using Microsoft.Practices.Unity;
@@ -18,7 +11,7 @@ namespace MasterModule
     {
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
-        public const string NAME = "MasterModule";
+        public const string Name = "MasterModule";
 
 
         public MasterModule(IUnityContainer container, IRegionManager regionManager)

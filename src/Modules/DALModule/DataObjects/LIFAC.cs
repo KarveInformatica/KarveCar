@@ -1,12 +1,15 @@
 using System;
- 
+using KarveDapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a LIFAC.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class LIFAC 
+    /// <summary>
+    /// Represents a LIFAC.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("LIFAC")]
+    public class LIFAC 
 	{
 	
 	/// <summary>
@@ -114,7 +117,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the CLAVE_LF property.
     /// </summary>
-    
+        [Key]
 		public Int32 CLAVE_LF { get; set; }
  
 	/// <summary>

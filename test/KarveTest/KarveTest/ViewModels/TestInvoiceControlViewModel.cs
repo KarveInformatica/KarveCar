@@ -13,10 +13,12 @@ namespace KarveTest.ViewModels
     class TestInvoiceControlViewModel: TestViewModelBase
     {
        
-        private InvoiceControlViewModel _invoiceControlViewModel;
-        private DataPayLoad currentPayload = new DataPayLoad();
+        private readonly InvoiceControlViewModel _invoiceControlViewModel;
+        private readonly DataPayLoad _currentPayload = new DataPayLoad();
 
-        [OneTimeSetUp]
+     
+
+        [SetUp]
         public void SetUp()
         {
            
@@ -27,11 +29,11 @@ namespace KarveTest.ViewModels
                             new InvoiceSummaryValueDto(){ InvoiceCode="12239", InvoiceDate = DateTime.Now, ClientName = "Karve1" },
                             new InvoiceSummaryValueDto(){ InvoiceCode="12240", InvoiceDate = DateTime.Now, ClientName = "Karve2" },
                             new InvoiceSummaryValueDto(){ InvoiceCode="12241", InvoiceDate = DateTime.Now, ClientName = "Karve3" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve" }
+                            new InvoiceSummaryValueDto(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
                 }));
             
           
-            _mockEventManager.Setup(x => x.NotifyObserverSubsystem(InvoiceControlViewModel.InvoiceSubSystem, currentPayload));
+            _mockEventManager.Setup(x => x.NotifyObserverSubsystem(InvoiceModule.InvoiceModule.InvoiceSubSystem, _currentPayload));
             _mockRegionManager.Setup(x => x.RequestNavigate("TabRegion", ""));
      
         }
@@ -40,7 +42,7 @@ namespace KarveTest.ViewModels
         ///  This test if the view model correctly load the values.
         /// </summary>
         [Test]
-        public void Should_Start_A_Invoice_Control_View()
+        public void Should_Start_InvoiceControlView()
         {
 
             List<InvoiceSummaryValueDto> summaryValue = new List<InvoiceSummaryValueDto>()
@@ -51,12 +53,14 @@ namespace KarveTest.ViewModels
                             new InvoiceSummaryValueDto(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
             };
             // arrange and execute the load
-          //  _invoiceControlViewModel = new InvoiceControlViewModel(_mockDataServices.Object,
-           //                                                      _mockDialogService.Object,
-             //                                                    _mockRegionManager.Object,
-             //                                                    _mockEventManager.Object);
+             var invoiceControlViewModel = new InvoiceControlViewModel(_mockDataServices.Object,
+                                                                   _mockUnityContainer.Object,
+                                                                   _mockDialogService.Object,
+                                                                   _mockRegionManager.Object,
+                                                                   _mockRequestController.Object,
+                                                                   _mockEventManager.Object);
             // here we sall have a summary view.
-            var summaryView = _invoiceControlViewModel.SummaryView;
+            var summaryView = invoiceControlViewModel.SummaryView;
             var summaryView2 = summaryView.Intersect<InvoiceSummaryValueDto>(summaryValue);
             Assert.AreEqual(summaryView.Count(), summaryView2.Count());
         }

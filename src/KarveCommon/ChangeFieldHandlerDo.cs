@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using KarveCommon.Services;
-using KarveControls.Generic;
-using KarveControls.UIObjects;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using KarveCommon.Services;
 
-namespace MasterModule.Common
+namespace KarveCommon
 {
     /// <summary>
     /// This handles the change field data object

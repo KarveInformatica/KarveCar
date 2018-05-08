@@ -90,6 +90,11 @@ namespace KarveCommon.Generic
         ///  client summary grid
         /// </summary>
         public static long InvoiceSummaryGrid = 0x102;
+        /// <summary>
+        ///
+        ///  Contract summary grid
+        /// </summary>
+        public static long ContractSymmaryGrid = 0x103;
 
     }
 }

@@ -32,8 +32,7 @@ namespace MasterModule.ViewModels
         /// <param name="eventManager">Event manager</param>
         /// <param name="services">Data Services</param>
         /// <param name="regionManager">Region manager</param>
-        /// <param name="container">Container</param>
-        
+        /// 
         public OfficesControlViewModel(IConfigurationService configurationService, 
             IEventManager  eventManager, 
             IDataServices  services, 
@@ -75,6 +74,7 @@ namespace MasterModule.ViewModels
             return retValue;
         }
         
+        /// <inheritdoc />
         /// <summary>
         ///  NewItem. This is a new item for the office.
         /// </summary>
@@ -102,6 +102,7 @@ namespace MasterModule.ViewModels
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
             
         }
+        /// <inheritdoc />
         /// <summary>
         ///  This initalize the view model.
         /// </summary>
@@ -126,25 +127,24 @@ namespace MasterModule.ViewModels
         }
         private void OfficeDeleteHandler(object sender, PropertyChangedEventArgs ev)
         {
-            if (sender is INotifyTaskCompletion<bool> value)
+            if (!(sender is INotifyTaskCompletion<bool> value))
             {
-                if (value.IsSuccessfullyCompleted)
+                return;
+            }
+            if (value.IsSuccessfullyCompleted)
+            {
+                    
+                var result = value.Task.Result;
+                if (!result)
                 {
-                    if (value != null)
-                    {
-                        var result = value.Task.Result;
-                        if (!result)
-                        {
-                            MessageBox.Show("Error during the delete");
-                        }
-                        // ok in this case we can
-                    }
+                    MessageBox.Show("Error during the delete");
                 }
-                else if (value.IsFaulted)
-                {
-                    var exc = value.InnerException;
-                    MessageBox.Show("Exception: "+exc);
-                }
+                // ok in this case we can
+            }
+            else if (value.IsFaulted)
+            {
+                var exc = value.InnerException;
+                MessageBox.Show("Exception: "+exc);
             }
         }
         public override void DisposeEvents()

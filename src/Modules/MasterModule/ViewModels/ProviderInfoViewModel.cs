@@ -17,6 +17,7 @@ using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Linq;
+using KarveCommon;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;

@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
+using KarveCommon;
 using KarveControls.Generic;
 
 namespace KarveControls.Behaviour

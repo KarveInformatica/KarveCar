@@ -57,11 +57,10 @@ namespace DataAccessLayer.Crud.Clients
                     throw new DataLayerInvalidClientException(ValidationChain.Errors);
                 }
             }
-           // currentPoco = _mapper.Map<ClientDto, ClientPoco>(save);
-            //Contract.Assert(currentPoco != null, "Invalid Poco");
+        
             CLIENTES1 client1 = _mapper.Map<ClientDto, CLIENTES1>(save);
             CLIENTES2 client2 = _mapper.Map<ClientDto, CLIENTES2>(save);
-            bool retValue = false;
+            var retValue = false;
             if ((client1 == null) || (client2 == null))
             {
                 return false;
@@ -89,6 +88,13 @@ namespace DataAccessLayer.Crud.Clients
                             if (retValue)
                             {
                                 retValue = await connection.UpdateAsync<CLIENTES2>(client2);
+
+                                /* there is a case of lack of cohoerence, due to the split between databases,
+                                 * in case of a bad importation*/
+                                if (!retValue)
+                                {
+                                    retValue = await connection.InsertAsync<CLIENTES2>(client2) > 0;
+                                }
                             }
                         }
                         retValue = retValue && await SaveBranchesAsync(connection, save.BranchesDto);
@@ -135,13 +141,14 @@ namespace DataAccessLayer.Crud.Clients
         private async Task<bool> SaveContactsAsync(IDbConnection connection, IEnumerable<ContactsDto> saveContactsDto)
         {
             Contract.Assert(saveContactsDto != null, "Save contacts shall be not null");
-            bool retValue = false;
+            var retValue = false;
             IEnumerable<CliContactos> contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(saveContactsDto);
-            if (contacts.Count<CliContactos>() == 0)
+            var entityToInsert = contacts.ToList();
+            if (!entityToInsert.Any())
             {
                 return true;
             }
-            int value = await connection.InsertAsync(saveContactsDto);
+            var value = await connection.InsertAsync(entityToInsert);
             retValue = value > 0;
             return retValue;
         }
@@ -153,14 +160,15 @@ namespace DataAccessLayer.Crud.Clients
         private async Task<bool> SaveBranchesAsync(IDbConnection connection, IEnumerable<BranchesDto> branchesDto)
         {
             Contract.Assert(connection != null, "Connection shall be not null");
-            bool retValue = false;
+            var retValue = false;
             IEnumerable<cliDelega> branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(branchesDto);
-            if (branches.Count<cliDelega>() == 0)
+            var entityToInsert = branches.ToList();
+            if (!entityToInsert.Any())
             {
                 return true;
             }
            
-            int value = await connection.InsertAsync(branches);
+            var value = await connection.InsertAsync(entityToInsert);
             retValue = value > 0;
             return retValue;
         }

@@ -17,13 +17,14 @@ using System.Windows.Shapes;
 using KarveCar.Utility;
 using MahApps.Metro.Controls;
 using Syncfusion.Windows.Shared;
+using Syncfusion.Windows.Tools.Controls;
 
 namespace KarveCar.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ChromelessWindow
+    public partial class MainWindow : RibbonWindow
     {
         public MainWindow()
         {

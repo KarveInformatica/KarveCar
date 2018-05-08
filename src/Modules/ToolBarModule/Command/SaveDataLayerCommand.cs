@@ -115,7 +115,8 @@ namespace ToolBarModule.Command
             }
             else
             {
-                MessageBox.Show("Error unknwon subsystem");
+               // MessageBox.Show("Error unknwon subsystem");
+                throw new ToolbarException("Payload invalid. Unsupported subsystem:" + payLoad.Subsystem);
             }
         }
         /// <summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using KarveCommon.Generic;
 using Prism.Commands;
 
 namespace KarveControls.UIObjects
@@ -22,7 +23,7 @@ namespace KarveControls.UIObjects
         public UiEmailDataField()
         {
             this.EmailCommand = new DelegateCommand<object>(OnEmailOpen);
-            DataAllowed = ControlExt.DataType.Email;
+            DataAllowed = DataType.Email;
         }
         /// <summary>
         ///  TextContent. 

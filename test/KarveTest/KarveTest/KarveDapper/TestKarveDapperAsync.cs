@@ -173,25 +173,27 @@ namespace KarveTest.KarveDapper
             return state;
         }
         [Test]
-        public async Task Should_Delete_A_CollectionFromDto()
+        public async Task Should_Delete_CollectionFromDto()
         {
             bool state = false;
             // arrange
-            IList<CLIENTES1> clientes = await FetchClientes();
+            var clientes = await FetchClientes();
             // act
             // we open a database connection and delete just the first items
             var clientForDeleting = clientes.Take(3);
-            state = await DeleteEntities(clientForDeleting);
+            var forDeleting = clientForDeleting as CLIENTES1[] ?? clientForDeleting.ToArray();
+            state = await DeleteEntities(forDeleting);
             Assert.AreEqual(state, true);
             // here we can check if the delete works well.
-            AssertCollectionDeleted(clientForDeleting);
+            AssertCollectionDeleted(forDeleting);
         }
         [Test]
         public async Task Should_Not_Delete_An_Invalid_Collection()
         {
-            bool state = false;
+            bool state;
+            state = false;
             // arrange
-            IList<CLIENTES1> clientes = await FetchClientes();
+            var clientes = await FetchClientes();
             for(int i =0; i < clientes.Count(); ++i)
             {
                 clientes[i].NUMERO_CLI = null;
@@ -208,34 +210,24 @@ namespace KarveTest.KarveDapper
         {
             bool state = false;
             // arrange
-            IList<CLIENTES1> clientes = await FetchClientes();
+            var clientes = await FetchClientes();
             for (int i = 0; i < clientes.Count(); ++i)
             {
+                clientes[i].NUMERO_CLI = string.Empty;
                 clientes[i].APELLIDO1 = null;
             }
             var clientUpdating = clientes.Take(3);
 
             // act 
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
-                try
-                {
-                    state = await conn.ExecuteUpdateCollectionAsync<CLIENTES1>(clientUpdating);
-                }
-                catch (Exception ex)
-                {
-                    
-                }
-                finally
-                {
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
-                }
+                Assert.NotNull(conn);
+                var value = await conn.ExecuteUpdateCollectionAsync<CLIENTES1>(clientUpdating);
+                Assert.AreEqual(value, false);
+    
             }
             // assert 
-            Assert.IsFalse(state);
+           
         }
     }
 }

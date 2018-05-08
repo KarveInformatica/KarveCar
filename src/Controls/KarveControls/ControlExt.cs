@@ -14,6 +14,8 @@ using Prism.Commands;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.Data;
 using System.Linq;
+using KarveCommon;
+using KarveCommon.Generic;
 
 namespace KarveControls
 {
@@ -21,10 +23,10 @@ namespace KarveControls
     /// <summary>
     ///  This is a list of attached properties to be associated to each karve control.
     /// </summary>
-    public class ControlExt
+    public partial class ControlExt
     {
 
-        private static string lastTextBoxValue = "";
+        private static string _lastTextBoxValue = "";
 
         public enum GridOp
         {
@@ -48,52 +50,8 @@ namespace KarveControls
         ///  Email data type
         /// </summary>
         public static DataType EmailDataType = DataType.Email;
-        /// <summary>
-        ///  DataType to be allowed.
-        /// </summary>
-        public enum DataType
-        {
-            /// <summary>
-            ///  Double kind of data.
-            /// </summary>
-            DoubleField,
-            /// <summary>
-            /// Integer field of the component.
-            /// </summary>
-            IntegerField,
-            /// <summary>
-            ///  Nif field of the component.
-            /// </summary>
-            NifField,
-            /// <summary>
-            ///  Iban field of the component.
-            /// </summary>
-            IbanField,
-            /// <summary>
-            ///  Any other kind of field control.
-            /// </summary>
-            Any,
-            /// <summary>
-            ///  Email kind field of the control.
-            /// </summary>
-            Email,
-            /// <summary>
-            ///  Phone field of the control.
-            /// </summary>
-            Phone,
-            /// <summary>
-            /// Bank Account of the control.
-            /// </summary>
-            BankAccount,
-            /// <summary>
-            ///  Swift field of the control.
-            /// </summary>
-            Swift,
-            /// <summary>
-            ///  Datatime field of the contorl.
-            /// </summary>
-            DateTime
-        }
+    
+       
 
         public const string AssistTable = "AssistTable";
         public const string DataFieldFirst = "DataFieldFirst";
@@ -112,15 +70,18 @@ namespace KarveControls
             DependencyPropertyChangedEventArgs e)
         {
             PasswordBox passwordBox = sender as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordChanged;
-
-            if (!(bool)GetIsUpdating(passwordBox))
+            if (passwordBox != null)
             {
-                passwordBox.Password = (string)e.NewValue;
-                // here the value of the password is changed.
-               
+                passwordBox.PasswordChanged -= PasswordChanged;
+
+                if (!(bool) GetIsUpdating(passwordBox))
+                {
+                    passwordBox.Password = (string) e.NewValue;
+                    // here the value of the password is changed.
+                }
+
+                passwordBox.PasswordChanged += PasswordChanged;
             }
-            passwordBox.PasswordChanged += PasswordChanged;
         }
 
         public static readonly DependencyProperty AttachProperty =
@@ -130,7 +91,42 @@ namespace KarveControls
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
            typeof(ControlExt));
-        
+
+
+        private static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.RegisterAttached("SelectedItem", typeof(object),
+                typeof(ControlExt), new PropertyMetadata(false, SelectedItemCb));
+
+        private static void SelectedItemCb(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var grid = d as SfDataGrid;
+            if (!(d is SfDataGrid)) return;
+            grid.SelectionChanged -= Grid_SelectionChanged;
+            grid.SelectionChanged += Grid_SelectionChanged;
+        }
+
+        private static void Grid_SelectionChanged(object sender, GridSelectionChangedEventArgs e)
+        {
+            if (!(sender is SfDataGrid grid))
+            {
+                return;
+            }
+            var selectedItem = grid.SelectedItem;
+            SetSelectedItem(grid, selectedItem);
+        }
+
+        public static void SetSelectedItem(DependencyObject dp, object value)
+        {
+            dp.SetValue(SelectedItemProperty, value);
+
+        }
+        public static object GetSelectedItem(DependencyObject dp)
+        {
+            return dp.GetValue(SelectedItemProperty);
+
+        }
+
+
         /// <summary>
         ///  Grid operation property.
         /// </summary>
@@ -181,9 +177,7 @@ namespace KarveControls
         private static void Attach(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-
-            if (passwordBox == null)
+            if (!(sender is PasswordBox passwordBox))
                 return;
 
             if ((bool)e.OldValue)
@@ -211,8 +205,8 @@ namespace KarveControls
                 objectName["DataObject"] = GetDataSource(passwordBox);
                 objectName["DataSourcePath"] = GetDataSourcePath(passwordBox);
                 objectName["ChangedValue"] =  passwordBox.Password;
-                objectName["PreviousValue"] = lastPassBoxValue;
-                lastPassBoxValue = passwordBox.Password;
+                objectName["PreviousValue"] = _lastPassBoxValue;
+                _lastPassBoxValue = passwordBox.Password;
                 command.Execute(objectName);
             }
 
@@ -273,19 +267,17 @@ namespace KarveControls
             {
                 return;
             }
-            if (dependencyObject is SfDataGrid)
+            if (dependencyObject is SfDataGrid currentDataGrid)
             {
-                SfDataGrid currentDataGrid = dependencyObject as SfDataGrid;
-
                 //  currentDataGrid.CurrentCellEndEdit += CurrentDataGrid_CurrentCellEndEdit;
                 currentDataGrid.RecordDeleted += CurrentDataGrid_RecordDeleted;
                 currentDataGrid.AddNewRowInitiating += CurrentDataGrid_AddNewRowInitiating;
                
                 currentDataGrid.RowValidated += CurrentDataGrid_RowValidated;
             }
-            if (dependencyObject is DataArea)
+            if (dependencyObject != null && dependencyObject is DataArea)
             {
-                DataArea dataArea = dependencyObject as DataArea;
+                var dataArea = dependencyObject as DataArea;
                 dataArea.ItemChangedCommand = GetItemChangedCommand(dataArea);
                 dataArea.DataSource = GetDataSource(dataArea);
                 dataArea.DataSourcePath = GetDataSourcePath(dataArea);
@@ -334,35 +326,33 @@ namespace KarveControls
                  //  checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
                 return;
             }
-            if (dependencyObject is CheckBox)
+            if (dependencyObject is CheckBox checkBox1)
             {
-                CheckBox checkBox = dependencyObject as CheckBox;
-                checkBox.Checked += CheckBox_Checked;
-                checkBox.Unchecked += CheckBox_Unchecked;
-                checkBox.Click += checkBox_Clicked;
+                checkBox1.Checked += CheckBox_Checked;
+                checkBox1.Unchecked += CheckBox_Unchecked;
+                checkBox1.Click += checkBox_Clicked;
                 return;
             }
-            if (dependencyObject is ComboBox)
+            if (dependencyObject is ComboBox comboBox)
             {
-                ComboBox comboBox = dependencyObject as ComboBox;
-                if (comboBox != null)
-                {
-                    // here we do the combox box.
-                    comboBox.SelectionChanged += ComboBox_SelectionChanged;
-
-                }
+                // here we do the combox box.
+                comboBox.SelectionChanged += ComboBox_SelectionChanged;
             }
         }
         private static void CheckBox_DataChecked(object sender, RoutedEventArgs e)
         {
-            DataFieldCheckBox dataFieldCheckBox = sender as DataFieldCheckBox;
+            var dataFieldCheckBox = sender as DataFieldCheckBox;
             var path = ControlExt.GetDataSourcePath(dataFieldCheckBox);
             if (!string.IsNullOrEmpty(path))
             {
                 var tmp = ControlExt.GetDataSource(dataFieldCheckBox);
-                if (tmp!=null)
+                if (tmp == null)
                 {
-                    var propValue = ComponentUtils.GetPropValue(tmp, path);
+                    return;
+                }
+                var propValue = ComponentUtils.GetPropValue(tmp, path);
+                if (dataFieldCheckBox != null)
+                {
                     dataFieldCheckBox.IsChecked = true;
                     ControlExt.SetDataSource(dataFieldCheckBox, true);
                 }
@@ -504,11 +494,11 @@ namespace KarveControls
                 objectName["DataObject"] = GetDataSource(dataGrid);
                 objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
                 objectName["ChangedValue"] = value;
-                objectName["PreviousValue"] = lastChangedRow;
+                objectName["PreviousValue"] = _lastChangedRow;
                 objectName["Operation"] = rowState;
                 objectName["DeletedItems"] = false;
                 objectName["LastRowId"] = dataGrid.GetLastRowIndex();
-                lastChangedRow = dataGrid.GetRecordAtRowIndex(e.RowIndex);
+                _lastChangedRow = dataGrid.GetRecordAtRowIndex(e.RowIndex);
                 command.Execute(objectName);
                 SwitchToUpdate(dependencyObject, rowState);
                 
@@ -614,8 +604,8 @@ namespace KarveControls
                     objectName["DataObject"] = GetDataSource(textBox);
                     objectName["DataSourcePath"] = GetDataSourcePath(textBox);
                     objectName["ChangedValue"] = textBox.Text;
-                    objectName["PreviousValue"] = lastTextBoxValue;
-                    lastTextBoxValue = textBox.Text;
+                    objectName["PreviousValue"] = _lastTextBoxValue;
+                    _lastTextBoxValue = textBox.Text;
                     command.Execute(objectName);
                 }
             }
@@ -933,7 +923,7 @@ namespace KarveControls
 
         #endregion
        
-        private static object lastChangedRow;
-        private static object lastPassBoxValue;
+        private static object _lastChangedRow;
+        private static object _lastPassBoxValue;
     }
 }

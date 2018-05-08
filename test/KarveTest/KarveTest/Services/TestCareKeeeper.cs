@@ -42,6 +42,7 @@ namespace KarveTest.Services
             DataPayLoad dataPayLoad = new DataPayLoad();
             dataPayLoad.DataObject = new MockDataObject();
             dataPayLoad.HasDataObject = true;
+            dataPayLoad.ObjectPath=new Uri("karve://suppliers/viewmodel/id/8393839");
             _keeper.Schedule(dataPayLoad);
             Assert.AreEqual(_keeper.GetScheduledPayload().Count, 1);
         }

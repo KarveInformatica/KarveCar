@@ -51,12 +51,12 @@ namespace KarveTest.Commands
     [TestFixture]
     public class BranchesOperation
     {
-        private Mock<IEventManager> mockEventManager = new Mock<IEventManager>();
-        private Mock<IConfigurationService> mockConfigurationService = new Mock<IConfigurationService>();
-        private Mock<IDataServices> mockDataServices = new Mock<IDataServices>();
-        private Mock<IDialogService> mockDialogService = new Mock<IDialogService>();
-        private Mock<IRegionManager> mockRegionManager = new Mock<IRegionManager>();
-        private Mock<IInteractionRequestController> mockController = new Mock<IInteractionRequestController>();
+        private readonly Mock<IEventManager> _mockEventManager = new Mock<IEventManager>();
+        private readonly Mock<IConfigurationService> _mockConfigurationService = new Mock<IConfigurationService>();
+        private readonly Mock<IDataServices> mockDataServices = new Mock<IDataServices>();
+        private readonly Mock<IDialogService> mockDialogService = new Mock<IDialogService>();
+        private readonly Mock<IRegionManager> mockRegionManager = new Mock<IRegionManager>();
+        private readonly Mock<IInteractionRequestController> mockController = new Mock<IInteractionRequestController>();
 
 
         private TestInfoViewModel viewModel;
@@ -64,8 +64,8 @@ namespace KarveTest.Commands
         [OneTimeSetUp]
         public void SetUp()
         {
-            viewModel = new TestInfoViewModel(mockEventManager.Object,
-           mockConfigurationService.Object,
+            viewModel = new TestInfoViewModel(_mockEventManager.Object,
+           _mockConfigurationService.Object,
            mockDataServices.Object,
            mockDialogService.Object,
            mockRegionManager.Object,
@@ -75,7 +75,7 @@ namespace KarveTest.Commands
         [Test, ]
         public void Should_Answer_OnProvince_Assist_Correctly()
         {
-            BranchesDto dto = new BranchesDto();
+            var dto = new BranchesDto();
             viewModel.DelegationProvinceMagnifierCommand.Execute(dto);
             var branches = viewModel.BranchesDto;
             var b = branches.Where(x => x.BranchId == dto.BranchId);
@@ -84,7 +84,7 @@ namespace KarveTest.Commands
         [Test]
         public void Should_Answer_OnContact_Assist()
         {
-            ContactsDto dto = new ContactsDto();
+            var dto = new ContactsDto();
             viewModel.ContactChargeMagnifierCommand.Execute(dto);
             var contacts = viewModel.ContactsDto;
             var b = contacts.Where(x => x.ContactId == dto.ContactId);

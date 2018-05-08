@@ -37,6 +37,8 @@ namespace InvoiceModule
             /// </summary>
             public string EditTemplateName { get; set; }
 
+            public ICommand ChangedItem { set; get; }
+
         }
         /// <summary>
         ///  NavigationAwareItem. It is a class for generating the line and associate navigation
@@ -145,7 +147,7 @@ namespace InvoiceModule
             ///  PreviousValue
             /// </summary>
             public object PreviousValue { get; set; }
-            
+            public string EditMappedName { get; internal set; }
         }
        
         private string _editedMappedName;
@@ -229,18 +231,21 @@ namespace InvoiceModule
             var mappingName = this.AssociatedObject.Columns[columnIndex].MappingName;
             var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
             var cellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, mappingName);
-            
-            if (CellPresenterItems != null)
+            GridChangedVector gridChangedVector = new GridChangedVector
             {
-                CellPresenterItem navigationAwareItem = CellPresenterItems.FirstOrDefault<CellPresenterItem>(x => x.MappingName == mappingName);
-                if (navigationAwareItem != null)
-                {
-                    GridChangedVector gridChangedVector = new GridChangedVector();
-                    gridChangedVector.ChangedValue = cellValue;
-                    gridChangedVector.PreviousValue = _editCellValue;
-                    gridChangedVector.SourceView = this.AssociatedObject.ItemsSource;
-                    gridChangedVector.RowVector = columnIndex;
-                }
+                ChangedValue = cellValue,
+                PreviousValue = _editCellValue,
+                SourceView = this.AssociatedObject.ItemsSource,
+                RowVector = columnIndex,
+                EditMappedName = this.AssociatedObject.Columns[columnIndex].MappingName
+            };
+            SfDataGrid dataGrid = sender as SfDataGrid;
+            if ((dataGrid?.GetValue(ItemChangedCommandProperty) is ICommand command))
+            {
+                IDictionary<string, object> objectName = new Dictionary<string, object>();
+                objectName["ChangedValue"] = gridChangedVector;
+                objectName["DeletedItems"] = false;
+                command.Execute(objectName);
             }
         }
         
@@ -265,8 +270,11 @@ namespace InvoiceModule
                         if (resource != null)
                         {
                             e.Column.CellTemplate = resource;
+                            
+                            
                         }
                     }
+
 #pragma warning disable 0168
                 }
                 catch (ResourceReferenceKeyNotFoundException ex)

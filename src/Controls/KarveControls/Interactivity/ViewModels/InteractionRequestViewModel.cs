@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using KarveControls.Interactivity.Notifications;
 using KarveCommonInterfaces;
+using Syncfusion.UI.Xaml.Grid;
 
 
 namespace KarveControls.Interactivity.ViewModels
@@ -15,7 +16,7 @@ namespace KarveControls.Interactivity.ViewModels
     public class InteractionRequestViewModel : BindableBase
     {
         private object resultMessage;
-        private IEnumerable _dataSource;
+        private object _dataSource;
         private string _title = string.Empty;
         
         public delegate void SelectedInteractionItem(SelectionState state, object value);
@@ -47,7 +48,7 @@ namespace KarveControls.Interactivity.ViewModels
         }
         public InteractionRequest<ItemSelectionNotification> ItemSelectionRequest { get; private set; }
 
-        public IEnumerable DataSource {
+        public object DataSource {
             set
             {
                 _dataSource = value;
@@ -77,15 +78,14 @@ namespace KarveControls.Interactivity.ViewModels
         {
             // Here we have a custom implementation of INotification which allows us to pass custom data in the 
             // parameter of the interaction request. In this case, we are passing a list of items.
-            ItemSelectionNotification notification = new ItemSelectionNotification();
+            IEnumerable sourceList = DataSource as IEnumerable;
+            ItemSelectionNotification notification = new ItemSelectionNotification(sourceList);
             
            
             notification.Title = Title;
             notification.AssistProperites = AssistProperties;
-            foreach (var v in DataSource)
-            {
-                notification.Items.Add(v);
-            }
+           
+         
             // The custom popup view in this case has its own view model which implements the IInteractionRequestAware interface
             // therefore, its Notification property will be automatically populated with this notification by the PopupWindowAction.
             // Like this that view model is able to recieve data from this one without knowing each other.

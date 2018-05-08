@@ -61,26 +61,7 @@ namespace KarveTest.DAL
         }
 
 
-        [Test]
-        public void Should_Open_Working_WithIn_Transaction_Scope_Working()
-        {
-            Assert.NotNull(_sqlExecutor);
-            using (var scope = new TransactionScope())
-            {
-                try
-                {
-                    IDbConnection dbConnection = _sqlExecutor.OpenNewDbConnection();
-                    Assert.NotNull(dbConnection);
-                    Assert.AreEqual(ConnectionState.Open, dbConnection.State);
-                    var value = dbConnection.Query(QueryExecution);
-                    Assert.Greater(value.Distinct().Count(),0);
-                }
-                catch (Exception e)
-                {
-                    Assert.Fail(e.Message);                    
-                }
-            }
-        }
+      
 
     }
 }

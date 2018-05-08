@@ -135,6 +135,11 @@ namespace KarveCommon.Services
                     _payLoad.Enqueue(payLoad);
                 }
             }
+            else
+            {
+                // anonymous payload.
+                _payLoad.Enqueue(payLoad);
+            }
         }
         /// <summary>
         ///  Return the number of scheudled payload.

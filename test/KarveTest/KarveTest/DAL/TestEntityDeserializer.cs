@@ -19,7 +19,7 @@ namespace KarveTest.DAL
     class TestEntityDeserializer: TestBase
     {
        private ISqlExecutor _executor;
-       private List<EntityDecorator> _output = new List<EntityDecorator>();
+       private readonly List<EntityDecorator> _output = new List<EntityDecorator>();
 
         [OneTimeSetUp]
        public void Setup()
@@ -41,7 +41,7 @@ namespace KarveTest.DAL
             };
             var query = "SELECT * from poblaciones; select * from clientes1";
             EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
-            int currentPosition = 0;
+            
             _output.Clear();
         
             using (IDbConnection dbConnection = _executor.OpenNewDbConnection())
@@ -55,16 +55,15 @@ namespace KarveTest.DAL
                     Assert.NotNull(deserializer);
                     //Assert.AreEqual(deserialized.Type.Name, entities[currentPosition].GetType().Name);
                     //Assert.AreEqual(deserialized.DtoType.Name, dto[currentPosition].GetType().Name);
-                    currentPosition++;
                     if (deserialized != null)
                     {
                         _output.Add(deserialized);
                     }
                 }
-                var dtoCount = _output.Where<EntityDecorator>(p => p.DtoType == dto[0].GetType()).Count();
-                var entityCount = _output.Where<EntityDecorator>(p => p.Type == entities[0].GetType()).Count();
-                var dtoCount1 = _output.Where<EntityDecorator>(p => p.DtoType == dto[1].GetType()).Count();
-                var entityCount1 = _output.Where<EntityDecorator>(p => p.Type == entities[1].GetType()).Count();
+                var dtoCount = _output.Count(p => p.DtoType == dto[0].GetType());
+                var entityCount = _output.Count(p => p.Type == entities[0].GetType());
+                var dtoCount1 = _output.Count(p => p.DtoType == dto[1].GetType());
+                var entityCount1 = _output.Count(p => p.Type == entities[1].GetType());
 
                 Assert.AreEqual(2, _output.Count);
                 Assert.AreEqual(1, dtoCount);
@@ -91,7 +90,6 @@ namespace KarveTest.DAL
             };
             var query = @"SELECT * from poblaciones;select * from vehiculo1 WHERE CODIINT='0';select * from clientes1";
             EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
-            int currentPosition = 0;
             _output.Clear();
             using (IDbConnection dbConnection = _executor.OpenNewDbConnection())
             {
@@ -105,7 +103,6 @@ namespace KarveTest.DAL
                     {
                         _output.Add(deserialized);
                     }
-                    currentPosition++;
                 }
                 Assert.AreEqual(_output.Count, 2);
             }

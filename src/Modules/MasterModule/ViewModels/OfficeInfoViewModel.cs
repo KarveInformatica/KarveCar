@@ -14,6 +14,7 @@ using KarveDataServices.DataObjects;
 using System;
 using System.Collections.ObjectModel;
 using DataAccessLayer.Model;
+using KarveCommon;
 using Microsoft.Practices.Unity;
 
 namespace MasterModule.ViewModels

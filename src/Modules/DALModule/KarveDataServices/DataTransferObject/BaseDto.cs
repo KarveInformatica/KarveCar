@@ -61,6 +61,11 @@ namespace KarveDataServices.DataTransferObject
         public virtual bool IsNew { set; get; } = false;
 
         /// <summary>
+        ///  This is specifies if the dto is new.
+        /// </summary>
+        public virtual bool IsValid { set; get; } = true;
+
+        /// <summary>
         ///  This return the value of the object itself.
         /// </summary>
         public virtual BaseDto Value { get { return this; } }

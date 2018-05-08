@@ -44,7 +44,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" Background="CadetBlue">
-            <Image x:Name="TitleImage" DockPanel.Dock="Left"  HorizontalAlignment="Left" Source="/InvoiceModule;component/Images/invoice.png" Height="48"></Image>
+            <Image x:Name="TitleImage" DockPanel.Dock="Left"  HorizontalAlignment="Left" Source="{Binding ImageFile}" Height="48"></Image>
             <TextBlock DockPanel.Dock="Right"  HorizontalAlignment="Left" Text="{Binding Title}" FontSize="48"></TextBlock>
         </DockPanel>
         <ContentControl Grid.Row="1" Content="{Binding}" ContentTemplate="{StaticResource HeaderView}" ></ContentControl>

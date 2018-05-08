@@ -1,11 +1,13 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a CONTRATOS1.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+	[Table("CONTRATOS1")]
 	public class CONTRATOS1 
 	{
 	
@@ -31,7 +33,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the DIAS_CON1 property.
     /// </summary>
     
-		public Int16? DIAS_CON1 { get; set; }
+		public string DIAS_CON1 { get; set; }
  
 	/// <summary>
     ///  Set or get the DIAFAC_CON1 property.

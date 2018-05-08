@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -100,10 +101,12 @@ namespace KarveCommon.Generic
 
         protected Guid Guid;
         private KarveGridParameters _gridParm = new KarveGridParameters();
-        private long _gridIdentifer = Int64.MinValue;
+        private long _gridIdentifer = long.MinValue;
         private string _header;
         private object _messageLock = new object();
         private string _itemName;
+        protected string PrimaryKeyValue = string.Empty;
+
 
         /// <summary>
         ///  empty constructor
@@ -180,10 +183,7 @@ namespace KarveCommon.Generic
         protected string UniqueId
         {
             get => Guid.ToString();
-            set
-            {
-                Guid = Guid.Parse(value);
-            }
+            set => Guid = Guid.Parse(value);
         }
         /// <summary>
         ///  GeneratedGridId. This generate a grid identifier.
@@ -240,11 +240,10 @@ namespace KarveCommon.Generic
                 _currentGridSettings = value;
                 RaisePropertyChanged();
             }
-            get { return _currentGridSettings; }
-            
+            get => _currentGridSettings;
         }
 
-        void InitGridSettings(IDataServices services, long id)
+        private void InitGridSettings(IDataServices services, long id)
         {
             MagnifierInitializationNotifier =
                 NotifyTaskCompletion.Create<ObservableCollection<GridSettingsDto>>(LoadSettings(services, id),
@@ -253,9 +252,8 @@ namespace KarveCommon.Generic
 
         private async Task<ObservableCollection<GridSettingsDto>> LoadSettings(IDataServices services, long id)
         {
-           List<long> numberLists = new List<long>();
-           numberLists.Add(id);
-           ObservableCollection<GridSettingsDto> settingsDto =
+            List<long> numberLists = new List<long> {id};
+            var settingsDto =
                 await services.GetSettingsDataService().GetMagnifierSettingByIds(numberLists);
            return settingsDto;
         }
@@ -267,27 +265,27 @@ namespace KarveCommon.Generic
         /// <param name="var"></param>
         private void OnGridResize(object var)
         {
-            KarveGridParameters param = var as KarveGridParameters;
-            if (param != null)
+            if (var is KarveGridParameters param)
             {
-                ISettingsDataServices dataService = DataServices.GetSettingsDataService();
-                GridSettingsDto settingsDto = new GridSettingsDto();
-                settingsDto.GridName = param.GridName;
-                settingsDto.GridIdentifier = param.GridIdentifier;
-                settingsDto.XmlBase64 = param.Xml;
+                var dataService = DataServices.GetSettingsDataService();
+                var settingsDto = new GridSettingsDto
+                {
+                    GridName = param.GridName,
+                    GridIdentifier = param.GridIdentifier,
+                    XmlBase64 = param.Xml
+                };
                 dataService.SaveMagnifierSettings(settingsDto);
             }
         }
 
         private void OnGridRegister(object var)
         {
-            KarveGridParameters param = var as KarveGridParameters;
-            if (param != null)
+            if (!(var is KarveGridParameters param))
             {
-                
-                RegisteredGridIds.Add(param.GridIdentifier);
-                InitGridSettings(DataServices, param.GridIdentifier);
+                return;
             }
+            RegisteredGridIds.Add(param.GridIdentifier);
+            InitGridSettings(DataServices, param.GridIdentifier);
         }
 
         /// <summary>
@@ -310,8 +308,7 @@ namespace KarveCommon.Generic
             }
             else if (propertyName.Equals("IsSuccessfullyCompleted"))
             {
-                INotifyTaskCompletion<ObservableCollection<GridSettingsDto>> task = sender as INotifyTaskCompletion<ObservableCollection<GridSettingsDto>>;
-                if (task != null)
+                if (sender is INotifyTaskCompletion<ObservableCollection<GridSettingsDto>> task)
                 {
                    
                     ObservableCollection<GridSettingsDto> m = task.Result;
@@ -319,12 +316,14 @@ namespace KarveCommon.Generic
                     OnGridChange(m);
                 }
             }
-            if ((DialogService!=null) && (MagnifierInitializationNotifier != null))
+
+            if ((DialogService == null) || (MagnifierInitializationNotifier == null))
             {
-                if (MagnifierInitializationNotifier.IsFaulted)
-                {
-                    DialogService.ShowErrorMessage(MagnifierInitializationNotifier.ErrorMessage);
-                }
+                return;
+            }
+            if (MagnifierInitializationNotifier.IsFaulted)
+            {
+                DialogService.ShowErrorMessage(MagnifierInitializationNotifier.ErrorMessage);
             }
         }
 
@@ -334,26 +333,23 @@ namespace KarveCommon.Generic
         /// <param name="dto"></param>
         protected virtual void OnGridChange(ObservableCollection<GridSettingsDto> dto)
         {
-            if (dto != null)
+            var gridSettingsDto = dto?.FirstOrDefault();
+            if (gridSettingsDto != null)
             {
-                GridSettingsDto gridSettingsDto = dto.FirstOrDefault();
-                if (gridSettingsDto != null)
-                {
-                    GridParam = new KarveGridParameters(gridSettingsDto.GridIdentifier, gridSettingsDto.GridName,
-                        gridSettingsDto.XmlBase64);
-                }
+                GridParam = new KarveGridParameters(gridSettingsDto.GridIdentifier, gridSettingsDto.GridName,
+                    gridSettingsDto.XmlBase64);
             }
         }
         public KarveGridParameters GridParam
         {
             set { _gridParm = value; RaisePropertyChanged(); }
-            get { return _gridParm; }
+            get => _gridParm;
         }
 
         public long GridIdentifier
         {
             set { _gridIdentifer = value; RaisePropertyChanged(); }
-            get { return _gridIdentifer; }
+            get => _gridIdentifer;
         }
         ///<summary>
         /// When a region get destroyed we can dispose the events.
@@ -372,7 +368,7 @@ namespace KarveCommon.Generic
         /// <param name="properties"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public async virtual Task OnAssistAsyncClient(string title, string properties, Action<ClientSummaryExtended> callback) 
+        public virtual async Task OnAssistAsyncClient(string title, string properties, Action<ClientSummaryExtended> callback) 
         {
             IClientDataServices dataServices = DataServices.GetClientDataServices();
             var dtos = await dataServices.GetAsyncAllClientSummary();
@@ -383,23 +379,26 @@ namespace KarveCommon.Generic
                                                 string properties, 
                                                 Action<Dto> callback) where Dto: class
         {
+            Stopwatch start = new Stopwatch();
+            start.Start();
             Controller.ShowAssistView<Dto>(title, dtos, properties);
-
+            start.Stop();
+            var elapsed = start.ElapsedMilliseconds;
             if ((Controller.SelectedItem != null) && (Controller.SelectionState == SelectionState.OK))
             {
-                IList<object> items = Controller.SelectedItem as IList<object>;
-                if (items != null)
+                if (!(Controller.SelectedItem is IList<object> items))
                 {
-                    var currentValue = items.FirstOrDefault();
-                    if (currentValue != null)
-                    {
-                        var rowInfo = currentValue as GridRowInfo;
+                    return;
+                }
+                var currentValue = items.FirstOrDefault();
+                switch (currentValue)
+                {
+                    case null:
+                        return;
+                    case GridRowInfo rowInfo:
                         var dtoData = rowInfo.RowData as Dto;
-                        if (callback != null)
-                        {
-                            callback(dtoData);
-                        }
-                    }
+                        callback?.Invoke(dtoData);
+                        break;
                 }
             }
         }
@@ -413,7 +412,7 @@ namespace KarveCommon.Generic
         /// <param name="item">Item selected from the column</param>
         /// <param name="callback">Callback to be called</param>
 
-        public async virtual Task OnAssistAsync<Dto, Entity>(string title, string properties, Action<Dto> callback)
+        public virtual async Task OnAssistAsync<Dto, Entity>(string title, string properties, Action<Dto> callback)
             where Dto : class
             where Entity : class
         {
@@ -421,13 +420,40 @@ namespace KarveCommon.Generic
             var dtos = await services.GetMappedAllAsyncHelper<Dto, Entity>().ConfigureAwait(false);
             ShowDataTransferObjects<Dto>(dtos, title, properties, callback);            
         }
+
+        public virtual async Task OnAssistQueryAsync<Dto, Entity>(string title, string properties, string query,
+            Action<Dto> callback) where Dto: class 
+                                   where Entity: class
+        {
+            var services = DataServices.GetHelperDataServices();
+            var dtos = await services.GetMappedAsyncHelper<Dto, Entity>(query).ConfigureAwait(false);
+            ShowDataTransferObjects<Dto>(dtos, title, properties,callback);
+        }
+
+        public virtual async Task OnVehicleSummaryAsync(string title, string properties, Action<VehicleSummaryDto> callback )
+        {
+            var vehicleDataServices =DataServices.GetVehicleDataServices(); 
+            var summary = await vehicleDataServices.GetAsyncVehicleSummary().ConfigureAwait(false);
+            ShowDataTransferObjects<VehicleSummaryDto>(summary, title, properties, callback);
+        }
+
+        public virtual async Task OnContractSummaryAsync(string title, string properties, Action<ContractSummaryDto> callback)
+        {
+            var contractDataServices = DataServices.GetContractDataServices();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            var summary = await contractDataServices.GetContractSummaryAsync().ConfigureAwait(false);
+            sw.Stop();
+            var elapsed = sw.ElapsedMilliseconds;
+            ShowDataTransferObjects<ContractSummaryDto>(summary, title, properties, callback);
+        }
         /// <summary>
         /// GridSettings.
         /// </summary>
         public GridSettingsDto GridSettings
         {
             set { _gridParameters = value; RaisePropertyChanged(); }
-            get { return _gridParameters; }
+            get => _gridParameters;
         }
       
         /// <summary>
@@ -444,8 +470,7 @@ namespace KarveCommon.Generic
                 _sqlQuery = value;
                 RaisePropertyChanged();
             }
-            get { return _sqlQuery; }
-
+            get => _sqlQuery;
         }
       
 

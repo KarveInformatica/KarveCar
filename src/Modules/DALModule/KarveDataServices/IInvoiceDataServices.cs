@@ -23,6 +23,28 @@ namespace KarveDataServices
         /// <returns>The invoice data.</returns>
         Task<IInvoiceData> GetInvoiceDoAsync(string code);
 
-        
+        /// <summary>
+        ///  This generate an unique identifier in the invoice.
+        /// </summary>
+        /// <returns>The unique identifier.</returns>
+        string NewId();
+        /// <summary>
+        /// Save or update an invoice
+        /// </summary>
+        /// <param name="currentInvoice"></param>
+        /// <returns></returns>
+        Task<bool> SaveAsync(IInvoiceData currentInvoice);
+        /// <summary>
+        /// Generate an invoice structure.
+        /// </summary>
+        /// <param name="s">Invoice structure</param>
+        /// <returns></returns>
+        IInvoiceData GetNewInvoiceDo(string s);
+        /// <summary>
+        /// Data to await for in the invoice.
+        /// </summary>
+        /// <param name="invoice">Invoice data</param>
+        /// <returns></returns>
+        Task<bool> DeleteAsync(IInvoiceData invoice);
     }
 }

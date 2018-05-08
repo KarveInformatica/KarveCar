@@ -150,6 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoolToVisibilityConverter.cs" />
+    <Compile Include="ChangeFieldHandlerDo.cs" />
+    <Compile Include="ComponentUtils.cs" />
     <Compile Include="Converter\BooleanToVisibility.cs" />
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\CardTypeImageConverter.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="Generic\CloseTabAction.cs" />
     <Compile Include="Generic\ContactsDtoValidation.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />
+    <Compile Include="Generic\DataTypes.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\GridIdentifiers.cs" />
@@ -191,6 +194,8 @@
     <Compile Include="Generic\ValidationChainBuilder.cs" />
     <Compile Include="Generic\VehicleValidationRule.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
+    <Compile Include="IChangeHandler.cs" />
+    <Compile Include="Services\DataPayloadFactory.cs" />
     <Compile Include="Services\EventDispatcher.cs" />
     <Compile Include="Services\IEnviromentVariables.cs" />
     <Compile Include="Services\IEventManager.cs" />
@@ -199,6 +204,8 @@
     <Compile Include="Services\IUserSettings.cs" />
     <Compile Include="Services\IUserSettingsLoader.cs" />
     <Compile Include="Services\IUserSettingsSaver.cs" />
+    <Compile Include="Services\PayloadInterpeter.cs" />
+    <Compile Include="Services\RemoteEventDispatcher.cs" />
     <Compile Include="Services\UserSettings.cs" />
     <Compile Include="Services\UserSettingsLoader.cs" />
     <Compile Include="Services\UserSettingsSaver.cs" />

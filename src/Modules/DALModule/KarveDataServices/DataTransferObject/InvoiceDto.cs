@@ -1152,7 +1152,7 @@ namespace KarveDataServices.DataObjects
 
         public byte? ENVIADO_MAIL_AUT_FAC { get; set; }
 
-        public IEnumerable<InvoiceSummaryValueDto> InvoiceItems { set; get; }
+        public IEnumerable<InvoiceSummaryDto> InvoiceItems { set; get; }
     }
 
 }

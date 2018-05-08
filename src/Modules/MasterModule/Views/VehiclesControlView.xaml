@@ -47,6 +47,7 @@
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               AutoGenerateColumns="False"
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
@@ -75,7 +76,54 @@
                     </ResourceDictionary.MergedDictionaries>
                 </ResourceDictionary>
             </syncfusion:SfDataGrid.Resources>
-          
+            <syncfusion:SfDataGrid.Columns>
+
+                <syncfusion:GridTextColumn HeaderText="{Binding lcodigo, Source={StaticResource ResourceLanguage}}" 
+                                           MappingName="Code" 
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"                                
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+
+
+                <syncfusion:GridTemplateColumn  HeaderText="{Binding lmarca, Source={StaticResource ResourceLanguage}}" MappingName="Brand" FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Padding="2,0" Text="{Binding Brand}" />
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+                </syncfusion:GridTemplateColumn>
+                <syncfusion:GridTextColumn HeaderText="{Binding lmodel, Source={StaticResource ResourceLanguage}}" MappingName="Model" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}" MappingName="Matricula" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lgrupo, Source={StaticResource ResourceLanguage}}" MappingName="VehicleGroup" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lsituation, Source={StaticResource ResourceLanguage}}" MappingName="Situation" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding loficina, Source={StaticResource ResourceLanguage}}" MappingName="Office" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lplaces, Source={StaticResource ResourceLanguage}}" MappingName="Places" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lcubemeters, Source={StaticResource ResourceLanguage}}" MappingName="CubeMeters" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lactividad, Source={StaticResource ResourceLanguage}}" MappingName="Activity" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lcolor, Source={StaticResource ResourceLanguage}}" MappingName="Color" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lproprietario, Source={StaticResource ResourceLanguage}}" MappingName="Owner" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lpoliza, Source={StaticResource ResourceLanguage}}" MappingName="Policy" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lleasing, Source={StaticResource ResourceLanguage}}" MappingName="LeasingCompany" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+                <syncfusion:GridTextColumn HeaderText="{Binding lfechaalta, Source={StaticResource ResourceLanguage}}" MappingName="StartingDate" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lfechabaja, Source={StaticResource ResourceLanguage}}" MappingName="EndingDate" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lclientnumber, Source={StaticResource ResourceLanguage}}" MappingName="ClientNumber" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lclient, Source={StaticResource ResourceLanguage}}" MappingName="Client" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lnumerofactura, Source={StaticResource ResourceLanguage}}" MappingName="PurchaseInvoice" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lbastidor, Source={StaticResource ResourceLanguage}}" MappingName="Frame" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lnumeromotor, Source={StaticResource ResourceLanguage}}" MappingName="MotorNumber" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lse, Source={StaticResource ResourceLanguage}}" MappingName="OwnerName" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lreference, Source={StaticResource ResourceLanguage}}" MappingName="Reference" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lcodigollave, Source={StaticResource ResourceLanguage}}" MappingName="KeyCode" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding lstoragekey, Source={StaticResource ResourceLanguage}}" MappingName="StorageKey" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding luser, Source={StaticResource ResourceLanguage}}" MappingName="User" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="{Binding llastmodification, Source={StaticResource ResourceLanguage}}" MappingName="LastModification" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+
+
+            </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
       
     </Grid>

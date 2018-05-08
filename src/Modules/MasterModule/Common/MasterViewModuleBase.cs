@@ -27,6 +27,7 @@ using KarveControls.Generic;
 using KarveControls.Interactivity;
 using Prism.Unity;
 using System.Collections;
+using KarveCommon;
 
 namespace MasterModule.Common
 {
@@ -35,7 +36,6 @@ namespace MasterModule.Common
     /// </summary>
     public abstract class MasterViewModuleBase : KarveRoutingBaseViewModel, INavigationAware, IDisposeEvents
     {
-        private const string RegionName = "TabRegion";
         // local application data for the serialization.
 
 
@@ -96,10 +96,10 @@ namespace MasterModule.Common
         /// </summary>
         private string _primaryKeyValue = "";
 
-        // Primary Key.
-        public string PrimaryKeyValue
+        // Primary Key. TODO: remove the new.
+        public new string PrimaryKeyValue
         {
-            set { _primaryKeyValue = value; }
+            set => _primaryKeyValue = value;
             get { return _primaryKeyValue; }
         }
 
@@ -302,11 +302,11 @@ namespace MasterModule.Common
         protected object EnforceCityChangeRule(object dataObject)
         {
             var newDataObject = dataObject;
-            var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", ControlExt.DataType.Any);
+            var cpValue = KarveCommon.ComponentUtils.GetTextDo(newDataObject, "CP", DataType.Any);
             if (cpValue != null)
             {
                 var provinceValue = cpValue.Substring(0, 2);
-                ComponentUtils.SetPropValue(newDataObject, "PROV", provinceValue);
+                KarveCommon.ComponentUtils.SetPropValue(newDataObject, "PROV", provinceValue);
             }
             return newDataObject;
         }
@@ -341,7 +341,7 @@ namespace MasterModule.Common
                 {
                     payLoad.DataObject = data;
                     var currentObject = payLoad.DataObject;
-                    ComponentUtils.SetPropValue(currentObject, "Value." + fieldName,valueName, true);
+                    KarveCommon.ComponentUtils.SetPropValue(currentObject, "Value." + fieldName,valueName, true);
                     payLoad.DataObject = currentObject;
                 }   
             }
@@ -715,27 +715,7 @@ namespace MasterModule.Common
 
             }
         }
-        /// <summary>
-        /// This method happens when the item is deleted for the toolbar.
-        /// </summary>
-        /// <param name="primaryKey"></param>
-        /// <param name="PrimaryKeyValue"></param>
-        /// <param name="subSystem"></param>
-        /// <param name="subSystemName"></param>
-        protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, DataSubSystem subSystem,
-            string subSystemName)
-        {
-            if (primaryKey == PrimaryKeyValue)
-            {
-                DataPayLoad payLoad = new DataPayLoad();
-                payLoad.Subsystem = subSystem;
-                payLoad.SubsystemName = subSystemName;
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                payLoad.PayloadType = DataPayLoad.Type.Delete;
-                EventManager.NotifyToolBar(payLoad);
-                PrimaryKeyValue = "";
-            }
-        }
+       
 
         /// <summary>
         /// Init a primary key.

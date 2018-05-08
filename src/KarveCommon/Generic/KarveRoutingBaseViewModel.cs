@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using NLog;
 using System.Windows.Input;
 using Prism.Commands;
+using Prism.Regions;
 
 namespace KarveCommon.Generic
 {
@@ -23,7 +24,8 @@ namespace KarveCommon.Generic
     {
 
         protected IEventManager EventManager;
-        
+        protected const string RegionName = "TabRegion";
+    
         /// <summary>
         /// Base view model for routing.
         /// </summary>
@@ -118,6 +120,32 @@ namespace KarveCommon.Generic
 
 
         }
+
+        bool IsMessageForMe<DtoType,DomainType>(DataPayLoad payLoad, string codeDomain, string codeDto)
+        {
+            if (!(payLoad.DataObject is DtoType dto))
+            {
+                if (payLoad.DataObject is DomainType domainObject)
+                {
+                    if (codeDomain != PrimaryKeyValue)
+                    {
+                        return false;
+
+                    }
+                }
+            }
+            else
+            {
+                if (codeDto != PrimaryKeyValue)
+                {
+                    return false;
+
+                }
+
+            }
+
+            return true;
+        }
         /// <summary>
         ///  Delete the name of a mailbox
         /// </summary>
@@ -134,6 +162,143 @@ namespace KarveCommon.Generic
         /// Name of the mailbox.
         /// </summary>
         protected string MailboxName { set; get; }
+
+
+        /*protected void Navigate<T>(string code, string viewName)
+        {
+            var navigationParameters = new NavigationParameters
+            {
+                { "id", code },
+                { ScopedRegionNavigationContentLoader.DefaultViewName, viewName }
+            };
+            var uri = new Uri(typeof(T).FullName + navigationParameters, UriKind.Relative);
+            _regionManager.RequestNavigate("TabRegion", uri);
+        }*/
+
+        protected void HandleMessageBoxPayLoad(DataPayLoad payLoad)
+        {
+            switch (payLoad.PayloadType)
+            {
+                case DataPayLoad.Type.Delete:
+                    DeleteItem(payLoad);
+                    break;
+                case DataPayLoad.Type.Insert:
+                    NewItem();
+                    break;
+                case DataPayLoad.Type.Update:
+                    break;
+                case DataPayLoad.Type.RegistrationPayload:
+                    break;
+                case DataPayLoad.Type.Show:
+                    break;
+                case DataPayLoad.Type.UpdateView:
+                    StartNotify();
+                    break;
+                case DataPayLoad.Type.UpdateData:
+                    break;
+                case DataPayLoad.Type.Any:
+                    break;
+                case DataPayLoad.Type.CultureChange:
+                    break;
+                case DataPayLoad.Type.UpdateInsertGrid:
+                    break;
+                case DataPayLoad.Type.DeleteGrid:
+                    break;
+                case DataPayLoad.Type.RevertChanges:
+                    break;
+                case DataPayLoad.Type.UpdateError:
+                    break;
+                case DataPayLoad.Type.UnregisterPayload:
+                    break;
+                case DataPayLoad.Type.Dispose:
+                    break;
+                case DataPayLoad.Type.ShowNavigate:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        protected virtual void StartNotify()
+        {
+           
+        }
+
+        protected virtual void NewItem()
+        {
+
+        }
+
+        protected virtual void DeleteItem(DataPayLoad payLoad)
+        {
+
+        }
+
+        /// <summary>
+/// This method happens when the item is deleted for the toolbar.
+/// </summary>
+/// <param name="primaryKey"></param>
+/// <param name="PrimaryKeyValue"></param>
+/// <param name="subSystem"></param>
+/// <param name="subSystemName"></param>
+protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, DataSubSystem subSystem,
+            string subSystemName)
+        {
+            if (primaryKey == PrimaryKeyValue)
+            {
+                DataPayLoad payLoad = new DataPayLoad
+                {
+                    Subsystem = subSystem,
+                    SubsystemName = subSystemName,
+                    PrimaryKeyValue = PrimaryKeyValue,
+                    PayloadType = DataPayLoad.Type.Delete
+                };
+                EventManager.NotifyToolBar(payLoad);
+               
+                PrimaryKeyValue = "";
+            }
+        }
+
+        protected void UnregisterToolBar(string key)
+        {
+            var payLoadUnregister = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.UnregisterPayload,
+                PrimaryKeyValue = key
+            };
+            EventManager.NotifyToolBar(payLoadUnregister);
+        }
+        /// <summary>
+        ///  This build a data payload, enforcing the value that cames from the UI.
+        /// </summary>
+        /// <param name="eventDictionary">Dictionary that it cames from the UI components</param>
+        /// <returns>A payload to be sent to other view models.</returns>
+        protected DataPayLoad BuildDataPayload(IDictionary<string, object> eventDictionary)
+        {
+            DataPayLoad payLoad = new DataPayLoad {ObjectPath = ViewModelUri};
+            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
+            {
+                payLoad.PrimaryKeyValue = PrimaryKeyValue;
+                payLoad.PayloadType = DataPayLoad.Type.Update;
+            }
+            if (eventDictionary.ContainsKey("DataObject"))
+            {
+                if (eventDictionary["DataObject"] == null)
+                {
+                    DialogService?.ShowErrorMessage("DataObject is null");
+                }
+                var data = eventDictionary["DataObject"];
+                if (eventDictionary.ContainsKey("Field"))
+                {
+                    var name = eventDictionary["Field"] as string;
+                    GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
+                }
+                payLoad.DataObject = data;
+                eventDictionary["DataObject"] = data;
+                payLoad.DataDictionary = eventDictionary;
+            }
+            return payLoad;
+        }
 
     }
 

@@ -10,7 +10,7 @@
     <Grid>
        
 
-            <Grid HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
@@ -43,8 +43,6 @@
                                                                        AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row" 
-                                                                       Height="800"
-                                                                       MaxWidth="1100"
                                                                        Background="White"
                                                                        BorderBrush="#3373f2">
 

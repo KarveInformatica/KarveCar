@@ -21,6 +21,7 @@ using Prism.Regions;
 using DelegateCommand = Prism.Commands.DelegateCommand;
 using KarveCommonInterfaces;
 using System.Linq;
+using KarveCommon;
 using KarveControls;
 using Prism.Commands;
 
@@ -316,7 +317,7 @@ namespace MasterModule.ViewModels
             var items = new List<ContactsDto>();
 
 
-            var contact =contacts.Where(x => x.ContactId == contactsDto.ContactId).FirstOrDefault();
+            var contact =contacts.FirstOrDefault(x => x.ContactId == contactsDto.ContactId);
             if (contact == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;
@@ -399,7 +400,7 @@ namespace MasterModule.ViewModels
         private void changedTaskEvent(object sender, PropertyChangedEventArgs e)
         {
             INotifyTaskCompletion<bool> taskCompletion = sender as INotifyTaskCompletion<bool>;
-            if (taskCompletion.IsFaulted)
+            if (taskCompletion != null && taskCompletion.IsFaulted)
             {
                 if (DialogService!=null)
                 {
@@ -909,68 +910,68 @@ namespace MasterModule.ViewModels
             {
                 return;
             }
-            if (payload != null)
+
+            if (PrimaryKeyValue.Length == 0)
             {
-                if (PrimaryKeyValue.Length == 0)
+                PrimaryKeyValue = payload.PrimaryKeyValue;
+                _mailBoxName = "CommissionAgents." + PrimaryKeyValue;
+                if (MailBoxHandler != null)
                 {
-                    PrimaryKeyValue = payload.PrimaryKeyValue;
-                    _mailBoxName = "CommissionAgents." + PrimaryKeyValue;
-                    if (MailBoxHandler != null)
-                    {
-                        EventManager.RegisterMailBox(_mailBoxName, MailBoxHandler);
-                    }
+                    EventManager.RegisterMailBox(_mailBoxName, MailBoxHandler);
                 }
-                // here i can fix the primary key
-                switch (payload.PayloadType)
+            }
+            // here i can fix the primary key
+            switch (payload.PayloadType)
+            {
+                case DataPayLoad.Type.UpdateView:
+                case DataPayLoad.Type.Show:
                 {
-                    case DataPayLoad.Type.UpdateView:
-                    case DataPayLoad.Type.Show:
-                        {
-                            Init(PrimaryKey, payload, false);
-                            CurrentOperationalState = DataPayLoad.Type.Show;
-                            break;
-                        }
-                    case DataPayLoad.Type.Insert:
-                        {
-                            CurrentOperationalState = DataPayLoad.Type.Insert;
+                    Init(PrimaryKey, payload, false);
+                    CurrentOperationalState = DataPayLoad.Type.Show;
+                    break;
+                }
+                case DataPayLoad.Type.Insert:
+                {
+                    CurrentOperationalState = DataPayLoad.Type.Insert;
 
-                            if (string.IsNullOrEmpty(PrimaryKeyValue))
-                            {
+                    if (string.IsNullOrEmpty(PrimaryKeyValue))
+                    {
 
-                                PrimaryKeyValue = _commissionAgentDataServices.GetNewId();
-                            }
-                            //PrimaryKeyValue = payload.PrimaryKeyValue;
-                            Init(PrimaryKeyValue, payload, true);
+                        PrimaryKeyValue = _commissionAgentDataServices.GetNewId();
+                    }
+                    //PrimaryKeyValue = payload.PrimaryKeyValue;
+                    Init(PrimaryKeyValue, payload, true);
 
-                            break;
-                        }
-                    case DataPayLoad.Type.CultureChange:
-                        {
-                            _leftSideDualDfSearchBoxes = UpdateItemControl();
-                            // here we handle all the stuff.
-                            for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
-                            {
-                                _leftSideDualDfSearchBoxes[i].OnAssistQueryDo += AssistQueryRequestHandlerDo;
-                                _leftSideDualDfSearchBoxes[i].OnChangedField += OnChangedField;
-                                _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
-                                _leftSideDualDfSearchBoxes[i].ChangedItem = ItemChangedCommand;
-                            }
-                            LeftValueCollection = _leftSideDualDfSearchBoxes;
-                            break;
-                        }
-                    case DataPayLoad.Type.Delete:
-                        {
+                    break;
+                }
+                case DataPayLoad.Type.CultureChange:
+                {
+                    _leftSideDualDfSearchBoxes = UpdateItemControl();
+                    // here we handle all the stuff.
+                    for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
+                    {
+                        _leftSideDualDfSearchBoxes[i].OnAssistQueryDo += AssistQueryRequestHandlerDo;
+                        _leftSideDualDfSearchBoxes[i].OnChangedField += OnChangedField;
+                        _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
+                        _leftSideDualDfSearchBoxes[i].ChangedItem = ItemChangedCommand;
+                    }
+                    LeftValueCollection = _leftSideDualDfSearchBoxes;
+                    break;
+                }
+                case DataPayLoad.Type.Delete:
+                {
 
-                            if (PrimaryKey == payload.PrimaryKey)
-                            {
-                                DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.CommissionAgentSubystem, MasterModuleConstants.CommissionAgentSystemName);
-                                DeleteRegion(payload.PrimaryKeyValue);
-                            }
-                            break;
-                        }
+                    if (PrimaryKey == payload.PrimaryKey)
+                    {
+                        DeleteEventCleanup(payload.PrimaryKeyValue, PrimaryKeyValue, DataSubSystem.CommissionAgentSubystem, MasterModuleConstants.CommissionAgentSystemName);
+                        DeleteRegion(payload.PrimaryKeyValue);
+                    }
+                    break;
                 }
             }
         }
+
+      
         public ICommand DelegationMagnifierCommand { set; get; }
 
         /// <summary>
@@ -1021,7 +1022,7 @@ namespace MasterModule.ViewModels
 
                 /* Items controls to the left */
 
-            for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
+                    for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
                 {
                     _leftSideDualDfSearchBoxes[i].DataSource = _commissionAgentDo;
 

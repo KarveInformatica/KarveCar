@@ -21,6 +21,7 @@ using KarveCommonInterfaces;
 namespace MasterModule.ViewModels
 {
 
+    /// <inheritdoc />
     /// <summary>
     /// CompanyControlBViewModel.
     /// </summary>
@@ -42,6 +43,7 @@ namespace MasterModule.ViewModels
             _mailBoxName = EventSubsystem.CompanySummaryVm;
             _companyDataServices = DataServices.GetCompanyDataServices();
             InitViewModel();
+            ItemName = "Empresas";
             ActiveSubSystem();
         }
 
@@ -104,9 +106,11 @@ namespace MasterModule.ViewModels
         /// <param name="viewName">Viewname to view</param>
         private void Navigate(string code, string viewName)
         {
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("id", code);
-            navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewName);
+            var navigationParameters = new NavigationParameters
+            {
+                { "id", code },
+                { ScopedRegionNavigationContentLoader.DefaultViewName, viewName }
+            };
             var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
             RegionManager.
                 RequestNavigate("TabRegion", uri);
@@ -121,12 +125,9 @@ namespace MasterModule.ViewModels
             string propertyName = ev.PropertyName;
             if (propertyName.Equals("Status"))
             {
-                if (InitializationNotifierCompany.IsSuccessfullyCompleted)
+                if (value != null && value.IsSuccessfullyCompleted)
                 {
-                    if (value != null)
-                    {
-                        SourceView = value.Task.Result;
-                    }
+                    SourceView = value.Task.Result;
 
                 }
             }
@@ -137,9 +138,9 @@ namespace MasterModule.ViewModels
             }
             else
             {
-                if (InitializationNotifierCompany.IsFaulted)
+                if (value != null && value.IsFaulted)
                 {
-                    MessageBox.Show(InitializationNotifierCompany.ErrorMessage);
+                    MessageBox.Show(value.ErrorMessage);
                 }
             }
             Contract.Ensures(SourceView != null, "SourceView shall be present");   
@@ -182,24 +183,27 @@ namespace MasterModule.ViewModels
             if (selectedItem != null)
             {
                 watch.Start();
-                string name = summaryItem.Name;
-                string id = summaryItem.Code;
-                string tabName = id + "." + name;
-                var navigationParameters = new NavigationParameters();
-                navigationParameters.Add("Id", id);
-                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
-                Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                RegionManager.RequestNavigate("TabRegion", uri);
-                Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                ICompanyData provider = await DataServices.GetCompanyDataServices().GetAsyncCompanyDo(id);
-                Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
-                currentPayload.PrimaryKeyValue = id;
-                currentPayload.Sender = _mailBoxName;
-                watch.Stop();
-                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Company Tab: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
+                if (summaryItem != null)
+                {
+                    string name = summaryItem.Name;
+                    string id = summaryItem.Code;
+                    string tabName = id + "." + name;
+                    var navigationParameters = new NavigationParameters();
+                    navigationParameters.Add("Id", id);
+                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                    var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
+                    Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    RegionManager.RequestNavigate("TabRegion", uri);
+                    Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    ICompanyData provider = await DataServices.GetCompanyDataServices().GetAsyncCompanyDo(id);
+                    Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
+                    currentPayload.PrimaryKeyValue = id;
+                    currentPayload.Sender = _mailBoxName;
+                    watch.Stop();
+                    Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Company Tab: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                    EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
+                }
             }
         }
         private void InitViewModel()

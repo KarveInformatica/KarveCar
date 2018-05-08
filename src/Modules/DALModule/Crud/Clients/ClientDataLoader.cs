@@ -108,7 +108,9 @@ namespace DataAccessLayer.Crud.Clients
             IDbConnection conn = null;
             bool returnValue = false;
 
-            IList<object> entities = new List<object>() { new POBLACIONES(),
+            IList<object> entities = new List<object>() {
+                new FORMAS(),
+                new POBLACIONES(),
                 new TIPOCLI(),
                 new MERCADO(),
                 new ZONAS(),
@@ -121,10 +123,11 @@ namespace DataAccessLayer.Crud.Clients
                 new ACTIVI(),
                 new ClientSummaryDto(),
                 new CliContactsPoco(),
-                new PaymentFormDto()
+                new FORMAS()
             };
             IList<object> dto = new List<object>()
             {
+                new PaymentFormDto(),
                 new CityDto(),
                 new ClientTypeDto(),
                 new MercadoDto(),
@@ -137,8 +140,8 @@ namespace DataAccessLayer.Crud.Clients
                 new RentingUseDto(),
                 new ActividadDto(),
                 new ClientSummaryDto(),
-                new CliContactsPoco(),
-                new PaymentFormDto()
+                new ContactsDto()
+                
             };
 
             if (_sqlExecutor.Open())
@@ -183,6 +186,8 @@ namespace DataAccessLayer.Crud.Clients
                             {
                                 branchesDto =
                                     _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
+                                _currentPoco.BranchesDto = _currentPoco.BranchesDto.Union(branchesDto);
+
                             }
                         }
                     }
@@ -205,7 +210,7 @@ namespace DataAccessLayer.Crud.Clients
         /// <returns>This returns a list of entities</returns>
         public async Task<IEnumerable<ClientDto>> LoadAsyncAll()
         {
-            ObservableCollection<ClientDto> dtoCollection =  new ObservableCollection<ClientDto>();
+           IEnumerable<ClientDto> dtoCollection = new ObservableCollection<ClientDto>();
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {
                 IEnumerable<CLIENTES1> cli1 = await conn.GetAsyncAll<CLIENTES1>();
@@ -227,7 +232,7 @@ namespace DataAccessLayer.Crud.Clients
                     second = iter.Current;
                     mergedValue.Add(poco);
                 }
-                _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(mergedValue, dtoCollection);
+                dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(mergedValue, dtoCollection);
                 iter.Dispose();
 
             }
@@ -248,11 +253,17 @@ namespace DataAccessLayer.Crud.Clients
             {
                 dto = _currentPoco;
             }
+            else
+            {
+                dto.IsValid = false;
+            }
+            
             return dto;
         }
         private IQueryStore CreateQueryStore(ClientDto clientPoco)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
             store.AddParam(QueryType.QueryCity, clientPoco.CP);
             store.AddParam(QueryType.QueryClientType, clientPoco.TIPOCLI);
             store.AddParam(QueryType.QueryMarket, clientPoco.MERCADO);
@@ -266,7 +277,7 @@ namespace DataAccessLayer.Crud.Clients
             store.AddParam(QueryType.QueryActivity, clientPoco.SECTOR);
             store.AddParam(QueryType.QueryClientSummary, clientPoco.CLIENTEFAC);
             store.AddParam(QueryType.QueryClientContacts, clientPoco.NUMERO_CLI);
-            store.AddParam(QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
+            
             return store;
         }
         /// <summary>
@@ -286,7 +297,8 @@ namespace DataAccessLayer.Crud.Clients
             var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
             var outClient = new ClientDto
             {
-                Helper = new HelperBase()
+                Helper = new HelperBase(),
+                IsValid = (clients1!=null) && (clients2!=null)
             };
             var outType = outClient.GetType();
             if (clients1 != null)

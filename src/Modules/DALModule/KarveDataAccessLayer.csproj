@@ -1137,6 +1137,10 @@
     <Compile Include="GruposDAL.cs" />
     <Compile Include="IDataAccessLayer.cs" />
     <Compile Include="InvoiceDataServices.cs" />
+    <Compile Include="Logic\ClientDtoToClientes1.cs" />
+    <Compile Include="Logic\ClientDtoToClientes2.cs" />
+    <Compile Include="Logic\ContactsComiToDto.cs" />
+    <Compile Include="Model\NullInvoice.cs" />
     <Compile Include="SQL\IQueryStore.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />

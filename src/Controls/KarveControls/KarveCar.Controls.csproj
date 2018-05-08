@@ -297,7 +297,6 @@
     <Compile Include="DataRatingsControl\RatingsControl.xaml.cs" />
     <Compile Include="DataRatingsControl\StarsControl.xaml.cs" />
     <Compile Include="DualFieldSearchBox\MagnifierPressEventArgs.cs" />
-    <Compile Include="Generic\ComponentUtils.cs" />
     <Compile Include="Generic\ComponentFiller.cs" />
     <Compile Include="Generic\KarveMessageBox.xaml.cs">
       <DependentUpon>KarveMessageBox.xaml</DependentUpon>
@@ -305,6 +304,7 @@
     <Compile Include="ControlExt.cs" />
     <Compile Include="Calendar\Utility\DateTimeExtensions.cs" />
     <Compile Include="KarveGridExt.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="TextedThumb\TextedThumb.cs" />
     <Compile Include="TripleButton\TripleButton.xaml.cs">
       <DependentUpon>TripleButton.xaml</DependentUpon>
@@ -429,6 +429,9 @@
     <Resource Include="Images\web.png" />
     <Resource Include="Images\Calendar.ico" />
     <Resource Include="Images\goarrow.png" />
+    <Resource Include="Images\bt_add.png" />
+    <Resource Include="Images\cars.png" />
+    <Resource Include="Images\contract.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />

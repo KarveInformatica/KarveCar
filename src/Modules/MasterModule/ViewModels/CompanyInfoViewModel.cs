@@ -13,6 +13,7 @@ using KarveCommon.Generic;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using System;
+using KarveCommon;
 
 namespace MasterModule.ViewModels
 {
@@ -45,7 +46,7 @@ namespace MasterModule.ViewModels
             AssistExecuted += CompanyAssistResult;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);
             ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
-
+            ItemName = "Empresa";
             ActiveSubSystem();
         }
         #endregion

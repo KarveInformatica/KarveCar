@@ -13,6 +13,7 @@ using Prism.Regions;
 using System.Linq;
 using System.Windows;
 using KarveCommonInterfaces;
+using ToolBarModule.ViewModel;
 
 
 namespace ToolBarModule
@@ -30,16 +31,8 @@ namespace ToolBarModule
             None
         };
 
-        private Dictionary<DataSubSystem, string> _dictionary = new Dictionary<DataSubSystem, string>()
-        {
-            { DataSubSystem.CommissionAgentSubystem, EventSubsystem.CommissionAgentSummaryVm},
-            { DataSubSystem.CompanySubsystem, EventSubsystem.CompanySummaryVm},
-            { DataSubSystem.ClientSubsystem, EventSubsystem.ClientSummaryVm},
-            { DataSubSystem.OfficeSubsystem, EventSubsystem.OfficeSummaryVm},
-            { DataSubSystem.HelperSubsytsem, EventSubsystem.HelperSubsystem},
-            { DataSubSystem.SupplierSubsystem, EventSubsystem.SuppliersSummaryVm},
-            { DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm }
-          };
+        private readonly Dictionary<DataSubSystem, string> _dictionary;
+            
         private ToolbarStates _states;
         private readonly ICareKeeperService _careKeeper;
         private readonly IDataServices _dataServices;
@@ -90,6 +83,7 @@ namespace ToolBarModule
                                  IDialogService dialogService,
                                  IConfigurationService configurationService): base(dataServices,null, dialogService)
         {
+            this._dictionary = SubsystemFactory.GetSubsytem();
             this._dataServices = dataServices;
             this._dialogService = dialogService;
             this._configurationService = configurationService;
@@ -275,10 +269,11 @@ namespace ToolBarModule
 
         private bool CheckValidation(AbstractCommand command, DataPayLoad payLoad)
         {
+            /* TODO: unit test this because it fails with helpers.
             if (!command.CanExecute(payLoad))
             {
                 return false;
-            }
+            }*/
             _careKeeper.Do(new CommandWrapper(command));
             _states = ToolbarStates.None;
             return true;

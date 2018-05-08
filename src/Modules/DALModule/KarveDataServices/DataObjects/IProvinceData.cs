@@ -1,6 +1,6 @@
 ﻿namespace KarveDataServices.DataObjects
 {
-    public interface IProvinceData
+    public interface IProvinceData: IValidDomainObject
     {
         /// <summary>
         ///  code of the type

@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using KarveControls.Generic;
 using SelectionChangedEventArgs = System.Windows.Controls.SelectionChangedEventArgs;
 using System.Windows.Input;
+using KarveCommon;
 using Syncfusion.Windows.Controls.Input;
 
 namespace KarveControls
@@ -21,7 +22,7 @@ namespace KarveControls
     {
         private DateTime? previousDate = DateTime.Now;
         private TextBlock _labelText = null;
-        private DatePicker _datePicker = null;
+        private SfDatePicker _datePicker = null;
 
         /// <summary>
         /// ItemCommand changed event
@@ -94,8 +95,8 @@ namespace KarveControls
         /// </summary>
         public event RoutedEventHandler DataDatePickerChanged
         {
-            add { AddHandler(DataDatePickerChangedEvent, value); }
-            remove { RemoveHandler(DataDatePickerChangedEvent, value); }
+            add => AddHandler(DataDatePickerChangedEvent, value);
+            remove => RemoveHandler(DataDatePickerChangedEvent, value);
         }
 
         /// <summary>
@@ -113,8 +114,8 @@ namespace KarveControls
         /// </summary>
         public ICommand ItemChangedCommand
         {
-            get { return (ICommand)GetValue(ItemChangedCommandDependencyProperty); }
-            set { SetValue(ItemChangedCommandDependencyProperty, value); }
+            get => (ICommand)GetValue(ItemChangedCommandDependencyProperty);
+            set => SetValue(ItemChangedCommandDependencyProperty, value);
         }
 
         /// <summary>
@@ -122,8 +123,8 @@ namespace KarveControls
         /// </summary>
         public object DataObject
         {
-            get { return GetValue(DataObjectDependencyProperty); }
-            set { SetValue(DataObjectDependencyProperty, value); }
+            get => GetValue(DataObjectDependencyProperty);
+            set => SetValue(DataObjectDependencyProperty, value);
         }
 
         /// <summary>
@@ -140,35 +141,35 @@ namespace KarveControls
         {
             base.OnApplyTemplate();
             _labelText = GetTemplateChild("PART_LabelText") as TextBlock;
-            _datePicker = GetTemplateChild("PART_DatePicker") as DatePicker;
+            _datePicker = GetTemplateChild("PART_DatePicker") as SfDatePicker;
             if (_labelText != null)
             {
                 _labelText.Visibility = Visibility.Visible;
             }
             if (_datePicker != null)
             {
-                _datePicker.SelectedDateChanged += _datePicker_SelectedDateChanged;
+                _datePicker.ValueChanged += _datePicker_SelectedDateChanged;
             }
 
         }
 
         private void SetValueDo(object dataObject, string value)
         {
-            ComponentUtils.SetPropValue(dataObject, value, _datePicker.SelectedDate.Value);
+            ComponentUtils.SetPropValue(dataObject, value, _datePicker.DateTime);
         }
 
-        private void _datePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        private void _datePicker_SelectedDateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (_datePicker == null)
                 return;
             var value = ControlExt.GetDataSourcePath(this);
             var dataObject = ControlExt.GetDataSource(this);
-            if (previousDate == _datePicker.SelectedDate)
+            if (_datePicker.Value != null && previousDate == (DateTime)_datePicker.Value)
             {
                 return;
             }
 
-            if (_datePicker.SelectedDate != null)
+            if (_datePicker.DateTime != null)
             {
                 // If we have a data source path we do the binding manually.
                 if ((!string.IsNullOrEmpty(value) && (dataObject != null)))
@@ -177,20 +178,24 @@ namespace KarveControls
                     DataObject = dataObject;
                 }
 
-                DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
+                if (_datePicker.Value != null)
                 {
-                    FieldData = _datePicker.SelectedDate.Value
-                };
-                IDictionary<string, object> valueDictionary = new Dictionary<string, object>
-                {
-                    ["DataObject"] = DataObject,
-                    ["ChangedValue"] = _datePicker.SelectedDate.Value,
-                    ["PreviousValue"] = previousDate
-                };
-                previousDate = _datePicker.SelectedDate;
-                ev.ChangedValuesObjects = valueDictionary;
-                RaiseEvent(ev);
-                HandleCommandItemChanged(valueDictionary);
+                    DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
+                    {
+                    
+                        FieldData = _datePicker.DateTime.Value
+                    };
+                    IDictionary<string, object> valueDictionary = new Dictionary<string, object>
+                    {
+                        ["DataObject"] = DataObject,
+                        ["ChangedValue"] = (DateTime) _datePicker.Value,
+                        ["PreviousValue"] = previousDate
+                    };
+                    previousDate = (DateTime) _datePicker.Value;
+                    ev.ChangedValuesObjects = valueDictionary;
+                    RaiseEvent(ev);
+                    HandleCommandItemChanged(valueDictionary);
+                }
             }
 
         }
@@ -248,7 +253,7 @@ namespace KarveControls
         private static void OnDateContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataDatePicker control = d as DataDatePicker;
-            DateTime currentValue = (DateTime) e.NewValue;
+            var currentValue = (DateTime) e.NewValue;
             if (currentValue == DateTime.MinValue)
             {
                 return;
@@ -262,16 +267,14 @@ namespace KarveControls
                     var obj = ControlExt.GetDataSource(control);
                     if (obj != null)
                     {
-                        if (!string.IsNullOrEmpty(value))
+                        if (string.IsNullOrEmpty(value))
                         {
-                            var date = e.NewValue;
-                            if (date is DateTime)
-                            {
-                                ComponentUtils.SetPropValue(obj, value, date);
-                               
-                                //  control.SetDate((DateTime)date);
-                            }
+                            return;
                         }
+                        var date = e.NewValue;
+                        ComponentUtils.SetPropValue(obj, value, date);
+                               
+                        //  control.SetDate((DateTime)date);
                     }
                 }
             }
@@ -280,6 +283,25 @@ namespace KarveControls
 
 
         #endregion
+        #region PickerWidth
+        public readonly static DependencyProperty PickerWidthDependencyProperty =
+            DependencyProperty.Register(
+                "PickerWidth",
+                typeof(double),
+                typeof(DataDatePicker),
+                new PropertyMetadata(150d));
+
+        /// <summary>
+        /// PickerWidth 
+        /// </summary>
+        public double PickerWidth
+        {
+            get { return (double)GetValue(PickerWidthDependencyProperty); }
+            set { SetValue(PickerWidthDependencyProperty, value); }
+        }
+
+        #endregion
+
 
         #region LabelVisible
 
@@ -398,10 +420,17 @@ namespace KarveControls
 
         private void OnLabelTextWidthChanged(DependencyPropertyChangedEventArgs e)
         {
-            double value = Convert.ToDouble(e.NewValue);
-            if (_labelText != null)
+            try
             {
-                _labelText.Width = value;
+                var value = Convert.ToDouble(e.NewValue);
+                if (_labelText != null)
+                {
+                    _labelText.Width = value;
+                }
+            }
+            catch (Exception exception)
+            {
+                // in this case the parsing is not correct.
             }
         }
 

@@ -29,6 +29,9 @@ namespace DataAccessLayer.SQL
         /// <param name="firstCode">First code</param>
         /// <param name="secondCode">Second code</param>
         void AddParam<T1, T2>(QueryType queryType, T1 firstCode, T2 secondCode);
+
+
+        void AddParam<T1, T2, T3>(QueryType queryType, T1 firstCode, T2 secondCode, T3 thirdCode);
         /// <summary>
         /// Add a new parameter.
         /// </summary>

@@ -19,6 +19,8 @@ namespace HelperModule.ViewModels
     /// </summary>
     class VehicleColorsViewModel : GenericHelperViewModel<ColorDto, COLORFL>
     {
+        private string _assist;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -27,7 +29,20 @@ namespace HelperModule.ViewModels
         /// <param name="eventManager">Event manager to send and receive messages from other view models.</param>
 
         public VehicleColorsViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager) : base(GenericSql.ColorTypes, dataServices, region, eventManager)
-        {    
+        {
+            var assistList = new StringBuilder();
+            
+            assistList.Append("Name,");
+            assistList.Append("PowderCoating,");
+            assistList.Append("TwoTone,");
+            assistList.Append("NoCoating");
+            AssistProperties = assistList.ToString();
+        }
+
+        public string AssistProperties
+        {
+            set { _assist = value; RaisePropertyChanged(); }
+            get { return _assist; }
         }
         /// <summary>
         /// Set the unique code for the entity

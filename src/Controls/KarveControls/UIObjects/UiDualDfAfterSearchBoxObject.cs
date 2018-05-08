@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Xml.Serialization;
+using KarveCommon.Generic;
 
 namespace KarveControls.UIObjects
 {
@@ -18,7 +19,7 @@ namespace KarveControls.UIObjects
         /// <summary>
         ///  Data Allowrd
         /// </summary>
-        public ControlExt.DataType DataAllowed { get; set; }
+        public DataType DataAllowed { get; set; }
         /// <summary>
         ///  Allowed empty
         /// </summary>

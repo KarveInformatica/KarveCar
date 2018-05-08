@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KarveCommon;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
@@ -62,10 +63,12 @@ namespace KarveTest.ViewModels
             // arrange
             IDictionary<string, string> viewModelQueries = new Dictionary<string, string>();
             IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("1234");
-            ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,DataSubSystem.VehicleSubsystem);
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.HasDataObject = true;
-            payLoad.DataObject = data;
+            KarveCommon.ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,DataSubSystem.VehicleSubsystem);
+            DataPayLoad payLoad = new DataPayLoad
+            {
+                HasDataObject = true,
+                DataObject = data
+            };
             IDictionary<string, object> eventDictionary = new Dictionary<string, object>();
               // act.        
             handlerDo.OnUpdate(payLoad, eventDictionary);
@@ -77,12 +80,12 @@ namespace KarveTest.ViewModels
         public void Should_ReceiveAVehicle_InsertMessage()
         {
             // arrange
-            IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("123"); 
+            var data = _veichleDataServices.Object.GetNewVehicleDo("123"); 
 
             IDictionary<string, string> viewModelQueries = new Dictionary<string, string>();
-            ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,
+            var handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,
                 viewModelQueries, DataSubSystem.VehicleSubsystem);
-            DataPayLoad payLoad = new DataPayLoad();
+            var payLoad = new DataPayLoad();
             IDictionary<string, object> eventDictionary = new Dictionary<string, object>();
             // act.        
             handlerDo.OnInsert(payLoad, eventDictionary);
@@ -93,36 +96,31 @@ namespace KarveTest.ViewModels
         [Test]
         public void Should_ReceiveAUpdateTheData()
         {
-            IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("123");
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.DataObject = data;
-            payLoad.PayloadType = DataPayLoad.Type.Update;
-            payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
+            var data = _veichleDataServices.Object.GetNewVehicleDo("123");
+            var payLoad = new DataPayLoad
+            {
+                DataObject = data,
+                PayloadType = DataPayLoad.Type.Update,
+                Subsystem = DataSubSystem.VehicleSubsystem
+            };
             _carveBarViewModel.IncomingPayload(payLoad);
             // ok we can execute now as the user send a save command.
             _carveBarViewModel.SaveCommand.Execute();
-            
+            Assert.Fail();
         }
 
         [Test]
         public void Should_UncorrectVehicle_UpdateRefuse()
         {
-            IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("123");
-            DataPayLoad payLoad = new DataPayLoad();
-            payLoad.DataObject = data;
+            var data = _veichleDataServices.Object.GetNewVehicleDo("123");
+            var payLoad = new DataPayLoad {DataObject = data};
             data.Value.CODIINT = null;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
             _carveBarViewModel.IncomingPayload(payLoad);
             _carveBarViewModel.SaveCommand.Execute();
             // the value shall avoid saving 
-
-        }
-
-        [Test]
-        public void Should_Save_ACorrectVisitList()
-        {
-
+            Assert.Fail();
         }
        
 

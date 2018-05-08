@@ -60,19 +60,9 @@ namespace DataAccessLayer
             IEnumerable<ClientSummaryExtended> summaryDtos = new List<ClientSummaryExtended>();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                summaryDtos = await connection.QueryAsync<ClientSummaryExtended>(query).ConfigureAwait(false);
-                var value = summaryDtos.FirstOrDefault();
-                if (value != null)
+                if (connection != null)
                 {
-                    // init the dapper buffer.
-                    QueryStore clientPocoQueryStore = new QueryStore();
-                    clientPocoQueryStore.AddParam(QueryType.QueryClient1, value.Code);
-                    clientPocoQueryStore.AddParam(QueryType.QueryClient2, value.Code);
-                    var q = clientPocoQueryStore.BuildQuery();
-                    var pocoReader = await connection.QueryMultipleAsync(q).ConfigureAwait(false);
-                    var clients1 = pocoReader.Read<CLIENTES1>(true).FirstOrDefault();
-                    var clients2 = pocoReader.Read<CLIENTES2>(true).FirstOrDefault();
-                  
+                    summaryDtos = await connection.QueryAsync<ClientSummaryExtended>(query).ConfigureAwait(false);
                 }
             }
             return summaryDtos;
@@ -102,7 +92,7 @@ namespace DataAccessLayer
         {
           
             IEnumerable<ClientSummaryDto> summaryDtos = new List<ClientSummaryDto>();
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 try
                 {

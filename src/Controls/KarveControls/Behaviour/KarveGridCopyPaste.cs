@@ -25,7 +25,7 @@ namespace KarveControls.Behaviour
             {
                 string[] record = Regex.Split(r, @"\t");
                 var provider = this.dataGrid.View.GetPropertyAccessProvider();
-                var rowData = (this.dataGrid.View as CollectionViewAdv).CurrentAddItem;
+                var rowData = (this.dataGrid.View as CollectionViewAdv)?.CurrentAddItem;
                 var addNewRowController = this.dataGrid.GetAddNewRowController();
                 if (rowData == null)
                 {
@@ -98,7 +98,11 @@ namespace KarveControls.Behaviour
                     {
                         var record = copiedRecord[i];
                         string[] splitRecord = Regex.Split(record, @"\t");
-                        this.PasteToCell(this.dataGrid.View.CurrentAddItem, this.dataGrid.Columns[j], splitRecord[j]);
+                        if (j < splitRecord.Length)
+                        {
+                            this.PasteToCell(this.dataGrid.View.CurrentAddItem, this.dataGrid.Columns[j],
+                                splitRecord[j]);
+                        }
                     }
                     // Commits the pasted record.
                     this.dataGrid.View.CommitNew();

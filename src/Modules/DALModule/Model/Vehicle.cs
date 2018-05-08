@@ -6,12 +6,14 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.DataObjects.Wrapper;
+using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -230,6 +232,7 @@ namespace DataAccessLayer.Model
         private PictureDto _pictureDto = new PictureDto();
         private IEnumerable<PICTURES> _pictureResult;
         private Logger _logger = LogManager.GetCurrentClassLogger();
+        private static QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
 
         #endregion
 
@@ -285,6 +288,14 @@ namespace DataAccessLayer.Model
                         var color = new COLORFL();
                         color.CODIGO = src.Code;
                         color.NOMBRE = src.Name;
+                        return color;
+                    }
+                );
+                cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
+                    {
+                        var color = new ColorDto();
+                        color.Code = src.CODIGO;
+                        color.Name = src.NOMBRE;
                         return color;
                     }
                 );
@@ -569,6 +580,7 @@ namespace DataAccessLayer.Model
                     /*
                      *  See if for the lookup tables. we shall try to use multiple query,
                      */
+                   
                     var query = string.Format(BrandByVehicle, _vehicleValue.CODIINT);
                     var brand = await connection.QueryAsync<MARCAS>(query);
                     BrandDtos = _vehicleMapper.Map <IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(brand);
@@ -586,8 +598,14 @@ namespace DataAccessLayer.Model
                     AgentDtos = await connection.QueryAsync<AgentDto>(VehicleAgentQuery);
                     var maintananceQuery = string.Format(MaintenanceQuery, _vehicleValue.CODIINT);
                     MaintenanceDtos = await connection.QueryAsync<MaintainanceDto>(maintananceQuery);
-                    var queryVehicle = string.Format(QueryModels, _vehicleValue.MODELO);
+                    var queryVehicle = CraftModelQuery(_vehicleValue);
+                    var colors = CraftColorQuery(_vehicleValue.COLOR);
+                    var cl = await connection.QueryAsync<COLORFL>(colors);
+                    ColorDtos = _vehicleMapper.Map<IEnumerable<COLORFL>, IEnumerable<ColorDto>>(cl);
                     var models = await connection.QueryAsync<MODELO>(queryVehicle);
+                    var q = CraftVehicleGroup(_vehicleValue);
+                    var grupos = await connection.QueryAsync<GRUPOS>(q);
+                    VehicleGroupDtos=_vehicleMapper.Map<IEnumerable<GRUPOS>, IEnumerable<VehicleGroupDto>>(grupos);
                     ModelDtos = _vehicleMapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleDto>>(models);
                     Valid =true;
                 }
@@ -603,6 +621,32 @@ namespace DataAccessLayer.Model
             return true;
         }
 
+        
+        /// <summary>
+        ///  TODO: move to the query store.
+        /// </summary>
+        /// <param name="poco"></param>
+        /// <returns></returns>
+        private static string CraftModelQuery(VehiclePoco poco)
+        {
+            var query =
+                $"SELECT * FROM MODELO WHERE MARCA='{poco.MAR}' AND CODIGO='{poco.MO1}' AND VARIANTE='{poco.MO2}'";
+            return query;
+        }
+
+        private static string CraftVehicleGroup(VehiclePoco poco)
+        {
+            var query = $"SELECT * from GRUPOS WHERE CODIGO='{poco.GRUPO}'";
+            return query;
+        }
+
+        private static string CraftColorQuery(string id)
+        {
+            var store = new QueryStoreFactory();
+            var newStore = store.GetQueryStore();
+            newStore.AddParam(QueryType.QueryVehicleColor, id);
+            return newStore.BuildQuery();
+        }
         public string VehicleAgentQuery {
             get { return _agentQuery; }
             set { _agentQuery = value;  RaisePropertyChanged();}

@@ -94,9 +94,9 @@ namespace MasterModule.Views.Vehicles
         {
             KarveLocale.Properties.Resources.StringConstants_TarjetaDeTransporte,
             KarveLocale.Properties.Resources.StringConstants_PrecioDeFabricacion,
-           KarveLocale.Properties.Resources.StringConstants_ImpuestoMatriculacion,
-           KarveLocale.Properties.Resources.StringConstants_NumFactura,
-           KarveLocale.Properties.Resources.StringConstants_Precio,
+            KarveLocale.Properties.Resources.StringConstants_ImpuestoMatriculacion,
+            KarveLocale.Properties.Resources.lnumerofactura,
+            KarveLocale.Properties.Resources.StringConstants_Precio,
             KarveLocale.Properties.Resources.StringConstants_Bonifica
         };
 

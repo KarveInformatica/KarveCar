@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveDataServices.DataTransferObject;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using KarveDataServices.DataObjects;
 using DataAccessLayer.Model;
 
@@ -203,15 +205,21 @@ namespace DataAccessLayer.Logic
     {
         public BranchesDto Convert(CliDelegaPoco source, BranchesDto destination, ResolutionContext context)
         {
-            BranchesDto branchesDto = new BranchesDto();
-
-            branchesDto.BranchId = source.cldIdDelega.ToString();
-            branchesDto.Branch = source.cldDelegacion;
+            var branchesDto = new BranchesDto
+            {
+                Branch = source.cldDelegacion,
+                BranchId = source.cldIdDelega,
+                Province = new ProvinciaDto(),
+                ProvinceSource =  new ProvinciaDto()
+            };
+           
             if (source.PROV != null)
             {
+               
                 branchesDto.Province.Code = source.PROV.SIGLAS;
                 branchesDto.Province.Name = source.PROV.PROV;
                 branchesDto.Province.Country = source.PROV.PAIS;
+                branchesDto.ProvinceSource = branchesDto.Province;
             }
             branchesDto.Address = source.cldDireccion1;
             branchesDto.Address2 = source.cldDireccion2;
@@ -534,31 +542,6 @@ namespace DataAccessLayer.Logic
         }
     }
 
-    ///
-    /// Dto to POCO converter.
-    /// 
-    public class ClientDtoToClientes1 : ITypeConverter<ClientDto, CLIENTES1>
-    {
-        public CLIENTES1 Convert(ClientDto source, CLIENTES1 destination, ResolutionContext context)
-        {
-            var entityConverter = new GenericBackConverter<ClientDto, CLIENTES1>();
-            var entity = entityConverter.Convert(source, destination, context);
-            return entity;
-        }
-    }
-    ///
-    /// Dto to POCO converter.
-    /// 
-    public class ClientDtoToClientes2 : ITypeConverter<ClientDto, CLIENTES2>
-    {
-        public CLIENTES2 Convert(ClientDto source, CLIENTES2 destination, ResolutionContext context)
-        {
-            var entityConverter = new GenericBackConverter<ClientDto, CLIENTES2>();
-            var entity = entityConverter.Convert(source, destination, context);
-            return entity;
-        }
-    }
-
     /// <summary>
     /// POCO to Dto converter for the client domain object
     /// </summary>
@@ -570,6 +553,8 @@ namespace DataAccessLayer.Logic
             clientDto.Numero = source.NUMERO_CLI;
             clientDto.Nombre = source.NOMBRE;
             clientDto.Movil = source.MOVIL;
+            var sourceEmailMainMant = source.EMAIL_MANT;
+            clientDto.EMAIL_MANT = sourceEmailMainMant.Replace("#", "@");
             return clientDto;
         }
     }
@@ -629,41 +614,6 @@ namespace DataAccessLayer.Logic
     }
 
 
-    /// <summary>
-    /// ContactsCOMI and mapper field.
-    /// </summary>
-    public class ContactsComiToDto : ITypeConverter<CONTACTOS_COMI, ContactsDto>
-    {
-        public ContactsDto Convert(CONTACTOS_COMI source, ContactsDto destination, ResolutionContext context)
-        {
-            ContactsDto contactsDto = new ContactsDto();
-            var contacto = source.CONTACTO;
-            contactsDto.ContactId = contacto.ToString();
-            contactsDto.ResponsabilitySource = new PersonalPositionDto();
-            var cargo = source.CARGO;
-            if (cargo != null)
-            {
-                contactsDto.ResponsabilitySource.Code = cargo.ToString();
-            }
-            contactsDto.ResponsabilitySource.Name = source.NOM_CARGO;
-            contactsDto.ContactName = source.NOM_CONTACTO;
-            contactsDto.ContactsKeyId = source.COMISIO;
-            var currentDelega = source.DELEGA_CC;
-            if (currentDelega.HasValue)
-            {
-                contactsDto.CurrentDelegation = currentDelega.Value.ToString();
-            }
-            contactsDto.CurrentUser = source.USUARIO;
-            contactsDto.Email = source.EMAIL;
-            contactsDto.Fax = source.FAX;
-            contactsDto.Telefono = source.TELEFONO;
-            contactsDto.Nif = source.NIF;
-            contactsDto.Movil = source.MOVIL;
-            contactsDto.LastModification = source.ULTMODI;
-            contactsDto.User = source.USUARIO;
-            return contactsDto;
-        }
-    }
     /// <summary>
     /// ContactsCOMI and mapper field.
     /// </summary>
@@ -947,7 +897,7 @@ namespace DataAccessLayer.Logic
     /// </summary>
     public static class MapperField
     {
-        private static IMapper Instance = null;
+        private static IMapper _instance = null;
 
         /// <summary>
         ///  Get the map if instantiated otherwise build one.
@@ -955,11 +905,7 @@ namespace DataAccessLayer.Logic
         /// <returns>Map to be built.</returns>
         public static IMapper GetMapper()
         {
-            if (Instance == null)
-            {
-                Instance = BuildMapping();
-            }
-            return Instance;
+            return _instance ?? (_instance = BuildMapping());
         }
 
         private static IMapper BuildMapping()
@@ -1035,10 +981,55 @@ namespace DataAccessLayer.Logic
                     };
                     return generic;
                 });
+                cfg.CreateMap<CONTRATOS1, ContractDto>().ConvertUsing(src =>
+                {
+                    var generic = new ContractDto()
+                    {
+                         Code = src.NUMERO,
+                         Name = src.NOMBRE_CON1,
+                         StartingFrom = src.FECHA_CON1,
+                         ReleaseDate = src.FSALIDA_CON1,
+                         ReturnDate = src.FRETOR_CON1,
+                         DeliveringPlace = src.LUENTRE_CON1,
+                         Days = src.DIAS_CON1,
+                         ClientCode = src.CLIENTE_CON1,
+                         DriverCode = src.CONDUCTOR_CON1,
+                         VehicleCode = src.VCACT_CON1                         
+                    };
+                    return generic;
+                });
+                cfg.CreateMap<ContractDto, CONTRATOS1>().ConvertUsing(src =>
+                {
+                    var generic = new CONTRATOS1()
+                    {
+                        NUMERO = src.Code,
+                        NOMBRE_CON1 = src.Name,
+                        FECHA_CON1 = src.StartingFrom,
+                        FSALIDA_CON1 = src.ReleaseDate,
+                        FRETOR_CON1 = src.ReturnDate,
+                        LUENTRE_CON1 = src.DeliveringPlace,
+                        DIAS_CON1 = src.Days,
+                        CLIENTE_CON1 = src.ClientCode,
+                        CONDUCTOR_CON1 = src.DriverCode,
+                        VCACT_CON1 = src.VehicleCode
+                    };
+                    return generic;
+                });
+
                 cfg.CreateMap<LIFAC, InvoiceSummaryDto>().ConvertUsing(src =>
                 {
+                    var opciones = 0;
+                    if (src.CONCEPTO_LIF.HasValue)
+                    {
+                        opciones = src.CONCEPTO_LIF.Value;
+
+                    }
                     var invoiceItem = new InvoiceSummaryDto
                     {
+                        
+                        Opciones = opciones,
+                        AgreementCode = src.CONTRATO_LIF,
+                        Number = src.NUMERO_LIF,
                         Subtotal = src.SUBTOTAL_LIF,
                         FileNumber = src.EXPEDIENTE_LIF,
                         Discount = src.DTO_LIF,
@@ -1047,12 +1038,48 @@ namespace DataAccessLayer.Logic
                         VehicleCode = src.VEHICULO_LIF,
                         User = src.USUARIO_LIF,
                         Unity = src.UNIDAD_LIF,
-                        Quantity = src.CANTIDAD_LIF
+                        Quantity = src.CANTIDAD_LIF,
+                        KeyId = src.CLAVE_LF.ToString(),
+                        LastModification = src.ULTMODI_LIF
+
                     };
 
                     return invoiceItem;
                 });
+                cfg.CreateMap<InvoiceSummaryDto, LIFAC>().ConvertUsing(src =>
+                {
+                    var opciones = src.Opciones;
+                    var invoiceItem = new LIFAC
+                    {
+                        SUBTOTAL_LIF = src.Subtotal,
+                        EXPEDIENTE_LIF = src.FileNumber,
+                        DTO_LIF =  src.Discount,
+                        DESCRIP_LIF = src.Description,
+                        IVA = src.Iva,
+                        VEHICULO_LIF = src.VehicleCode,
+                        USUARIO_LIF = src.User,
+                        UNIDAD_LIF = src.Unity,
+                        NUMERO_LIF = src.Number,
+                        CANTIDAD_LIF = src.Quantity,
+                        CONTRATO_LIF = src.AgreementCode,
+                        CONCEPTO_LIF = opciones,
+                        ULTMODI_LIF = src.LastModification
+                        
+                    };
+                    if (src.KeyId != null)
+                    {
+                        var parsed = int.TryParse(src.KeyId, out var clavelf);
+                        if ((parsed) && (clavelf!=0))
+                        {
+                            invoiceItem.CLAVE_LF = clavelf;
+                        }
 
+                    }
+
+                    return invoiceItem;
+                });
+                cfg.CreateMap<LIFAC, InvoiceItem>();
+                cfg.CreateMap<InvoiceItem, LIFAC>();
                 cfg.CreateMap<CurrenciesDto, CURRENCIES>().ConvertUsing(
                     src =>
                     {
@@ -1073,6 +1100,72 @@ namespace DataAccessLayer.Logic
                         };
                         return currencies;
                     });
+
+                cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(src =>
+                {
+                    var marcas = new MARCAS();
+                    marcas.CODIGO = src.Code;
+                    marcas.NOMBRE = src.Name;
+                    return marcas;
+                });
+                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
+                {
+                    var marcas = new BrandVehicleDto();
+                    marcas.Code = src.CODIGO;
+                    marcas.Name = src.NOMBRE;
+                    return marcas;
+                });
+                cfg.CreateMap<PICTURES, PictureDto>();
+                cfg.CreateMap<ColorDto, COLORFL>().ConvertUsing(src =>
+                {
+                    var color = new COLORFL();
+                    color.CODIGO = src.Code;
+                    color.NOMBRE = src.Name;
+                    return color;
+                }
+                );
+                cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
+                {
+                    var model = new ModelVehicleDto();
+                    model.Codigo = src.CODIGO;
+                    model.Nombre = src.NOMBRE;
+                    model.Marca = src.MARCA;
+                    model.Categoria = src.CATEGORIA;
+                    model.Variante = src.VARIANTE;
+                    model.NomeMarca = src.NOMMARCA;
+                    return model;
+                }
+                );
+                cfg.CreateMap<ModelVehicleDto, MODELO>().ConvertUsing(src =>
+                {
+                    var model = new MODELO();
+                    model.MARCA = src.Marca;
+                    model.CODIGO = src.Codigo;
+                    model.NOMBRE = src.Nombre;
+                    model.CATEGORIA = src.Categoria;
+                    model.VARIANTE = src.Variante;
+                    model.NOMMARCA = src.NomeMarca;
+                    return model;
+                }
+                );
+
+                cfg.CreateMap<ACTIVEHI, ActividadDto>().ConvertUsing(src =>
+                {
+                    var color = new ActividadDto();
+                    color.Codigo = src.NUM_ACTIVEHI;
+                    color.Nombre = src.NOMBRE;
+                    return color;
+                }
+                );
+                cfg.CreateMap<ActividadDto, ACTIVEHI>().ConvertUsing(src =>
+                {
+                    var color = new ACTIVEHI();
+                    color.NUM_ACTIVEHI = src.Codigo;
+                    color.NOMBRE = src.Nombre;
+                    return color;
+                }
+                );
+
                 cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
 
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(src =>
@@ -1338,34 +1431,39 @@ namespace DataAccessLayer.Logic
                 });
                 cfg.CreateMap<TIPOPROVE, SupplierTypeDto>().ConvertUsing(src =>
                 {
-                    var model = new SupplierTypeDto();
-                    model.Codigo = src.NUM_TIPROVE;
-                    model.Nombre = src.NOMBRE;
-                    model.UltimaModifica = src.ULTMODI;
-                    model.Usuario = src.USUARIO;
+                    var model = new SupplierTypeDto
+                    {
+                        Codigo = src.NUM_TIPROVE,
+                        Nombre = src.NOMBRE,
+                        UltimaModifica = src.ULTMODI,
+                        Usuario = src.USUARIO
+                    };
                     return model;
                 });
                 cfg.CreateMap<SupplierTypeDto, TIPOPROVE>().ConvertUsing(src =>
                 {
-                    var model = new TIPOPROVE();
-                    model.NOMBRE = src.Nombre;
-                    model.NUM_TIPROVE = src.Codigo;
-                    model.USUARIO = src.Usuario;
-                    model.ULTMODI = src.UltimaModifica;
+                    var model = new TIPOPROVE
+                    {
+                        NOMBRE = src.Nombre,
+                        NUM_TIPROVE = src.Codigo,
+                        USUARIO = src.Usuario,
+                        ULTMODI = src.UltimaModifica
+                    };
                     return model;
                 });
                 cfg.CreateMap<GRID_SERIALIZATION, GridSettingsDto>().ConvertUsing(src =>
                 {
                     var model = new GridSettingsDto();
 
-                    if (src != null)
+                    if (src == null)
                     {
-                        model.GridIdentifier = src.GRID_ID;
-                        model.GridName = src.GRID_NAME;
-                        if (src.SERILIZED_DATA != null)
-                        {
-                            model.XmlBase64 = src.SERILIZED_DATA;
-                        }
+                        return model;
+                    }
+                    model.GridIdentifier = src.GRID_ID;
+                    model.GridName = src.GRID_NAME;
+                    if (src.SERILIZED_DATA != null)
+                    {
+                        model.XmlBase64 = src.SERILIZED_DATA;
                     }
                     return model;
                 });

@@ -11,16 +11,10 @@ namespace KarveLocale
     /// </summary>
     public class ResourceObjectDataProvider: ILocaleDataProvider
     {
-        private ObjectDataProvider _objectDataProvider=  null;
-
         /// <summary>
         ///  ObjectDataProvider.This  set/ get the current data pprovdier 
         /// </summary>
-        public ObjectDataProvider ObjectDataProvider
-        {
-            set { _objectDataProvider = value; }
-            get { return _objectDataProvider; }
-        }
+        public ObjectDataProvider ObjectDataProvider { set; get; } = null;
 
         public Resources GetLocaleLanguageResource()
         {

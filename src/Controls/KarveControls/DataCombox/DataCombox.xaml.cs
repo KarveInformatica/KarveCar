@@ -6,6 +6,7 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KarveCommon.Generic;
 using KarveControls.Generic;
 using Prism.Commands;
 using static KarveControls.ControlExt;

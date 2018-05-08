@@ -30,14 +30,14 @@
                     </ResourceDictionary>
                 </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20*"></RowDefinition>
-            <RowDefinition Height="80*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock FontWeight="Bold" Text="Listado "></TextBlock>
-            <TextBlock FontWeight="Bold" Text="{Binding ItemName}"></TextBlock>
-        </StackPanel>
-        <Syncfusion:SfDataGrid x:Name="CompanyControlSummary"
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                    <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding ItemName}"></TextBlock>
+                </StackPanel>
+        <Syncfusion:SfDataGrid Grid.Row="1" x:Name="CompanyControlSummary"
                                ColumnSizer="Star"
                                AllowDraggingColumns="True"
                                AllowEditing="False"

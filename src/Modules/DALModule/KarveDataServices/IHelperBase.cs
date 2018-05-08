@@ -32,5 +32,7 @@ namespace KarveDataServices
         ///  Set or Get ContableDelegaDto.
         /// </summary>
         IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
+       
+
     }
 }

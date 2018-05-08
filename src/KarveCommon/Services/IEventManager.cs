@@ -48,6 +48,10 @@ namespace KarveCommon.Services
         ///  Contract control view model
         /// </summary>
         public const string ContractSummaryVm = "ContractControlViewModel";
+        /// <summary>
+        ///  Inovice control view model.
+        /// </summary>
+        public static string InvoiceSubsystemVm = "InvoiceControlViewModel";
     }
     /// <summary>
     /// Interface for communication between view models. 

@@ -18,14 +18,15 @@ namespace KarveControls.Interactivity.Views
         }
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
+            /*
             Window win = ((UserControl)sender).Parent as Window;
             if (win != null)
             {
 
-                win.WindowStyle = WindowStyle.ToolWindow;
+                win.WindowStyle = WindowStyle.;
                
 
-            }
+            }*/
 
         }
     }

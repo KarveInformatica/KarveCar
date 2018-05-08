@@ -443,6 +443,8 @@
     <Resource Include="Images\office.png" />
     <Resource Include="Images\registry.png" />
     <Resource Include="Images\closebutton.png" />
+    <Resource Include="Images\vehicletools.png" />
+    <Resource Include="Images\invoicesfolder.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
