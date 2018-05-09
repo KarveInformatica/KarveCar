@@ -372,7 +372,9 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
             _queryStoreFactory = new QueryStoreFactory();
-           
+             var gid = Guid.NewGuid();
+             ViewModelUri = new Uri("karve://vehicle/viewmodel?id=" + gid.ToString());
+
             ActiveSubSystem();
         }
       
@@ -727,6 +729,9 @@ namespace MasterModule.ViewModels
             }
         }
         /// <summary>
+        ///  1. The process is receiving the eventDictionary from components.
+        ///  2. Then we build an update or insert payload.
+        ///  3. Then we send the payload to the toolbar.
         ///  OnChangedField. This method shall be changed moved to the upper level.
         /// </summary>
         /// <param name="eventDictionary">Dictionary of events.</param>
@@ -734,7 +739,16 @@ namespace MasterModule.ViewModels
         {
             DataPayLoad payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
+            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
+            {
+                payLoad.PrimaryKeyValue = PrimaryKeyValue;
+                payLoad.PayloadType = DataPayLoad.Type.Update;
+            }
+            // set base payload
+            SetBasePayLoad(eventDictionary, ref payLoad);
+
             ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(EventManager,DataSubSystem.VehicleSubsystem);
+            // enforce the data object value before sending to the toolbar.
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {

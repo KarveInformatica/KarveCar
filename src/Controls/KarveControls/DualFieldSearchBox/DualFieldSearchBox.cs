@@ -19,6 +19,8 @@ using System.Linq;
 using KarveCommon;
 using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
+using Syncfusion.Data.Extensions;
+using Syncfusion.UI.Xaml.CellGrid.Helpers;
 
 namespace KarveControls
 {
@@ -674,10 +676,12 @@ namespace KarveControls
             
 
             var textDo = ComponentUtils.GetTextDo(value, DataFieldFirst, DataAllowedFirst);
-
+          
+           
             if (SourceView is IEnumerable source)
             {
-               
+
+                var found = false;
                 // find the code in _sourceView
                 foreach (var assistValue in source)
                 {
@@ -694,6 +698,7 @@ namespace KarveControls
                         TextContentFirst = textDo;
                         TextContentSecond = secondValue.ToString();
                         SelectedObject = assistValue;
+                        found = true;
                     }
                 }
             }
@@ -790,7 +795,7 @@ namespace KarveControls
 
             }
             _triggerLoad = true;
-     //       RaiseMagnifierPressEvent();
+           //  RaiseMagnifierPressEvent();
             _triggerLoad = false;
         }
 
@@ -1038,8 +1043,7 @@ namespace KarveControls
         }
         private static void OnSourceViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
+            if (d is DualFieldSearchBox control)
             {
                 control.OnSourceViewPropertyChanged(e);
             }
@@ -1070,7 +1074,7 @@ namespace KarveControls
             // in case a text changed from the keyboard.
             if (_textMode)
                 return;
-
+         
             var itemToFind = ComponentUtils.GetTextDo(itemSource, DataFieldFirst, DataAllowedFirst);
             bool objectFound = false;
             string textContentFirst = "";
@@ -1192,15 +1196,11 @@ namespace KarveControls
                    
                     if (_buttonManifierState == 1)
                     {
-                     
-                        if (Popup != null)
-                        {
-                           
-                            this.Popup.IsOpen = true;
-                            var magnifier = MagnifierGrid.ActualWidth;
-                            this.Popup.Width = magnifier + _widthOffSet;
-                            _buttonManifierState = 0;
-                        }
+                        if (Popup == null) return;
+                        this.Popup.IsOpen = true;
+                        var magnifier = MagnifierGrid.ActualWidth;
+                        this.Popup.Width = magnifier + _widthOffSet;
+                        _buttonManifierState = 0;
 
                         return;
                     }
@@ -1377,8 +1377,7 @@ namespace KarveControls
         }
         private static void OnTextContentFirstWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
+            if (d is DualFieldSearchBox control)
             {
                 control.OnTextContentFirstWidthPropertyChanged(e);
             }
@@ -1542,8 +1541,7 @@ namespace KarveControls
         }
         private static void OnSearchTextBoxDataFieldFirstChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
+            if (d is DualFieldSearchBox control)
             {
                 control.OnDataFieldFirstPropertyChanged(e);
             }
@@ -1584,8 +1582,7 @@ namespace KarveControls
         }
         private static void OnTextContentSecondWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
+            if (d is DualFieldSearchBox control)
             {
                 control.OnTextContentSecondWidthPropertyChanged(e);
             }

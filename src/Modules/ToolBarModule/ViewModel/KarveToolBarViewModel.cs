@@ -343,7 +343,7 @@ namespace ToolBarModule
             {
                 while (payLoad.Count > 0)
                 {
-                    DataPayLoad currentItem = payLoad.Peek();
+                    var currentItem = payLoad.Peek();
                     ExecuteCommand(currentItem);
                 }
             }

@@ -1,4 +1,6 @@
-﻿namespace KarveDataServices.DataTransferObject
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace KarveDataServices.DataTransferObject
 {
     public enum StateDto {  Clean = 0, Dirty = 1, Dead = 2}
     /// <summary>
@@ -73,6 +75,8 @@
         /// <summary>
         ///  Email
         /// </summary>
+        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
      
         /// <summary>

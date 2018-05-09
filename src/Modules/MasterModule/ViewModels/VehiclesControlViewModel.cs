@@ -88,6 +88,7 @@ namespace MasterModule.ViewModels
                 "Activity",
                 "Color",
                 "Owner",
+                "OwnerName",
                 "AssuranceCompany",
                 "Policy",
                 "LeasingCompany",
@@ -102,6 +103,8 @@ namespace MasterModule.ViewModels
         private void InitViewModel()
         {
             base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGrid;
+            MessageHandlerMailBox += MessageHandler;
+            EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
             StartAndNotify();          
         }
         public ICommand OpenItem
@@ -112,8 +115,7 @@ namespace MasterModule.ViewModels
         
         public override void StartAndNotify()
         {
-            MessageHandlerMailBox += MessageHandler;
-            EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
+         
             _vehicleDataServices = DataServices.GetVehicleDataServices();
             InitializationNotifierSummary = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetVehiclesAgentSummary(0, 0), InitializationNotifierOnPropertyChangedSummary<IEnumerable<VehicleSummaryDto>>);
 

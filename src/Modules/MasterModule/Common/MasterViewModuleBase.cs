@@ -319,7 +319,20 @@ namespace MasterModule.Common
             {
                 var fieldName = string.Empty;
                 object valueName = null;
-           
+                if (eventDictionary == null)
+                {
+                    return;
+                }
+                if (eventDictionary.Count == 0)
+                {
+                    return;
+                }
+
+                if (payLoad == null)
+                {
+                    return;
+                }
+
             if (eventDictionary.ContainsKey("DataObject"))
             {
                 var data = eventDictionary["DataObject"];
@@ -336,12 +349,13 @@ namespace MasterModule.Common
                {
                     valueName = eventDictionary["ChangedValue"];
                }
-               
-                if (valueName != null)
+               payLoad.DataObject = data;
+
+                if ((valueName != null) && (!string.IsNullOrEmpty(fieldName)))
                 {
-                    payLoad.DataObject = data;
                     var currentObject = payLoad.DataObject;
-                    KarveCommon.ComponentUtils.SetPropValue(currentObject, "Value." + fieldName,valueName, true);
+                    var currentValue = !fieldName.Contains("Value") ? "Value." + fieldName : fieldName;
+                    KarveCommon.ComponentUtils.SetPropValue(currentObject, currentValue, valueName , true);
                     payLoad.DataObject = currentObject;
                 }   
             }

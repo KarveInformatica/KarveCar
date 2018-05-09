@@ -71,6 +71,7 @@ namespace DataAccessLayer.SQL
         QueryVehiclePhoto,
         QueryVehicleActivity,
         QueryClientSummaryExtById,
-        QueryContractSummaryBasic
+        QueryContractSummaryBasic,
+        QueryVehicle
     };
 }

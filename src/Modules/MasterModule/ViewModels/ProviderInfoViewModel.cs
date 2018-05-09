@@ -86,7 +86,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<PriceConditionDto> _priceConditionDto;
         private IEnumerable<DeliveringFormDto> _deliveryFromDto;
         private IEnumerable<DeliveringWayDto> _deliveryWayDto;
-        private IEnumerable<SupplierTypeDto> _supplierTypeDto;
+        private IEnumerable<SupplierTypeDto> _supplierTypeDto = new ObservableCollection<SupplierTypeDto>();
 
         private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
@@ -799,41 +799,47 @@ namespace MasterModule.ViewModels
                 Logger.Info("ProviderInfoViewModel has received payload type " + payload.PayloadType.ToString());
                 var supplierData = payload.DataObject as ISupplierData;
                 DataObject = supplierData;
-              
-                ProvinceDto = supplierData.ProvinciaDtos;
-                ProvinceDto1 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
-                CountryDto1 = new  ObservableCollection<CountryDto>(supplierData.CountryDtos);
-                ProvinceDto2 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
-                CountryDto2 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
-                ProvinceDto3 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
-                CountryDto3 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
-                
-                CityDto3 = supplierData.CityDtos;
-                CityDto1 = supplierData.CityDtos;
-                CityDto2 = supplierData.CityDtos;
-                PaymentDtos = supplierData.PaymentDtos;
-                OfficeDtos = supplierData.OfficeDtos;
-                CompanyDtos = supplierData.CompanyDtos;
-                CityDto = supplierData.CityDtos;
-                CityDto1 = supplierData.CityDtos;
-                CityDto2 = supplierData.CityDtos;
-                CityDto3 = supplierData.CityDtos;
-                PaymentDtos = supplierData.PaymentDtos;
-               
-                // TODO: aux data shall be moved in a ax object and not present in the supplier.
-                MonthsDtos = supplierData.MonthsDtos;
-                MonthsDtos2 = supplierData.MonthsDtos;
-                BanksDtos = supplierData.BanksDtos;
-                LanguageDtos = supplierData.LanguageDtos;
-                CurrencyDtos = supplierData.CurrencyDtos;
-                Account1Dtos = supplierData.AccountDtos;
-                Account2Dtos = supplierData.AccountDtos;
-                Account3Dtos = supplierData.AccountDtos;
-                Account4Dtos = supplierData.AccountDtos;
-                Account5Dtos = supplierData.AccountDtos;
-                Account6Dtos = supplierData.AccountDtos;
-                Account7Dtos = supplierData.AccountDtos;
-                Account8Dtos = supplierData.AccountDtos;
+
+                if (supplierData != null)
+                {
+                    ProvinceDto = supplierData.ProvinciaDtos;
+                    ProvinceDto1 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
+                    CountryDto1 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
+                    ProvinceDto2 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
+                    CountryDto2 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
+                    ProvinceDto3 = new ObservableCollection<ProvinciaDto>(supplierData.ProvinciaDtos);
+                    CountryDto3 = new ObservableCollection<CountryDto>(supplierData.CountryDtos);
+
+                    CityDto3 = supplierData.CityDtos;
+                    CityDto1 = supplierData.CityDtos;
+                    CityDto2 = supplierData.CityDtos;
+                    PaymentDtos = supplierData.PaymentDtos;
+                    OfficeDtos = supplierData.OfficeDtos;
+                    CompanyDtos = supplierData.CompanyDtos;
+                    CityDto = supplierData.CityDtos;
+                    CityDto1 = supplierData.CityDtos;
+                    CityDto2 = supplierData.CityDtos;
+                    CityDto3 = supplierData.CityDtos;
+                    PaymentDtos = supplierData.PaymentDtos;
+                    SupplierTypeDto1 = new ObservableCollection<SupplierTypeDto>(supplierData.Type);
+
+
+                    // TODO: aux data shall be moved in a ax object and not present in the supplier.
+                    MonthsDtos = supplierData.MonthsDtos;
+                    MonthsDtos2 = supplierData.MonthsDtos;
+                    BanksDtos = supplierData.BanksDtos;
+                    LanguageDtos = supplierData.LanguageDtos;
+                    CurrencyDtos = supplierData.CurrencyDtos;
+                    Account1Dtos = supplierData.AccountDtos;
+                    Account2Dtos = supplierData.AccountDtos;
+                    Account3Dtos = supplierData.AccountDtos;
+                    Account4Dtos = supplierData.AccountDtos;
+                    Account5Dtos = supplierData.AccountDtos;
+                    Account6Dtos = supplierData.AccountDtos;
+                    Account7Dtos = supplierData.AccountDtos;
+                    Account8Dtos = supplierData.AccountDtos;
+                }
+
                 EventManager.SendMessage(UpperBarViewSupplierViewModel.Name, payload);
                 Logger.Info("ProviderInfoViewModel has activated the provider subsystem as current with directive " + payload.PayloadType.ToString());
                 ActiveSubSystem();

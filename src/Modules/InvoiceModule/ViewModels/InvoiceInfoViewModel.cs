@@ -416,6 +416,7 @@ namespace InvoiceModule.ViewModels
             if (!(obj is TextBox box)) return;
             var boxName = box.Name;
             var value = box.Text;
+            var tag = box.Tag;
             if (boxName.Contains("VehicleItemBox"))
             {
                 const string query = "Code,Matricula,Brand,Model,VehicleGroup,Office,Places,Activity," +
@@ -425,8 +426,7 @@ namespace InvoiceModule.ViewModels
 
                 await OnVehicleSummaryAsync("Vehiculos", query, async delegate (VehicleSummaryDto vsdto)
                 {
-                    var dto = vsdto as VehicleSummaryDto;
-
+                    var dto = vsdto as VehicleSummaryDto;         
                     await SetVehicleSummary(vsdto);
 
                 }).ConfigureAwait(false);

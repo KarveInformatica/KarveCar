@@ -12,17 +12,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
-    <Grid>
-       
-        <GroupBox  Header="Compra Veichulo">
-            <Grid>
-    <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto"></RowDefinition>
-                  <RowDefinition Height="Auto"></RowDefinition>
-                </Grid.RowDefinitions>
-           
-            <WrapPanel Grid.Row="0">
+
+
+    <GroupBox  Header="Compra Veichulo">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
                 <kc:DualFieldSearchBox LabelText="Proveedor" 
+                                           Grid.Column="0"
                                    LabelTextWidth="100"
                                    TextContentFirstWidth="50"
                                    TextContentSecondWidth="150"
@@ -41,6 +49,7 @@
                                    AssistProperties="Codigo,Nombre,Direccion,Poblacion,Provincia,Pais,Telefono,Email"
                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
                 <kc:DualFieldSearchBox LabelText="Forma de Pago" 
+                                       Grid.Column="1"
                                        LabelTextWidth="100"
                                        TextContentFirstWidth="50"
                                        TextContentSecondWidth="150"
@@ -59,48 +68,59 @@
                                        AssistProperties="Codigo, Nombre, Cuenta"
                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
 
-                <kc:DataDatePicker DataDatePickerHeight="25"
+                <kc:DataDatePicker DataDatePickerHeight="30"
                                    LabelText="Fecha Compra"
                                    LabelTextWidth="100"
                                    LabelVisible="True"
+                                   Grid.Column="2"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FECCOMPRA"
+                                   kc:ControlExt.DataSourcePath="FECCOMPRA" Margin="15.333,4,64.667,0" Width="Auto" Height="Auto"
                 />
 
-                    <kc:DataField TextContentWidth="150" 
-                              LabelTextWidth="150"
+
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <kc:DataField TextContentWidth="150" 
+                              LabelTextWidth="115"
                               LabelText="Matricula Anterior"
                               LabelVisible="True"
                               Margin="5,0,0,0"
-                              Height="25"
+                              Height="30"
+                                  Grid.Column="0"
                               DataSourcePath="matri2"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               DataFieldHeight="30"/>
-                    <kc:DataDatePicker DataDatePickerHeight="25"
+                <kc:DataDatePicker DataDatePickerHeight="25"
                                    LabelText="Fecha Matricula Anterior"
                                    LabelVisible="True"
                                    LabelTextWidth="150"
-                                   Margin="10,0,0,0"
+                                   Margin="5,0,248,-2.04"
+                                   Height="Auto"
+                                   Grid.Column="1"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FMATRI"></kc:DataDatePicker>
-                </WrapPanel>
-            <StackPanel Grid.Row="1">
-               
-               
-                    <!-- item control-->
+                                   kc:ControlExt.DataSourcePath="FMATRI" Width="Auto"></kc:DataDatePicker>
+            </Grid>
 
-                <ItemsControl x:Name="TextBoxCollection" ItemsSource="{Binding DataFieldCollection}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+
+
+            <!-- item control-->
+
+            <ItemsControl  Grid.Row="2" x:Name="TextBoxCollection" ItemsSource="{Binding DataFieldCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"
                                          LabelTextWidth="130"
                                          LabelVisible="True"
@@ -110,19 +130,18 @@
                                          DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataObject="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          >
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="DataFieldChanged">
-                                        <prism:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </kc:DataField>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldChanged">
+                                    <prism:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </kc:DataField>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
 
-                </ItemsControl>
-            </StackPanel>
-            </Grid>
-        </GroupBox>
+            </ItemsControl>
 
         </Grid>
+    </GroupBox>
+
 </UserControl>

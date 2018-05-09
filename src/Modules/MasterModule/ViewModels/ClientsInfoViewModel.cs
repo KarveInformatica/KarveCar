@@ -265,7 +265,11 @@ namespace MasterModule.ViewModels
            
             ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,
                 DataSubSystem.ClientSubsystem);
-
+            if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
+            {
+                payLoad.PrimaryKeyValue = PrimaryKeyValue;
+            }
+            SetBasePayLoad(eventDictionary, ref payLoad);
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);
@@ -633,15 +637,20 @@ namespace MasterModule.ViewModels
                    
                     DataObject = clientData.Value;
                     // in this way we trigger just one time the raiseproperty changed.
-                    var clientHelper = clientData;                
-                    ClientHelper = clientHelper;
-                    // When the view model receive a message broadcast to its child view models.                
-                    Logger.Info("ClientInfoViewModel has activated the client subsystem as current with directive " +
-                                payload.PayloadType.ToString());
-                    ActiveSubSystem();
-                    NavigateDefault();
+                    if (clientData.Value != null)
+                    {
+                        var clientHelper = clientData.Value.Helper;
+                        ClientTypeDto = clientData.Value.Helper.ClientTypeDto;
+                        ClientHelper = clientHelper;
+                        // When the view model receive a message broadcast to its child view models.                
+                        Logger.Info(
+                            "ClientInfoViewModel has activated the client subsystem as current with directive " +
+                            payload.PayloadType.ToString());
+                        ActiveSubSystem();
+                        NavigateDefault();
+                    }
 
-                   // RaisePropertyChanged("ClientHelper");
+                    // RaisePropertyChanged("ClientHelper");
                 }
             }
         }

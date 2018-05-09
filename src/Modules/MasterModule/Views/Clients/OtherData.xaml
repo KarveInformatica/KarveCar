@@ -14,9 +14,9 @@
             
             
             <ResourceDictionary.MergedDictionaries>
-               
+               <!--
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-                    
+                   --> 
             </ResourceDictionary.MergedDictionaries>
             
             <DataTemplate x:Key="ActivitySector">
@@ -292,12 +292,12 @@
                         <TextBox Text="{Binding Path=DataObject.CODPROV_CLI1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" Height="30" />
                         <!---->
                           <KarveControls:DualFieldSearchBox x:Name="Formas" 
-                                              LabelText="Forma de Pago" 
+                                              LabelText="Forma de Cobro" 
                                               Height="30" 
-                                          
+                                              
                                                             Grid.ColumnSpan="2"
                                                               Grid.Row="3"
-                                          AssistTableName="CLIENT_INVOICE_BLOCKS"
+                                          AssistTableName="CLIENT_PAYMENT_FORM"
                                           IsReadOnlySecond="True"
                                           DataFieldFirst="BLOQUEFAC"
                                           AssistProperties="Code,Name"
@@ -305,10 +305,10 @@
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="96"
-                                          TextContentFirstWidth="60" 
+                                          LabelTextWidth="100"
+                                          TextContentFirstWidth="50" 
                                           TextContentSecondWidth="106"
-                                          ButtonImage="/KarveCar;component/Images/search.png" VerticalAlignment="Bottom" Margin="0,0,0,1"/>
+                                          ButtonImage="/KarveCar;component/Images/search.png" VerticalAlignment="Bottom" Margin="-4,0,0,1"/>
                         
                         <Label Content="Banco " Grid.Row="4" />
                         <TextBox Text="{Binding Path=DataObject.BANCO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" Height="30" />
@@ -498,7 +498,7 @@
                         <KarveControls:DualFieldSearchBox x:Name="InvoceBloq" 
                                               LabelText="Bloque Facturacion" 
                                               Height="30" 
-                                          Margin="0,5,0,0"
+                                          Margin="0,0,0,0"
                                                               Grid.Row="0"
                                           AssistTableName="CLIENT_INVOICE_BLOCKS"
                                           IsReadOnlySecond="True"
@@ -510,7 +510,7 @@
                                           SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="125"
                                           TextContentFirstWidth="60" 
-                                          TextContentSecondWidth="150"
+                                          TextContentSecondWidth="180"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
 
 
@@ -701,9 +701,11 @@
 
                         <StackPanel Orientation="Horizontal">
                             <KarveControls:DataField x:Name="EmailField" 
-                                             LabelText="Email Mantenimiento:"
+                                             LabelText="Email Mantenimiento: "
                                              DataObject="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                             LabelTextWidth="120"
+                                             TextContent="{Binding DataObject.EMAIL, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, 
+                                        ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True,ValidatesOnExceptions=True}"
+                                             LabelTextWidth="160"
                                              LabelVisible="True"
                                              DataAllowed="Email"
                                              ItemChangedCommand="{Binding ItemChangedCommand}"

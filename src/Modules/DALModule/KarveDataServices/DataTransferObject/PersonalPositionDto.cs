@@ -1,4 +1,6 @@
-﻿namespace KarveDataServices.DataTransferObject
+﻿using System.ComponentModel;
+
+namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
     ///  Personal Position Data Transfer Object, it is resposible for the charge of personal. 
@@ -11,6 +13,7 @@
         /// <summary>
         ///  Codigo
         /// </summary>
+        [DisplayName("Codigo")]
         public string Code
         {
             get { return _code; }
@@ -19,6 +22,7 @@
         /// <summary>
         ///  Nombre
         /// </summary>
+        [DisplayName("Nombre")]
         public string Name {
             get { return _name;  }
             set

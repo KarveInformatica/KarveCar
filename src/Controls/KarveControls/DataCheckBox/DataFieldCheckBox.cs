@@ -104,20 +104,23 @@ namespace KarveControls
 
         private void OnChecked(object sender, RoutedEventArgs routedEventArgs)
         {
-            DataFieldCheckBox checkBox = sender as DataFieldCheckBox;
-           
-            if (checkBox != null)
+            if (sender is DataFieldCheckBox checkBox)
             {
-            
+
+
                 if (checkBox.IsChecked != null)
                 {
-                   
+
                     _isChecked = checkBox.IsChecked.Value;
 
+                    if (_previous != null && ((_previous.Value == false) && (checkBox.IsChecked.Value == true)))
+                    {
+                        SendEventOnChanged();
+                    }
                 }
                 if (times > 0)
                 {
-                    if (_previous.Value != _isChecked.Value)
+                    if (_isChecked != null && (_previous != null && _previous.Value != _isChecked.Value))
                     {
                         SendEventOnChanged();
                     }
@@ -134,12 +137,12 @@ namespace KarveControls
             
                 // ok we can raise the event.
                 var path = ControlExt.GetDataSourcePath(this);
-                
+                var current = (IsChecked == true) ? 1 : 0;
                 IDictionary<string, object> values = new Dictionary<string, object>();
                 values.Add("DataObject", DataObject);
                 values.Add("ChangedValue", IsChecked);
                 values.Add("PreviousValue", _previous);
-                values.Add("FieldChanged", path);
+                values.Add("Field", path);
             if (Command != null)
             {
                 Command.Execute(values);

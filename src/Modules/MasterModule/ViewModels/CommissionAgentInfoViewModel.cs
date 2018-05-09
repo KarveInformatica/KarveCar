@@ -847,7 +847,7 @@ namespace MasterModule.ViewModels
                 payLoad.PrimaryKeyValue = _primaryKeyValue;
                 payLoad.PayloadType = DataPayLoad.Type.Update;
             }
-
+           
             SetBasePayLoad(eventDictionary, ref payLoad);
 
             if (eventDictionary["DataObject"] == null)
@@ -1000,7 +1000,7 @@ namespace MasterModule.ViewModels
                 Products = _commissionAgentDo.ProductsDto;
                 Language = _commissionAgentDo.LanguageDto;  
                 Delegation = _commissionAgentDo.BranchesDto;
-                TipoComission = _commissionAgentDo.CommisionTypeDto;
+                BrokerTypeDto = _commissionAgentDo.CommisionTypeDto;
                 ClientOne = _commissionAgentDo.ClientsDto;
                 CityDto = _commissionAgentDo.CityDtos;
                 // configure branches command.

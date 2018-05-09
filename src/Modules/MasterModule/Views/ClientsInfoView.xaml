@@ -50,7 +50,7 @@
 
                     <StackPanel Grid.Row="2" Orientation="Vertical">
                         <TextBlock Text="Titular" FontSize="10"></TextBlock>
-                        <TextBox  Margin="33,10,194,5" Height="25" Width="Auto" Text="{Binding Path=DataObject.TARTI, Mode=TwoWay}"></TextBox>
+                        <TextBox  Margin="33,10,194,5" Height="25" Width="Auto" Text="{Binding Path=DataObject., Mode=TwoWay}"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3">
                         <TextBlock  Text="Numero" FontSize="10"></TextBlock>
@@ -183,8 +183,9 @@
 
             <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-            
+                <!--
+                    <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+            -->
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -248,7 +249,7 @@
 
                                         <clients:GeneralInfoView />
 
-                                        <GroupBox Header="Opcion Cliente">
+                                        <GroupBox Header="{Binding OpcionCliente,Source={StaticResource ResourceLanguage}}">
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition></RowDefinition>
@@ -262,18 +263,18 @@
                                                         <ColumnDefinition></ColumnDefinition>
 
                                                     </Grid.ColumnDefinitions>
-                                                    <CheckBox Grid.Column="0" x:Name="Defaulting"  Content="Moroso"
-                                                                                     IsChecked="{Binding DataObject.MOROSO, Converter={StaticResource ByteToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    <karveControls:DataFieldCheckBox Grid.Column="0" x:Name="Defaulting"  
+                                                                                     Content="Moroso"
+                                                                                     karveControls:ControlExt.DataSourcePath="MOROSO"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 
-                                                    <CheckBox Grid.Column="1" x:Name="Blocked" Content="Bloqueado"
-                                                                                         IsChecked="{Binding DataObject.BLOQUEADO_CLI, Converter={StaticResource ByteToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    <karveControls:DataFieldCheckBox Grid.Column="1" x:Name="Blocked" 
+                                                                                        karveControls:ControlExt.DataSourcePath="BLOQUEADO_CLI"
                                                                                          karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
 
-                                                    <CheckBox Grid.Column="2" Content="Nif Extranjero"
-                                                              IsChecked="{Binding DataObject.NIF_EXTRANJERO, Converter={StaticResource ByteToBooleanConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    <karveControls:DataFieldCheckBox Grid.Column="2" Content="Nif Extranjero"
                                                                                          
                                                               karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -288,6 +289,7 @@
                                                     </karveControls:DataField>
 
                                                 </Grid>
+                                                <!--
                                                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <RadioButton Content="Client" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
                                                     Converter={StaticResource ByteToBooleanConverter}}"/>
@@ -300,6 +302,7 @@
                                                     <RadioButton Content="Conductor" Width="100" IsChecked="{Binding DataObject.CLICOND, Mode=TwoWay,
                                                              Converter={StaticResource ByteToBooleanConverter}}"/>
                                                 </StackPanel>
+                                                -->
                                             </Grid>
                                         </GroupBox>
 
@@ -381,8 +384,8 @@
 
                             <photoframe:PhotoFrame Grid.Row="0" HorizontalAlignment="Left" Width="514"></photoframe:PhotoFrame>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}"/>
-                                <Button>Adquirir..</Button>
+                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}" Height="30"/>
+                                <Button Height="30" Content="{Binding lloaddocument,Source={StaticResource ResourceLanguage}}"/>
                             </StackPanel>
                         </Grid>
                     </Syncfusion:TabItemExt>
@@ -394,8 +397,8 @@
                             </Grid.RowDefinitions>
                             <photoframe:PhotoFrame Margin="20,0,566,0" Width="666" HorizontalAlignment="Left"></photoframe:PhotoFrame>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}"></Button>
-                                <Button>Adquirir..</Button>
+                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}" Height="30"></Button>
+                                <Button Height="30">Adquirir..</Button>
                             </StackPanel>
                         </Grid>
                     </Syncfusion:TabItemExt>

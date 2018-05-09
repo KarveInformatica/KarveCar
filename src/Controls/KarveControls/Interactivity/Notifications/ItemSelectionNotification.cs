@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using KarveCommon.Generic;
 using KarveControls.Annotations;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.UI.Xaml.CellGrid.Helpers;
@@ -11,11 +13,16 @@ using Syncfusion.UI.Xaml.Grid;
 
 namespace KarveControls.Interactivity.Notifications
 {
+    /// <summary>
+    ///  ItemSelectionNotification. 
+    /// </summary>
     public class ItemSelectionNotification : Confirmation, INotifyPropertyChanged
     {
-        private object[] _items;
+        private readonly object[] _items;
         private IncrementalList<object> _incrementalList;
-   
+        private long _gridIdentifier;
+        private ICommand _gridInitCommand;
+
         public ItemSelectionNotification()
         {
             _incrementalList = new IncrementalList<object>(LoadMoreItems);
@@ -39,15 +46,45 @@ namespace KarveControls.Interactivity.Notifications
             var item = _items.ToList<object>().Take(100);
             Items.LoadItems(item);
         }
-        public IncrementalList<object> Items { get => _incrementalList;
+        /// <summary>
+        /// IncrementalList of utems.
+        /// </summary>
+        public IncrementalList<object> Items
+        {
+            get => _incrementalList;
             set
             {
 
                 _incrementalList = value;
                 OnPropertyChanged("Items");
-                 
+
             }
-                                              }
+
+        }
+        /// <summary>
+        ///  Identifier of the grid.
+        /// </summary>
+        public long GridIdentifier
+        {
+            set {
+                _gridIdentifier = value;
+                OnPropertyChanged("GridIdentifier");
+            }
+            get { return _gridIdentifier; }
+        }
+        /// <summary>
+        ///  Initializer of the grid command
+        /// </summary>
+        public ICommand GridInitCommand {
+            set
+            {
+                _gridInitCommand = value;
+                OnPropertyChanged("GridInitCommand");
+            }
+            get { return _gridInitCommand; }
+        }
+        public ICommand GridParamChangedCommand { set; get; }
+        public KarveGridParameters GridParameters { set; get; }
         public string AssistProperites { set; get; }
 
         public object SelectedItem { get; set; }

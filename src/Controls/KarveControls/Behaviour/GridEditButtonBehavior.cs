@@ -87,18 +87,18 @@ namespace KarveControls.Behaviour
         {
             Button currentButton = sender as Button;
             ICommand command = Command;
-           
-                if (command != null)
-                {
-                    var v = Param;
-                    if (v == null)
-                    {
-                        v = currentButton.DataContext;
-                    }
-                    
-                    
-                    command.Execute(v);
-                }
+
+            if (command == null)
+            {
+                return;
+            }
+
+            if (currentButton == null)
+            {
+                return;
+            }
+            var v = Param ?? currentButton.DataContext;
+            command.Execute(v);
         }
 
         /// <summary>

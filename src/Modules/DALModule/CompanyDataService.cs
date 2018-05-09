@@ -122,7 +122,7 @@ namespace DataAccessLayer
             string id = string.Empty;
             using (IDbConnection conn = sqlExecutor.OpenNewDbConnection())
             {
-                SUBLICEN sublicen = new SUBLICEN();
+                var sublicen = new SUBLICEN();
                 id =  conn.UniqueId<SUBLICEN>(sublicen);
             }
             return id;

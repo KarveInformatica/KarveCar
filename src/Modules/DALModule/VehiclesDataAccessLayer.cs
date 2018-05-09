@@ -120,6 +120,8 @@ namespace DataAccessLayer
             {
                 queries = queryDictionary;
             }
+
+            // old method was too complicated.
             IVehicleData dictionaryData = await _factory.GetVehicle(queries, vehicleId);
             return dictionaryData;
 

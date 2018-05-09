@@ -117,6 +117,8 @@ namespace ToolBarModule.Command
             {
                 payLoad.Sender = ToolBarModule.NAME;
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
+                // it is really important to se the current payload to allow the refresh of control grids.
+                CurrentPayload = payLoad;
 
             }
             else
@@ -126,6 +128,7 @@ namespace ToolBarModule.Command
                 string message = isInsert ? "Error during the insert" : "Error during the update";
                 payLoad.ResultString = message;
                 OnErrorExecuting?.Invoke(message);
+                CurrentPayload = payLoad;
             }
             return payLoad;
         }

@@ -79,12 +79,12 @@
                                                   AssistProperties="Codigo,Nombre"
                                                   MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SourceView="{Binding  SupplierTypeDto1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="TIPO"
                                                   AssistTableName="TIPOPROVE"
                                                   AssistDataFieldFirst="NUM_TIPROVE"
                                                   AssistDataFieldSecond="NOMBRE"
-                                                  ButtonImage="/MasterModule;component/Images/search.png">
+                                                  ButtonImage="/MasterModule;component/Images/supplier.png">
                     </KarveControls:DualFieldSearchBox>
                 </StackPanel>
             </GroupBox>
@@ -1250,7 +1250,7 @@
                 -->
 
                 <Syncfusion:GridTemplateColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}"
-                                                                        Width="200"
+                                                                      
                                                                        AllowResizing="False"
                                                                        AllowEditing="False"
                                                                        MappingName="ResponsabilitySource">
@@ -1268,12 +1268,17 @@
                                 </Grid.ColumnDefinitions>
 
 
-                                <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ResponsabilitySource.Code,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}">
+                              <TextBox  Visibility="Collapsed" Grid.Column="0" Width="50" Text="{Binding Path=ResponsabilitySource.Code,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}">
 
                                 </TextBox>
+                               
                                 <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ResponsabilitySource.Name,Mode=TwoWay,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                <Button Grid.Column="2" Width="30" Command="{Binding Path=ResponsabilitySource.ShowCommand,PresentationTraceSources.TraceLevel=High, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+
+                                <Button Grid.Column="2" Width="30" >
                                     <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
+                                    <i:Interaction.Behaviors>
+                                        <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactChargeMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                                    </i:Interaction.Behaviors>
                                 </Button>
                             </Grid>
                         </DataTemplate>

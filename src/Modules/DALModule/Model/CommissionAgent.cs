@@ -478,8 +478,8 @@ namespace DataAccessLayer.Model
 
             if (!string.IsNullOrEmpty(comisio.TIPOCOMI))
             {
-                tmpQuery = string.Format(_queryTipoComi, comisio.TIPOCOMI);
-                _tipocomisions = await _dbConnection.QueryAsync<TIPOCOMI>(tmpQuery);
+                //tmpQuery = string.Format(_queryTipoComi, comisio.TIPOCOMI);
+                _tipocomisions = await _dbConnection.GetAsyncAll<TIPOCOMI>();
                 CommisionTypeDto = _mapper.Map<IEnumerable<TIPOCOMI>, IEnumerable<CommissionTypeDto>>(_tipocomisions);
 
             }

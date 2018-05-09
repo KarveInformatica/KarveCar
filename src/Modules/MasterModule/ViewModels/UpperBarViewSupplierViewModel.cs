@@ -99,7 +99,7 @@ namespace MasterModule.ViewModels
             //         DataObject = supplier;
             if (supplier != null)
             {
-
+                /*
                 ISupplierTypeData supplierValue = supplier.Type.FirstOrDefault();
                 if (supplierValue == null)
                 {
@@ -113,6 +113,7 @@ namespace MasterModule.ViewModels
                
                 var dto = _mapper.Map<IEnumerable<TIPOPROVE>, IEnumerable<SupplierTypeDto>>(supplierType);
                 SourceView = dto;
+                */
             }
         }
         /// <summary>

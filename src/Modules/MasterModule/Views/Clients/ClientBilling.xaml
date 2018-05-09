@@ -42,7 +42,7 @@
 
             <KarveControls:DualFieldSearchBox
                                              x:Name="FormaDePago"
-                                             LabelText ="Forma de Pago"
+                                             LabelText ="{Binding lformadepago,Source={StaticResource ResourceLanguage}}"
                                              LabelVisible="True"
                                              LabelTextWidth="100"
                                              DataFieldFirst="FPAGO"

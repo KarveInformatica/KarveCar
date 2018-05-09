@@ -1486,7 +1486,7 @@
     <value>Referencia</value>
   </data>
   <data name="lproximarevisionkm" xml:space="preserve">
-    <value>Proxima Revision Km.</value>
+    <value>Prox. Revision Km.</value>
   </data>
   <data name="lvehiculoproprio" xml:space="preserve">
     <value>Vehiculo Proprio</value>
@@ -1537,7 +1537,7 @@
     <value>Delegacion</value>
   </data>
   <data name="lsituacion" xml:space="preserve">
-    <value>Situacion</value>
+    <value>Situación</value>
   </data>
   <data name="lcontracto" xml:space="preserve">
     <value>Contracto</value>
@@ -1570,7 +1570,7 @@
     <value>Forma Entrega</value>
   </data>
   <data name="lcondicionventa" xml:space="preserve">
-    <value>Condition Venta</value>
+    <value>Condiciones Venta.</value>
   </data>
   <data name="lpercentamortactual" xml:space="preserve">
     <value>% Amort.Anual</value>
@@ -2080,10 +2080,10 @@
     <value>Fecha de Matriculacion</value>
   </data>
   <data name="lfechabaja" xml:space="preserve">
-    <value>Fecha Alta</value>
+    <value>Fecha de alta</value>
   </data>
   <data name="lfechaalta" xml:space="preserve">
-    <value>Fecha Baja</value>
+    <value>Fecha de baja</value>
   </data>
   <data name="FechaFabricacion" xml:space="preserve">
     <value>Fecha Fabricacion</value>
@@ -2378,5 +2378,14 @@
   </data>
   <data name="ListaDeConductores" xml:space="preserve">
     <value>Listado conductores</value>
+  </data>
+  <data name="lowner" xml:space="preserve">
+    <value>Proprietario</value>
+  </data>
+  <data name="lcreditcardtype" xml:space="preserve">
+    <value>Tipo Tarjeta de Credito</value>
+  </data>
+  <data name="OpcionCliente" xml:space="preserve">
+    <value>Opcion Cliente</value>
   </data>
 </root>

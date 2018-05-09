@@ -23,8 +23,7 @@ namespace KarveCommon.Generic
         public const string GridSettingInsert = "INSERT INTO GRID_SERIALIZATION (GRID_ID, GRID_NAME, SERILIZED_DATA) VALUES('{0}','{1}','{2}');";
         public const string GridSettingsUpdate = "UPDATE GRID_SERIALIZATION SET GRID_ID='{0}', GRID_NAME='{1}',SERILIZED_DATA='{2}' WHERE GRID_ID='{0}';";
         public const string VehicleOwner =
-                "select NUM_PROPRIE,NOMBRE, DIRECCION, POBLACION,CP,PROVINCIA,NIF,TELEFONO,FAX,NACIOPER,NOTAS,PROVEEDOR,COORDGPS,WEB,EMAIL from PROPIE"
-            ;
+                "select NUM_PROPRIE,NOMBRE, DIRECCION, POBLACION,CP,PROVINCIA,NIF,TELEFONO,FAX,NACIOPER,NOTAS,PROVEEDOR,COORDGPS,WEB,EMAIL from PROPIE";
 
         public const string AccountSummaryQuery = "select codigo,descrip,cc from cu1";
 
@@ -122,7 +121,7 @@ namespace KarveCommon.Generic
                                                   "PAIS.PAIS as Country, " +
                                                   "TELEFONO as Telefono, " +
                                                   "EMAIL as Email," +
-                                                  "CONTABLE as AccountableAccount," +
+                                                   "CONTABLE as AccountableAccount," +
                                                   "OFICINA as Oficina, " +
                                                   "CLIENTES2.VENDEDOR as Vendidor, " +
                                                   "ALTA as Falta, " +

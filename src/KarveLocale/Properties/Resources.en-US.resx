@@ -2341,4 +2341,13 @@
   <data name="lnameproprietario" xml:space="preserve">
     <value>Owner Name</value>
   </data>
+  <data name="lowner" xml:space="preserve">
+    <value>Owner</value>
+  </data>
+  <data name="lcreditcardtype" xml:space="preserve">
+    <value>Credit Card Type</value>
+  </data>
+  <data name="OpcionCliente" xml:space="preserve">
+    <value>Client Options</value>
+  </data>
 </root>

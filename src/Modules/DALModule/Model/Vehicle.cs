@@ -563,9 +563,10 @@ namespace DataAccessLayer.Model
             Contract.Requires(!string.IsNullOrEmpty(fields["VEHICULO1"]));
             Contract.Requires(!string.IsNullOrEmpty(fields["VEHICULO2"]));
             Contract.Requires(_vehicleMapper != null);
-
-            string fieldsValue = fields["VEHICULO1"] + "," + fields["VEHICULO2"];
-            string vehicleQuery = string.Format(VehicleQueryFormat, fieldsValue, codeVehicle);
+            QueryStoreFactory storeFactory= new QueryStoreFactory();
+            IQueryStore store = storeFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryVehicle, codeVehicle);
+            string vehicleQuery = store.BuildQuery();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
                 try

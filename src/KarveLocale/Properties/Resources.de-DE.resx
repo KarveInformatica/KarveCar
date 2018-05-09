@@ -2690,6 +2690,15 @@
     <value>Liste der Fahrzeuge</value>
   </data>
   <data name="lnameproprietario" xml:space="preserve">
-    <value>DNamen des Eigentümer</value>
+    <value>Namen des Eigentümer</value>
+  </data>
+  <data name="lowner" xml:space="preserve">
+    <value>Eigentümer</value>
+  </data>
+  <data name="lcreditcardtype" xml:space="preserve">
+    <value>Kartentypen</value>
+  </data>
+  <data name="OpcionCliente" xml:space="preserve">
+    <value>Clientoptionen</value>
   </data>
 </root>

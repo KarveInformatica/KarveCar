@@ -19,9 +19,10 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-               
-                    <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-               </ResourceDictionary.MergedDictionaries>
+                
+                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+
+                </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
@@ -38,11 +39,12 @@
 
 
 
-                <syncfusion:TabItemExt x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <syncfusion:TabItemExt x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" 
+                                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <i:Grid>
                         <i:Grid.ColumnDefinitions>
-                            <i:ColumnDefinition Width="50*"/>
-                            <i:ColumnDefinition Width="50*"/>
+                            <i:ColumnDefinition />
+                            <i:ColumnDefinition />
                         </i:Grid.ColumnDefinitions>
                         <i:Grid.RowDefinitions>
                             <i:RowDefinition/>
@@ -53,36 +55,43 @@
                             <i:GroupBox Header="{Binding DatoGenerales, Source={StaticResource ResourceLanguage}}">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
-                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition Height="25*"></RowDefinition>
+                                        <RowDefinition Height="25*"></RowDefinition>
+                                        <RowDefinition Height="25*"></RowDefinition>
+                                        <RowDefinition Height="25*"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <!--
-                                    <kc:DataArea Grid.Row="0"  DataAreaTitle="{Binding ldanos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
-                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                 DataSourcePath="DANOS" Width="Auto" Margin="10,4,55.25,26" Height="Auto"/>
-                                    <kc:DataArea Grid.Row="1" DataAreaTitle="{Binding lextras, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
-                                                   ItemChangedCommand="{Binding ItemChangedCommand}"
-                                                 
-                                                 DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="LEXTRAS" Width="Auto" Margin="10,4,64.125,23" Height="Auto"/>
+                                    
+                                    <kc:DataArea Grid.Row="0"  DataAreaTitle="{Binding ldanos, Source={StaticResource ResourceLanguage}}" 
+                                                 kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 kc:ControlExt.DataSourcePath="DANOS"
+                                                 kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 DataAreaWidth="400"
+                                                
+                                                 Width="Auto"/>
+
+                                    <kc:DataArea Grid.Row="1" DataAreaTitle="{Binding lextras, Source={StaticResource ResourceLanguage}}" DataAreaWidth="400" 
+                                                 kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 kc:ControlExt.DataSourcePath="LEXTRAS"
+                                                 kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Width="Auto" 
+                                              
+                                                 Margin="10,4,64.125,23" Height="Auto"/>
                                     <kc:DataArea  Grid.Row="2" DataAreaTitle="{Binding lacessorios, Source={StaticResource ResourceLanguage}}" 
-                                                     DataAreaWidth="200" 
+                                                     DataAreaWidth="400" 
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                  
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
                                                  DataSourcePath="ACCESORIOS_VH" Margin="10,4,95.5,27" Width="Auto" Height="Auto"/>
-                                    <kc:DataArea Grid.Row="3" DataAreaTitle="{Binding lavisos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="200" 
+                                    <kc:DataArea Grid.Row="3" DataAreaTitle="{Binding lavisos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="400" 
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand}"                                                 
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
+                                                 
                                                  DataSourcePath="AVISO" Margin="10,3,72,26" Width="Auto" Height="Auto"/>
-                                -->
+                               
                                     </Grid>
 
                             </i:GroupBox>
-                            <i:GroupBox Header="{Binding lgestionvehiculo, Source={StaticResource ResourceLanguage}}">
+                            <i:GroupBox Header="{Binding lgestionvehiculo, Source={StaticResource ResourceLanguage}}" Height="245">
                                 <i:Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition></RowDefinition>
@@ -130,7 +139,7 @@
                                                            >
 
                                     </kc:DualFieldSearchBox>
-                                    <kc:DualFieldSearchBox Grid.Row="3" LabelText="{Binding lproprietario, Source={StaticResource ResourceLanguage}}"
+                                    <kc:DualFieldSearchBox Grid.Row="3" LabelText="{Binding lowner, Source={StaticResource ResourceLanguage}}"
                                                            LabelTextWidth="105"
                                                            DataSource="{i:Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                            SourceView="{i:Binding Path=OwnerDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -218,7 +227,7 @@
                                               DataSourcePath="km" 
                                                       ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                               TextContentWidth="150"
-                                                  Height="25"/>
+                                                  Height="30"/>
 
                                     <kc:DataDatePicker LabelText="Data"
                                                            
@@ -238,12 +247,13 @@
                                               LabelTextWidth="100"
                                               DataObject="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="kmresta" 
+                                                  Height="30"
                                               TextContentWidth="150"
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                  
-                                                  Height="25"/>
+                                                  />
                                     <kc:DataDatePicker LabelText="Data"
-                                                       DataDatePickerHeight="25"  
+                                                       DataDatePickerHeight="30"  
                                                        kc:ControlExt.ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                        kc:ControlExt.DataSourcePath="FCAMBIO_KM"
                                                        kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -256,7 +266,7 @@
                                               DataSourcePath="kmMax" 
                                               Margin="0,5,0,0"
                                               TextContentWidth="50"
-                                                  Height="25"/>
+                                                  Height="30"/>
 
                                     <kc:DataField LabelText="{Binding lplazas, Source={StaticResource ResourceLanguage}}" 
                                               LabelTextWidth="80"
@@ -265,7 +275,7 @@
                                               DataObject="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="NumPlazas" 
                                               TextContentWidth="50"
-                                                  Height="25"/>
+                                                  Height="30"/>
                                     <kc:DataField LabelText="{Binding lpuertas, Source={StaticResource ResourceLanguage}}" 
                                               LabelTextWidth="100"
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand}"
@@ -273,7 +283,7 @@
                                               DataObject="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="NUMPUERTAS" 
                                               TextContentWidth="50"
-                                                  Height="25"/>
+                                                  Height="30"/>
 
 
                                 </i:StackPanel>
@@ -328,7 +338,7 @@
                                     <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <kc:DataDatePicker  Grid.Row="0"  LabelText="{Binding lprimerdiaenflota, Source={StaticResource ResourceLanguage}}"
-                                                   LabelTextWidth="105"
+                                                   LabelTextWidth="124"
                                                    DataDatePickerHeight="30"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.ItemChangedCommand="{i:Binding ItemChangedCommand}"
@@ -343,13 +353,8 @@
                                     </interactivity:Interaction.Triggers>
                                 </kc:DataDatePicker>
                                 <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Content="{Binding lultimodiaenflota, Source={StaticResource ResourceLanguage}}"></Label>
-                                    <kc:DataDatePicker Grid.Column="1"  
-                                                       LabelVisible="False"
+                                    <kc:DataDatePicker LabelText="{Binding lultimodiaenflota, Source={StaticResource ResourceLanguage}}"
+                                                       LabelTextWidth="124"
                                                        DataDatePickerHeight="30"
                                                        kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        kc:ControlExt.DataSourcePath="Value.FEBAJA" Width="Auto">
@@ -367,11 +372,10 @@
                                 <Grid Grid.Row="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Content="{Binding ldevolucionprevista, Source={StaticResource ResourceLanguage}}"></Label>
-                                    <kc:DataDatePicker Grid.Column="1"  
-                                                       LabelVisible="False"
+                                    <kc:DataDatePicker Grid.Column="0"  
+                                                       LabelTextWidth="99"
+                                                       LabelText="{Binding ldevolucionprevista, Source={StaticResource ResourceLanguage}}"
                                                        DataDatePickerHeight="30"
                                                        kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        kc:ControlExt.DataSourcePath="Value.FDEVO" Width="Auto">
@@ -388,7 +392,7 @@
                                 </Grid>
                             
                                 <kc:DataDatePicker Grid.Row="3" LabelText="{Binding FechaFabricacion, Source={StaticResource ResourceLanguage}}"
-                                                   LabelTextWidth="105"
+                                                   LabelTextWidth="99"
                                                    DataDatePickerHeight="30"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="Value.FFABRI" Width="Auto">
@@ -401,9 +405,10 @@
                                     </interactivity:Interaction.Triggers>
 
                                 </kc:DataDatePicker>
-                                <kc:DataDatePicker Grid.Row="4" LabelText="{Binding FechaMatriculacion, Source={StaticResource ResourceLanguage}}"
-                                                   DataDatePickerHeight="25"
-                                                   LabelTextWidth="105"
+                                <kc:DataDatePicker Grid.Row="4" 
+                                                   LabelText="{Binding FechaMatriculacion, Source={StaticResource ResourceLanguage}}"
+                                                   DataDatePickerHeight="30"
+                                                   LabelTextWidth="126"
                                                    kc:ControlExt.DataSource="{i:Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="Value.FMATRI"  Width="Auto">
                                     <interactivity:Interaction.Triggers>
@@ -422,16 +427,22 @@
                 </syncfusion:TabItemExt>
 
                 <syncfusion:TabItemExt x:Name="Reselling"  Header="{Binding CompraVenta,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
-                    <i:StackPanel Orientation="Vertical">
-                        <vehicleViews:VehicleBuying Width="900" HorizontalAlignment="Left"/>
-                        <vehicleViews:VehicleSell Width="900" HorizontalAlignment="Left"/>
-                        <vehicleViews:VehicleLeasing Height="300" Width="900" HorizontalAlignment="Left"/>
-                        <vehicleViews:RoadTaxes Width="941" HorizontalAlignment="Left" Height="228"></vehicleViews:RoadTaxes>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <vehicleViews:VehicleBuying Grid.Row="0"  HorizontalAlignment="Left"/>
+                        <vehicleViews:VehicleSell  Grid.Row="1" HorizontalAlignment="Left"/>
+                        <vehicleViews:VehicleLeasing Grid.Row="2" HorizontalAlignment="Left"/>
+                        <vehicleViews:RoadTaxes  Grid.Row="3" HorizontalAlignment="Left"></vehicleViews:RoadTaxes>
                         <!--          <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
                                ResetCommand="{i:Binding ResetCommand}"
                                DeleteCommand="{i:Binding DeleteCommand}"/>
                         -->
-                    </i:StackPanel>
+                    </Grid>
 
                 </syncfusion:TabItemExt>
                 <syncfusion:TabItemExt x:Name="Assurance"  Header="{Binding lseguro, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
@@ -536,6 +547,7 @@
                                 <kc:DataField HorizontalAlignment="Left"
                                                    LabelText="{Binding lrbtnEmpresa,Source={StaticResource ResourceLanguage}}"
                                                    LabelTextWidth="120"
+                                                    Height="30"
                                                    TextContentWidth="130"
                                                     Margin="0,5,0,0"
                                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -545,6 +557,7 @@
                                                    LabelText="{Binding lempresaproprietario,Source={StaticResource ResourceLanguage}}"
                                                    LabelTextWidth="120"
                                               Margin="0,5,0,0"
+                                              Height="30"
                                                    TextContentWidth="130"
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -557,6 +570,7 @@
                                                    DataFieldFirst="OFICINA"
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand}"                                                 
                                                    LabelTextWidth="120"
+                                                       Height="30"
                                                    TextContentFirstWidth="50"
                                                    TextContentSecondWidth="120"
                                                    AssistDataFieldFirst="CODIGO"
@@ -576,6 +590,7 @@
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                    Margin="0,5,0,0"
                                                    LabelTextWidth="120"
+                                                       Height="30"
                                                    TextContentFirstWidth="50"
                                                    TextContentSecondWidth="120"
                                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
@@ -593,6 +608,7 @@
                                                    DataFieldFirst="CLI_DELEGA_FAC_V1"
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                    Margin="0,5,0,0"
+                                                       Height="30"
                                                    LabelTextWidth="120"
                                                    TextContentFirstWidth="50"
                                                    TextContentSecondWidth="120"
@@ -692,11 +708,11 @@
                                         Margin="5,10,0,0"
                                         Grid.Column="0" Grid.Row="0"></TextBlock>
                                     <kc:DataDatePicker LabelText="Desde" Grid.Column="1" Grid.Row="0"
-                                                   DataDatePickerHeight="25"
+                                                   DataDatePickerHeight="30"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="CONTRAMAN_DESDE"></kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding lhasta,Source={StaticResource ResourceLanguage}}"
-                                                     DataDatePickerHeight="25"
+                                                     DataDatePickerHeight="30"
                                                        Grid.Row="0"
                                                        Grid.Column="2"
                                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -709,7 +725,7 @@
                                     <kc:DataDatePicker LabelText="{Binding ldesde, Source={StaticResource ResourceLanguage}}"
                                                        Grid.Column="1" Grid.Row="1"
                                                    Margin="5,0,0,0"
-                                                       DataDatePickerHeight="25"
+                                                       DataDatePickerHeight="30"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="FITV"></kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding ldesde, Source={StaticResource ResourceLanguage}}"
@@ -736,11 +752,11 @@
                                         Margin="5,10,0,5"
                                         Grid.Column="0" Grid.Row="0"></TextBlock>
                                     <kc:DataDatePicker LabelText="{Binding lrapmnInicio, Source={StaticResource ResourceLanguage}}" Grid.Column="1" Grid.Row="0"
-                                                   DataDatePickerHeight="25"
+                                                   DataDatePickerHeight="30"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="CONTRAMAN_DESDE"></kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding Fin, Source={StaticResource ResourceLanguage}}"
-                                                     DataDatePickerHeight="25"
+                                                     DataDatePickerHeight="30"
                                                        Grid.Row="0"
                                                        Grid.Column="2"
                                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -753,13 +769,13 @@
                                     <kc:DataDatePicker LabelText="{Binding lrapmnInicio,Source={StaticResource ResourceLanguage}}"
                                                        Grid.Column="1" Grid.Row="1"
                                                    Margin="5,0,0,0"
-                                                       DataDatePickerHeight="25"
+                                                       DataDatePickerHeight="30"
                                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                    kc:ControlExt.DataSourcePath="FITV"></kc:DataDatePicker>
                                     <kc:DataDatePicker LabelText="{Binding Fin, Source={StaticResource ResourceLanguage}}"
                                                        Grid.Column="2" Grid.Row="1"
                                                        Margin="5,0,0,0"
-                                                       DataDatePickerHeight="25"
+                                                       DataDatePickerHeight="30"
                                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        kc:ControlExt.DataSourcePath="FITV2"></kc:DataDatePicker>
 

@@ -187,6 +187,7 @@ namespace KarveControls
                     };
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>
                     {
+                        ["Field"] = value,
                         ["DataObject"] = DataObject,
                         ["ChangedValue"] = (DateTime) _datePicker.Value,
                         ["PreviousValue"] = previousDate

@@ -111,7 +111,7 @@
                 <syncfusion:GridTextColumn HeaderText="{Binding lcard, 
                     Source={StaticResource ResourceLanguage}}" MappingName="Card" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="{Binding lreplecementcard, 
+                <syncfusion:GridTextColumn HeaderText="{Binding lreplacementcard, 
                     Source={StaticResource ResourceLanguage}}" MappingName="ReplacementCar" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lcp, 
@@ -131,7 +131,7 @@
                 <syncfusion:GridTextColumn HeaderText="{Binding lformadecobro, 
                     Source={StaticResource ResourceLanguage}}" MappingName="PaymentForm" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="{Binding lcreditcard, 
+                <syncfusion:GridTextColumn HeaderText="{Binding lcuentacontable, 
                     Source={StaticResource ResourceLanguage}}" MappingName="AccountableAccount" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lsector, 
@@ -147,17 +147,17 @@
                 <syncfusion:GridTextColumn HeaderText="{Binding loficina, 
                     Source={StaticResource ResourceLanguage}}" MappingName="Office" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="{Binding StringConstants_FechaDeAlta, 
+                <syncfusion:GridDateTimeColumn HeaderText="{Binding StringConstants_FechaDeAlta, 
                     Source={StaticResource ResourceLanguage}}" MappingName="Falta" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="{Binding BirthDate, 
+                <syncfusion:GridDateTimeColumn HeaderText="{Binding BirthDate, 
                     Source={StaticResource ResourceLanguage}}" MappingName="BirthDate" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
 
                 <syncfusion:GridTextColumn HeaderText="{Binding lpermiso, 
                     Source={StaticResource ResourceLanguage}}" MappingName="DrivingLicense" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                
+                <!--
                 <syncfusion:GridTextColumn HeaderText="{Binding luser, 
                     Source={StaticResource ResourceLanguage}}" MappingName="User" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
@@ -165,7 +165,7 @@
                 <syncfusion:GridTextColumn HeaderText="{Binding lmodification, 
                     Source={StaticResource ResourceLanguage}}" MappingName="LastModification" 
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                
+                -->
             </syncfusion:SfDataGrid.Columns>
 
         </syncfusion:SfDataGrid>

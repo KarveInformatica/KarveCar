@@ -309,11 +309,12 @@ namespace KarveControls
         }
         private void OnDataAreaPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-
-            string path = e.NewValue as string;
-            if (!string.IsNullOrEmpty(path))
+            if (e.NewValue is string path)
             {
-                CheckAndAssignText(DataSource, path);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    CheckAndAssignText(DataSource, path);
+                }
             }
         }
         #endregion
@@ -510,9 +511,15 @@ namespace KarveControls
         private IDictionary<string, object> CreateDictionary(object source, string newValue, string oldValue)
         {
             IDictionary<string, object> valueDictionary= new Dictionary<string, object>();
+            var dataSourcePath = ControlExt.GetDataSourcePath(this);
+            if (!string.IsNullOrEmpty(DataSourcePath))
+            {
+                dataSourcePath = DataSourcePath;
+            }
+            valueDictionary["Field"] = dataSourcePath;
             valueDictionary["DataObject"] = source;
             valueDictionary["ChangedValue"] = newValue;
-            valueDictionary["OldChangedValue"] = oldValue;
+            valueDictionary["PreviousValue"] = oldValue;
             return valueDictionary;
         }
         private void EditorTextOnLostFocus(object sender, RoutedEventArgs e)
@@ -547,12 +554,8 @@ namespace KarveControls
                         filler.FillDataObject(_editorText.Text, DataSourcePath, ref dataObject);
                         DataSource = dataObject;
 
-                        IDictionary<string, object> valueDictionary = new Dictionary<string, object>();
-
-                        valueDictionary["Field"] = DataSourcePath;
-                        valueDictionary["DataObject"] = DataSource;
-                        valueDictionary["ChangedValue"] = _editorText.Text;
-                        valueDictionary["OldChangedValue"] = _previousDataArea;
+                        IDictionary<string, object> valueDictionary = CreateDictionary(DataSource, _editorText.Text, _previousDataArea);
+                 
                         ev.ChangedValuesObjects = valueDictionary;
 
                         if (ItemChangedCommand != null)

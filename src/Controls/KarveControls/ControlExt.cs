@@ -774,9 +774,21 @@ namespace KarveControls
                 return;
             }
             var propValue = ComponentUtils.GetPropValue(sourceNew, path);
-           
+
+            if (propValue == null)
+            {
+                var otherPath = "Value." + path;
+                propValue = ComponentUtils.GetPropValue(sourceNew, otherPath);
+            }
+
+            if (path == "FECHACO")
+            {
+                var fechacode = 1;
+            }
+
             if (propValue != null)
             {
+                
                 DateTime timeValue = DateTime.Now;
                 if (propValue is string)
                 {
@@ -822,12 +834,11 @@ namespace KarveControls
                 }
             }
 
-            if(d is DataArea)
+            if(d is DataArea dataArea)
             {
-                DataArea dataArea = (DataArea)d;
                 CheckAndAssignText(dataArea, sourceNew, path);
                 dataArea.DataSource = e.NewValue;
-               // dataArea.DataSourcePath = path;
+                dataArea.DataSourcePath = path;
             }
             if (d is TextBox)
             {
@@ -840,10 +851,7 @@ namespace KarveControls
             }
             if (d is DataDatePicker dataPicker)
             {
-                if (dataPicker != null)
-                {
-                    CheckAndAssignDate(dataPicker, sourceNew, path);
-                }
+                CheckAndAssignDate(dataPicker, sourceNew, path);
             }
 
         }

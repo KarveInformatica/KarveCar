@@ -23,12 +23,14 @@
     <UserControl.Resources>
 
         <ResourceDictionary>
-              
+
             <ResourceDictionary.MergedDictionaries>
+                
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
             <converter:ByteToBooleanConverter x:Key="ByteToBoolean"></converter:ByteToBooleanConverter>
-            
+
             <DataTemplate x:Key="CommissionAgentUpper">
                 <Grid>
 
@@ -108,14 +110,14 @@
             <ContentControl Grid.Row="0"  Margin="0,10,0,0"  Content="{Binding}" ContentTemplate="{StaticResource CommissionAgentUpper}">
 
             </ContentControl>
-            
+
             <syncfusion:TabControlExt  Grid.Row="1" Name="MainTabControl"  TabScrollStyle="Extended" TabStripPlacement="Left" BorderThickness="0" 
                                        syncfusion:SkinStorage.VisualStyle="Metro"
                                        CloseButtonType="IndividualOnMouseOver">
 
                 <syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <ScrollViewer>
-                        
+
                         <Grid ShowGridLines="False">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"></RowDefinition>
@@ -208,7 +210,7 @@
                                             LabelVisible="False"
                                             LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                             Margin="0,5,0,0"
-                                            LabelTextWidth="100"
+                                            LabelTextWidth="86"
                                             ItemChangedCommand="{Binding ItemChangedCommand}"
                                             MagnifierCommand="{Binding AssistCommand}"
                                             IsReadOnlySecond="True"
@@ -229,8 +231,8 @@
                                     </StackPanel>
                                     <karveControls:DualFieldSearchBox x:Name="Province" 
                                                                   LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}" 
-                                                                  LabelTextWidth="100" 
-                                                                  TextContentFirstWidth="50"
+                                                                  LabelTextWidth="86" 
+                                                                  TextContentFirstWidth="100"
                                                                   TextContentSecondWidth="200"
                                                                   DataFieldFirst="PROVINCIA" 
                                                                   AssistDataFieldFirst="SIGLAS"
@@ -245,13 +247,13 @@
 
                                     </karveControls:DualFieldSearchBox>
                                     <karveControls:DualFieldSearchBox LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
-                                                                LabelTextWidth="100" 
+                                                                LabelTextWidth="86" 
                                                                 DataFieldFirst="NACIOPER" 
                                                                 AssistDataFieldFirst="SIGLAS"
                                                                 AssistDataFieldSecond="PAIS" 
                                                                 AssistTableName="PAIS"
                                                                 AssistProperties="Code,CountryName"
-                                                                TextContentFirstWidth="50"
+                                                                TextContentFirstWidth="100"
                                                                 TextContentSecondWidth="200"
                                                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                                                 MagnifierCommand="{Binding AssistCommand}"
@@ -308,7 +310,7 @@
                                                               LabelText="{Binding StringConstants_FechaDeAlta, Source={StaticResource ResourceLanguage}}"
                                                               karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               karveControls:ControlExt.DataSourcePath="ALTA_COMI" Margin="10,8,4,8" Width="Auto">
-                                        
+
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="DataDatePickerChanged">
                                                     <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand}" TriggerParameterPath="ChangedValuesObjects"/>
@@ -571,6 +573,7 @@
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         LabelTextWidth="200"
                                         TextContentWidth="50"
+                                                DataSourcePath="PORCENLO"
                                                     TextContent="{Binding DataObject.Value.PORCENLO,
                                                                      Mode=TwoWay,
                                                                      ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
@@ -724,7 +727,7 @@
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </karveControls:DualFieldSearchBox>
-                                    
+
                                     </WrapPanel>
                                 </GroupBox>
 
@@ -746,15 +749,20 @@
                                             <x:Type TypeName="syncfusion:FilterMode" />
                                         </ObjectDataProvider.MethodParameters>
                                     </ObjectDataProvider>
-                                  
+
                                     <Style x:Key="DelegationCodeStyle" TargetType="syncfusion:GridFilterControl">
                                         <Setter Property="FilterMode" Value="Both" />
                                     </Style>
                                 </ResourceDictionary>
                             </Grid.Resources>
-                            <StackPanel Orientation="Vertical">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="69*"/>
+                                <RowDefinition Height="13*"/>
+                                <RowDefinition Height="851*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Vertical" Grid.RowSpan="3">
                                 <ContentControl VerticalAlignment="Top" Content="{Binding}" ContentTemplate="{StaticResource BranchGrid}"></ContentControl>
-<!--
+                                <!--
                                 <syncfusion:SfDataGrid  x:Name="DelegationSummary"
                                                     ColumnSizer="AutoWithLastColumnFill"
                                                     AllowDraggingColumns="True"
@@ -958,27 +966,27 @@
                 </syncfusion:TabItemExt>
 
                 <syncfusion:TabItemExt  x:Name="ContactTab" Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
-                   
-                        <Grid>
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <ObjectDataProvider x:Key="FilterMode"
+
+                    <Grid>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ObjectDataProvider x:Key="FilterMode"
                                                     MethodName="GetValues"
                                                     ObjectType="{x:Type system:Enum}">
-                                        <ObjectDataProvider.MethodParameters>
-                                            <x:Type TypeName="syncfusion:FilterMode" />
-                                        </ObjectDataProvider.MethodParameters>
-                                    </ObjectDataProvider>
+                                    <ObjectDataProvider.MethodParameters>
+                                        <x:Type TypeName="syncfusion:FilterMode" />
+                                    </ObjectDataProvider.MethodParameters>
+                                </ObjectDataProvider>
 
-                                    <Style x:Key="ContactCodeStyle" TargetType="{x:Type syncfusion:GridFilterControl}">
-                                        <Setter Property="FilterMode" Value="Both" />
-                                    </Style>
-                                </ResourceDictionary>
-                            </Grid.Resources>
+                                <Style x:Key="ContactCodeStyle" TargetType="{x:Type syncfusion:GridFilterControl}">
+                                    <Setter Property="FilterMode" Value="Both" />
+                                </Style>
+                            </ResourceDictionary>
+                        </Grid.Resources>
 
                         <ContentControl VerticalAlignment="Top" Content="{Binding}" ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
-                        
-                            <!--
+
+                        <!--
                                 <syncfusion:SfDataGrid  x:Name="ContactsSummary"
                                                     ColumnSizer="Star"
                                                     AllowDraggingColumns="True"
@@ -1179,9 +1187,9 @@
                                    
                                 </syncfusion:SfDataGrid>
                            -->
-                        </Grid>
+                    </Grid>
 
-                 
+
                 </syncfusion:TabItemExt>
 
                 <syncfusion:TabItemExt x:Name="VisitTab" 
@@ -1203,7 +1211,7 @@
                             </ResourceDictionary>
                         </Grid.Resources>
                         <ContentControl VerticalAlignment="Top" Content="{Binding}" ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
-<!--
+                        <!--
                         <syncfusion:SfDataGrid  x:Name="VisitsSummary"                           
                                                     ColumnSizer="AutoLastColumnFill"
                                                     AllowDraggingColumns="True"
@@ -1491,7 +1499,7 @@
                             </syncfusion:SfDataGrid.Columns>
                         </syncfusion:SfDataGrid>
   -->
-                        </Grid>
+                    </Grid>
                 </syncfusion:TabItemExt>
             </syncfusion:TabControlExt>
         </Grid>

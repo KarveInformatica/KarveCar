@@ -100,7 +100,7 @@ namespace DataAccessLayer.Model
         // select * from ProContactos
         private const string LanguageSelect = "SELECT CODIGO,NOMBRE FROM IDIOMAS";
         private const string OfficeSelect =
-            " select CODIGO, NOMBRE, SUBLICEN, DIRECCION, POBLACION from oficinas WHERE CODIGO='{0}' AND SUBLICEN='{1}'";
+            " select CODIGO, NOMBRE, SUBLICEN, DIRECCION, POBLACION from oficinas WHERE CODIGO='{0}'";
         private const string PaisSelectAll = "SELECT SIGLAS, PAIS FROM PAIS";
         private const string DeleteDelegaciones = "DELETE FROM ProDelega where cldIdCliente='{0}'";
         private const string DeleteContactos = "DELETE FROM ProContactos where ccoIdCliente='{0}'";
@@ -125,7 +125,7 @@ namespace DataAccessLayer.Model
         private ISqlExecutor _sqlExecutor;
         private SupplierPoco _supplierValue;
         private IMapper _supplierMapper;
-        private IEnumerable<ISupplierTypeData> _type = new ObservableCollection<ISupplierTypeData>();
+        private IEnumerable<SupplierTypeDto> _type = new ObservableCollection<SupplierTypeDto>();
         private IEnumerable<AccountDto> _accounts = new ObservableCollection<AccountDto>();
         private IEnumerable<ProvinciaDto> _provinciaDto = new ObservableCollection<ProvinciaDto>();
         private IEnumerable<BanksDto> _banksDtos = new ObservableCollection<BanksDto>();
@@ -143,6 +143,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<OfficeDtos> _officeDtos = new ObservableCollection<OfficeDtos>();
         private IEnumerable<CityDto> _cityDtos = new ObservableCollection<CityDto>();
         private IEnumerable<DeliveringFormDto> _deliveringFormDto;
+        private IEnumerable<SupplierTypeDto> _supplierTypeDto = new ObservableCollection<SupplierTypeDto>();
        
         public Supplier(): this(null, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
@@ -450,10 +451,8 @@ namespace DataAccessLayer.Model
                     // now we look for aux tables.
                     if (_supplierValue.TIPO.HasValue)
                     {
-                        short value = _supplierValue.TIPO.Value;
-                        Type =
-                            await BuildAndExecute<SupplierTypeDataObject, short>(connection, TipoProveSelect,
-                                value);
+                        var supplierType = await connection.GetAsyncAll<TIPOPROVE>();
+                        Type = _supplierMapper.Map<IEnumerable<TIPOPROVE>,IEnumerable<SupplierTypeDto>>(supplierType);
                     }
                     IEnumerable<CU1> accounts = await connection.QueryAsync<CU1>(AccountSelect);
                     AccountDtos = _supplierMapper.Map<IEnumerable<CU1>, IEnumerable<AccountDto>>(accounts);
@@ -519,7 +518,7 @@ namespace DataAccessLayer.Model
                     var mappedCityDtos = cityMapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(cities);
                     CityDtos = new ObservableCollection<CityDto>(mappedCityDtos);
                     // office mapping
-                    string query = string.Format(OfficeSelect, _supplierValue.OFICINA, _supplierValue.SUBLICEN);
+                    string query = string.Format(OfficeSelect, _supplierValue.OFICINA);
                     var office = await connection.QueryAsync<OFICINAS>(query);
                     var mappedOffices = _supplierMapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(office);
                     OfficeDtos = new ObservableCollection<OfficeDtos>(mappedOffices); 
@@ -602,7 +601,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Supplier Type
         /// </summary>
-        public IEnumerable<ISupplierTypeData> Type
+        public IEnumerable<SupplierTypeDto> Type
         {
             get
             {

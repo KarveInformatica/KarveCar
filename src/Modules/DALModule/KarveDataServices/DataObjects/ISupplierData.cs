@@ -46,7 +46,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Return the type
         /// </summary>
-        IEnumerable<ISupplierTypeData> Type { set; get; }
+        IEnumerable<SupplierTypeDto> Type { set; get; }
 
         /// <summary>
         //  Brand data trasnfer object.

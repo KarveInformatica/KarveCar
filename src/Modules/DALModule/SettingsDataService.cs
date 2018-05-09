@@ -66,7 +66,7 @@ namespace DataAccessLayer
 
 
                     var dto = await dbConnection.GetAsync<GRID_SERIALIZATION>(idValue);
-                    if (dto == null)
+                    if (dto != null)
                     {
                         settingsDto = mapper.Map<GRID_SERIALIZATION, GridSettingsDto>(dto);
                     }

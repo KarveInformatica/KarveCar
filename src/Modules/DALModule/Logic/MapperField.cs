@@ -807,6 +807,8 @@ namespace DataAccessLayer.Logic
             return visitsDto;
         }
     }
+
+
     /// <summary>
     ///  ContactosComiConverter
     /// </summary>
@@ -1414,7 +1416,11 @@ namespace DataAccessLayer.Logic
                         Responsability = src.ccoCargo,
                         ContactsKeyId = src.ccoIdCliente
                     };
-
+                    if (src.ccoIdCargo.HasValue)
+                    {
+                        contactDto.ResponsabilitySource.Code = src.ccoIdCargo.Value.ToString();
+                    }
+                    contactDto.ResponsabilitySource.Name = src.ccoCargo;
                     return contactDto;
                 });
 
@@ -1463,7 +1469,10 @@ namespace DataAccessLayer.Logic
                     model.GridName = src.GRID_NAME;
                     if (src.SERILIZED_DATA != null)
                     {
-                        model.XmlBase64 = src.SERILIZED_DATA;
+                        var base64EncodedBytes = System.Convert.FromBase64String(src.SERILIZED_DATA);
+                        model.XmlBase64 = System.Text.Encoding.UTF8.GetString(base64EncodedBytes); 
+
+
                     }
                     return model;
                 });
@@ -1474,7 +1483,9 @@ namespace DataAccessLayer.Logic
                     {
                         model.GRID_ID = src.GridIdentifier;
                         model.GRID_NAME = src.GridName;
-                        model.SERILIZED_DATA = src.XmlBase64;
+                        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(src.XmlBase64);
+                        model.SERILIZED_DATA = System.Convert.ToBase64String(plainTextBytes);
+                        
                     }
                     return model;
                 });

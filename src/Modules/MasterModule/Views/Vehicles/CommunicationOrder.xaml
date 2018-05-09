@@ -33,7 +33,7 @@
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"   
                 MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
-                LabelTextWidth="86"
+                LabelTextWidth="110"
                 Height="30"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
@@ -43,12 +43,12 @@
         <StackPanel Orientation="Horizontal" Grid.Row="1">
             <karveControls:DataField x:Name="EmailField" 
                                               LabelText="{Binding lemail, Source={StaticResource ResourceLanguage}}"
-                                              LabelTextWidth="100"
+                                              LabelTextWidth="124"
                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                               DataSourcePath="km" 
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                               TextContentWidth="200"
-                                              Height="30"/>
+                                              Height="35"/>
 
             <Button x:Name="ButtonName"  Command="{Binding EmailCommand}" 
                         CommandParameter="{Binding TextContent, ElementName=EmailField}" Width="26" Height="30">
@@ -65,7 +65,7 @@
                 AssistProperties="Codigo, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="86"
+                LabelTextWidth="110"
                 Height="30"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
@@ -83,7 +83,7 @@
                 AssistProperties="Codigo, Nombre"
                 IsReadOnlySecond="True"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"                                                 
-                LabelTextWidth="86"
+                LabelTextWidth="110"
                 Height="30"
                 TextContentFirstWidth="50"
                 TextContentSecondWidth="150"
@@ -97,8 +97,8 @@
                 DataAreaTitle="{Binding llugaresdeentrega, Source={StaticResource ResourceLanguage}}"
                 LabelTextWidth="120"
                 LabelVisible="True"
-                Height="Auto"
-                DataAreaWidth="120"
+                Height="180"
+                DataAreaWidth="320"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}" Margin="0,4,255,-8" Width="Auto"
                >
         </karveControls:DataArea>
