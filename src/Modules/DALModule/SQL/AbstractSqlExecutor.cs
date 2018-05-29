@@ -5,6 +5,13 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveDataServices;
+using Dapper;
+using KarveDapper.Extensions;
+using KarveDapper;
+using AutoMapper;
+using System;
+using System.Linq;
+using DataAccessLayer.Exception;
 
 namespace DataAccessLayer.SQL
 {
@@ -84,14 +91,42 @@ namespace DataAccessLayer.SQL
             return (!string.IsNullOrEmpty(value));
         }
 
-        /// <summary>
-        /// This method show the exact line number for the exception
-        /// </summary>
-        /// <param name="message">Error message</param>
-        /// <param name="lineNumber">Position where it happens in the code</param>
-        /// <param name="caller">Stack caller</param>
-        /// <returns></returns>
-        protected string ShowMessage(string message,
+
+        public async Task<Tuple<Dto,IEnumerable<RelatedDto>>> ExecuteRelatedQuery<T, T1, Dto, RelatedDto>(string sql, IMapper mapper)
+        {
+            var currentItem = Activator.CreateInstance<T>();
+            IEnumerable<T1> relatedItems = new List<T1>();
+            using (var connection = OpenNewDbConnection())
+            {
+                if (connection == null)
+                {
+                    throw new DataAccessLayerException("Cannot open a valid connection");
+                }
+                var multi = await connection.QueryMultipleAsync(sql);
+                currentItem = multi.Read<T>().FirstOrDefault();
+                if (currentItem!=null)
+                {
+                   relatedItems = multi.Read<T1>().ToList();
+                }
+
+            }
+            IEnumerable<RelatedDto> items = new List<RelatedDto>();
+            var returnTuple = new Tuple<Dto, IEnumerable<RelatedDto>>(Activator.CreateInstance<Dto>(),items);
+            if (currentItem!=null)
+            {
+                returnTuple = new Tuple<Dto, IEnumerable<RelatedDto>>(mapper.Map<T, Dto>(currentItem), mapper.Map<IEnumerable<T1>, IEnumerable<RelatedDto>>(relatedItems));
+            }
+            return returnTuple;
+        }
+
+/// <summary>
+/// This method show the exact line number for the exception
+/// </summary>
+/// <param name="message">Error message</param>
+/// <param name="lineNumber">Position where it happens in the code</param>
+/// <param name="caller">Stack caller</param>
+/// <returns></returns>
+protected string ShowMessage(string message,
             [CallerLineNumber] int lineNumber = 0,
             [CallerMemberName] string caller = null)
         {

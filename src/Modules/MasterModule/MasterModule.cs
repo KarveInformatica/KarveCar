@@ -4,6 +4,7 @@ using MasterModule.Views.Clients;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
+using Prism.Unity;
 
 namespace MasterModule
 {

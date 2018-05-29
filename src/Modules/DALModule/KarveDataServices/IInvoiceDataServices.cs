@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices
 {
-    public interface IInvoiceDataServices
+    public interface IInvoiceDataServices: IPageCounter, IIdentifier
     {
         /// <summary>
         ///  Returns the list of invoices.
@@ -23,11 +23,7 @@ namespace KarveDataServices
         /// <returns>The invoice data.</returns>
         Task<IInvoiceData> GetInvoiceDoAsync(string code);
 
-        /// <summary>
-        ///  This generate an unique identifier in the invoice.
-        /// </summary>
-        /// <returns>The unique identifier.</returns>
-        string NewId();
+       
         /// <summary>
         /// Save or update an invoice
         /// </summary>
@@ -46,5 +42,11 @@ namespace KarveDataServices
         /// <param name="invoice">Invoice data</param>
         /// <returns></returns>
         Task<bool> DeleteAsync(IInvoiceData invoice);
+        /// <summary>
+        ///  Invoice page summary data object
+        /// </summary>
+        /// <typeparam name="T">Invoice data object</typeparam>
+        /// <returns>A list of invoice</returns>
+        Task<IEnumerable<InvoiceSummaryValueDto>> GetPagedSummaryDoAsync(long index, int pageSize);
     }
 }

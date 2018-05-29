@@ -36,7 +36,9 @@ namespace KarveCar.Boot
 
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// This is a temporary bootstrapping service string connection string.
-        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45;";
+        // private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929""; ///Host=172.26.0.45;";
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45:5225";
+
         /// <summary>
         ///  This create a new Prism Shell
         /// </summary>
@@ -75,12 +77,14 @@ namespace KarveCar.Boot
         /// </summary>
         protected override void ConfigureModuleCatalog()
         {
-            ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
+            var catalog = (ModuleCatalog)ModuleCatalog;
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(HelperModule.HelperModule));
             catalog.AddModule(typeof(MasterModule.MasterModule));
             catalog.AddModule(typeof(InvoiceModule.InvoiceModule));
-           
+            catalog.AddModule(typeof(BookingModule.BookingModule));
+
+
 
         }
         protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
@@ -188,6 +192,8 @@ namespace KarveCar.Boot
                 Application.Current.MainWindow.Show();
                 // we preload some heavy modules.
                 // this is a trick to speed up further creations and load prism.
+                Container.Resolve<ProviderInfoView>();
+                Container.Resolve<CommissionAgentInfoView>();
                 Container.Resolve<ClientsInfoView>();
                 Container.Resolve<VehicleInfoView>();
                 Container.Resolve<DriverLicenseView>();

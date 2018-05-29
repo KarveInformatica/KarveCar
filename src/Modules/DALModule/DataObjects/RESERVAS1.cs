@@ -1,18 +1,20 @@
 using System;
+using KarveDapper.Extensions;
  
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a RESERVAS1.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class RESERVAS1 
+    /// <summary>
+    /// Represents a RESERVAS1.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("RESERVAS1")]
+    public class RESERVAS1 
 	{
 	
 	/// <summary>
     ///  Set or get the NUMERO_RES property.
     /// </summary>
-    
+        [Key]
 		public string NUMERO_RES { get; set; }
  
 	/// <summary>
@@ -73,13 +75,13 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the HPREV_RES1 property.
     /// </summary>
     
-		public TimeSpan? HPREV_RES1 { get; set; }
+		public string HPREV_RES1 { get; set; }
  
 	/// <summary>
     ///  Set or get the HSALIDA_RES1 property.
     /// </summary>
     
-		public TimeSpan? HSALIDA_RES1 { get; set; }
+		public string HSALIDA_RES1 { get; set; }
  
 	/// <summary>
     ///  Set or get the LUDEVO_RES1 property.
@@ -145,7 +147,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the HORA_RES1 property.
     /// </summary>
     
-		public TimeSpan? HORA_RES1 { get; set; }
+		public string HORA_RES1 { get; set; }
  
 	/// <summary>
     ///  Set or get the NOMBRE_RES1 property.
@@ -873,17 +875,6 @@ namespace DataAccessLayer.DataObjects
     
 		public string ID_AFILIADO { get; set; }
  
-	/// <summary>
-    ///  Set or get the ENVIADO_ONREQ property.
-    /// </summary>
-    
-		public byte? ENVIADO_ONREQ { get; set; }
- 
-	/// <summary>
-    ///  Set or get the ENVIADO_CONFIRM property.
-    /// </summary>
-    
-		public byte? ENVIADO_CONFIRM { get; set; }
  
 	/// <summary>
     ///  Set or get the ULTMODIENVIO property.

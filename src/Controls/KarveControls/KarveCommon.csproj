@@ -91,11 +91,14 @@
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\IAsyncInitialization.cs" />
     <Compile Include="Generic\ILinqToTree.cs" />
+    <Compile Include="Generic\IQueryFilter.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
     <Compile Include="Generic\LinqToTreeEnumerableExtensions.cs" />
     <Compile Include="Generic\LinqToTreeExtensions.cs" />
     <Compile Include="Generic\LinqToVisualTree.cs" />
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
+    <Compile Include="Generic\QueryCompositeFilter.cs" />
+    <Compile Include="Generic\QueryFilter.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
     <Compile Include="Services\EventDispatcher.cs" />

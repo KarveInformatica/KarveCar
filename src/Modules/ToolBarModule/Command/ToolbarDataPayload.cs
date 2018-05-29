@@ -30,7 +30,9 @@ namespace ToolBarModule.Command
             { DataSubSystem.OfficeSubsystem, EventSubsystem.OfficeSummaryVm},
             { DataSubSystem.HelperSubsytsem, EventSubsystem.HelperSubsystem},
             { DataSubSystem.SupplierSubsystem, EventSubsystem.SuppliersSummaryVm},
-            { DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm }
+            { DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm },
+            { DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm },
+            { DataSubSystem.BookingSubsystem, EventSubsystem.BookingSubsystemVm }
           };
 
         /// <summary>
@@ -75,16 +77,16 @@ namespace ToolBarModule.Command
         protected void OnExecutedPayload(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             // check of errors.
-            INotifyTaskCompletion<IEnumerable<DataPayLoad>> value = sender as INotifyTaskCompletion<IEnumerable<DataPayLoad>>;
-            if ((value != null) && (ToolbarInitializationNotifier != null))
+            INotifyTaskCompletion<DataPayLoad> value = sender as INotifyTaskCompletion<DataPayLoad>;
+            if ((value != null))
             {
                 string propertyName = propertyChangedEventArgs.PropertyName;
                 if (propertyName.Equals("Status"))
                 {
-                    if (ToolbarInitializationNotifier.IsFaulted)
+                    if (value.IsFaulted)
                     {
-                        SendError(ToolbarInitializationNotifier.ErrorMessage);
-                        throw new DataLayerException("Exception in the data layer", ToolbarInitializationNotifier.Exception);
+                        SendError(value.ErrorMessage);
+                        throw new DataLayerException("Exception in the data layer", value.Exception);
                     }
                 }
             }

@@ -35,20 +35,23 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+            <RowDefinition Height="95*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+
+</Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
             <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}"></TextBlock>
         </StackPanel>
         <Syncfusion:SfDataGrid x:Name="SupplierSummary"
                                Grid.Row="1"
-                               ColumnSizer="Auto"
+                               ColumnSizer="AutoLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
                                AllowResizingColumns="True"
                                AllowSorting="True"
+                               FilterRowPosition="FixedTop"
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
@@ -59,6 +62,7 @@
                                Foreground="#FF808080"
                                RowSelectionBrush="#FF8CC63F"
                                HeaderRowHeight="32"
+                              
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
@@ -124,7 +128,19 @@
             </Syncfusion:SfDataGrid.Columns>
 
         </Syncfusion:SfDataGrid>
-      
+        <!--
+        <Syncfusion:SfDataPager x:Name="DataPager"
+                                PageSize="{Binding DefaultPagingSize}"                                      
+                                Grid.Row="2"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10" 
+                                Source="{Binding SummaryView}">
+
+
+        </Syncfusion:SfDataPager>
+        -->
     </Grid>
 
 </UserControl>

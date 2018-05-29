@@ -151,7 +151,8 @@
                             <StackPanel Width="700"
                                         HorizontalAlignment="Left"
                                         Orientation="Horizontal">
-                                <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Margin="10,0,0,0">
+                                <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                         Margin="10,0,0,0">
                                     <Grid>
                                         <Grid Name="backgroundGrid"
                                               Width="256"
@@ -222,7 +223,8 @@
         </AdornerDecorator>
         <ControlTemplate.Triggers>
             <Trigger Property="WindowState" Value="Maximized">
-                <Setter TargetName="PART_MaximizeRestoreButton" Property="Template" Value="{StaticResource RestoreIcon}" />
+                <Setter TargetName="PART_MaximizeRestoreButton" Property="Template"
+                        Value="{StaticResource RestoreIcon}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -230,7 +232,7 @@
     <!--  Converters  -->
     <syncfusion:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
     <syncfusion:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
-    <local:GridCellColorConverter x:Key="gridCellColorConverter" />
+
     <!--  Basic Background colors  -->
     <LinearGradientBrush x:Key="BaseBackgroundColor" StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Offset="0" Color="#FFFAFAFA" />
@@ -261,11 +263,13 @@
                         <Grid Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="0" MinWidth="{Binding Path=SortDirection, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource sortDirectionToWidthConverter}}" />
+                                <ColumnDefinition Width="0"
+                                                  MinWidth="{Binding Path=SortDirection, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource sortDirectionToWidthConverter}}" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="Center" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                              VerticalAlignment="Center" />
 
                             <Grid Grid.Column="1">
                                 <Grid.ColumnDefinitions>
@@ -472,11 +476,11 @@
     <!--  SfDataPager style  -->
     <Style TargetType="syncfusion:NumericButton">
         <Setter Property="Background" Value="{StaticResource BaseBackgroundColor}" />
-        <Setter Property="Height" Value="30" />        
+        <Setter Property="Height" Value="30" />
         <Setter Property="Foreground" Value="#333333" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Focusable" Value="True" />        
+        <Setter Property="Focusable" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="syncfusion:NumericButton">
@@ -494,7 +498,8 @@
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard BeginTime="0">
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="(Control.FontSize)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter"
+                                                                       Storyboard.TargetProperty="(Control.FontSize)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="30" />
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.02" Value="26" />
                                         </DoubleAnimationUsingKeyFrames>
@@ -502,7 +507,9 @@
                                 </VisualState>
                                 <VisualState x:Name="CurrentPage">
                                     <Storyboard BeginTime="0">
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_CurrentPageIndicator" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <ObjectAnimationUsingKeyFrames
+                                            Storyboard.TargetName="PART_CurrentPageIndicator"
+                                            Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0">
                                                 <DiscreteObjectKeyFrame.Value>
                                                     <Visibility>Visible</Visibility>
@@ -513,25 +520,26 @@
                                                         Storyboard.TargetName="PART_ContentPresenter"
                                                         Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)"
                                                         To="White" />
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Page" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Page"
+                                                                      Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                             <EasingColorKeyFrame KeyTime="0:0:0.5" Value="#FFFB5154" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Page" Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Page"
+                                                                      Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                             <EasingColorKeyFrame KeyTime="0:0:0.5" Value="#FFE94649" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border 
-                                BorderBrush="#BABABA"
-                                BorderThickness="0.5">
+                        <Border
+                            BorderBrush="#BABABA"
+                            BorderThickness="0.5">
                             <Grid Background="{StaticResource BaseBackgroundColor}">
                                 <Rectangle x:Name="PART_CurrentPageIndicator"
-                                          Width="34"
-                                           Height="30"                                             
-                                           />
-                                <Rectangle x:Name="PART_Page"  
+                                           Width="34"
+                                           Height="30" />
+                                <Rectangle x:Name="PART_Page"
                                            Width="34"
                                            Height="30"
                                            HorizontalAlignment="Center"
@@ -667,7 +675,8 @@
                                                 </DiscreteObjectKeyFrame.Value>
                                             </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalRoot" Storyboard.TargetProperty="IsHitTestVisible">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HorizontalRoot"
+                                                                       Storyboard.TargetProperty="IsHitTestVisible">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="True" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
@@ -788,17 +797,21 @@
                             <VisualStateGroup x:Name="ButtonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_FirstPageButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_FirstPageButton"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_PreviousPageButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_PreviousPageButton"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_NextPageButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_NextPageButton"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
 
                                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_LastPageButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_LastPageButton"
+                                                                       Storyboard.TargetProperty="(UIElement.Opacity)">
 
                                             <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
@@ -806,11 +819,13 @@
                                 </VisualState>
                                 <VisualState x:Name="LeftButtonsDisabled">
                                     <Storyboard>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_FirstPageButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_FirstPageButton"
+                                                                        Storyboard.TargetProperty="(UIElement.IsEnabled)">
                                             <DiscreteBooleanKeyFrame KeyTime="0" Value="True" />
                                             <DiscreteBooleanKeyFrame KeyTime="0:0:0.1" Value="False" />
                                         </BooleanAnimationUsingKeyFrames>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_PreviousPageButton" Storyboard.TargetProperty="(UIElement.IsEnabled)">
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_PreviousPageButton"
+                                                                        Storyboard.TargetProperty="(UIElement.IsEnabled)">
                                             <DiscreteBooleanKeyFrame KeyTime="0" Value="True" />
                                             <DiscreteBooleanKeyFrame KeyTime="0:0:0.1" Value="False" />
                                         </BooleanAnimationUsingKeyFrames>
@@ -819,10 +834,12 @@
 
                                 <VisualState x:Name="RightButtonsDisabled">
                                     <Storyboard>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_NextPageButton" Storyboard.TargetProperty="(Control.IsEnabled)">
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_NextPageButton"
+                                                                        Storyboard.TargetProperty="(Control.IsEnabled)">
                                             <DiscreteBooleanKeyFrame KeyTime="0" Value="False" />
                                         </BooleanAnimationUsingKeyFrames>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_LastPageButton" Storyboard.TargetProperty="(Control.IsEnabled)">
+                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetName="PART_LastPageButton"
+                                                                        Storyboard.TargetProperty="(Control.IsEnabled)">
                                             <DiscreteBooleanKeyFrame KeyTime="0" Value="False" />
                                         </BooleanAnimationUsingKeyFrames>
 
@@ -830,7 +847,8 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="Center">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -970,7 +988,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PreviousButtonBorder" Property="Background" Value="{StaticResource GridHeaderCellBackground}" />
+                            <Setter TargetName="PreviousButtonBorder" Property="Background"
+                                    Value="{StaticResource GridHeaderCellBackground}" />
                             <Setter TargetName="PreviousPath" Property="Fill" Value="White" />
                             <Setter TargetName="PreviousText" Property="Foreground" Value="White" />
                         </Trigger>
@@ -1031,7 +1050,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="NextButtonBorder" Property="Background" Value="{StaticResource GridHeaderCellBackground}" />
+                            <Setter TargetName="NextButtonBorder" Property="Background"
+                                    Value="{StaticResource GridHeaderCellBackground}" />
                             <Setter TargetName="NextPath" Property="Fill" Value="White" />
                             <Setter TargetName="NextText" Property="Foreground" Value="White" />
                         </Trigger>
@@ -1090,16 +1110,20 @@
                             <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="border1" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="border1"
+                                                                      Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                                             <EasingColorKeyFrame KeyTime="0" Value="#FFE94649" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="border1" Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="border1"
+                                                                      Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
                                             <EasingColorKeyFrame KeyTime="0" Value="#FFFB5154" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="path" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="path"
+                                                                       Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="textBlock" Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="textBlock"
+                                                                      Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0" Value="White" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>

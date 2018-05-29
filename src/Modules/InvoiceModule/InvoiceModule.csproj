@@ -117,7 +117,6 @@
     <Compile Include="Behaviour\KarveGridCopyPaste.cs" />
     <Compile Include="Behaviour\LineGridBehaviour.cs" />
     <Compile Include="Common\InvoiceHelpers.cs" />
-    <Compile Include="GridCellConverter.cs" />
     <Compile Include="ViewModels\GenericGridViewModel.cs" />
     <Compile Include="ViewModels\GridLoadException.cs" />
     <Compile Include="ViewModels\HeaderDataViewModel.cs" />

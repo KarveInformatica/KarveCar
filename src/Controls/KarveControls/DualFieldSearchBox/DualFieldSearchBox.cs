@@ -34,7 +34,7 @@ namespace KarveControls
     [TemplatePart(Name = "PART_SearchTextSecond", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_MagnifierGrid", Type = typeof(SfDataGrid))]
     [TemplatePart(Name = "PART_PopUp", Type = typeof(Popup))]
-   [TemplatePart(Name = "PART_PopUpButtonImage", Type = typeof(Image))]
+    [TemplatePart(Name = "PART_PopUpButtonImage", Type = typeof(Image))]
      
       
     public partial class DualFieldSearchBox : TextBox
@@ -699,6 +699,8 @@ namespace KarveControls
                         TextContentSecond = secondValue.ToString();
                         SelectedObject = assistValue;
                         found = true;
+                        if (found)
+                            break;
                     }
                 }
             }
@@ -1176,12 +1178,7 @@ namespace KarveControls
                 return;
             }
      
-#if zoppifix
-            if (e.NewValue is IEnumerable<ModelVehicleDto>)
-            {
-                var value = 92;
-            }
-#endif          
+    
             if (e.NewValue is IEnumerable enumerableValue)
             {
                 if (DataSource != null)

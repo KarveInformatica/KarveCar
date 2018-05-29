@@ -16,6 +16,8 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>Vehicle data service subsystem</returns>       
         IVehicleDataServices GetVehicleDataServices();
+        IBookingDataService GetBookingDataService();
+
         /// <summary>
         ///  Get the data service for managing all client data operations
         /// </summary>

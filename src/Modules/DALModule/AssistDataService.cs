@@ -2,7 +2,10 @@
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
+using Syncfusion.UI.Xaml.Grid;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System;
 
 namespace DataAccessLayer
 {
@@ -22,6 +25,7 @@ namespace DataAccessLayer
         {
             _helperDataServices = services.GetHelperDataServices();
             _dataServices = services;
+            DefaultPage = 500;
             ConfigureAssist();
         }
         /// <summary>
@@ -34,102 +38,121 @@ namespace DataAccessLayer
                 return _assistMapper;
             }
         }
-       /// <summary>
-       ///  This configure the standard mapper to answer query to answer questions.
-       /// </summary>
+
+        public int DefaultPage { get; private set; }
+
+
+
+
+        /// <summary>
+        ///  This configure the standard mapper to answer query to answer questions.
+        /// </summary>
         private void ConfigureAssist()
         {
             // here the parameter query is never used.
             _assistMapper.Configure("BANCO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<BanksDto, BANCO>();
+                var page = await _helperDataServices.GetPagedSummaryDoAsync<BanksDto, BANCO>(1, DefaultPage);
+                var count = await _helperDataServices.GetItemsCount<BANCO>();
+                var helper = new IncrementalList<BanksDto>(LoadMoreBanks) { MaxItemCount = count };
+                helper.LoadItems(page);
                 return helper;
             });
             _assistMapper.Configure("BROKER_ASSIST", async (query) =>
             {
 
-                var helper = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                var page = await _dataServices.GetCommissionAgentDataServices().GetPagedSummaryDoAsync(1, DefaultPage);
+                var count = await _helperDataServices.GetItemsCount<COMISIO>();
+                var helper = new IncrementalList<CommissionAgentSummaryDto>(LoadMoreBrokers) { MaxItemCount = count };
+                helper.LoadItems(page);
+
                 return helper;
             });
 
             _assistMapper.Configure("BUSINESS_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<BusinessDto, NEGOCIO>();
+                var page = await _helperDataServices.GetPagedSummaryDoAsync<BusinessDto, NEGOCIO>(1, DefaultPage);
+                var count = await _helperDataServices.GetItemsCount<NEGOCIO>();
+                var helper = new IncrementalList<BusinessDto>(LoadMoreBusiness) { MaxItemCount = count };
+                helper.LoadItems(page);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_TYPE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_TYPE_UPPER", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1,DefaultPage);
                 return helper;
             });
 
             _assistMapper.Configure("CITY_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1,DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("COMPANY_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CompanyDto, SUBLICEN>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("COUNTRY_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CU1", async (query) =>
             {
+
                 IEnumerable<AccountDto> helper = new List<AccountDto>();
                 var qvalue = query as string;
                 if (qvalue != null)
                 {
                     helper = await _helperDataServices.GetMappedAsyncHelper<AccountDto, CU1>(qvalue);
                 }
+
+                
                 return helper;
             });
             _assistMapper.Configure("CURRENCY_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CurrenciesDto, CURRENCIES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CurrenciesDto, CURRENCIES>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("DIVISAS", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CurrenciesDto, DIVISAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CurrenciesDto, DIVISAS>(1,DefaultPage);
                 return helper;
             });
             
             _assistMapper.Configure("FORMA_PEDENT", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<DeliveringFormDto, FORMAS_PEDENT>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<DeliveringFormDto, FORMAS_PEDENT>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("FORMAS", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<PaymentFormDto, FORMAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("LANGUAGE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<LanguageDto, IDIOMAS>(1, DefaultPage);
                 return helper;
             });
 
             _assistMapper.Configure("PROVINCE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPage);
                 return helper;
             });
           
            
             _assistMapper.Configure("PROVINCIA", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPage);
                 return helper;
             });
            
@@ -137,209 +160,225 @@ namespace DataAccessLayer
            
             _assistMapper.Configure("PROV_PAGO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("PROV_RECL", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPage);
                 return helper;
             });
+           
             _assistMapper.Configure("MESES", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<MonthsDto, MESES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<MonthsDto, MESES>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("MESES2", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<MonthsDto, MESES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<MonthsDto, MESES>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("TL_CONDICION_PRECIO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<PriceConditionDto, TL_CONDICION_PRECIO>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<PriceConditionDto, TL_CONDICION_PRECIO>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("PROV_DEVO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("PAIS_PAGO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPage);
                 return helper;
             });
 
             _assistMapper.Configure("PAIS_DEVO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("PAIS_RECL", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("PAIS", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("POBLACIONES_PAGO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("POBLACIONES_DEVO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("POBLACIONES_RECL", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("POBLACIONES", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1, DefaultPage);
                 return helper;
             });
            
             _assistMapper.Configure("IDIOMAS", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<LanguageDto, IDIOMAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("OFFICE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<OfficeDtos, OFICINAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("OFFICE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<OfficeDtos, OFICINAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("OFICINAS", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<OfficeDtos, OFICINAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("ORIGIN_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<OrigenDto, ORIGEN>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<OrigenDto, ORIGEN>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("MARKET_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<MercadoDto, MERCADO>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<MercadoDto, MERCADO>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("RESELLER_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ResellerDto, VENDEDOR>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("SUBLICEN", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CompanyDto, SUBLICEN>(1, DefaultPage);
                 return helper;
             });
 
             _assistMapper.Configure("ACTIVITY_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ActividadDto, ACTIVI>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ActividadDto, ACTIVI>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("RENT_USAGE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<RentingUseDto, USO_ALQUILER>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<RentingUseDto, USO_ALQUILER>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("OFFICE_ZONE_ASSIST", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ZonaOfiDto, ZONAOFI>(1, DefaultPage);
                 return helper;
             });
 
             _assistMapper.Configure("CLIENT_PAYMENT_FORM", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<PaymentFormDto, FORMAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_ZONE", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ClientZoneDto, ZONAS>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ClientZoneDto, ZONAS>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_INVOICE_BLOCKS", async (query) =>
             {
 
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<InvoiceBlockDto, BLOQUEFAC>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<InvoiceBlockDto, BLOQUEFAC>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_BROKER", async (query) =>
             {
-                var helper = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                var helper = await _dataServices.GetCommissionAgentDataServices().GetPagedSummaryDoAsync(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_TYPE", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("BUDGET_KEY", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<BudgetKeyDto, CLAVEPTO>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<BudgetKeyDto, CLAVEPTO>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CHANNEL_TYPE", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<ChannelDto, CANAL>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<ChannelDto, CANAL>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_BUDGET", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<BudgetKeyDto, CLAVEPTO>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<BudgetKeyDto, CLAVEPTO>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CREDIT_CARD", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<CreditCardDto, TARCREDI>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<CreditCardDto, TARCREDI>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_DRIVER", async (query) =>
             {
-                var helper = await _dataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
+                var helper = await _dataServices.GetClientDataServices().GetSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
                 return helper;
             });
             _assistMapper.Configure("INVOICE_ASSIST", async (query) =>
             {
-                var helper = await _dataServices.GetInvoiceDataServices().GetInvoiceSummaryAsync();
+                var helper = await _dataServices.GetInvoiceDataServices().GetPagedSummaryDoAsync(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("CLIENT_ASSIST", async (query) =>
             {
-                var helper = await _dataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
+                var helper = await _dataServices.GetClientDataServices().GetSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
                 return helper;
             });
             _assistMapper.Configure("BROKER_ASSIST", async (query) =>
             {
-                var helper = await _dataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                var helper = await _dataServices.GetCommissionAgentDataServices().GetSummaryDoAsync();
                 return helper;
             });
             _assistMapper.Configure("TIPOPROVE", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<SupplierTypeDto, TIPOPROVE>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<SupplierTypeDto, TIPOPROVE>(1, DefaultPage);
                 return helper;
             });
             _assistMapper.Configure("VIASPEDIPRO", async (query) =>
             {
-                var helper = await _helperDataServices.GetMappedAllAsyncHelper<DeliveringWayDto, VIASPEDIPRO>();
+                var helper = await _helperDataServices.GetPagedSummaryDoAsync<DeliveringWayDto, VIASPEDIPRO>(1, DefaultPage);
                 return helper;
             });
+        }
+
+        private void LoadMoreBrokers(uint arg1, int arg2)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadMoreBusiness(uint arg1, int arg2)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadMoreBanks(uint arg1, int arg2)
+        {
+            throw new NotImplementedException();
         }
     }
 }

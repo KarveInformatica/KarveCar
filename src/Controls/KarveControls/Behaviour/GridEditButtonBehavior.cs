@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 namespace KarveControls.Behaviour
 {
+    /// <inheritdoc />
     /// <summary>
     /// GridEditButtonBehavior is a behaviour that allows to trigger a window.
     /// </summary>
@@ -16,27 +17,23 @@ namespace KarveControls.Behaviour
         /// </summary>
         /// 
         public static readonly DependencyProperty commandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(GridEditButtonBehavior),
-            new UIPropertyMetadata(null));
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.Inherits));
 
         /// <summary>
         /// Set or Get the command property.
         /// </summary>
         public ICommand Command
         {
-            get
-            {
-                return (ICommand)GetValue(commandProperty);
-            }
-            set
-            {
-                SetValue(commandProperty, value);
-            }
+            get => (ICommand)GetValue(commandProperty);
+            set => SetValue(commandProperty, value);
         }
         /// <summary>
         ///  This is a param.
         /// </summary>
         public static readonly DependencyProperty paramProperty = DependencyProperty.Register("Param", typeof(object), typeof(GridEditButtonBehavior),
-           new UIPropertyMetadata(null));
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.Inherits));
         /// <summary>
         /// Set or Get the Parameters property.
         /// </summary>
@@ -53,10 +50,8 @@ namespace KarveControls.Behaviour
         }
 
         public static readonly DependencyProperty sourceViewProperty = DependencyProperty.Register("SourceView", typeof(object), typeof(GridEditButtonBehavior),
-          new UIPropertyMetadata(null));
-
-
-        public static readonly DependencyProperty openGridProperty = DependencyProperty.Register("OpenGrid", typeof(bool), typeof(GridEditButtonBehavior));
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.Inherits));
 
        
         /// <summary>
@@ -83,6 +78,12 @@ namespace KarveControls.Behaviour
             this.AssociatedObject.MouseDoubleClick += AssociatedObject_Click;   
         }
 
+        protected virtual void ExecuteCommand(Button currentButton,ICommand command, object param)
+        {
+            var v = Param ?? currentButton.DataContext;
+            command.Execute(v);
+        }
+
         private void AssociatedObject_Click(object sender, RoutedEventArgs e)
         {
             Button currentButton = sender as Button;
@@ -98,7 +99,8 @@ namespace KarveControls.Behaviour
                 return;
             }
             var v = Param ?? currentButton.DataContext;
-            command.Execute(v);
+            ExecuteCommand(currentButton, command, v);
+
         }
 
         /// <summary>

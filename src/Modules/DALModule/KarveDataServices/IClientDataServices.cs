@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -12,23 +9,23 @@ namespace KarveDataServices
     /// <summary>
     ///  This is the interface for managing all the clients.
     /// </summary>
-    public interface IClientDataServices
+    public interface IClientDataServices: IPageCounter, ISorterData<ClientSummaryExtended>
     {
         /// <summary>
         ///  This give us the summary query.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<ClientSummaryExtended>> GetAsyncAllClientSummary();
+        Task<IEnumerable<ClientSummaryExtended>> GetSummaryAllAsync();
         /// <summary>
         /// This return a client with a new code.
         /// </summary>
         /// <param name="code">Code to return.</param>
         /// <returns></returns>
-        IClientData GetNewClientAgentDo(string code);
+        IClientData GetNewDo(string code);
         /// <summary>
         ///  This is a delete client.
         /// </summary>
-        Task<bool> DeleteClientAsyncDo(IClientData commissionAgent);
+        Task<bool> DeleteDoAsync(IClientData commissionAgent);
         /// <summary>
         ///  This save the client data.
         /// </summary>
@@ -40,7 +37,7 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="clientIndentifier">Identifier a client</param>
         /// <returns>Client data to receive</returns>
-        Task<IClientData> GetAsyncClientDo(string clientIndentifier);
+        Task<IClientData> GetDoAsync(string clientIndentifier);
         /// <summary>
         ///  This generate an unique id following the entity.
         /// </summary>
@@ -51,8 +48,15 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="clientsSummaryQuery">String of a client data to load.</param>
         /// <returns>A list of enumerable clients.</returns>
-        Task<IEnumerable<ClientSummaryDto>> GetClientSummaryDo(string clientsSummaryQuery);
-
+        Task<IEnumerable<ClientSummaryDto>> GetSummaryDo(string clientsSummaryQuery);
+        /// <summary>
+        ///  Get the async client paged
+        /// </summary>
+        /// <param name="pageIndex">Get the async client paged</param>
+        /// <param name="pageSize">Page size of the client</param>
+        /// <returns>Return the client extended summary</returns>
+        Task<IEnumerable<ClientSummaryExtended>> GetPagedSummaryDoAsync(long pageIndex, int pageSize);
+       
     }
 
 }

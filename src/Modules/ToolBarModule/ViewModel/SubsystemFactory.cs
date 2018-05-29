@@ -20,7 +20,9 @@ namespace ToolBarModule.ViewModel
                 {DataSubSystem.OfficeSubsystem, EventSubsystem.OfficeSummaryVm},
                 {DataSubSystem.HelperSubsytsem, EventSubsystem.HelperSubsystem},
                 {DataSubSystem.SupplierSubsystem, EventSubsystem.SuppliersSummaryVm},
-                {DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm}
+                {DataSubSystem.VehicleSubsystem, EventSubsystem.VehichleSummaryVm},
+                { DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm },
+                { DataSubSystem.BookingSubsystem, EventSubsystem.BookingSubsystemVm }
             };
 
         }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using System.Collections.Generic;
 
 namespace KarveDataServices
 {
@@ -11,6 +12,7 @@ namespace KarveDataServices
     public class AbstractDomainWrapperFactory
     {
         private readonly IDataServices _services;
+        private IClientDataServices _clientDataServices;
         private static AbstractDomainWrapperFactory value = null;
         // singleton factory for the domain.
         
@@ -18,6 +20,7 @@ namespace KarveDataServices
         {
            BuildFactory(services);
             _services = services;
+            _clientDataServices = _services.GetClientDataServices();
         }
         private void BuildFactory(IDataServices services)
         {
@@ -54,7 +57,7 @@ namespace KarveDataServices
         /// <returns></returns>
         public virtual async Task<IClientData> CreateClientAsync(ClientDto dto)
         {
-            IClientData data = await _services.GetClientDataServices().GetAsyncClientDo(dto.NUMERO_CLI);
+            IClientData data = await _services.GetClientDataServices().GetDoAsync(dto.NUMERO_CLI);
             return data;
         }
         /// <summary>
@@ -67,6 +70,14 @@ namespace KarveDataServices
             ISupplierData data = await _services.GetSupplierDataServices().GetAsyncSupplierDo(dto.NUM_PROVEE);
           
             return data;
+        }
+        /// <summary>
+        ///  Create a client summary.
+        /// </summary>
+        /// <returns>A list of client summary extended.</returns>
+        public virtual async Task<IEnumerable<ClientSummaryExtended>> CreateClientSummary()
+        {
+            return await _clientDataServices.GetSummaryAllAsync();
         }
 
         /// <summary>

@@ -51,11 +51,11 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Primary  key on branches
         /// </summary>
-        protected event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         /// <summary>
         ///  Primary key on contacts.
         /// </summary>
-        protected event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+        private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
 
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace MasterModule.ViewModels
             ClientInfoRightRegionName = CreateNameRegion("RightRegion");
             DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
             StateVisible = true;
-            _clientData =_clientDataServices.GetNewClientAgentDo("0");
+            _clientData =_clientDataServices.GetNewDo("0");
             eventHandler += OnDriverUpdate;
             ViewModelUri = new Uri("karve://client/viewmodel?id=" + Guid.ToString());
 
@@ -101,7 +101,7 @@ namespace MasterModule.ViewModels
         /// <param name="e">Event coming</param>
         private void OnDriverUpdate(object sender, PropertyChangedEventArgs e)
         {
-            INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> value = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryDto>>;
+            var value = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryDto>>;
             if (value != null)
             {
                 if (value.IsSuccessfullyCompleted)
@@ -112,7 +112,7 @@ namespace MasterModule.ViewModels
         }
         private void UpdateListOfDrivers()
         {
-            _driversNotification = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery), eventHandler); 
+            _driversNotification = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(DataServices.GetClientDataServices().GetSummaryDo(GenericSql.ExtendedClientsSummaryQuery), eventHandler); 
         }
         /// <summary>
         ///  Set the registration payload for the toolbar
@@ -478,7 +478,7 @@ namespace MasterModule.ViewModels
         ///  Handle the payload from the event manager
         /// </summary>
         /// <param name="dataPayLoad"></param>
-        public void IncomingPayload(DataPayLoad dataPayLoad)
+        public override void IncomingPayload(DataPayLoad dataPayLoad)
         {
 
             DataPayLoad payload = dataPayLoad;
@@ -674,6 +674,11 @@ namespace MasterModule.ViewModels
         }
 
         internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void SetResult<T>(IEnumerable<T> result)
         {
             throw new NotImplementedException();
         }

@@ -269,10 +269,14 @@
     <Compile Include="Utility\TabControlAndTabItemUtil.cs" />
     <Compile Include="Utility\ValidateData.cs" />
     <Compile Include="ViewModels\CloseWindowViewModel.cs" />
+    <Compile Include="ViewModels\ConfigurationSettingsViewModel.cs" />
     <Compile Include="ViewModels\CultureSwitcher.cs" />
     <Compile Include="ViewModels\LeftTreeViewModel.cs" />
     <Compile Include="ViewModels\MaestroCommonViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\ConfigurationSettings.xaml.cs">
+      <DependentUpon>ConfigurationSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GrupoVehiculoDataGridUsercontrol.xaml.cs">
       <DependentUpon>GrupoVehiculoDataGridUsercontrol.xaml</DependentUpon>
     </Compile>
@@ -303,6 +307,10 @@
     <Compile Include="Views\TipoVehiculoDataGridUserControl.xaml.cs">
       <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ConfigurationSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GrupoVehiculoDataGridUsercontrol.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -543,6 +551,10 @@
     <ProjectReference Include="KarveLocale\KarveCar.Locale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveCar.Locale</Name>
+    </ProjectReference>
+    <ProjectReference Include="Modules\BookingModule\BookingModule.csproj">
+      <Project>{28298225-cd5c-40da-a6d4-f48506446a4b}</Project>
+      <Name>BookingModule</Name>
     </ProjectReference>
     <ProjectReference Include="Modules\CarModel\CarModel\CarModelModule.csproj">
       <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>

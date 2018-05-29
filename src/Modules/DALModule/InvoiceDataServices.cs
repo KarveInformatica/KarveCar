@@ -10,7 +10,11 @@ using DataAccessLayer.Model;
 using AutoMapper;
 using DataAccessLayer.SQL;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Transactions;
+using DataAccessLayer.Exception;
+using KarveCommonInterfaces;
 
 
 namespace DataAccessLayer
@@ -19,21 +23,20 @@ namespace DataAccessLayer
     ///  InvoiceDataServices has the reposability to manage the crud of an invoice.
     ///  Due to simplicity isses i dont want to split the loading/saving/deleting
     /// </summary>
-    internal class InvoiceDataServices : IInvoiceDataServices
+    internal class InvoiceDataServices : AbstractDataAccessLayer, IInvoiceDataServices
     {
-        private readonly ISqlExecutor _sqlExecutor;
+       
         private readonly IMapper _mapper;
        
-        private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
-        /// <summary>
+       
         ///  Constructor.
         /// </summary>
         /// <param name="sqlExecutor">Sql executor interface. This interface is the boundary between a dataservice and the ADO.NET </param>
-        public InvoiceDataServices(ISqlExecutor sqlExecutor)
+        public InvoiceDataServices(ISqlExecutor sqlExecutor): base(sqlExecutor)
         {
-            this._sqlExecutor = sqlExecutor;
             _mapper = MapperField.GetMapper();
-         
+            TableName = "FACTURAS";
+
         }
         /// <inheritdoc />
         /// <summary>
@@ -46,10 +49,10 @@ namespace DataAccessLayer
             var invoice = new Invoice(code, new InvoiceDto()) {Valid = false};
             //  check if the code is a valid integer.
            
-            using (var connection = _sqlExecutor.OpenNewDbConnection())
+            using (var connection = SqlExecutor.OpenNewDbConnection())
             {
 
-                var store = _queryStoreFactory.GetQueryStore();
+                var store = QueryStoreFactory.GetQueryStore();
                 store.AddParam(QueryType.QueryInvoiceSingle, code);
                 store.AddParam(QueryType.QueryInvoiceItem, code);
                 var sql = store.BuildQuery();
@@ -75,13 +78,13 @@ namespace DataAccessLayer
                     }
 
                     // move this to sql store.
-                    IEnumerable<ClientSummaryDto> clientDto = new List<ClientSummaryDto>();
+                    IEnumerable<ClientSummaryExtended> clientDto = new List<ClientSummaryExtended>();
                     if (!string.IsNullOrEmpty(invoices.CLIENTE_FAC))
                     {
                         var storeClient = new QueryStore();
                         storeClient.AddParam(QueryType.QueryClientSummaryExtById, invoices.CLIENTE_FAC);
                         var query = storeClient.BuildQuery();
-                        clientDto = await connection.QueryAsync<ClientSummaryDto>(query);
+                        clientDto = await connection.QueryAsync<ClientSummaryExtended>(query);
                     }
 
                     invoice = new Invoice(code, dto)
@@ -92,6 +95,9 @@ namespace DataAccessLayer
                         ClientSummary = clientDto,
                         Code = dto.NUMERO_FAC
                     };
+                    var pageCount = await connection.GetPageCount<CLIENTES1>(1000);
+                    invoice.NumberOfClients = pageCount.Item1;
+                     
                 }
                 catch (System.Exception ex)
                 {
@@ -106,9 +112,9 @@ namespace DataAccessLayer
         /// <returns>A collection of invoices.</returns>
         public async Task<IEnumerable<InvoiceSummaryValueDto>> GetInvoiceSummaryAsync()
         {
-            using (var db = _sqlExecutor.OpenNewDbConnection())
+            using (var db = SqlExecutor.OpenNewDbConnection())
             {
-                var store = _queryStoreFactory.GetQueryStore();
+                var store = QueryStoreFactory.GetQueryStore();
                 store.AddParam(QueryType.QueryInvoiceSummaryExtended);
                 var query = store.BuildQuery();
                 var invoice = await db.QueryAsync<InvoiceSummaryValueDto>(query);
@@ -125,9 +131,29 @@ namespace DataAccessLayer
         public IInvoiceData GetNewInvoiceDo(string code)
         {
             var dto = new InvoiceDto {NUMERO_FAC = code};
-            return new Invoice(code, dto);    
-        }
+            var invoice = new Invoice(code, dto);
+            invoice.ClientSummary = new List<ClientSummaryExtended>();
+            invoice.ContractSummary = new List<ContractDto>();
+            invoice.Code = code;
+            invoice.Coste = 0;
+            invoice.Cantidad = 0;
+            return invoice;
 
+        }
+        /// <summary>
+        ///  Invoice summary value data object
+        /// </summary>
+        /// <param name="pageIndex">Index of the page</param>
+        /// <param name="pageSize">Size of the page</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize)
+        {
+            var pager = new DataPager<InvoiceSummaryValueDto>(SqlExecutor);
+            var startIndex = (pageIndex == 0) ? 1 : pageSize;
+            NumberPage = await GetPageCount(pageSize);
+            var summary = await pager.GetPagedSummaryDoAsync(QueryType.QueryInvoiceSummaryPaged, startIndex, pageSize);
+            return summary;
+        }
         /// <inheritdoc />
         /// <summary>
         /// Delete an asynchronous value.
@@ -141,27 +167,38 @@ namespace DataAccessLayer
             {
                 return false;
             }
-            using (var db = _sqlExecutor.OpenNewDbConnection())
-            {
-                var facturas = _mapper.Map<InvoiceDto, FACTURAS>(invoice.Value);
+            
 
-                if (db == null)
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                try
                 {
-                    return false;
+                    using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                    {
+
+                        var facturas = _mapper.Map<InvoiceDto, FACTURAS>(invoice.Value);
+
+
+                        retValue = await dbConnection.DeleteAsync(facturas);
+                        if ((invoice.Value.InvoiceItems == null) || (!invoice.Value.InvoiceItems.Any()))
+                        {
+                            return retValue;
+                        }
+
+                        var lineas =
+                            _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(invoice.Value.InvoiceItems);
+                        var entityToDelete = lineas.ToArray();
+                        retValue = retValue && await dbConnection.DeleteCollectionAsync(entityToDelete);
+                        scope.Complete();
+                    }
                 }
-                retValue = await db.DeleteAsync(facturas);
-                if ((invoice.Value.InvoiceItems != null)
-                    && (invoice.Value.InvoiceItems.Any()))
+                catch (System.Exception ex)
                 {
-                    var lineas =
-                        _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(invoice.Value.InvoiceItems);
-                    var entityToDelete = lineas.ToArray();
-                    retValue = retValue && await db.DeleteCollectionAsync(entityToDelete); 
+                    throw new DataAccessLayerException(ex.Message, ex);
                 }
             }
             return retValue;
         }
-
         /// <inheritdoc />
         /// <summary>
         ///  Generate a new identifier.
@@ -170,21 +207,18 @@ namespace DataAccessLayer
         public string NewId()
         {
             var uniqueId = string.Empty;
-            using (var db = _sqlExecutor.OpenNewDbConnection())
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                if (db == null)
+                if (dbConnection == null)
                 {
                     return uniqueId;
                 }
                 var facturas = new FACTURAS();
-                uniqueId = db.UniqueId<FACTURAS>(facturas);
+                uniqueId = dbConnection.UniqueId<FACTURAS>(facturas);
             }
 
             return uniqueId;
         }
-
-
-
         /// <inheritdoc />
         /// <summary>
         ///  Save an inovice.
@@ -195,37 +229,49 @@ namespace DataAccessLayer
         {
             var item = currentInvoice.Value;
             var retValue = false;
-            using (var db = _sqlExecutor.OpenNewDbConnection())
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                if (db == null)
+                if (dbConnection == null)
                 {
-                    return false;
+                    throw  new DataLayerException("Cannot open the database during save");
                 }
                 // we are sure that the database is open here.
                 var invoice = _mapper.Map<InvoiceDto, FACTURAS>(item);
                 try
                 {
-                    if (db.IsPresent<FACTURAS>(invoice))
+                    using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        // update case.
-                        retValue = await db.UpdateAsync(invoice).ConfigureAwait(false);
-                        if (item.InvoiceItems.Any())
+                        if (dbConnection.IsPresent<FACTURAS>(invoice))
                         {
-                            retValue = retValue && await SaveLines(item.InvoiceItems);
+                            // update case.
+                            retValue = await dbConnection.UpdateAsync(invoice).ConfigureAwait(false);
+                            if ((item.InvoiceItems!=null) && (item.InvoiceItems.Any()))
+                            {
+                                retValue = retValue && await SaveLines(dbConnection,item.InvoiceItems);
+                            }
                         }
-                    }
-                    else
-                    {
-                        // insert case
-                        retValue = await db.InsertAsync(invoice).ConfigureAwait(false) > 0;
-                        if (item.InvoiceItems.Any())
+                        else
                         {
-                            retValue = retValue && await SaveLines(item.InvoiceItems);
+                            // insert case
+                            retValue = await dbConnection.InsertAsync(invoice).ConfigureAwait(false) > 0;
+                            if ((item.InvoiceItems!=null) && (item.InvoiceItems.Any()))
+                            {
+                                retValue = retValue && await SaveLines(dbConnection,item.InvoiceItems);
+                            }
+                        }
+                        if (retValue)
+                        {
+                            scope.Complete();
+                        }
+                        else
+                        {
+                            scope.Dispose();
                         }
                     }
                 }
                 catch (System.Exception e)
                 {
+                   
                     throw new DataLayerException("Saving invoices exception. Reason: " + e.Message, e);
                 }
             }
@@ -237,23 +283,39 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="lines">Lines of the invoice</param>
         /// <returns></returns>
-        private async Task<bool> SaveLines(IEnumerable<InvoiceSummaryDto> lines)
+        private async Task<bool> SaveLines(IDbConnection dbConnection, IEnumerable<InvoiceSummaryDto> lines)
         {
-            var retValue = false;
+            var retValue = true;
             if (lines == null)
             {
                 return false;
             }
             var invoiceSummaryValueDtos = lines as InvoiceSummaryDto[] ?? lines.ToArray();
+            var selectNew = invoiceSummaryValueDtos.Where(x => (x.IsNew == true));
             var selectDirty = invoiceSummaryValueDtos.Where(x => x.IsDirty == true);
-            var selectNew = invoiceSummaryValueDtos.Where(x => x.IsNew == true);
+            var selectDeleted = invoiceSummaryValueDtos.Where(x => x.IsDeleted == true);
+            var toBeUpdated = selectDirty.Except(selectNew);
+          
             var mappedToInsert = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(selectNew);
-            var mappedToUpdate = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(selectDirty);
-            using (var db = _sqlExecutor.OpenNewDbConnection())
+            var mappedToUpdate = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(toBeUpdated);
+            var mappedToDelete = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(selectDeleted);
+            try
             {
-                retValue = (await db.InsertAsync(mappedToInsert) > 0);
-                retValue = retValue && await db.UpdateAsync(mappedToUpdate);
+                if (mappedToInsert.Any())
+                {
+                    retValue = (await dbConnection.InsertAsync(mappedToInsert).ConfigureAwait(false) > 0);
+                }
+                if (mappedToUpdate.Any())
+                {
+                    retValue = retValue && await dbConnection.UpdateAsync(mappedToUpdate).ConfigureAwait(false);
+                }
             }
+            catch (System.Exception ex)
+            {
+
+                throw new DataLayerException("Exception while saving lines",ex);
+            }
+
             return retValue;
         }
     }

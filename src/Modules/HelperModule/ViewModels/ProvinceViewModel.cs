@@ -13,6 +13,7 @@ using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.Windows.PdfViewer;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace HelperModule.ViewModels
 {
@@ -20,6 +21,7 @@ namespace HelperModule.ViewModels
     {
         private HelperLoader<CountryDto, Country> _loader;
         private IEnumerable<CountryDto> _countryDto;
+        
         /// <summary>
         /// 
         ///  ProvinceViewModel
@@ -46,7 +48,10 @@ namespace HelperModule.ViewModels
 
         private void LoadAllCountries()
         {
-            
+            /* There are at most 200 countries in the world today.
+             * So no incremental loading is needed. Perforance test showed up that the grid freezed 
+             * after 1000 items. 
+            */
             _loader = new HelperLoader<CountryDto, Country>(DataServices);
             CountryDto = _loader.HelperView;
             _loader.LoadAll();
@@ -63,7 +68,13 @@ namespace HelperModule.ViewModels
                                                 Code = country.Code,
                                                 CountryName = country.CountryName
                                             } };
-            HelperView = new ObservableCollection<ProvinciaDto>(list);
+            HelperView = new IncrementalList<ProvinciaDto>(LoadMoreItems);
+            HelperView.LoadItems(list);
+        }
+
+        private void LoadMoreItems(uint arg1, int arg2)
+        {
+           
         }
 
         public IEnumerable<CountryDto> CountryDto

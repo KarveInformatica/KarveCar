@@ -31,7 +31,14 @@ namespace KarveDataServices
          /// <param name="assistQuery"></param>
          /// <returns></returns>
         Task<IEnumerable<T>> GetAsyncHelper<T>(string assistQuery);
-       
+
+
+        /// <summary>
+        ///  Nimbger of the items in the helpers
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        Task<int> GetItemsCount<T>();
 
         /// <summary>
         /// Execute an update asynchronous for the entities.
@@ -93,7 +100,7 @@ namespace KarveDataServices
         /// <param name="entity"></param>
         /// <returns></returns>
         Task<bool> ExecuteBulkInsertAsync<DtoTransfer, T>(IEnumerable<DtoTransfer> entity) where T : class;
-    
+      
         /// <summary>
         /// This generates a random number that it is the field of the entity
         /// </summary>
@@ -144,5 +151,17 @@ namespace KarveDataServices
         /// 
         Task<IEnumerable<DtoTransfer>> GetMappedAllAsyncHelper<DtoTransfer, T>() where DtoTransfer : class 
                                                                                  where T : class;
+
+        /// <summary>
+        ///  Fetch the pageSize pages asynchronously and it maps directly to the helper.
+        /// </summary>
+        /// <typeparam name="DtoTransfer">Data transfer object to be used</typeparam>
+        /// <typeparam name="T">Entity type to be used</typeparam>
+        /// <param name="pageIndex">Index of the page to be used.</param>
+        /// <param name="pageSize">Dimension of the page to be used.</param>
+        /// <returns></returns>
+        Task<IEnumerable<DtoTransfer>> GetPagedSummaryDoAsync<DtoTransfer, T>(long pageIndex, int pageSize)
+        where DtoTransfer : class where T : class;
+       
     }
 }

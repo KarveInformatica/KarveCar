@@ -2803,7 +2803,7 @@
     <value>Proprietario</value>
   </data>
   <data name="lreplacementcar" xml:space="preserve">
-    <value></value>
+    <value>Vehiculo Sostitutivo</value>
   </data>
   <data name="lcreditcardtype" xml:space="preserve">
     <value>Tipo Tarjeta de Credito</value>
@@ -2813,5 +2813,53 @@
   </data>
   <data name="lloaddocument" xml:space="preserve">
     <value>Adquirir..</value>
+  </data>
+  <data name="lbookingnumber" xml:space="preserve">
+    <value>Numero Reserva</value>
+  </data>
+  <data name="lcreationdate" xml:space="preserve">
+    <value>Fecha Creación</value>
+  </data>
+  <data name="llocator" xml:space="preserve">
+    <value>Localizador</value>
+  </data>
+  <data name="ldriver" xml:space="preserve">
+    <value>Conductor</value>
+  </data>
+  <data name="ldeparturedate" xml:space="preserve">
+    <value>Fecha de salida</value>
+  </data>
+  <data name="lexpectedrevision" xml:space="preserve">
+    <value>Fecha prevista  revisión</value>
+  </data>
+  <data name="lexpectedhourrevision" xml:space="preserve">
+    <value>Hora prevista  revisión</value>
+  </data>
+  <data name="ltarifa" xml:space="preserve">
+    <value>Tarifa</value>
+  </data>
+  <data name="ldrivercode" xml:space="preserve">
+    <value>Codigo Conductor</value>
+  </data>
+  <data name="lbroker" xml:space="preserve">
+    <value>Comisionista</value>
+  </data>
+  <data name="llocaldirection" xml:space="preserve">
+    <value>Dirección Local </value>
+  </data>
+  <data name="lnumerobono" xml:space="preserve">
+    <value>Numero Bono</value>
+  </data>
+  <data name="lcancelled" xml:space="preserve">
+    <value>Anulada</value>
+  </data>
+  <data name="lcodigomantenimiento" xml:space="preserve">
+    <value>Codigo Mantenimiento</value>
+  </data>
+  <data name="Anular Reserva" xml:space="preserve">
+    <value>Cancela Reserva</value>
+  </data>
+  <data name="lremoved" xml:space="preserve">
+    <value>Anulada</value>
   </data>
 </root>

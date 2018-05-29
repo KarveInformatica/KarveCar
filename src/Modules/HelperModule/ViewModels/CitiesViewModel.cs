@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
@@ -15,6 +16,7 @@ using System.Windows.Input;
 using DataAccessLayer.Assist;
 using Prism.Commands;
 using Syncfusion.Data;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace HelperModule.ViewModels
 {
@@ -105,7 +107,7 @@ namespace HelperModule.ViewModels
         {
             IHelperDataServices helperData = DataServices.GetHelperDataServices();
             IEnumerable<CountryDto> countries = await helperData.GetMappedAllAsyncHelper<CountryDto, Country>();
-            ObservableCollection<CityDto> cities = HelperView;
+            IncrementalList<CityDto> cities = HelperView;
             CityCountryDto = from l in countries
                 from r in cities
                 where l.CountryCode == r.Country.CountryCode
@@ -173,5 +175,7 @@ namespace HelperModule.ViewModels
             }
             return payLoad;
         }
+
+       
     }
 }

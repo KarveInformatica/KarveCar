@@ -7,24 +7,23 @@ using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.SQL;
 using KarveDataServices.DataTransferObject;
+using System.ComponentModel;
 
 namespace DataAccessLayer
 {
     /// <summary>
     ///  ContractDataServices. 
     /// </summary>
-    internal class ContractDataServices: IContractDataServices
+    internal class ContractDataServices: AbstractDataAccessLayer, IContractDataServices
     {
-        private readonly QueryStoreFactory _queryStoreFactory;
-        private readonly ISqlExecutor _executor;
+     
         /// <summary>
         ///  ContractDataServices.
         /// </summary>
         /// <param name="sqlExecutor">SqlExectur</param>
-        public ContractDataServices(ISqlExecutor sqlExecutor)
-        {
-            _queryStoreFactory = new QueryStoreFactory();
-            _executor = sqlExecutor;
+        public ContractDataServices(ISqlExecutor sqlExecutor): base(sqlExecutor)
+        {     
+            TableName = "CONTRATOS1";
         }
         /// <summary>
         ///  Returns a contract with the id.
@@ -42,10 +41,10 @@ namespace DataAccessLayer
         /// <returns>A list of contracts.</returns>
         public async Task<IEnumerable<ContractSummaryDto>> GetContractSummaryAsync()
         {
-            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            IQueryStore store = QueryStoreFactory.GetQueryStore();
             store.AddParam(QueryType.QueryContractSummaryBasic);
             var query = store.BuildQuery();
-            using (var conn = _executor.OpenNewDbConnection())
+            using (var conn = SqlExecutor.OpenNewDbConnection())
             {
                 if (conn == null)
                 {
@@ -59,6 +58,24 @@ namespace DataAccessLayer
             }
             // safe default in case of error.
             return new List<ContractSummaryDto>();
+        }
+
+        /// <summary>
+        ///  This returns a sorted summary sorted and extended collection.
+        /// </summary>
+        /// <param name="sortChain">Sort direction</param>
+        /// <param name="pageIndex">Index of the page</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>A list of sorted items following the sorting criteria</returns>
+        public async Task<IEnumerable<ContractSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        {
+            var dataPager = new DataPager<ContractSummaryDto>(SqlExecutor);
+            var pageStart = pageIndex;
+            if (pageStart == 0)
+                pageStart = 1;
+            NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
+            var datas = await dataPager.GetPagedSummaryDoSortedAsync(QueryType.QueryContractSummaryPaged, sortChain, pageIndex, pageSize);
+            return datas;
         }
         /// <summary>
         ///  Return the contract by the conductor in asynchronous way.

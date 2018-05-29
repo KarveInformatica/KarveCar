@@ -7,55 +7,51 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
-  
-            <UserControl.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
-                   
-                </ResourceDictionary>
-            </UserControl.Resources>
 
- 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Grid>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid>
         <Grid.Resources>
-            <converter:BoolToVisiblityConverter x:Key="BoolToVisibility"></converter:BoolToVisiblityConverter>
+            <converter:BoolToVisiblityConverter x:Key="BoolToVisibility" />
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-       
-            <!--  Syncfusion SfDataGrid implementation  -->
 
-            <syncfusion:SfDataGrid x:Name="SyncfusionGrid"
-                                   Grid.Row="0"    
-                                   AllowEditing="True"
-                                   AutoGenerateColumns="True"
-                                   AllowGrouping="True"
-                                   AutoExpandGroups="True"
-                                   ColumnSizer="Star"
-                                   AllowDeleting="True"
-                                   CellStyle="{StaticResource CellStyle}"
-                                   ItemsSource="{Binding SourceView, Mode=TwoWay}"
-                                   LiveDataUpdateMode="AllowDataShaping"
-                                   SelectionMode="Extended"
-                                   SelectionUnit="Cell" 
-                                   ShowGroupDropArea="True"
-                                   ShowRowHeader="True">
+        <!--  Syncfusion SfDataGrid implementation  -->
 
+        <syncfusion:SfDataGrid x:Name="SyncfusionGrid"
+                               Grid.Row="0"
+                               AllowEditing="True"
+                               AutoGenerateColumns="True"
+                               AllowGrouping="True"
+                               AutoExpandGroups="True"
+                               ColumnSizer="Star"
+                               AllowDeleting="True"
+                               CellStyle="{StaticResource CellStyle}"
+                               ItemsSource="{Binding SourceView, Mode=TwoWay}"
+                               LiveDataUpdateMode="AllowDataShaping"
+                               SelectionMode="Extended"
+                               SelectionUnit="Cell"
+                               ShowGroupDropArea="True"
+                               ShowRowHeader="True">
 
 
             <i:Interaction.Behaviors>
-                <local:LineGridBehaviour CellPresenterItems="{Binding CellPresentation, Mode=OneWay}">
-
-                </local:LineGridBehaviour>
+                <local:LineGridBehaviour CellPresenterItems="{Binding CellPresentation, Mode=OneWay}" />
             </i:Interaction.Behaviors>
         </syncfusion:SfDataGrid>
 
-        
-        </Grid>
+
+    </Grid>
 
 </UserControl>

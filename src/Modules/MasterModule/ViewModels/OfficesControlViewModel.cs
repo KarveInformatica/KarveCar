@@ -17,6 +17,7 @@ using Prism.Commands;
 using System.Diagnostics;
 using Microsoft.Practices.Unity;
 using NLog;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.ViewModels
 {
@@ -41,9 +42,28 @@ namespace MasterModule.ViewModels
         {
             InitViewModel();
             _officeDataServices = services.GetOfficeDataServices();
-            ItemName = "Oficinas";
-
+            ItemName = "Oficinas";  
         }
+        protected override void OnSortCommand(object obj)
+        {
+            var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
+            _initializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(_officeDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _officeEventTask);
+        }
+
+ 
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+            {
+                if ((sender is INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> listCompletion) && (listCompletion.IsSuccessfullyCompleted))
+                {
+
+                    if (SummaryView is IncrementalList<OfficeSummaryDto> summary)
+                    {
+                        summary.LoadItems(listCompletion.Result);
+                        SummaryView = summary;
+                    }
+                }
+            }
+        
 
         /// <summary>
         ///  Grid of the offices in the database.
@@ -61,8 +81,8 @@ namespace MasterModule.ViewModels
         /// <returns>True or false</returns>
         public override async Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
-            IOfficeDataServices service = DataServices.GetOfficeDataServices();
-            IOfficeData data = await service.GetAsyncOfficeDo(primaryKey);
+            var service = DataServices.GetOfficeDataServices();
+            var data = await service.GetAsyncOfficeDo(primaryKey);
             bool retValue = await service.DeleteOfficeAsyncDo(data);
             if (retValue)
             {
@@ -78,7 +98,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  NewItem. This is a new item for the office.
         /// </summary>
-        public override void NewItem()
+        protected override void NewItem()
         {
            
             string name = "NuevaOficina";
@@ -114,9 +134,11 @@ namespace MasterModule.ViewModels
 
         private void InitViewModel()
         {
+            PagingEvent += OnPagedEvent;
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.OfficeSummaryGrid;
             InitEventHandler += LoadNotificationHandler;
+            _officeEventTask += OnNotifyIncrementalList<OfficeSummaryDto>;
             DeleteEventHandler += OfficeDeleteHandler;
             _mailBoxName = EventSubsystem.OfficeSummaryVm;
             MessageHandlerMailBox += MessageHandler;
@@ -153,6 +175,8 @@ namespace MasterModule.ViewModels
             MessageHandlerMailBox -= MessageHandler;
             InitEventHandler -= LoadNotificationHandler;
             DeleteEventHandler -= OfficeDeleteHandler;
+            PagingEvent -= OnPagedEvent;
+            _officeEventTask -= OnNotifyIncrementalList<OfficeSummaryDto>;
             DeleteMailBox(_mailBoxName);
         }
         /// <summary>
@@ -236,7 +260,7 @@ namespace MasterModule.ViewModels
         protected override string GetRouteName(string name)
         {
             var route = @"master://" + MasterModuleConstants.OfficeSubSytemName + "//" + name;
-            string routedName = new Uri(route).AbsoluteUri;
+            var routedName = new Uri(route).AbsoluteUri;
             return routedName;
         }
         /// <summary>
@@ -260,12 +284,16 @@ namespace MasterModule.ViewModels
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {
-            throw new NotImplementedException();
+            var maxItems = _officeDataServices.NumberItems;
+            PageCount = _officeDataServices.NumberPage;
+            SummaryView = new IncrementalList<OfficeSummaryDto>(LoadMoreItems) { MaxItemCount = (int)PageCount };
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            throw new NotImplementedException();
+            NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(
+                _officeDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
+
         }
         #region Private Fields
 
@@ -274,6 +302,8 @@ namespace MasterModule.ViewModels
         private string _mailBoxName;
         private readonly IOfficeDataServices _officeDataServices;
         private IUnityContainer _container;
+        private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> _initializationNotifierOffice;
+        private PropertyChangedEventHandler _officeEventTask;
 
         #endregion
     }

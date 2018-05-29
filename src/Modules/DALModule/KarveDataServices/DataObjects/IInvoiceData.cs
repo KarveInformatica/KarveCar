@@ -19,7 +19,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         /// Client summary dto.
         /// </summary>
-        IEnumerable<ClientSummaryDto> ClientSummary { get; }
+        IEnumerable<ClientSummaryExtended> ClientSummary { get; }
 
         /// <summary>
         /// InvoiceSummary
@@ -29,6 +29,14 @@ namespace KarveDataServices.DataObjects
         /// InvoiceSummary
         /// </summary>
         IEnumerable<InvoiceSummaryValueDto> InvoiceSummary { get; }
+        /// <summary>
+        ///  This gives the number of invoices.
+        /// </summary>
+        int NumberOfInvoices { get; set; }
+        /// <summary>
+        /// This gives the number of clients.
+        /// </summary>
+        int NumberOfClients { get; set; }
 
     }
 

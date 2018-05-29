@@ -9,7 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Office summary data transfer object.
     /// </summary>
-    public class OfficeSummaryDto
+    public class OfficeSummaryDto: BaseDto
     {
         /// <summary>
         ///  Codigo code.

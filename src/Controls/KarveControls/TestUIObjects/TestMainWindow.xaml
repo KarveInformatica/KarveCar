@@ -8,12 +8,37 @@
         xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
         xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
         xmlns:karveBehavior="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+         xmlns:karveGridBehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         mc:Ignorable="d"
-        Title="TestWindow" Height="300" Width="400">
+        Title="TestWindow" Height="300" Width="500">
     <Grid>
         <TabControl>
-            <TabItem Header="TextControls"></TabItem>
+            <TabItem Header="TextControls">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="373*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="98*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <karveControls:DualFieldSearchBox LabelText="TestClient"
+                                      Grid.Row="0"
+                                      LabelTextWidth="200"
+                                      DataFieldFirst="ClientNumber"
+                                      AssistProperties="{Binding AssistProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                      AssistTableName="CLIENTES"
+                                      TextContentFirstWidth="60"
+                                      TextContentSecondWidth="120"
+                                      Visibility="Visible"
+                                      ButtonImage="/KarveControls;component/Images/search.png"
+                                      SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,106,0,105"/>
+
+                </Grid>
+            </TabItem>
             <TabItem Header="DateAndCalendarControls">
                 <Grid>
                     <karveControls:HolidayCalendar></karveControls:HolidayCalendar>
@@ -29,11 +54,85 @@
                             RequestController="{Binding Controller, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             />
                     </i:Interaction.Behaviors>
-                    
+
                     <Button.Content>
-                            <TextBlock Text="Open interactive"></TextBlock>
+                        <TextBlock Text="Open interactive"></TextBlock>
                     </Button.Content>
                 </Button>
+            </TabItem>
+            <TabItem Header="TestGrid">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <syncfusion:SfDataGrid x:Name="ClientSummary"
+                               Grid.Row="0"
+                               ColumnSizer="Auto"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               NavigationMode="Row"
+                               FilterRowPosition="FixedTop"
+                               Margin="5,5,0,10"
+                               Background="White"
+                               BorderBrush="#FFD3D3D3"
+                               CurrentCellBorderThickness="0"
+                               FontWeight="Normal"
+                               Foreground="#FF808080"
+                               RowSelectionBrush="#FF8CC63F"
+                               HeaderRowHeight="32"
+                               ItemsSource="{Binding ElementName=sfDataPager,Path=PagedSource, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               AutoGenerateColumns="False">
+
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding OpenItemCommand}" 
+                                           
+                                           CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+
+
+                        <syncfusion:SfDataGrid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </syncfusion:SfDataGrid.Resources>
+                        <syncfusion:SfDataGrid.Columns>
+
+
+
+                            <syncfusion:GridTextColumn  HeaderText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                                            MappingName="Name">
+                            </syncfusion:GridTextColumn>
+                        </syncfusion:SfDataGrid.Columns>
+                        <!-- <i:Interaction.Behaviors>
+                            <karveGridBehavior:GridFilterBehavior
+                            Command="{Binding GridCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            />
+                        </i:Interaction.Behaviors>
+-->
+                    </syncfusion:SfDataGrid>
+                    
+                        <syncfusion:SfDataPager x:Name="sfDataPager"
+                           Grid.Row="1"
+                           AutoEllipsisMode="After"
+                           NumericButtonCount="10"
+                           AutoEllipsisText="...etc" 
+                           PageSize="16" 
+                           Source="{Binding SourceView}" />
+                    
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

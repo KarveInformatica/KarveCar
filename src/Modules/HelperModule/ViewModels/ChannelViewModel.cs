@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,5 +30,7 @@ namespace HelperModule.ViewModels
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperChannel;
         }
+
+    
     }
 }

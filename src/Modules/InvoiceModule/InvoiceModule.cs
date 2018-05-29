@@ -39,7 +39,7 @@ namespace InvoiceModule
         /// </summary>
         public void Initialize()
         {
-            _container.RegisterType<object, InvoiceControlView>("Invoices");
+            _container.RegisterType<object, InvoiceControlView>("InvoiceSummary");
             _container.RegisterType<object, InvoiceControlViewModel>("InvoiceControlVM");
             _container.RegisterType<object, InvoiceSummaryFooter>("InvoiceSummaryFooter");
             _container.RegisterType<object, InvoiceInfoViewModel>("InvoiceInfoViewModel");

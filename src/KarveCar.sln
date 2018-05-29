@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar", "KarveCar.csproj", "{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Common", "KarveCommon\KarveCar.Common.csproj", "{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.UnitTest", "..\test\KarveTest\KarveTest\KarveCar.UnitTest.csproj", "{B1BCB441-8F41-4B63-9FAD-2EB0083260A0}"
@@ -41,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceModule", "Modules\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Integration", "..\test\KarveTest\KarveCar.Integration\KarveCar.Integration.csproj", "{64F060FA-12AD-4227-B22E-DF068C8AB047}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingModule", "Modules\BookingModule\BookingModule.csproj", "{28298225-CD5C-40DA-A6D4-F48506446A4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar", "KarveCar.csproj", "{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,18 +53,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x64.ActiveCfg = Debug|x64
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x64.Build.0 = Debug|x64
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x86.ActiveCfg = Debug|x86
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x86.Build.0 = Debug|x86
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x64.ActiveCfg = Release|x64
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x64.Build.0 = Release|x64
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x86.ActiveCfg = Release|x86
-		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x86.Build.0 = Release|x86
 		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49FEB437-7F5A-4C7B-870C-A9BB5FC809FD}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -243,6 +233,30 @@ Global
 		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x64.Build.0 = Release|Any CPU
 		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x86.ActiveCfg = Release|Any CPU
 		{64F060FA-12AD-4227-B22E-DF068C8AB047}.Release|x86.Build.0 = Release|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Debug|x64.Build.0 = Debug|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Debug|x86.Build.0 = Debug|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Release|x64.ActiveCfg = Release|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Release|x64.Build.0 = Release|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Release|x86.ActiveCfg = Release|Any CPU
+		{28298225-CD5C-40DA-A6D4-F48506446A4B}.Release|x86.Build.0 = Release|Any CPU
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x64.ActiveCfg = Debug|x64
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x64.Build.0 = Debug|x64
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x86.ActiveCfg = Debug|x86
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Debug|x86.Build.0 = Debug|x86
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x64.ActiveCfg = Release|x64
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x64.Build.0 = Release|x64
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x86.ActiveCfg = Release|x86
+		{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -259,11 +273,12 @@ Global
 		{88410E16-A500-4947-B11B-BCA1A73D4FC5} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{3F0503DE-3DDE-40A4-AF70-F698BFA9F844} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{2636E89F-C157-4346-BAB0-FC774BAC26AF} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
+		{28298225-CD5C-40DA-A6D4-F48506446A4B} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
-		RESX_NeutralResourcesLanguage = es-ES
-		RESX_DuplicateKeyHandling = Fail
 		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
+		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

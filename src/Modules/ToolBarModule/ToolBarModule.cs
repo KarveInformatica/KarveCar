@@ -12,7 +12,7 @@ namespace ToolBarModule
     public class ToolBarModule : IModule
     {
         private readonly IUnityContainer _container;
-        private IRegionManager _regionManager;
+        private readonly IRegionManager _regionManager;
         public static string NAME = "ToolBarModule";
 
         public ToolBarModule(IUnityContainer container, IRegionManager regionManager)

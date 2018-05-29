@@ -2701,4 +2701,55 @@
   <data name="OpcionCliente" xml:space="preserve">
     <value>Clientoptionen</value>
   </data>
+  <data name="lbookingnumber" xml:space="preserve">
+    <value>Buchungsnummer</value>
+  </data>
+  <data name="lcreationdate" xml:space="preserve">
+    <value>Erstellt am Datum</value>
+  </data>
+  <data name="llocator" xml:space="preserve">
+    <value>Lokator</value>
+  </data>
+  <data name="ldriver" xml:space="preserve">
+    <value>Fahrer</value>
+  </data>
+  <data name="ldeparturedate" xml:space="preserve">
+    <value>Abreisedatum</value>
+  </data>
+  <data name="lexpectedrevision" xml:space="preserve">
+    <value>Erwartete Datumsrevision</value>
+  </data>
+  <data name="lexpectedhourrevision" xml:space="preserve">
+    <value>Geschätzte Zeitüberprüfung</value>
+  </data>
+  <data name="lreplacementcar" xml:space="preserve">
+    <value>Replacement Car</value>
+  </data>
+  <data name="lloaddocument" xml:space="preserve">
+    <value>Dokument laden..</value>
+  </data>
+  <data name="ltarifa" xml:space="preserve">
+    <value>Fahrpreis</value>
+  </data>
+  <data name="ldrivercode" xml:space="preserve">
+    <value>Fahrer Code</value>
+  </data>
+  <data name="lbroker" xml:space="preserve">
+    <value>Vermittler</value>
+  </data>
+  <data name="llocaldirection" xml:space="preserve">
+    <value>Lokale Adresse</value>
+  </data>
+  <data name="lnumerobono" xml:space="preserve">
+    <value>Bonusnummer</value>
+  </data>
+  <data name="lcancelled" xml:space="preserve">
+    <value>Storniert</value>
+  </data>
+  <data name="lcodigomantenimiento" xml:space="preserve">
+    <value>Wartungscode</value>
+  </data>
+  <data name="lremoved" xml:space="preserve">
+    <value>Storniert</value>
+  </data>
 </root>

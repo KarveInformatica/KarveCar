@@ -30,7 +30,8 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="95*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
@@ -41,18 +42,19 @@
                                ColumnSizer="AutoLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
-                               AllowFiltering="True"
+                               AllowFiltering="False"
                                AllowResizingColumns="True"
                                AllowSorting="True"
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               FilterRowPosition="FixedTop"    
                                AutoGenerateColumns="False"
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
-                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                               ItemsSource="{Binding Path=SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
             <i:Interaction.Behaviors>
 
@@ -125,6 +127,15 @@
 
             </syncfusion:SfDataGrid.Columns>
         </syncfusion:SfDataGrid>
-      
+<!--
+        <syncfusion:SfDataPager x:Name="DataPager"
+                                PageSize="{Binding DefaultPagingSize}"                                      
+                                Grid.Row="2"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10" 
+                                Source="{Binding SummaryView}"/>
+-->
     </Grid>
 </UserControl>

@@ -30,12 +30,7 @@ namespace DataAccessLayer.DataObjects
     
 		public Decimal? DTO_LIF { get; set; }
  
-	/// <summary>
-    ///  Set or get the PRE_LIF property.
-    /// </summary>
-    
-		public Decimal? PRE_LIF { get; set; }
- 
+	
 	/// <summary>
     ///  Set or get the ULTMODI_LIF property.
     /// </summary>
@@ -209,6 +204,10 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public DateTime? HASTA_LIF { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Decimal? PRE_LIF { get; set; }
  
 	/// <summary>
     ///  Set or get the NO_RECARGO_LIF property.

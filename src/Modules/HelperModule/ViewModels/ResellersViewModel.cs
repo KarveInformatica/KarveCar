@@ -12,6 +12,7 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 using Prism.Regions;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace HelperModule.ViewModels
 {
@@ -20,9 +21,63 @@ namespace HelperModule.ViewModels
     /// </summary>
     class ResellersViewModel : DirectionBaseViewModel<ResellerDto, VENDEDOR>
     {
-        private IEnumerable<CityDto> _resellerDto = new ObservableCollection<CityDto>();
-        private IEnumerable<CountryDto> _resellerCountryDto = new ObservableCollection<CountryDto>();
-        private IEnumerable<ProvinciaDto> _resellerProvinceDto = new ObservableCollection<ProvinciaDto>();
+        private IEnumerable<CityDto> _resellerDto = new IncrementalList<CityDto>(LoadMoreCities);
+
+        private static void LoadMoreCities(uint arg1, int arg2)
+        {
+          
+        }
+
+        private IEnumerable<CountryDto> _resellerCountryDto = new IncrementalList<CountryDto>(LoadMoreCountries);
+
+        private static void LoadMoreCountries(uint arg1, int arg2)
+        {
+          
+        }
+
+        private IEnumerable<ProvinciaDto> _resellerProvinceDto = new IncrementalList<ProvinciaDto>(LoadMoreProvices);
+
+        private static void LoadMoreProvices(uint arg1, int arg2)
+        {
+
+        }
+
+        public ResellersViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager) : base(query, dataServices, region, manager)
+        {
+        }
+
+        public override void AssistComplete(object sender, PropertyChangedEventArgs e)
+        {
+        }
+
+        public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
+        {
+            return new DataPayLoad();
+        }
+
+        /*
+
+        public ResellersViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager) : base(
+        {
+            _resellerDto= new IncrementalList<CityDto>(LoadMoreCities);
+
+        }
+        private void LoadMoreCountries(uint baseIndex, int pageIndex)
+        {
+            _cityLoader.LoadPaged(pageIndex, 500);
+            throw new NotImplementedException();
+        }
+
+        private  void LoadMoreCities(uint arg1, int arg2)
+        {
+            throw new NotImplementedException();
+        }
+        private static void LoadMoreProvices(uint arg1, int arg2)
+        {
+            throw new NotImplementedException();
+        }
+       
+
         private HelperLoader<CityDto, POBLACIONES> _cityLoader;
         private HelperLoader<ProvinciaDto, PROVINCIA> _provinceLoader;
         private HelperLoader<CountryDto, Country> _countryLoader;
@@ -31,7 +86,7 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  ResellerCityDto
         /// </summary>
-        public IEnumerable<CityDto> ResellerCityDto
+        public IncrementalList<CityDto> ResellerCityDto
         {
             get { return _resellerDto; }
             set { _resellerDto = value; RaisePropertyChanged(); }
@@ -39,7 +94,7 @@ namespace HelperModule.ViewModels
         /// <summary>
         /// ResellerCountryDto
         /// </summary>
-        public IEnumerable<CountryDto> ResellerCountryDto
+        public IncrementalList<CountryDto> ResellerCountryDto
         {
             get { return _resellerCountryDto; }
             set { _resellerCountryDto = value; RaisePropertyChanged();}
@@ -47,7 +102,7 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  ResellerProvinceDto
         /// </summary>
-        public IEnumerable<ProvinciaDto> ResellerProvinceDto {
+        public IncrementalList<ProvinciaDto> ResellerProvinceDto {
             get { return _resellerProvinceDto; }
             set { _resellerProvinceDto = value; RaisePropertyChanged();}
         }
@@ -111,7 +166,7 @@ namespace HelperModule.ViewModels
             HelperView = SetHelperData(HelperView, ResellerCityDto, ResellerCountryDto, ResellerProvinceDto);
         }
 
-        private ObservableCollection<ResellerDto> SetHelperData(ObservableCollection<ResellerDto> resellerDtos,
+        private ObservableCollection<ResellerDto> SetHelperData(IncrementalList<ResellerDto> resellerDtos,
                                    IEnumerable<CityDto> cityDtos, 
                                    IEnumerable<CountryDto> countryDtos, 
                                    IEnumerable<ProvinciaDto> provinceDtos)
@@ -142,7 +197,7 @@ namespace HelperModule.ViewModels
 
         public override void AssistComplete(object sender, PropertyChangedEventArgs e)
         {
-          /*  if (GenericCountryDto != null)
+            if (GenericCountryDto != null)
             {
                 ResellerCountryDto = GenericCountryDto;
             }
@@ -154,7 +209,9 @@ namespace HelperModule.ViewModels
             {
                 ResellerProvinceDto = GenericProvinciaDto;
             }
-            */
+          
+    
         }
+        */
     }
 }

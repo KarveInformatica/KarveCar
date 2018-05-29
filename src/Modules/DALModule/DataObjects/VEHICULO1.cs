@@ -1,5 +1,6 @@
 using System;
 using KarveDapper.Extensions;
+using KarveDataServices.DataTransferObject;
 
 namespace DataAccessLayer.DataObjects
 {
@@ -14,8 +15,11 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the CODIINT property.
     /// </summary>
+       
+        [PrimaryKey]
         [Key]
-		public string CODIINT { get; set; }
+        [FieldSize("7")]
+        public string CODIINT { get; set; }
  
 	/// <summary>
     ///  Set or get the MATRICULA property.
@@ -321,7 +325,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the RECIBO_V1 property.
     /// </summary>
     
-		public Boolean? RECIBO_V1 { get; set; }
+	//	public Boolean? RECIBO_V1 { get; set; }
  
 	/// <summary>
     ///  Set or get the NUMPLAZAS property.

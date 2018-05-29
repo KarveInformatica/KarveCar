@@ -14,7 +14,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<InvoiceSummaryDto> _invoiceItems = new List<InvoiceSummaryDto>();
         private IEnumerable<VehicleSummaryDto> _vehicleSummary = new List<VehicleSummaryDto>();
         private IEnumerable<ContractDto> _contractSummary = new List<ContractDto>();
-        private IEnumerable<ClientSummaryDto> _clientSummary = new List<ClientSummaryDto>();
+        private IEnumerable<ClientSummaryExtended> _clientSummary = new List<ClientSummaryExtended>();
         private IEnumerable<InvoiceSummaryValueDto> _invoiceSummaryValues = new List<InvoiceSummaryValueDto>();
 
         /// <summary>
@@ -26,6 +26,7 @@ namespace DataAccessLayer.Model
         {
             this._code = code;
             Value = value;
+            InvoiceItems = value?.InvoiceItems;
         }
         /// <summary>
         ///  Return the value of the invoice dto.
@@ -39,6 +40,10 @@ namespace DataAccessLayer.Model
         {
             set {
                 _invoiceItems = value;
+                if (Value != null)
+                {
+                    Value.InvoiceItems = value;
+                }
                  RaisePropertyChanged();
 
             }
@@ -68,7 +73,7 @@ namespace DataAccessLayer.Model
             }
         }
 
-        public IEnumerable<ClientSummaryDto> ClientSummary
+        public IEnumerable<ClientSummaryExtended> ClientSummary
         {
             get => _clientSummary;
             set
@@ -88,10 +93,33 @@ namespace DataAccessLayer.Model
             }
         }
 
-
+        /// <summary>
+        ///  Set or Get the subtotal
+        /// </summary>
         public decimal Subtotal { get; set; }
+        /// <summary>
+        ///  Set or Get the cost.
+        /// </summary>
         public decimal Coste { get; set; }
+        /// <summary>
+        ///  Set or Get the Iva.
+        /// </summary>
         public decimal Iva { get; set; }
+        /// <summary>
+        ///  Set or Get the quantity.
+        /// </summary>
         public decimal Cantidad { get; set; }
+        /// <summary>
+        ///  Set or Get the number of invoice.
+        /// </summary>
+        public int NumberOfLines { get; set; }
+        /// <summary>
+        ///  Set or Get the number of clients.
+        /// </summary>
+        public int NumberOfClients { get; set; }
+        /// <summary>
+        /// Set or Get the number of invoices.
+        /// </summary>
+        public int NumberOfInvoices { get ; set ; }
     }
 }

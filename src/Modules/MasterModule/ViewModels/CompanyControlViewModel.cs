@@ -13,10 +13,11 @@ using System.Windows;
 using System.Diagnostics.Contracts;
 using MasterModule.Views;
 using System.Diagnostics;
+using System.Linq;
 using NLog;
-using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using KarveCommonInterfaces;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.ViewModels
 {
@@ -43,11 +44,30 @@ namespace MasterModule.ViewModels
             _mailBoxName = EventSubsystem.CompanySummaryVm;
             _companyDataServices = DataServices.GetCompanyDataServices();
             InitViewModel();
+            
             ItemName = "Empresas";
             ActiveSubSystem();
         }
 
-       
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+           var listCompletion = sender as INotifyTaskCompletion<IEnumerable<CompanySummaryDto>>;
+            if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
+            {
+
+                if (SummaryView is IncrementalList<CompanySummaryDto> summary)
+                {
+                    summary.LoadItems(listCompletion.Result);
+                    SummaryView = summary;
+                }
+            }
+
+            if ((listCompletion != null) && (listCompletion.IsFaulted))
+            {
+                DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
+            }
+        }
+
 
         #region Public Properties
         public IEnumerable<CompanySummaryDto> SourceView
@@ -69,27 +89,21 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         public override async Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
-            ICompanyDataServices service = DataServices.GetCompanyDataServices();
-            ICompanyData data = await service.GetAsyncCompanyDo(primaryKey);
-            bool retValue = await service.DeleteCompanyAsyncDo(data);
+            
+            var data = await _companyDataServices.GetAsyncCompanyDo(primaryKey);
+            var retValue = await _companyDataServices.DeleteCompanyAsyncDo(data);
             return retValue;
         }
-        /// <summary>
-        ///  This start the control grid creation.
-        /// </summary>
-        public override void StartAndNotify()
-
+        protected override void OnSortCommand(object obj)
         {
-            InitializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetAsyncAllCompanySummary(), InitEventHandler);
-            MessageHandlerMailBox += MessageHandler;
-            EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);
-            ActiveSubSystem();
+            var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
+            _initializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _companyEventTask);
         }
 
         protected override string GetRouteName(string name)
         {
             var route = @"master://" + MasterModuleConstants.CompanySubSystemName + "//" + name;
-            string routedName = new Uri(route).AbsoluteUri;
+            var routedName = new Uri(route).AbsoluteUri;
             return routedName;
         }
         /// <summary>
@@ -121,24 +135,27 @@ namespace MasterModule.ViewModels
         }
         private void LoadNotificationHandler(object sender, PropertyChangedEventArgs ev)
         {
-            INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> value = sender as INotifyTaskCompletion<IEnumerable<CompanySummaryDto>>;
-            string propertyName = ev.PropertyName;
+            if (!(sender is INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> value))
+            {
+                return;
+            }
+            var propertyName = ev.PropertyName;
             if (propertyName.Equals("Status"))
             {
-                if (value != null && value.IsSuccessfullyCompleted)
+                if (value.IsSuccessfullyCompleted)
                 {
-                    SourceView = value.Task.Result;
+                    SetResult(value.Task.Result);
 
                 }
             }
             else if (propertyName.Equals("IsSuccessfullyCompleted"))
             {
-                var result = value?.Task.Result;
-                SourceView = result;
+                var result = value.Task.Result;
+                SetResult(value.Task.Result);
             }
             else
             {
-                if (value != null && value.IsFaulted)
+                if (value.IsFaulted)
                 {
                     MessageBox.Show(value.ErrorMessage);
                 }
@@ -146,7 +163,7 @@ namespace MasterModule.ViewModels
             Contract.Ensures(SourceView != null, "SourceView shall be present");   
         }
 
-        public override void NewItem()
+        protected override void NewItem()
         {
             string name = "Nueva Empresa"; 
                 //KarveLocale.Properties.Resources.CompanyControlViewModel_NewItem_NuevaEmpresa;
@@ -178,66 +195,77 @@ namespace MasterModule.ViewModels
         /// <param name="selectedItem">The item from the grid.</param>
         private async void OnOpenItemCommand(object selectedItem)
         {
-            CompanySummaryDto summaryItem = selectedItem as CompanySummaryDto;
-            Stopwatch watch = new Stopwatch();
+            var summaryItem = selectedItem as CompanySummaryDto;
+            var watch = new Stopwatch();
             if (selectedItem != null)
             {
+                if (summaryItem == null)
+                    return;
+
                 watch.Start();
-                if (summaryItem != null)
-                {
-                    string name = summaryItem.Name;
-                    string id = summaryItem.Code;
-                    string tabName = id + "." + name;
-                    var navigationParameters = new NavigationParameters();
-                    navigationParameters.Add("Id", id);
-                    navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                    var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
-                    Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                    RegionManager.RequestNavigate("TabRegion", uri);
-                    Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                    ICompanyData provider = await DataServices.GetCompanyDataServices().GetAsyncCompanyDo(id);
-                    Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                    DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
-                    currentPayload.PrimaryKeyValue = id;
-                    currentPayload.Sender = _mailBoxName;
-                    watch.Stop();
-                    Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Company Tab: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
-                    EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
-                }
+                var name = summaryItem.Name;
+                var id = summaryItem.Code;
+                var tabName = id + "." + name;
+                var navigationParameters = new NavigationParameters();
+                navigationParameters.Add("Id", id);
+                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
+                var uri = new Uri(typeof(CompanyInfoView).FullName + navigationParameters, UriKind.Relative);
+                Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Before navigation: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                RegionManager.RequestNavigate("TabRegion", uri);
+                Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data before: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                var provider = await DataServices.GetCompanyDataServices().GetAsyncCompanyDo(id);
+                Logger.Log(LogLevel.Debug, "[UI] CompanyControlViewModel. Data loaded: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                var currentPayload = BuildShowPayLoadDo(tabName, provider);
+                currentPayload.PrimaryKeyValue = id;
+                currentPayload.Sender = _mailBoxName;
+                watch.Stop();
+                Logger.Log(LogLevel.Debug, "[UI] ClientsControlViewModel. Opening Company Tab: " + id + "Elapsed time: " + watch.ElapsedMilliseconds);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.CompanySubSystemName, currentPayload);
             }
         }
         private void InitViewModel()
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.CompanySummaryGrid;
+            _companyEventTask += OnNotifyIncrementalList<CompanySummaryDto>;
             StartAndNotify();
         }
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {
-            throw new NotImplementedException();
+            // TODO: fix this correctly. This shall call the company paged configuration.
+            var maxItems = result.Count();
+            PageCount = (_companyDataServices.NumberPage == 0) ? 1: _companyDataServices.NumberPage;
+            SummaryView = new IncrementalList<CompanySummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            throw new NotImplementedException();
+            NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(
+                _companyDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
         }
+
+        public override void StartAndNotify()
+        {
+            _initializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), _companyEventTask);
+            MessageHandlerMailBox += MessageHandler;
+            EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);
+            ActiveSubSystem();
+        }
+
+        
 
 
         #region Private Fields
 
-        private INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> InitializationNotifierCompany;
+        private INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> _initializationNotifierCompany;
         private IEnumerable<CompanySummaryDto> _sourceView;
-        private string _mailBoxName;
-        /// <summary>
-        ///  This is the client subsystem prefix module.
-        /// </summary>
-        private const string ClientModuleRoutePrefix = MasterModuleConstants.ClientSubSystemName;
+        private readonly string _mailBoxName;
         private IConfigurationService _configurationService;
         private IEventManager object1;
         private IDataServices _dataServices;
         private IRegionManager object2;
-        private ICompanyDataServices _companyDataServices;
-
+        private readonly ICompanyDataServices _companyDataServices;
+        private PropertyChangedEventHandler _companyEventTask;
 
         #endregion
 

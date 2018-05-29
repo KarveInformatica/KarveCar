@@ -1,5 +1,6 @@
 ﻿using MasterModule.Common;
 using System;
+using System.Collections;
 using System.Data;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
@@ -38,26 +39,22 @@ namespace MasterModule.ViewModels
         ///  Mailbox for this cleint view model.
         /// </summary>
         private string _mailBoxName;
+        
         /// <summary>
-        ///  Code key field
+        ///  Client task notify.
         /// </summary>
-        private const string ClientColumnCode = "Codigo";
-        /// <summary>
-        ///  Name key field.
-        /// </summary>
-        private const string ClientNameColumn = "Nombre";
-        /// <summary>
-        ///  This is the client subsystem prefix module.
-        /// </summary>
-        private const string ClientModuleRoutePrefix = "ClientsSubsystem";
-
         private INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> _clientTaskNotify;
-        private INotifyTaskCompletion<IClientData> _clientDataLoader;
-
+        
+        /// <summary>
+        ///  This happen when a load event is completed.
+        /// </summary>
         private PropertyChangedEventHandler _clientEventTask;
-        private PropertyChangedEventHandler _clientDataLoaded;
-
+        /// <summary>
+        ///  This contains the client load summary.
+        /// </summary>
         private IEnumerable<ClientSummaryExtended> _clientSummaryDtos;
+        private Action<object, PropertyChangedEventArgs> _clientDataLoaded;
+        
 
         /// <summary>
         ///  Client control view model. View Model to get the client.
@@ -73,8 +70,17 @@ namespace MasterModule.ViewModels
             _regionManager = regionManager;
             _mailBoxName = EventSubsystem.ClientSummaryVm;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
+            SortCommand = new DelegateCommand<object>(OnSortCommand);
+
             _container = container;
+            
             InitViewModel();
+        }
+
+        protected override void OnSortCommand(object obj)
+        {
+            var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
+            _clientTaskNotify = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _clientEventTask);
         }
 
         private void InitViewModel()
@@ -83,9 +89,28 @@ namespace MasterModule.ViewModels
             GridIdentifier = GridIdentifiers.ClientSummaryGrid;
             _clientEventTask += OnNotifyIncrementalList<ClientSummaryExtended>;
             _clientDataLoaded += OnClientDataLoaded;
+            SummaryView = new IncrementalList<ClientSummaryExtended>(LoadMoreItems);
             StartAndNotify();
             
-         
+        }
+
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            var listCompletion = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>>;
+            if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
+            {
+                
+                if (SummaryView is IncrementalList<ClientSummaryExtended> summary)
+                {
+                    summary.LoadItems(listCompletion.Result);
+                    SummaryView = summary;
+                }
+            }
+
+            if ((listCompletion != null) && (listCompletion.IsFaulted))
+            {
+                DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
+            }
         }
 
         private void OnClientDataLoaded(object sender, PropertyChangedEventArgs e)
@@ -93,9 +118,9 @@ namespace MasterModule.ViewModels
             if (sender is INotifyTaskCompletion<IClientData> notification && notification.IsSuccessfullyCompleted)
             {
               
-                IClientData provider = notification.Task.Result;
+                var provider = notification.Task.Result;
                 var tabName = provider.Value.NUMERO_CLI + "." + provider.Value.NOMBRE;
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);
+                var currentPayload = BuildShowPayLoadDo(tabName, provider);
                 currentPayload.PrimaryKeyValue = provider.Value.NUMERO_CLI;
                 currentPayload.Sender = _mailBoxName;
                 try
@@ -107,12 +132,10 @@ namespace MasterModule.ViewModels
                     };
                     var uri = new Uri(typeof(ClientsInfoView).FullName + navigationParameters, UriKind.Relative);
                     _regionManager.RequestNavigate("TabRegion", uri);
-
-                   // EventManager.SendMessage(pro);
-                   /// EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, //currentPayload);
+                    
                 } catch (Exception ex)
                 {
-                    var value = ex.Message; 
+                    DialogService?.ShowErrorMessage(ex.Message);
                 }
             }
         }
@@ -126,15 +149,14 @@ namespace MasterModule.ViewModels
             
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.ClientSummaryVm, MessageHandlerMailBox);
-            _clientTaskNotify = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetAsyncAllClientSummary(), _clientEventTask);
+            _clientTaskNotify = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetPagedSummaryDoAsync(1,DefaultPageSize), _clientEventTask);
             // This is needed for the communication between the view model and the toolbar.
             ActiveSubSystem();
         }
 
         private void DeleteClientHandler(object sender, PropertyChangedEventArgs e)
         {
-            INotifyTaskCompletion completion = sender as INotifyTaskCompletion;
-            if (completion != null && completion.IsSuccessfullyCompleted)
+            if (sender is INotifyTaskCompletion completion && completion.IsSuccessfullyCompleted)
             {
                 CanDeleteRegion = true;
             }
@@ -143,18 +165,18 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Craft a new item in the view model. Opening a new form.
         /// </summary>
-        public override void NewItem()
+        protected override void NewItem()
         {
-            string name = KarveLocale.Properties.Resources.ClientsControlViewModel_NewItem_NuevoCliente;
-            string code = _clientDataServices.GetNewId();
-            string viewNameValue = name + "." + code;
+            var name = KarveLocale.Properties.Resources.ClientsControlViewModel_NewItem_NuevoCliente;
+            var code = _clientDataServices.GetNewId();
+            var viewNameValue = name + "." + code;
             Navigate(code, viewNameValue);
-            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
+            var currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.ClientSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = code;
             currentPayload.HasDataObject = true;
-            currentPayload.DataObject = _clientDataServices.GetNewClientAgentDo(code); 
+            currentPayload.DataObject = _clientDataServices.GetNewDo(code); 
             currentPayload.Sender = EventSubsystem.ClientSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);
         }
@@ -182,13 +204,12 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         public override async Task<bool> DeleteAsync(string clientIndentifier, DataPayLoad payLoad)
         {
-            IClientData clientData = await _clientDataServices.GetAsyncClientDo(clientIndentifier);
+            var clientData = await _clientDataServices.GetDoAsync(clientIndentifier);
             if (clientData == null)
             {
                 return false;
             }
-            bool retValue = await _clientDataServices.DeleteClientAsyncDo(clientData);
-            return retValue;
+            return await _clientDataServices.DeleteDoAsync(clientData);
         }
         private async void OpenCurrentItem(object currentItem)
         {
@@ -199,7 +220,7 @@ namespace MasterModule.ViewModels
                 var name = summaryItem.Name;
                 var clientId = summaryItem.Code;
                 var tabName = clientId + "." + name;
-                var loadedClient = await _clientDataServices.GetAsyncClientDo(clientId);
+                var loadedClient = await _clientDataServices.GetDoAsync(clientId);
                 var currentPayload = BuildShowPayLoadDo(tabName, loadedClient);
                 currentPayload.PrimaryKeyValue = loadedClient.Value.NUMERO_CLI;
                 currentPayload.Sender = _mailBoxName;
@@ -216,7 +237,7 @@ namespace MasterModule.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    var value = ex.Message;
+                    DialogService?.ShowErrorMessage("Cannot load: " + ex.Message);
                 }
             }
         }
@@ -250,23 +271,27 @@ namespace MasterModule.ViewModels
         }
         protected override string GetRouteName(string name)
         {
-            string routedName =  "InvoiceModule:" + name;
+            var routedName =  "ClientModule:" + name;
             return routedName;
         }
 
-        protected override void LoadMoreItems(uint count, int baseIndex)
+        
+        protected override  void LoadMoreItems(uint count, int baseIndex)
         {
-            var list = _clientSummaryDtos.Skip(baseIndex).Take(100).ToList();
-            if (SummaryView is IncrementalList<ClientSummaryExtended> summary)
-            {
-                summary.LoadItems(list);
-            }
+            NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(
+                _clientDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
+
+         
         }
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {
             _clientSummaryDtos = result as IEnumerable<ClientSummaryExtended>;
-            SummaryView = _clientSummaryDtos;
+            var maxItems = _clientDataServices.NumberItems;
+            PageCount = _clientDataServices.NumberPage;
+           var summaryList = new IncrementalList<ClientSummaryExtended>(LoadMoreItems) { MaxItemCount = (int)maxItems};
+            summaryList.LoadItems(_clientSummaryDtos);
+            SummaryView = summaryList;
         }
     }
 }

@@ -13,6 +13,7 @@ using Prism.Commands;
 using System.Linq;
 using KarveControls;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace MasterModule.ViewModels
 {
@@ -75,7 +76,7 @@ namespace MasterModule.ViewModels
         ///  Abstract the new item. Nothing happens in the case of *InfoViewModels since the new item
         ///  is managed by the controller.
         /// </summary>
-        public override void NewItem()
+        protected override void NewItem()
         {
         }
         /// <summary>
@@ -85,6 +86,25 @@ namespace MasterModule.ViewModels
         {
 
         }
+        /// <summary>
+        ///  Abstact the set result after start and notify. Nothing happens in case of *InfoViewModels.
+        /// </summary>
+        /// <typeparam name="T">Type of the view modle</typeparam>
+        /// <param name="result"></param>
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+
+        }
+        /// <summary>
+        ///  Summary abtravt the result of the event.
+        /// </summary>
+        /// <param name="value">Value of the event</param>
+        /// <param name="arg">Arguments to be used</param>
+        protected override void OnPagedEvent(object value, PropertyChangedEventArgs arg)
+        {
+
+        }
+ 
         /// <summary>
         ///  Returns the branch lists associated to the *InfoViewModels.
         /// </summary>
@@ -99,10 +119,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         public IEnumerable<VisitTypeDto> VisitTypeDto
         {
-            get
-            {
-                return _visitTypeDto;
-            }
+            get => _visitTypeDto;
             set
             {
                 _visitTypeDto = value;
@@ -245,7 +262,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
             return ev;
         }
 
-        protected IReadOnlyDictionary<string, object> EventDictionary { get; set; }
+        public IDictionary<string, object> EventDictionary { get; set; }
         internal abstract Task SetVisitReseller(ResellerDto param, VisitsDto b);
 
         internal static VisitsDto SetDtoCrossReference(ContactsDto contacts, VisitsDto visit)
@@ -400,6 +417,11 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         public virtual async Task SetContactsCharge(PersonalPositionDto charge, ContactsDto item)
         {
             item.Responsability = charge.Name;
+            item.ResponsabilitySource = new PersonalPositionDto
+            {
+                Code = item.ContactId,
+                Name = item.ContactName
+            };
             await Task.Delay(1);
         }
 

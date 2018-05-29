@@ -19,10 +19,11 @@ namespace MasterModule.ViewModels
     {
         IRegionManager _regionManager;
         IRegionNavigationJournal _journal;
-        private INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> _notifyTaskCompletion;
+        private INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> _notifyTaskCompletion;
         private PropertyChangedEventHandler _notificationHandler;
-        private IncrementalList<ClientSummaryDto> _drivers;
-        private IEnumerable<ClientSummaryDto> _currentDrivers;
+        private IncrementalList<ClientSummaryExtended> _drivers;
+        private IEnumerable<ClientSummaryExtended> _currentDrivers;
+        private readonly IClientDataServices _clientDataServices;
         private bool _isBusy;
 
         public bool IsBusy { get { return _isBusy; }
@@ -32,63 +33,23 @@ namespace MasterModule.ViewModels
         public DriversControlViewModel(IDataServices services, IRegionManager manager): base(services)
         {
             _regionManager = manager;
+            _clientDataServices = DataServices.GetClientDataServices();
             GoBackCommand = new DelegateCommand(GoBack);
-            _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems) { MaxItemCount = 2000 }; 
             GoForwardCommand = new DelegateCommand(GoForward);
-            _notifyTaskCompletion = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryDto>>(LoadData(services), _notificationHandler);
-            _notificationHandler += OnLoadedNotification;
-          
+            _drivers    = new IncrementalList<ClientSummaryExtended>(LoadMoreItems);
+            _notifyTaskCompletion = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetPagedSummaryDoAsync(0, DefaultPageSize), PagingEvent); 
         }
-
-        /// <summary>
-        ///  TODO: This is the correct version of load notification.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnLoadedNotification(object sender, PropertyChangedEventArgs e)
-        {
-            INotifyTaskCompletion<IEnumerable<ClientSummaryDto>> clientSummary =
-                sender as INotifyTaskCompletion<IEnumerable<ClientSummaryDto>>;
-
-            if (clientSummary != null)
-            {
-                if (clientSummary.IsSuccessfullyCompleted)
-                {
-                    var value = clientSummary.Task.Result;
-                    _currentDrivers = value;
-                    IsBusy = true;
-                    _drivers = new IncrementalList<ClientSummaryDto>(LoadMoreItems) { MaxItemCount = 3000 };
-                    RaisePropertyChanged("Drivers");
-                    IsBusy = false;
-                 
-                }
-                else
-                {
-                    // message boxes shall be moved with 
-                    MessageBox.Show(clientSummary.ErrorMessage);
-                }
-            }
-        }
-
+      
         void LoadMoreItems(uint count, int baseIndex)
         {
-            var _orders = _currentDrivers;
-            var list = _orders.Skip(baseIndex).Take(50).ToList();
-            Drivers.LoadItems(list);
-        }
-        private async Task<IEnumerable<ClientSummaryDto>> LoadData(IDataServices services)
-        {
-            IClientDataServices clientDataServices = services.GetClientDataServices();
-            var result = await clientDataServices.GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
-            _currentDrivers = result;
-            return result;
-        }
 
-       
+            NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(
+                _clientDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
+        }
         public DelegateCommand GoForwardCommand { get; set; }
         public DelegateCommand GoBackCommand { get; set; }
 
-        public IncrementalList<ClientSummaryDto> Drivers
+        public IncrementalList<ClientSummaryExtended> Drivers
         {
             get { return _drivers; }
             set { _drivers = value; RaisePropertyChanged(); }
@@ -116,6 +77,26 @@ namespace MasterModule.ViewModels
         {
 
         }
-        
+        public override void DisposeEvents()
+        {
+            base.DisposeEvents();
+        }
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            if (sender is INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> clientSummary && clientSummary.IsSuccessfullyCompleted)
+            {
+                var orders = clientSummary.Result;
+                if (!Drivers.Any())
+                {
+                    Drivers = new IncrementalList<ClientSummaryExtended>(LoadMoreItems)
+                    {
+                        MaxItemCount = (int)_clientDataServices.NumberItems
+                    };
+                }
+                Drivers.LoadItems(orders);
+                RaisePropertyChanged("Drivers");
+            }
+           
+        }
     }
 }

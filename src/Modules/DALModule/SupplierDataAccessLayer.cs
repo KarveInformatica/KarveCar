@@ -14,19 +14,22 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using NLog;
 using System.Diagnostics;
+using DataAccessLayer.DataObjects;
+using DataAccessLayer.SQL;
+using KarveCommonInterfaces;
+using KarveDapper.Extensions;
 
 namespace DataAccessLayer
 {
 
+    /// <inheritdoc />
     /// <summary>
     ///  Implementation of the supplier data access layer.
     /// </summary>
     internal class SupplierDataAccessLayer : AbstractDataAccessLayer, ISupplierDataServices
     {
       
-        private readonly ISqlExecutor _executor;
-        
-
+       
         public const string SupplierTable1 = "PROVEE1";
         public const string SupplierTable2 = "PROVEE2";
         public const string PrimaryKey = "NUM_PROVEE";
@@ -44,7 +47,7 @@ namespace DataAccessLayer
                                               "CTAINTRACOP,CTAINTRACOPREP FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'";
 
       
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
      
 
 
@@ -55,9 +58,10 @@ namespace DataAccessLayer
         /// <param name="service">The global configuration service</param>
         public SupplierDataAccessLayer(ISqlExecutor mapper) :base(mapper)
         { 
-            this._executor = mapper;
-           
-           
+            SqlExecutor = mapper;
+            // this is used for paging, to count the number of items.
+            TableName = "PROVEE1";
+
         }
         /// <summary>
         ///  Get Supplier Data Object
@@ -68,20 +72,13 @@ namespace DataAccessLayer
         public async Task<SupplierPoco> GetSupplierDo(string supplierId)
         {
             SupplierPoco ret;
-            
-            using (IDbConnection connection = this._executor.OpenNewDbConnection())
+            using (var connection = SqlExecutor.OpenNewDbConnection())
             {
                 var query = string.Format(SupplierQuery, supplierId);
                 var result = await connection.QueryAsync<SupplierPoco>(query);
                 ret = result.FirstOrDefault();
             }
-            if (ret == null)
-            {
-                ret = new SupplierPoco();
-            }
-            return ret;
-
-
+            return ret ?? (ret = new SupplierPoco());
         }
 
 
@@ -97,17 +94,30 @@ namespace DataAccessLayer
 
             if (!String.IsNullOrEmpty(supplierCode))
             {
-                supplierCodeQuery = String.Format(GenericSql.DelegationQuery, "'" + supplierCode + "'");
-                delegationDataSet = await _executor.AsyncDataSetLoad(supplierCodeQuery);
+                supplierCodeQuery = string.Format(GenericSql.DelegationQuery, "'" + supplierCode + "'");
+                delegationDataSet = await SqlExecutor.AsyncDataSetLoad(supplierCodeQuery);
 
             }
             else
             {
-                supplierCodeQuery = String.Format(GenericSql.DelegationGenericQuery);
-                delegationDataSet = await _executor.AsyncDataSetLoad(supplierCodeQuery);
+                supplierCodeQuery = GenericSql.DelegationGenericQuery;
+                delegationDataSet = await SqlExecutor.AsyncDataSetLoad(supplierCodeQuery);
             }
-            Tuple<string, DataSet> retValue = new Tuple<string, DataSet>(supplierCodeQuery, delegationDataSet);
+            var retValue = new Tuple<string, DataSet>(supplierCodeQuery, delegationDataSet);
             return retValue;
+        }
+        /// <summary>
+        ///  Get the paged summary data object
+        /// </summary>
+        /// <param name="pageIndex">Index of the page</param>
+        /// <param name="pageSize">Size of the page</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDo(int pageIndex, int pageSize)
+        {
+            var dataPager = new DataPager<SupplierSummaryDto>(SqlExecutor);
+            var pageStart = (pageSize == 0) ? 1 : pageSize;
+            var paged = await dataPager.GetPagedSummaryDoAsync(QueryType.QuerySupplierSummaryPaged,pageStart, pageSize);
+            return paged;
         }
         /// <summary>
         /// This function deletes a supplier form the supplierId
@@ -121,11 +131,7 @@ namespace DataAccessLayer
                                     string supplierId,
                                     DataSet supplierDataSet)
         {
-            if (supplierDataSet == null)
-            {
-                return false;
-            }
-            return DeleteData(sqlQuery, supplierId, PrimaryKey, supplierDataSet);
+            throw  new NotImplementedException();
         }
 
         /// <summary>
@@ -136,30 +142,29 @@ namespace DataAccessLayer
         public void UpdateDataSetList(IDictionary<string, string> queries, IList<DataSet> setList)
         {
             StringBuilder queryStringBuilder = new StringBuilder();
-            _executor.BeginTransaction();
+            SqlExecutor.BeginTransaction();
 
             if (queries == null)
             {
                 return;
             }
 
-            foreach (DataSet set in setList)
+            foreach (var set in setList)
             {
-                DataSet tmp = set;
-                if (set != null)
+                var tmp = set;
+                if (set == null)
                 {
-                    foreach (DataTable table in set.Tables)
-                    {
-                        if (queries.ContainsKey(table.TableName))
-                        {
-                            queryStringBuilder.Append(queries[table.TableName]);
-                            queryStringBuilder.Append(";");
-                        }
-                    }
-                    _executor.UpdateDataSet(queryStringBuilder.ToString(), ref tmp);
+                    continue;
                 }
+                foreach (DataTable table in set.Tables)
+                {
+                    if (!queries.ContainsKey(table.TableName)) continue;
+                    queryStringBuilder.Append(queries[table.TableName]);
+                    queryStringBuilder.Append(";");
+                }
+                SqlExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref tmp);
             }
-            _executor.Commit();
+           SqlExecutor.Commit();
 
         }
         /// <summary>
@@ -169,25 +174,27 @@ namespace DataAccessLayer
         /// <param name="set">Set to be used for the updating.</param>
         public void UpdateDataSet(IDictionary<string, string> queries, DataSet set)
         {
-            StringBuilder queryStringBuilder = new StringBuilder();
+            var queryStringBuilder = new StringBuilder();
             if (queries == null)
             {
                 return;
             }
-            if (set != null)
+
+            if (set == null)
             {
-                foreach (DataTable table in set.Tables)
-                {
-                    if (queries.ContainsKey(table.TableName))
-                    {
-                        queryStringBuilder.Append(queries[table.TableName]);
-                        queryStringBuilder.Append(";");
-                    }
-                }
-                _executor.BeginTransaction();
-                _executor.UpdateDataSet(queryStringBuilder.ToString(), ref set);
-                _executor.Commit();
+                return;
             }
+            foreach (DataTable table in set.Tables)
+            {
+                if (queries.ContainsKey(table.TableName))
+                {
+                    queryStringBuilder.Append(queries[table.TableName]);
+                    queryStringBuilder.Append(";");
+                }
+            }
+            SqlExecutor.BeginTransaction();
+            SqlExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref set);
+            SqlExecutor.Commit();
         }
 
         /// <summary>
@@ -201,14 +208,23 @@ namespace DataAccessLayer
             return ret;
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///  This function simply generates a new identifier.
         /// </summary>
         /// <returns></returns>
         public string GetNewId()
         {
-            string name = GenerateUniqueId();
-            return name;
+            var id = string.Empty;
+            var provee = new PROVEE1();
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                if (dbConnection != null)
+                {
+                    id = dbConnection.UniqueId(provee);
+                }
+            }
+            return id;
         }
 
         /// <summary>
@@ -218,8 +234,8 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<ISupplierData> GetAsyncSupplierDo(string supplierCode)
         {
-            Supplier supplier = new Supplier(_executor);
-            bool loaded = await supplier.LoadValue(null, supplierCode);
+            var supplier = new Supplier(SqlExecutor);
+            var loaded = await supplier.LoadValue(null, supplierCode);
             if (loaded)
             {
                 return supplier;
@@ -229,8 +245,8 @@ namespace DataAccessLayer
 
         public async Task<bool> DeleteAsyncSupplierDo(ISupplierData data)
         {
-            bool retValue = false;
-            string supplierId = data.Value.NUM_PROVEE;
+            var retValue = false;
+            var supplierId = data.Value.NUM_PROVEE;
             if (!string.IsNullOrEmpty(supplierId))
             {
                 retValue = await data.DeleteAsyncData();
@@ -240,14 +256,29 @@ namespace DataAccessLayer
 
         public ISupplierData GetNewSupplierDo(string id)
         {
-            Supplier supplier= new Supplier(_executor, id);
+            var supplier= new Supplier(SqlExecutor, id);
             return supplier;
         }
 
         public async Task<bool> SaveChanges(ISupplierData supplierData)
         {
-            bool ret = await supplierData.SaveChanges();
+            var ret = await supplierData.SaveChanges();
             return ret;
+        }
+
+        public Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        {
+            var pager = new DataPager<SupplierSummaryDto>(SqlExecutor);
+            var startIndex = (baseIndex == 0) ? 1 : defaultPageSize;
+            NumberPage = await GetPageCount(defaultPageSize);
+            var summary = await pager.GetPagedSummaryDoAsync(QueryType.QuerySupplierSummaryPaged, startIndex, defaultPageSize);
+            return summary;
+           
         }
 
         /// <summary>
@@ -257,7 +288,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<DataSet> GetNewSupplier(IDictionary<string, string> queryList)
         {
-            DataSet set = await _executor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
+            DataSet set = await SqlExecutor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
             string supplierId = GetNewId();
             for (int i = 0; i < set.Tables.Count; ++i)
             {
@@ -280,43 +311,14 @@ namespace DataAccessLayer
            
             return set;
         }
-        /// <summary>
-        ///  This generate an uniqueId
-        /// </summary>
-        /// TODO: avoid this. Use the same way of the commission agent.
-        /// <returns></returns>
-        private new string GenerateUniqueId()
-        {
-            string id = "";
-            do
-            {
-                byte[] data = new byte[2];
-                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-                {
-                    rngCsp.GetBytes(data);
-                }
-                var tmpNumber = BitConverter.ToUInt16(data, 0);
-
-                id = tmpNumber.ToString();
-                string str = "SELECT NUM_PROVEE FROM PROVEE1 WHERE NUM_PROVEE='{0}'";
-                str = String.Format(str, id);
-                DataTable table = _executor.ExecuteSelectCommand(str, CommandType.Text);
-                if (table.Rows.Count == 0)
-                {
-                    break;
-                }
-            } while (true);
-
-            return id;
-        }
-
+        
         /// <summary>
         ///  Get async supplier dataset
         /// </summary>
         /// <returns></returns>
         public async Task<DataSet> GetAsyncSuppliers()
         {
-            DataSet summary = await _executor.AsyncDataSetLoad(GenericSql.SupplierQuery).ConfigureAwait(false);
+            var summary = await SqlExecutor.AsyncDataSetLoad(GenericSql.SupplierQuery).ConfigureAwait(false);
             return summary;
         }
         /// <summary>
@@ -326,13 +328,13 @@ namespace DataAccessLayer
         public async Task<DataSet> GetAsyncAllSupplierSummary()
         {
             string str = GenericSql.SupplierSummaryQuery;
-            DataSet summary = await _executor.AsyncDataSetLoad(str).ConfigureAwait(false);
+            var summary = await SqlExecutor.AsyncDataSetLoad(str).ConfigureAwait(false);
             return summary;
         }
        
         public async Task<DataSet> GetAsyncSupplierInfo(IDictionary<string, string> queryList)
         {
-            DataSet summary = await _executor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
+            var summary = await SqlExecutor.AsyncDataSetLoadBatch(queryList).ConfigureAwait(false);
             return summary;
         }
 
@@ -366,13 +368,13 @@ namespace DataAccessLayer
             }
             try
             {
-                _executor.BeginTransaction();
-                _executor.UpdateDataSet(queryStringBuilder.ToString(), ref supplierDataSet);
-                _executor.Commit();
+                SqlExecutor.BeginTransaction();
+               SqlExecutor.UpdateDataSet(queryStringBuilder.ToString(), ref supplierDataSet);
+               SqlExecutor.Commit();
             }
             catch (System.Exception e)
             {
-                _executor.Rollback();
+                SqlExecutor.Rollback();
                 _logger.Error("Error deleting a supplier");
                 throw new DataLayerExecutionException("Error deleting a supplier", e);
             }
@@ -381,20 +383,20 @@ namespace DataAccessLayer
 
 
         }
-
+        /// <summary>
+        ///  GetSupplierAsyncSummaryDto.
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
         {
             IEnumerable<SupplierSummaryDto> queryAsync = null;
-            using (IDbConnection connection = _executor.OpenNewDbConnection())
+            using (IDbConnection connection = SqlExecutor.OpenNewDbConnection())
             {
-                queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery).ConfigureAwait(false);
+                queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery)
+                    .ConfigureAwait(false);
             }
             return queryAsync;
         }
 
-        public Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -110,7 +110,7 @@ namespace ToolBarModule
                 Title = "Confirmacion",
                 Content = confirmDelete
             };
-            
+            ViewModelUri = new Uri("karve://toolbar/viewmodel?id=" + UniqueId);
             ConfirmationCommand = new DelegateCommand(() =>
             {
                 // string noActiveValue = configurationService.GetPrimaryKeyValue();
@@ -195,17 +195,19 @@ namespace ToolBarModule
         {
             var payLoad = new DataPayLoad
             {
-                PayloadType = DataPayLoad.Type.Insert
+                PayloadType = DataPayLoad.Type.Insert,
+                Sender = ViewModelUri.ToString()
             };
             _states = ToolbarStates.Insert;
             if (!string.IsNullOrEmpty(currentViewObjectId))
             {
                 payLoad.ObjectPath = viewStack.Peek();
+               
                 _eventManager.SendMessage(currentViewObjectId, payLoad);
             }
             else
             {
-
+               
                 // this send a message to the current control view model.
                 DeliverIncomingNotify(_activeSubSystem, payLoad);
             }
@@ -365,6 +367,7 @@ namespace ToolBarModule
 
 
             payLoad.Subsystem = subSystem;
+            payLoad.Sender = ViewModelUri.ToString();
             _dictionary.TryGetValue(payLoad.Subsystem, out var destinationSubsystem);
             if (!string.IsNullOrEmpty(destinationSubsystem))
             {
@@ -383,12 +386,13 @@ namespace ToolBarModule
 
             IsNewEnabled = true;
             CurrentPayLoad = payload;
+            _activeSubSystem = payload.Subsystem;
             switch (payload.PayloadType)
             {
                 // a subsystem has opened a new window with data.
                 case DataPayLoad.Type.RegistrationPayload:
                     {
-                        _activeSubSystem = payload.Subsystem;
+                       
                         var objectPath = payload.ObjectPath;
                         if (objectPath != null)
                         {

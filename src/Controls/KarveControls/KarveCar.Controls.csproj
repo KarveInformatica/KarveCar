@@ -53,6 +53,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
@@ -222,8 +224,10 @@
     <Compile Include="Behaviour\ButtonBehavior.cs" />
     <Compile Include="Behaviour\ChangeRuleBehavior.cs" />
     <Compile Include="Behaviour\ComboAdvChangeBehavior.cs" />
+    <Compile Include="Behaviour\DataPagerBehavior.cs" />
     <Compile Include="Behaviour\GridEditButtonBehavior.cs" />
     <Compile Include="Behaviour\Grid\GridDefaultBehavior.cs" />
+    <Compile Include="Behaviour\Grid\GridFilterBehavior.cs" />
     <Compile Include="Behaviour\KarveBehaviorBase.cs" />
     <Compile Include="Behaviour\MagnifierGridBehavior.cs" />
     <Compile Include="Behaviour\Grid\CellPresenterItem.cs" />
@@ -236,6 +240,7 @@
     <Compile Include="Behaviour\Grid\NavigationAwareItem.cs" />
     <Compile Include="Behaviour\LineGridUIException.cs" />
     <Compile Include="Behaviour\MagnifierButtonBehavior.cs" />
+    <Compile Include="Behaviour\NavigateEditButtonBehavior.cs" />
     <Compile Include="Behaviour\PlusMinusBehaviour.cs" />
     <Compile Include="Calendar\AttachedClick.cs" />
     <Compile Include="Calendar\DateMonth.cs" />
@@ -270,6 +275,10 @@
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
     <Compile Include="GridCellConverter.cs" />
     <Compile Include="GridColumnFilterBehaviour.cs" />
+    <Compile Include="GridFilter\GridFilter.xaml.cs">
+      <DependentUpon>GridFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Behaviour\Grid\GridFilterCommand.cs" />
     <Compile Include="HeaderedWindow\HeaderedWindow.xaml.cs">
       <DependentUpon>HeaderedWindow.xaml</DependentUpon>
     </Compile>
@@ -304,6 +313,7 @@
     <Compile Include="ControlExt.cs" />
     <Compile Include="Calendar\Utility\DateTimeExtensions.cs" />
     <Compile Include="KarveGridExt.cs" />
+    <Compile Include="KarveGridFilter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="TextedThumb\TextedThumb.cs" />
     <Compile Include="TripleButton\TripleButton.xaml.cs">
@@ -339,6 +349,7 @@
     <Compile Include="UIObjects\UiObjectsLoader.cs" />
     <Compile Include="UIObjects\UiSearchTextObject.cs" />
     <Compile Include="Utilities\KeyboardUtils.cs" />
+    <Compile Include="ViewModels\DataProviderViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Clock\KarveClock.xaml">
@@ -356,6 +367,10 @@
     <Page Include="DataFieldItemsControl\DataFieldItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="GridFilter\GridFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HeaderedWindow\HeaderedWindow.xaml">
       <SubType>Designer</SubType>
@@ -432,6 +447,10 @@
     <Resource Include="Images\bt_add.png" />
     <Resource Include="Images\cars.png" />
     <Resource Include="Images\contract.png" />
+    <Resource Include="Images\sortascend.png" />
+    <Resource Include="Images\sortdescend.png" />
+    <Resource Include="Images\bt_apply.png" />
+    <Resource Include="Images\cancel2.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />

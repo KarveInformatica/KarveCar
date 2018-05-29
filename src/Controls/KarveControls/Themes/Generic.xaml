@@ -458,7 +458,8 @@
                                                                        AllowSorting="True"
                                                                        AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
-                                                                       NavigationMode="Row" 
+                                                                       NavigationMode="Row"
+                                                                       FilterRowPosition="FixedTop"
                                                                        Height="800"
                                                                        MaxWidth="1100"
                                                                        Background="White"
@@ -480,8 +481,20 @@
                                                             ></local:GridColumnFilterBehaviour>
                                                     </i:Interaction.Behaviors>
                                                     </Syncfusion:SfDataGrid>
+                                                <!--
+                                                <Syncfusion:SfDataPager x:Name="DualSearchBoxDataPaged"
+                                                PageSize="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=Default}"                                      
+                                Grid.Row="3"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10"> 
                                                 
-                                              <!--
+
+
+                                                </Syncfusion:SfDataPager>
+                                                -->
+                                                <!--
                                                 <Border Grid.Row="2" Height="60"
                                                         VerticalAlignment="Bottom"
                                                         Background="Black"

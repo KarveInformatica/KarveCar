@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Data;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.ViewModels
 {
@@ -23,18 +26,20 @@ namespace MasterModule.ViewModels
     /// </summary>
     public class VehiclesControlViewModel: MasterControlViewModuleBase, IEventObserver, ICreateRegionManagerScope
     {
-        private IVehicleDataServices _vehicleDataServices;
-        private const string VehicleNameColumn = "Marca";
-        private const string VehicleColumnCode = "Numero";
+        private readonly IRegionManager _regionManager;
         private readonly UnityContainer _container;
-        private IRegionManager _regionManager;
+
+        private IVehicleDataServices _vehicleDataServices;
         private const string VehiclesAgentSummaryVm = "VehiclesAgentSummaryVm";
         private const string VehiclesModuleRoutePrefix = "VehiclesModule:";
         public bool CreateRegionManagerScope => true;
-        protected INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> InitializationNotifierSummary;
+       
+        private INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> _vehicleTaskNotify;
 
+        private IEnumerable<VehicleSummaryDto> _vehicleSummaryDtos;
+        private PropertyChangedEventHandler _vehicleEventTask;
 
-
+        
         /// <summary>
         ///  This is the vehicle control view model. 
         /// This is responsable for the opening new tabs.
@@ -52,26 +57,23 @@ namespace MasterModule.ViewModels
         {
             _container = container;
             _regionManager = regionManager;
-            SummaryView = new ObservableCollection<VehicleSummaryDto>();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             AllowedGridColumns = GenerateAllowedColumns();
             InitViewModel();
         }
         private async void OpenCurrentItem(object selectedItem)
         {
-
-            VehicleSummaryDto summaryItem = selectedItem as VehicleSummaryDto;
-            if (summaryItem != null)
+            if (selectedItem is VehicleSummaryDto summaryItem)
             {
-                Tuple<string, string> idNameTuple = new Tuple<string, string>(summaryItem.Code, summaryItem.Brand);
-                string tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
+                var idNameTuple = new Tuple<string, string>(summaryItem.Code, summaryItem.Brand);
+                var tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
                 var agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
                 var navigationParameters = new NavigationParameters();
                 navigationParameters.Add("id",  idNameTuple.Item1);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
                 var uri = new Uri(typeof(VehicleInfoView).FullName+navigationParameters,UriKind.Relative);
                 _regionManager.RequestNavigate("TabRegion", uri);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, agent);
+                var currentPayload = BuildShowPayLoadDo(tabName, agent);
                 currentPayload.PrimaryKeyValue = idNameTuple.Item1;
                 currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
@@ -104,39 +106,53 @@ namespace MasterModule.ViewModels
         {
             base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGrid;
             MessageHandlerMailBox += MessageHandler;
+            SummaryView = new IncrementalList<VehicleSummaryDto>(LoadMoreItems);
+            StartAndNotify();
+            _vehicleEventTask += OnNotifyIncrementalList<VehicleSummaryDto>;
+            PagingEvent += OnPagedEvent;
             EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
             StartAndNotify();          
         }
+        // FIXME: see if it is possible to get rid of this..
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            if ((sender is INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> listCompletion) && (listCompletion.IsSuccessfullyCompleted))
+            {
+
+                if (SummaryView is IncrementalList<VehicleSummaryDto> summary)
+                {
+                    summary.LoadItems(listCompletion.Result);
+                    SummaryView = summary;
+                }
+            }
+        }
         public ICommand OpenItem
         {
-            get { return OpenItemCommand; }
-            set { OpenItemCommand = value; }
+            get => OpenItemCommand;
+            set => OpenItemCommand = value;
         }
         
         public override void StartAndNotify()
         {
-         
             _vehicleDataServices = DataServices.GetVehicleDataServices();
-            InitializationNotifierSummary = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetVehiclesAgentSummary(0, 0), InitializationNotifierOnPropertyChangedSummary<IEnumerable<VehicleSummaryDto>>);
-
+            _vehicleTaskNotify = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), _vehicleEventTask);
+        
         }
         
         /// <summary>
         ///  This add a new item fresh from zero about vehicles.
         /// </summary>
-        public override void NewItem()
+        protected override void NewItem()
         {
-            string name = KarveLocale.Properties.Resources.VehiclesControlViewModel_NewItem_NuevoVehiculos;
-            string codigo = DataServices.GetSupplierDataServices().GetNewId();
-            //VehicleInfoView view = _container.Resolve<VehicleInfoView>();
-            string viewNameValue = name + "." + codigo;
+            var name = KarveLocale.Properties.Resources.VehiclesControlViewModel_NewItem_NuevoVehiculos;
+            var codigo = DataServices.GetSupplierDataServices().GetNewId();
+            var viewNameValue = name + "." + codigo;
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("id", codigo);
             navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
             var uri = new Uri(typeof(VehicleInfoView).FullName + navigationParameters, UriKind.Relative);
             _regionManager.RequestNavigate("TabRegion", uri);
-           // ConfigurationService.AddMainTab(view, viewNameValue);
-            DataPayLoad currentPayload = BuildShowPayLoadDo(viewNameValue);
+            var currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.VehicleSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
@@ -149,7 +165,7 @@ namespace MasterModule.ViewModels
         ///  This method is called after the notification from the base class to set the table after the load summary mechanism 
         ///  has been launched. 
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="payLoad">Name of the payload</param>
         
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
@@ -174,7 +190,7 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         protected override string GetRouteName(string name)
         {
-            string routedName = VehiclesModuleRoutePrefix + name;
+            var routedName = VehiclesModuleRoutePrefix + name;
             return routedName;
 
         }       
@@ -185,32 +201,41 @@ namespace MasterModule.ViewModels
         public void IncomingPayload(DataPayLoad payload)
         {
         }
- 
+        /// <summary>
+        ///  Set the summary as datatable.
+        /// </summary>
+        /// <param name="table"></param>
         protected override void SetTable(DataTable table)
         {
             SummaryView = table;
         }
         public override async Task<bool> DeleteAsync(string vehiculeId, DataPayLoad payLoad)
         {
-            IVehicleData vehicleData = await DataServices.GetVehicleDataServices().GetVehicleDo(vehiculeId);
-            bool retValue = await DataServices.GetVehicleDataServices().DeleteVehicleDo(vehicleData);
+            var vehicleData = await DataServices.GetVehicleDataServices().GetVehicleDo(vehiculeId);
+            var retValue = await DataServices.GetVehicleDataServices().DeleteVehicleDo(vehicleData);
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
             return retValue;
         }
 
         public override void DisposeEvents()
         {
+            _vehicleEventTask -= OnNotifyIncrementalList<VehicleSummaryDto>;
             EventManager.DeleteMailBoxSubscription(EventSubsystem.VehichleSummaryVm);
         }
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {
-            throw new NotImplementedException();
+            _vehicleSummaryDtos = result as IEnumerable<VehicleSummaryDto>;
+            var maxItems =_vehicleDataServices.NumberItems;
+            PageCount =_vehicleDataServices.NumberPage;
+            SummaryView = new IncrementalList<VehicleSummaryDto>(LoadMoreItems) {MaxItemCount = (int) maxItems};
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            throw new NotImplementedException();
+            NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(
+                _vehicleDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
+            
         }
     }
 }

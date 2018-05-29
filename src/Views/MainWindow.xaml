@@ -208,9 +208,20 @@
                                                   SizeForm="Large"
                                            LargeIcon="/KarveCar;component/Images/invoicesfolder.png"
                                           Command="{Binding NavigateCommand}" 
-                                          CommandParameter="Invoices">
+                                          CommandParameter="InvoiceSummary">
                         </syncfusion:RibbonButton>
 
+                    </syncfusion:RibbonTab>
+                    <syncfusion:RibbonTab x:Name="rbtbReservas"
+                              Caption="{Binding lrbtbReservas, Source={StaticResource ResourceLanguage}}">
+                        <syncfusion:RibbonButton x:Name="rbtnRerservasConsulta"
+                                            Label="{Binding lrbtnConsultaModificacion, Source={StaticResource ResourceLanguage}}"
+                                            HorizontalAlignment="Left" 
+                                                  SizeForm="Large"
+                                           LargeIcon="/KarveCar;component/Images/booking.png"
+                                          Command="{Binding NavigateCommand}" 
+                                          CommandParameter="BookingSummary">
+                        </syncfusion:RibbonButton>
                     </syncfusion:RibbonTab>
                     <syncfusion:RibbonTab Caption="Auxiliares">
 
@@ -230,10 +241,6 @@
                             <syncfusion:RibbonGallery  SizeForm="Large" LargeIcon="/KarveCar;component/Images/cagent.png"
                                 Name="_ribbonGalleryBrokers" Width="230" VisualMode="DropDown" Label="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}">
 
-                                <syncfusion:RibbonGalleryItem>
-                                    <syncfusion:ButtonAdv SizeMode="Large" Label="{Binding lrbtnAccesoriosVehiculos, Source={StaticResource ResourceLanguage}}"  
-                                                          LargeIcon="/KarveCar;component/Images/vehicletools.png" IconWidth="20" IconHeight="20"/>
-                                </syncfusion:RibbonGalleryItem>
 
                                 <syncfusion:RibbonGalleryItem  >
                                     <!--
@@ -277,39 +284,7 @@
                             <syncfusion:RibbonGallery  SizeForm="Large" LargeIcon="/KarveCar;component/Images/cars.png"
                                 Name="_ribbonGalleryVehicles" Width="230" VisualMode="DropDown" Label="{Binding lrbtnVehiculos, Source={StaticResource ResourceLanguage}}">
 
-                                <syncfusion:RibbonGalleryItem>
-                                    <syncfusion:ButtonAdv SizeMode="Large" 
-                                                          Label="Acessorios" 
-                                                          IconWidth="20" IconHeight="20"
-                                                          LargeIcon="/KarveCar;component/Images/vehicletools.png" 
-                                                          Command="{Binding NavigateCommand}" 
-                                                           CommandParameter="VehicleTools"/>
-                                    
-                                </syncfusion:RibbonGalleryItem>
-
-                                <syncfusion:RibbonGalleryItem>
-                                    <syncfusion:ButtonAdv SizeMode="Large" 
-                                                          Label="Actividades" 
-                                                          IconWidth="20" IconHeight="20"
-                                                          LargeIcon="/KarveCar;component/Images/vehicletools.png" 
-                                                          Command="{Binding NavigateCommand}" 
-                                                          CommandParameter="VehicleActivities"/>
-                                </syncfusion:RibbonGalleryItem>
-                                <syncfusion:RibbonGalleryItem>
-                                    <syncfusion:ButtonAdv 
-                                        
-                                        Label="{Binding lrbtnCodigosMantenimiento, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                             FontSize="10"
-                                        SizeMode="Large" 
-                                        IsMultiLine="False"
-                                        Width="200"
-                                                          IconWidth="20" IconHeight="20"
-                                                          LargeIcon="/KarveCar;component/Images/vehicletools.png" 
-                                        Command="{Binding NavigateCommand}" 
-                                             CommandParameter="VehicleMaintienanceCode"      
-                                        />
-                                </syncfusion:RibbonGalleryItem>
+                             
 
                             </syncfusion:RibbonGallery>
 

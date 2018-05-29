@@ -756,13 +756,7 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public byte? ETIQSEGUIDO { get; set; }
- 
-	/// <summary>
-    ///  Set or get the COMBUSTIBLE property.
-    /// </summary>
-    
-		public byte? COMBUSTIBLE { get; set; }
- 
+
 	/// <summary>
     ///  Set or get the PROMOWEB property.
     /// </summary>

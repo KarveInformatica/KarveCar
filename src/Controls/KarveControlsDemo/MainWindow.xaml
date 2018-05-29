@@ -19,7 +19,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <kc:DataDatePicker Grid.Row="0"></kc:DataDatePicker>
+      
        
         
     </Grid>

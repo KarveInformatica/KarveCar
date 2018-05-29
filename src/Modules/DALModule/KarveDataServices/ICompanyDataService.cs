@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
 {
-    public interface ICompanyDataServices
+    
+    public interface ICompanyDataServices: IPageCounter, ISorterData<CompanySummaryDto>
     {
         /// <summary>
         ///  This give us the summary query.
@@ -42,5 +40,13 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         string GetNewId();
+
+        /// <summary>
+        ///  Return the paged summary do.
+        /// </summary>
+        /// <param name="baseIndex">Index to placed</param>
+        /// <param name="defaultPageSize">Default page size</param>
+        /// <returns></returns>
+        Task<IEnumerable<CompanySummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
     }
 }

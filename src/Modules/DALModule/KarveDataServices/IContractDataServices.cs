@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 namespace KarveDataServices
 {
-    public interface IContractDataServices
+    public interface IContractDataServices: IPageCounter
     {
         /// <summary>
         ///  Get the contract summary async.

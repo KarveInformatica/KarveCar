@@ -19,7 +19,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  This is the base class for all master registry view model.
     /// </summary>
-    public abstract class MasterControlViewModuleBase: MasterViewModuleBase
+    public abstract class MasterControlViewModuleBase: MasterViewModuleBase, ICreateRegionManagerScope
     {
         private bool _canDeleteRegion;
        /// <summary>
@@ -55,35 +55,8 @@ namespace MasterModule.ViewModels
             DeleteEventHandler += DeleteElementHandler;
         }
 
-        /// <summary>
-        ///  This class set the results for the incremental load
-        /// </summary>
-        /// <typeparam name="T">Dto type to be set during the incremental load.</typeparam>
-        /// <param name="result">Set to be loaded in the incremental load.</param>
-        protected abstract void SetResult<T>(IEnumerable<T> result);
-        /// <summary>
-        ///  This class force the result for the incremental load.
-        /// </summary>
-        /// <param name="count">Number of items</param>
-        /// <param name="baseIndex">Base index to load</param>
         protected abstract void LoadMoreItems(uint count, int baseIndex);
-        
-        protected void OnNotifyIncrementalList<T>(object sender, PropertyChangedEventArgs e)
-        {
-            INotifyTaskCompletion<IEnumerable<T>> notification = sender as INotifyTaskCompletion<IEnumerable<T>>;
-            if (notification.IsSuccessfullyCompleted)
-            {
-                var summaryCount = notification.Task.Result.Count();
-                SetResult(notification.Task.Result);
-            }
-            if (notification.IsFaulted)
-            {
-                if (DialogService != null)
-                {
-                    DialogService.ShowErrorMessage("Error loading the main screen");
-                }
-            }
-        }
+
 
         /// <summary>
         /// Dispose any event.
@@ -113,6 +86,27 @@ namespace MasterModule.ViewModels
                 {
                     DialogService.ShowErrorMessage(messageBox);
                 }
+            }
+        }
+        /// <summary>
+        ///  This is a view model for the navigation.
+        /// </summary>
+        /// <param name="navigationContext"></param>
+        /// <returns></returns>
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+      
+        /// <summary>
+        ///  Get if the region shall be scoped.
+        /// </summary>
+        public bool CreateRegionManagerScope
+        {
+            get
+            {
+                return true;
             }
         }
         /// <summary>

@@ -10,7 +10,10 @@ namespace DataAccessLayer.DataObjects
     [Table("MARCAS")]
     public class MARCAS 
 	{
-	
+
+
+
+	 
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>

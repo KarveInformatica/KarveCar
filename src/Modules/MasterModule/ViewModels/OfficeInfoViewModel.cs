@@ -51,8 +51,7 @@ namespace MasterModule.ViewModels
             DateTime dt = DateTime.Now;
             _provinciaDto = new ObservableCollection<ProvinciaDto>();
             ProvinciaDto = _provinciaDto;
-            var officeHelper = new Office();
-            officeHelper.ProvinciaDto = new ObservableCollection<ProvinciaDto>();
+            var officeHelper = new Office {ProvinciaDto = new ObservableCollection<ProvinciaDto>()};
             OfficeHelper = officeHelper;
             CurrentYear = dt.Year.ToString();
             ViewModelUri = new Uri("karve://office/viewmodel?id=" + Guid.ToString());
@@ -507,7 +506,7 @@ namespace MasterModule.ViewModels
         private DateTime _holidayTimeFrom;
         private DateTime _holidayTimeTo;
         private IEnumerable<ProvinciaDto> _provinciaDto;
-        private UnityContainer _unityContainer;
+  
 
         #endregion
 

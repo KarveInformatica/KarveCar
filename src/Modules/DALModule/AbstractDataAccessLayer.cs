@@ -9,7 +9,10 @@ using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using System.Diagnostics.Contracts;
+using System.Threading.Tasks;
 using KarveDataServices;
+using KarveDataServices.DataTransferObject;
+
 namespace DataAccessLayer
 {
     /// <summary>
@@ -17,11 +20,28 @@ namespace DataAccessLayer
     /// </summary>
     internal class AbstractDataAccessLayer
     {
-        private ISqlExecutor _executor;
-        protected DataLoader _sqlFieldLoader = new DataLoader();
-        protected StringBuilder _baseQuery = new StringBuilder();
-        
-        protected IDictionary<string, string> baseQueryDictionary = new Dictionary<string, string>();
+        /// <summary>
+        ///  The executor in common between all the abstract data access layer
+        /// </summary>
+        protected ISqlExecutor SqlExecutor;
+
+        protected readonly QueryStoreFactory QueryStoreFactory = new QueryStoreFactory();
+
+        /// <summary>
+        ///  The data loader for xml fields
+        /// </summary>
+        protected DataLoader SqlFieldLoader = new DataLoader();
+        /// <summary>
+        ///  The name of a table
+        /// </summary>
+        protected string TableName = string.Empty;
+        /// <summary>
+        ///  The base query dictionary
+        /// </summary>
+        protected IDictionary<string, string> BaseQueryDictionary = new Dictionary<string, string>();
+        /// <summary>
+        ///  The mapper.
+        /// </summary>
         protected IMapper Mapper;
 
         /// <summary>
@@ -31,7 +51,7 @@ namespace DataAccessLayer
         internal AbstractDataAccessLayer(ISqlExecutor executor)
         {
             Contract.Requires(executor != null, "AbstractQuery query executor is null");
-            _executor = executor;
+            SqlExecutor = executor;
            
         }
        /// <summary>
@@ -44,25 +64,25 @@ namespace DataAccessLayer
             Contract.Requires(!string.IsNullOrEmpty(pathFile), "Path name is not valied");
             var currentAssemblyPath = System.IO.Path.GetDirectoryName(
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(currentAssemblyPath);
             builder.Append(pathFile);
-            DataCollection collection = _sqlFieldLoader.LoadXmlData(builder.ToString());
+            var collection = SqlFieldLoader.LoadXmlData(builder.ToString());
             foreach (var table in collection.DataList)
             {
-                StringBuilder tmpBuilder = new StringBuilder();
-                List<Field> fields = table.DataFields;
-                foreach (Field f in fields)
+                var tmpBuilder = new StringBuilder();
+                var fields = table.DataFields;
+                foreach (var f in fields)
                 {
                     tmpBuilder.Append(f.Name);
                     tmpBuilder.Append(",");
                 }
-                string query = tmpBuilder.ToString();
+                var query = tmpBuilder.ToString();
                 query = query.Substring(0, query.Length - 1);
                 tmpBuilder.Clear();
-                if (!baseQueryDictionary.ContainsKey(table.Name))
+                if (!BaseQueryDictionary.ContainsKey(table.Name))
                 {
-                    baseQueryDictionary.Add(table.Name, query);
+                    BaseQueryDictionary.Add(table.Name, query);
                 }
             }
             // now instance a map
@@ -70,87 +90,31 @@ namespace DataAccessLayer
            
         }
         /// <summary>
-        /// Build the where clause using the supplier id..
+        ///  Set or Get the pages number
         /// </summary>
-        /// <param name="primaryKey">Primary key to be used</param>
-        /// <param name="supplierId">Supplier id to be used</param>
-        /// <returns></returns>
-        private string BuildQuery(string primaryKey, string supplierId)
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append(" WHERE ");
-            builder.Append(primaryKey);
-            string clause = $"='{supplierId}'";
-            builder.Append(clause);
-            string query = builder.ToString();
-            return query;
-        }
-
-        protected virtual bool UniqueId(string id)
-        {
-            return true;
-        }
+        public int NumberPage { get; set; }
         /// <summary>
-        /// This generate an unique id.
+        ///  Set or Get the number of items in the data collection.
         /// </summary>
-        /// <returns>Returns an unique id.</returns>
-        protected string GenerateUniqueId()
-        {
-            string id = "";
-            do
-            {
-                byte[] data = new byte[8];
-                using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-                {
-                    rngCsp.GetBytes(data);
-                }
-                string hex = BitConverter.ToUInt64(data, 0).ToString();
-                id = hex.Substring(0, 7);
-                // we shall complement this to 7.
-                if (UniqueId(id))
-                {
-                    break;
-                }
+        public long NumberItems { get; set; }
 
-            } while (true);
-
-            return id;
-        }
         /// <summary>
-        /// This delete data using a dataset.
+        ///  Fetch the page count.
         /// </summary>
-        /// <param name="sqlQuery">Query to be selected.</param>
-        /// <param name="supplierId">Supplier Id</param>
-        /// <param name="primaryKey">PrimaryKey to be used.</param>
-        /// <param name="supplierDataSet"></param>
-        /// <returns></returns>
-        protected bool DeleteData(string sqlQuery, string supplierId, string primaryKey,
-            DataSet supplierDataSet)
+        /// <param name="pageSize">Page dimension.</param>
+        /// <returns>The number of pages</returns>
+        public async Task<int> GetPageCount(int pageSize)
         {
 
-            
-            string query = BuildQuery(primaryKey, supplierId);
-
-            try
+            var pager = new DataPager<BaseDto>(SqlExecutor);
+            if (pageSize <= 0)
             {
-                _executor.BeginTransaction();
-                foreach (DataTable table in supplierDataSet.Tables)
-                {
-                    foreach (DataRow row in table.Rows)
-                    {
-                        row.Delete();
-                    }
-                }
-                _executor.UpdateDataSet(query, ref supplierDataSet);
-                _executor.Commit();
-                return true;
+                throw new ArgumentException();
             }
-            catch (System.Exception e)
-            {
-                _executor.Rollback();
-                throw new DataLayerExecutionException("Delete a data access layer failed!", e);
-
-            }
-        }
+            var pageInfo = await pager.GetPageCount(pageSize, TableName);
+            NumberItems = pageInfo.Item1;
+            var pageCount = pageInfo.Item2;
+            return pageCount;
+        } 
     }
 }

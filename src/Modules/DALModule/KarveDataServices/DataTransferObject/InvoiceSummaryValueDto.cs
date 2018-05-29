@@ -32,7 +32,9 @@ namespace KarveDataServices.DataTransferObject
         [Display(Name = "Num.Factura", Description = "Numero Factura")]
         public string InvoiceName
         {
-            set { _invoiceName = value; RaisePropertyChanged("InvoiceName"); }
+            set { _invoiceName = value;
+               
+                RaisePropertyChanged("InvoiceName"); }
             get => _invoiceName;
         }
 

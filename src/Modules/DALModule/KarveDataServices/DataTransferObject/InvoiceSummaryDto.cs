@@ -14,7 +14,7 @@ namespace KarveDataServices.DataTransferObject
         private int _opciones;
         private string _description;
         private decimal? _quantity;
-        private long _price;
+        private decimal _price;
         private decimal? _discount;
         private decimal? _subtotal;
         private string _unity;
@@ -75,7 +75,7 @@ namespace KarveDataServices.DataTransferObject
             get => _quantity;
         }
         [Display(Name = "Precio", Description = "Precio")]
-        public long Price
+        public decimal Price
         {
             set
             {
@@ -121,7 +121,9 @@ namespace KarveDataServices.DataTransferObject
             }
             get
             {
-                _subtotal = ((Quantity * 100) * ((100 - Discount) / 100)) * Price; 
+                var total = (Quantity * Price);
+                var discount = (Discount / 100) * total;
+                _subtotal = (total - discount); 
                 return _subtotal;
             }
         }

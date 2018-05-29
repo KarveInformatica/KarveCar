@@ -21,7 +21,7 @@ namespace DataAccessLayer
 
         public override async Task<IClientData> CreateClientAsync(ClientDto dto)
         {
-            IClientData data = await _services.GetClientDataServices().GetAsyncClientDo(dto.NUMERO_CLI).ConfigureAwait(false);
+            IClientData data = await _services.GetClientDataServices().GetDoAsync(dto.NUMERO_CLI).ConfigureAwait(false);
             return data;
         }
 

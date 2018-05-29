@@ -57,10 +57,13 @@ namespace KarveCommon.Services
                     throw new Exception("Interpreter not initalized"); 
                 }
 
-                if (payLoad == null)
+                switch (payLoad)
                 {
-                    return;
+                    case null:
+                    case NullDataPayload _:
+                        return;
                 }
+
                 switch (payLoad.PayloadType)
                 {
                     case DataPayLoad.Type.Update:

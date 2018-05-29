@@ -38,7 +38,8 @@
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="95*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
@@ -46,6 +47,7 @@
         </StackPanel>
         <Syncfusion:SfDataGrid x:Name="OfficeAgentSummary"
                                Grid.Row="1"
+                               FilterRowPosition="FixedTop"
                                ColumnSizer="AutoWithLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -116,6 +118,18 @@
           
 
         </Syncfusion:SfDataGrid>
+        <Syncfusion:SfDataPager x:Name="OfficeDataPager"
+                                PageSize="{Binding DefaultPagingSize}"                                      
+                                Grid.Row="2"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10" 
+                                Source="{Binding SummaryView}">
+
+
+        </Syncfusion:SfDataPager>
+
 
     </Grid>
 

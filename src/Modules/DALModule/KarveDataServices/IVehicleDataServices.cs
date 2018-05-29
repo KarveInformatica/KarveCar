@@ -9,7 +9,7 @@ namespace KarveDataServices
     /// <summary>
     ///  Interface for the vehicle data services.
     /// </summary>
-    public interface IVehicleDataServices
+    public interface IVehicleDataServices: IPageCounter
     {
         /// <summary>
         /// This give a paged version of a vehicles summary
@@ -80,5 +80,7 @@ namespace KarveDataServices
         /// <param name="data">This are the data to be saved in a vehicle</param>
         /// <returns></returns>
         Task<bool> SaveChangesVehicle(IVehicleData data);
+
+        Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
     }
 }

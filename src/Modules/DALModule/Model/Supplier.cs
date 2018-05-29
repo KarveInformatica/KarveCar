@@ -178,6 +178,7 @@ namespace DataAccessLayer.Model
                 if (sourceValueProperty != null)
                 {
                     var destinationProperty = destination.GetType().GetProperty(prop.Name);
+                    // here there is the problem that that sometimes a char is made of a bool.
                     destinationProperty?.SetValue(destination, sourceValueProperty.GetValue(source));
                 }
             }
@@ -494,8 +495,8 @@ namespace DataAccessLayer.Model
                             _supplierValue.NUM_PROVEE);
                     
                     ContactsDto = _supplierMapper.Map<IEnumerable<ProContactos>, IEnumerable<ContactsDto>>(contacts);
-                    var months = await connection.QueryAsync<MESES>(MonthsSelect);
-                    MonthsDtos = _supplierMapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(months);
+                    //var months = await connection.QueryAsync<MESES>(MonthsSelect);
+                    //MonthsDtos = _supplierMapper.Map<IEnumerable<MESES>, IEnumerable<MonthsDto>>(months);
                     var languages = await connection.QueryAsync<IDIOMAS>(LanguageSelect);
                     LanguageDtos = _supplierMapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(languages);
                     var paymentForms = await connection.QueryAsync<FORMAS>(PaymentFormSelect);

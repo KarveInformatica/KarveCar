@@ -15,15 +15,10 @@ namespace MasterModule.Common
     public abstract class UpperBarViewModelBase: KarveViewModelBase
     {
         protected IEnumerable _sourceView= new List<object>();
-        private object _dataObject = new object();
         protected IEventManager EventManager;
-      
+   
         protected DataSubSystem _subsystem;
-        //protected const string AssistQuery = "AssistQuery";
-       
-       
-        protected string PrimaryKeyValue = "";
-
+      
         protected enum UpperBarViewModelState
         {
             Init, Loaded

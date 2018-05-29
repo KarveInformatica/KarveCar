@@ -52,7 +52,7 @@ namespace ToolBarModule.Command
                 return new NullDataPayload();
             }
             // FIXME: check for the law of demeter.
-            var clientDo = await DataServices.GetClientDataServices().GetAsyncClientDo(clientData.NUMERO_CLI);
+            var clientDo = await DataServices.GetClientDataServices().GetDoAsync(clientData.NUMERO_CLI);
             if (clientDo == null)
             {
                 payLoad.PayloadType = DataPayLoad.Type.Insert;

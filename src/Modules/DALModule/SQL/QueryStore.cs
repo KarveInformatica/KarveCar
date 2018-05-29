@@ -5,6 +5,9 @@ using System.Xml.Serialization;
 using Dapper;
 using NLog;
 using KarveDataServices;
+using Z.BulkOperations;
+using KarveCommonInterfaces;
+using System.ComponentModel;
 
 namespace DataAccessLayer.SQL
 {
@@ -48,13 +51,19 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryProvince, @"SELECT * FROM PROVINCIA WHERE SIGLAS='{0}'" },
             {QueryType.QueryCountry, @"SELECT * FROM PAIS WHERE SIGLAS='{0}'" },
             {QueryType.QueryPaymentForm, @"SELECT * FROM FORMAS WHERE CODIGO='{0}'" },
-            {QueryType.QueryVehicle,@"select * from vehiculo1 inner join VEHICULO2 ON VEHICULO2.CODIINT=VEHICULO1.CODIINT WHERE VEHICULO1.CODIINT='{0}'"},
+            {QueryType.QueryVehicle,@"SELECT VEHICULO1.CODIINT, MARCA,MATRICULA,MODELO,MO1,MO2,GRUPO,MAR,COLOR,PROVEEDOR,TIPOSEGU,
+                                      BASTIDOR,DANOS,LEXTRAS,ACCESORIOS_VH,AVISO,REF,ACTIVIDAD,PROPIE,KMRESTA,
+                                      FCAMBIO_KM,VEHICULO2.GASTOS,VEHICULO2.KM,VEHICULO2.SALDO,VEHICULO2.PROXIMANTE
+                                      FROM VEHICULO1 INNER JOIN VEHICULO2 ON VEHICULO2.CODIINT=VEHICULO1.CODIINT WHERE VEHICULO1.CODIINT='{0}'"},
             {QueryType.QueryOffices, @"SELECT * FROM OFICINAS WHERE CODIGO = '{0}'"},
             {QueryType.HolidaysByOffice, @"SELECT * FROM FESTIVOS_OFICINA WHERE OFICINA = '{0}'"},
-            {QueryType.HolidaysOfficeDelete, @"DELETE * FROM FESTIVOS_OFICINA WHERE OFICINA = '{0}'"},
+            {QueryType.HolidaysOfficeDelete, @"DELETE FROM FESTIVOS_OFICINA WHERE OFICINA = '{0}'"},
             {QueryType.HolidaysDate, @"SELECT * FROM FESTIVOS_OFICINA WHERE FESTIVO = CONVERT(DATETIME,'{0}',101) AND OFICINA='{1}' AND  PARTE_DIA='{2}' AND HORA_DESDE='{3}' AND HORA_HASTA='{4}'"},
             {QueryType.QueryChannel, @"SELECT * FROM CANAL WHERE CODIGO='{0}'" },
             {QueryType.QueryCompanySummary, @"select CODIGO as Code, NOMBRE as Name, NIF as Nif, TELEFONO as Phone, Direccion as Direction, SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country from SUBLICEN LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV" },
+            {
+                QueryType.QueryCompanyPaged,  @"select TOP {0} START AT {1} CODIGO as Code, NOMBRE as Name, NIF as Nif, TELEFONO as Phone, Direccion as Direction, SUBLICEN.CP as Zip, Poblacion as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country from SUBLICEN LEFT OUTER JOIN PAIS ON SUBLICEN.NACIO = PAIS.PAIS LEFT OUTER JOIN PROVINCIA ON SUBLICEN.PROVINCIA = PROVINCIA.PROV"
+            },
             {QueryType.QueryCurrency, @"select * from currencies;" },
             
             {QueryType.QueryClientSummary, @"SELECT CLIENTES1.NUMERO_CLI as Code, 
@@ -114,7 +123,7 @@ namespace DataAccessLayer.SQL
                                                     ORIGEN as Origin,
                                                     CLIENTES2.VENDEDOR as Reseller,
                                                     OFICINA as Office, 
-                                                    COMERCIAL as Commercial
+                                                    COMERCIAL as Commercial,
                                                     ALTA as Falta, 
                                                     FENAC as BirthDate
                                                     from CLIENTES1 
@@ -123,10 +132,12 @@ namespace DataAccessLayer.SQL
                                                     LEFT OUTER JOIN PROVINCIA 
                                                     ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA 
                                                     LEFT OUTER JOIN PAIS 
-                                                    ON PAIS.SIGLAS = CLIENTES1.NACIOPER WHERE CLIENTES1.NUMERO_CLI='{0}'"
+                                                    ON PAIS.SIGLAS = CLIENTES1.NACIOPER"
                                                     },
             {QueryType.QueryClientContacts, @"SELECT ccoIdContacto, ccoContacto,DL.cldIdDelega as idDelegacion, DL.cldDelegacion as nombreDelegacion,NIF, ccoCargo,ccoTelefono, ccoMovil, ccoFax, ccoMail,CC.ULTMODI as ULTMODI,CC.USUARIO as USUARIO FROM CliContactos AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente='{0}' ORDER BY CC.ccoContacto"},
-            { QueryType.QuerySupplierSummary, @"SELECT " },
+
+            { QueryType.QuerySupplierSummary, @"SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as LastModification, PROVEE1.USUARIO as CurrentUser FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE" },
+            { QueryType.QuerySupplierSummaryPaged, "SELECT TOP {0} START AT {1} PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as LastModification, PROVEE1.USUARIO as CurrentUser FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE" },
             { QueryType.QueryOfficeByCompany, @"SELECT * FROM OFICINAS WHERE CODIGO='{0}' AND SUBLICEN='{1}'"},
             { QueryType.QueryVehicleSummary, @"SELECT vehiculo1.codiint As Code, matricula as Matricula, 
                 MARCAS.NOMBRE as Marca, modelo as Model, grupo as Group, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALES as LeasingCompany, FSEGB as LeavingDate, FSEGA as StartingDate, CLIENTE1.NUMERO_CLI as ClientNumber, CLIENTE1.NOMBRE as Client, TIPOREV as Policy,    
@@ -134,19 +145,23 @@ namespace DataAccessLayer.SQL
             " LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI "+
             " LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCA.NOMBRE " +
              " INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT"},
-             { QueryType.QueryVehicleSummaryPaged, @"SELECT TOP {0} START AT {1} vehiculo1.codiint As Code, matricula as Matricula, MARCAS.NOMBRE as Marca, modelo as Model, grupo as Group, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALES as LeasingCompany, FSEGB as LeavingDate, FSEGA as StartingDate, CLIENTE1.NUMERO_CLI as ClientNumber, CLIENTE1.NOMBRE as Client, TIPOREV as Policy,    
-                 VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, KeyCode as LLAVE, LLAVE2 as StorageKey  FROM VEHICULO1 LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI "+
-                 " LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCA.NOMBRE " +
-                " INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT"},
+             { QueryType.QueryVehicleSummaryPaged, @"SELECT TOP {0} START AT {1} vehiculo1.codiint As Code, matricula as Matricula, MARCAS.NOMBRE as Brand, modelo as Model, grupo as VehicleGroup, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALEAS as LeasingCompany, FSEGUB as LeavingDate, FSEGUBA as StartingDate, CLIENTES1.NUMERO_CLI as ClientNumber, CLIENTES1.NOMBRE as Client, TIPOREV as Policy,SITUACION as Situation,VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, PROPIE.NOMBRE as OwnerName ,LLAVE as KeyCode, LLAVE2 as StorageKey FROM VEHICULO1 LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI LEFT OUTER JOIN PROPIE ON PROPIE.NUM_PROPIE = VEHICULO1.PROPIE LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCAS.NOMBRE INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT;"},
+            
             {QueryType.QueryInvoiceSummaryExtended, "select distinct numero_fac as InvoiceName, serie_fac as InvoiceSerie, referen_fac as InvoiceRef, cliente_fac as InvoiceCode, CONTRATO_FAC as InvoiceContract,c.nombre as ClientName, fecha_fac as InvoiceDate, cuota_fac as InvoiceFee, base_fac as InvoiceBase, todo_fac as TotalInvoice, f.FRATIPIMPR as InvoiceType, c2.contable as Account, sublicen_fac as CompanyCode, s.NOMBRE as CompanyName, oficina_fac as OfficeCode, asiento_fac as Seat, fserv_a as InvoiceTo, fserv_de as InvoiceFrom, observaciones_fac as Notes, usuario_fac as InvoiceUser, ultmodi_fac as LastModification, vienede_fac as ComeFrom from facturas as f " +
                 "left outer join sublicen as s on f.sublicen_fac = s.CODIGO " +
                 "inner join clientes1 as c on f.cliente_fac = c.numero_cli " +
                 "inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" },
+            {QueryType.QueryInvoiceSummaryPaged, "select distinct TOP {0} START AT {1} numero_fac as InvoiceName, serie_fac as InvoiceSerie, referen_fac as InvoiceRef, cliente_fac as InvoiceCode, CONTRATO_FAC as InvoiceContract,c.nombre as ClientName, fecha_fac as InvoiceDate, cuota_fac as InvoiceFee, base_fac as InvoiceBase, todo_fac as TotalInvoice, f.FRATIPIMPR as InvoiceType, c2.contable as Account, sublicen_fac as CompanyCode, s.NOMBRE as CompanyName, oficina_fac as OfficeCode, asiento_fac as Seat, fserv_a as InvoiceTo, fserv_de as InvoiceFrom, observaciones_fac as Notes, usuario_fac as InvoiceUser, ultmodi_fac as LastModification, vienede_fac as ComeFrom from facturas as f " +
+                                                    "left outer join sublicen as s on f.sublicen_fac = s.CODIGO " +
+                                                    "inner join clientes1 as c on f.cliente_fac = c.numero_cli " +
+                                                    "inner join clientes2 as c2 on c.numero_cli = c2.numero_cli;" },
+
             {QueryType.QueryInvoiceSingle, "SELECT * from FACTURAS where NUMERO_FAC='{0}'"},
             {QueryType.QueryInvoiceItem,"SELECT * FROM LIFAC WHERE NUMERO_LIF='{0}';"},
             {QueryType.QueryInvoiceSingleByDate,"select * from FACTURAS where NUMERO_FAC='{0}' and fecha_fac='{1}'"},
             {QueryType.QuerySellerSummary, "select NUM_VENDE, NOMBRE, DIRECCION, POBLACION, VENDEDOR.CP, PR.PROV as PROVINCIA, TELEFONO,MOVIL FROM VENDEDOR left outer join provincia as pr on pr.SIGLAS = VENDEDOR.PROVINCIA" },
             {QueryType.QueryCommissionAgentSummary, "SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACIONES.CP as Zip, POBLACIONES.POBLA as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS LEFT OUTER JOIN POBLACIONES on COMISIO.CP = POBLACIONES.CP;"},
+            { QueryType.QueryCommissionAgentPaged, "SELECT TOP {0} START AT {1} NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACIONES.CP as Zip, POBLACIONES.POBLA as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS LEFT OUTER JOIN POBLACIONES on COMISIO.CP = POBLACIONES.CP;" },
             { QueryType.QueryBrokerContacts, "SELECT CONTACTO,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CARGO, PG.NOMBRE AS NOM_CARGO, TELEFONO, MOVIL, FAX, EMAIL, CC.USUARIO, CC.ULTMODI, DL.CLDIDDELEGA as DelegaId, cldDelegacion DELEGACC_NOM FROM CONTACTOS_COMI AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.CARGO = PG.CODIGO LEFT OUTER JOIN COMI_DELEGA AS DL ON CC.DELEGA_CC = DL.CLDIDDELEGA AND CC.COMISIO = DL.CLDIDCOMI WHERE COMISIO = '{0}' ORDER BY CC.CONTACTO;" },
             { QueryType.QueryResellerByClient, "SELECT visIdVisita as VisitId,visIdCliente as ClientId,visIdContacto as VisitClientId,visFecha as VisitDate,visIdVendedor as VisitResellerId,visIdVisitaTipo as VisitTypeId,PEDIDO as VisitOrder, PV.CONTACTO as ContactId,TV.CODIGO_VIS as VisitCode, TV.NOMBRE_VIS as VisitTypeName, TV.ULTMODI as VisitTypeLastModification, TV.USUARIO as VisitTypeUser , NUM_VENDE as ResellerId, PV.nom_contacto AS ContactName, VE.NOMBRE as ResellerName, VE.MOVIL as ResellerCellPhone FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON PV.COMISIO = CC.VISIDCLIENTE AND PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE='{0}' ORDER BY CC.visFECHA;"},
             { QueryType.QuerySupplierById, "SELECT PROVEE1.NUM_PROVEE as NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,DIREC2,CP,PROVEE2.COMERCIAL,PROVEE2.PREFIJO,PROVEE2.CONTABLE,PROVEE2.FORPA,PROVEE2.PLAZO,PROVEE2.PLAZO2,PROVEE2.PLAZO3,PROVEE2.DIA,PROVEE2.PALBARAN, PROVEE2.INTRACO,PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO,POBLACION,PROV,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA,          SUBLICEN,GESTION_IVA_IMPORTA,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA,MESVACA2,CC,IBAN,BANCO,SWIFT,IDIOMA_PR1,GESTION_IVA_IMPORTA,NOAUTOMARGEN,PROALB_COSTE_TRANSP,EXENCIONES_INT,CTALP,CONTABLE,CUGASTO,RETENCION,CTAPAGO,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO,CP_PAGO,POB_PAGO, PROV_PAGO,PAIS_PAGO,TELF_PAGO,FAX_PAGO, PERSONA_PAGO,MAIL_PAGO,DIR_DEVO,     DIR2_DEVO,POB_DEVO,CP_DEVO,PROV_DEVO,PAIS_DEVO,TELF_DEVO,FAX_DEVO,PERSONA_DEVO,MAIL_DEVO, DIR_RECLAMA,DIR2_RECLAMA,                                         CP_RECLAMA,POB_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6,CTAINTRACOP,ctaintracoPRep FROM PROVEE1 INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE NUM_PROVEE='{0}'"},
@@ -156,8 +171,59 @@ namespace DataAccessLayer.SQL
 
             },
             {
+                QueryType.QueryVehiclePhoto, "select PICTURE,EMPRESA,FILENAME from vehiculo1 inner join pictures on CODIINT = cod_asociado and empresa = -2 " +
+                                             "and filename = rutafoto where (cod_asociado  is not null) and (codiint='{0}')"
+            },
+            {
                 QueryType.QueryVehicleColor, "SELECT * FROM COLORFL WHERE CODIGO='{0}'"
-            }
+            },
+            {
+                QueryType.QueryVehicleActivity,  "select * from ACTIVEHI where NUM_ACTIVEHI='{0}'"
+            },
+            {
+                QueryType.QueryVehicleGroup, "SELECT * from GRUPOS WHERE CODIGO='{0}'"
+            },
+            {
+           
+                QueryType.QueryVehicleOwner, "select NUM_PROPIE as Codigo, " +
+                                             "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
+                                             "PROPIE.CP as CP, PROVINCIA.PROV as Provincia, " +
+                                             "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from PROPIE " +
+                                             "INNER JOIN PROVINCIA ON PROPIE.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_PROPIE='{0}'"
+            },
+            {
+                QueryType.QueryAgentByVehicle, "select NUM_AG as Code, " +
+                                               "NOMBRE as Nombre, DIRECCION as Direccion, POBLACION as Poblacion, " +
+                                               "AGENTES.CP as CP, PROVINCIA.PROV as Provincia, " +
+                                               "NIF, TELEFONO as Telefono, FAX as Fax, EMAIL as Email from AGENTES " +
+                                               "INNER JOIN PROVINCIA ON AGENTES.PROVINCIA = PROVINCIA.SIGLAS WHERE NUM_AG='{0}'"
+            },    
+            {
+                QueryType.QueryBrandByVehicle, "SELECT CODIGO,NOMBRE,PACTADAS,FECHA,LOCUTOR,PROVEE,CONDICIONES,MARCAS.ULTMODI,MARCAS.USUARIO,FBAJA,OBS,CTA_MARCA FROM MARCAS INNER JOIN VEHICULO1 ON VEHICULO1.MAR=MARCAS.CODIGO WHERE VEHICULO1.CODIINT='{0}'"
+            },  
+            {
+                QueryType.QueryVehicleMaintenance, "select CODIGO_MAN as MaintananceCode, NOMBRE_MAN as MaintananceName, ULT_FEC_MV as LastMaintenenceDate, ULT_KM_MV as  LastMaintananceKMs, PROX_FEC_MV as NextMaintenenceDate, PROX_KM_MV as  NextMaintananceKMs, OBSERVACIONES_MAN as Observation from MANTENIMIENTO_VEHICULO LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)"
+            },
+            {
+                QueryType.QueryBookingSummary, "select * from reservas1 inner join reservas2 on reservas1.NUMERO_RESERVA = reservas2.NUMERO_RESERVA"
+            },
+            {
+                QueryType.QueryBookingAllFields, "select * from reserva1 inner join reservas2 on " +
+                                        "reservas1.NUMERO_RESERVA = reservas2.NUMERO_RESERVA where NUMERO_RESERVA={0}"
+            },
+            {
+                 QueryType.QueryBooking, "SELECT * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES WHERE RESERVAS2.NUMERO_RES='{0}'; SELECT * FROM LIRESER WHERE NUMERO='{0}'"
+            },
+            {
+                 QueryType.QueryBookedPaged, "SELECT TOP {0} START AT {1} * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES"
+            },
+
+            { QueryType.QueryBookingSummaryExt, "select * from reservas1;" },
+            { QueryType.QueryBookingPaged,"SELECT TOP {0} START AT {1} RESERVAS1.NUMERO_RES as BookingNumber, RESERVAS1.NOMBRE_RES1 as BookingName, RESERVAS1.FECHA_RES1 as BookingDate, RESERVAS1.LOCALIZA_RES1 as Locator, OFFICE.CODIGO AS OfficeCode, OFFICE.ZONAOFI AS OfficeZone, OFFICE.NOMBRE as OfficeName, RESERVAS1.GRUPO_RES1 as BookingGroup, RESERVAS1.RENTAL1_RES1 AS BookerUserCode, RESERVAS1.FSALIDA_RES1 as DepartureDate, RESERVAS1.HSALIDA_RES1 as DepartureHour, US1.NOMBRE as BookerUserName, DRIVER.NOMBRE as DriverName, DRIVER.NUMERO_CLI as DriverCode, RESERVAS1.USUARIO_RES1 AS CurrentUser, RESERVAS2.OBS1_RES2 as Notes, RESERVAS2.ORIGEN_RES2 as BookingOrigin, RESERVAS2.MULDIR_RES2 as MultipleDirection, RESERVAS1.ULTMODI_RES1 as LastModification, RESERVAS2.COMISIO_RES2 as BookingBroker, RESERVAS2.TOLON_RES2 as DepositTotal, RESERVAS1.contrato_res1 as Contract, RESERVAS1.FIANZA_DEPOSITO_RES1 as Deposit, RESERVAS1.TARIFA_RES1 as Fare, RESERVAS1.LUENTRE_RES1 as DeliveryPlace, RESERVAS1.LUDEVO_RES1 as ReturnPlace, RESERVAS1.RECHAZAFECHA as RejectionDate, RESERVAS1.FPREV_RES1 as ReturnDate, RESERVAS1.HPREV_RES1 as ReturnTime, V1.MATRICULA as RegistrationNumber, V1.MODELO as VehicleModel, V1.SITUACION as VehicleSituation, RESERVAS2.BONONUM_RES2 as Bonus, CLIENT1.NUMERO_CLI as ClientCode,CLIENT1.NOMBRE as ClientName, RESERVAS2.CONFIRMADA_RES2 as Confirmed, RESERVAS2.OTROCOND_RES2 as OtherDriver, RESERVAS2.OTRO2COND_RES2 as OtherDriver2, RESERVAS2.OTRO3COND_RES2 as OtherDriver3, (select sum(importe) from cobros where reserva = RESERVAS1.NUMERO_RES) as BookingBill, (select NOMBRE from ORIGEN where NUM_ORIGEN=BookingOrigin) as BookingOriginName FROM RESERVAS1 LEFT OUTER JOIN GRUPOS G ON RESERVAS1.GRUPO_RES1=G.CODIGO LEFT OUTER JOIN OFICINAS AS OFFICE ON RESERVAS1.OFISALIDA_RES1 = OFFICE.CODIGO LEFT OUTER JOIN CLIENTES1 AS CLIENT1 ON RESERVAS1.CLIENTE_RES1 = CLIENT1.NUMERO_CLI LEFT OUTER JOIN CLIENTES1 AS DRIVER ON RESERVAS1.CONDUCTOR_RES1 = DRIVER.NUMERO_CLI LEFT OUTER JOIN SUBLICEN AS COMPANY ON RESERVAS1.SUBLICEN_RES1 = COMPANY.CODIGO LEFT OUTER JOIN VEHICULO1 V1 ON RESERVAS1.VCACT_RES1=V1.CODIINT LEFT OUTER JOIN USURE US1 ON US1.CODIGO=RESERVAS1.RENTAL1_RES1 LEFT OUTER JOIN VEHICULO2 V2 ON V2.CODIINT=V1.CODIINT INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES ORDER BY BookingNumber, BookingDate;"},
+           
+            { QueryType.QueryBookingItem, @"select * from LIRESER WHERE CLAVE_LR='{0}';" },
+            { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO={'0'}" }
+
         };
         
         /// <summary>
@@ -184,26 +250,19 @@ namespace DataAccessLayer.SQL
         /// <returns></returns>
         private IList<string> BuildQuerySet(List<QueryType> queryList, List<string> codeList)
         {
-            List<string> currentList = new List<string>();
+            var currentList = new List<string>();
             if (queryList.Count != codeList.Count)
             {
                 return new List<string>();
             }
-            int i = 0;
+            var i = 0;
             foreach (var typeOfQuery in queryList)
             {
                 _dictionary.TryGetValue(typeOfQuery, out var valueofQuery);
                 if (!string.IsNullOrEmpty(valueofQuery))
                 {
                     var value = string.Empty;
-                    if (string.IsNullOrEmpty(codeList[i]))
-                    {
-                        value = valueofQuery;
-                    }
-                    else
-                    {
-                        value = string.Format(valueofQuery, codeList[i]);
-                    }
+                    value = string.IsNullOrEmpty(codeList[i]) ? valueofQuery : string.Format(valueofQuery, codeList[i]);
                     i++;
                     currentList.Add(value);
                 }
@@ -219,8 +278,8 @@ namespace DataAccessLayer.SQL
         /// <returns>A string containing the queries with the clauses.</returns>
         private string BuildMultipleQuery(List<QueryType> queryList, List<string> codeList)
         {
-            IList<string> currentValue = BuildQuerySet(queryList, codeList);
-            StringBuilder builder =  new StringBuilder();
+            var currentValue = BuildQuerySet(queryList, codeList);
+            var builder =  new StringBuilder();
             foreach (var v in currentValue)
             {
                 builder.Append(v);
@@ -235,18 +294,23 @@ namespace DataAccessLayer.SQL
         /// <param name="query">Type of the query</param>
         /// <param name="start">start position</param>
         /// <param name="stop">End position.</param>
-        public void AddParamRange(QueryType query, long start, long stop)
+        public IQueryStore AddParamRange(QueryType query, long start, long stop)
         {
             _dictionary.TryGetValue(query, out var tmpQuery);
+            if (string.IsNullOrEmpty(tmpQuery))
+            {
+                throw new ArgumentNullException("Resolved query is null");
+            }
             tmpQuery = string.Format(tmpQuery, start, stop);
             _memoryStore.Add(query, tmpQuery);
+            return this;
         }
         /// <summary>
         ///  Parameter list.
         /// </summary>
         /// <param name="query">Type of the query</param>
         /// <param name="parameter">List of parameters</param>
-        public void AddParam(QueryType query, IList<string> parameter)
+        public IQueryStore AddParam(QueryType query, IList<string> parameter)
         {
             var args = new object[parameter.Count];
             int k = 0;
@@ -257,23 +321,24 @@ namespace DataAccessLayer.SQL
             }
 
             _dictionary.TryGetValue(query, out var tmpQuery);
-            tmpQuery = string.Format(tmpQuery, args);
+            tmpQuery = string.Format(tmpQuery ?? throw new InvalidOperationException(), args);
             _memoryStore.Add(query, tmpQuery);
+            return this;
         }
     /// <summary>
     /// Add a parameter to build in the memory store.
     /// </summary>
     /// <param name="queryCity">Kind of query type</param>
     /// <param name="code">Code of the query</param>
-    public void AddParam(QueryType queryCity, string code)
+    public IQueryStore AddParam(QueryType queryCity, string code)
         {
-            if (string.IsNullOrEmpty(code)) return;
+            if (string.IsNullOrEmpty(code)) return this;
             Logger.Debug(queryCity.ToString());
             if (!_memoryStore.ContainsKey(queryCity))
             {
                 _memoryStore.Add(queryCity, code);
             }
-
+            return this;
         }
         /// <inheritdoc />
         /// <summary>
@@ -292,17 +357,19 @@ namespace DataAccessLayer.SQL
         /// <summary>
         ///  Clear the query store.
         /// </summary>
-        public void Clear()
+        public IQueryStore Clear()
         {
             _memoryStore.Clear();
+            return this;
         }
         /// <summary>
         ///  Add a parameter for the query type.
         /// </summary>
         /// <param name="query">Query type</param>
-        public void AddParam(QueryType query)
+        public IQueryStore AddParam(QueryType query)
         {
             _memoryStore.Add(query, string.Empty);
+            return this;
         }
         /// <summary>
         ///  Get an instanct of the query store
@@ -313,18 +380,37 @@ namespace DataAccessLayer.SQL
             var qs = new QueryStore();
             return qs;
         }
-
-        public void AddParam<T1, T2>(QueryType queryType, T1 firstCode, T2 secondCode)
+        /// <summary>
+        /// Add parameters to the query set in the working memory
+        /// </summary>
+        /// <typeparam name="T1">First parameter type</typeparam>
+        /// <typeparam name="T2">Second parameter type</typeparam>
+        /// <param name="queryType">Type of the query</param>
+        /// <param name="firstCode">Fist code type</param>
+        /// <param name="secondCode">Second code type</param>
+        public IQueryStore AddParam<T1, T2>(QueryType queryType, T1 firstCode, T2 secondCode)
         {
             var code = firstCode.ToString();
             var code2 = secondCode.ToString();
-            IList<string> par = new List<string>();
-            par.Add(code);
-            par.Add(code2);
+            IList<string> par = new List<string>
+            {
+                code,
+                code2
+            };
             this.AddParam(queryType, par);
+            return this;
         }
-
-        public void AddParam<T1, T2, T3>(QueryType queryType, T1 firstCode, T2 secondCode, T3 thirdCode)
+        /// <summary>
+        /// Add parameters to the query set in the working memory
+        /// </summary>
+        /// <typeparam name="T1">First parameter type</typeparam>
+        /// <typeparam name="T2">Second parameter type</typeparam>
+        /// <typeparam name="T3">Third parameter type</typeparam>
+        /// <param name="queryType">Type of the query</param>
+        /// <param name="firstCode">First code type</param>
+        /// <param name="secondCode">Second code type</param>
+        /// <param name="thirdCode">Third code type</param>
+        public IQueryStore AddParam<T1, T2, T3>(QueryType queryType, T1 firstCode, T2 secondCode, T3 thirdCode)
         {
             var code = firstCode.ToString();
             var code2 = secondCode.ToString();
@@ -334,30 +420,98 @@ namespace DataAccessLayer.SQL
             par.Add(code2);
             par.Add(code3);
             this.AddParam(queryType, par);
+            return this;
         }
-       
         /// <summary>
         /// Build a query without passing through the working memory.
         /// </summary>
-        /// <param name="queryType"></param>
-        /// <param name="param"></param>
+        /// <param name="queryType">Type of the query. The type of the query shall have the same size of the working memory.</param>
+        /// <param name="param">List of parameters.</param>
         /// <returns></returns>
         public string BuildQuery(QueryType query, IList<string> param)
         {
 
             var args = new object[param.Count];
-            int k;
-            k = 0;
+            var k = 0;
+            var tmpQuery = string.Empty;
             foreach (var p in param)
             {
                 args[k] = p;
                 k++;
             }
-
-            _dictionary.TryGetValue(query, out var tmpQuery);
+            if (!_memoryStore.TryGetValue(query, out var tmpQuery1))
+            {
+                if (_dictionary.TryGetValue(query, out var tmpQuery2))
+                {
+                    tmpQuery = tmpQuery2;
+                }
+            }
+            else
+            {
+                tmpQuery = tmpQuery1;
+            }
             tmpQuery = string.Format(tmpQuery ?? throw new InvalidOperationException("QueryType is null"), args);
             return tmpQuery;
         }
 
+        public string GetCountQuery(QueryTable client)
+        {
+
+            return "";
+        }
+
+        public string GetCountItems(string table, string key, string number)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("SELECT COUNT(*) ");
+            builder.Append("FROM ");
+            builder.Append(table);
+            builder.Append(" WHERE ");
+            builder.Append(key);
+            builder.Append("=");
+            builder.Append("'");
+            builder.Append(number);
+            builder.Append("'");
+            return builder.ToString();
+
+        }
+        /// <summary>
+        ///  Add a param filter: NAME REGEXP value.
+        /// </summary>
+        /// <param name="pagedQuery">Type of the paged query</param>
+        /// <param name="queryFilter">Filter chain to be used.</param>
+       
+        public IQueryStore AddParamFilter(QueryType pagedQuery, IQueryFilter queryFilter)
+        {
+            string filter = " WHERE " + queryFilter.Resolve();
+            _memoryStore.Add(pagedQuery, filter);
+            return this;
+        }
+        /// <summary>
+        ///  Add parameters for sorting.
+        /// </summary>
+        /// <param name="queryTemplate">Type of the paged array</param>
+        /// <param name="sortChain">Index of sorting</param>
+        /// <returns>The current query store.</returns>
+        public IQueryStore AddParamFilterSort(QueryType queryTemplate, Dictionary<string, ListSortDirection> sortChain)
+        {
+            var orderByBuilder = new StringBuilder();
+            orderByBuilder.Append(" ORDER BY ");
+            foreach (var pair in sortChain)
+            {
+                orderByBuilder.Append(pair.Key.ToUpper());
+                var key = sortChain[pair.Key];
+                if (key == ListSortDirection.Ascending)
+                {
+                    orderByBuilder.Append(" ASC, ");
+                }
+                else
+                {
+                    orderByBuilder.Append(" DESC ");
+                }
+            }
+            _memoryStore.Add(queryTemplate, orderByBuilder.ToString());
+            return this;
+        }
     }
 }

@@ -1,0 +1,390 @@
+﻿<UserControl x:Class="BookingModule.Views.BookingControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BookingModule.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="900" d:DesignWidth="4000"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Syncfusion:BoolToVisibilityConverter x:Key="VisibilityConverter" />
+                <ObjectDataProvider x:Key="FilterMode"
+                                    MethodName="GetValues"
+                                    ObjectType="{x:Type system:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="Syncfusion:FilterMode" />
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
+             
+
+                <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
+                    <Setter Property="FilterMode" Value="Both" />
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock FontWeight="Bold" FontSize="30"
+                       Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}" />
+            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding ItemName}" />
+        </StackPanel>
+
+        <Syncfusion:SfDataGrid x:Name="BookingControlSummary"
+                               ColumnSizer="AutoLastColumnFill"
+                               Grid.Row="1"
+                               AutoGenerateColumns="False"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               NavigationMode="Row"
+                               FilterRowPosition="FixedTop"
+                               karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                               karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            <!--
+           OfficeCode,InvoiceType,Seat
+             {Binding lnumerorserve, Source={StaticResource ResourceLanguage}}"
+            -->
+            <Syncfusion:SfDataGrid.Columns>
+                <Syncfusion:GridTextColumn
+                    HeaderText="{Binding lbookingnumber,Source={StaticResource ResourceLanguage}}"
+                    MappingName="BookingNumber"
+                    TextAlignment="Left"
+                    AllowFiltering="True"
+                    FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                    AllowEditing="False"
+                    AllowGrouping="True" />
+
+
+                <Syncfusion:GridDateTimeColumn
+                    HeaderText="{Binding lcreationdate, Source={StaticResource ResourceLanguage}}"
+                    MappingName="BookingDate" FilterPopupStyle="{StaticResource GenericCodeStyle}">
+                </Syncfusion:GridDateTimeColumn>
+                <Syncfusion:GridTemplateColumn HeaderText="{Binding CancelaReserva, Source={StaticResource ResourceLanguage}}"
+                                                MappingName="CancelBook">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+
+
+                        <DataTemplate>
+                        <Grid>
+                            <Button Command="{Binding CancelBook}" CommandParameter="{Binding BookingNumber}" Background="Transparent">
+                                <Button.Content>
+                                    <Grid>
+                                      <Grid.ColumnDefinitions>
+                                           <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                      </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column ="0" Text="{Binding lcancelled, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                            <Image Grid.Column ="1" Source="/KarveControls;component/Images/cancel2.png"></Image>
+                                    </Grid>
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                </Syncfusion:GridTemplateColumn>
+                <Syncfusion:GridCheckBoxColumn HeaderText="{Binding lcancelled, Source={StaticResource ResourceLanguage}}"
+                                               MappingName="Confirmed"
+                                               TextAlignment="Left"
+                                               AllowFiltering="True"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="True"
+                                               AllowGrouping="True">
+
+                </Syncfusion:GridCheckBoxColumn>
+                    
+                <Syncfusion:GridTextColumn HeaderText="{Binding localizador, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Locator"
+                                           TextAlignment="Left"
+                                           AllowFiltering="True"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding StringConstants_ZonaOfi, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="OfficeZone"
+                                           TextAlignment="Left"
+                                           MinimumWidth="180"
+                                           AllowFiltering="True"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+                <Syncfusion:GridTextColumn HeaderText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                               MappingName="OfficeName"
+                                               TextAlignment="Center"
+                                               AllowFiltering="True"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="False"
+                                               AllowGrouping="True" />
+                <Syncfusion:GridTextColumn HeaderText="{Binding ldriver, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="DriverName"
+                                           TextAlignment="Center"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False"
+                                           AllowGrouping="True" />
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcliente, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="ClientName"
+                                           TextAlignment="Center"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="False"
+                                           AllowGrouping="True" />
+
+                <Syncfusion:GridDateTimeColumn HeaderText="{Binding ldeparturedate, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="DepartureDate"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+                <Syncfusion:GridDateTimeColumn HeaderText="{Binding ldeparturehour, Source={StaticResource ResourceLanguage}}"
+                                               MappingName="DepartureHour"
+                                               TextAlignment="Left"
+                                               MinimumWidth="120"
+                                               AllowFiltering="False"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="True"
+                                               AllowGrouping="True" />
+                <Syncfusion:GridTextColumn HeaderText="{Binding LugarDeEntregas, Source={StaticResource ResourceLanguage}}"
+                                               MappingName="DeliveryPlace"
+                                               TextAlignment="Left"
+                                               MinimumWidth="120"
+                                               AllowFiltering="False"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="True"
+                                               AllowGrouping="True" />
+
+                <Syncfusion:GridDateTimeColumn HeaderText="Fecha Prevista Retorno"
+                                               MappingName="ReturnDate"
+                                               TextAlignment="Left"
+                                               MinimumWidth="120"
+                                               AllowFiltering="False"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="True"
+                                               AllowGrouping="True" />
+
+                <Syncfusion:GridDateTimeColumn HeaderText="Hora prevista retorno"
+                                               MappingName="ReturnTime"
+                                               TextAlignment="Left"
+                                               MinimumWidth="120"
+                                               AllowFiltering="False"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="True"
+                                               AllowGrouping="True" />
+
+                <Syncfusion:GridTextColumn HeaderText="Lugar Devolucion"
+                                           MappingName="DeliveringPlace"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding lgrupo, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Group"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding ltarifa, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Fare"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="RegistrationNumber"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                    
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcodigocliente, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="ClientCode"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding ldrivercode, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="DriverCode"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding lcontracto, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Contract"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+                <Syncfusion:GridTextColumn HeaderText="{Binding lbroker, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="BrokerName"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True" />
+                
+                <Syncfusion:GridTextColumn HeaderText="{Binding lnumerobono, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Bonus"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding StringConstants_Origen, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Origin"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+
+               
+                <Syncfusion:GridTextColumn
+                                           MappingName="OtherDriver1"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True">
+                    <Syncfusion:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding ldriver, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                <TextBlock Text=".#1"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Syncfusion:GridTextColumn.HeaderTemplate>
+                </Syncfusion:GridTextColumn>
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding ldriver, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="OtherDriver2"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True">
+                    <Syncfusion:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding ldriver, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                <TextBlock Text=".#2"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Syncfusion:GridTextColumn.HeaderTemplate>
+                </Syncfusion:GridTextColumn>
+                <Syncfusion:GridTextColumn HeaderText="{Binding ldriver, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="OtherDriver3"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True">
+                    <Syncfusion:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding ldriver, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                <TextBlock Text=".#3"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Syncfusion:GridTextColumn.HeaderTemplate>
+                </Syncfusion:GridTextColumn>
+
+                <Syncfusion:GridTextColumn HeaderText="{Binding lobservacion, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="Notes"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding luser, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="CurrentUser"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+                <Syncfusion:GridTextColumn HeaderText="{Binding llastmodification, Source={StaticResource ResourceLanguage}}"
+                                           MappingName="LastModification"
+                                           TextAlignment="Left"
+                                           MinimumWidth="120"
+                                           AllowFiltering="False"
+                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                           AllowEditing="True"
+                                           AllowGrouping="True"/>
+           
+                <!--
+                ldrivercode
+                -->
+            </Syncfusion:SfDataGrid.Columns>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}"
+                                           CommandParameter="{Binding ElementName=InvoiceControlSummary, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+
+            <Syncfusion:SfDataGrid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Syncfusion:SfDataGrid.Resources>
+
+
+        </Syncfusion:SfDataGrid>
+    </Grid>
+    
+</UserControl>

@@ -657,6 +657,10 @@ namespace DataAccessLayer.Model
         {
             get { return QueryModel; }
         }
+
+        public IEnumerable<AgentDto> AgentsDto { get; set; }
+        public IEnumerable<ActividadDto> ActivityDtos { get; set; }
+
         /// <summary>
         ///  Converter for the the new vehiculo2.
         /// </summary>

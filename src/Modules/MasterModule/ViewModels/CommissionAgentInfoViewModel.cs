@@ -41,7 +41,7 @@ namespace MasterModule.ViewModels
         private ObservableCollection<UiDfSearch> _leftObservableCollection;
         private ObservableCollection<IUiObject> _rightObservableCollection;
         private ObservableCollection<IUiObject> _upperObservableCollection;
-        private ICommissionAgentDataServices _commissionAgentDataServices;
+        private readonly ICommissionAgentDataServices _commissionAgentDataServices;
         private INotifyTaskCompletion<ICommissionAgent> _initializationTable;
         private INotifyTaskCompletion<DataPayLoad> _deleteNotifyTaskCompletion;
         private INotifyTaskCompletion<bool> _changeTask;
@@ -312,8 +312,7 @@ namespace MasterModule.ViewModels
         public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
         {
             var contacts = DataObject.ContactsDto;
-            Dictionary<string, object> ev = new Dictionary<string, object>();
-            ev["DataObject"] = DataObject;
+            Dictionary<string, object> ev = new Dictionary<string, object> {["DataObject"] = DataObject};
             var items = new List<ContactsDto>();
 
 
@@ -371,9 +370,11 @@ namespace MasterModule.ViewModels
             EventManager.DeleteObserver(this);
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
-            DataPayLoad payload = new DataPayLoad();
-            payload.ObjectPath = ViewModelUri;
-            payload.PayloadType = DataPayLoad.Type.Dispose;
+            var payload = new DataPayLoad
+            {
+                ObjectPath = ViewModelUri,
+                PayloadType = DataPayLoad.Type.Dispose
+            };
             EventManager.NotifyToolBar(payload);
         }
         // TODO: remove duplications.
@@ -394,18 +395,14 @@ namespace MasterModule.ViewModels
         }
         private void ItemChangedHandler(object obj)
         {
-            _changeTask = NotifyTaskCompletion.Create(HandleChangedHandler(obj), changedTaskEvent);   
+            _changeTask = NotifyTaskCompletion.Create(HandleChangedHandler(obj), ChangedTaskEvent);   
         }
 
-        private void changedTaskEvent(object sender, PropertyChangedEventArgs e)
+        private void ChangedTaskEvent(object sender, PropertyChangedEventArgs e)
         {
-            INotifyTaskCompletion<bool> taskCompletion = sender as INotifyTaskCompletion<bool>;
-            if (taskCompletion != null && taskCompletion.IsFaulted)
+            if (sender is INotifyTaskCompletion<bool> taskCompletion && taskCompletion.IsFaulted)
             {
-                if (DialogService!=null)
-                {
-                    DialogService.ShowErrorMessage(taskCompletion.ErrorMessage);
-                }
+                DialogService?.ShowErrorMessage(taskCompletion.ErrorMessage);
             }
         }
 
@@ -484,7 +481,7 @@ namespace MasterModule.ViewModels
             {
                 case "TIPOCOMI":
                     {
-                        string query = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI");
+                        var query = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI");
                         BrokerTypeDto = await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(query);
                         break;
 
@@ -665,7 +662,7 @@ namespace MasterModule.ViewModels
             DataPayLoad payload = new DataPayLoad();
             if (agent.Valid)
             {
-                bool returnValue = await _commissionAgentDataServices.DeleteCommissionAgent(agent);
+                bool returnValue = await _commissionAgentDataServices.DeleteDoAsync(agent);
                 if (returnValue)
                 {
                     payload.Subsystem = DataSubSystem.CommissionAgentSubystem;
@@ -856,7 +853,7 @@ namespace MasterModule.ViewModels
             }
             else
             {
-                ChangeFieldHandlerDo<ICommissionAgent> handlerDo = new ChangeFieldHandlerDo<ICommissionAgent>(EventManager,
+                var handlerDo = new ChangeFieldHandlerDo<ICommissionAgent>(EventManager,
                                                             ViewModelQueries,
                                                             DataSubSystem.CommissionAgentSubystem);
 
@@ -1046,7 +1043,7 @@ namespace MasterModule.ViewModels
         /// <param name="primaryKeyValue">This deletes an item.</param>
         private void DeleteItem(string primaryKeyValue)
         {
-            string primaryKey = primaryKeyValue;
+            var primaryKey = primaryKeyValue;
             if (primaryKey == PrimaryKey)
             {
                 DataPayLoad dataPayload = new DataPayLoad();

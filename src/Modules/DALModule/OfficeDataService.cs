@@ -15,6 +15,7 @@ using DataAccessLayer.Crud;
 using AutoMapper;
 using DataAccessLayer.Logic;
 using System.Linq;
+using System.ComponentModel;
 
 namespace DataAccessLayer
 {
@@ -22,27 +23,25 @@ namespace DataAccessLayer
     /// <summary>
     ///  DataLayer service for handling the offices.
     /// </summary>
-    internal sealed class OfficeDataService: IOfficeDataServices
+    internal sealed class OfficeDataService: AbstractDataAccessLayer,IOfficeDataServices
     {
-        private readonly ISqlExecutor _sqlExecutor;
+      
         private readonly IMapper _mapper;
         private readonly OfficeDataLoader _loader;
         private readonly OfficeDataSaver _saver;
         private readonly OfficeDataDeleter _deleter;
-        private readonly QueryStoreFactory _queryStoreFactory;
-      
+       
         /// <summary>
         ///  Office data service constructor
         /// </summary>
         /// <param name="sqlExecutor">Sql Executor, interface for ADO.NET/Dapper access</param>
-        public OfficeDataService(ISqlExecutor sqlExecutor)
+        public OfficeDataService(ISqlExecutor sqlExecutor): base(sqlExecutor)
         {
-            _sqlExecutor = sqlExecutor;
             _mapper = MapperField.GetMapper();
-            _loader = new OfficeDataLoader(sqlExecutor, _mapper);
-            _saver = new OfficeDataSaver(sqlExecutor, _mapper);
-            _deleter = new OfficeDataDeleter(sqlExecutor, _mapper);
-            _queryStoreFactory = new QueryStoreFactory();
+            _loader = new OfficeDataLoader(SqlExecutor, _mapper);
+            _saver = new OfficeDataSaver(SqlExecutor, _mapper);
+            _deleter = new OfficeDataDeleter(SqlExecutor, _mapper);
+         
         }
         /// <summary>
         ///  Delete asynchronously an office.
@@ -60,10 +59,10 @@ namespace DataAccessLayer
         public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
         {
             IEnumerable<OfficeSummaryDto> summaryCollection;
-            var qs = _queryStoreFactory.GetQueryStore();
+            var qs = QueryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryOfficeSummary);
             var query = qs.BuildQuery();
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = SqlExecutor.OpenNewDbConnection())
             {
               summaryCollection = await conn.QueryAsync<OfficeSummaryDto>(query).ConfigureAwait(false);
             }
@@ -98,10 +97,10 @@ namespace DataAccessLayer
         public async Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode)
         {
             IEnumerable<OfficeSummaryDto> summaryCollection;
-            var qs = _queryStoreFactory.GetQueryStore();
+            var qs = QueryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryOfficeSummaryByCompany, companyCode);
             var query = qs.BuildQuery();
-            using (var conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = SqlExecutor.OpenNewDbConnection())
             {
                 summaryCollection = await conn.QueryAsync<OfficeSummaryDto>(query).ConfigureAwait(false);
             }
@@ -118,7 +117,7 @@ namespace DataAccessLayer
         {
             var oficinas = new OFICINAS();
             var id = string.Empty;
-            using (var conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = SqlExecutor.OpenNewDbConnection())
             {
                 id = conn.UniqueId<OFICINAS>(oficinas);
             }
@@ -161,10 +160,10 @@ namespace DataAccessLayer
         /// <returns>The timetable of the office for the week</returns>
         public async Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId)
         {
-            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            var store = QueryStoreFactory.GetQueryStore();
             store.Clear();
             IEnumerable<DailyTime> times = new List<DailyTime>();
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            using (IDbConnection connection = SqlExecutor.OpenNewDbConnection())
             {
                 IList<string> param = new List<string>();
                 param.Add(officeId);
@@ -179,6 +178,20 @@ namespace DataAccessLayer
             }
             return times;
         }
+
+        /// <summary>
+        ///  Get Pages
+        /// </summary>
+        /// <param name="baseIndex"></param>
+        /// <param name="defaultPageSize"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<OfficeSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        {
+          var dataPager = new DataPager<OfficeSummaryDto>(SqlExecutor);
+          var pages = await  dataPager.GetPagedSummaryDoAsync(QueryType.QueryOfficeSummaryPaged, baseIndex, defaultPageSize);
+          return pages;
+        }
+
         /// <summary>
         /// The holidays for the office
         /// </summary>
@@ -186,9 +199,9 @@ namespace DataAccessLayer
         /// <returns>The list of the office company</returns>
         public async Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
         {
-            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            var store = QueryStoreFactory.GetQueryStore();
             IEnumerable<HolidayDto> times;
-            using (var connection = _sqlExecutor.OpenNewDbConnection())
+            using (var connection = SqlExecutor.OpenNewDbConnection())
             {
                 store.AddParam(QueryType.HolidaysByOffice, officeId);
                 var build = store.BuildQuery();
@@ -197,7 +210,6 @@ namespace DataAccessLayer
             }
             return times;
         }
-
 
         /// <summary>
         ///  This save/insert asynchronously an office.
@@ -211,6 +223,23 @@ namespace DataAccessLayer
                 return await _saver.SaveAsync(client.Value).ConfigureAwait(false);
             }
             return false;
+        }
+        /// <summary>
+        ///  This returns a sorted summary sorted and extended collection.
+        /// </summary>
+        /// <param name="sortChain">Sort direction</param>
+        /// <param name="pageIndex">Index of the page</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>A list of sorted clients</returns>
+        public async Task<IEnumerable<OfficeSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        {
+            var dataPager = new DataPager<OfficeSummaryDto>(SqlExecutor);
+            var pageStart = pageIndex;
+            if (pageStart == 0)
+                pageStart = 1;
+            NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
+            var datas = await dataPager.GetPagedSummaryDoSortedAsync(QueryType.QueryClientPagedSummary, sortChain, pageIndex, pageSize);
+            return datas;
         }
     }
 }

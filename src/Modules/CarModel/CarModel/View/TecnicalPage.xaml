@@ -1,121 +1,181 @@
 ﻿<UserControl x:Class="CarModel.View.TecnicalPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:CarModel.ViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="1000" d:DesignWidth="500">
 
     <!-- <UserControl.DataContext></UserControl.DataContext>-->
     <UserControl.Resources>
-        <ResourceDictionary>
-           
-        </ResourceDictionary>
+        <ResourceDictionary />
     </UserControl.Resources>
     <StackPanel>
         <Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="180"></ColumnDefinition>
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="180" />
                     <ColumnDefinition Width="*" />
 
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Label Content="Marca:" Grid.Row="0" />
-                <TextBox Text="{Binding Path=DataObject.FT_MARCA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MARCA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="0" />
                 <Label Content="Tipo:" Grid.Row="1" />
-                <TextBox Text="{Binding Path=DataObject.FT_TIPO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_TIPO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="1" />
                 <Label Content="Variante:" Grid.Row="2" />
-                <TextBox Text="{Binding Path=DataObject.FT_VARIANTE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_VARIANTE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="2" />
                 <Label Content="N. Comercial:" Grid.Row="3" />
-                <TextBox Text="{Binding Path=DataObject.FT_COMER, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="3" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_COMER, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="3" />
                 <Label Content="Tara (kg):" Grid.Row="4" />
-                <TextBox Text="{Binding Path=DataObject.FT_TARA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_TARA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="4" />
                 <Label Content="MTMA/MMA (kg):" Grid.Row="5" />
-                <TextBox Text="{Binding Path=DataObject.FT_MMA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="5" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MMA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="5" />
                 <Label Content="MTMA/MMA 1°E (kg):" Grid.Row="6" />
-                <TextBox Text="{Binding Path=DataObject.FT_MMA1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="6" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MMA1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="6" />
                 <Label Content="MTMA/MMA 2°E (kg):" Grid.Row="7" />
-                <TextBox Text="{Binding Path=DataObject.FT_MMA2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="7" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MMA2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="7" />
                 <Label Content="MTMA/MMA 3°E (kg):" Grid.Row="8" />
-                <TextBox Text="{Binding Path=DataObject.FT_MMA3, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="8" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MMA3, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="8" />
                 <Label Content="MTMA/MMA 4°E (kg):" Grid.Row="9" />
-                <TextBox Text="{Binding Path=DataObject.FT_MMA4, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="9" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MMA4, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="9" />
                 <Label Content="MMR S/F , c/F (kg):" Grid.Row="10" />
-                <TextBox Text="{Binding Path=DataObject.FT_MMR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="10" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MMR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="10" />
                 <Label Content="Neumáticos:" Grid.Row="11" />
-                <TextBox Text="{Binding Path=DataObject.FT_NEUMATICOS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="11" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_NEUMATICOS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="11" />
                 <Label Content="N° Asientos:" Grid.Row="12" />
-                <TextBox Text="{Binding Path=DataObject.FT_ASIENTOS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="12" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_ASIENTOS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="12" />
                 <Label Content="Vol. Bodega:" Grid.Row="13" />
-                <TextBox Text="{Binding Path=DataObject.FT_BODEGA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="13" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_BODEGA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="1" Grid.Row="13" />
                 <Label Content="Clase" Grid.Column="2" Grid.Row="0" />
-                <TextBox Text="{Binding Path=DataObject.FT_CLASE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="0" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_CLASE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="0" />
                 <Label Content="Altura total (mm):" Grid.Column="2" Grid.Row="1" />
-                <TextBox Text="{Binding Path=DataObject.FT_ALTO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="1" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_ALTO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="1" />
                 <Label Content="Anchura Total (mm)" Grid.Column="2" Grid.Row="2" />
-                <TextBox Text="{Binding Path=DataObject.FT_ANCHO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="2" />
-                <Label Content="Via Ant./Pos. (mm):" Grid.Column="2" Grid.Row="3"/>
-                <TextBox Text="{Binding Path=DataObject.FT_VIAS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="3" x:Name="fT_VIAS" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_ANCHO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="2" />
+                <Label Content="Via Ant./Pos. (mm):" Grid.Column="2" Grid.Row="3" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_VIAS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="3" x:Name="fT_VIAS" />
                 <Label Content="Longitud total (mm):" Grid.Column="2" Grid.Row="4" />
-                <TextBox Text="{Binding Path=DataObject.FT_LONG, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="4" x:Name="fT_LONG" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_LONG, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="4" x:Name="fT_LONG" />
                 <Label Content="Voladizo (mm):" Grid.Column="2" Grid.Row="5" />
-                <TextBox Text="{Binding Path=DataObject.FT_VOLADIZO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="5" x:Name="fT_VOLADIZO" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_VOLADIZO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="5" x:Name="fT_VOLADIZO" />
                 <Label Content="Distancia eje 1°/2° (mm):" Grid.Column="2" Grid.Row="6" />
-                <TextBox Text="{Binding Path=DataObject.FT_EJE12, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="6" x:Name="fT_EJE12" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_EJE12, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="6" x:Name="fT_EJE12" />
                 <Label Content="Distancia eje 2°/3° (mm):" Grid.Column="2" Grid.Row="7" />
-                <TextBox Text="{Binding Path=DataObject.FT_EJE23, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="7" x:Name="fT_EJE23" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_EJE23, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="7" x:Name="fT_EJE23" />
                 <Label Content="Distancia eje 3°/4° (mm)" Grid.Column="2" Grid.Row="8" />
-                <TextBox Text="{Binding Path=DataObject.FT_EJE34, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="8" x:Name="fT_EJE34" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_EJE34, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="8" x:Name="fT_EJE34" />
                 <Label Content="Distancia eje 5° rueda/ult.(mm): (mm)" Grid.Column="2" Grid.Row="9" />
-                <TextBox Text="{Binding Path=DataObject.FT_5RUEDA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="9" x:Name="fT_5RUEDA" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_5RUEDA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="9" x:Name="fT_5RUEDA" />
                 <Label Content="Motor -  Marca:" Grid.Column="2" Grid.Row="10" />
-                <TextBox Text="{Binding Path=DataObject.FT_MOTOR_MARCA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="10" x:Name="fT_MOTOR_MARCA" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MOTOR_MARCA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="10" x:Name="fT_MOTOR_MARCA" />
                 <Label Content="Tipo:" Grid.Column="2" Grid.Row="11" />
-                <TextBox Text="{Binding Path=DataObject.FT_MOTOR_TIPO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="11" x:Name="fT_MOTOR_TIPO" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_MOTOR_TIPO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="11" x:Name="fT_MOTOR_TIPO" />
                 <Label Content="N° Cilindros/Cilindrada" Grid.Column="2" Grid.Row="12" />
-                <TextBox Text="{Binding Path=DataObject.FT_CILINDROS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="12" x:Name="fT_CILINDROS" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_CILINDROS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="12" x:Name="fT_CILINDROS" />
                 <Label Content="Pot. fiscal/real (C.V.F/KW):" Grid.Column="2" Grid.Row="13" />
-                <TextBox Text="{Binding Path=DataObject.FT_CV, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Grid.Row="13" x:Name="fT_CV" />
+                <TextBox
+                    Text="{Binding Path=DataObject.FT_CV, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                    Grid.Column="3" Grid.Row="13" x:Name="fT_CV" />
                 <Grid Grid.Column="0" Grid.Row="14" Grid.ColumnSpan="4">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Label Content="Alt. Útil" Grid.Column="0" />
-                    <TextBox Text="{Binding Path=DataObject.FT_ANCUTIL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" x:Name="fT_ANCUTIL" />
+                    <TextBox
+                        Text="{Binding Path=DataObject.FT_ANCUTIL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                        Grid.Column="1" x:Name="fT_ANCUTIL" />
                     <Label Content="Anc. Útil:" Grid.Column="2" />
-                    <TextBox Text="{Binding Path=DataObject.FT_ALTUTIL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" x:Name="fT_ALTUTIL" Grid.ColumnSpan="2" Margin="83,0,0,0" />
+                    <TextBox
+                        Text="{Binding Path=DataObject.FT_ALTUTIL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                        Grid.Column="2" x:Name="fT_ALTUTIL" Grid.ColumnSpan="2" Margin="83,0,0,0" />
                     <Label Content="Long. Útil:" Grid.Column="4" />
-                    <TextBox Text="{Binding Path=DataObject.FT_LNGUTIL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="4" x:Name="fT_LNGUTIL" Grid.ColumnSpan="2" Margin="74,0,0,0" />
+                    <TextBox
+                        Text="{Binding Path=DataObject.FT_LNGUTIL, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                        Grid.Column="4" x:Name="fT_LNGUTIL" Grid.ColumnSpan="2" Margin="74,0,0,0" />
                 </Grid>
             </Grid>
         </Grid>

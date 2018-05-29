@@ -4,12 +4,14 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.SQL;
+using KarveDapper.Extensions;
 
 namespace DataAccessLayer
 {
@@ -25,17 +27,18 @@ namespace DataAccessLayer
         private readonly ISqlExecutor _sqlExecutor;
         private const string PrimaryKey = "CODIINT";
         private const string VehicleDataFile = @"\Data\VehicleFields.xml";
-        private VehicleFactory _factory = null;
-       
+        private readonly VehicleFactory _factory = null;
+
         /// <summary>
         /// VehicleDataAccessLayer class.
         /// </summary>
         /// <param name="sqlExecutor">Executor of the sql commands</param>
-        public VehiclesDataAccessLayer(ISqlExecutor sqlExecutor): base(sqlExecutor)
+        public VehiclesDataAccessLayer(ISqlExecutor sqlExecutor) : base(sqlExecutor)
         {
             _sqlExecutor = sqlExecutor;
             base.InitData(VehicleDataFile);
             _factory = VehicleFactory.GetFactory(_sqlExecutor);
+            TableName = "VEHICULO1";
         }
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace DataAccessLayer
             return await GetVehiclesAgentSummary(0, 0);
 
         }
+
         /// <summary>
         /// Get a paged version of the summary.
         /// </summary>
@@ -59,9 +63,9 @@ namespace DataAccessLayer
             QueryStore store = new QueryStore();
 
 
-                new QueryStore();
+           
             IEnumerable<VehicleSummaryDto> vehicles = null;
-            string value = "";   
+            string value = "";
             if (pageSize == 0)
             {
                 store.AddParam(QueryType.QueryVehicleSummary);
@@ -72,25 +76,40 @@ namespace DataAccessLayer
                 store.Clear();
                 store.AddParamRange(QueryType.QueryVehicleSummaryPaged, pageSize, offset);
                 var query = store.BuildQuery();
-                
+
             }
+
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-               /*
-                *  Move to query store.
-                */
+                /*
+                 *  Move to query store.
+                 */
                 vehicles = await connection.QueryAsync<VehicleSummaryDto>(GenericSql.VehiclesSummaryQuery);
             }
+
             return vehicles;
         }
+
         /// <summary>
         ///  Generate an unique id from the base class.
         /// </summary>
         /// <returns></returns>
         public string GetNewId()
         {
-            return GenerateUniqueId();
+            var vehicle = new VEHICULO1();
+            var uniqueStr = string.Empty;
+            using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
+            {
+                if (dbConnection != null)
+                {
+                    uniqueStr = dbConnection.UniqueId(vehicle);
+                }
+                
+            }
+            return uniqueStr;
+    
         }
+
         /// <summary>
         ///  This return a new identifier for vehicle
         /// </summary>
@@ -101,6 +120,7 @@ namespace DataAccessLayer
             IVehicleData dictionaryData = _factory.NewVehicle(identifier);
             return dictionaryData;
         }
+
         /// <summary>
         /// Fetch a single vehicle Data object
         /// </summary>
@@ -112,14 +132,7 @@ namespace DataAccessLayer
             Contract.Requires(!string.IsNullOrEmpty(vehicleId), "A valid id is needed");
 
             IDictionary<string, string> queries;
-            if (queryDictionary == null)
-            {
-                queries = base.baseQueryDictionary;
-            }
-            else
-            {
-                queries = queryDictionary;
-            }
+            queries = queryDictionary ?? base.BaseQueryDictionary;
 
             // old method was too complicated.
             IVehicleData dictionaryData = await _factory.GetVehicle(queries, vehicleId);
@@ -136,21 +149,24 @@ namespace DataAccessLayer
         /// <param name="pageSize">Page dimension</param>
         /// <param name="startAt">Initialization of the object</param>
         /// <returns></returns>
-        public async Task<IEnumerable<IVehicleData>> GetVehicleCollection(IDictionary<string, string> fields, int pageSize = 0, int startAt = 0)
+        public async Task<IEnumerable<IVehicleData>> GetVehicleCollection(IDictionary<string, string> fields,
+            int pageSize = 0, int startAt = 0)
         {
-            IEnumerable<IVehicleData> vehicles = await _factory.CreateVehicleList(fields, pageSize, startAt);  
+            IEnumerable<IVehicleData> vehicles = await _factory.CreateVehicleList(fields, pageSize, startAt);
             return vehicles;
         }
+
         /// <summary>
         ///  Fetch list of data objects for vehicles.
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<IVehicleData>> GetAsyncVehicles()
         {
-            IDictionary<string, string> queries = base.baseQueryDictionary;  
+            var queries = base.BaseQueryDictionary;
             IEnumerable<IVehicleData> vehicleDatas = await _factory.CreateVehicleList(queries, 0, 0);
             return vehicleDatas;
         }
+
         /// <summary>
         ///  Save a new inserted vehicle.
         /// </summary>
@@ -162,6 +178,7 @@ namespace DataAccessLayer
             bool ret = await data.SaveChanges();
             return ret;
         }
+
         /// <summary>
         /// Vehicle to be saved
         /// </summary>
@@ -173,6 +190,7 @@ namespace DataAccessLayer
             bool changedTask = await vehicleData.Save();
             return changedTask;
         }
+
         /// <summary>
         ///  Delete a vehicle data.
         /// </summary>
@@ -184,6 +202,7 @@ namespace DataAccessLayer
             value = await vehicleData.DeleteAsyncData();
             return value;
         }
+
         /// <summary>
         /// Get a new vehicle data object
         /// </summary>
@@ -191,8 +210,9 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IVehicleData> GetVehicleDo(string primaryKeyValue)
         {
-           return await GetVehicleDo(primaryKeyValue, null);
+            return await GetVehicleDo(primaryKeyValue, null);
         }
+
         /// <summary>
         /// Delete vehicle data.
         /// </summary>
@@ -200,9 +220,10 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<bool> DeleteVehicleDo(IVehicleData vehicleData)
         {
-            bool value = await vehicleData.DeleteAsyncData();
+            var value = await vehicleData.DeleteAsyncData();
             return value;
         }
+
         /// <summary>
         ///  This gives to us a vehicle data object from the factory
         /// </summary>
@@ -212,6 +233,7 @@ namespace DataAccessLayer
         {
             return _factory.NewVehicle(primaryKeyValue);
         }
+
         /// <summary>
         ///  Updates a vehicle changes
         /// </summary>
@@ -219,41 +241,24 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<bool> SaveChangesVehicle(IVehicleData data)
         {
-           bool saved = await data.SaveChanges();
-           return saved;
+            var saved = await data.SaveChanges();
+            return saved;
         }
         /// <summary>
-        /// Delete a vehicle 
+        ///  Update the paged summary data object asynchronous.
         /// </summary>
-        /// <param name="sqlQuery">Query to be executed for deleting a vehicle</param>
-        /// <param name="vehicleId">Vehicle id to be included</param>
-        /// <param name="set">DataSet to be included</param>
+        /// <param name="baseIndex"></param>
+        /// <param name="defaultPageSize"></param>
         /// <returns></returns>
-        public bool DeleteVehicle(string sqlQuery, string vehicleId, DataSet set)
+        public async Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
-            bool retValue = false;
-            if (set == null)
-            {
-                return false;
-            }
-            retValue = DeleteData(sqlQuery, vehicleId, PrimaryKey, set);
-            return retValue;
+            var pager = new DataPager<VehicleSummaryDto>(SqlExecutor);
+            var startIndex = (baseIndex == 0) ? 1 : defaultPageSize;
+            NumberPage = await GetPageCount(defaultPageSize);
+            var pagedSummary =
+                await pager.GetPagedSummaryDoAsync(QueryType.QueryVehicleSummaryPaged, startIndex, defaultPageSize);
+            return pagedSummary;
+
         }
-        /// <summary>
-        ///  This is get called from above.
-        /// </summary>
-        /// <param name="id">Identifier unique.</param>
-        /// <returns></returns>
-        protected override bool UniqueId(string id)
-        {
-            string str = "SELECT CODIINT FROM VEHICULO1 WHERE CODIINT='{0}'";
-            str = string.Format(str, id);
-            IDbConnection connection = _sqlExecutor.Connection;
-            IEnumerable<string> strResult = connection.Query<string>(str);
-            bool unique = (strResult.Distinct().Count() == 0);
-            return unique;
-           
-        }
-        
     }
 }

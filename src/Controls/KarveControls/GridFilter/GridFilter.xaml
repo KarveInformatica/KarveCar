@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="KarveControls.GridFilter.GridFilter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls.GridFilter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Filters ColumnName"></TextBlock>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Sort Descending" FontWeight="Bold" Width="100" FontFamily="Arial"></TextBlock>
+            <Image Grid.Column="1" Source="/KarveControls;component/Images/sortascend.png" Width="30"/>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Search " FontWeight="Bold" Width="100" FontFamily="Arial"></TextBlock>
+            <TextBox Grid.Column="1" Text="" FontWeight="Bold" Width="150" FontFamily="Arial"></TextBox>
+            <Image Grid.Column="2" Source="/KarveControls;component/Images/search.png" Width="30"/>
+        </Grid>
+        <Button Grid.Row="3">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/KarveControls;component/Images/cancel2.png" Width="20"></Image>
+                <TextBlock Text="OK"></TextBlock>
+            </StackPanel>
+
+        </Button>
+        
+        <Button Grid.Row="4">
+            <StackPanel Orientation="Horizontal">
+             <Image Source="/KarveControls;component/Images/bt_apply.png" Width="20"></Image>
+            <TextBlock Text="OK"></TextBlock>
+            </StackPanel>
+        </Button>
+
+    </Grid>
+</UserControl>

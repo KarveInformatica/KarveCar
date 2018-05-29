@@ -2079,12 +2079,6 @@ namespace DataAccessLayer.DataObjects
         public string DIRCLIENTE { get; set; }
 
         /// <summary>
-        ///  Set or get the OLDNUMCLI property.
-        /// </summary>
-
-        public string OLDNUMCLI { get; set; }
-
-        /// <summary>
         ///  Set or get the NEWNUMCLI property.
         /// </summary>
 

@@ -24,14 +24,14 @@ namespace DataAccessLayer.Crud.Clients
     /// </summary>
     internal  sealed partial class ClientDataLoader : IDataLoader<ClientDto>
     {
-        private ISqlExecutor _sqlExecutor;
-        private IMapper _mapper;
-        private ClientDto _currentPoco;
+        private readonly ISqlExecutor _sqlExecutor;
+        private readonly IMapper _mapper;
+        private readonly QueryStoreFactory _queryStoreFactory;
+        private readonly EntityMapper _entityMapper = new EntityMapper();
         private IHelperData _helper = new HelperBase();
-        private long _currentQueryPos;
-        private QueryStoreFactory _queryStoreFactory;
 
-        private EntityMapper _entityMapper = new EntityMapper();
+        private ClientDto _currentPoco;
+        private long _currentQueryPos;
         /// <summary>
         ///  Query delegation.
         /// </summary>
@@ -41,14 +41,7 @@ namespace DataAccessLayer.Crud.Clients
         /// <summary>
         /// Contacts Query.
         /// </summary>
-        /*
-        private string _queryContactos = "SELECT ccoIdContacto, ccoContacto,DL.cldIdDelega as idDelegacion, DL.cldDelegacion as nombreDelegacion, " +
-                                         "NIF, ccoCargo, ccoTelefono, ccoMovil, ccoFax, ccoMail, CC.ULTMODI as ULTMODI, " +
-                                         "CC.USUARIO as USUARIO FROM CliContactos AS CC " +
-                                         "LEFT OUTER JOIN PERCARGOS AS PG ON CC.ccoCargo = PG.CODIGO " +
-                                         "LEFT OUTER JOIN CliDelega AS DL ON CC.ccoIdDelega = DL.CLDIDDELEGA " +
-                                         "AND CC.ccoIdCliente = DL.cldIdCliente  WHERE cldIdCliente = '{0}' ORDER BY CC.ccoContacto";
-                                         */
+       
         // set if the load is valid or not.
         public bool Valid { set; get; }
 
@@ -192,12 +185,13 @@ namespace DataAccessLayer.Crud.Clients
                         }
                     }
                 }
-                if (_currentPoco != null)
-                {
-                    returnValue = true;
-                    Valid = true;
 
+                if (_currentPoco == null)
+                {
+                    return returnValue;
                 }
+                returnValue = true;
+                Valid = true;
             }
 
             return returnValue;
@@ -211,17 +205,17 @@ namespace DataAccessLayer.Crud.Clients
         public async Task<IEnumerable<ClientDto>> LoadAsyncAll()
         {
            IEnumerable<ClientDto> dtoCollection = new ObservableCollection<ClientDto>();
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
-                IEnumerable<CLIENTES1> cli1 = await conn.GetAsyncAll<CLIENTES1>();
-                IEnumerable<CLIENTES2> cli2 = await conn.GetAsyncAll<CLIENTES2>();
+                var cli1 = await conn.GetAsyncAll<CLIENTES1>();
+                var cli2 = await conn.GetAsyncAll<CLIENTES2>();
                 var poco1 = _mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientPoco>>(cli1);
                 var poco2 = _mapper.Map<IEnumerable<CLIENTES2>, IEnumerable<ClientPoco>>(cli2);
                 var sortedPoco1 = poco1.OrderBy(x =>x.NUMERO_CLI);
                 var sortedPoco2 = poco2.OrderBy(x => x.NUMERO_CLI);
                 IEnumerator<ClientPoco> iter = sortedPoco2.GetEnumerator();
-                ClientPoco second = iter.Current;
-                List<ClientPoco> mergedValue = new List<ClientPoco>();
+                var second = iter.Current;
+                var mergedValue = new List<ClientPoco>();
                 foreach (var p in sortedPoco1)
                 {
                     MergePOCO<ClientPoco> merger = new MergePOCO<ClientPoco>();
@@ -340,12 +334,12 @@ namespace DataAccessLayer.Crud.Clients
 
         private string ValueToString(byte? b)
         {
-            if (b.HasValue)
+            if (!b.HasValue)
             {
-                var value = (b == 0) ? "0" : "1";
-                return value;
+                return string.Empty;
             }
-            return string.Empty;
+            var value = (b == 0) ? "0" : "1";
+            return value;
         }
         /// <summary>
         /// It load at most n entities. It retains the state in order to support paging.
@@ -354,12 +348,12 @@ namespace DataAccessLayer.Crud.Clients
         /// <returns>It returns a list of n client data transfer objects</returns>
         public async Task<IEnumerable<ClientDto>> LoadValueAtMostAsync(int n, int back)
         {
-            IEnumerable<ClientDto> dtoCollection = new List<ClientDto>();
-            IQueryStore store =  _queryStoreFactory.GetQueryStore();
+            IEnumerable<ClientDto> dtoCollection;
+            var store =  _queryStoreFactory.GetQueryStore();
             store.AddParamRange(QueryType.QueryPagedClient, _currentQueryPos, n);
             var query = store.BuildQuery();
             _currentQueryPos = _currentQueryPos + n - back; 
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                var currentPoco  = await conn.QueryAsync<ClientPoco>(query);
                dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(currentPoco);

@@ -6,6 +6,8 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveDataServices.DataTransferObject;
+using System.Collections.Generic;
 
 namespace ToolBarModule.Command
 {
@@ -18,6 +20,7 @@ namespace ToolBarModule.Command
     {
         private IInvoiceDataServices _invoiceDataServices;
 
+
         /// <summary>
         /// Execute the payload when the user press to save and it notifies the 
         /// </summary>
@@ -26,14 +29,9 @@ namespace ToolBarModule.Command
         /// <param name="payLoad">Payload to be updated</param>
         public override void ExecutePayload(IDataServices services, IEventManager manager, ref DataPayLoad payLoad)
         {
-            if (services == null)
-            {
-                throw new ArgumentNullException($"Cannot save without DataServices");
-            }
-
             CurrentEventManager = manager;
             CurrentPayload = payLoad;
-            DataServices = services;
+            DataServices = services ?? throw new ArgumentNullException($"Cannot save without DataServices");
             ToolbarInitializationNotifier =
                 NotifyTaskCompletion.Create<DataPayLoad>(HandleSaveOrUpdate(payLoad), ExecutedPayloadHandler);
             _invoiceDataServices = services.GetInvoiceDataServices();
@@ -48,7 +46,13 @@ namespace ToolBarModule.Command
 
             }
 
-            if (!(payLoad.DataObject is InvoiceDto invoiceData))
+            var dataObject = payLoad.DataObject;
+            if (dataObject is IInvoiceData)
+            {
+                var dataInvoice = dataObject as IInvoiceData;
+                dataObject = dataInvoice.Value;
+            }
+            if (!(dataObject is InvoiceDto invoiceData))
             {
                 throw new ArgumentNullException($"Cannot save an invalid type data payload with invoices");
             }
@@ -69,27 +73,36 @@ namespace ToolBarModule.Command
                     if (currentInvoice != null)
                     {
                         currentInvoice.Value = invoiceData;
-                        if ((currentInvoice.InvoiceItems != null) && (currentInvoice.InvoiceItems.Any()))
-                        {
-                            if (invoiceData.InvoiceItems != null)
+                            if ((currentInvoice.InvoiceItems != null) && (currentInvoice.InvoiceItems.Any()))
                             {
-                                currentInvoice.InvoiceItems =
-                                    currentInvoice.InvoiceItems.Union(invoiceData.InvoiceItems);
+                                currentInvoice.InvoiceItems = invoiceData.InvoiceItems != null ?     currentInvoice.InvoiceItems.Union(invoiceData.InvoiceItems) : invoiceData.InvoiceItems;
 
+                                invoiceData.InvoiceItems = currentInvoice.InvoiceItems;
                             }
-                            else
-                            {
-                                currentInvoice.InvoiceItems = invoiceData.InvoiceItems;
-                            }
-
-                            invoiceData.InvoiceItems = currentInvoice.InvoiceItems;
                             result = await invoiceDs.SaveAsync(currentInvoice).ConfigureAwait(false);
-                        }
-
                     }
 
                     break;
                 }
+                case DataPayLoad.Type.UpdateInsertGrid:
+                    {
+                        if (payLoad.HasRelatedObject)
+                        {
+                            var relatedObject = payLoad.RelatedObject as InvoiceSummaryDto;
+                            if (currentInvoice.InvoiceItems == null)
+                            {
+                                currentInvoice.InvoiceItems = new List<InvoiceSummaryDto>();
+                            }
+                            if (relatedObject != null)
+                            {
+                                var list = new List<InvoiceSummaryDto>() { relatedObject };
+                                currentInvoice.InvoiceItems = currentInvoice.InvoiceItems.Union(list);
+                            }
+                            result = await invoiceDs.SaveAsync(currentInvoice).ConfigureAwait(false);
+                        }
+                        break;
+                    }
+               
             }
 
             if (result)

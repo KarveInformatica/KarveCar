@@ -25,7 +25,7 @@ namespace KarveDataServices
     /// <summary>
     /// This is the sql executor needed for the opening and interfacing the database.
     /// </summary>
-    public interface ISqlExecutor: IDisposable
+    public interface ISqlExecutor: IDisposable, IConnectionOpener
     {
 
         /// <summary>
@@ -154,11 +154,7 @@ namespace KarveDataServices
         /// <param name="sqlQuery">Query to be listed.</param>
         /// <returns></returns>
         Task<DataTable> QueryAsyncForDataTable(string sqlQuery);
-        /// <summary>
-        ///  Create a new connection with the current connection string.
-        /// </summary>
-        /// <returns>Returns a new connection</returns>
-        IDbConnection OpenNewDbConnection();
+        
 
     }
 }

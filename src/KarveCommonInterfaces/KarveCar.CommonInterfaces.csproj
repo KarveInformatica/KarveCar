@@ -39,6 +39,7 @@
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -55,11 +56,14 @@
   <ItemGroup>
     <Compile Include="IAssistService.cs" />
     <Compile Include="ICreateRegionManagerScope.cs" />
+    <Compile Include="IDataPaged.cs" />
     <Compile Include="IDialogService.cs" />
     <Compile Include="IDisposeEvents.cs" />
+    <Compile Include="IHeaderedView.cs" />
     <Compile Include="IInteractionRequestController.cs" />
     <Compile Include="ILinqToTree.cs" />
     <Compile Include="IPayloadInterpeter.cs" />
+    <Compile Include="IQueryFilter.cs" />
     <Compile Include="IRegionManagerAware.cs" />
     <Compile Include="ISqlValidationRule.cs" />
     <Compile Include="IValidationChain.cs" />

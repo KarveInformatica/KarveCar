@@ -97,6 +97,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancela Reserva.
+        /// </summary>
+        public static string Anular_Reserva {
+            get {
+                return ResourceManager.GetString("Anular Reserva", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assistencia.
         /// </summary>
         public static string Assistencia {
@@ -772,6 +781,24 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Numero Reserva.
+        /// </summary>
+        public static string lbookingnumber {
+            get {
+                return ResourceManager.GetString("lbookingnumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comisionista.
+        /// </summary>
+        public static string lbroker {
+            get {
+                return ResourceManager.GetString("lbroker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comprador.
         /// </summary>
         public static string lbuyer {
@@ -786,6 +813,15 @@ namespace KarveLocale.Properties {
         public static string lcalcolamantenimiento {
             get {
                 return ResourceManager.GetString("lcalcolamantenimiento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Anulada.
+        /// </summary>
+        public static string lcancelled {
+            get {
+                return ResourceManager.GetString("lcancelled", resourceCulture);
             }
         }
         
@@ -876,6 +912,15 @@ namespace KarveLocale.Properties {
         public static string lcodigollave {
             get {
                 return ResourceManager.GetString("lcodigollave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codigo Mantenimiento.
+        /// </summary>
+        public static string lcodigomantenimiento {
+            get {
+                return ResourceManager.GetString("lcodigomantenimiento", resourceCulture);
             }
         }
         
@@ -1056,6 +1101,15 @@ namespace KarveLocale.Properties {
         public static string lcp {
             get {
                 return ResourceManager.GetString("lcp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha Creación.
+        /// </summary>
+        public static string lcreationdate {
+            get {
+                return ResourceManager.GetString("lcreationdate", resourceCulture);
             }
         }
         
@@ -1267,6 +1321,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha de salida.
+        /// </summary>
+        public static string ldeparturedate {
+            get {
+                return ResourceManager.GetString("ldeparturedate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Descuento.
         /// </summary>
         public static string ldescuento {
@@ -1375,6 +1438,24 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Conductor.
+        /// </summary>
+        public static string ldriver {
+            get {
+                return ResourceManager.GetString("ldriver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Codigo Conductor.
+        /// </summary>
+        public static string ldrivercode {
+            get {
+                return ResourceManager.GetString("ldrivercode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dto PP.
         /// </summary>
         public static string ldtopp {
@@ -1470,6 +1551,24 @@ namespace KarveLocale.Properties {
         public static string lexclusividad {
             get {
                 return ResourceManager.GetString("lexclusividad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hora prevista  revisión.
+        /// </summary>
+        public static string lexpectedhourrevision {
+            get {
+                return ResourceManager.GetString("lexpectedhourrevision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fecha prevista  revisión.
+        /// </summary>
+        public static string lexpectedrevision {
+            get {
+                return ResourceManager.GetString("lexpectedrevision", resourceCulture);
             }
         }
         
@@ -1969,6 +2068,24 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dirección Local .
+        /// </summary>
+        public static string llocaldirection {
+            get {
+                return ResourceManager.GetString("llocaldirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localizador.
+        /// </summary>
+        public static string llocator {
+            get {
+                return ResourceManager.GetString("llocator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lugares de Entrega.
         /// </summary>
         public static string llugaresdeentrega {
@@ -2163,6 +2280,15 @@ namespace KarveLocale.Properties {
         public static string lnumero {
             get {
                 return ResourceManager.GetString("lnumero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numero Bono.
+        /// </summary>
+        public static string lnumerobono {
+            get {
+                return ResourceManager.GetString("lnumerobono", resourceCulture);
             }
         }
         
@@ -4993,7 +5119,16 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Anulada.
+        /// </summary>
+        public static string lremoved {
+            get {
+                return ResourceManager.GetString("lremoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehiculo Sostitutivo.
         /// </summary>
         public static string lreplacementcar {
             get {
@@ -5637,6 +5772,15 @@ namespace KarveLocale.Properties {
         public static string lswift {
             get {
                 return ResourceManager.GetString("lswift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tarifa.
+        /// </summary>
+        public static string ltarifa {
+            get {
+                return ResourceManager.GetString("ltarifa", resourceCulture);
             }
         }
         

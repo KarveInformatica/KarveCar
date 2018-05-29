@@ -5,12 +5,9 @@ using DataAccessLayer.SQL;
 using KarveDataServices.DataTransferObject;
 using KarveDataServices;
 using System.Data;
-using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
-using KarveDapper;
 using AutoMapper;
 using Dapper;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 namespace DataAccessLayer.Crud.Office
@@ -130,7 +127,7 @@ namespace DataAccessLayer.Crud.Office
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                store.AddParamRange(QueryType.QueryPagedCompany, _currentPos, n);
+                store.AddParamRange(QueryType.QueryCompanyPaged, _currentPos, n);
                 _currentPos += n + back;
                 var query = store.BuildQuery();
                 var value = await connection.QueryAsync<OFICINAS>(query);

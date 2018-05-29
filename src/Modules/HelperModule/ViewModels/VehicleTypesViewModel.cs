@@ -6,6 +6,7 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Commands;
 using Prism.Regions;
+using Syncfusion.UI.Xaml.Grid;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,27 +21,57 @@ namespace HelperModule.ViewModels
     /// </summary>
     public class VehicleTypesViewModel : BaseHelperViewModel, IDisposeEvents
     {
-        private ObservableCollection<VehicleTypeDto> _listOfVehicles = new ObservableCollection<VehicleTypeDto>();
+        private IncrementalList<VehicleTypeDto> _listOfVehicles;
         private VehicleTypeDto _vehicleType = new VehicleTypeDto();
         private VehicleTypeDto _prevVehicleType;
         private readonly HelperLoader<VehicleTypeDto, CATEGO> _loader;
         private readonly HelperSaver<VehicleTypeDto, CATEGO> _saver;
         private bool _saveState;
 
-
-        public VehicleTypesViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager) : base(dataServices, region, eventManager)
+        /// <summary>
+        /// VehicleTypes
+        /// </summary>
+        /// <param name="dataServices">Data services to be used</param>
+        /// <param name="region">Region Manager to be used</param>
+        /// <param name="eventManager">Event manager to be used</param>
+        /// <param name="dialogService">Dialog service to be used</param>
+        public VehicleTypesViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService) : base(dataServices, region, eventManager, dialogService)
         {
             ExecutedLoadHandler+= ExecutedLoadHandlerMethod;
             SelectionChangedCommand = new DelegateCommand<object>(OnSelectionChangedCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnItemChangedCommand);
             SaveState = false;
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleTypes;
+            _listOfVehicles = new IncrementalList<VehicleTypeDto>(LoadMoreItems);
             _loader = new HelperLoader<VehicleTypeDto, CATEGO>(dataServices);
             _loader.Load(GenericSql.VehicleTypes);
+            _loader.PageEvent += OnPagedEvent;
             _saver = new HelperSaver<VehicleTypeDto, CATEGO>(dataServices);            
             MailBoxMessageHandler += IncomingMailbox;
             EventManager.RegisterMailBox(Address.ToString(), MailBoxMessageHandler);
             InitVehicle();
+        }
+        /// <summary>
+        ///  This is meant to be overriden only when the PageEvent is needed
+        /// </summary>
+        /// <param name="sender">Sender of the paging</param>
+        /// <param name="e">Event handler</param>
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            try
+            {
+                var currentVehicleTypes = _loader.
+                    FetchPage(sender, e);
+            }
+            catch (Exception ex)
+            {
+                DialogService?.ShowErrorMessage(ex.Message);
+            }
+        }
+        private void LoadMoreItems(uint arg1, int offset)
+        {
+           
+            _loader.LoadPaged(offset, DefaultPageSize);
         }
 
         private void InitVehicle()
@@ -90,12 +121,14 @@ namespace HelperModule.ViewModels
             }
             return currentPayLoad;
         }
+        /// <summary>
+        ///  This dispse the events.
+        /// </summary>
         public override void DisposeEvents()
         {
+            _loader.PageEvent -= OnPagedEvent;
             EventManager.DeleteMailBoxSubscription(Address.ToString());
         }
-
-        
         private void OnItemChangedCommand(object obj)
         {
             DataPayLoad payload = new DataPayLoad();
@@ -133,7 +166,7 @@ namespace HelperModule.ViewModels
             get { return _prevVehicleType; }
 
         }
-        public ObservableCollection<VehicleTypeDto> HelperView
+        public IncrementalList<VehicleTypeDto> HelperView
         {
             set
             {

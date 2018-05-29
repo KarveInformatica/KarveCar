@@ -2,22 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using KarveCommonInterfaces;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices
 {
     /// <summary>
-    /// Public interface for the supplier usage,
+    /// Public interface for the supplier usage
     /// </summary>
-    public interface ISupplierDataServices
+    public interface ISupplierDataServices: IPageCounter
     {
 
         #region Asynchronous methods
         /// <summary>
         ///  Returns the dataset in asynchronous way for all suppliers.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns a dataset to be fetched</returns>
         /// 
         Task<DataSet> GetAsyncAllSupplierSummary();
         
@@ -25,7 +26,7 @@ namespace KarveDataServices
         /// <summary>
         ///  Load a data set with all information needed for a given sheet.
         /// </summary>
-        /// <param name="queryList"></param>
+        /// <param name="queryList">Query list to be executed</param>
         /// <returns></returns>
         Task<DataSet> GetAsyncSupplierInfo(IDictionary<string, string> queryList);
 
@@ -35,24 +36,25 @@ namespace KarveDataServices
         /// <param name="supplierId">supplier code.</param>
         /// <returns>A tuple containing the executed query and the resulting data set.</returns>
         Task<Tuple<string, DataSet>> GetAsyncDelegations(string supplierId);
+       
         /// <summary>
         /// Update the data set 
         /// </summary>
         /// <param name="queries">The dictionary of the queries per table</param>
         /// <param name="set">The dataset per table</param>
         void UpdateDataSet(IDictionary<string, string> queries, DataSet set);
-       
+        
         /// <summary>
         ///  This returns the dataset list.
         /// </summary>
-        /// <param name="queries"></param>
-        /// <param name="setList"></param>
+        /// <param name="queries">Queries to be executed</param>
+        /// <param name="setList">List set to be used</param>
         void UpdateDataSetList(IDictionary<string, string> queries, IList<DataSet> setList);
       
         /// <summary>
         ///  Retrieve the asynchronous suppliers and store them in a dataset.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Dataset to be used.</returns>
         Task<DataSet> GetAsyncSuppliers();
 
         /// <summary>
@@ -79,6 +81,11 @@ namespace KarveDataServices
         /// <param name="currentDataSet"></param>
         /// <returns></returns>
         bool DeleteSupplier(IDictionary<string, string> queries,  DataSet currentDataSet);
+
+        /// <summary>
+        ///  This is a get supplier async summary data object.
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo();
 
         /// <summary>
@@ -90,19 +97,19 @@ namespace KarveDataServices
         /// <summary>
         ///  This returns a new identifier.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A new query identifier</returns>
         string GetNewId();
-        #endregion
+       
         /// <summary>
         ///  Returns a valid supplier given its code.
         /// </summary>
-        /// <param name="validSupplierCode"></param>
-        /// <returns></returns>
+        /// <param name="validSupplierCode">Code for retrieving the supplier</param>
+        /// <returns>A supplier data</returns>
         Task<ISupplierData> GetAsyncSupplierDo(string validSupplierCode);
         /// <summary>
-        ///  Assert delete async supplier do.
+        /// Delete an asynchronous data object.
         /// </summary>
-        /// <param name="supplierDataCode"></param>
+        /// <param name="data">Supplier data.</param>
         /// <returns></returns>
         Task<bool> DeleteAsyncSupplierDo(ISupplierData data);
         /// <summary>
@@ -123,5 +130,7 @@ namespace KarveDataServices
         /// <param name="codeId">id of the contacs</param>
         /// <returns></returns>
         Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId);
+        Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
+        #endregion
     }
 }

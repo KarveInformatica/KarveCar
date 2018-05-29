@@ -28,12 +28,13 @@
                            Width="80"></TextBox>
                     <Button Grid.Column="1" x:Name="NavigateButton" BorderBrush="Transparent" Background="Transparent" 
                                         Width="50"
-                                        Height="20"
-                                        Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
-                                        CommandParameter="{Binding ElementName=ColName}">
+                                        Height="20">
                   
                         <Image Source="/KarveControls;component/Images/contract.png"></Image>
-                </Button>
+                        <i:Interaction.Behaviors>
+                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.NavigateCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                        </i:Interaction.Behaviors>
+                    </Button>
             </Grid>
         </DataTemplate>
             <DataTemplate x:Key="NavigateVehicleItem">
@@ -46,10 +47,10 @@
                              Width="80"></TextBox>
                     <Button Grid.Column="1" x:Name="NavigateButtonVehicle" BorderBrush="Transparent" Background="Transparent" 
                             Width="50"
-                            Height="20"
-                            Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
-                            CommandParameter="{Binding ElementName=VehicleItemBox}">
-                  
+                            Height="20">
+                        <i:Interaction.Behaviors>
+                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                        </i:Interaction.Behaviors>
                         <Image Source="/KarveControls;component/Images/cars.png"></Image>
                     </Button>
                 </Grid>

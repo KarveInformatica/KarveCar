@@ -26,6 +26,7 @@ namespace KarveCommon.Services
         None = 8,
         FareSubsystem = 9,
         InvoiceSubsystem = 10,
+        BookingSubsystem = 11,
     };
     /// <summary>
     /// DataPayLoad is a generic exchange class between the different parts of the system.
@@ -180,6 +181,8 @@ namespace KarveCommon.Services
         ///  Set or Get the the name of the ResultString.
         /// </summary>
         public string ResultString { get; set; }
+
+        public bool IsTest { get; set; }
 
         /// <summary>
         ///  Set or Get the the name of the ShallowCopy.

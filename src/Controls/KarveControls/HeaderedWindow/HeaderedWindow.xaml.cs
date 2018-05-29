@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KarveCommonInterfaces;
 
 namespace KarveControls.HeaderedWindow
 {
     /// <summary>
     /// Interaction logic for HeaderedWindow.xaml
     /// </summary>
-    public partial class HeaderedWindow : UserControl
+    public partial class HeaderedWindow : UserControl, IHeaderedView
     {
         public string Header { get; set; }
         public HeaderedWindow()

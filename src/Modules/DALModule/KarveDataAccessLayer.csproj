@@ -99,6 +99,8 @@
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
+    <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Shared.Wpf, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -134,15 +136,20 @@
     <Compile Include="Assist\AssistHandlerRegistry.cs" />
     <Compile Include="Assist\AssistResponse.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
+    <Compile Include="BookingDataAccessLayer.cs" />
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
     <Compile Include="CompanyDataService.cs" />
     <Compile Include="ConcreteDomainFactory.cs" />
     <Compile Include="ContractDataServices.cs" />
+    <Compile Include="Crud\Booking\BookingDataDeleter.cs" />
+    <Compile Include="Crud\Booking\BookingDataLoader.cs" />
+    <Compile Include="Crud\Booking\BookingDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDataLoader.cs" />
     <Compile Include="Crud\Clients\ClientDataLoaderEx.cs" />
     <Compile Include="Crud\Clients\ClientDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDeleter.cs" />
+    <Compile Include="Crud\EntityLoader.cs" />
     <Compile Include="Crud\EntityMapper.cs" />
     <Compile Include="Crud\HelperBase.cs" />
     <Compile Include="Crud\Clients\DataLayerInvalidClientException.cs" />
@@ -216,6 +223,7 @@
     <Compile Include="DataObjects\BloqueFacturacion.cs" />
     <Compile Include="DataObjects\BLQ_CODIGOS_SAP.cs" />
     <Compile Include="DataObjects\BLQ_GRUPO_RES.cs" />
+    <Compile Include="DataObjects\BookingPoco.cs" />
     <Compile Include="DataObjects\BOXES.cs" />
     <Compile Include="DataObjects\BranchData.cs" />
     <Compile Include="DataObjects\BROKER_COMPANY.cs" />
@@ -260,8 +268,10 @@
     <Compile Include="DataObjects\CliContactsPoco.cs" />
     <Compile Include="DataObjects\CliDelegaPoco.cs" />
     <Compile Include="DataObjects\ClientPoco.cs" />
+    <Compile Include="DataObjects\DataConnectionSettingsDto.cs" />
     <Compile Include="DataObjects\EntityDecorator.cs" />
     <Compile Include="DataObjects\EntityDeserializer.cs" />
+    <Compile Include="DataObjects\EntityDeserializerException.cs" />
     <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
     <Compile Include="DataObjects\ClavePresupuesto.cs" />
@@ -1131,9 +1141,14 @@
     <Compile Include="DataObjects\_TMPSC.cs" />
     <Compile Include="DataObjects\_TMPXX.cs" />
     <Compile Include="Crud\DataSaver.cs" />
+    <Compile Include="DataPager.cs" />
+    <Compile Include="DataPagerException.cs" />
     <Compile Include="DataServiceImplementation.cs" />
     <Compile Include="Exception\DataAccessLayerException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
+    <Compile Include="FilterService\AbstractDataFilterService.cs" />
+    <Compile Include="FilterService\DataFilterService.cs" />
+    <Compile Include="FilterService\DataFilterSummaryService.cs" />
     <Compile Include="GruposDAL.cs" />
     <Compile Include="IDataAccessLayer.cs" />
     <Compile Include="InvoiceDataServices.cs" />
@@ -1141,6 +1156,21 @@
     <Compile Include="Logic\ClientDtoToClientes2.cs" />
     <Compile Include="Logic\ContactsComiToDto.cs" />
     <Compile Include="Model\NullInvoice.cs" />
+    <Compile Include="Model\NullReservation.cs" />
+    <Compile Include="Model\Reservation.cs" />
+    <Compile Include="MongoDB\MongoAssistDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoClientDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoCommissionAgentDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoCompanyDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoContractDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoDbImplementation.cs" />
+    <Compile Include="MongoDB\MongoHelper.cs" />
+    <Compile Include="MongoDB\MongoHelperDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoInvoiceDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoOfficeDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoSettingsDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoSupplierDataAccessLayer.cs" />
+    <Compile Include="MongoDB\MongoVehicleDataAccessLayer.cs" />
     <Compile Include="SQL\IQueryStore.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />
@@ -1227,6 +1257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Crud\Supplier\" />
+    <Folder Include="Crud\Vehicle\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

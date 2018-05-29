@@ -11,6 +11,9 @@ using System.Globalization;
 using NLog;
 using KarveControls.Interactivity;
 using TestUIComponents.TestingViewsModels;
+using DataAccessLayer;
+using DataAccessLayer.SQL;
+using KarveDataServices;
 
 namespace TestUIComponents
 {    
@@ -22,7 +25,9 @@ namespace TestUIComponents
         class Bootstrapper : UnityBootstrapper
         {
 
-            private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45;";
+
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
             /// This is a temporary bootstrapping service string connection string.
             /// <summary>
             ///  This create a new Prism Shell
@@ -40,7 +45,7 @@ namespace TestUIComponents
             protected override void ConfigureModuleCatalog()
             {
                 ModuleCatalog catalog = (ModuleCatalog)ModuleCatalog;
-                catalog.AddModule(typeof(InteractivityModule));
+               // catalog.AddModule(typeof(InteractivityModule));
 
             }
             /// <summary>
@@ -53,11 +58,38 @@ namespace TestUIComponents
                 try
                 {
                  Container.RegisterType<IRegionNavigationContentLoader, ScopedRegionNavigationContentLoader>(new ContainerControlledLifetimeManager());
-                    object[] currentValue = new object[1];
-                    currentValue[0] = Container;
-                    InjectionConstructor injectionContainer = new InjectionConstructor(currentValue);
+                /*
+                 IUnityContainer unityContainer, IDataServices dataServices, IDialogService dialog, ISqlExecutor executor)
+                 */
+
+                string connParams = ConnectionString;
+                object[] dbParams = new object[1];
+                dbParams[0] = connParams;
+                InjectionConstructor injectionConstructorDb = new InjectionConstructor(dbParams);
+                Container.RegisterType<ISqlExecutor, OleDbExecutor>(new ContainerControlledLifetimeManager(), injectionConstructorDb);
+                object[] values = new object[1];
+                values[0] = Container.Resolve<ISqlExecutor>();
+                InjectionConstructor injectionConstructor = new InjectionConstructor(values);
+                logger.Debug("Registering types in the dependency injection...");
+                Container.RegisterType<IDataServices, DataServiceImplementation>(new ContainerControlledLifetimeManager(), injectionConstructor);
+
+                
+                var currentValue = new object[3];
+                ISqlExecutor sqlExecutor = new OleDbExecutor();
+                IDataServices dataServices = new DataServiceImplementation(sqlExecutor);
+                currentValue[0] = Container.Resolve<IUnityContainer>(); 
+                currentValue[1] = Container.Resolve<IDataServices>(); 
+                currentValue[2] = Container.Resolve<ISqlExecutor>();
+                var requestControllerInjected = new object[1];
+                requestControllerInjected[0] = Container;
+
+
+
+                InjectionConstructor injectionContainer = new InjectionConstructor(requestControllerInjected);
+                InjectionConstructor injectionIntoViewModel = new InjectionConstructor(currentValue);
+               
                 Container.RegisterType<RequestController>(new ContainerControlledLifetimeManager(), injectionContainer);
-                Container.RegisterType<TestMainWindowViewModel>(injectionContainer);
+                Container.RegisterType<TestMainWindowViewModel>(injectionIntoViewModel);
                     // The dal service is used to access to the database
                     logger.Debug("Resolving configuration container");
 

@@ -10,7 +10,7 @@ namespace KarveDataServices
     ///  This implements the commission agent data services.
     /// It is a dual interface that can work with data objects and with DataSet
     /// </summary>
-    public interface ICommissionAgentDataServices
+    public interface ICommissionAgentDataServices: IPageCounter, ISorterData<CommissionAgentSummaryDto>
     {
         /// <summary>
         /// Get the commission agent data obejct
@@ -52,22 +52,15 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="commissionAgent">Commission agent to delete</param>
         /// <returns>True if the commission agent has been deleted with succcess.</returns>
-        Task<bool> DeleteCommissionAgent(ICommissionAgent commissionAgent);
-        /// <summary>
-        /// This delete the commission agent given an id.
-        /// </summary>
-        /// <param name="sqlQuery">Sql Query to be used in case of deleting</param>
-        /// <param name="commissionAgentId">Id to be deleted</param>
-        /// <param name="set">DataSet to be deleted</param>
-        /// <returns></returns>
-        bool DeleteCommissionAgent(string sqlQuery, string commissionAgentId, DataSet set);
+        Task<bool> DeleteDoAsync(ICommissionAgent commissionAgent);
+        
         /// <summary>
         /// Get the commission agent summary in an ADO.NET database.
         /// </summary>
         /// <param name="paged">optional parameter indicating if the agent shall be paged</param>
         /// <param name="pageSize">optional parameter indicating the dimension of the page size</param>
         /// <returns></returns>
-        Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0);
+        Task<DataSet> GetDataSetSummaryAsync(bool paged = false, long pageSize = 0);
         /// <summary>
         /// This is the primary key.
         /// </summary>
@@ -78,6 +71,13 @@ namespace KarveDataServices
         ///  Return a list of all fields in the commission agent.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<CommissionAgentSummaryDto>> GetCommissionAgentSummaryDo();
+        Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryDoAsync();
+        /// <summary>
+        ///  This returns the paged version of the broker summary.
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>A list of paged company stuff.</returns>
+        Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize);
     }
 }

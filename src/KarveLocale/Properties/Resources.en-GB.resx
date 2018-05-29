@@ -2341,4 +2341,61 @@
   <data name="OpcionCliente" xml:space="preserve">
     <value>Client Options</value>
   </data>
+  <data name="lbookingnumber" xml:space="preserve">
+    <value>Booking Number</value>
+  </data>
+  <data name="lcreationdate" xml:space="preserve">
+    <value>Created in Date</value>
+  </data>
+  <data name="llocator" xml:space="preserve">
+    <value>Locator</value>
+  </data>
+  <data name="ldriver" xml:space="preserve">
+    <value>Driver</value>
+  </data>
+  <data name="ldeparturedate" xml:space="preserve">
+    <value>Departure Date</value>
+  </data>
+  <data name="lexpectedrevision" xml:space="preserve">
+    <value>Expected Revision Date </value>
+  </data>
+  <data name="lexpectedhourrevision" xml:space="preserve">
+    <value>Expected Hour Revision</value>
+  </data>
+  <data name="lreplacementcar" xml:space="preserve">
+    <value>Replacement Car</value>
+  </data>
+  <data name="lloaddocument" xml:space="preserve">
+    <value>Load Document</value>
+  </data>
+  <data name="KarveToolBarViewModel_QuieresGuardarElRegistro" xml:space="preserve">
+    <value>Do you want to save the record?</value>
+  </data>
+  <data name="PrefijoContrato" xml:space="preserve">
+    <value>Agreement Prefix:</value>
+  </data>
+  <data name="ltarifa" xml:space="preserve">
+    <value>Fare</value>
+  </data>
+  <data name="ldrivercode" xml:space="preserve">
+    <value>Driver Code</value>
+  </data>
+  <data name="lbroker" xml:space="preserve">
+    <value>Broker</value>
+  </data>
+  <data name="llocaldirection" xml:space="preserve">
+    <value>Local Address</value>
+  </data>
+  <data name="lnumerobono" xml:space="preserve">
+    <value>Bonus Number </value>
+  </data>
+  <data name="lcancelled" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="lcodigomantenimiento" xml:space="preserve">
+    <value>Maintenance Code</value>
+  </data>
+  <data name="lremoved" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
 </root>

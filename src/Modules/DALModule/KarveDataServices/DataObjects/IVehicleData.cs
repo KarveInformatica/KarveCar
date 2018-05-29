@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 
@@ -56,9 +57,13 @@ namespace KarveDataServices.DataObjects
         /// </summary>
         IEnumerable<ColorDto> ColorDtos { get; set; }
         /// <summary>
+        ///  Color data transfer object.
+        /// </summary>
+        IEnumerable<OwnerDto> OwnerDtos { get; set; }
+        /// <summary>
         ///  Vehicle group dto.
         /// </summary>
-        IEnumerable<DataTransferObject.VehicleGroupDto> VehicleGroupDtos { get; set; }
+        IEnumerable<VehicleGroupDto> VehicleGroupDtos { get; set; }
         /// <summary>
         ///  History of the maintenance of the vehicle.
         /// </summary>
@@ -67,5 +72,14 @@ namespace KarveDataServices.DataObjects
         ///  Query of the model.
         /// </summary>
         string AssistModelQuery { get; }
+
+        /// <summary>
+        ///  Agents dto
+        /// </summary>
+        IEnumerable<AgentDto> AgentsDto { get; set; }
+        /// <summary>
+        ///  Activities dto.
+        /// </summary>
+        IEnumerable<ActividadDto> ActivityDtos { get; set; }
     }
 }

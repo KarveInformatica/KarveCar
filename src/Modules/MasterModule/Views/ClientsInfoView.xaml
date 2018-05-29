@@ -182,13 +182,13 @@
             </DataTemplate>
 
             <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
+
             <ResourceDictionary.MergedDictionaries>
-                <!--
-                    <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-            -->
+
+                <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
+
 
             </ResourceDictionary.MergedDictionaries>
-
 
         </ResourceDictionary>
     </UserControl.Resources>

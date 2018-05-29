@@ -12,11 +12,19 @@ namespace KarveDataServices.DataObjects
     public class InvoiceDto : BaseDto
     {
      
+        public InvoiceDto()
+        {
+            InvoiceItems = new List<InvoiceSummaryDto>();
+
+        }
         /// <summary>
         ///  Invoice data transfer object.
         /// </summary>
 
-        public string NUMERO_FAC { get; set; }
+        public string NUMERO_FAC {
+            get { return CodeId; }
+            set { CodeId = value; }
+        }
 
         /// <summary>
         ///  Set or get the FECHA_FAC property.

@@ -2711,4 +2711,58 @@
   <data name="OpcionCliente" xml:space="preserve">
     <value>Opzioni Cliente</value>
   </data>
+  <data name="lbookingnumber" xml:space="preserve">
+    <value>Numero Prenotazione</value>
+  </data>
+  <data name="lcreationdate" xml:space="preserve">
+    <value>Data Creazione</value>
+  </data>
+  <data name="llocator" xml:space="preserve">
+    <value>Localizzatore</value>
+  </data>
+  <data name="ldriver" xml:space="preserve">
+    <value>Conducente</value>
+  </data>
+  <data name="ldeparturedate" xml:space="preserve">
+    <value>Data di partenza</value>
+  </data>
+  <data name="lexpectedrevision" xml:space="preserve">
+    <value>Data Prevista Revisione</value>
+  </data>
+  <data name="lexpectedhourrevision" xml:space="preserve">
+    <value>Ora Prevista Revisione</value>
+  </data>
+  <data name="lreplacementcar" xml:space="preserve">
+    <value>Veicolo Sostitutivo</value>
+  </data>
+  <data name="KarveToolBarViewModel_QuieresGuardarElRegistro" xml:space="preserve">
+    <value>Vuoi salvare il registro?</value>
+  </data>
+  <data name="lloaddocument" xml:space="preserve">
+    <value>Caricare il documento..</value>
+  </data>
+  <data name="ltarifa" xml:space="preserve">
+    <value>Tariffa</value>
+  </data>
+  <data name="ldrivercode" xml:space="preserve">
+    <value>Codice Conducente</value>
+  </data>
+  <data name="lbroker" xml:space="preserve">
+    <value>Intermediario</value>
+  </data>
+  <data name="llocaldirection" xml:space="preserve">
+    <value>Indirizzo Locale</value>
+  </data>
+  <data name="lnumerobono" xml:space="preserve">
+    <value>Numero Abbuono</value>
+  </data>
+  <data name="lcancelled" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="lcodigomantenimiento" xml:space="preserve">
+    <value>Codice Mantenimento</value>
+  </data>
+  <data name="lremoved" xml:space="preserve">
+    <value>Cancellata</value>
+  </data>
 </root>

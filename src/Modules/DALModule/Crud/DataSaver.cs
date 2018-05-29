@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using AutoMapper;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
@@ -54,20 +55,37 @@ namespace DataAccessLayer
             {
                 conn = this._executor.OpenNewDbConnection();
             }
+
             try
             {
-                if (conn != null)
+                using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    if (!conn.IsPresent<T>(entity))
+                    if (conn != null)
                     {
-                        value = await conn.InsertAsync<T>(entity) > 0;
+                        if (!conn.IsPresent<T>(entity))
+                        {
+                            value = await conn.InsertAsync<T>(entity) > 0;
+                        }
+                        else
+                        {
+                            value = await conn.UpdateAsync<T>(entity);
+                        }
+                    }
+
+                    if (value)
+                    {
+                        scope.Complete();
                     }
                     else
                     {
-                        value = await conn.UpdateAsync<T>(entity);
+                        scope.Dispose();
                     }
-                }
 
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw new DataLayerException("Error during saving",ex);
             }
             finally
             {

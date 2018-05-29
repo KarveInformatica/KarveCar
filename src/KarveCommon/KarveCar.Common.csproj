@@ -177,6 +177,8 @@
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\GridIdentifiers.cs" />
     <Compile Include="Generic\GridOperationHandler.cs" />
+    <Compile Include="Generic\IncrementalListWrapper.cs" />
+    <Compile Include="Generic\KarveControlViewModel.cs" />
     <Compile Include="Generic\KarveGridParameters.cs" />
     <Compile Include="Generic\KarveRoutingBaseViewModel.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
@@ -186,6 +188,8 @@
     <Compile Include="Generic\NotifyTaskCompletion.cs" />
     <Compile Include="Generic\NullTask.cs" />
     <Compile Include="Generic\OfficeDtoValidation.cs" />
+    <Compile Include="Generic\QueryCompositeFilter.cs" />
+    <Compile Include="Generic\QueryFilter.cs" />
     <Compile Include="Generic\RegionManagerBehavior.cs" />
     <Compile Include="Generic\RegionNames.cs" />
     <Compile Include="Generic\RemoveDuplicateSqlValidationRule.cs" />
@@ -194,6 +198,7 @@
     <Compile Include="Generic\ValidationChainBuilder.cs" />
     <Compile Include="Generic\VehicleValidationRule.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
+    <Compile Include="HeaderedLineViewModelBase.cs" />
     <Compile Include="IChangeHandler.cs" />
     <Compile Include="Services\DataPayloadFactory.cs" />
     <Compile Include="Services\EventDispatcher.cs" />

@@ -107,13 +107,26 @@ namespace HelperModule.ViewModels
 
         }
     
+
+        /// <summary>
+        /// Constructor of the base class
+        /// </summary>
+        /// <param name="dataServices">Data Services to be used.</param>
+        /// <param name="region"> Region manager to be used.</param>
+        /// <param name="eventManager">Event manager to be used.</param>
+        
+        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, 
+            IEventManager eventManager): this(dataServices, region, eventManager, null)
+        {
+
+        }
         /// <summary>
         ///  Constructor of the base class
         /// </summary>
         /// <param name="dataServices">Data service implementation.</param>
         /// <param name="region">Region manager.</param>
         /// <param name="eventManager">Event manager.</param>
-        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager): base(dataServices)
+        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService): base(dataServices)
         { 
             RegionManager = region;
             EventManager = eventManager;

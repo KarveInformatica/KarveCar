@@ -1168,7 +1168,7 @@ namespace DataAccessLayer.Model
         ///  Set or get the PALBARAN property.
         /// </summary>
 
-        public Boolean? PALBARAN { get; set; }
+        public char? PALBARAN { get; set; }
 
         /// <summary>
         ///  Set or get the EXCLUSIVIDAD property.

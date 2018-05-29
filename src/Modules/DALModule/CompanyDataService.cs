@@ -13,27 +13,37 @@ using System.Collections.ObjectModel;
 using DataAccessLayer.Model;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Exception;
+using System.ComponentModel;
 
 namespace DataAccessLayer
 {
-    internal class CompanyDataServices: ICompanyDataServices
+    /// <summary>
+    ///  CompanyDataServices class has the resposability to load/store company data.
+    /// </summary>
+    internal class CompanyDataServices: AbstractDataAccessLayer, ICompanyDataServices
     {
-        private ISqlExecutor sqlExecutor;
+        /// <summary>
+        ///  We tried to have a separate resposability to each so we split the class 
+        ///  in loader, saver, deleter.
+        /// </summary>
         private CompanyDataLoader _loader;
         private CompanyDataSaver _saver;
         private CompanyDataDeleter _deleter;
-        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
+       
         /// <summary>
         ///  This is a service for loading company data
         /// </summary>
         /// <param name="sqlExecutor">Interface to the sql executor</param>
-        public CompanyDataServices(ISqlExecutor sqlExecutor)
+        public CompanyDataServices(ISqlExecutor sqlExecutor): base(sqlExecutor)
         {
-            this.sqlExecutor = sqlExecutor;
+           
             _loader = new CompanyDataLoader(sqlExecutor);
             _saver = new CompanyDataSaver(sqlExecutor);
             _deleter = new CompanyDataDeleter(sqlExecutor);
+            // it is important to set for paging.
+            TableName = "SUBLICEN";
         }
+        
         /// <summary>
         /// This delete the company asynchronously
         /// </summary>
@@ -53,11 +63,11 @@ namespace DataAccessLayer
         /// <returns>Return the list of company summary</returns>
         public async Task<IEnumerable<CompanySummaryDto>> GetAsyncAllCompanySummary()
         {
-            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            var store = QueryStoreFactory.GetQueryStore();
             store.AddParam(QueryType.QueryCompanySummary);
             var query = store.BuildQuery();
             IEnumerable<CompanySummaryDto> companySummaryDto = new ObservableCollection<CompanySummaryDto>();
-            using (IDbConnection conn = sqlExecutor.OpenNewDbConnection())
+            using (var conn = SqlExecutor.OpenNewDbConnection())
             {
                 try
                 {
@@ -92,17 +102,16 @@ namespace DataAccessLayer
             data.ProvinciaDto = new ObservableCollection<ProvinciaDto>();
             data.CityDto = city;
             data.ProvinciaDto = prov;
-            //data.CountryDto = new ObservableCollection<>
             return data;
         }
         /// <summary>
-        ///  Return new company objects.
+        ///  Create a new company object
         /// </summary>
         /// <param name="code">Code of the company.</param>
         /// <returns>Create a new company.</returns>
         public ICompanyData GetNewCompanyDo(string code)
         {
-            CompanyDto dto = new CompanyDto
+            var dto = new CompanyDto
             {
                 Code = code,
                 CODIGO = code
@@ -114,19 +123,55 @@ namespace DataAccessLayer
             return data;
         }
         /// <summary>
-        ///  Return a company identifier
+        ///  Returns a company identifier
         /// </summary>
         /// <returns>Get a new identifier unique for the company</returns>
         public string GetNewId()
         {
             string id = string.Empty;
-            using (IDbConnection conn = sqlExecutor.OpenNewDbConnection())
+            using (var conn = SqlExecutor.OpenNewDbConnection())
             {
+                
                 var sublicen = new SUBLICEN();
-                id =  conn.UniqueId<SUBLICEN>(sublicen);
+                id =  conn?.UniqueId<SUBLICEN>(sublicen);
             }
             return id;
         }
+        /// <summary>
+        ///  Get the list of tha paged company. Compute as side effect the number of pages.
+        /// </summary>
+        /// <param name="baseIndex">Index of the company</param>
+        /// <param name="defaultPageSize">default page size</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<CompanySummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        {
+            var pager = new DataPager<CompanySummaryDto>(SqlExecutor);
+            var pageStart = baseIndex;
+            if (pageStart == 0)
+                pageStart = 1;
+            NumberPage = await GetPageCount(defaultPageSize);
+            var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryCompanyPaged, pageStart,defaultPageSize);
+            return datas;
+        }
+        /// <summary>
+        ///  This returns a sorted summary sorted and extended collection.
+        /// </summary>
+        /// <param name="sortChain">Sort direction</param>
+        /// <param name="pageIndex">Index of the page</param>
+        /// <param name="pageSize">Page size</param>
+        /// <returns>A list of sorted company</returns>
+        public async Task<IEnumerable<CompanySummaryDto>> GetSortedCollectionPagedAsync(
+            Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        {
+            var dataPager = new DataPager<CompanySummaryDto>(SqlExecutor);
+            var pageStart = pageIndex;
+            if (pageStart == 0)
+                pageStart = 1;
+            NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
+            var datas = await dataPager.GetPagedSummaryDoSortedAsync(QueryType.QueryCompanyPaged, sortChain, pageIndex, pageSize);
+            return datas;
+        }
+
         /// <summary>
         ///  Save the data of the company asynchronously.
         /// </summary>

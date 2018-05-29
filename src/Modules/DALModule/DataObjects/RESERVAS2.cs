@@ -1,18 +1,20 @@
+using KarveDapper.Extensions;
 using System;
  
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a RESERVAS2.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class RESERVAS2 
+    /// <summary>
+    /// Represents a RESERVAS2.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("RESERVAS2")]
+    public class RESERVAS2 
 	{
 	
 	/// <summary>
     ///  Set or get the NUMERO_RES property.
     /// </summary>
-    
+        [Key]
 		public string NUMERO_RES { get; set; }
  
 	/// <summary>

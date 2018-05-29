@@ -213,7 +213,7 @@ namespace InvoiceModule.ViewModels
                 PayloadType = DataPayLoad.Type.Insert,
                 PrimaryKeyValue = code,
                 HasDataObject = true,
-                DataObject = clientDataServices.GetNewClientAgentDo(code),
+                DataObject = clientDataServices.GetDoAsync(code),
                 Sender = EventSubsystem.ClientSummaryVm
             };
             EventManager.NotifyObserverSubsystem(EventSubsystem.ClientSummaryVm, currentPayload);
@@ -358,7 +358,8 @@ namespace InvoiceModule.ViewModels
             {
                 case ClientAssist:
                     {
-                        this.ClientDto = (IEnumerable<ClientSummaryDto>)value;
+
+                        this.ClientDto = (IncrementalList <ClientSummaryExtended>)value;
                         break;
                     }
                 case InvoiceAssist:
@@ -399,7 +400,10 @@ namespace InvoiceModule.ViewModels
                     dataObject.DTOPP = new decimal(0.03);
                 }
                 DataObject = ComputeTotals(dataObject);
-                ClientDto = _invoiceData.ClientSummary;
+                ClientDto = new IncrementalList<ClientSummaryExtended>(LoadMoreClients)
+                { MaxItemCount = _invoiceData.NumberOfClients };
+                ClientDto.LoadItems(_invoiceData.ClientSummary);
+
                 SourceView = _invoiceData.InvoiceItems;
                 _invoiceSummary = _invoiceData.InvoiceSummary;
                 InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
@@ -407,6 +411,15 @@ namespace InvoiceModule.ViewModels
                 ActiveSubSystem();
             }
         }
+
+        private async void LoadMoreClients(uint arg1, int arg2)
+        {
+            var clientDs = _dataServices.GetClientDataServices();
+            var pagedClient = await clientDs.GetPagedSummaryDoAsync(arg2, DefaultPageSize);
+            ClientDto.LoadItems(pagedClient);
+
+        }
+    
         /// <summary>
         ///  This 
         /// </summary>
@@ -469,7 +482,7 @@ namespace InvoiceModule.ViewModels
         /// <summary>
         /// Summary of the client.
         /// </summary>
-        public IEnumerable<ClientSummaryDto> ClientDto
+        public IncrementalList<ClientSummaryExtended> ClientDto
         {
             get => _clientValue;
             set
@@ -618,16 +631,15 @@ namespace InvoiceModule.ViewModels
                 ivaValue = dataObject.IVAPOR_FAC.Value;
             }
 
-            var c = dataObject.InvoiceItems.Count();
-
-            var grossTotal = InvoiceHelpers.ComputeGrossTotal(dataObject.InvoiceItems);
+            if (dataObject.InvoiceItems != null)
+            {
+                var grossTotal = InvoiceHelpers.ComputeGrossTotal(dataObject.InvoiceItems);
                 var baseValue = InvoiceHelpers.ComputeBase(dataObject.InvoiceItems, discount);
                 dataObject.BRUTO_FAC = grossTotal;
                 dataObject.BASE_FAC = baseValue;
                 var computeIva = InvoiceHelpers.ComputeIva(baseValue, ivaValue);
                 dataObject.TODO_FAC = baseValue + computeIva;
-            
-
+            }
             return dataObject;
         }
 
@@ -715,7 +727,7 @@ namespace InvoiceModule.ViewModels
         private ObservableCollection<CellPresenterItem> _cellNavigationAware;
         private IInvoiceData _invoiceData;
         private InvoiceDto _invoiceDataValue;
-        private IEnumerable<ClientSummaryDto> _clientValue;
+        private IncrementalList<ClientSummaryExtended> _clientValue;
         private IEnumerable<InvoiceSummaryValueDto> _invoiceSummary;
         private IncrementalList<InvoiceSummaryValueDto> _invoiceSummaryView;
 

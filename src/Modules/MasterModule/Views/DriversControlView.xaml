@@ -106,8 +106,18 @@
                                         AnimationType="Gear" />
             </StackPanel>
         </Border>
+        <Syncfusion:SfDataPager x:Name="DriveControl"
+                                PageSize="{Binding DefaultPagingSize}"                                      
+                                Grid.Row="2"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10" 
+                                Source="{Binding Drivers}">
 
-       
+
+        </Syncfusion:SfDataPager>
+
 
         <!--
             <i:Interaction.Triggers>

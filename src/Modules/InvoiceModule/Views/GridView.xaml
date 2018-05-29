@@ -10,7 +10,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
         </ResourceDictionary>
     </UserControl.Resources>
     <Border BorderBrush="#B2B2B2"
@@ -36,16 +36,19 @@
                                        SelectionMode="Single"
                                        RowHeight="35">
                     <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn MappingName="Contract" HorizontalHeaderContentAlignment="Right" TextAlignment="Right" 
-                                                   HeaderText="Contracto" 
+                        <syncfusion:GridTextColumn MappingName="Contract" HorizontalHeaderContentAlignment="Right"
+                                                   TextAlignment="Right"
+                                                   HeaderText="Contracto"
                                                    ValueBinding="{Binding Path=Contract}" />
-                        
+
                         <syncfusion:GridTextColumn HeaderText="Vehiculo" MappingName="Vehicle" />
                         <syncfusion:GridTextColumn HeaderText="Con" MappingName="SubCategory" />
-                        <syncfusion:GridTextColumn HeaderText="Description" MappingName="Description"/>
-                        <syncfusion:GridTextColumn MappingName="Amount" CellStyle="{StaticResource AmountCellStyle}" HorizontalHeaderContentAlignment="Right" TextAlignment="Right" ValueBinding="{Binding Path=Amount, StringFormat='{}{0:c}'}" />
+                        <syncfusion:GridTextColumn HeaderText="Description" MappingName="Description" />
+                        <syncfusion:GridTextColumn MappingName="Amount" CellStyle="{StaticResource AmountCellStyle}"
+                                                   HorizontalHeaderContentAlignment="Right" TextAlignment="Right"
+                                                   ValueBinding="{Binding Path=Amount, StringFormat='{}{0:c}'}" />
                     </syncfusion:SfDataGrid.Columns>
-                    
+
                 </syncfusion:SfDataGrid>
             </Grid>
             <Grid Grid.Row="1" Background="White">

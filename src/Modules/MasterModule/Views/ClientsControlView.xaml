@@ -12,6 +12,8 @@
              xmlns:karveConverter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:gridBehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -39,7 +41,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="95*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
@@ -50,7 +53,7 @@
                                ColumnSizer="Auto"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
-                               AllowFiltering="True"
+                               AllowFiltering="False"
                                AllowResizingColumns="True"
                                AllowSorting="True"
                                AllowGrouping="True"
@@ -64,14 +67,17 @@
                                Foreground="#FF808080"
                                RowSelectionBrush="#FF8CC63F"
                                HeaderRowHeight="32"
+                               FilterRowPosition="FixedTop"
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
-            ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               ItemsSource="{Binding SummaryView}"
                                AutoGenerateColumns="False">
 
-            
+            <i:Interaction.Behaviors>
+                <gridBehavior:GridFilterBehavior></gridBehavior:GridFilterBehavior>
+            </i:Interaction.Behaviors>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenItemCommand}" 
@@ -169,7 +175,17 @@
             </syncfusion:SfDataGrid.Columns>
 
         </syncfusion:SfDataGrid>
-
+        <!--
+        <syncfusion:SfDataPager x:Name="ClientDataPager"
+                                PageSize="{Binding DefaultPagingSize}"                                      
+                                Grid.Row="2"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10" 
+                                Source="{Binding SummaryView}">
+        </syncfusion:SfDataPager>
+      -->
     </Grid>
    
 </UserControl>

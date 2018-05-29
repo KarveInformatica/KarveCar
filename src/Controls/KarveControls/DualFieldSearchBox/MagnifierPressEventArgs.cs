@@ -17,7 +17,7 @@ namespace KarveControls
         /// </summary>
         public class MagnifierPressEventArgs : KarveRoutedEventsArgs
         {
-            /// <summary>
+            /// <summary> 
             /// Constant to access to the tableName in the parameters of the event
             /// </summary>
             public const string ASSISTTABLE = "AssistTable";

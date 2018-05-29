@@ -66,11 +66,13 @@ namespace DataAccessLayer.Crud.Company
             using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<SUBLICEN>(code);
-                companyDto = _mapper.Map<SUBLICEN, CompanyDto>(value);
                 if (value == null)
                 {
+                    companyDto.IsValid = false;
                     return companyDto;
                 }
+                companyDto = _mapper.Map<SUBLICEN, CompanyDto>(value);
+                
                 SqlMapper.GridReader reader = null;
                 var store = CreateQueryStore(companyDto);
                 var multipleQuery = store.BuildQuery();
@@ -117,7 +119,7 @@ namespace DataAccessLayer.Crud.Company
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                store.AddParamRange(QueryType.QueryPagedCompany, _currentPos, n);
+                store.AddParamRange(QueryType.QueryCompanyPaged, _currentPos, n);
                 _currentPos += n + back;
                 var query = store.BuildQuery();
                 var value = await connection.QueryAsync<SUBLICEN>(query);

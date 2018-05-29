@@ -32,7 +32,7 @@ namespace DataAccessLayer.SQL
         DeleteClientVisits,
         QueryPagedClient,
         QueryClientPagedSummary,
-        QueryPagedCompany,
+        QueryCompanyPaged,
         QueryCompanySummary,
         QueryCountry,
         QueryOffices,
@@ -72,6 +72,22 @@ namespace DataAccessLayer.SQL
         QueryVehicleActivity,
         QueryClientSummaryExtById,
         QueryContractSummaryBasic,
-        QueryVehicle
+        QueryVehicle,
+        QueryAgentByVehicle,
+        QueryVehicleMaintenance,
+        QueryVehicleGroup,
+        QueryVehicleOwner,
+        QueryCommissionAgentPaged,
+        QueryOfficeSummaryPaged,
+        QueryBookingSummary,
+        QueryBookingAllFields,
+        QueryBooking,
+        QueryBookingSummaryExt,
+        QueryBookingPaged,
+        QueryBookingItem,
+        QueryBookingItems,
+        QueryContractSummary,
+        QueryContractSummaryPaged,
+        QueryBookedPaged
     };
 }

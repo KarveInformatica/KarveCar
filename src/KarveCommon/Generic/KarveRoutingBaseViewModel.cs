@@ -3,10 +3,13 @@ using KarveCommonInterfaces;
 using KarveDataServices;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
 using NLog;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Regions;
+using System.ComponentModel;
 
 namespace KarveCommon.Generic
 {
@@ -25,7 +28,9 @@ namespace KarveCommon.Generic
 
         protected IEventManager EventManager;
         protected const string RegionName = "TabRegion";
-    
+      
+
+
         /// <summary>
         /// Base view model for routing.
         /// </summary>
@@ -46,7 +51,7 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="services">DataServices to be used</param>
         /// <param name="dialogService">DialogServices to be used</param>
-        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager) : base(services, controller)
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager) : base(services, controller,dialogService)
         {
             EventManager = eventManager;
         }
@@ -67,9 +72,9 @@ namespace KarveCommon.Generic
         /// <returns></returns>
         protected DataPayLoad BuildShowPayLoadDo<T>(string name, T Object, IDictionary<string, string> queries = null)
         {
-            DataPayLoad currentPayload = new DataPayLoad();
+            var currentPayload = new DataPayLoad();
             // name that it is give from the subclass, it may be a master
-            string routedName = GetRouteName(name);
+            var routedName = GetRouteName(name);
             currentPayload.PayloadType = DataPayLoad.Type.Show;
             currentPayload.Registration = routedName;
             currentPayload.HasDataObject = true;
@@ -82,8 +87,8 @@ namespace KarveCommon.Generic
             return currentPayload;
         }
 
-        public ICommand ActiveSubsystemCommand { set; get; }
-        protected void ActiveSubSystem()
+        public virtual ICommand ActiveSubsystemCommand { set; get; }
+        protected virtual void ActiveSubSystem()
         {
             // change the active subsystem in the toolbar state.
             RegisterToolBar();
@@ -100,7 +105,7 @@ namespace KarveCommon.Generic
         protected void RegisterToolBar()
         {
             // each module notify the toolbar.
-            DataPayLoad payLoad = new DataPayLoad();
+            var payLoad = new DataPayLoad();
             SetRegistrationPayLoad(ref payLoad);
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             EventManager.NotifyToolBar(payLoad);
@@ -121,7 +126,7 @@ namespace KarveCommon.Generic
 
         }
 
-        bool IsMessageForMe<DtoType,DomainType>(DataPayLoad payLoad, string codeDomain, string codeDto)
+        protected bool IsMessageForMe<DtoType,DomainType>(DataPayLoad payLoad, string codeDomain, string codeDto)
         {
             if (!(payLoad.DataObject is DtoType dto))
             {
@@ -150,7 +155,7 @@ namespace KarveCommon.Generic
         ///  Delete the name of a mailbox
         /// </summary>
         /// <param name="mailboxName">Mailbox.</param>
-        protected void DeleteMailBox(string mailboxName)
+        protected virtual void DeleteMailBox(string mailboxName)
         {
             if (MailBoxHandler != null)
             {
@@ -163,19 +168,8 @@ namespace KarveCommon.Generic
         /// </summary>
         protected string MailboxName { set; get; }
 
-
-        /*protected void Navigate<T>(string code, string viewName)
-        {
-            var navigationParameters = new NavigationParameters
-            {
-                { "id", code },
-                { ScopedRegionNavigationContentLoader.DefaultViewName, viewName }
-            };
-            var uri = new Uri(typeof(T).FullName + navigationParameters, UriKind.Relative);
-            _regionManager.RequestNavigate("TabRegion", uri);
-        }*/
-
-        protected void HandleMessageBoxPayLoad(DataPayLoad payLoad)
+        
+        protected virtual void HandleMessageBoxPayLoad(DataPayLoad payLoad)
         {
             switch (payLoad.PayloadType)
             {
@@ -228,6 +222,7 @@ namespace KarveCommon.Generic
         {
 
         }
+        
 
         protected virtual void DeleteItem(DataPayLoad payLoad)
         {

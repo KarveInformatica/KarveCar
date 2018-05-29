@@ -16,6 +16,10 @@
     <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
     <converter:NullBoleanToBooleanConverter x:Key="NullableBooleanConverter"></converter:NullBoleanToBooleanConverter>
     <Color x:Key="detailMark">#FFA1A9B3</Color>
+
+    <Style x:Key="DirectionWidth" TargetType="{x:Type KarveControls:DataField}">
+        <Setter Property="Width" Value="200" />
+    </Style>
     <SolidColorBrush x:Key="detailMarkBrush" Color="{StaticResource ResourceKey=detailMark}" />
     
         <Style x:Key="flatTextBox" TargetType="{x:Type TextBox}">
@@ -34,7 +38,7 @@
                                                     MethodName="GetValues"
                                                     ObjectType="{x:Type system:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="syncfusion:FilterMode" />
+                <x:Type TypeName="Syncfusion:FilterMode" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <Style x:Key="DelegationCodeStyle" TargetType="Syncfusion:GridFilterControl">
@@ -188,7 +192,7 @@
 
                         <KarveControls:DataField Height="30" 
                                             LabelText="{Binding lbastidor, Source={StaticResource ResourceLanguage}}" LabelTextWidth="50"  TextContentWidth="200" 
-                                                  ItemChangedCommand="{Binding ItemUpperChangedCommand}"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
                                                   DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataSourcePath="BASTIDOR">
 
@@ -337,7 +341,7 @@
                                               DataFieldFirst="GRUPO"
                                               AssistDataFieldSecond="NOMBRE"
                                               AssistDataFieldFirst="CODIGO"
-                                              ItemChangedCommand="{Binding ItemUpperChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               MagnifierCommand="{Binding  AssistUpperCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                         
                                               ButtonImage="/MasterModule;component/Images/search.png">
 
@@ -345,7 +349,7 @@
 
                     <KarveControls:DataField Height="30" 
                                             LabelText="{Binding lbastidor, Source={StaticResource ResourceLanguage}}" LabelTextWidth="50"  TextContentWidth="200" 
-                                                  ItemChangedCommand="{Binding ItemUpperChangedCommand}"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
                                              TextContent="{Binding Path=DataObject.BASTIDOR, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"     
                                              DataObject="{Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              >
@@ -363,7 +367,7 @@
                                               AssistDataFieldFirst="codigo"
                                               AssistDataFieldSecond="nombre" 
                                               AssistProperties="Code,Name"
-                                              ItemChangedCommand="{Binding ItemUpperChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               MagnifierCommand="{Binding  AssistUpperCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                               ButtonImage="/MasterModule;component/Images/search.png"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -772,7 +776,8 @@
 
 
 
-            <KarveControls:DataField Grid.Row="3" DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <KarveControls:DataField Grid.Row="3" Grid.Column="0"
+                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      DataSourcePath="DTO"
                                      Margin="0,5,0,0"
                                      LabelVisible="True"
@@ -916,7 +921,7 @@
                 </ResourceDictionary>
             </Syncfusion:SfDataGrid.Resources>
             <i:Interaction.Behaviors>
-                <!-- this shall allow to the visit grid a way to resize automatically -->
+              
                 <gridbehavior:GridDefaultBehavior/>
             </i:Interaction.Behaviors>
             <Syncfusion:SfDataGrid.Columns>
@@ -1073,13 +1078,7 @@
                                         </Grid>
                                     </DataTemplate>
                                 </Syncfusion:ComboBoxAdv.ItemTemplate>
-                                <!--
-                                <i:Interaction.Behaviors>
-                                    <behaviour:ComboAdvChangeBehavior DataObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Syncfusion:SfDataGrid}}}"  
-                                                                      Command="{Binding Path=DataContext.ItemChangedCommand,
-                                                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                                </i:Interaction.Behaviors>
--->
+              
                             </Syncfusion:ComboBoxAdv>
 
                         </DataTemplate>
@@ -1092,13 +1091,6 @@
                                            
                                                                       RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, PresentationTraceSources.TraceLevel=High}"
                                                     SelectedItem="{Binding }">
-                               <!--
-                                <i:Interaction.Behaviors>
-                                    <behaviour:ComboAdvChangeBehavior DataObject="{Binding}"  
-                                                                      Command="{Binding Path=DataContext.ItemChangedCommand,
-                                                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"/>
-                                </i:Interaction.Behaviors>
-                                -->
                             </Syncfusion:ComboBoxAdv>
 
                         </DataTemplate>
@@ -1129,7 +1121,6 @@
                                                     AutoGenerateColumns="False"
                             >
             <i:Interaction.Behaviors>
-                <!-- this shall allow to the visit grid a way to resize automatically -->
                 <gridbehavior:GridDefaultBehavior/>
             </i:Interaction.Behaviors>
 
@@ -1245,10 +1236,7 @@
             <Syncfusion:SfDataGrid.Columns>
 
                 <Syncfusion:GridTextColumn HeaderText="{Binding lnombre, Source={StaticResource ResourceLanguage}}" MappingName="ContactName"/>
-                <!--
-                To keep homogeneus all the grids the contacts we have removed the nif.
-                -->
-
+              
                 <Syncfusion:GridTemplateColumn HeaderText="{Binding lcargo, Source={StaticResource ResourceLanguage}}"
                                                                       
                                                                        AllowResizing="False"
@@ -1338,7 +1326,6 @@
                                                     AutoGenerateColumns="False">
 
             <i:Interaction.Behaviors>
-                <!-- this shall allow to the visit grid a way to resize automatically -->
                 <gridbehavior:GridDefaultBehavior/>
             </i:Interaction.Behaviors>
             <Syncfusion:SfDataGrid.Resources>

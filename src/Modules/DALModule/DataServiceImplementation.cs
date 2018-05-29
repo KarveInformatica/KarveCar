@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using DataAccessLayer.MongoDB;
 using KarveCommon.Services;
 using KarveDataServices;
 
@@ -51,8 +53,14 @@ namespace DataAccessLayer
         ///  SqlExecutor.
         /// </summary>
         private ISqlExecutor _executor;
-
+        /// <summary>
+        ///  This is a data service for handling the assist
+        /// </summary>
         private IAssistDataService _assistDataService;
+        /// <summary>
+        ///  This is a data service for handling the booking stuff.
+        /// </summary>
+        private IBookingDataService _bookingDataService;
         /// <summary>
         /// DataService Implementation
         /// </summary>
@@ -61,6 +69,35 @@ namespace DataAccessLayer
         public DataServiceImplementation(ISqlExecutor sqlExecutor)
         {
             InitServices(sqlExecutor);         
+        }
+
+        private void TestConnection(ISqlExecutor sqlExecutor, string connectionValue)
+        {
+            // ok now we try to connect 
+            try
+            {
+                using (var dbConn = sqlExecutor.OpenNewDbConnection())
+                {
+
+                    if (dbConn == null)
+                    {
+                        throw new System.ArgumentException(
+                            "Invalid connection string with value " + connectionValue);
+                    }
+
+                    if (dbConn.State != ConnectionState.Open)
+                    {
+
+                        throw new System.ArgumentException(
+                            "Invalid connection string with value " + connectionValue);
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                throw new System.ArgumentException("Invalid connection string with value " + connectionValue, e);
+            }
+
         }
         /// <summary>
         ///  Reitinialize the sql executor and all the services provided by this interface with 
@@ -74,6 +111,7 @@ namespace DataAccessLayer
             if (!string.IsNullOrEmpty(connectionValue))
             {
                 sqlExecutor.ConnectionString = connectionValue;
+                TestConnection(sqlExecutor, connectionValue);
             }
             _executor = sqlExecutor;
             _supplierDataServices = new SupplierDataAccessLayer(sqlExecutor);
@@ -87,6 +125,7 @@ namespace DataAccessLayer
             _contractDataService = new ContractDataServices(sqlExecutor);
             _invoiceDataService = new InvoiceDataServices(sqlExecutor);
             _assistDataService = new AssistDataService(this);
+            _bookingDataService = new BookingDataAccessLayer(sqlExecutor);
 
         }
         /// <summary>
@@ -196,6 +235,14 @@ namespace DataAccessLayer
         public IAssistDataService GetAssistDataServices()
         {
             return _assistDataService;
+        }
+        /// <summary>
+        ///  Booking data service. All services needed to manage a booking.
+        /// </summary>
+        /// <returns></returns>
+        public IBookingDataService GetBookingDataService()
+        {
+            return _bookingDataService;
         }
     }
 }

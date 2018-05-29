@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using KarveCommon.Services;
@@ -50,7 +51,7 @@ namespace MasterModule.ViewModels
 
         }
 
-        public override void NewItem()
+        protected override void NewItem()
         {
         }
 
@@ -75,10 +76,15 @@ namespace MasterModule.ViewModels
         public void IncomingPayload(DataPayLoad payload)
         {
         }
-        public async override Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
+        public override async Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)
         {
             await Task.Delay(1000);
             return true;
+        }
+
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public override void DisposeEvents()

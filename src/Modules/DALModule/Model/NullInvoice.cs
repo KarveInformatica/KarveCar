@@ -43,11 +43,21 @@ namespace DataAccessLayer.Model
         ///  Set or Get the contact of all invoice
         /// The private is set because the only the data layer shall have the responsability to set it.
         /// </summary>
-        public IEnumerable<ClientSummaryDto> ClientSummary { get; private set; }
+        public IEnumerable<ClientSummaryExtended> ClientSummary { get; set; }
         /// <summary>
         ///  Set or Get the contact of all invoice
         /// </summary>
         public IEnumerable<InvoiceSummaryDto> InvoiceItems { get ; set ; }
+        /// <summary>
+        ///  Number of the invoices
+        /// </summary>
+        public int NumberOfInvoices { get; set; }
+        /// <summary>
+        ///  Number of the clients.
+        /// </summary>
+        public int NumberOfClients { get ; set; }
+
+       
     }
 
     

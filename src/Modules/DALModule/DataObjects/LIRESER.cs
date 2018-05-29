@@ -1,20 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a LIRESER.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
-	public class LIRESER 
-	{
 	
+	[Table("LIRESER")]
+	public class LIRESER
+    { 
 	/// <summary>
     ///  Set or get the ULTMODI property.
     /// </summary>
-    
 		public string ULTMODI { get; set; }
- 
 	/// <summary>
     ///  Set or get the USUARIO property.
     /// </summary>
@@ -126,7 +126,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the CLAVE_LR property.
     /// </summary>
-    
+        [Key]
 		public Int64 CLAVE_LR { get; set; }
  
 	/// <summary>

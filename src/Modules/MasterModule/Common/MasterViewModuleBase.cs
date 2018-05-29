@@ -34,12 +34,11 @@ namespace MasterModule.Common
     /// <summary>
     ///  Base class for the view model.
     /// </summary>
-    public abstract class MasterViewModuleBase : KarveRoutingBaseViewModel, INavigationAware, IDisposeEvents
+    public abstract class MasterViewModuleBase : KarveControlViewModel, INavigationAware
     {
         // local application data for the serialization.
 
 
-        protected Logger Logger = LogManager.GetCurrentClassLogger();
         protected INotifyTaskCompletion InitializationNotifierDo;
 
         protected INotifyTaskCompletion<DataSet> InitializationNotifier;
@@ -108,20 +107,7 @@ namespace MasterModule.Common
             set { _primaryKey = value; }
             get { return _primaryKey; }
         }
-        /// <summary>
-        ///  Summary View used from all the control view models.
-        ///  
-        /// </summary>
-        public object SummaryView
-        {
-            get { return ExtendedDataTable; }
-            set
-            {
-                ExtendedDataTable = value;
-                RaisePropertyChanged("SummaryView");
-
-            }
-        }
+        
         /// <summary>
         ///  AllowedGridColumns
         /// </summary>
@@ -160,138 +146,141 @@ namespace MasterModule.Common
             // here the parameter query is never used.
 
             AssistMapper.Configure("LANGUAGE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<LanguageDto, IDIOMAS>(1, DefaultPageSize);
+               // var currentHelper = new IncrementalList<LanguageDto>
                 return helper;
             });
 
             AssistMapper.Configure("CURRENCY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CurrenciesDto, CURRENCIES>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CurrenciesDto, CURRENCIES>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CONTABLE_DELEGA_ASSIST", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<DelegaContableDto, DELEGA>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<DelegaContableDto, DELEGA>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("PROVINCE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CITY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("COUNTRY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("COMPANY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CompanyDto, SUBLICEN>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("OFFICE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<OfficeDtos, OFICINAS>(1,DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BROKER_ASSIST", async (query) => {
 
-                var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                var helper = await DataServices.GetCommissionAgentDataServices().GetSummaryDoAsync();
                 return helper;
             });
             AssistMapper.Configure("ORIGIN_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<OrigenDto, ORIGEN>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<OrigenDto, ORIGEN>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("MARKET_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<MercadoDto, MERCADO>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<MercadoDto, MERCADO>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("RESELLER_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ResellerDto, VENDEDOR>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BUSINESS_ASSIST", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<BusinessDto, NEGOCIO>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BusinessDto, NEGOCIO>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_TYPE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_TYPE_UPPER", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("ACTIVITY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ActividadDto, ACTIVI>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ActividadDto, ACTIVI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("RENT_USAGE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<RentingUseDto, USO_ALQUILER>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<RentingUseDto, USO_ALQUILER>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("OFFICE_ZONE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ZonaOfiDto, ZONAOFI>(1, DefaultPageSize);
                 return helper;
             });
 
             AssistMapper.Configure("CLIENT_PAYMENT_FORM", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<PaymentFormDto, FORMAS>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_ZONE", async (query) => {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientZoneDto, ZONAS>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientZoneDto, ZONAS>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_INVOICE_BLOCKS", async (query) => {
 
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<InvoiceBlockDto, BLOQUEFAC>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<InvoiceBlockDto, BLOQUEFAC>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_BROKER", async (query) =>
             {
-                var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                var helper = await DataServices.GetCommissionAgentDataServices().GetPagedSummaryDoAsync(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_TYPE", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1,DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BUDGET_KEY", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<BudgetKeyDto, CLAVEPTO>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BudgetKeyDto, CLAVEPTO>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CHANNEL_TYPE", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<ChannelDto, CANAL>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ChannelDto, CANAL>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_BUDGET", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<BudgetKeyDto, CLAVEPTO>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BudgetKeyDto, CLAVEPTO>(1, DefaultPageSize);
+
                 return helper;
             });
             AssistMapper.Configure("CREDIT_CARD", async (query) =>
             {
-                var helper = await HelperDataServices.GetMappedAllAsyncHelper<CreditCardDto, TARCREDI>();
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CreditCardDto, TARCREDI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_DRIVER", async (query) =>
             {
-                var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
+                var helper = await DataServices.GetClientDataServices().GetPagedSummaryDoAsync(1, DefaultPageSize);
+               // GetSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_ASSIST", async (query) =>
             {
-                var helper = await DataServices.GetClientDataServices().GetClientSummaryDo(GenericSql.ExtendedClientsSummaryQuery);
+                var helper = await DataServices.GetClientDataServices().GetPagedSummaryDoAsync(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BROKER_ASSIST", async (query) =>
             {
-                var helper = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentSummaryDo();
+                var helper = await DataServices.GetCommissionAgentDataServices().GetPagedSummaryDoAsync(1, DefaultPageSize);
                 return helper;
             });
         }
@@ -339,6 +328,10 @@ namespace MasterModule.Common
                 if (eventDictionary.ContainsKey("Field"))
                 {
                     fieldName = eventDictionary["Field"] as string;
+                    if (fieldName != null)
+                    {
+                        fieldName = fieldName.ToUpper();
+                    }
                     if (fieldName == "CP")
                     {
                         data = EnforceCityChangeRule(data);
@@ -595,15 +588,9 @@ namespace MasterModule.Common
         protected INotifyTaskCompletion<bool> DeleteInitializationTable;
         private List<string> _allowedGridColumns;
 
-        /// <summary>
-        ///  This starts the load of data from the lower data layer.
-        /// </summary>
-        public abstract void StartAndNotify();
+      
 
-        /// <summary>
-        ///  This asks to the control view model to open a new item for insertion. 
-        /// </summary>
-        public abstract void NewItem();
+ 
         /// <summary>
         ///  Can delete region.
         /// </summary>
@@ -614,7 +601,7 @@ namespace MasterModule.Common
         /// </summary>
         /// <param name="payLoad"></param>
         /// 
-        public void DeleteItem(DataPayLoad payLoad)
+        protected override void DeleteItem(DataPayLoad payLoad)
         {
             
             string primaryKeyValue = payLoad.PrimaryKeyValue;
@@ -790,8 +777,6 @@ namespace MasterModule.Common
                 }
             }
         }
-
-
         /// <summary>
         /// This initializatin notifier for the data object
         /// </summary>
@@ -800,10 +785,10 @@ namespace MasterModule.Common
         protected void InitializationNotifierOnPropertyChangedSummary<T>(object sender,
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
-             INotifyTaskCompletion<T> notification = sender as 
+             var notification = sender as 
                 INotifyTaskCompletion<T>;
             Contract.Requires(notification != null, "Notification required");
-            string propertyName = propertyChangedEventArgs.PropertyName;
+            var propertyName = propertyChangedEventArgs.PropertyName;
 
             if (notification == null)
             {
@@ -845,7 +830,7 @@ namespace MasterModule.Common
             PropertyChangedEventArgs propertyChangedEventArgs)
         {
 
-            string propertyName = propertyChangedEventArgs.PropertyName;
+            var propertyName = propertyChangedEventArgs.PropertyName;
 
             if (propertyName.Equals("Status"))
             {
@@ -911,8 +896,8 @@ namespace MasterModule.Common
         protected DataPayLoad BuildShowPayLoad(string name, IList<DataSet> completeSummary,
             IDictionary<string, string> queries = null)
         {
-            DataPayLoad currentPayload = new DataPayLoad();
-            string routedName = GetRouteName(name);
+            var currentPayload = new DataPayLoad();
+            var routedName = GetRouteName(name);
             currentPayload.PayloadType = DataPayLoad.Type.Show;
             currentPayload.Registration = routedName;
             currentPayload.SetList = completeSummary;
@@ -949,8 +934,8 @@ namespace MasterModule.Common
         protected void MergeTableChanged(DataTable table, ref DataSet currentDataSet)
         {
 
-            string tableName = table.TableName;
-            bool foundTable = false;
+            var tableName = table.TableName;
+            var foundTable = false;
             if (currentDataSet != null)
             {
                 foreach (DataTable currentTable in currentDataSet.Tables)

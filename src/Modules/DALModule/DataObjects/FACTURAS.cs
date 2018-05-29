@@ -669,7 +669,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the NUM_INICIAL property.
     /// </summary>
     
-		public string NUM_INICIAL { get; set; }
+	///	public string NUM_INICIAL { get; set; }
  
 	/// <summary>
     ///  Set or get the TXT_FACTURA_FAC_MBZ property.

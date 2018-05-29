@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using KarveCommon.Generic;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace HelperModule.ViewModels
 {
@@ -56,6 +57,9 @@ namespace HelperModule.ViewModels
         ///  When the task is successfully completed we invoke an handler.
         /// </summary>
         protected PropertyChangedEventHandler AssistCompletionEventHandler;
+
+        protected PropertyChangedEventHandler PagedEvent;
+        
         /// <summary>
         /// GenericHelperViewModel
         /// </summary>
@@ -66,16 +70,18 @@ namespace HelperModule.ViewModels
         public GenericHelperViewModel(string query, IDataServices dataServices, IRegionManager region,
             IEventManager manager) : base(dataServices, region, manager)
         {
+            _saver = new HelperSaver<Dto, Entity>(dataServices);
             SelectionChangedCommand = new DelegateCommand<object>(OnSelectionChangedCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnItemChangedCommand);
             SaveState = false;
             QueryLoad = query;
             InitLoader(dataServices, query);
-            _saver = new HelperSaver<Dto, Entity>(dataServices);
+            HelperDataServices = dataServices.GetHelperDataServices();
             var id = Address.ToString();
             MailBoxMessageHandler += IncomingMailbox;
             EventManager.RegisterMailBox(id, MailBoxMessageHandler);
         }
+
 
         private void InitLoader(IDataServices dataServices, string query)
         {
@@ -154,7 +160,7 @@ namespace HelperModule.ViewModels
             return entityDeleted;
         }
 
-        protected ObservableCollection<Dto> LoadView()
+        protected IncrementalList<Dto> LoadView()
         {
             _loader.Load(QueryLoad);
             return _loader.HelperView;
@@ -184,8 +190,16 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  Helper collection
         /// </summary>
-        public ObservableCollection<Dto> HelperView { get; set; } = new ObservableCollection<Dto>();
+        public IncrementalList<Dto> HelperView { get; set; } = new IncrementalList<Dto>(LoadMoreItems);
 
+        private static void LoadMoreItems(uint index, int numberItems)
+        {
+           
+        }
+
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+        }
         /// <summary>
         ///  This dispose the helper when we close the tab.
         /// </summary>
@@ -268,6 +282,7 @@ namespace HelperModule.ViewModels
             Update();
             return SaveState;
         }
+      
         /// <summary>
         ///  This is to save or update the data contained in the payload.
         /// </summary>

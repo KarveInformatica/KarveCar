@@ -149,6 +149,7 @@ namespace KarveControls.Behaviour
 
             if (GridColumns != null)
             {
+              
                 var column = GridColumns.FirstOrDefault<string>(x => x == e.Column.MappingName);
                 if (column == null)
                 {
@@ -171,7 +172,10 @@ namespace KarveControls.Behaviour
                             {
                                 if (this.AssociatedObject.FindResource(navigationAwareItem.DataTemplateName) is DataTemplate resource)
                                 {
+                                   
                                     e.Column.CellTemplate = resource;   
+                                    // here in data template i shall find the button.
+
 
                                 }
                             }

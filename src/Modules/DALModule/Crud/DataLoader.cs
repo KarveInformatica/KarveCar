@@ -116,8 +116,16 @@ namespace DataAccessLayer.Crud
                     if (conn != null)
                     {
                         var value = await conn.GetAsync<T>(code);
+                        switch (value)
+                        {
+                            case null when conn.State != ConnectionState.Open:
+                                return dto;
+                            case null:
+                                conn.Close();
+                                conn.Dispose();
+                                return dto;
+                        }
                         var outValues = _mapper.Map<T, Dto>(value);
-
                         return outValues;
                     }
                 

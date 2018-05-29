@@ -31,7 +31,8 @@
                 </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="95*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
         </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock FontWeight="Bold" FontSize="30"  Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}"></TextBlock>
@@ -53,13 +54,15 @@
                                FontWeight="Normal"
                                Foreground="#FF808080"
                                RowSelectionBrush="#FF8CC63F"
+                                FilterRowPosition="FixedTop"    
                                HeaderRowHeight="32"
+                               
                                AutoGenerateColumns="False"               
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
-                               ItemsSource="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                >
    
 
@@ -111,8 +114,22 @@
                     </Syncfusion:SfDataGrid.Resources>
          
                        </Syncfusion:SfDataGrid>
-            
-            </Grid>
+
+<!--
+        <Syncfusion:SfDataPager x:Name="DataPager"
+                                PageSize="{Binding DefaultPagingSize}"                                      
+                                Grid.Row="2"
+                                AccentBackground="#FF8CBF26"
+                                AccentForeground="White" 
+                                AutoEllipsisMode="Both"
+                                NumericButtonCount="10" 
+                                Source="{Binding SummaryView}">
+
+
+        </Syncfusion:SfDataPager>
+-->
+       
+    </Grid>
 
  </UserControl>
 

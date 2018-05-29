@@ -40,7 +40,7 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
        
         private string _assistQueryOwner;
-        private ObservableCollection<VehicleActivitiesDto> _activity;
+        private ObservableCollection<ActividadDto> _activity;
         private ObservableCollection<AgentDto> _agents;
         private ObservableCollection<OwnerDto> _owner;
         private ObservableCollection<SupplierSummaryDto> _supplier;
@@ -90,7 +90,7 @@ namespace MasterModule.ViewModels
 
 
         // This returns the list of activity when asked.
-        public ObservableCollection<VehicleActivitiesDto> ActivityDtos
+        public ObservableCollection<ActividadDto> ActivityDtos
         {
             get
             {
@@ -408,8 +408,8 @@ namespace MasterModule.ViewModels
                     case "ACTIVEHI":
                     {
                         var act =
-                            await helperDataServices.GetMappedAsyncHelper<VehicleActivitiesDto, ACTIVEHI>(assistQuery);
-                        ActivityDtos = new ObservableCollection<VehicleActivitiesDto>(act);
+                            await helperDataServices.GetMappedAsyncHelper<ActividadDto, ACTIVEHI>(assistQuery);
+                        ActivityDtos = new ObservableCollection<ActividadDto>(act);
                         break;
                     }
                     case "PROPIE":
@@ -853,26 +853,37 @@ namespace MasterModule.ViewModels
         /// <param name="insertable">Is an insert operation</param>
         private void Init(string primaryKeyValue, DataPayLoad payload, bool insertable)
         {
-            Stopwatch srStopwatch = new Stopwatch();
-            srStopwatch.Start();
-            if (payload.HasDataObject)
+            if (!payload.HasDataObject)
             {
-                _vehicleDo = (IVehicleData) payload.DataObject;
-                DataObject = _vehicleDo;
-                ModelDtos = _vehicleDo.ModelDtos;
-                BrandDtos = _vehicleDo.BrandDtos;
-                ColorDtos = _vehicleDo.ColorDtos;
-                VehicleGroupDtos = _vehicleDo.VehicleGroupDtos;
-              
-                if (_vehicleDo.MaintenanceHistory != null)
-                {
-                    MaintenanceCollection = new ObservableCollection<MaintainanceDto>(_vehicleDo.MaintenanceHistory);
-                }
-                RevisionObject = InitRevisionComposedFieldObjects();
-                ActiveSubSystem();
+                return;
             }
-            srStopwatch.Stop();
-            var value = srStopwatch.ElapsedMilliseconds;
+            _vehicleDo = (IVehicleData) payload.DataObject;
+            DataObject = _vehicleDo;
+            ModelDtos = _vehicleDo?.ModelDtos;
+            BrandDtos = _vehicleDo?.BrandDtos;
+            ColorDtos = _vehicleDo?.ColorDtos;
+            VehicleGroupDtos = _vehicleDo?.VehicleGroupDtos;
+            if (_vehicleDo?.OwnerDtos != null)
+            {
+                OwnerDtos = new ObservableCollection<OwnerDto>(_vehicleDo.OwnerDtos);
+            }
+
+            if (_vehicleDo?.AgentsDto != null)
+            {
+                AgentDtos = new ObservableCollection<AgentDto>(_vehicleDo.AgentsDto);
+            }
+
+            if (_vehicleDo?.ActivityDtos != null)
+            {
+                ActivityDtos = new ObservableCollection<ActividadDto>(_vehicleDo.ActivityDtos);
+            }
+
+            if (_vehicleDo?.MaintenanceHistory != null)
+            {
+                MaintenanceCollection = new ObservableCollection<MaintainanceDto>(_vehicleDo.MaintenanceHistory);
+            }
+            RevisionObject = InitRevisionComposedFieldObjects();
+            ActiveSubSystem();
 
         }
         /// <summary>
@@ -902,33 +913,31 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         private async Task<DataPayLoad> HandleDeleteItem(DataPayLoad inDataPayLoad)
         {
-            IVehicleData vehicle = await _vehicleDataServices.GetVehicleDo(inDataPayLoad.PrimaryKeyValue);
-            DataPayLoad payload = new DataPayLoad();
-            if (vehicle.Valid)
+           var vehicle = await _vehicleDataServices.GetVehicleDo(inDataPayLoad.PrimaryKeyValue);
+            var payload = new DataPayLoad();
+            if (!vehicle.Valid)
             {
-                bool returnValue = await _vehicleDataServices.DeleteVehicleDo(vehicle);
-              
-                if (returnValue)
-                {
-                    payload.Subsystem = DataSubSystem.VehicleSubsystem;
-                    payload.PrimaryKeyValue = inDataPayLoad.PrimaryKeyValue;
-                    payload.PayloadType = DataPayLoad.Type.Delete;
-                    EventManager.NotifyToolBar(payload);
-                    PrimaryKeyValue = "";
-                    _vehicleDo = null;
-                }
-               // DeleteRegion(payload.PrimaryKeyValue);
-
+                return payload;
             }
+            var returnValue = await _vehicleDataServices.DeleteVehicleDo(vehicle);
+
+            if (!returnValue)
+            {
+                return payload;
+            }
+            payload.Subsystem = DataSubSystem.VehicleSubsystem;
+            payload.PrimaryKeyValue = inDataPayLoad.PrimaryKeyValue;
+            payload.PayloadType = DataPayLoad.Type.Delete;
+            EventManager.NotifyToolBar(payload);
+            PrimaryKeyValue = "";
+            _vehicleDo = null;
+            // DeleteRegion(payload.PrimaryKeyValue);
             return payload;
         }
     
         public ObservableCollection<CityDto> CityDto
         {
-            get
-            {
-                return _cityDto;
-            }
+            get => _cityDto;
             set {
                 _cityDto = value;
                 RaisePropertyChanged();

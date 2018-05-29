@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Syncfusion.UI.Xaml.Controls.DataPager;
 
 namespace MasterModule.Views
 {
@@ -24,12 +25,14 @@ namespace MasterModule.Views
         public ClientsControlView()
         {
             InitializeComponent();
+
         }
         public string Header
         {
             get { return KarveLocale.Properties.Resources.lrgrMaestrosClientes; }
 
         }
+        
         public bool CreateRegionManagerScope => false;
     }
 }

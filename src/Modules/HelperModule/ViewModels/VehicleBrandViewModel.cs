@@ -25,7 +25,7 @@ namespace HelperModule.ViewModels
         {
             _loadCompleted += OnLoadCompleted;
 
-            _initializationNotifier = NotifyTaskCompletion.Create(LoadSuppliers(), _loadCompleted);
+          //  _initializationNotifier = NotifyTaskCompletion.Create(LoadSuppliers(), _loadCompleted);
         }
 
         private void OnLoadCompleted(object sender, PropertyChangedEventArgs e)

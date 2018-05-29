@@ -6,7 +6,9 @@ using KarveCommon.Services;
 using Prism.Commands;
 using Microsoft.Practices.Unity;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
 using MasterModule.Common;
@@ -15,7 +17,10 @@ using MasterModule.Views;
 using Prism.Regions;
 using KarveDataServices.DataTransferObject;
 using System.Threading.Tasks;
+using DataAccessLayer.Model;
 using NLog;
+using Syncfusion.UI.Xaml.Grid;
+using DataRow = System.Data.DataRow;
 
 namespace MasterModule.ViewModels
 {
@@ -50,7 +55,10 @@ namespace MasterModule.ViewModels
 
        
         private string _mailBoxName;
+        private INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>> _supplierTaskNotify;
+        private PropertyChangedEventHandler _supplierTaskEvent;
 
+        private ISupplierDataServices _supplierDataServices;
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
 
         public ProvidersControlViewModel(IConfigurationService configurationService,
@@ -64,8 +72,10 @@ namespace MasterModule.ViewModels
             _extendedSupplierDataTable = new DataTable();
             _uniqueIdentifier = _uniqueIdentifier % Int64.MaxValue;
             _mailBoxName = PROVIDER_SUMMARY_VM;
+            _supplierTaskEvent += OnNotifyIncrementalList<SupplierSummaryDto>;
+            _supplierDataServices = DataServices.GetSupplierDataServices();
+            PagingEvent += OnPagedEvent;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
-           
             InitViewModel();
         }
         /// <summary>
@@ -84,6 +94,7 @@ namespace MasterModule.ViewModels
         private void InitViewModel()
         {
             base.GridIdentifier = GridIdentifiers.Supplier;
+         
             StartAndNotify();
             ActiveSubSystem();
         }
@@ -120,7 +131,7 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         protected override string GetRouteName(string name)
         {
-            string routedName = ProviderModuleRoutePrefix + name;
+            var routedName = ProviderModuleRoutePrefix + name;
             return routedName;
 
         }
@@ -128,7 +139,7 @@ namespace MasterModule.ViewModels
         /// This method creates a new item using prsim scope navigation.
         ///    
         /// </summary>
-        public override void NewItem()
+        protected override void NewItem()
         {
             string name = KarveLocale.Properties.Resources.ProvidersControlViewModel_NewItem_NuevoProveedor;
             string supplierId = DataServices.GetSupplierDataServices().GetNewId();
@@ -151,41 +162,55 @@ namespace MasterModule.ViewModels
        
         private async void OpenCurrentItem(object currentItem)
         {
-            DataRowView rowView = currentItem as DataRowView;
-            if (rowView != null)
+            var name = string.Empty;
+            var supplierId = string.Empty;
+            var tabName = string.Empty;
+
+            if (currentItem is DataRowView rowView)
             {
                 DataRow row = rowView.Row;
-                string name = row[ProviderNameColumn] as string;
-                string supplierId = row[ProviderColumnCode] as string;
-                string tabName = supplierId + "." + name;
-                var navigationParameters = new NavigationParameters();
-                navigationParameters.Add("supplierId", supplierId);
-                navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
-                var uri = new Uri(typeof(ProviderInfoView).FullName + navigationParameters,UriKind.Relative);
-                _regionManager.RequestNavigate("TabRegion", uri);
-                ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
-                DataPayLoad currentPayload = BuildShowPayLoadDo(tabName, provider);                
-                currentPayload.PrimaryKeyValue = supplierId;
-                currentPayload.Sender = _mailBoxName;
-                Logger.Log(LogLevel.Debug, "[UI] ProviderControlViewModel. Opening Supplier Tab: " + supplierId);
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
-               
+                 name = row[ProviderNameColumn] as string;
+                supplierId = row[ProviderColumnCode] as string;
+                tabName = supplierId + "." + name;
+                
             }
+            if (currentItem is SupplierSummaryDto item)
+            {
+                name = item.Nombre;
+                supplierId = item.Codigo;
+                tabName = supplierId + "." + name;
+            }
+
+            var navigationParameters = new NavigationParameters
+            {
+                {"supplierId", supplierId},
+                {ScopedRegionNavigationContentLoader.DefaultViewName, tabName}
+            };
+            var uri = new Uri(typeof(ProviderInfoView).FullName + navigationParameters, UriKind.Relative);
+            _regionManager.RequestNavigate("TabRegion", uri);
+            var provider = await _supplierDataServices.GetAsyncSupplierDo(supplierId);
+            var currentPayload = BuildShowPayLoadDo(tabName, provider);
+            currentPayload.PrimaryKeyValue = supplierId;
+            currentPayload.Sender = _mailBoxName;
+            Logger.Log(LogLevel.Debug, "[UI] ProviderControlViewModel. Opening Supplier Tab: " + supplierId);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
+
         }
-        // This override the notification and start for the v
+
         public override void StartAndNotify()
         {
             MessageHandlerMailBox += MessageHandler;
             _mailBoxName = ProvidersControlViewModel.PROVIDER_SUMMARY_VM;
             EventManager.RegisterMailBox(_mailBoxName, MessageHandlerMailBox);
-            ISupplierDataServices supplier = DataServices.GetSupplierDataServices();
-            InitializationNotifier = NotifyTaskCompletion.Create<DataSet>(supplier.GetAsyncAllSupplierSummary(), InitializationNotifierOnPropertyChanged);
-          
+            var supplierDataServices = DataServices.GetSupplierDataServices();
+            _supplierTaskNotify = NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(supplierDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), _supplierTaskEvent);
+           
         }
+     
         public override async Task<bool> DeleteAsync(string supplierId, DataPayLoad payLoad)
         {
-            ISupplierData provider = await DataServices.GetSupplierDataServices().GetAsyncSupplierDo(supplierId);
-            bool retValue = await DataServices.GetSupplierDataServices().DeleteAsyncSupplierDo(provider);
+            var provider = await _supplierDataServices.GetAsyncSupplierDo(supplierId).ConfigureAwait(false);
+            var retValue = await _supplierDataServices.DeleteAsyncSupplierDo(provider).ConfigureAwait(false);
             return retValue;
         }
         public override void DisposeEvents()
@@ -193,15 +218,38 @@ namespace MasterModule.ViewModels
            base.DisposeEvents();
            DeleteMailBox(_mailBoxName);
         }
-
-        protected override void SetResult<T>(IEnumerable<T> result)
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
+            var listCompletion =
+                sender as INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>>;
+            if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
+            {
 
+                if (SummaryView is IncrementalList<SupplierSummaryDto> summary)
+                {
+                    summary.LoadItems(listCompletion.Result);
+                    SummaryView = summary;
+                }
+            }
+
+            if ((listCompletion != null) && (listCompletion.IsFaulted))
+            {
+                DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
+            }
+        }
+ 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            throw new NotImplementedException();
+            NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(
+                _supplierDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
+
+        }
+        protected override void SetResult<T>(IEnumerable<T> result)
+        {
+            var reSummaryDtos = result as IEnumerable<SupplierSummaryDto>;
+            var maxItems = _supplierDataServices.NumberItems;
+            PageCount = _supplierDataServices.NumberPage;
+            SummaryView = new IncrementalList<SupplierSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
         }
     }
 }
