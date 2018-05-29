@@ -6,14 +6,8 @@ using DataAccessLayer;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using NUnit.Framework;
-using KarveCommon.Services;
 using System.Linq;
 using KarveDataServices.DataTransferObject;
-using MasterModule.ViewModels;
-using Microsoft.Practices.Unity;
-using Moq;
-using Prism.Regions;
-using KarveCommonInterfaces;
 
 namespace KarveTest.DAL
 {
@@ -22,6 +16,7 @@ namespace KarveTest.DAL
     {
         private IDataServices _dataServices;
         private ISupplierDataServices _supplierDataServices;
+        private ISqlExecutor _sqlExecutor;
         private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
 
         [OneTimeSetUp]
@@ -30,8 +25,8 @@ namespace KarveTest.DAL
             _dataServices = null;
             try
             {
-                ISqlExecutor executor = SetupSqlQueryExecutor();
-               _dataServices = new DataServiceImplementation(executor);
+                _sqlExecutor = SetupSqlQueryExecutor();
+               _dataServices = new DataServiceImplementation(_sqlExecutor);
                 _supplierDataServices = _dataServices.GetSupplierDataServices();
             }
            catch (Exception e)
@@ -39,97 +34,54 @@ namespace KarveTest.DAL
                 Assert.Fail(e.Message);
             }
         }
+
+
+
         [Test]
-        public void Should_Return_To_ViewModel_SummaryCollection()
+        public async Task Should_Load_AtMost25Items()
         {
-            var eventManager = new Mock<IEventManager>();
-            var configurationService = new Mock<IConfigurationService>();
-            var unity = new Mock<IUnityContainer>();
-            var dialogService = new Mock<IDialogService>();
-            var regionManager = new Mock<IRegionManager>();
-            ProvidersControlViewModel providersControlViewModel = new ProvidersControlViewModel(configurationService.Object,
-                unity.Object,
-                _dataServices,
-                regionManager.Object,
-                eventManager.Object);
-            providersControlViewModel.StartAndNotify();
-            IEnumerable<SupplierSummaryDto> collection = providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
-            Assert.GreaterOrEqual(collection.Distinct().Count(), 1);
+            var pageIndex = 0;
+            var pageSize = 25;
+            var dataService = await _supplierDataServices.GetPagedSummaryDoAsync(pageIndex, pageSize);
+            Assert.NotNull(dataService);
+            Assert.AreEqual(dataService.Count(),25);
         }
-        /*
-        [Test]
-        public async Task Should_Give_Me_A_SupplierCollection()
-        {
-            // Setup already arranged all.
-            // Act
-            IEnumerable<ISupplierData> supplierCollection =  await _supplierDataServices.GetAsyncSupplierCollection();
-            // Assert
-            Assert.NotNull(supplierCollection);
-            ISupplierData data = supplierCollection.FirstOrDefault();
-            Assert.NotNull(data);
-            var invalidData = from supplier in supplierCollection
-                where supplier.Valid == false
-                select supplier;
-            var invalidDataShallBeNull = invalidData.FirstOrDefault();
-            Assert.Null(invalidDataShallBeNull);
 
-        }*/
-        /*
         [Test]
-        public async Task Should_Give_Dtos_Supplier()
+        public async Task Should_Load_Multiple25Items()
         {
-            IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
-            // Assert
-            Assert.NotNull(supplierCollection);
-            ISupplierData data = supplierCollection.FirstOrDefault();
-            var accountDtos = data.AccountDtos;
-            Assert.GreaterOrEqual(accountDtos.Distinct().Count(),1); 
-            var banksDto = data.BanksDtos;
-            Assert.GreaterOrEqual(banksDto.Distinct().Count(), 1);
-            var vias = data.ViasDtos;
-            Assert.GreaterOrEqual(vias.Distinct().Count(), 1);
-            var province = data.ProvinciaDtos;
-            Assert.GreaterOrEqual(province.Distinct().Count(), 1);
-            var country = data.CountryDtos;
-            Assert.GreaterOrEqual(country.Distinct().Count(), 1);
-            var paymentForm = data.PaymentDtos;
-            Assert.GreaterOrEqual(paymentForm.Distinct().Count(), 1);
-        }*/
-
-            /*
-        [Test]
-        public async Task Should_Give_Me_A_SupplierCollectionIds_Unique()
-        {
-            IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
-            var grouping = supplierCollection.GroupBy(item => (item.Value.NUM_PROVEE)).GroupBy(t => t).Where(t => t.Count() != 1);
-            Assert.Null(grouping.FirstOrDefault());
-        }*/
-
+            var pageIndex = 0;
+            var pageSize = 25;
+            var supplierDatos1 = await _supplierDataServices.GetPagedSummaryDoAsync(pageIndex, pageSize);
+            pageIndex = 25;
+            var supplierDatos2 = await _supplierDataServices.GetPagedSummaryDoAsync(pageIndex, pageSize);
+            pageIndex = 50;
+            var supplierDatos3 = await _supplierDataServices.GetPagedSummaryDoAsync(pageIndex, pageSize);
+            Assert.NotNull(supplierDatos1);
+            Assert.NotNull(supplierDatos2);
+            Assert.NotNull(supplierDatos3);
+            Assert.AreEqual(supplierDatos1.Count(), 25);
+            Assert.AreEqual(supplierDatos2.Count(), 25);
+            Assert.AreEqual(supplierDatos3.Count(), 25 );
+        }
         [Test]
         public async Task Should_GiveMe_SupplierSummaryDto()
         {
-            IEnumerable<SupplierSummaryDto> supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
-            Assert.GreaterOrEqual(supplierCollection.Distinct().Count(),1);
+            IEnumerable<SupplierSummaryDto>
+                supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
+            Assert.GreaterOrEqual(supplierCollection.Distinct().Count(), 1);
         }
-/*
-        [Test]
-        public async Task Should_Delete_A_SupplieDo()
-        {
-            // arrange
-            IEnumerable<ISupplierData> supplierCollection = await _supplierDataServices.GetAsyncSupplierCollection();
-            ISupplierData supplierData = supplierCollection.FirstOrDefault();
-            Assert.NotNull(supplierData);
-            bool value = await _supplierDataServices.DeleteAsyncSupplierDo(supplierData);
-            Assert.True(value);
-        }
-        */
+
         [Test]
         public async Task Should_Insert_And_Save_A_Supplier()
         {
             string id = _supplierDataServices.GetNewId();
             ISupplierData data = _supplierDataServices.GetNewSupplierDo(id);
             SupplierDto dto = data.Value;
+            dto.NOMBRE = "GenericSupplier";
+            data.Value = dto;
             bool value = await _supplierDataServices.Save(data);
+
             Assert.True(value);
         }
         [Test]
@@ -138,58 +90,61 @@ namespace KarveTest.DAL
             // arrange
             var suppliers = await _supplierDataServices.GetSupplierAsyncSummaryDo();
             SupplierSummaryDto supplierSummaryDto =  suppliers.FirstOrDefault();
-            var id = supplierSummaryDto.Codigo;
-            var province = new ProvinciaDto();
-            province.Name = "Barcelona";
-            province.Code = "08";
-            province.Country = "Spain";
-            Random rand = new Random();
-            var branches = new List<BranchesDto>()
+            if (supplierSummaryDto != null)
             {
-                new BranchesDto() { BranchKeyId = id,
-                                    BranchId = (rand.Next() % 5000).ToString(),
-                                    Branch="EAE",
-                                    ProvinceSource = province,
-                                    City = "Barcelona",
-                                    Address = "Calle Rocafort 137",
-                                    Address2 = "Calle Arago 65",
-                                    Email = "carlos.velasco@gmail.com",
-                                    Notes = "MyNotes",
-                                    Fax ="+33889381982"
-                                    },
-                 new BranchesDto() { BranchKeyId = id,
-                                    BranchId = (rand.Next() % 5000).ToString(),
-                                    Branch="Scala",
-                                    ProvinceSource = province,
-                                    City = "Barcelona",
-                                    Address = "Calle Rocafort 189",
-                                    Address2 = "Calle Arago 123",
-                                    Email = "carlos.velasco@gmail.com",
-                                    Notes = "MyNotes",
-                                    Fax ="+33889381982"
-                                    },
-                  new BranchesDto() { BranchKeyId = id,
-                                    BranchId = (rand.Next() % 5000).ToString(),
-                                    Branch="Scala",
-                                    ProvinceSource = province,
-                                    City = "Barcelona",
-                                    Address = "Calle Rocafort 189",
-                                    Address2 = "Calle Arago 123",
-                                    Email = "carlos.velasco@gmail.com",
-                                    Notes = "MyNotes",
-                                    Fax ="+33889381982"
-                                    }
+                var id = supplierSummaryDto.Codigo;
+                var province = new ProvinciaDto();
+                province.Name = "Barcelona";
+                province.Code = "08";
+                province.Country = "Spain";
+                Random rand = new Random();
+                var branches = new List<BranchesDto>()
+                {
+                    new BranchesDto() { BranchKeyId = id,
+                        BranchId = (rand.Next() % 5000).ToString(),
+                        Branch="EAE",
+                        ProvinceSource = province,
+                        City = "Barcelona",
+                        Address = "Calle Rocafort 137",
+                        Address2 = "Calle Arago 65",
+                        Email = "carlos.velasco@gmail.com",
+                        Notes = "MyNotes",
+                        Fax ="+33889381982"
+                    },
+                    new BranchesDto() { BranchKeyId = id,
+                        BranchId = (rand.Next() % 5000).ToString(),
+                        Branch="Scala",
+                        ProvinceSource = province,
+                        City = "Barcelona",
+                        Address = "Calle Rocafort 189",
+                        Address2 = "Calle Arago 123",
+                        Email = "carlos.velasco@gmail.com",
+                        Notes = "MyNotes",
+                        Fax ="+33889381982"
+                    },
+                    new BranchesDto() { BranchKeyId = id,
+                        BranchId = (rand.Next() % 5000).ToString(),
+                        Branch="Scala",
+                        ProvinceSource = province,
+                        City = "Barcelona",
+                        Address = "Calle Rocafort 189",
+                        Address2 = "Calle Arago 123",
+                        Email = "carlos.velasco@gmail.com",
+                        Notes = "MyNotes",
+                        Fax ="+33889381982"
+                    }
                 };
-            var dataObject = await _supplierDataServices.GetAsyncSupplierDo(id);
-            Assert.NotNull(dataObject);
-            dataObject.BranchesDto = dataObject.BranchesDto.Union(branches);
-            //act
-            bool retValue = await _supplierDataServices.Save(dataObject);
-            // assert.
-            Assert.IsTrue(retValue);
-            var savedObject = await _supplierDataServices.GetAsyncSupplierDo(id);
-            var currentObject = savedObject.BranchesDto.Intersect(branches);
-            Assert.AreEqual(currentObject.Count(), branches.Count());
+                var dataObject = await _supplierDataServices.GetAsyncSupplierDo(id);
+                Assert.NotNull(dataObject);
+                dataObject.BranchesDto = dataObject.BranchesDto.Union(branches);
+                //act
+                bool retValue = await _supplierDataServices.Save(dataObject);
+                // assert.
+                Assert.IsTrue(retValue);
+                var savedObject = await _supplierDataServices.GetAsyncSupplierDo(id);
+                var currentObject = savedObject.BranchesDto.Intersect(branches);
+                Assert.AreEqual(currentObject.Count(), branches.Count());
+            }
         }
 
         [Test]
@@ -197,7 +152,7 @@ namespace KarveTest.DAL
         {
             // arrange
             var supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
-            var codeId = supplierCollection.FirstOrDefault().Codigo;
+            var codeId = supplierCollection.FirstOrDefault()?.Codigo;
             // act
             var supplier = await _supplierDataServices.GetAsyncSupplierDo(codeId);
             // assert
@@ -211,7 +166,7 @@ namespace KarveTest.DAL
             Dictionary<string, object> mapperProperties = new Dictionary<string, object>();
             // arrange
             var supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
-            var codeId = supplierCollection.FirstOrDefault().Codigo;
+            var codeId = supplierCollection.FirstOrDefault()?.Codigo;
             // act
             var supplier = await _supplierDataServices.GetAsyncSupplierDo(codeId);
             SupplierDto value = supplier.Value;
@@ -297,10 +252,9 @@ namespace KarveTest.DAL
         {
             // the item shall be unique.
             List<string> idList = new List<string>();
-            string item = "";
             for (int i = 0; i < 10; ++i)
             {
-                item = _supplierDataServices.GetNewId();
+                var item = _supplierDataServices.GetNewId();
                 Assert.IsTrue(!idList.Contains(item));
                 idList.Add(item);
             }

@@ -13,6 +13,7 @@ using KarveDapper;
 using KarveDapper.Extensions;
 using KarveDataAccessLayer.DataObjects;
 using DataAccessLayer.DataObjects;
+using DataAccessLayer.Model;
 
 namespace KarveTest.DAL
 {
@@ -22,7 +23,7 @@ namespace KarveTest.DAL
     /// </summary>
     class TestVehicleDataAccessLayer : TestBase
     {
-        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45";
+        
         private IDataServices _dataServices;
         private IConfigurationService _serviceConf;
         private IVehicleDataServices _vehicleDataServices;
@@ -46,17 +47,53 @@ namespace KarveTest.DAL
                 Assert.Fail(e.Message);
             }
         }
+        /// <summary>
+        ///  We should get a list of vehicles.
+        /// </summary>
+        /// <returns></returns>
         [Test]
         public async Task Should_Get_AListOfVehicles()
         {
             IEnumerable<VehicleSummaryDto> summary = await _vehicleDataServices.GetAsyncVehicleSummary();
-            Assert.Greater(summary.Count(), 0);
+            var vehicleSummaryDtos = summary as VehicleSummaryDto[] ?? summary.ToArray();
+            Assert.Greater(vehicleSummaryDtos.Count(), 0);
             // code shall not be null.
-            foreach (var v in summary)
+            foreach (var v in vehicleSummaryDtos)
             {
                 Assert.NotNull(v.Code);
             }
         }
+        /// <summary>
+        /// Get a vehicle correctly.
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task Should_Load_AVehicleAndHelpersCorrectly()
+        {
+            using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
+            {
+                if (dbConnection != null)
+                {
+                    var vehicleList = await dbConnection.GetAsyncAll<VEHICULO1>();
+                    var vehicleValue = vehicleList.FirstOrDefault();
+                    Assert.NotNull(vehicleValue);
+                    var codeInt = vehicleValue.CODIINT;
+                    if (!string.IsNullOrEmpty(codeInt))
+                    {
+                        var vehicle = new Vehicle(_sqlExecutor);
+                        var dictionary = new Dictionary<string, string>();
+                        var value = await vehicle.LoadValue(dictionary, codeInt);
+                        Assert.IsTrue(value);
+                        Assert.NotNull(vehicle.BrandDtos);
+                        Assert.Greater(0, vehicle.BrandDtos.Count());
+                        Assert.Greater(0, vehicle.ModelDtos.Count());
+                        Assert.Greater(0, vehicle.ColorDtos.Count());
+
+                     }
+                }
+            }
+        }
+
         /// <summary>
         ///  Vehicles1.
         /// </summary>
@@ -64,20 +101,21 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Get_A_Paged_List_Of_Vehicules_And_Iterate()
         {
-            int count = 0;
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            var count = 0;
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                 var allVehicles = await conn.GetAsyncAll<VEHICULO1>();
                 count = allVehicles.Count<VEHICULO1>();
             }
-            var step = 5;
-            for (int i = 0; i < count; i = i + step)
+            var step = 100;
+            for (var i = 1; i < count; i = i + step)
             {
-                var summary = await _vehicleDataServices.GetVehiclesAgentSummary(step, i);
+                var summary = await _vehicleDataServices.GetPagedSummaryDoAsync(i, step);
                 foreach (var v in summary)
                 {
                     Assert.NotNull(v.Code);
                 }
+
             }
         }
     }

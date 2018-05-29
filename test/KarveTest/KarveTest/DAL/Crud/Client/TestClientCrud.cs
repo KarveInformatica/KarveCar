@@ -45,7 +45,7 @@ namespace KarveTest.DAL.Crud.Client
         [Test]
         public async Task Should_Load_AClientEntity()
         {
-            string currentCode = "2782728";
+            string currentCode = string.Empty;
             using (IDbConnection db = _sqlExecutor.OpenNewDbConnection())
             {
                 var cli = await db.GetAsyncAll<DataAccessLayer.DataObjects.CLIENTES1>();

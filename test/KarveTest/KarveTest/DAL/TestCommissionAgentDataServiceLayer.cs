@@ -233,6 +233,7 @@ namespace KarveTest.DAL
                 // act
                 var visitasComi = await connection.QueryAsync<VisitasComiPoco>(query);
                 // assert.
+                Assert.NotNull(visitasComi);
                 var count = visitasComi.Count();
                 Assert.GreaterOrEqual(count, 0);
                 if (count > 0)
@@ -260,8 +261,6 @@ namespace KarveTest.DAL
                 QueryStore store = QueryStore.GetInstance();
                 store.AddParam(QueryType.QueryBrokerContacts, singleBroker.NUM_COMI);
                 var currentQuery = store.BuildQuery();
-                if (singleBroker != null)
-                {
                     var expectedContacts = contactsBroker.Where(x => x.COMISIO == singleBroker.NUM_COMI);
                     // act
                     var contactList = await connection.QueryAsync<ContactsComiPoco>(currentQuery);
@@ -291,7 +290,7 @@ namespace KarveTest.DAL
                     }
 
                     
-                }
+                
             }
         }
 
@@ -431,7 +430,7 @@ namespace KarveTest.DAL
             fields.Add(CommissionAgent.Branches," * ");
             string numComi = "0000003";
             ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi, fields);
-            bool deleteSuccess = await _commissionAgentDataServices.DeleteCommissionAgent(commissionAgent);
+            bool deleteSuccess = await _commissionAgentDataServices.DeleteDoAsync(commissionAgent);
             Assert.True(deleteSuccess);
         }
         [Test]

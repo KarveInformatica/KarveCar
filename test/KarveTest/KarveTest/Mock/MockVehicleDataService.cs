@@ -11,6 +11,13 @@ namespace KarveTest.Mock
 
     internal class MockVehicleDataService : IVehicleDataServices
     {
+        public MockVehicleDataService()
+        {
+        }
+
+        public int NumberPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public long NumberItems { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public Task<bool> DeleteVehicleData(IVehicleData vehicleData)
         {
             throw new NotImplementedException();
@@ -41,6 +48,11 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
+        public Task<int> GetPageCount(int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IVehicleData> GetVehicleDo(string primaryKeyValue)
         {
             throw new NotImplementedException();
@@ -52,6 +64,11 @@ namespace KarveTest.Mock
         }
 
         public Task<bool> SaveChangesVehicle(IVehicleData data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
             throw new NotImplementedException();
         }

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
+using System.ComponentModel;
 
 namespace KarveTest.Mock
 {
@@ -94,5 +95,31 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void IncomingPayload(DataPayLoad payload)
+        {
+            throw new NotImplementedException();
+        }
+       
     }
 }

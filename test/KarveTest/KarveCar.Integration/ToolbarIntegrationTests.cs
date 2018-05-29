@@ -9,6 +9,7 @@ using DataAccessLayer.Model;
 using InvoiceModule.ViewModels;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
+using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -20,6 +21,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using Prism.Regions;
 using ToolBarModule;
+using BookingModule.ViewModels;
 
 namespace KarveCar.Integration
 {
@@ -33,7 +35,7 @@ namespace KarveCar.Integration
         private readonly Mock<IEventManager> _eventManager = new Mock<IEventManager>();
         private readonly TestBase _testBase = new TestBase();
         private readonly Mock<IDialogService> _dialogService = new Mock<IDialogService>();
-        private readonly  Mock<IInteractionRequestController> _interactionRequestController = new Mock<IInteractionRequestController>();
+        private readonly Mock<IInteractionRequestController> _interactionRequestController = new Mock<IInteractionRequestController>();
         private readonly Mock<IUnityContainer> _unityContainer = new Mock<IUnityContainer>();
         private IDataServices _dataServices;
         private ICareKeeperService _careKeeperService = new CareKeeper();
@@ -45,7 +47,7 @@ namespace KarveCar.Integration
         private DataPayLoad _notifiedPayLoad = new DataPayLoad();
         private DataPayLoad _receivedPayLoad = new DataPayLoad();
         private DataPayloadFactory _factory = DataPayloadFactory.GetInstance();
-       
+
 
         /// <summary>
         ///  Helper function for getting a new id for the commission agent.
@@ -55,7 +57,7 @@ namespace KarveCar.Integration
         {
             var retValue = string.Empty;
             var commissionAgent = _dataServices.GetCommissionAgentDataServices();
-            var commissionList = await commissionAgent.GetCommissionAgentSummaryDo();
+            var commissionList = await commissionAgent.GetSummaryDoAsync();
             var firstDefault = commissionList.FirstOrDefault();
             if (firstDefault != null)
             {
@@ -157,9 +159,16 @@ namespace KarveCar.Integration
                         _notifiedPayLoad = payload;
                         _subSystem = subsystem;
                     });
+            // _eventManager.No
             _eventManager.Setup(x => x.SendMessage(It.IsAny<string>(), It.IsAny<DataPayLoad>()))
                 .Callback<string, DataPayLoad>(
-                    (x1, x2) => { _receivedPayLoad = x2; });
+                    (x1, x2) =>
+                    {
+                        _receivedPayLoad = x2;
+                        _eventManager.Object.NotifyObserverSubsystem(_receivedPayLoad.SubsystemName, _receivedPayLoad);
+                    });
+
+
             _carveBarViewModel = new KarveToolBarViewModel(_dataServices,
                 _eventManager.Object,
                 _careKeeperService,
@@ -177,7 +186,7 @@ namespace KarveCar.Integration
         {
             // arrange
             var supplierServices = _dataServices.GetSupplierDataServices();
-            var allSuppliers = await supplierServices.GetSupplierAsyncSummaryDo();
+            var allSuppliers = await supplierServices.GetPagedSummaryDoAsync(1, 2);
             var supplier = allSuppliers.FirstOrDefault();
             if (supplier != null)
             {
@@ -457,9 +466,9 @@ namespace KarveCar.Integration
                 Assert.AreEqual(_receivedPayLoad.PayloadType, DataPayLoad.Type.Insert);
             }
 
-            viewModel.NewItem();
+            //  viewModel.
 
-            Assert.AreEqual("CompanySystemName", this._subSystem);
+            // Assert.AreEqual("CompanySystemName", this._subSystem);
             if (_notifiedPayLoad.DataObject is ICompanyData data)
             {
                 var dto = data.Value;
@@ -494,7 +503,7 @@ namespace KarveCar.Integration
                 var payLoad = new DataPayLoad
                 {
                     DataObject = code.Value,
-                    HasDataObject = true
+                    HasDataObject = true,
                 };
                 _carveBarViewModel.IncomingPayload(registrationPayload);
                 _carveBarViewModel.IncomingPayload(payLoad);
@@ -520,7 +529,7 @@ namespace KarveCar.Integration
             var companyData = helper.FirstOrDefault();
             if (companyData != null)
             {
-               
+
             }
 
         }
@@ -706,17 +715,10 @@ namespace KarveCar.Integration
              * 4. Compute the invoice.
              * 5. Save the invoice.
              */
-            var invoiceDs = await _dataServices.GetInvoiceDataServices().GetInvoiceSummaryAsync();
+            TestBase testBase = new TestBase();
+            var invoiceDs = await _dataServices.GetInvoiceDataServices().GetPagedSummaryDoAsync(1, 2);
             var singleInvoice = invoiceDs.FirstOrDefault();
-            var payload = new DataPayLoad
-            {
-                ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892891"),
-                DataObject = singleInvoice,
-                HasDataObject = true,
-                Subsystem = DataSubSystem.InvoiceSubsystem,
-                HasRelatedObject = false, 
-                PayloadType = DataPayLoad.Type.Update
-            };
+
             var registrationPayLoad = new DataPayLoad
             {
                 ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892892"),
@@ -728,21 +730,46 @@ namespace KarveCar.Integration
             };
             Assert.NotNull(singleInvoice);
 
+            var executor = testBase.SetupSqlQueryExecutor();
             var invoiceItem =
-                    await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceCode);
+                    await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceName);
+            var claveLinea = new Random();
+
+            Assert.IsNotInstanceOf<NullInvoice>(invoiceItem);
+            // get an unique key called lifac
+            string numberLifac;
+            using (var dbConnection = executor.OpenNewDbConnection())
+            {
+                var lifac = new LIFAC();
+
+                numberLifac = dbConnection.UniqueId<LIFAC>(lifac);
+            }
 
             var invoiceComponent = new InvoiceSummaryDto
             {
                 Iva = 20,
-                VehicleCode= "29209",
+                Description = "ZoppiTest",
+                VehicleCode = "29209",
                 Price = 666,
                 Subtotal = 700,
-                Quantity = 1
+                Quantity = 1,
+                Number = singleInvoice.InvoiceName,
+                IsNew = true,
+                IsDirty = true,
+                KeyId = numberLifac
             };
-            var list = new List<InvoiceSummaryDto> {invoiceComponent};
+            var list = new List<InvoiceSummaryDto> { invoiceComponent };
             invoiceItem.InvoiceItems = invoiceItem.InvoiceItems != null ? invoiceItem.InvoiceItems.Union(list) : list;
 
-            payload.DataObject = invoiceItem;
+            var payload = new DataPayLoad
+            {
+                ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892891"),
+                DataObject = invoiceItem,
+                HasDataObject = true,
+                Subsystem = DataSubSystem.InvoiceSubsystem,
+                HasRelatedObject = false,
+                PayloadType = DataPayLoad.Type.Update
+            };
             // act
             try
             {
@@ -758,15 +785,31 @@ namespace KarveCar.Integration
             }
             // get the daved invoice.
             var savedInvoice =
-                await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceCode);
-            var item = savedInvoice.InvoiceItems.FirstOrDefault(x=>x.Price==invoiceComponent.Price);
+                await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceName);
+            var item = savedInvoice.InvoiceItems.FirstOrDefault(x => x.Price == invoiceComponent.Price);
             Assert.NotNull(item);
             Assert.AreEqual(invoiceComponent.Iva, item.Iva);
             Assert.AreEqual(invoiceComponent.Subtotal, item.Subtotal);
-            Assert.AreEqual(invoiceComponent.Quantity, item.Quantity);        
+            Assert.AreEqual(invoiceComponent.Quantity, item.Quantity);
         }
 
+        /// <summary>
+        ///  Generate an invoice line key.
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateInvoiceLineKey()
+        {
+            string value = string.Empty;
+            TestBase testValue = new TestBase();
+            ISqlExecutor executor = testValue.SetupSqlQueryExecutor();
+            using (var dbConnection = executor.OpenNewDbConnection())
+            {
+                var lifac = new LIFAC();
+                value = dbConnection.UniqueId<LIFAC>(lifac);
+                return value;
+            }
 
+        }
         /// <summary>
         ///  The invoice should be integrated.
         /// </summary>
@@ -774,43 +817,60 @@ namespace KarveCar.Integration
         [Test]
         public async Task WhenIntegratedShould_Insert_InvoiceLine()
         {
+            // preconditions.
             var invoiceDs = _dataServices.GetInvoiceDataServices();
             var summary = await invoiceDs.GetInvoiceSummaryAsync();
             var singleInvoice = summary.FirstOrDefault();
-            var dataPayLoad = new DataPayLoad
+            if (singleInvoice != null)
             {
-                ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892892"),
-                HasRelatedObject = true,
-                DataObject = singleInvoice,
-                PayloadType = DataPayLoad.Type.UpdateInsertGrid,
-                Subsystem = DataSubSystem.InvoiceSubsystem,
-                RelatedObject = new InvoiceItem()
+                var invoiceId = singleInvoice.InvoiceName;
+                var item = await invoiceDs.GetInvoiceDoAsync(invoiceId);
+                var items = item.Value.InvoiceItems;
+                var count = items.Count();
+                var invoiceNum = GenerateInvoiceLineKey();
+                var dataPayLoad = new DataPayLoad
                 {
-                   IVA = 25,
-                   DIAS = 4,
-                   COSTE = 777,
-                   SUBTOTAL_LIF = 25,
-                   CANTIDAD_LIF = 2,
-                   PRE_LIF = 205,
-                   DPT_LF = "DepositoFacturas"
-                }
+                    ObjectPath = new Uri("invoice://viewmodel/id/invoice/1892892"),
+                    HasRelatedObject = true,
+                    HasDataObject = true,
+                    DataObject = item,
+                    PayloadType = DataPayLoad.Type.UpdateInsertGrid,
+                    Subsystem = DataSubSystem.InvoiceSubsystem,
+                    RelatedObject = new InvoiceSummaryDto()
+                    {
+                        Iva = 25,
+                        Price = 24,
+                        Subtotal = 39,
+                        Number = invoiceId,
+                        Description = "depositofactura",
+                        Quantity = 23,
+                        KeyId = invoiceNum,
+                        AgreementCode = "12",
+                        Discount = 23,
+                        IsNew = true
+                    }
 
-            };
-            try
-            {
-                var factory = DataPayloadFactory.GetInstance();
-                var registrationPayLoad = factory.BuildRegistrationPayLoad("invoice://viewmodel/id/invoice/21829", singleInvoice, DataSubSystem.InvoiceSubsystem);
-                var payload = dataPayLoad;
-                // incoming payload.
-                _carveBarViewModel.IncomingPayload(registrationPayLoad);
-                // incoming payload.
-                _carveBarViewModel.IncomingPayload(payload);
-                _carveBarViewModel.SaveCommand.Execute();
-                
-            }
-            catch (Exception e)
-            {
-                Assert.Fail(e.Message);
+                };
+                try
+                {
+                    var factory = DataPayloadFactory.GetInstance();
+                    var registrationPayLoad = factory.BuildRegistrationPayLoad("invoice://viewmodel/id/invoice/21829",
+                        singleInvoice, DataSubSystem.InvoiceSubsystem);
+                    var payload = dataPayLoad;
+                    // incoming payload.
+                    _carveBarViewModel.IncomingPayload(registrationPayLoad);
+                    // incoming payload.
+                    _carveBarViewModel.IncomingPayload(payload);
+                    _carveBarViewModel.SaveCommand.Execute();
+                    var savedItem = await invoiceDs.GetInvoiceDoAsync(invoiceId);
+                    var savedItems = savedItem.Value.InvoiceItems;
+                    var receivedCount = savedItems.Count();
+                    Assert.AreEqual(count + 1, receivedCount);
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail(e.Message);
+                }
             }
         }
         /// <summary>
@@ -818,14 +878,16 @@ namespace KarveCar.Integration
         /// </summary>
         /// <returns></returns>
         [Test]
-        public void WhenIntegratedShould_Insert_AnInvoice()
+        public async Task WhenIntegratedShould_Insert_AnInvoice()
         {
 
+            //readonly object syncPrimitive = new object(); 
+            var invoiceDs = _dataServices.GetInvoiceDataServices();
             _receivedPayLoad = null;
             var notifiedPayload = new DataPayLoad();
             var manager = new Mock<IEventManager>();
             manager.Setup(x => x.NotifyObserverSubsystem(It.IsAny<string>(), It.IsAny<DataPayLoad>()))
-                .Callback((DataPayLoad p) => { _receivedPayLoad = p; });
+                .Callback((string value, DataPayLoad p) => { _receivedPayLoad = p; _receivedPayLoad.IsTest = true; });
             manager.Setup(x => x.NotifyToolBar(It.IsAny<DataPayLoad>()))
                 .Callback((DataPayLoad p) => { notifiedPayload = p; });
 
@@ -836,30 +898,67 @@ namespace KarveCar.Integration
                 null,
                 manager.Object);
 
-            DataPayLoad registrationPayload = new DataPayLoad
+            var registrationPayload = new DataPayLoad
             {
                 PayloadType = DataPayLoad.Type.RegistrationPayload,
                 Subsystem = DataSubSystem.InvoiceSubsystem
             };
             _carveBarViewModel.IncomingPayload(registrationPayload);
             _carveBarViewModel.NewCommand.Execute(null);
+            _receivedPayLoad.IsTest = true;
             viewModel.IncomingPayload(_receivedPayLoad);
             if (_receivedPayLoad != null)
             {
-                Assert.AreEqual(_receivedPayLoad.PayloadType, DataPayLoad.Type.Insert);
+                Assert.AreEqual(DataPayLoad.Type.Insert, _receivedPayLoad.PayloadType);
             }
+            // now we can save the payload.
+            var pagedSummary = await invoiceDs.GetPagedSummaryDoAsync(1, 25);
+            var singleInvoice = pagedSummary.FirstOrDefault();
+            var singleObject = await invoiceDs.GetInvoiceDoAsync(singleInvoice.InvoiceName);
+            var invoiceDto = _receivedPayLoad.DataObject as IInvoiceData;
+
+            // now i can try to add the value to the data layer
+            singleObject.Value.NUMERO_FAC = invoiceDto.Value.NUMERO_FAC;
+            // ok this is the invoice data object to be used.
+            invoiceDto.Value = singleObject.Value;
+            var newLines = new List<InvoiceSummaryDto>();
+            foreach (var lines in invoiceDto.InvoiceItems)
+            {
+                lines.Number = singleObject.Value.NUMERO_FAC;
+                newLines.Add(lines);
+            }
+            invoiceDto.InvoiceItems = newLines;
+            bool retValue = await invoiceDs.SaveAsync(invoiceDto);
+            Assert.IsTrue(retValue);
+            Assert.NotNull(invoiceDto.ContractSummary);
+            Assert.NotNull(invoiceDto.ClientSummary);
+            Assert.NotNull(invoiceDto.Value);
+            Assert.AreNotEqual(string.Empty, invoiceDto.Value.CodeId);
+            Assert.AreNotEqual(string.Empty, invoiceDto.Value.NUMERO_FAC);
             Assert.NotNull(notifiedPayload);
-          
+            Assert.AreEqual(DataSubSystem.InvoiceSubsystem, _receivedPayLoad.Subsystem);
+            Assert.AreEqual(DataPayLoad.Type.Insert, _receivedPayLoad.PayloadType);
+            Assert.NotNull(_receivedPayLoad.PrimaryKeyValue);
+            Assert.AreNotEqual(string.Empty, _receivedPayLoad);
         }
 
-     
+        [Test]
+        public async Task WhenIntegratedShould_Delete_AnInvoiceLine()
+        {
+            var invoiceDataService = _dataServices.GetInvoiceDataServices();
+            var invoiceDs = await invoiceDataService.GetInvoiceSummaryAsync();
+            var invoiceDo = invoiceDs.FirstOrDefault();
+
+
+        }
+
         [Test]
         public async Task WhenIntegratedShould_Delete_AnInvoice()
         {
             // arrange
             _receivedPayLoad = null;
             var invoiceDataService = _dataServices.GetInvoiceDataServices();
-            var invoiceDs = await invoiceDataService.GetInvoiceSummaryAsync();
+            var invoiceDs = await invoiceDataService.GetPagedSummaryDoAsync(1, 20);
             var invoiceDo = invoiceDs.FirstOrDefault();
             Assert.NotNull(invoiceDo);
             var code = invoiceDo.InvoiceCode;
@@ -885,13 +984,224 @@ namespace KarveCar.Integration
             try
             {
                 var resultedDs = await invoiceDataService.GetInvoiceDoAsync(code);
-               Assert.IsInstanceOf(typeof(NullInvoice), resultedDs);
+                Assert.IsInstanceOf(typeof(NullInvoice), resultedDs);
 
             }
             catch (Exception e)
             {
-
+                Assert.Fail(e.Message);
             }
         }
+
+        private void RegisterABookingPayload()
+        {
+            var registrationPayLoad = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.RegistrationPayload,
+                Subsystem = DataSubSystem.BookingSubsystem
+            };
+            _carveBarViewModel.IncomingPayload(registrationPayLoad);
+        }
+        /// <summary>
+        ///  Get a client code
+        /// </summary>
+        /// <returns></returns>
+        private async Task<string> GetAClientCode()
+        {
+            var testBase = new TestBase();
+            var sqlExecutor = testBase.SetupSqlQueryExecutor();
+            var simpleCode = string.Empty;
+            using (var dbConnection = sqlExecutor.OpenNewDbConnection())
+            {
+                if (dbConnection == null)
+                {
+                    throw new DataLayerException();
+                }
+                var items = await dbConnection.GetPagedAsync<CLIENTES1>(1, 2).ConfigureAwait(false);
+                var singleItem = items.FirstOrDefault();
+                simpleCode = singleItem.NUMERO_CLI;
+            }
+            return simpleCode;
+        }
+        // <summary>
+        ///  Registration of the payload.
+        /// </summary>
+        /// <returns></returns>
+        public async Task WhenIntegratedShould_Save_ABooking()
+        {
+            RegisterABookingPayload();
+            var bookingDs = _dataServices.GetBookingDataService();
+            var simpleBook = await bookingDs.GetPagedSummaryDoAsync(1, 2).ConfigureAwait(false);
+            var firstDefault = simpleBook.FirstOrDefault();
+            var bookingNumber = firstDefault.BookingNumber;
+            var bookingValue = await bookingDs.GetDoAsync(bookingNumber).ConfigureAwait(false);
+            var clientDs = _dataServices.GetClientDataServices();
+            var singleClient = await GetAClientCode();
+            bookingValue.Value.CLIENTE_RES1 = singleClient;
+            Assert.AreEqual(bookingValue.IsValid, true);
+            var payload = new DataPayLoad()
+            {
+                PayloadType = DataPayLoad.Type.Delete,
+                Subsystem = DataSubSystem.BookingSubsystem,
+                DataObject = bookingValue,
+                HasDataObject = true,
+                HasRelatedObject = false,
+                Sender = new Uri("booking://viewmodel/id/2920290").ToString(),
+                ObjectPath = new Uri("booking://viewmodel/id/2920290")
+            };
+            Assert.NotNull(bookingValue);
+            // act
+            _carveBarViewModel.IncomingPayload(payload);
+            _carveBarViewModel.SaveCommand.Execute();
+            // assert
+            var savedItem = await bookingDs.GetDoAsync(bookingNumber).ConfigureAwait(false);
+            Assert.AreEqual(savedItem.IsValid, true);
+            Assert.AreEqual(savedItem.Value.CLIENTE_RES1, singleClient);
+        }
+
+        public async Task<IBookingData> FetchASingleBooking()
+        {
+            var bookingDs = _dataServices.GetBookingDataService();
+            var bookingSummary = await bookingDs.GetPagedSummaryDoAsync(1, 2).ConfigureAwait(false);
+            var singleBook = await bookingDs.GetDoAsync(bookingSummary.FirstOrDefault().BookingNumber).ConfigureAwait(false);
+            return singleBook;
+        }
+        public async Task WhenIntegratedShould_Save_BookingLines()
+        {
+            RegisterABookingPayload();
+            var bookingDs = _dataServices.GetBookingDataService();
+            var singleBook = await FetchASingleBooking();
+            var maxCountItems = await bookingDs.GetBookingItemsCount(singleBook.Value.NUMERO_RES) + 1;
+            var keyId = maxCountItems.ToString();
+            var bookingItem = new BookingItemsDto()
+            {
+                Number = singleBook.Value.NUMERO_RES,
+                IsValid = true,
+                IsNew = true,
+                KeyId = keyId,
+                Price = 102,
+                Desccon = "ALQUILER",
+                Group = "C10",
+                Concept = 2,
+                Unity = "DIA",
+                Subtotal = 205
+            };
+            var payload = new DataPayLoad()
+            {
+                PayloadType = DataPayLoad.Type.UpdateInsertGrid,
+                Subsystem = DataSubSystem.BookingSubsystem,
+                DataObject = singleBook,
+                RelatedObject = bookingItem,
+                HasDataObject = true,
+                HasRelatedObject = true,
+                Sender = new Uri("booking://viewmodel/id/2920290").ToString(),
+                ObjectPath = new Uri("booking://viewmodel/id/2920290")
+            };
+        }
+        public async Task WhenIntegratedShould_Save_ABookingWithLines()
+        {
+            RegisterABookingPayload();
+            var bookingDs = _dataServices.GetBookingDataService();
+            var bookingSummary = await bookingDs.GetPagedSummaryDoAsync(1, 2).ConfigureAwait(false);
+            var singleBook = await bookingDs.GetDoAsync(bookingSummary.FirstOrDefault().BookingNumber).ConfigureAwait(false);
+            var maxCountItems = await bookingDs.GetBookingItemsCount(singleBook.Value.NUMERO_RES) + 1;
+
+            var bookingItem = new BookingItemsDto()
+            {
+                Number = singleBook.Value.NUMERO_RES,
+                IsValid = true,
+                IsNew = true,
+                KeyId = maxCountItems.ToString(),
+                Price = 102,
+                Desccon = "ALQUILER",
+                Group = "C10",
+                Concept = 1,
+                Unity = "DIA",
+                Subtotal = 204
+            };
+            var bookingItemList = new List<BookingItemsDto>()
+            {
+                bookingItem
+            };
+
+            singleBook.ItemsDtos = singleBook.ItemsDtos.Union<BookingItemsDto>(bookingItemList);
+
+            var payload = new DataPayLoad()
+            {
+                PayloadType = DataPayLoad.Type.Update,
+                Subsystem = DataSubSystem.BookingSubsystem,
+                DataObject = singleBook,
+                HasDataObject = true,
+                HasRelatedObject = false,
+                Sender = new Uri("booking://viewmodel/id/2920290").ToString(),
+                ObjectPath = new Uri("booking://viewmodel/id/2920290")
+            };
+            // act
+            _carveBarViewModel.IncomingPayload(payload);
+            _carveBarViewModel.SaveCommand.Execute();
+            // assert
+            var toBeSavedItem = await bookingDs.GetDoAsync(singleBook.Value.NUMERO_RES).ConfigureAwait(false);
+            Assert.AreEqual(toBeSavedItem.IsValid, true);
+            var lines = toBeSavedItem.ItemsDtos.Where(x => x.KeyId == maxCountItems.ToString());
+            Assert.Equals(1, lines.Count());
+            var value = lines.FirstOrDefault();
+            Assert.AreEqual(bookingItem.Number, value.Number);
+            Assert.AreEqual(bookingItem.IsValid, value.IsValid);
+            Assert.AreEqual(bookingItem.IsNew, value.IsNew);
+            Assert.AreEqual(bookingItem.KeyId, value.KeyId);
+            Assert.AreEqual(bookingItem.Price, value.Price);
+            Assert.AreEqual(bookingItem.Desccon, value.Desccon);
+            Assert.AreEqual(bookingItem.Group, value.Group);
+            Assert.AreEqual(bookingItem.Concept, value.Concept);
+            Assert.AreEqual(bookingItem.Unity, value.Unity);
+            Assert.AreEqual(bookingItem.Subtotal, value.Subtotal);
+        }
+
+        [Test]
+        public async Task WhenIntegratedShould_Insert_ABookinWithLines()
+        {
+            RegisterABookingPayload();
+            var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object);
+            _carveBarViewModel.NewCommand.Execute(null);
+            Assert.NotNull(_notifiedPayLoad);
+            Assert.AreEqual(_notifiedPayLoad.Subsystem, DataSubSystem.BookingSubsystem);
+            Assert.AreEqual(_notifiedPayLoad.PayloadType, DataPayLoad.Type.Insert);
+            karveViewModel.IncomingPayload(_notifiedPayLoad);
+
+        }
+        [Test]
+        public async Task WhenIntegratedShould_Delete_ABookingWithLines()
+        {
+            RegisterABookingPayload();
+            var bookingDs = _dataServices.GetBookingDataService();
+            var bookingSummary = await bookingDs.GetPagedSummaryDoAsync(1, 2).ConfigureAwait(false);
+            var singleBook = await bookingDs.GetDoAsync(bookingSummary.FirstOrDefault().BookingNumber).ConfigureAwait(false);
+            var payload = new DataPayLoad()
+            {
+                PayloadType = DataPayLoad.Type.Delete,
+                Subsystem = DataSubSystem.BookingSubsystem,
+                DataObject = singleBook,
+                HasDataObject = true,
+                HasRelatedObject = false,
+                Sender = new Uri("booking://viewmodel/id/2920290").ToString(),
+                ObjectPath = new Uri("booking://viewmodel/id/2920290")
+            };
+            // act
+            _carveBarViewModel.IncomingPayload(payload);
+            _carveBarViewModel.DeleteCommand.Execute(null);
+            // assert.
+            try
+            {
+                var resultedDs = await bookingDs.GetDoAsync(singleBook.Value.NUMERO_RES);
+                Assert.IsInstanceOf(typeof(NullReservation), resultedDs);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail(e.Message);
+            }
+
+        }
+
+
     }
 }

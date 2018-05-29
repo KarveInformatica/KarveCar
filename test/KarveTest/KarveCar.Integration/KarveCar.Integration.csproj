@@ -121,6 +121,10 @@
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveCar.Locale</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\BookingModule\BookingModule.csproj">
+      <Project>{28298225-CD5C-40DA-A6D4-F48506446A4B}</Project>
+      <Name>BookingModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\Modules\CarModel\CarModel\CarModelModule.csproj">
       <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>
       <Name>CarModelModule</Name>

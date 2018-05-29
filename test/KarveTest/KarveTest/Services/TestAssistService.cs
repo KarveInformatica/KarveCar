@@ -22,8 +22,8 @@ namespace KarveTest.Services
     {
         private IUnityContainer _unityContainer;
         private TestDtoFactory _testDtoFactory;
-        private Mock<IDataServices> _dataServicesMock = new Mock<IDataServices>();
-        private Mock<IHelperDataServices> _helperDataServices = new Mock<IHelperDataServices>();
+        private readonly Mock<IDataServices> _dataServicesMock = new Mock<IDataServices>();
+        private readonly Mock<IHelperDataServices> _helperDataServices = new Mock<IHelperDataServices>();
        
         private IList<ProvinciaDto> _provinciasDto = new List<ProvinciaDto>()
         {
@@ -57,9 +57,9 @@ namespace KarveTest.Services
                 Assert.NotNull(p);
                 receivedResult.Add(p);
             };
-            IInteractionRequestController controller = _unityContainer.Resolve<IInteractionRequestController>();
-            BranchesDto dto = new BranchesDto();
-            KarveViewModelBase kvm = new KarveViewModelBase(_dataServicesMock.Object, controller);
+            var controller = _unityContainer.Resolve<IInteractionRequestController>();
+            var dto = new BranchesDto();
+            var kvm = new KarveViewModelBase(_dataServicesMock.Object, controller);
             await kvm.OnAssistAsync<ProvinciaDto, PROVINCIA>("ListaProvincia", "Code,Name", action);
             Assert.AreEqual(1,receivedResult.Count);
         }    

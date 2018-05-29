@@ -4,12 +4,14 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.Model;
+using System.ComponentModel;
 
 namespace KarveTest.Mock
 {
     internal class MockOfficeDataServices : IOfficeDataServices
     {
-        
+     
+
         /// <summary>
         /// 
         /// </summary>
@@ -30,7 +32,7 @@ namespace KarveTest.Mock
         }
         public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
         {
-            List<OfficeSummaryDto> officeSummary = new List<OfficeSummaryDto>()
+            var officeSummary = new List<OfficeSummaryDto>()
             {
                 new OfficeSummaryDto(){ Code="0001", City="Barcelona",Name="IBM R&D",CompanyName="IBM",Direction="Calle Paris 54",OfficeZone="RL1"},
                 new OfficeSummaryDto(){ Code="0002", City="Barcelona",Name="Karve R&D",CompanyName="Karve Informatica S.L.",Direction="Calle Paris 54",OfficeZone="RL2"},
@@ -84,6 +86,19 @@ namespace KarveTest.Mock
             return data;
         }
 
+        public Task<int> GetPageCount(int pageSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int NumberPage { get; set; }
+        public long NumberItems { get; set; }
+
+        public Task<IEnumerable<OfficeSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId)
         {
             throw new System.NotImplementedException();
@@ -98,6 +113,11 @@ namespace KarveTest.Mock
             }
             await Task.Delay(1000);
             return true;
+        }
+
+        public Task<IEnumerable<OfficeSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

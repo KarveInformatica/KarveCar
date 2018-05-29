@@ -206,6 +206,52 @@ namespace KarveTest.KarveDapper
         }
 
         [Test]
+        public async Task Should_Retrieve_PagedEntities()
+        {
+
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
+            {
+                // act
+                var pagedConn = await conn.GetPagedAsync<CLIENTES1>(1,25);
+                // assert.
+                Assert.AreEqual(pagedConn.Count(), 25);
+                foreach (var page in pagedConn)
+                {
+                    Assert.NotNull(page.NUMERO_CLI);
+                }
+            }
+        }
+
+        [Test]
+        public async Task Should_Retrieve_Multiple()
+        {
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
+            {
+                var connection = conn.GetAll<CLIENTES1>();
+                var connectionFirst = await conn.GetPagedAsync<CLIENTES1>(1, 25);
+                var connectionSecond = await conn.GetPagedAsync<CLIENTES1>(1, 50);
+                var clientes1S = connection as CLIENTES1[] ?? connection.ToArray();
+                var connectionIntersect1 = clientes1S.Intersect(connectionFirst);
+                var connectionIntersect2 = clientes1S.Intersect(connectionSecond);
+                Assert.AreEqual(connectionIntersect1.Count(), 25);
+                Assert.AreEqual(connectionIntersect2.Count(), 25);
+            }
+        }
+
+        private async Task GetPage()
+        {
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
+            {
+                var pagedConn = await conn.GetPagedAsync<CLIENTES1>(-1, -1);
+                Assert.AreEqual(pagedConn.Count(), 25);
+            }
+        }
+        [Test]
+        public void Should_Throws_WhenBadIndex()
+        { 
+            Assert.ThrowsAsync<System.ArgumentOutOfRangeException>(async () => await GetPage());
+        }
+        [Test]
         public async Task Should_Not_Update_InvalidCollection()
         {
             bool state = false;
@@ -228,6 +274,10 @@ namespace KarveTest.KarveDapper
             }
             // assert 
            
+        }
+
+        private class connectionInterserct2
+        {
         }
     }
 }

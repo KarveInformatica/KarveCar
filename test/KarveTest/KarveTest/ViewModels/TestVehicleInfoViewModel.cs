@@ -24,7 +24,7 @@ namespace KarveTest.ViewModels
         /// Should correct and point out other subsystem.
         /// </summary>
         [Test]
-        public void Should_Point_Not_Correct_Subsystem()
+        public void Should_PointOut_NotCorrect_Subsystem()
         {
             var payLoad = new DataPayLoad
             {
@@ -40,7 +40,7 @@ namespace KarveTest.ViewModels
         /// Shall discard invalid payload.
         /// </summary>
         [Test]
-        public void Should_Discard_Invalid_Payload()
+        public void Should_Discard_InvalidVehicle_Payload()
         {
             _vehicleInfoViewModel.IncomingPayload(null);
             Assert.Null(_vehicleInfoViewModel.DataObject);

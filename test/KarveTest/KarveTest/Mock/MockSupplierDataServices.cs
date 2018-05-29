@@ -37,6 +37,11 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Tuple<string, DataSet>> GetAsyncDelegations(string supplierId)
         {
             throw new NotImplementedException();
@@ -87,6 +92,11 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDo(int pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
         {
             throw new NotImplementedException();
@@ -116,5 +126,13 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public Task<int> GetPageCount(int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int NumberPage { get; set; }
+        public long NumberItems { get; set; }
     }
 }

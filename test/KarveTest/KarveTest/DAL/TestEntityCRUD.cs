@@ -8,6 +8,7 @@ using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
+using KarveDapper.Extensions;
 
 namespace KarveTest.DAL
 {
@@ -45,9 +46,19 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Load_Entities_Modify_And_Save_Correctly()
         {
-            var value = new ComisioDto
+           var expectedCode = String.Empty;
+            using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
             {
-                NUM_COMI = "91892291"
+                if (dbConnection != null)
+                {
+                    var resultData = await dbConnection.GetPagedAsync<COMISIO>(1, 2);
+                    var resultItem = resultData.FirstOrDefault();
+                    expectedCode = resultItem?.NUM_COMI;
+                }
+            }
+           var value = new ComisioDto
+           {
+                 NUM_COMI = expectedCode
             };
             var dtoValue = await  _dataLoader.LoadValueAsync(value.NUM_COMI);
             Assert.AreEqual(value.NUM_COMI, dtoValue.NUM_COMI);
@@ -59,11 +70,11 @@ namespace KarveTest.DAL
         ///  This test detect and error and save entities in not a correct way.
         /// </summary>
         [Test]
-        public async Task Should_Detect_Error_Saving_Entities_A_Not_Correct_Data()
+        public async Task Should_Throw_Entities_NotCorrectSavedData()
         {
             ComisioDto value = new ComisioDto {NUM_COMI = ""};
-            var result = await _dataSaver.SaveAsync(value);
-            Assert.AreEqual(result, false);
+            Assert.ThrowsAsync<DataLayerException>(async () => await _dataSaver.SaveAsync(value));           
+          
         }
         /// <summary>
         ///  This test insert and delete an entity correctly.
@@ -71,7 +82,7 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Entity_Insert_And_Delete_A_Correctly()
         {
-            var value = new ComisioDto {NUM_COMI = "891892"};
+            var value = new ComisioDto {NUM_COMI = "891892", NOMBRE = "Lucia"};
             bool result = await _dataSaver.SaveAsync(value);
             Assert.IsTrue(result);
             bool dataDeleter = await _dataDeleter.DeleteAsync(value);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccessLayer.MongoDB;
 using KarveDataServices;
 
 namespace KarveTest.Mock
@@ -20,6 +21,12 @@ namespace KarveTest.Mock
         {
              return new MockVehicleDataService();
         }
+
+        public IBookingDataService GetBookingDataService()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///  Mock client data services
         /// </summary>

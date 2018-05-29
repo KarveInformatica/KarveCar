@@ -15,10 +15,6 @@ namespace KarveTest.ViewModels
     public class TestBase
     {
         /// <summary>
-        ///  EventManager
-        /// </summary>
-        protected IEventManager EventManager = new MockEventManager();
-        /// <summary>
         ///  MockDataServices
         /// </summary>
         protected MockDataServices DataServices = new MockDataServices();
@@ -34,4 +30,6 @@ namespace KarveTest.ViewModels
         }
 
 }
+
+   
 }

@@ -75,7 +75,7 @@ namespace KarveCar.Integration
             var regionManager = new Mock<IRegionManager>();
             var controller = new Mock<IInteractionRequestController>();
             var invoiceServices = dataServices.GetInvoiceDataServices();
-            var invoiceSummary =  await invoiceServices.GetInvoiceSummaryAsync();
+            var invoiceSummary = await invoiceServices.GetPagedSummaryDoAsync(1, 10);
             var singleInvoice = invoiceSummary.FirstOrDefault();
             if (singleInvoice != null)
             {
@@ -93,7 +93,7 @@ namespace KarveCar.Integration
                     regionManager.Object,
                     controller.Object);
                 viewModel.IncomingPayload(dataPayLoad);
-                Assert.Greater(0,viewModel.ClientDto.Count());
+                Assert.Greater(viewModel.ClientDto.Count(),0);
             }
             else
             {
@@ -155,7 +155,7 @@ namespace KarveCar.Integration
         {
             var dataServices = SetupDataServices();
             var clientDs = dataServices.GetClientDataServices();
-            var summaryDs = await clientDs.GetAsyncAllClientSummary();
+            var summaryDs = await clientDs.GetPagedSummaryDoAsync(1,2);
             var viewModel = new InvoiceInfoViewModel(dataServices, _dialogServices.Object, _eventManager.Object,
                 _regionManager.Object, _controller.Object);
             IDictionary<string, string> controlDictionary = new Dictionary<string, string>();

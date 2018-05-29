@@ -114,9 +114,9 @@ namespace KarveTest.DAL
             }
         }
         [Test]
-        public void Should_Throws_WithNullId()
+        public void Should_Throws_WithNullIdCompany()
         {
-            using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                 var companyId = _companyDataService.GetNewId();
                 var company = _companyDataService.GetNewCompanyDo(companyId);
@@ -168,7 +168,7 @@ namespace KarveTest.DAL
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {
                 // prepare
-                var companies = await _companyDataService.GetAsyncAllCompanySummary();
+                var companies = await _companyDataService.GetPagedSummaryDoAsync(1,2);
                 var summary = companies.FirstOrDefault();
                 if (summary != null)
                 {
@@ -177,6 +177,7 @@ namespace KarveTest.DAL
                     bool retValue = await _companyDataService.DeleteCompanyAsyncDo(dataObject);
                     var supposedToBeDelete = await _companyDataService.GetAsyncCompanyDo(code);
                     Assert.IsTrue(retValue);
+                    Assert.IsFalse(supposedToBeDelete.Value.IsValid);
                 }
             }
         }

@@ -106,11 +106,18 @@ namespace KarveTest.DAL
         {
             try
             {
+
+
+
                 var facturas = new FACTURAS();
+
                 using (var connection = _sqlExecutor.OpenNewDbConnection())
                 {
+                    var clientes = await connection.GetPagedAsync<FACTURAS>(10, 10);
+                    var singleClient = clientes.FirstOrDefault();
+                    string query  = string.Format("SELECT * FROM FACTURAS WHERE CLIENTE_FAC='{0}'", singleClient.CLIENTE_FAC);
                     // 0000253
-                    facturas =  await connection.QueryFirstAsync<FACTURAS>("SELECT * from facturas where cliente_fac='0000253'");
+                    facturas =  await connection.QueryFirstAsync<FACTURAS>(query);
                 }
 
                 var singleInvoiceData = await _invoiceDataService.GetInvoiceDoAsync(facturas.NUMERO_FAC);
@@ -129,7 +136,7 @@ namespace KarveTest.DAL
         /// Should fail to load using an invalid code.
         /// </summary>
         [Test]
-        public async Task Should_Fail_LoadingInvalidInvoice()
+        public void Should_Fail_LoadingInvalidInvoice()
         {
             const string code = "-19292";
             Assert.ThrowsAsync<DataLayerException>(async () => await _invoiceDataService.GetInvoiceDoAsync(code));
@@ -172,6 +179,20 @@ namespace KarveTest.DAL
             var factory = AbstractDomainWrapperFactory.GetFactory(_dataServices);
             var invoice = factory.CreateInvoice("28982");
             var invoiceDto = invoice.Value;
+            var firstKey1 = string.Empty;
+            var secondKey1 = string.Empty;
+            int numberLiFact = 0;
+
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                var pageAndCount = await dbConnection.GetPageCount<LIFAC>().ConfigureAwait(false);
+                numberLiFact = pageAndCount.Item1;
+
+            }
+            numberLiFact++;
+            firstKey1 = numberLiFact.ToString();
+            numberLiFact++;
+            secondKey1 = numberLiFact.ToString();
             invoiceDto.CLIENTE_FAC = "129231";
             invoiceDto.BRUTO_FAC = 1000;
             invoiceDto.BASE_FAC = 1000;
@@ -193,7 +214,7 @@ namespace KarveTest.DAL
                 Quantity = 1,
                 IsNew = true,
                 IsValid = true,
-
+                KeyId = firstKey1
 
             };
             var item1 = new InvoiceSummaryDto()
@@ -209,13 +230,14 @@ namespace KarveTest.DAL
                 User = "CV",
                 Unity = "M",
                 Quantity = 1,
-                IsNew = true
+                IsNew = true,
+                KeyId = secondKey1
             };
 
             var invoiceList = new List<InvoiceSummaryDto> {item0, item1};
             invoice.Value.InvoiceItems = invoiceList;
             var dataFactory = _dataServices.GetInvoiceDataServices();
-            dataFactory.DeleteAsync(invoice);
+            await dataFactory.DeleteAsync(invoice);
             // act 
             var retValue = await dataFactory.SaveAsync(invoice);
             // assert
@@ -269,7 +291,7 @@ namespace KarveTest.DAL
         }
 
         [Test]
-        public void Should_Fail_SavingInvalidInvoiceNumber()
+        public async Task Should_Fail_SavingInvalidInvoiceNumber()
         {
             const string code = "-19292";
             var factory = AbstractDomainWrapperFactory.GetFactory(_dataServices);
@@ -278,9 +300,9 @@ namespace KarveTest.DAL
             var dataFactory = _dataServices.GetInvoiceDataServices();
             // act 
             Assert.IsNotInstanceOf(typeof(NullInvoice), invoice);
-
-            Assert.ThrowsAsync<DataLayerException>(async () => await dataFactory.SaveAsync(invoice));
-
+            var invoiceSaved = false;
+            invoiceSaved = await dataFactory.SaveAsync(invoice);
+            Assert.AreEqual(invoiceSaved, false);
         }
 
         [Test]

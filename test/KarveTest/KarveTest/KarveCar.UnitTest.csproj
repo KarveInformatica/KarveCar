@@ -60,6 +60,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -86,8 +88,8 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=4.7.145.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\..\src\packages\Moq.4.7.145\lib\net45\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.8.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\Moq.4.8.2\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
@@ -114,7 +116,13 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -147,20 +155,25 @@
     <Compile Include="Common\TestCareKeeper.cs" />
     <Compile Include="Common\TestEntitySerializer.cs" />
     <Compile Include="Common\TestPayLoadInterpeter.cs" />
+    <Compile Include="DAL\AbstractLoadTestBase.cs" />
     <Compile Include="DAL\Crud\Client\TestClientCrud.cs" />
     <Compile Include="DAL\Crud\Office\TestOfficeCrud.cs" />
+    <Compile Include="DAL\TestBookingDataService.cs" />
     <Compile Include="DAL\TestBuildQuery.cs" />
     <Compile Include="DAL\TestClientDataLoader.cs" />
     <Compile Include="DAL\TestClientsDataAccessLayer.cs" />
     <Compile Include="DAL\TestCompanyDataAccessLayer.cs" />
     <Compile Include="DAL\TestContractDataAccessLayer.cs" />
+    <Compile Include="DAL\TestCRUDBookingService.cs" />
     <Compile Include="DAL\TestEntityCRUD.cs" />
     <Compile Include="DAL\TestEntityDeserializer.cs" />
+    <Compile Include="DAL\TestFilterData.cs" />
     <Compile Include="DAL\TestHelperDataService.cs" />
     <Compile Include="DAL\TestInvoiceDataLayer.cs" />
     <Compile Include="DAL\TestMagnifierSetting.cs" />
     <Compile Include="DAL\TestMappingData.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
+    <Compile Include="DAL\TestQueryPagedAsync.cs" />
     <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
     <Compile Include="KarveDapper\TestKarveDapperAsync.cs" />
     <Compile Include="KarveDataServices\TestKarveDataServices.cs" />
@@ -196,14 +209,11 @@
     <Compile Include="Services\TestInteractionService.cs" />
     <Compile Include="TestBootStrapper.cs" />
     <Compile Include="ViewModels\TestToolBarViewModel.cs" />
-    <Compile Include="UI\GUITests.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
-    <Compile Include="UI\VehicleUITests.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
     <Compile Include="ViewModels\TestCommissionAgentInfoViewModel.cs" />
     <Compile Include="ViewModels\TestCompanyInfoViewModel.cs" />
     <Compile Include="ViewModels\TestCultureSwitcherViewModel.cs" />
-    <Compile Include="ViewModels\TestFareInfoViewModel.cs" />
     <Compile Include="ViewModels\TestGridChangeViewModel.cs" />
     <Compile Include="ViewModels\TestInvoiceControlViewModel.cs" />
     <Compile Include="ViewModels\TestKarveBaseViewModel.cs" />
@@ -215,7 +225,6 @@
     <Compile Include="ViewModels\TestKarveToolbarViewModel.cs" />
     <Compile Include="ViewModels\TestProviderControlViewModel.cs" />
     <Compile Include="ViewModels\TestProviderInfoViewModel.cs" />
-    <Compile Include="ViewModels\TestVehicleUpperBarViewModel.cs" />
     <Compile Include="ViewModels\TestVehicleInfoViewModel.cs" />
     <Compile Include="ViewModels\TestViewModelBase.cs" />
   </ItemGroup>

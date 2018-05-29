@@ -133,12 +133,16 @@ namespace KarveTest.DAL.Crud.Office
         {
             // arrange
             var loaderOffices = await _officeDataLoader.LoadAsyncAll();
+           
             var office = loaderOffices.FirstOrDefault<OfficeDtos>();
+            var officeCode = office.Codigo;
             office.Nombre = "HPEnterprise";
             // act
             bool value = await _officeDataSaver.SaveAsync(office);
             Assert.IsTrue(value);
             // assert
+            var item = await _officeDataLoader.LoadValueAsync(officeCode);
+
 
         }
         

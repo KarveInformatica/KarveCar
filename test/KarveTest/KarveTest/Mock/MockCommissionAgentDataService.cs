@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -11,12 +12,15 @@ namespace KarveTest.Mock
 {
     internal class MockCommissionAgentDataService : ICommissionAgentDataServices
     {
-        public Task<bool> DeleteCommissionAgent(ICommissionAgent commissionAgent)
+        public int NumberPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public long NumberItems { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Task<bool> DeleteDoAsync(ICommissionAgent commissionAgent)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteCommissionAgent(string sqlQuery, string commissionAgentId, DataSet set)
+        public bool DeleteDo(string sqlQuery, string commissionAgentId, DataSet set)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +39,7 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<DataSet> GetCommissionAgentSummary(bool paged = false, long pageSize = 0)
+        public Task<DataSet> GetDataSetSummaryAsync(bool paged = false, long pageSize = 0)
         {
             throw new NotImplementedException();
         }
@@ -60,12 +64,32 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetCommissionAgentSummaryDo()
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryDoAsync()
         {
             throw new NotImplementedException();
         }
 
         public Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, long pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetPageCount(int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new NotImplementedException();
         }

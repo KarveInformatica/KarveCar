@@ -20,6 +20,7 @@ namespace MasterModule.ViewModels
         [OneTimeSetUp]
         public void Setup()
         {
+           
            /* _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, 
                                                             _configurationService.Object, 
                                                             _dataServices.Object, 

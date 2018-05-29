@@ -24,7 +24,7 @@ namespace KarveTest.ViewModels
         private bool _showExecuted;
         private IDictionary<string, object> _eventDictionary;
         // set or Get
-        public IDictionary<string,object> EventDictionary { set; get; }
+       
         public TestViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IRegionManager manager, IInteractionRequestController controller) : base(eventManager, configurationService, dataServices, dialogService, manager, controller)
         {
         }
@@ -97,14 +97,6 @@ namespace KarveTest.ViewModels
                                                _mockRequestController.Object);
 
         }
-        [Test]
-        public void Should_Visit_Reseller()
-        {
-            VisitsDto visitDto = new VisitsDto();
-            visitDto.VisitId = "2892982";
-            visitDto.SellerId = "0000001";
-            _testViewModel.ResellerMagnifierCommand.Execute(visitDto);
-            var dictionary = _testViewModel.EventDictionary;
-        }
+       
     }
 }

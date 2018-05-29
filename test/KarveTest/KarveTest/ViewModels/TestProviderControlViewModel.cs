@@ -32,18 +32,18 @@ namespace KarveTest.ViewModels
         private ProvidersControlViewModel _providersControlViewModel = null;
         
         [Test]
-        private void Should_LoadSupplierSummary_Correctly()
+        public void Should_LoadSupplierSummary_Correctly()
         {
            
             List<SupplierSummaryDto> summary = new List<SupplierSummaryDto>()
             {
                 new SupplierSummaryDto()
                 {
-                    Commercial = "KARVE1",
+                    Comercial = "KARVE1",
                     CP = "192029",
                     Direccion = "Via Biancamano",
                     Direccion2 = "Via RosaFiori",
-                    F_AEAT = DateTime.Now,
+                    AEAT = DateTime.Now,
                     Nombre = "Named",
                     Codigo = "0003",
                     Poblacion = "Barcelona",
@@ -52,11 +52,11 @@ namespace KarveTest.ViewModels
                 },
                 new SupplierSummaryDto()
                 {
-                    Commercial = "KARVE2",
+                    Comercial = "KARVE2",
                     CP = "192029",
                     Direccion = "Via Biancamano",
                     Direccion2 = "Via RosaFiori",
-                    F_AEAT = DateTime.Now,
+                    AEAT = DateTime.Now,
                     Nombre = "Named",
                     Codigo = "0001",
                     Poblacion = "Barcelona",
@@ -65,11 +65,11 @@ namespace KarveTest.ViewModels
                 },
                 new SupplierSummaryDto()
                 {
-                    Commercial = "KARVE3",
+                    Comercial = "KARVE3",
                     CP = "192029",
                     Direccion = "Via Biancamano",
                     Direccion2 = "Via RosaFiori",
-                    F_AEAT = DateTime.Now,
+                    AEAT = DateTime.Now,
                     Nombre = "Named",
                     Codigo = "0002",
                     Poblacion = "Barcelona",

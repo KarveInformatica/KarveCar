@@ -1,10 +1,18 @@
 ﻿using DataAccessLayer.SQL;
+using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
-
+using Dapper;
+using KarveDapper;
+using System.Threading.Tasks;
+using KarveCommon.Generic;
 
 namespace KarveTest.DAL
 {
+    /// <summary>
+    /// This fixuture will craft a query
+    /// </summary>
+    [TestFixture]
     class TestBuildQuery
     {
         private QueryStoreFactory _storeFactory = new QueryStoreFactory();
@@ -33,13 +41,13 @@ namespace KarveTest.DAL
         [Test]
         public void Should_Build_QueryFromQueryStoreWithParam()
         {
-            CompanyDto dto = new CompanyDto
+            var dto = new CompanyDto
             {
                 CP = "1892829",
                 PROVINCIA = "282982",
                 Code = "282998"
             };
-            IQueryStore store = _storeFactory.GetQueryStore();
+            var store = _storeFactory.GetQueryStore();
             store.Clear();
             store.AddParam(QueryType.QueryCity, dto.CP);
             store.AddParam(QueryType.QueryProvince, dto.PROVINCIA);
@@ -84,6 +92,25 @@ namespace KarveTest.DAL
                 dto.Code);
             var q = store.BuildQuery();
             Assert.AreEqual(q, Query3);
+        }
+        [Test]
+        public async Task Should_Execute_AQueryWithFilters()
+        {
+            var store = _storeFactory.GetQueryStore();
+            var testBase = new TestBase();
+            var sqlExecutor = testBase.SetupSqlQueryExecutor();
+            var compositeQueryFilter = new QueryCompositeFilter();
+            var queryFilter1 = new QueryFilter("NOMBRE", "CIAL.*", Syncfusion.Data.PredicateType.And);
+            var queryFilter2 = new QueryFilter("POBLACION", "MAL.*", Syncfusion.Data.PredicateType.And);
+            compositeQueryFilter.Add(queryFilter1);
+            compositeQueryFilter.Add(queryFilter2);
+            store.AddParamFilter(QueryType.QueryClientPagedSummary,compositeQueryFilter);
+            var query = store.BuildQuery();
+            using (var dbConnection = sqlExecutor.OpenNewDbConnection())
+            {
+                var value = await dbConnection.QueryAsync<ClientSummaryExtended>(query);
+                Assert.NotNull(value);
+            }
         }
         
     }

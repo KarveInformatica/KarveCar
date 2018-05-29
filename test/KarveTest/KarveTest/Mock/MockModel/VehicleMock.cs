@@ -15,10 +15,13 @@ namespace KarveTest.DAL.Mock.MockModel
         public IEnumerable<BrandVehicleDto> BrandDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<ModelVehicleDto> ModelDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<ColorDto> ColorDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<OwnerDto> OwnerDtos { get; set; }
         public IEnumerable<VehicleGroupDto> VehicleGroupDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<MaintainanceDto> MaintenanceHistory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string AssistModelQuery => throw new NotImplementedException();
+        public IEnumerable<AgentDto> AgentsDto { get; set; }
+        public IEnumerable<ActividadDto> ActivityDtos { get; set; }
 
         public Task<bool> DeleteAsyncData()
         {

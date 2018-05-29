@@ -17,10 +17,11 @@ namespace KarveTest.ViewModels
     /// </summary>
     public class TestVehicleTypeViewModel 
     {
-       /// <summary>
-       ///  EventManager
-       /// </summary>
-        private IEventManager _eventManager = new MockEventManager();
+        /// <summary>
+        ///  EventManager
+        /// </summary>
+        private static Mock<IEventManager> mockEventManager = new Mock<IEventManager>();
+        private IEventManager _eventManager = mockEventManager.Object;
         /// <summary>
         ///  MockDataServices
         /// </summary>
@@ -90,7 +91,7 @@ namespace KarveTest.ViewModels
         {
             // I dont think at this point that the region manager is available.
             _vehicleTypeViewModel =
-                new VehicleTypesViewModel(_dataServices, _regionManager.Object, _eventManager);
+                new VehicleTypesViewModel(_dataServices, _regionManager.Object, _eventManager, null);
  
         }
     }

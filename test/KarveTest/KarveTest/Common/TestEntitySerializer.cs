@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Dapper;
+using DataAccessLayer;
 using DataAccessLayer.Crud;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
+using DataAccessLayer.Model;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using KarveTest.DAL;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
 
 namespace KarveTest.Common
 {
@@ -21,6 +24,7 @@ namespace KarveTest.Common
     class TestEntitySerializer
     {
         private readonly TestBase _testBase = new TestBase();
+        private readonly  QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
         private readonly IList<object> _entities = new List<object>() {
             new POBLACIONES(),
             new TIPOCLI(),
@@ -84,6 +88,129 @@ namespace KarveTest.Common
             store.AddParam(QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
             return store;
         }
+
+        [Test]
+        public async Task ShouldEntityDeserialize_Deserialize_AVehicleHelpersCorrectly()
+        {
+
+            var sqlExecutor = _testBase.SetupSqlQueryExecutor();
+            var ds = new DataServiceImplementation(sqlExecutor);
+            var vehicleDs = ds.GetVehicleDataServices();
+            var vehicleSummary = await vehicleDs.GetAsyncVehicleSummary();
+            var vehicleExt = vehicleSummary.FirstOrDefault();
+            var entityMapper = new EntityMapper();
+            if (vehicleExt != null)
+            {
+                var vehicle = await vehicleDs.GetVehicleDo(vehicleExt.Code);
+                var entities = new List<object>
+                {
+                    new MARCAS(),
+                    new PICTURES(),
+                    new ACTIVEHI(),
+                    new OwnerDto(),
+                    new AgentDto(),
+                    new MaintainanceDto(),
+                    new COLORFL(),
+                    new MODELO(),
+                    new GRUPOS()
+                };
+                var dto = new List<object>()
+                {
+                    new BrandVehicleDto(),
+                    new PictureDto(),
+                    new ActividadDto(),
+                    new OwnerDto(),
+                    new AgentDto(),
+                    new MaintainanceDto(),
+                    new ColorDto(),
+                    new ModelVehicleDto(),
+                    new VehicleGroupDto()
+                };
+                var vehicleValue = vehicle.Value;
+                var queryBuilder = _queryStoreFactory.GetQueryStore();
+                queryBuilder.AddParam(QueryType.QueryBrandByVehicle, vehicleValue.CODIINT);
+                queryBuilder.AddParam(QueryType.QueryVehiclePhoto, vehicleValue.CODIINT);
+                queryBuilder.AddParam(QueryType.QueryVehicleActivity, vehicleValue.ACTIVIDAD);
+                queryBuilder.AddParam(QueryType.QueryVehicleOwner, vehicleValue.PROPIE);
+                queryBuilder.AddParam(QueryType.QueryAgentByVehicle, vehicleValue.AGENTE);
+                queryBuilder.AddParam(QueryType.QueryVehicleMaintenance);
+                queryBuilder.AddParam(QueryType.QueryVehicleColor, vehicleValue.COLOR);
+                queryBuilder.AddParam(QueryType.QueryVehicleGroup, vehicleValue.GRUPO);
+                var queryModel =
+                    $"SELECT * FROM MODELO WHERE MARCA='{vehicleValue.MAR}' AND CODIGO='{vehicleValue.MO1}' AND VARIANTE='{vehicleValue.MO2}'";
+
+
+                var auxQuery = queryBuilder.BuildQuery();
+                auxQuery = auxQuery + queryModel + ";";
+                using (var connection = sqlExecutor.OpenNewDbConnection())
+                {
+                    if (!string.IsNullOrEmpty(auxQuery))
+                    {
+                        var reader = await connection.QueryMultipleAsync(auxQuery);
+                        if (reader != null)
+                        {
+                            var deserializer = new EntityDeserializer(entities, dto);
+                            var mappedEntity = entityMapper.Map(reader, deserializer);
+                            
+                        }
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public async Task ShouldEntityDeserialize_Deserialize_AVehicleGroupCorrectly()
+        {
+
+            var sqlExecutor = _testBase.SetupSqlQueryExecutor();
+            var ds = new DataServiceImplementation(sqlExecutor);
+            var vehicleDs = ds.GetVehicleDataServices();
+            var vehicleSummary = await vehicleDs.GetAsyncVehicleSummary();
+            var vehicleExt = vehicleSummary.FirstOrDefault();
+            var entityMapper = new EntityMapper();
+            if (vehicleExt != null)
+            {
+                var vehicle = await vehicleDs.GetVehicleDo(vehicleExt.Code);
+                var entities = new List<object>
+                {
+                    new MODELO(),
+                    new MARCAS(),
+                    new GRUPOS()
+                };
+                var dto = new List<object>()
+                {
+                    new ModelVehicleDto(),
+                    new BrandVehicleDto(),
+                    new VehicleGroupDto()
+                };
+                var vehicleValue = vehicle.Value;
+                var queryBuilder = _queryStoreFactory.GetQueryStore();
+                queryBuilder.AddParam(QueryType.QueryBrandByVehicle, vehicleValue.CODIINT);
+                queryBuilder.AddParam(QueryType.QueryVehicleGroup, vehicleValue.GRUPO);
+                var queryModel =
+                    $"SELECT * FROM MODELO WHERE MARCA='{vehicleValue.MAR}' AND CODIGO='{vehicleValue.MO1}' AND VARIANTE='{vehicleValue.MO2}';";
+
+
+                var auxQuery = queryBuilder.BuildQuery();
+                auxQuery = queryModel + auxQuery;
+                using (var connection = sqlExecutor.OpenNewDbConnection())
+                {
+                    if (!string.IsNullOrEmpty(auxQuery))
+                    {
+                        var reader = await connection.QueryMultipleAsync(auxQuery);
+                        if (reader != null)
+                        {
+                            var deserializer = new EntityDeserializer(entities, dto);
+                            var mappedEntity = entityMapper.Map(reader, deserializer);
+                            Assert.AreEqual(3, mappedEntity.Count);
+                        }
+                    }
+                }
+
+            }
+        }
+
+
         [Test]
         public async Task ShouldEntityDeserialize_Deserialize_AClientCorrectly()
         {

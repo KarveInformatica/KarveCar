@@ -260,5 +260,24 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<DtoTransfer>> GetPagedSummaryDoAsync<DtoTransfer, T>(int pageIndex, int pageSize)
+            where DtoTransfer : class
+            where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<DtoTransfer>> GetPagedSummaryDoAsync<DtoTransfer, T>(long pageIndex, int pageSize)
+            where DtoTransfer : class
+            where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetItemsCount<T>()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
