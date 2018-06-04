@@ -64,6 +64,7 @@ namespace KarveDapper.Extensions
             return obj;
         }
 
+
         /// <summary>
         /// Returns a list of entites from table "Ts".  
         /// Id of T must be marked with [Key] attribute.
@@ -96,7 +97,73 @@ namespace KarveDapper.Extensions
             return GetAllAsyncImpl<T>(connection, transaction, commandTimeout, sql, type);
         }
 
+        /// <summary>
+        ///  Returns a tuple where the first item is the number of items in database and the second item is the number of pages.
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="tableName"></param>
+        /// <returns>A tuple containing as first item the number of items, and the second items the number of pages</returns>
+        public static async Task<Tuple<int, int>> GetPageCount<T>(this IDbConnection connection, int pageSize = 100)
+        {
+            if (pageSize <= 0)
+            {
+                throw new ArgumentException();
+            }
+            // find a smart way to get the query 
+            var type = typeof(T);
+            var tableName = GetTableName(type);
+            var value = "SELECT COUNT(*) FROM " + tableName;
+            var pageCount = 0;
+            var numItems = 0; 
+            var numEnumerable =  await connection.QueryAsync<int>(value);
+            numItems = numEnumerable.FirstOrDefault();
+            
+            double items = numItems;
+            double pageDim = pageSize;
+            pageCount = (int)Math.Round(items / pageDim);
+            return new Tuple<int, int>(numItems, pageCount);
+        }
 
+
+        /// <summary>
+        /// This is a paged asynchronous.
+        /// </summary>
+        /// <typeparam name="T">Type of the summary</typeparam>
+        /// <param name="connection">Type of the connection</param>
+        /// <param name="index">Index where to start asking for th query</param>
+        /// <param name="pageSize">Dimension of the page</param>
+        /// <param name="transaction">Transacion</param>
+        /// <param name="commandTimeout">Timeout</param>
+        /// <returns>The list of paged filtered</returns>
+        public static async Task<IEnumerable<T>> GetPagedAsync<T>(this IDbConnection connection, 
+            long index, 
+            long pageSize,
+            string filter = "",
+            IDbTransaction transaction = null,
+            int? commandTimeout = null ) where T : class
+        {
+            if ((index <= 0)  || (pageSize <=0))
+            {
+                throw new System.ArgumentOutOfRangeException("Index " + index  + " and pageSize shall be positive, pageSize " + pageSize);
+            }
+            var type = typeof(T);
+            var name = GetTableName(type);
+            var baseString = "SELECT TOP {0} START AT {1} * FROM ";
+            var queryValue = "";
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                var formatString = baseString + name + " WHERE " + filter;
+                queryValue = string.Format(formatString, pageSize, index);
+            }
+            else
+            {
+                var formatString = baseString + name;
+                queryValue = string.Format(formatString, pageSize, index);
+            }
+            var returnValue = await connection.QueryAsync<T>(queryValue);
+            return returnValue;
+        }
+        
         private static async Task<IEnumerable<T>> GetAllAsyncImpl<T>(IDbConnection connection, IDbTransaction transaction, int? commandTimeout, string sql, Type type) where T : class
         {
             var result = await connection.QueryAsync(sql).ConfigureAwait(false);
@@ -255,7 +322,7 @@ namespace KarveDapper.Extensions
         {
             var type = typeof(T);
             var name = GetTableName(type);
-            string value = "SELECT * FROM " + name + ";";
+            var value = "SELECT * FROM " + name + ";";
             var returnValue = await connection.QueryAsync<T>(value);
             return returnValue;
         }
@@ -323,6 +390,40 @@ namespace KarveDapper.Extensions
             } while ((collection.Count() != 0) && (tries < 10));
             return id;
         }
+
+
+
+        static ulong GenerateBigNumber()
+        {
+            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            ulong value = 0;
+            var byteArray = new byte[8];
+            provider.GetBytes(byteArray);
+            try
+            {
+                value = BitConverter.ToUInt64(byteArray, 0);
+
+            }
+            catch (Exception e)
+            {
+                value = ulong.MaxValue;
+            }
+            return value;
+        }
+        static Tuple<string,string> ExtractQueryFromNumber(ulong value, string primaryKey, string name, int fieldSize)
+        {
+
+            StringBuilder builder = new StringBuilder();
+            var id = value.ToString().Substring(0, fieldSize);
+            id = id.PadLeft(fieldSize, '0');
+            builder.Append(" WHERE ");
+            builder.Append(primaryKey);
+            builder.Append("=");
+            builder.Append($"'{id}'");
+            var statement = $"select * from {name} " + builder.ToString();
+            return new Tuple<string,string>(statement, id);
+
+        }
         /// <summary>
         ///  This method is used for generate an unique number for  a primary key:
         ///  1. It generate 8 bytes from a crypto random generator.
@@ -346,51 +447,46 @@ namespace KarveDapper.Extensions
             PropertyInfo info = GetKeyAttribute<T>(entityValue);
             int fieldSize = GetFieldSize<T>(entityValue);
             StringBuilder builder = new StringBuilder();
-            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-            ulong value = 0;
             IEnumerable<T> collection = null;
             int tries = 0;
             string id = String.Empty;
+            if (fieldSize == 0)
+            {
+                fieldSize = 6;
+            }
             do
             {
-                var byteArray = new byte[8];
-                provider.GetBytes(byteArray);
-                //convert 8 bytes to a long
-                try
-                {
-                    value = BitConverter.ToUInt64(byteArray, 0);
-
-                }
-                catch (Exception e)
-                {
-                    var v = e;
-                }
+                var value = GenerateBigNumber();
                 if (info != null)
                 {
                     // ok this is a unique id. 6 is the default field size.
-                    if (fieldSize == 0)
-                    {
-                        fieldSize = 6;
-                    }
-                    id = value.ToString().Substring(0, fieldSize);
-                    id = id.PadLeft(fieldSize, '0');
-                    builder.Append(" WHERE ");
-                    builder.Append(info.Name);
-                    builder.Append("=");
-                    builder.Append($"'{id}'");
-                    var statement = $"select * from {name} " + builder.ToString();
+                    var statement = ExtractQueryFromNumber(value, info.Name, name, fieldSize);
+                    id = statement.Item2;
                     try
                     {
-                        collection = connection.Query<T>(statement);
+                        collection = connection.Query<T>(statement.Item1);
                     }
-                    catch (Exception e)
+                    finally 
                     {
-                        collection = new List<T>();
-                    }
-              
                         ++tries;
+                   
+                    }
                 }
-            } while ((collection.Count() != 0) && (tries < 10));
+            } while ((collection.Count() != 0) && (tries < 20));
+            if (collection.Count() != 0)
+            {
+                var statement = "SELECT count(*) from {name};";
+                try
+                {
+                    var number = connection.Query<T>(statement);
+                    var item = number.FirstOrDefault();
+                    id = item.ToString();
+                }
+                catch (Exception e)
+                {
+                    collection = new List<T>();
+                }
+            }
             return id;
         }
         /// <summary>
@@ -422,7 +518,7 @@ namespace KarveDapper.Extensions
                 for (var i = 0; i < keyProperties.Count; i++)
                 {
                     var property = keyProperties[i];
-                    sb.AppendFormat("{0}={1}", property.Name, property.GetValue(currentEntity).ToString());
+                    sb.AppendFormat("{0}='{1}'", property.Name, property.GetValue(currentEntity).ToString());
                     if (i < keyProperties.Count - 1)
                         sb.AppendFormat(" AND ");
                 }

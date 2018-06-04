@@ -36,6 +36,11 @@ namespace KarveCommon.Services
             }
             else
             {
+                if (payLoad.PrimaryKeyValue == null)
+                {
+                    NotifyObserverSubsystem(viewModuleId, payLoad);
+                    return;
+                }
                 // second chance
                 string primaryKeyValue = viewModuleId + "." + payLoad.PrimaryKeyValue;
                 if (_mailBox.ContainsKey(primaryKeyValue))
@@ -140,7 +145,10 @@ namespace KarveCommon.Services
         /// <param name="obs">Observer</param>
         public void RegisterObserver(IEventObserver obs)
         {
-            _observers.Add(obs);
+            if (!_observers.Contains(obs))
+            {
+                _observers.Add(obs);
+            }
         }
         /// <summary>
         /// Register observer system.
@@ -170,7 +178,10 @@ namespace KarveCommon.Services
 
         public void RegisterObserverToolBar(IEventObserver obs)
         {
-            _toolBar.Add(obs);
+            if (!_toolBar.Contains(obs))
+            {
+                _toolBar.Add(obs);
+            }
         }
 
         public void DeleteObserverSubSystem(string id, IEventObserver obs)
@@ -193,8 +204,11 @@ namespace KarveCommon.Services
                 IList<IEventObserver> value = null;
                 if (_notificationDisabled.TryGetValue(id, out value))
                 {
-                    value.Add(obs);
-                    _notificationDisabled[id] = value;
+                    if (!value.Contains(obs))
+                    {
+                        value.Add(obs);
+                        _notificationDisabled[id] = value;
+                    }
                 }
             }
             else

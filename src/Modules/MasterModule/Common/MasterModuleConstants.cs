@@ -37,8 +37,8 @@ namespace MasterModule.Common
         internal const string VehiclesSystemName = "VehiclesSystemName";
         internal const string FareSystemName = "FareSystemName";
         internal const string CommissionAgentSystemName = "CommissionAgentSystem";
-        internal const string ClientSubSystemName = "ClientSystemName";
-        internal const string CompanySubSystemName = "CompanySystemName";
+        public const string ClientSubSystemName = "ClientSystemName";
+        public const string CompanySubSystemName = "CompanySystemName";
         internal const string OfficeSubSytemName = "OfficeSubSystemName";
         internal const string FareSubsystem = "FareSubSystemName";
 

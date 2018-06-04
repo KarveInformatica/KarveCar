@@ -20,37 +20,19 @@ using DataAccessLayer.DataObjects;
 
 namespace KarveTest.ViewModels
 {
+    /// <summary>
+    ///  TODO: Test supplier info view model in isolation.
+    /// </summary>
     [TestFixture]
     internal class TestProviderInfoViewModel: TestViewModelBase
     {
+        /*
         private ProviderInfoViewModel _infoViewModel;
         private readonly Mock<ISupplierDataServices> _supplierDataServices = new Mock<ISupplierDataServices>();
         [OneTimeSetUp]
         public void SetUp()
         {
-            /*
-            _supplierDataServices.Setup(x => x.GetSupplierAsyncSummaryDo()).ReturnsAsync<Task<IEnumerable<SupplierSummaryDto>>>(
-                async ()=>{
-                    await Task.Delay(1);
-                    IEnumerable<SupplierSummaryDto> summaryDto = new List<SupplierSummaryDto>()
-                  {
-                     
-                      new SupplierSummaryDto()
-                      {
-                          Codigo = 1
-                      }
-                  };
-                  return summaryDto;
-              });
-            _infoViewModel = new ProviderInfoViewModel(_mockEventManager.Object,
-            _mockConfigurationService.Object,
-            _mockDataServices.Object,
-            _mockDialogService.Object,
-            _mockRegionManager.Object, 
-            _mockRequestController.Object);
-            */
-           // _supplierDataServices.Setup(x=>x.GetAsyncSupplierDo())
-         
+            
         }
 
         [Test]
@@ -74,7 +56,7 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        public async void Should_Update_ViewItem()
+        public async Task Should_Update_ViewItem()
         {
             IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
@@ -168,16 +150,16 @@ namespace KarveTest.ViewModels
         }
 
         [Test]
-        private async Task<ISupplierData> Should_Load_A_Supplier_Correctly()
+        public async Task Should_Load_A_Supplier_Correctly()
         {
             IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
             Assert.NotNull(value);
             ISupplierData dataObject = await _supplierDataServices.Object.GetAsyncSupplierDo(value.Codigo);
             Assert.AreEqual(value, dataObject.Value.NUM_PROVEE);
-            return dataObject;
+           
         }
-        private async Task<ISupplierData> ArrangeDataObject()
+        public async Task<ISupplierData> ArrangeDataObject()
         {
             IEnumerable<SupplierSummaryDto> summary = await _supplierDataServices.Object.GetSupplierAsyncSummaryDo();
             var value = summary.FirstOrDefault();
@@ -239,5 +221,6 @@ namespace KarveTest.ViewModels
             eventDictionary["DataParameters"] = dataObject;
             _infoViewModel.ItemChangedCommand.Execute(eventDictionary);
         }
+        */
     }
 }

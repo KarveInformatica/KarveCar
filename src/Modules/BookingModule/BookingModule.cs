@@ -1,4 +1,5 @@
-﻿using BookingModule.Views;
+﻿using BookingModule.ViewModels;
+using BookingModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
@@ -29,7 +30,10 @@ namespace BookingModule
         {
             _container.RegisterType<object, BookingControlView>("BookingSummary");
             _container.RegisterTypeForNavigation<BookingInfoView>();
+            _container.RegisterType<object, BookingInfoViewModel>("BookingInfoViewModel");
             _container.RegisterType<object, BookingFooterView>("BookingFooterView");
+            _container.RegisterType<object, BookingDrivers>();
+            _container.RegisterType<object, BookingDataView>();
         }
     }
 }

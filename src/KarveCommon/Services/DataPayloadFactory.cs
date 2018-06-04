@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using KarveDataServices;
 
 namespace KarveCommon.Services
 {
@@ -9,6 +11,11 @@ namespace KarveCommon.Services
     public class DataPayloadFactory
     {
         private static DataPayloadFactory _payLoad;    
+        
+        private DataPayloadFactory()
+        {
+
+        }
         /// <summary>
         /// Get instance.
         /// </summary>
@@ -35,7 +42,35 @@ namespace KarveCommon.Services
             return payload;
         }
 
+        public DataPayLoad BuildInsertPayLoadDo<T>(string name, T Object, DataSubSystem subSystem, string route, string sender = "", Uri objectPath = null, IDictionary<string, string> queries = null)
+        {
+            var currentPayload = BuildDefaultPayLoad<T>(name, Object, subSystem, route, sender, objectPath, queries);
+            currentPayload.PayloadType = DataPayLoad.Type.Insert;
+            return currentPayload;
 
+        }
+        public DataPayLoad BuildShowPayLoadDo<T>(string name, T Object, DataSubSystem subSystem, string route, string sender = "", Uri objectPath = null, IDictionary<string, string> queries = null)
+        {
+            var currentPayload = BuildDefaultPayLoad<T>(name, Object, subSystem, route, sender, objectPath, queries);
+            currentPayload.PayloadType = DataPayLoad.Type.Show;
+            return currentPayload;
+        }
+        private DataPayLoad BuildDefaultPayLoad<T>(string name, T Object, DataSubSystem subSystem, string route, string sender = "", Uri objectPath = null, IDictionary<string, string> queries = null)
+        {
+            var currentPayload = new DataPayLoad();
+            var routedName = route;
+            currentPayload.Registration = routedName;
+            currentPayload.HasDataObject = true;
+            currentPayload.Subsystem = subSystem;
+            currentPayload.DataObject = Object;
+            currentPayload.Sender = sender;
+            currentPayload.ObjectPath = objectPath;
+            if (queries != null)
+            {
+                currentPayload.Queries = queries;
+            }
+            return currentPayload;
+        }
 
     };
 }

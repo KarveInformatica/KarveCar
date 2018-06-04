@@ -12,15 +12,30 @@ namespace KarveCommon.Services
     /// <typeparam name="T">Kind of payload.</typeparam>
         public class PayloadInterpeter<T>
         {
+        /// <summary>
+        ///  Delegate that defines a view model initializer when it received a datapayload. It allows to express
+        ///  the action to be done in that case.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="payLoad"></param>
+        /// <param name="insertion"></param>
             public delegate void ViewModelInitializer(string value, DataPayLoad payLoad, bool insertion);
+        /// <summary>
+        ///  Delegate that defines a view model cleaner when it received a data payload.
+        /// </summary>
+        /// <param name="payLoad"></param>
+        /// <param name="subSystem"></param>
+        /// <param name="subsystemName"></param>
+            public delegate void Dispose(DataPayLoad payLoad, DataSubSystem subSystem, string subsystemName);
 
-            public delegate void Dispose(string primaryKey, DataSubSystem subSystem, string subsystemName);
-             /// <summary>
-             ///  Initializer of the model.
+        private enum InterpeterState { Initialized, CleanedUp, None };
+            /// <summary>
+             ///  Initializer of the model. It is has used to call an Init method to be set from the user.
+             ///  Currently the user is a view model when it hands a message coming from the EventManager/Mediator.
              /// </summary>
             public  ViewModelInitializer Init { set; get;  }
             /// <summary>
-            ///     Function to dispose the model.
+            ///  Function to dispose the model.
             /// </summary>
             public Dispose CleanUp { set; get; }
             
@@ -42,7 +57,7 @@ namespace KarveCommon.Services
                 }
             }
         /// <summary>
-        /// ActionOnPayload. This function acts on a payload calling cleanup or init delegates.
+        /// ActionOnPayload. This metion acts on a payload calling cleanup or init delegates.
         /// </summary>
         /// <param name="payLoad">Incoming payload</param>
         /// <param name="primaryKeyValue">Primary Key of the view model.</param>
@@ -75,6 +90,7 @@ namespace KarveCommon.Services
                     }
                     case DataPayLoad.Type.Insert:
                     {
+                       
                         if (string.IsNullOrEmpty(primaryKeyValue))
                         {
                             primaryKeyValue = newId;
@@ -87,7 +103,8 @@ namespace KarveCommon.Services
 
                         if (primaryKeyValue == payLoad.PrimaryKey)
                         {
-                            CleanUp?.Invoke(primaryKeyValue, subSystem, subsystemName);
+                                CleanUp?.Invoke(payLoad, subSystem, subsystemName);
+                                
                         }
 
                         break;

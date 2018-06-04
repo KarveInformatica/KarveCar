@@ -59,7 +59,7 @@ namespace ToolBarModule.Command
 
             // here i simply dont trust the incoming payload.
             var invoiceDs = DataServices.GetInvoiceDataServices();
-            var currentInvoice = await invoiceDs.GetInvoiceDoAsync(invoiceData.NUMERO_FAC);
+            var currentInvoice = await invoiceDs.GetDoAsync(invoiceData.NUMERO_FAC);
             if ((currentInvoice == null) || (currentInvoice is NullInvoice))
             {
                 payLoad.PayloadType = DataPayLoad.Type.Insert;

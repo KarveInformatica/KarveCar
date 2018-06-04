@@ -96,7 +96,7 @@ namespace DataAccessLayer
         ///  Retrieve the list of all commission agents and convert them in a data transfer object list.
         /// </summary>
         /// <returns>The list of commission agents</returns>
-        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryDoAsync()
+        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryAllAsync()
         {
             IEnumerable<CommissionAgentSummaryDto> summary = new ObservableCollection<CommissionAgentSummaryDto>();
             var store = _queryStoreFactory.GetQueryStore();
@@ -121,40 +121,15 @@ namespace DataAccessLayer
             }
             return summary;
         }
-        /// <summary>
-        /// This is the generation of an unique identifier.
-        /// </summary>
-        /// <returns>Identifier of the commission agents</returns>
-        public string GetNewId()
-        {
-            var id = string.Empty;
-            using (var conn = _sqlExecutor.OpenNewDbConnection())
-            {
-                try
-                {
-                    var comisio = new COMISIO();
-                    id = conn.UniqueId<COMISIO>(comisio);
-
-                }
-                catch (System.Exception ex)
-                {
-                    throw new DataLayerException("CommissionAgentNewId", ex);
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-            return id;
-        }
+       
         /// <summary>
         /// New commission agent
         /// </summary>
         /// <returns>Returns the commission agent.</returns>
-        public ICommissionAgent GetNewCommissionAgentDo()
+        public ICommissionAgent GetNewDo()
         {
             var factory = CommissionAgentFactory.GetFactory(_sqlExecutor);
-            var id = GetNewId();
+            var id = NewId();
             logger.Debug("GetCommissionAgent " + id);
             var agent =  factory.NewCommissionAgent(id);
             return agent;
@@ -163,7 +138,7 @@ namespace DataAccessLayer
         /// New commission agent
         /// </summary>
         /// <returns>Returns the commission agent.</returns>
-        public ICommissionAgent GetNewCommissionAgentDo(string id)
+        public ICommissionAgent GetNewDo(string id)
         {
             var factory = CommissionAgentFactory.GetFactory(_sqlExecutor);
             var agent = factory.NewCommissionAgent(id);
@@ -174,7 +149,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="commissionAgent">Commission Agent to be saved.</param>
         /// <returns>Returns true if the commission agent has been changed.</returns>
-        public async Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
+        public async Task<bool> SaveAsync(ICommissionAgent commissionAgent)
         {
             var isPresent = false;
             using (var connection = _sqlExecutor.OpenNewDbConnection())
@@ -201,7 +176,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="commissionAgent">Commission agent saved.</param>
         /// <returns>True when the commission agent has been deleted.</returns>
-        public async Task<bool> DeleteDoAsync(ICommissionAgent commissionAgent)
+        public async Task<bool> DeleteAsync(ICommissionAgent commissionAgent)
         {
             var value = false;
 
@@ -222,19 +197,6 @@ namespace DataAccessLayer
         }
         
         /// <summary>
-        /// This return the query paged summary
-        /// </summary>
-        /// <param name="pageIndex">Index of the page</param>
-        /// <param name="pageSize">Size of the page</param>
-        /// <returns></returns>
-        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize)
-        {
-            var paged = new DataPager<CommissionAgentSummaryDto>(_sqlExecutor);
-            NumberPage = await GetPageCount(pageSize);
-            var pagedValue = await paged.GetPagedSummaryDoAsync(QueryType.QueryCommissionAgentPaged, pageIndex, pageSize);
-            return pagedValue;
-        }
-        /// <summary>
         ///  This returns a sorted summary sorted and extended collection.
         /// </summary>
         /// <param name="sortChain">Sort direction</param>
@@ -252,5 +214,40 @@ namespace DataAccessLayer
             return datas;
         }
 
+        public string NewId()
+        {
+            var id = string.Empty;
+            using (var conn = _sqlExecutor.OpenNewDbConnection())
+            {
+                try
+                {
+                    var comisio = new COMISIO();
+                    id = conn.UniqueId<COMISIO>(comisio);
+
+                }
+                catch (System.Exception ex)
+                {
+                    throw new DataLayerException("CommissionAgentNewId", ex);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return id;
+        }
+        public async  Task<ICommissionAgent> GetDoAsync(string code)
+        {
+            var agent = await GetCommissionAgentDo(code).ConfigureAwait(false);
+            return agent;
+        }
+
+        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
+        {
+            var paged = new DataPager<CommissionAgentSummaryDto>(_sqlExecutor);
+            NumberPage = await GetPageCount(pageSize);
+            var pagedValue = await paged.GetPagedSummaryDoAsync(QueryType.QueryCommissionAgentPaged, pageIndex, pageSize);
+            return pagedValue;
+        }
     }
 }

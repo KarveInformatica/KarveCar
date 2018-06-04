@@ -18,38 +18,27 @@ namespace KarveControls.Interactivity.Notifications
     /// </summary>
     public class ItemSelectionNotification : Confirmation, INotifyPropertyChanged
     {
-        private readonly object[] _items;
-        private IncrementalList<object> _incrementalList;
+        private object _incrementalList;
         private long _gridIdentifier;
         private ICommand _gridInitCommand;
 
         public ItemSelectionNotification()
         {
-            _incrementalList = new IncrementalList<object>(LoadMoreItems);
             this.SelectedItem = null;
         }
-        protected void LoadMoreItems(uint count, int baseIndex)
-        {
-            var list = _items.Skip(baseIndex).Take(100).ToList();
-            if (Items is IncrementalList<object> summary)
-            {
-                summary.LoadItems(list);
-            }
-        }
+        
 
 
         public ItemSelectionNotification(IEnumerable items)
             : this()
         {
-            _items = items as object[] ?? items.Cast<object>().ToArray();
-            Items= new IncrementalList<object>(LoadMoreItems) { MaxItemCount = _items.ToList<object>().Count()};
-            var item = _items.ToList<object>().Take(100);
-            Items.LoadItems(item);
+            Items = items;
+        
         }
         /// <summary>
         /// IncrementalList of utems.
         /// </summary>
-        public IncrementalList<object> Items
+        public object Items
         {
             get => _incrementalList;
             set

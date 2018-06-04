@@ -203,7 +203,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the PALBARAN property.
     /// </summary>
     
-		public Boolean? PALBARAN { get; set; }
+		public char? PALBARAN { get; set; }
  
 	/// <summary>
     ///  Set or get the EXCLUSIVIDAD property.
@@ -241,18 +241,7 @@ namespace DataAccessLayer.DataObjects
     
 		public byte? PRUEBA { get; set; }
  
-	/// <summary>
-    ///  Set or get the OLDNUMPR property.
-    /// </summary>
-    
-		public string OLDNUMPR { get; set; }
- 
-	/// <summary>
-    ///  Set or get the NEWNUMPR property.
-    /// </summary>
-    
-		public string NEWNUMPR { get; set; }
- 
+	
 	/// <summary>
     ///  Set or get the TELF_ATENCION property.
     /// </summary>

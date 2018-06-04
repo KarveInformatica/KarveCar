@@ -89,6 +89,8 @@
   <ItemGroup>
     <Compile Include="MockRegionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestBookingControlViewModel.cs" />
+    <Compile Include="TestIntegrationBase.cs" />
     <Compile Include="TestInvoiceInfoViewModel.cs" />
     <Compile Include="ToolbarIntegrationTests.cs" />
   </ItemGroup>

@@ -124,7 +124,7 @@ namespace MasterModule.ViewModels
         ///  Incoming Payload
         /// </summary>
         /// <param name="payload">Data payload</param>
-        public void IncomingPayload(DataPayLoad payload)
+        public override void IncomingPayload(DataPayLoad payload)
         {
             
 

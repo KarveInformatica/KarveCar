@@ -15,16 +15,7 @@ namespace KarveTest.Mock
         public int NumberPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public long NumberItems { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Task<bool> DeleteDoAsync(ICommissionAgent commissionAgent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteDo(string sqlQuery, string commissionAgentId, DataSet set)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<DataSet> GetCommissionAgent(IDictionary<string, string> query)
+        public Task<bool> DeleteAsync(ICommissionAgent booking)
         {
             throw new NotImplementedException();
         }
@@ -44,37 +35,12 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public ICommissionAgent GetNewCommissionAgentDo()
+        public Task<ICommissionAgent> GetDoAsync(string code)
         {
             throw new NotImplementedException();
         }
 
-        public ICommissionAgent GetNewCommissionAgentDo(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetNewId()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveChangesCommissionAgent(ICommissionAgent commissionAgent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryDoAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, long pageSize)
+        public ICommissionAgent GetNewDo(string value)
         {
             throw new NotImplementedException();
         }
@@ -84,12 +50,27 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize)
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             throw new NotImplementedException();
         }
 
         public Task<IEnumerable<CommissionAgentSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string NewId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveAsync(ICommissionAgent bookingData)
         {
             throw new NotImplementedException();
         }

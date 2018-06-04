@@ -897,7 +897,7 @@ namespace MasterModule.ViewModels
         /// Incoming payload . Refactor to the upper master layer.
         /// </summary>
         /// <param name="dataPayLoad">Payload to be used.</param>
-        public void IncomingPayload(DataPayLoad dataPayLoad)
+        public override void IncomingPayload(DataPayLoad dataPayLoad)
         {
             DataPayLoad payload = dataPayLoad;
 

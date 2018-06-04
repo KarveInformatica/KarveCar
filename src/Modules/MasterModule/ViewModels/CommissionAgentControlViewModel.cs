@@ -61,13 +61,14 @@ namespace MasterModule.ViewModels
             _dataServices = services;
             _commissionAgentDataServices = _dataServices.GetCommissionAgentDataServices();
             _dialogService = dialogService;
+            DefaultPageSize = 500;
             ItemName = KarveLocale.Properties.Resources.lrbtnComisionistas;
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
 
         }
         /// <summary>
-        ///  This allows to opena a new item.
+        ///  This allows to open a new item.
         /// </summary>
         public ICommand OpenItem
         {
@@ -76,9 +77,13 @@ namespace MasterModule.ViewModels
         get { return OpenItemCommand; }
 
         }
-        protected override void OnSortCommand(object obj)
+        /// <summary>
+        ///  This the answer to the sort direction.
+        /// </summary>
+        /// <param name="obj"></param>
+        protected override void OnSortCommand(object ev)
         {
-            var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
+            var sortedDictionary = ev as Dictionary<string, ListSortDirection>;
             _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(_commissionAgentDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _commissionAgentEventTask);
         }
 
@@ -107,6 +112,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         private void InitViewModel()
         {
+            ViewModelUri = new Uri("karve://broker/viewmodel?id=" + UniqueId);
             GridIdentifier = GridIdentifiers.CommissionAgent;
             GridId = GridIdentifiers.CommissionAgent;
             MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
@@ -115,6 +121,7 @@ namespace MasterModule.ViewModels
             _commissionAgentEventTask += OnNotifyIncrementalList<CommissionAgentSummaryDto>;
             EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
             PagingEvent += OnPagedEvent;
+            ActiveSubSystem();
             StartAndNotify();
         }
         /// <summary>
@@ -216,10 +223,12 @@ namespace MasterModule.ViewModels
         public override void IncomingPayload(DataPayLoad payload)
         {
         }
+
+       
         public override void StartAndNotify()
         {
             var commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
-            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(commissionAgentDataServices.GetSummaryDoAsync(), _commissionAgentEventTask);
+            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(commissionAgentDataServices.GetPagedSummaryDoAsync(1,DefaultPageSize), _commissionAgentEventTask);
         }
         /// <summary>
         ///  Each viewmodel uses the event manager for handling messages and has unique id.
@@ -250,7 +259,7 @@ namespace MasterModule.ViewModels
         protected override void NewItem()
         {
             string name = "NuevoCommisionista";
-            string codigo = DataServices.GetCommissionAgentDataServices().GetNewId();
+            string codigo = DataServices.GetCommissionAgentDataServices().NewId();
             // move this to the configuration service.
             ICommissionAgentView view = _container.Resolve<CommissionAgentInfoView>();
             // TODO: use the navigation service.
@@ -268,7 +277,7 @@ namespace MasterModule.ViewModels
             currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
-            currentPayload.DataObject = DataServices.GetCommissionAgentDataServices().GetNewCommissionAgentDo(codigo);
+            currentPayload.DataObject = DataServices.GetCommissionAgentDataServices().GetNewDo(codigo);
             currentPayload.HasDataObject = true;
             currentPayload.Sender = EventSubsystem.CommissionAgentSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, currentPayload);
@@ -289,6 +298,7 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CommissionAgentSubystem;
+            payLoad.Sender = ViewModelUri.ToString();
         }
 
         public  long GridId { get; set; }
@@ -320,7 +330,7 @@ namespace MasterModule.ViewModels
         public override async Task<bool> DeleteAsync(string commissionId, DataPayLoad payLoad)
         {
             var comisio = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(commissionId);
-            var retValue = await DataServices.GetCommissionAgentDataServices().DeleteDoAsync(comisio);
+            var retValue = await DataServices.GetCommissionAgentDataServices().DeleteAsync(comisio);
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, payLoad);
             return retValue;
         }

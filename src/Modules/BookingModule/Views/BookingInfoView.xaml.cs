@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace BookingModule.Views
@@ -17,7 +18,7 @@ namespace BookingModule.Views
     /// <summary>
     /// Interaction logic for BookingInfoView.xaml
     /// </summary>
-    public partial class BookingInfoView : Window
+    public partial class BookingInfoView : UserControl
     {
         public BookingInfoView()
         {

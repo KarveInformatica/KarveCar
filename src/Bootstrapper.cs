@@ -149,7 +149,7 @@ namespace KarveCar.Boot
 
                 Container.RegisterType<IInteractionRequestController, KarveControls.Interactivity.RequestController>(new ContainerControlledLifetimeManager(), injectContainer);
                 Container.RegisterType<KarveControls.Interactivity.Views.InteractionRequestView>();
-               Container.RegisterType<KarveControls.Interactivity.ViewModels.InteractionRequestViewModel>();
+                Container.RegisterType<KarveControls.Interactivity.ViewModels.InteractionRequestViewModel>();
             }
             catch (Exception e)
             {
@@ -197,6 +197,8 @@ namespace KarveCar.Boot
                 Container.Resolve<ClientsInfoView>();
                 Container.Resolve<VehicleInfoView>();
                 Container.Resolve<DriverLicenseView>();
+                Container.Resolve<BookingModule.Views.BookingInfoView>();
+
                 IMapper mapper = MapperField.GetMapper();
             } catch (Exception e)
             {

@@ -17,6 +17,7 @@ namespace KarveCommon.Services
         
         Enumerations.ResourceSource GetLocaleType();
         string GetConnectionString();
+        
 
     }
 }

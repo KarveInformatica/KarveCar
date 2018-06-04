@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer;
-using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
 using InvoiceModule.ViewModels;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
-using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
 using NUnit.Framework.Internal;
 using NUnit.Framework;
-using KarveTest.DAL;
 using Moq;
 using Prism.Regions;
 
@@ -24,28 +18,16 @@ namespace KarveCar.Integration
     /*
      *  Integration on a test base.
      */
-    internal class IntegrateTestInvoiceInfoViewModel
+    internal class IntegrateTestInvoiceInfoViewModel: TestIntegrationBase
     {
-        private readonly TestBase _testBase = new TestBase();
-        private readonly Mock<IEventManager> _eventManager = new Mock<IEventManager>();
-        private readonly Mock<IDialogService> _dialogServices = new Mock<IDialogService>();
-        private readonly Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
-        private readonly Mock<IInteractionRequestController> _controller = new Mock<IInteractionRequestController>();
-
-        private IDataServices SetupDataServices()
-        {
-            var executor = _testBase.SetupSqlQueryExecutor();
-            var dataServices = new DataServiceImplementation(executor);
-            return dataServices;
-        
-        }
+      
         [Test]
         public async Task ShouldIntegrate_Assist_InvoiceOnInvoiceSummary()
         {
             // prepare
             var dataServices = SetupDataServices();
             var invoiceDs = dataServices.GetInvoiceDataServices();
-            var summaryDs = await invoiceDs.GetInvoiceSummaryAsync();
+            var summaryDs = await invoiceDs.GetPagedSummaryDoAsync(1,10);
             var viewModel = new InvoiceInfoViewModel(dataServices, _dialogServices.Object, _eventManager.Object,
                 _regionManager.Object, _controller.Object);
             IDictionary<string, string>  controlDictionary = new Dictionary<string, string>();
@@ -79,7 +61,7 @@ namespace KarveCar.Integration
             var singleInvoice = invoiceSummary.FirstOrDefault();
             if (singleInvoice != null)
             {
-                var invoiceDto = await invoiceServices.GetInvoiceDoAsync(singleInvoice.InvoiceName);
+                var invoiceDto = await invoiceServices.GetDoAsync(singleInvoice.InvoiceName);
                 var dataPayLoad = new DataPayLoad()
                 {
                     PayloadType = DataPayLoad.Type.Show,

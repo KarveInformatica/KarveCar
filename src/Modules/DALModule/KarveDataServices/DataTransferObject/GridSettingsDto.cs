@@ -31,5 +31,10 @@ namespace KarveDataServices.DataTransferObject
         ///  Last modification of the grid.
         /// </summary>
         public DateTime LastModification { get; set; }
+
+        /// <summary>
+        ///  columns for a grid.
+        /// </summary>
+        public IEnumerable<string> AllowedColumns;
     }
 }

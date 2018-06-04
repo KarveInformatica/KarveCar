@@ -27,6 +27,7 @@ namespace DataAccessLayer.SQL
         QueryClientContacts,
         QueryClient1,
         QueryClient2,
+        QueryClientById,
         DeleteClientContacts,
         DeleteClientBranches,
         DeleteClientVisits,
@@ -88,6 +89,8 @@ namespace DataAccessLayer.SQL
         QueryBookingItems,
         QueryContractSummary,
         QueryContractSummaryPaged,
-        QueryBookedPaged
+        QueryBookedPaged,
+        QueryBank,
+        QuerySuppliersContacts
     };
 }

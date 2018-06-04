@@ -95,7 +95,7 @@ namespace DataAccessLayer
                 return false;
             }
             var currentValue = data.Value;
-            var simpleResult = await _dataDeleter.DeleteAsync(currentValue);
+            var simpleResult = await _dataDeleter.DeleteAsync(currentValue).ConfigureAwait(false);
             return simpleResult;
         }
         /// <summary>
@@ -124,7 +124,7 @@ namespace DataAccessLayer
         /// <returns>This returns a booking data</returns>
         public async Task<IBookingData> GetAsyncDo(string identifier)
         {
-            var reservas = await _dataLoader.LoadValueAsync(identifier);
+            var reservas = await _dataLoader.LoadValueAsync(identifier).ConfigureAwait(false);
             var reservation = new Reservation();
             if (reservas != null)
             {
@@ -174,7 +174,10 @@ namespace DataAccessLayer
             return bookingList;
         }
       
-
+        /// <summary>
+        /// Get Summary all asynchronously
+        /// </summary>
+        /// <returns>Return a booking summary data object</returns>
 
         public async Task<IEnumerable<BookingSummaryDto>> GetSummaryAllAsync()
         {
@@ -196,11 +199,15 @@ namespace DataAccessLayer
         ///  Get Data Object asynchronous
         /// </summary>
         /// <param name="code">Code</param>
-        /// <returns></returns>
+        /// <returns>Returns  booking data.</returns>
         public async Task<IBookingData> GetDoAsync(string code)
         {
             var bookingData = await _dataLoader.LoadValueAsync(code);
-            var data = new Reservation {Value = bookingData, IsValid = bookingData.IsValid, ItemsDtos=bookingData.BookingItems};            
+            IBookingData data = new NullReservation();
+            if ((bookingData != null) && (bookingData.IsValid))
+            {
+                data = new Reservation { Value = bookingData, IsValid = bookingData.IsValid, ItemsDtos = bookingData.Items };
+            }       
             return data;
         }
 
@@ -226,7 +233,7 @@ namespace DataAccessLayer
         public async Task<bool> DeleteAsync(IBookingData booking)
         {
             var book = booking.Value;
-            var value = await _dataDeleter.DeleteAsync(book);
+            var value = await _dataDeleter.DeleteAsync(book).ConfigureAwait(false);
             return value;
         }
         /// <summary>
@@ -243,7 +250,7 @@ namespace DataAccessLayer
             if (pageStart == 0)
                 pageStart = 1;
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
-            var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryBookingPaged, pageStart, pageSize);
+            var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryBookingPaged, pageStart, pageSize).ConfigureAwait(false);
             return datas;
         }
 

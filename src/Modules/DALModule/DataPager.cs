@@ -60,6 +60,14 @@ namespace DataAccessLayer
             return pagedList;
         }
 
+        /// <summary>
+        ///  This retrive the data paged and sorted.
+        /// </summary>
+        /// <param name="queryTemplate">Kind of query</param>
+        /// <param name="sortChain">Direction to sorting</param>
+        /// <param name="pageIndex">Starting page to index</param>
+        /// <param name="pageSize">Page dimension</param>
+        /// <returns>A list of data objects</returns>
         public async Task<IEnumerable<T>> GetPagedSummaryDoSortedAsync(QueryType queryTemplate, Dictionary<string, ListSortDirection> sortChain, long pageIndex, long pageSize)
         {
             var store = _factory.GetQueryStore();
@@ -88,6 +96,12 @@ namespace DataAccessLayer
             return pagedList;
 
         }
+        /// <summary>
+        /// Count the list of pages and the number of items of given table
+        /// </summary>
+        /// <param name="pageSize">Dimension of the page</param>
+        /// <param name="tableName">Table of the pages</param>
+        /// <returns>A tuple where the first item is the number of items and the second the pageCount</returns>
         public async Task<Tuple<int,int>> GetPageCount(int pageSize, string tableName)
         {
             if (pageSize <= 0)

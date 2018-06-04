@@ -5,7 +5,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     /// Vehicle group dto. 
     /// </summary>
-    public class VehicleGroupDto
+    public class VehicleGroupDto: BaseDto
     {
         /// <summary>
         ///  Set or get the CODIGO property.

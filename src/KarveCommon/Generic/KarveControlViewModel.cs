@@ -14,6 +14,11 @@ namespace KarveCommon.Generic
 {
     /// <summary>
     ///  Generic class implementation for a KarveControlViewModel.
+    ///  We have two kind of view models. A control view model has the resposability to trigger new view using a view first approach
+    ///  or  a view model first approach. 
+    ///  A view first approach is when the view is created before and launched the view model.
+    ///  A view model first approach is when the view model is composed and than associated to a view. 
+    ///  The second is used for headered view (cabecera-linea) mainly since it enables the reuse. 
     /// </summary>
     public abstract class KarveControlViewModel : KarveRoutingBaseViewModel, INavigationAware, IEventObserver, IDisposeEvents
     {
@@ -30,15 +35,21 @@ namespace KarveCommon.Generic
             PagingEvent += OnPagedEvent;
         }
 
-
-
         /// <summary>
-        ///  This command is useful for opening a new window.
+        /// Command for opening a new view from each control view model.
         /// </summary>
         public ICommand OpenCommand { set; get; }
 
         /// <summary>
-        ///  StartLoading and notiy
+        /// This function start the incremental load for the view model.
+        /// The process is always the same:
+        /// 1. Get the appropriate service from data service repository
+        /// 2. Launch a async+wait command to retrieve the paged data (first page).
+        /// 3. The result has been notified through a Task Completion.
+        /// 4. The event handler call the base class to check the result.
+        /// 4.1. If the result is correct we trigger a SetResult in this class.
+        /// 4.2. If the result is not correct we show a dialog service.
+        /// 5. Get load incremenentally the data.
         /// </summary>
         public abstract void StartAndNotify();
         /// <summary>
@@ -52,22 +63,7 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="payLoad">Payload to be registered</param>
         protected abstract override void SetRegistrationPayLoad(ref DataPayLoad payLoad);
-        /// <summary>
-        /// Navigate to the view
-        /// </summary>
-        /// <param name="code">Code of the view to navigate</param>
-        /// <param name="viewName">Viewname to view</param>
-        protected void Navigate<T>(IRegionManager manager, string code, string viewName)
-        {
-            var navigationParameters = new NavigationParameters
-            {
-                {"id", code},
-                {ScopedRegionNavigationContentLoader.DefaultViewName, viewName}
-            };
-            var uri = new Uri(typeof(T).FullName + navigationParameters, UriKind.Relative);
-            manager.
-                RequestNavigate("TabRegion", uri);
-        }
+       
 
         public override void DisposeEvents()
         {
@@ -76,20 +72,40 @@ namespace KarveCommon.Generic
 
         }
         /// <summary>
-        ///  The idea here is to provide safe default.
+        ///  Prism navigation support. 
+        ///  We provide a default for avoiding spreading the navigation in the hierarchy
         /// </summary>
         /// <param name="navigationContext"></param>
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
 
         }
+        /// <summary>
+        ///  Prism navigation support. 
+        ///  We provide a default for avoiding spreading the navigation in the hierarchy
+        /// </summary>
+        /// <param name="navigationContext"></param>
+        /// 
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return false;
         }
+        /// <summary>
+        ///  Prism navigation support. 
+        ///  We provide a default for avoiding spreading the navigation in the hierarchy
+        /// </summary>
+        /// <param name="navigationContext">Context of the navigation</param>
+        /// 
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+        /// <summary>
+        ///  The event manager (Mediator pattern) send a payload to a distinct subsystem.
+        ///  Each member that is an event observer (Observer pattern) receives a data payload.
+        ///  A DataPayload is an object to comunicate between view models and it can contains any data.
+        ///  It is serializable in XML.
+        /// </summary>
+        /// <param name="payload">Payload to be handle</param>
         public virtual void IncomingPayload(DataPayLoad payload)
         {
 

@@ -38,7 +38,7 @@ namespace MasterModule.ViewModels
         ///  Receive incoming message from the event manager.
         /// </summary>
         /// <param name="payload">Payload received</param>
-        public void IncomingPayload(DataPayLoad payload)
+        public override void IncomingPayload(DataPayLoad payload)
         {      
         }
 

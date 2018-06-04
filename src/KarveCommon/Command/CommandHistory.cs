@@ -1,7 +1,8 @@
 ﻿/**
  * Copyright 2017 KarveInformatica S.L.
  * CommandHistory module. We implement the classical do/undo using Command + Memento design pattern.
- * author Giorgio Zoppi <giorgio.zoppi@karveinformatica.com>
+ *  https://sourcemaking.com/design_patterns/memento
+ *  author Giorgio Zoppi <giorgio.zoppi@karveinformatica.com>
  */
 
 using System.Collections.Generic;

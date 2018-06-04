@@ -92,6 +92,11 @@ namespace KarveCommon.Generic
         /// DataServices about grid parameters.
         /// </summary>
         protected IDataServices DataServices;
+       
+        /// <summary>
+        ///  Disable/Enable any popup from the dialog service.
+        /// </summary>
+        public bool SilentMode { set; get; }
 
         public IInteractionRequestController Controller { get; private set; }
 
@@ -128,6 +133,9 @@ namespace KarveCommon.Generic
         private int _defaultPagingSize = 80;
         private int _defaultPageCount = 0;
         private object _extendedData;
+        private IncrementalList<ClientSummaryExtended> _clientAssistList;
+        private ICommand _changeCommand;
+        private ICommand _changedCommand;
 
 
         /// <summary>
@@ -202,6 +210,23 @@ namespace KarveCommon.Generic
 
             }
         }
+
+        /// <summary>
+        ///  Set or Get ItemChangedCommand. 
+        /// </summary>
+      /*  public ICommand ItemChangedCommand
+        {
+            set
+            {
+                _changeCommand = value;
+                RaisePropertyChanged("ItemChangedCommand");
+            }
+            get
+            {
+                return _changedCommand;
+            }
+        }
+        */
         /// <summary>
         ///  This is meant to be overriden only when the PageEvent is needed
         /// </summary>
@@ -461,6 +486,7 @@ namespace KarveCommon.Generic
             PagingEvent -= OnPagedEvent;
         }
 
+        // TODO expose as generic.
         /// <summary>
         ///  AssitAsyncClient.
         /// </summary>
@@ -473,9 +499,32 @@ namespace KarveCommon.Generic
         public virtual async Task OnAssistAsyncClient(string title, string properties, Action<ClientSummaryExtended> callback) 
         {
             IClientDataServices dataServices = DataServices.GetClientDataServices();
-            var dtos = await dataServices.GetSummaryAllAsync();
-            ShowDataTransferObjects<ClientSummaryExtended>(dtos, title, properties, callback);
+            var pageNumberAndItems = await dataServices.GetPageCount(DefaultPageSize);
+            var maxItems = dataServices.NumberItems;
+            var dtos = await dataServices.GetPagedSummaryDoAsync(1, DefaultPageSize);
+            _clientAssistList = new IncrementalList<ClientSummaryExtended>(LoadMoreAssistClients) { MaxItemCount = (int) maxItems };
+            ShowDataTransferObjects<ClientSummaryExtended>(_clientAssistList, title, properties, callback);
         }
+
+        protected virtual void LoadMoreAssistClients(uint arg1, int baseIndex)
+        {
+            IClientDataServices dataServices = DataServices.GetClientDataServices();
+            NotifyTaskCompletion.Create(dataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (sender, args) =>
+            {
+                if (sender is INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> summary)
+                {
+                    if (summary.IsSuccessfullyCompleted)
+                    {
+                        _clientAssistList.LoadItems(summary.Result);
+                    }
+                    else
+                    {
+                        DialogService?.ShowErrorMessage("Cannot load client assist");
+                    }
+                }
+            });
+        }
+
         public void ShowDataTransferObjects<Dto>(IEnumerable<Dto> dtos, 
                                                 string title, 
                                                 string properties, 

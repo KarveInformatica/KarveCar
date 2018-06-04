@@ -26,9 +26,9 @@
   </LinearGradientBrush>
   <SolidColorBrush x:Key="DataField_LabelTextColor" Color="Gray" />
 
+    
 
-   
-        <Style TargetType="Syncfusion:GridHeaderCellControl" x:Key="headerStyle">
+    <Style TargetType="Syncfusion:GridHeaderCellControl" x:Key="headerStyle">
         <Setter Property="Background" Value="#3373f2"/>
             <Setter Property="Foreground" Value="White"/>
         </Style>
@@ -162,22 +162,14 @@
                         </Grid.ColumnDefinitions>
                     <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelWidth}"/>
-                        <Syncfusion:SfDatePicker x:Name="PART_DatePicker"
+                        <Syncfusion:DateTimeEdit x:Name="PART_DatePicker"
                                                   Grid.Column="1"
                                                 
                                 Margin="20,0,0,0"
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PickerWidth}"
-                                Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
-                            <Syncfusion:SfDatePicker.SelectorStyle>
-
-                                <Style TargetType="Syncfusion:SfDateSelector">
-
-                                    <Setter Property="Header" Value="Seleciona data"/>
-
-                                </Style>
-
-                            </Syncfusion:SfDatePicker.SelectorStyle>
-                        </Syncfusion:SfDatePicker>
+                                DateTime="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
+                       
+                        </Syncfusion:DateTimeEdit>
                       
                 
                 </Grid>
@@ -375,12 +367,13 @@
                                 <TextBlock x:Name="PART_SearchLabel" 
                                            Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}" 
                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelTextWidth}" Margin="10,0,0,0"></TextBlock>
-                                <TextBox x:Name="PART_SearchTextFirst" Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
+                                <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextFirst" Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
                                     Path=TextContentFirst}"
+                                    Watermark="Codigo.."                                   
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentFirstWidth}"
                                     Margin="10,0,0,0">
                                     
-                                </TextBox>
+                                </Syncfusion:SfTextBoxExt>
                                 <TextBox x:Name="PART_SearchTextSecond" 
                                          Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecondWidth}"
                                          Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}" 
@@ -537,6 +530,114 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type local:CreditCardControlExt}">
+
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+        </Style.Resources>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CreditCardControlExt}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Source="/KarveControls;component/Images/creditcards.png" Height="25" Grid.Row="0"></Image>
+                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                            <TextBlock Text="Tipo" FontSize="10"></TextBlock>
+                            <local:DualFieldSearchBox LabelVisible="False"
+                                      DataFieldFirst="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardHolderPath, Mode=TwoWay}"
+                                      AssistProperties="Code, Name"
+                                      AssistTableName="CREDIT_CARD_ASSIST"
+                                      LabelTextWidth="0"
+                                      TextContentFirstWidth="60"
+                                      TextContentSecondWidth="180"
+                                      MagnifierCommand="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=AssistCommand, Mode=OneWay}"
+                                      SourceView="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CreditCardView, Mode=OneWay}"
+                                      ItemChangedCommand="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ItemChangedCommand, Mode=TwoWay}"
+                                      DataSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                            </local:DualFieldSearchBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Row="2" Orientation="Vertical">
+                            <TextBlock Text="Titular" FontSize="10"></TextBlock>
+                            <TextBox  Margin="22,5,10,5" Height="25" Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardHolder, Mode=TwoWay}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3">
+                            <TextBlock  Text="Numero" FontSize="10"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Height="25" Margin="22,5,10,5" Width="200">
+                                    <TextBox.Text>
+                                        <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="CardNumber" Mode="TwoWay">
+                                            <Binding.ValidationRules>
+                                                <local:CreditCardNumberValidator/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <Image Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardImagePath, Mode=TwoWay}" Width="25"></Image>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=VisibilitySecurity, Mode=TwoWay}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock  Grid.Row="0" Grid.Column="0" Text="Expiry date" FontSize="10"></TextBlock>
+                                <TextBlock  Grid.Row="0" Grid.Column="1" Text="Security Code" FontSize="10"></TextBlock>
+                                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                    <TextBox Height="25" Margin="10,5,10,5" Width="25">
+                                        <TextBox.Text>
+                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="ExpiryMonth" Mode="TwoWay">
+                                                <Binding.ValidationRules>
+                                                    <local:MonthValidationRule/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <TextBlock Text="/" Height="25"></TextBlock>
+                                    <TextBox Height="25" Margin="10,5,10,5" Width="50">
+                                        <TextBox.Text>
+                                            <Binding RelativeSource="{RelativeSource TemplatedParent}" Path="ExpiryYear" Mode="TwoWay">
+                                                <Binding.ValidationRules>
+                                                    <local:YearValidationRule/>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                    <TextBox Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FirstCode, Mode=TwoWay}" Height="25" Width="60"></TextBox>
+                                    <TextBox Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SecondCode, Mode=TwoWay}" Height="25" Width="60"></TextBox>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Row="5" Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=VisibilityToken, Mode=TwoWay}">
+                            <TextBlock  Text="Card Token" FontSize="10"></TextBlock>
+                            <TextBox Height="25" Margin="10,5,10,5" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CardToken, Mode=TwoWay}"></TextBox>
+                        </StackPanel>
+                        <Button Grid.Row="6" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ValidateFrom}" Content="Tokenizer" Height="25"></Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type local:DirectionInfo}">
         <Style.Resources>
             <ObjectDataProvider x:Key="ResourceLanguage" 
@@ -552,16 +653,16 @@
                             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
                                 <TextBlock Text="{Binding Dirección1, Source={StaticResource ResourceLanguage}}"></TextBlock>
                                 <Image Source="/KarveControls;component/Images/direction.png" Margin="0,0,8,0" Height="25"></Image>
-                                <TextBox
+                                <Syncfusion:SfTextBoxExt
+                                    Watermark="{Binding lstreetwm, Source={StaticResource ResourceLanguage}}"
                                     x:Name="PART_DirectionTextBox"
                                     Width="250"/>
-
                             </StackPanel>
 
                             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0"  Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSecondEnabled}">
                                 <TextBlock Text="{Binding Path=ldireccion2, Source={StaticResource ResourceLanguage}}"/>
                                 <Image Source="/KarveControls;component/Images/direction.png" Margin="0,0,8,0" Height="25"></Image>
-                                <TextBox x:Name="PART_DirectionTextBox2" Width="250" />
+                                <Syncfusion:SfTextBoxExt Watermark="{Binding lstreetwm, Source={StaticResource ResourceLanguage}}" x:Name="PART_DirectionTextBox2" Width="250" />
                             </StackPanel>
                             <local:DualFieldSearchBox 
                                 x:Name="PART_CitySearchBox"
@@ -637,7 +738,7 @@
                             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0">
 
                                 <Image Source="/KarveControls;component/Images/phone.png" Margin="0,0,8,0" Height="25"></Image>
-                                <TextBox
+                                <Syncfusion:SfTextBoxExt Watermark="{Binding ltelefono, Source={StaticResource ResourceLanguage}}"
                                     x:Name="PART_PhoneTextBox"
                                     Height="25"
                                     Width="272"       
@@ -646,7 +747,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
                                 <Image Source="/KarveControls;component/Images/fax.png" Margin="0,0,8,0" Height="25"></Image>
-                                <TextBox
+                                <Syncfusion:SfTextBoxExt Watermark="Fax"
                                     x:Name="PART_FaxTextBox"
 		            
                                     Width="272"
@@ -657,7 +758,7 @@
 
                             <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
                                 <Image Source="/KarveControls;component/Images/email.png" Margin="0,0,8,0" Height="25"></Image>
-                                <TextBox
+                                <Syncfusion:SfTextBoxExt Watermark="Email"
                                     x:Name="PART_EmailTextBox"
                                     Width="272"
                 
@@ -666,7 +767,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
                                 <Image Source="/KarveControls;component/Images/web.png" Margin="0,0,8,0" Height="25"></Image>
-                                <TextBox
+                                <Syncfusion:SfTextBoxExt Watermark="{Binding lwebaddress, Source={StaticResource ResourceLanguage}}"
                                     x:Name="PART_WebTextBox"
                                     Width="272"
                                 />

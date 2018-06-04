@@ -142,6 +142,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dirección.
+        /// </summary>
+        public static string c {
+            get {
+                return ResourceManager.GetString("c", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Canon Otros: .
         /// </summary>
         public static string CanonOtros {
@@ -889,6 +898,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clientes y Conductores.
+        /// </summary>
+        public static string lclientsconductores {
+            get {
+                return ResourceManager.GetString("lclientsconductores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Codigo.
         /// </summary>
         public static string lcodigo {
@@ -1375,15 +1393,6 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dirección.
-        /// </summary>
-        public static string ldireccion {
-            get {
-                return ResourceManager.GetString("ldireccion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Dirección 2.
         /// </summary>
         public static string ldireccion2 {
@@ -1452,6 +1461,15 @@ namespace KarveLocale.Properties {
         public static string ldrivercode {
             get {
                 return ResourceManager.GetString("ldrivercode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Numero Permiso.
+        /// </summary>
+        public static string ldriverlicensenumber {
+            get {
+                return ResourceManager.GetString("ldriverlicensenumber", resourceCulture);
             }
         }
         
@@ -1821,6 +1839,15 @@ namespace KarveLocale.Properties {
         public static string lhistorico {
             get {
                 return ResourceManager.GetString("lhistorico", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dirección Hotel.
+        /// </summary>
+        public static string lhoteldirection {
+            get {
+                return ResourceManager.GetString("lhoteldirection", resourceCulture);
             }
         }
         
@@ -5758,6 +5785,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cal.
+        /// </summary>
+        public static string lstreetwm {
+            get {
+                return ResourceManager.GetString("lstreetwm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Precio de venta.
         /// </summary>
         public static string lstretprice {
@@ -6136,6 +6172,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vehículo.
+        /// </summary>
+        public static string lvehiculo {
+            get {
+                return ResourceManager.GetString("lvehiculo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vehiculo Proprio.
         /// </summary>
         public static string lvehiculoproprio {
@@ -6159,6 +6204,15 @@ namespace KarveLocale.Properties {
         public static string lvia {
             get {
                 return ResourceManager.GetString("lvia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dirección web.
+        /// </summary>
+        public static string lwebaddress {
+            get {
+                return ResourceManager.GetString("lwebaddress", resourceCulture);
             }
         }
         

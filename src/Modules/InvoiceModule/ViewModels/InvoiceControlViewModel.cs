@@ -319,7 +319,7 @@ namespace InvoiceModule.ViewModels
             var id = invoice.InvoiceName;
             var tabName = id + "." + name;
             CreateNewItem(tabName);
-            var provider = await DataServices.GetInvoiceDataServices().GetInvoiceDoAsync(id);
+            var provider = await DataServices.GetInvoiceDataServices().GetDoAsync(id);
             var currentPayload = BuildShowPayLoadDo(tabName, provider);
 
             currentPayload.DataObject = provider;
@@ -364,13 +364,6 @@ namespace InvoiceModule.ViewModels
             footerRegion.Add(footerView, null, true);
             headeredWindow.Focus();
         }
-
-        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
-        {
-            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
-            payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
-        }
-
         /// <summary>
         ///     Create a new invoice.
         /// </summary>
@@ -379,7 +372,7 @@ namespace InvoiceModule.ViewModels
             var viewName = string.Empty;
             var invoiceDataServices = DataServices.GetInvoiceDataServices();
             var id = invoiceDataServices.NewId();
-            var invoiceDs = invoiceDataServices.GetNewInvoiceDo(id);
+            var invoiceDs = invoiceDataServices.GetNewDo(id);
             var tabName = "Nueva " + "." + id;
             CreateNewItem(id);
             var currentPayload = BuildShowPayLoadDo(viewName, invoiceDs);
@@ -397,8 +390,20 @@ namespace InvoiceModule.ViewModels
                _invoiceDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
            
         }
-       
 
+
+        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
+        {
+            if (payLoad == null)
+            {
+                payLoad = new DataPayLoad();
+            }
+            payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
+            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
+            payLoad.HasDataObject = false;
+            payLoad.HasRelatedObject = false;
+            payLoad.Sender = ViewModelUri.ToString();
+        }
         #region attributes
 
         private readonly IRegionManager _regionManager;

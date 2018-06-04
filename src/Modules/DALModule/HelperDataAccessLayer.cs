@@ -22,6 +22,7 @@ namespace DataAccessLayer
     {
         private IMapper _mapper;
         private const int pageSize = 500;
+     
         /// <summary>
         /// It needs the data accessr
         /// </summary>
@@ -63,10 +64,10 @@ namespace DataAccessLayer
             return recordDeleted;
         }
         /// <summary>
-        /// Insert asynchronosly.
+        /// Insert asynchronosly after remapping the data transfer object to the entity.
         /// </summary>
-        /// <typeparam name="DtoTransfer"></typeparam>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="DtoTransfer">Data transfer object to be inserted</typeparam>
+        /// <typeparam name="T">Entity to be mapped</typeparam>
         /// <param name="entity"></param>
         /// <returns></returns>
         public async Task<int> ExecuteAsyncInsert<DtoTransfer, T>(DtoTransfer entity) where T : class
@@ -280,7 +281,7 @@ namespace DataAccessLayer
         /// <summary>
         ///  Get the data transfer entity and checks for the 
         /// </summary>
-        /// <typeparam name="DtoTransfer"></typeparam>
+        /// <typeparam name="DtoTransfer">Data transfer object.</typeparam>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -334,6 +335,7 @@ namespace DataAccessLayer
                 }
             }
             var outputPagedData = _mapper.Map<IEnumerable<DtoTransfer>>(pagedData);
+         
             return outputPagedData;
         }
         /// <summary>
@@ -346,6 +348,7 @@ namespace DataAccessLayer
                                                                                               where T : class
         {
             var connection = SqlExecutor.Connection;
+            IncrementalList<T> list = null;
             IEnumerable<DtoTransfer> result = null;
             var needToClose = false;
             if ((connection == null) || ((connection.State != ConnectionState.Open)))
@@ -357,9 +360,12 @@ namespace DataAccessLayer
             {
                 var values = await connection.GetPagedAsync<T>(1, pageSize);
                 var numberOfPages = await connection.GetPageCount<T>(pageSize);
-                var list = new IncrementalList<T>(LoadMoreItems);
+                list = new IncrementalList<T>( async (count, baseIndex)=> {
+                    var size = pageSize;
+                    var items = await connection.GetPagedAsync<T>(baseIndex, size);
+                    list.LoadItems(items);
+                });
 
-                //    GetAsyncAll<T>();
                 if (values != null)
                 {
                     result = _mapper.Map<IEnumerable<DtoTransfer>>(values);
@@ -378,11 +384,8 @@ namespace DataAccessLayer
             }
             return result;
         }
+        
 
-        private void LoadMoreItems(uint arg1, int arg2)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<IEnumerable<DtoTransfer>> GetMappedHelperPagedAsync<DtoTransfer, T>(long index, long pageSize) where DtoTransfer: class
                                                                                                 where T: class
@@ -459,7 +462,15 @@ namespace DataAccessLayer
                     using (TransactionScope tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
                         executeValue = await dbConnection.DeleteCollectionAsync<T>(transferred);
-                        tran.Complete();
+                        if (executeValue)
+                        {
+
+                            tran.Complete();
+                        }
+                        else
+                        {
+                            tran.Dispose();
+                        }
                     }
                 }
                 catch (System.Exception ex)

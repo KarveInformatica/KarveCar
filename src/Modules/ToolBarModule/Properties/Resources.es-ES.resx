@@ -120,4 +120,7 @@
   <data name="KarveToolBarViewModel_KarveToolBarViewModel_NoPuedoBorrarFichaDeConsulta" xml:space="preserve">
     <value>No puedo borrar la ficha de consulta</value>
   </data>
+  <data name="KarveToolBarViewModel_KarveToolBarViewModel_Confirmacion" xml:space="preserve">
+    <value>Confirmacion</value>
+  </data>
 </root>

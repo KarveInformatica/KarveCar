@@ -21,6 +21,7 @@ namespace KarveControls.Interactivity
         public object SelectedItem { get; set; }
 
      
+       
         public void ShowAssistView<T>(string title, IEnumerable<T> dataObjects, string assistProperties = "")
         {
             if (_unityContainter != null)

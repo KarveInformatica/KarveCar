@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="BookingModule.Views.BookingDrivers"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookingModule.Views"
+              xmlns:vm="clr-namespace:BookingModule.ViewModels"
+             xmlns:TripleButton="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControls"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1224">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="DarkSlateBlue" Grid.ColumnSpan="2">
+            <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
+                   Source="/KarveControls;component/Images/driver.png" Height="48" />
+            <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" Text="Conductores" FontSize="24"
+                       Foreground="White" />
+        </DockPanel>
+        <GroupBox Header="Direccion Habitual Multa" Grid.Row="1">
+            <karveControls:DriverUserControl />
+        </GroupBox>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <GroupBox Header="Conductor Addicional" Grid.Row="0">
+                <StackPanel>
+                    <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
+
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Segundo Conductor Addicional" Grid.Row="1">
+                <StackPanel>
+                    <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
+
+
+                </StackPanel>
+            </GroupBox>
+            <TripleButton:TripleButton Grid.Row="2" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,4 +1,7 @@
-﻿using KarveCommon.Services;
+﻿/**
+ * Copyright 2017 KarveInformatica S.L.
+ *  KarveCar can not be copied and/or distributed without the express permission of KarveInformatica S.L.
+ */
 using System;
 using System.Windows.Input;
 

@@ -71,6 +71,11 @@ namespace DataAccessLayer
             InitServices(sqlExecutor);         
         }
 
+        /// <summary>
+        ///  This test the connection fro the page.
+        /// </summary>
+        /// <param name="sqlExecutor">Executor instance for the page</param>
+        /// <param name="connectionValue">Connection value</param>
         private void TestConnection(ISqlExecutor sqlExecutor, string connectionValue)
         {
             // ok now we try to connect 
@@ -124,7 +129,6 @@ namespace DataAccessLayer
             _companyDataService = new CompanyDataServices(sqlExecutor);
             _contractDataService = new ContractDataServices(sqlExecutor);
             _invoiceDataService = new InvoiceDataServices(sqlExecutor);
-            _assistDataService = new AssistDataService(this);
             _bookingDataService = new BookingDataAccessLayer(sqlExecutor);
 
         }
@@ -234,6 +238,9 @@ namespace DataAccessLayer
         /// <returns></returns>
         public IAssistDataService GetAssistDataServices()
         {
+            // this is  pretty intesting that it is eveytime a new one.
+
+            _assistDataService = new AssistDataService(this);
             return _assistDataService;
         }
         /// <summary>

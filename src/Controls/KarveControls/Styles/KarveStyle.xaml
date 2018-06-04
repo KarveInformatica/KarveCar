@@ -6,14 +6,14 @@
                     xmlns:template="clr-namespace:KarveControls.Template;assembly=KarveControls"
                     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    
-    <Style TargetType="syncfusion:GridHeaderCellControl" x:Key="KarveGridHeader">
-    <Setter Property="Background" Value="Blue" />
+
+        <Style TargetType="syncfusion:GridHeaderCellControl" x:Key="KarveGridHeader">
+        <Setter Property="Background" Value="DarkRed" />
     <Setter Property="Foreground" Value="White" />
     <Setter Property="FontFamily" Value="Segoe UI" />
     <Setter Property="FontWeight" Value="Light" />
-    <Setter Property="FontSize" Value="22" />
-    <Setter Property="Padding" Value="24,0,24,0" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="Padding" Value="25,0,25,0" />
     <Setter Property="BorderBrush" Value="#FCA7A9" />
     <Setter Property="BorderThickness" Value="0.5" />
     <Setter Property="Template">
@@ -95,4 +95,5 @@
         </Setter.Value>
     </Setter>
 </Style>
+    
 </ResourceDictionary>

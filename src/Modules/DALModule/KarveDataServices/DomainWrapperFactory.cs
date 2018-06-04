@@ -95,7 +95,7 @@ namespace KarveDataServices
         public IInvoiceData CreateInvoice(string s)
         {
             var services = _services.GetInvoiceDataServices();
-            return services.GetNewInvoiceDo(s);
+            return services.GetNewDo(s);
         }
     }
 }

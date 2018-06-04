@@ -662,7 +662,7 @@ namespace MasterModule.ViewModels
             DataPayLoad payload = new DataPayLoad();
             if (agent.Valid)
             {
-                bool returnValue = await _commissionAgentDataServices.DeleteDoAsync(agent);
+                bool returnValue = await _commissionAgentDataServices.DeleteAsync(agent);
                 if (returnValue)
                 {
                     payload.Subsystem = DataSubSystem.CommissionAgentSubystem;
@@ -778,7 +778,7 @@ namespace MasterModule.ViewModels
             ICommissionAgent agent = null;
             if (isInsertion)
             {
-                agent = _commissionAgentDataServices.GetNewCommissionAgentDo(_primaryKeyValue);
+                agent = await _commissionAgentDataServices.GetDoAsync(_primaryKeyValue);
                 if (agent != null)
                 {
                     DataObject = agent;
@@ -893,7 +893,7 @@ namespace MasterModule.ViewModels
         /// Data Primary Key.
         /// </summary>
         /// <param name="dataPayLoad">Payload.</param>
-        public void IncomingPayload(DataPayLoad dataPayLoad)
+        public override void IncomingPayload(DataPayLoad dataPayLoad)
         {
             // precondition not null
             if (dataPayLoad == null)
@@ -934,7 +934,7 @@ namespace MasterModule.ViewModels
                     if (string.IsNullOrEmpty(PrimaryKeyValue))
                     {
 
-                        PrimaryKeyValue = _commissionAgentDataServices.GetNewId();
+                        PrimaryKeyValue = _commissionAgentDataServices.NewId();
                     }
                     //PrimaryKeyValue = payload.PrimaryKeyValue;
                     Init(PrimaryKeyValue, payload, true);
@@ -1096,7 +1096,7 @@ namespace MasterModule.ViewModels
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
             AssistCommand = new DelegateCommand<object>(MagnifierCommandHandler);
             MagnifierCommand = new DelegateCommand<object>(MagnifierCommandHandler);
-            ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);  
+            ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
         }
 
         internal override async Task SetClientData(ClientSummaryExtended p, VisitsDto visitsDto)

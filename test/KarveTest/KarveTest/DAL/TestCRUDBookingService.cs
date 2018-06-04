@@ -13,10 +13,6 @@ using AutoMapper;
 using Dapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
-using System.Linq;
-using KarveDapper;
-using KarveDapper.Extensions;
-
 
 namespace KarveTest.DAL
 {
@@ -66,7 +62,7 @@ namespace KarveTest.DAL
             if (firstItem is BookingDto value)
             {
                 value.NOTAS_RES1 = "Notes in a paged";
-                var bookingItem = value.BookingItems.FirstOrDefault();
+                var bookingItem = value.Items.FirstOrDefault();
                 bookingItem.Concept = 2;
                 var myBoolean = await _saver.SaveAsync(firstItem);
                 Assert.IsTrue(myBoolean);
@@ -100,7 +96,7 @@ namespace KarveTest.DAL
             Assert.IsNotEmpty(entityCode);
             Assert.IsNotEmpty(simpleQuery);
             var singleDto = await _loader.LoadValueAsync(entityCode);
-            var itemReservation = singleDto.BookingItems;
+            var itemReservation = singleDto.Items;
             Assert.AreEqual(singleDto.APELLIDO1, singleDto.APELLIDO1);
             Assert.AreEqual(itemReservation.Count(), numberOfReservations);
         }

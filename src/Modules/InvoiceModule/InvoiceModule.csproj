@@ -122,6 +122,9 @@
     <Compile Include="ViewModels\HeaderDataViewModel.cs" />
     <Compile Include="ViewModels\InvoiceControlViewModel.cs" />
     <Compile Include="ViewModels\InvoiceInfoViewModel.cs" />
+    <Compile Include="Views\BookingDataView.xaml.cs">
+      <DependentUpon>BookingDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GenericGridView.xaml.cs">
       <DependentUpon>GenericGridView.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,10 @@
     <Page Include="Style\Style.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BookingDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GenericGridView.xaml">
       <Generator>MSBuild:Compile</Generator>

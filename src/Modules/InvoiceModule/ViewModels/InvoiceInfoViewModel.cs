@@ -159,7 +159,7 @@ namespace InvoiceModule.ViewModels
         protected async Task<bool> DeleteAsync(DataPayLoad payLoad)
         {
             var dataServices = _dataServices.GetInvoiceDataServices();
-            var value = await dataServices.GetInvoiceDoAsync(payLoad.PrimaryKeyValue);
+            var value = await dataServices.GetDoAsync(payLoad.PrimaryKeyValue);
             if (!value.Valid)
             {
                 return false;
@@ -310,9 +310,10 @@ namespace InvoiceModule.ViewModels
         }
 
 
-        private void CleanUp(string primarykey, DataSubSystem subsystem, string subsystemName)
+        private void CleanUp(DataPayLoad payLoad, DataSubSystem subsystem, string subsystemName)
         {
-            DeleteEventCleanup(primarykey, PrimaryKeyValue, DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm);
+            var pKey = payLoad.PrimaryKeyValue;
+            DeleteEventCleanup(pKey, PrimaryKeyValue, DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm);
             DeleteRegion();
 
         }
@@ -347,7 +348,7 @@ namespace InvoiceModule.ViewModels
         private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
 
-            var value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
+            var value = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery);
 
             if (value == null)
             {
@@ -359,7 +360,7 @@ namespace InvoiceModule.ViewModels
                 case ClientAssist:
                     {
 
-                        this.ClientDto = (IncrementalList <ClientSummaryExtended>)value;
+                        this.ClientDto = value as IncrementalList<ClientSummaryExtended>;
                         break;
                     }
                 case InvoiceAssist:

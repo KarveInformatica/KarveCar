@@ -120,4 +120,7 @@
   <data name="KarveToolBarViewModel_KarveToolBarViewModel_NoPuedoBorrarFichaDeConsulta" xml:space="preserve">
     <value>Cannot delete the read only form</value>
   </data>
+  <data name="KarveToolBarViewModel_KarveToolBarViewModel_Confirmacion" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
 </root>

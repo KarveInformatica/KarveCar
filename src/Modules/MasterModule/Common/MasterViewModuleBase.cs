@@ -182,7 +182,7 @@ namespace MasterModule.Common
             });
             AssistMapper.Configure("BROKER_ASSIST", async (query) => {
 
-                var helper = await DataServices.GetCommissionAgentDataServices().GetSummaryDoAsync();
+                var helper = await DataServices.GetCommissionAgentDataServices().GetPagedSummaryDoAsync(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("ORIGIN_ASSIST", async (query) => {
@@ -864,7 +864,7 @@ namespace MasterModule.Common
         /// </summary>
         /// <param name="navigationContext"></param>
         /// <returns></returns>
-        public virtual bool IsNavigationTarget(NavigationContext navigationContext)
+        public override bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return false;
         }
@@ -873,7 +873,7 @@ namespace MasterModule.Common
         ///  Navigation support 
         /// </summary>
         /// <param name="navigationContext"></param>
-        public virtual void OnNavigatedFrom(NavigationContext navigationContext)
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
 
@@ -881,7 +881,7 @@ namespace MasterModule.Common
         /// This is the navigation context.
         /// </summary>
         /// <param name="navigationContext">Naviagation Context.</param>
-        public virtual void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
 

@@ -44,7 +44,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="code">Code of the invoice</param>
         /// <returns>The invoice.</returns>
-        public async Task<IInvoiceData> GetInvoiceDoAsync(string code)
+        public async Task<IInvoiceData> GetDoAsync(string code)
         {
             var invoice = new Invoice(code, new InvoiceDto()) {Valid = false};
             //  check if the code is a valid integer.
@@ -110,7 +110,7 @@ namespace DataAccessLayer
         ///  Retrieve the invoice summary in asynchronous way.
         /// </summary>
         /// <returns>A collection of invoices.</returns>
-        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetInvoiceSummaryAsync()
+        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetSummaryAllAsync()
         {
             using (var db = SqlExecutor.OpenNewDbConnection())
             {
@@ -128,7 +128,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="code">Code</param>
         /// <returns>A new fresh invoice</returns>
-        public IInvoiceData GetNewInvoiceDo(string code)
+        public IInvoiceData GetNewDo(string code)
         {
             var dto = new InvoiceDto {NUMERO_FAC = code};
             var invoice = new Invoice(code, dto);
@@ -146,7 +146,7 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Size of the page</param>
         /// <returns></returns>
-        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize)
+        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
         {
             var pager = new DataPager<InvoiceSummaryValueDto>(SqlExecutor);
             var startIndex = (pageIndex == 0) ? 1 : pageSize;
@@ -317,6 +317,11 @@ namespace DataAccessLayer
             }
 
             return retValue;
+        }
+
+        public Task<IEnumerable<InvoiceSummaryDto>> GetInvoiceSummaryAsync()
+        {
+          throw new System.NotImplementedException();
         }
     }
 }

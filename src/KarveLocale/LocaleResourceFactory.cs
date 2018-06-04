@@ -10,7 +10,6 @@ using System.Windows.Data;
 using KarveLocale.Properties;
 using KarveCommon;
 using KarveCommon.Generic;
-using Prism.Mvvm;
 
 namespace KarveLocale
 {

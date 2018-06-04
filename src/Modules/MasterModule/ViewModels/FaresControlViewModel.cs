@@ -73,7 +73,7 @@ namespace MasterModule.ViewModels
             return string.Empty;
         }
 
-        public void IncomingPayload(DataPayLoad payload)
+        public override void IncomingPayload(DataPayLoad payload)
         {
         }
         public override async Task<bool> DeleteAsync(string primaryKey, DataPayLoad payLoad)

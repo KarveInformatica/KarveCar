@@ -15,22 +15,35 @@ using Microsoft.Practices.Unity;
 using Syncfusion.Windows.Shared;
 using KarveDataServices.DataObjects;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Threading;
 
 namespace BookingModule.ViewModels
 {
-    public class BookingControlViewModel : KarveControlViewModel
+    /// <summary>
+    ///  View model to control the flow of a booking.
+    /// </summary>
+    public class BookingControlViewModel : KarveControlViewModel, ICreateRegionManagerScope
     {
         private INotifyTaskCompletion<IEnumerable<BookingSummaryDto>> _bookingSummaryCompletion;
         private readonly IBookingDataService _bookingDataService;
         private readonly IRegionManager _regionManager;
         private readonly IUnityContainer _container;
+
+        public DelegateCommand<object> OpenItemCommand { get; }
+
         private IRegionManager _detailsRegionManager;
 
         private PropertyChangedEventHandler _bookingLoadEventHandler;
-        
+        private PayloadInterpeter<BookingSummaryDto> _payloadInterpeterReload;
         private PayloadInterpeter<IBookingData> _payloadInterpeter;
 
         public DataPayLoad.Type OperationalState { get; private set; }
+
+        /// <summary>
+        ///  The region shall be scoped.
+        /// </summary>
+        public bool CreateRegionManagerScope =>  true;
 
         public BookingControlViewModel(IRegionManager regionManager, IDataServices services, IUnityContainer container, IInteractionRequestController requestController, IDialogService dialogService, IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
         {
@@ -38,6 +51,7 @@ namespace BookingModule.ViewModels
             _bookingDataService = DataServices.GetBookingDataService();
             _regionManager = regionManager;
             _container = container;
+         
             // set the name to the listing grid.
             ItemName = "Reservas";
             DefaultPageSize = 50;
@@ -50,12 +64,34 @@ namespace BookingModule.ViewModels
             MailBoxHandler += OnMailBoxHandler;
             MailboxName = ViewModelUri.ToString();
             RegisterMailBox(MailboxName);
-            EventManager.RegisterMailBox(MailboxName, MailBoxHandler);
+            EventManager.RegisterObserverSubsystem(EventSubsystem.BookingSubsystemVm, this);
+            EventManager.RegisterMailBox(ViewModelUri.ToString(), MailBoxHandler);
             _bookingLoadEventHandler += OnNotifyIncrementalList<BookingSummaryDto>;
             SummaryView = new IncrementalList<BookingSummaryDto>(LoadMoreItems);
             OpenCommand = new DelegateCommand<object>(OpenCurrentItem);
+            _payloadInterpeterReload = new PayloadInterpeter<BookingSummaryDto>();
+            _payloadInterpeterReload.Init = (value, packet, insertion) =>
+              {
+                  switch (packet.PayloadType)
+                  {
+                      case DataPayLoad.Type.UpdateView:
+                          StartAndNotify();
+                          break;
+                  };
+              };
+            _payloadInterpeterReload.CleanUp = (key, system, name) =>
+             {
+               //  up to now.
+             };
             _payloadInterpeter = new PayloadInterpeter<IBookingData>();
-            _payloadInterpeter.Init = (value, packet, insertion) =>
+            InitPayLoadInterpeter(_payloadInterpeter);
+            RegisterToolBar();
+            StartAndNotify();
+
+        }
+        private PayloadInterpeter<IBookingData> InitPayLoadInterpeter(PayloadInterpeter<IBookingData> payloadInterpeter)
+        {
+            payloadInterpeter.Init = (value, packet, insertion) =>
             {
                 // ok i shall do a new
                 if (insertion)
@@ -68,29 +104,37 @@ namespace BookingModule.ViewModels
                     switch (packet.PayloadType)
                     {
                         case DataPayLoad.Type.UpdateView:
-                            StartAndNotify();
+                            {
+                                // here i need an updateview for loading the data.
+                                new Thread(() =>
+                                {
+                                    Thread.CurrentThread.IsBackground = true;
+                                    StartRefresh();
+                                }).Start();
+                            
+
+                            }
                             break;
                         case DataPayLoad.Type.Insert:
                             NewItem();
-
                             break;
                     }
 
                 }
             };
-            _payloadInterpeter.CleanUp = (key, system, name) =>
+            payloadInterpeter.CleanUp = (key, system, name) =>
             {
+
                 DisposeEvents();
 
             };
-            StartAndNotify();
-
+            return payloadInterpeter;
         }
-      
-
-        private void MailboxHandlerName(DataPayLoad payLoad)
+        private void MailboxHandlerName(DataPayLoad payload)
         {
-           
+            OperationalState = _payloadInterpeter.CheckOperationalType(payload);
+            _payloadInterpeter.ActionOnPayload(payload, payload.PrimaryKeyValue, string.Empty, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
+       
         }
 
 
@@ -112,12 +156,31 @@ namespace BookingModule.ViewModels
         {
         }
 
+        public void StartRefresh()
+        {
+            Task<IEnumerable<BookingSummaryDto>> t = _bookingDataService.GetPagedSummaryDoAsync(1, 50);
+            
+            NotifyTaskCompletion.Create<IEnumerable<BookingSummaryDto>>(t, (sender, ev) =>
+            {
+                if (SummaryView is IncrementalList<BookingSummaryDto> summary)
+                {
+                    summary.Clear();
+                }
+               
+                OnPagedEvent(sender, ev);
+            }
+           );
+
+        }
+
         public override void StartAndNotify()
         {
+            
             _bookingSummaryCompletion = NotifyTaskCompletion.Create<IEnumerable<BookingSummaryDto>>(
                 _bookingDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), _bookingLoadEventHandler);
 
         }
+       
         /// <summary>
         ///     This open a current item value.
         ///     Asyc void shall be considered bad always
@@ -138,7 +201,7 @@ namespace BookingModule.ViewModels
             currentPayload.PrimaryKeyValue = id;
             ActiveSubSystem();
             currentPayload.Sender = base.MailboxName;
-            Navigate(id, tabName);
+          //  Navigate(id, tabName);
             EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
         }
 
@@ -183,15 +246,16 @@ namespace BookingModule.ViewModels
         {
             var id = _bookingDataService.NewId();
             var newDo = _bookingDataService.GetNewDo(id);
-            var viewName = "Nuova " + "." + id;
+            newDo.Value.NUMERO_RES = id;
+            var viewName = "Nueva " + "." + id;
             CreateNewItem(id);
             var currentPayload = BuildShowPayLoadDo(viewName, newDo);
-            currentPayload.Subsystem = DataSubSystem.InvoiceSubsystem;
+            currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = id;
             currentPayload.Sender = ViewModelUri.ToString();
             EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
-            Navigate(id, viewName);
+         //   Navigate(id, viewName);
         }
         protected override string GetRouteName(string name)
         {
@@ -213,6 +277,7 @@ namespace BookingModule.ViewModels
                 {
                     if (SummaryView is IncrementalList<BookingSummaryDto> summary)
                     {
+                       
                         summary.LoadItems(completion.Result);
                         SummaryView = summary;
                     }
@@ -257,16 +322,24 @@ namespace BookingModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
             payLoad.HasRelatedObject = false;
+            payLoad.Sender = ViewModelUri.ToString();
         }
       
         public override void IncomingPayload(DataPayLoad payload)
         {
             var newId = _bookingDataService.NewId();
+            if ((payload.Sender!=null) && (payload.Sender.Equals(ViewModelUri)))
+            {
+                return;
+            }
            OperationalState = _payloadInterpeter.CheckOperationalType(payload);
-            _payloadInterpeter.ActionOnPayload(payload, PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
+            _payloadInterpeter.ActionOnPayload(payload, payload.PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
         private void OnMailBoxHandler(DataPayLoad payload)
         {
+            var newId = string.Empty;
+            OperationalState = _payloadInterpeter.CheckOperationalType(payload);
+            _payloadInterpeterReload.ActionOnPayload(payload, payload.PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
 
         /// <summary>
@@ -277,15 +350,29 @@ namespace BookingModule.ViewModels
         /// <returns></returns>
         public async Task<bool> DeleteAsync(string clientIndentifier, DataPayLoad payLoad)
         {
-            var bookingData = await _bookingDataService.GetDoAsync(clientIndentifier);
-            if (bookingData == null)
+            var returnValue = true;
+            try
             {
-                return false;
+                var bookingData = await _bookingDataService.GetDoAsync(clientIndentifier);
+                if (bookingData == null)
+                {
+                    return false;
+                }
+                returnValue = await _bookingDataService.DeleteAsync(bookingData);
+                if (returnValue)
+                {
+                    
+                  DialogService?.ShowDialogMessage("Reserva", "Reserva borrada con exito");
+                }
+            } catch (Exception e)
+            {
+               DialogService?.ShowErrorMessage("Error en el borrar la reserva: "+ e.Message);
             }
-            return await _bookingDataService.DeleteAsync(bookingData);
+            return returnValue;
         }
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+
         }
         
     }

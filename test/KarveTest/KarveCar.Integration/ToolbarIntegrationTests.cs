@@ -57,7 +57,7 @@ namespace KarveCar.Integration
         {
             var retValue = string.Empty;
             var commissionAgent = _dataServices.GetCommissionAgentDataServices();
-            var commissionList = await commissionAgent.GetSummaryDoAsync();
+            var commissionList = await commissionAgent.GetPagedSummaryDoAsync(2, 2);
             var firstDefault = commissionList.FirstOrDefault();
             if (firstDefault != null)
             {
@@ -732,7 +732,7 @@ namespace KarveCar.Integration
 
             var executor = testBase.SetupSqlQueryExecutor();
             var invoiceItem =
-                    await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceName);
+                    await _dataServices.GetInvoiceDataServices().GetDoAsync(singleInvoice.InvoiceName);
             var claveLinea = new Random();
 
             Assert.IsNotInstanceOf<NullInvoice>(invoiceItem);
@@ -785,7 +785,7 @@ namespace KarveCar.Integration
             }
             // get the daved invoice.
             var savedInvoice =
-                await _dataServices.GetInvoiceDataServices().GetInvoiceDoAsync(singleInvoice.InvoiceName);
+                await _dataServices.GetInvoiceDataServices().GetDoAsync(singleInvoice.InvoiceName);
             var item = savedInvoice.InvoiceItems.FirstOrDefault(x => x.Price == invoiceComponent.Price);
             Assert.NotNull(item);
             Assert.AreEqual(invoiceComponent.Iva, item.Iva);
@@ -819,12 +819,12 @@ namespace KarveCar.Integration
         {
             // preconditions.
             var invoiceDs = _dataServices.GetInvoiceDataServices();
-            var summary = await invoiceDs.GetInvoiceSummaryAsync();
+            var summary = await invoiceDs.GetPagedSummaryDoAsync(2,10);
             var singleInvoice = summary.FirstOrDefault();
             if (singleInvoice != null)
             {
                 var invoiceId = singleInvoice.InvoiceName;
-                var item = await invoiceDs.GetInvoiceDoAsync(invoiceId);
+                var item = await invoiceDs.GetDoAsync(invoiceId);
                 var items = item.Value.InvoiceItems;
                 var count = items.Count();
                 var invoiceNum = GenerateInvoiceLineKey();
@@ -862,7 +862,7 @@ namespace KarveCar.Integration
                     // incoming payload.
                     _carveBarViewModel.IncomingPayload(payload);
                     _carveBarViewModel.SaveCommand.Execute();
-                    var savedItem = await invoiceDs.GetInvoiceDoAsync(invoiceId);
+                    var savedItem = await invoiceDs.GetDoAsync(invoiceId);
                     var savedItems = savedItem.Value.InvoiceItems;
                     var receivedCount = savedItems.Count();
                     Assert.AreEqual(count + 1, receivedCount);
@@ -914,7 +914,7 @@ namespace KarveCar.Integration
             // now we can save the payload.
             var pagedSummary = await invoiceDs.GetPagedSummaryDoAsync(1, 25);
             var singleInvoice = pagedSummary.FirstOrDefault();
-            var singleObject = await invoiceDs.GetInvoiceDoAsync(singleInvoice.InvoiceName);
+            var singleObject = await invoiceDs.GetDoAsync(singleInvoice.InvoiceName);
             var invoiceDto = _receivedPayLoad.DataObject as IInvoiceData;
 
             // now i can try to add the value to the data layer
@@ -946,9 +946,8 @@ namespace KarveCar.Integration
         public async Task WhenIntegratedShould_Delete_AnInvoiceLine()
         {
             var invoiceDataService = _dataServices.GetInvoiceDataServices();
-            var invoiceDs = await invoiceDataService.GetInvoiceSummaryAsync();
+            var invoiceDs = await invoiceDataService.GetPagedSummaryDoAsync(1,10).ConfigureAwait(false);
             var invoiceDo = invoiceDs.FirstOrDefault();
-
 
         }
 
@@ -958,7 +957,7 @@ namespace KarveCar.Integration
             // arrange
             _receivedPayLoad = null;
             var invoiceDataService = _dataServices.GetInvoiceDataServices();
-            var invoiceDs = await invoiceDataService.GetPagedSummaryDoAsync(1, 20);
+            var invoiceDs = await invoiceDataService.GetPagedSummaryDoAsync(1, 20).ConfigureAwait(false);
             var invoiceDo = invoiceDs.FirstOrDefault();
             Assert.NotNull(invoiceDo);
             var code = invoiceDo.InvoiceCode;
@@ -983,7 +982,7 @@ namespace KarveCar.Integration
             // assert.
             try
             {
-                var resultedDs = await invoiceDataService.GetInvoiceDoAsync(code);
+                var resultedDs = await invoiceDataService.GetDoAsync(code);
                 Assert.IsInstanceOf(typeof(NullInvoice), resultedDs);
 
             }
@@ -1158,7 +1157,7 @@ namespace KarveCar.Integration
         }
 
         [Test]
-        public async Task WhenIntegratedShould_Insert_ABookinWithLines()
+        public void WhenIntegratedShould_Insert_ABookinWithLines()
         {
             RegisterABookingPayload();
             var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object);
@@ -1175,6 +1174,7 @@ namespace KarveCar.Integration
             RegisterABookingPayload();
             var bookingDs = _dataServices.GetBookingDataService();
             var bookingSummary = await bookingDs.GetPagedSummaryDoAsync(1, 2).ConfigureAwait(false);
+            var bookingCode = bookingSummary.FirstOrDefault().BookingNumber;
             var singleBook = await bookingDs.GetDoAsync(bookingSummary.FirstOrDefault().BookingNumber).ConfigureAwait(false);
             var payload = new DataPayLoad()
             {
@@ -1187,8 +1187,13 @@ namespace KarveCar.Integration
                 ObjectPath = new Uri("booking://viewmodel/id/2920290")
             };
             // act
-            _carveBarViewModel.IncomingPayload(payload);
-            _carveBarViewModel.DeleteCommand.Execute(null);
+            _carveBarViewModel.DeleteCommand.Execute(bookingCode);
+
+            var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object);
+
+            var currentPayLoadToDelete = _notifiedPayLoad;
+
+           // _carveBarViewModel.DeleteCommand.Execute(null);
             // assert.
             try
             {

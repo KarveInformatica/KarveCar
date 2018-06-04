@@ -22,6 +22,7 @@ using NLog;
 using Prism.Mvvm;
 using DataAccessLayer.Crud;
 using DataAccessLayer.SQL;
+using System.Windows;
 
 namespace DataAccessLayer.Model
 {
@@ -87,7 +88,7 @@ namespace DataAccessLayer.Model
     }
     public class Supplier : BindableBase, ISupplierData
     {
-        // all those queries goes to a query store.
+        // FIXME: This queries shall go to the query store.
 
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -144,14 +145,14 @@ namespace DataAccessLayer.Model
         private IEnumerable<CityDto> _cityDtos = new ObservableCollection<CityDto>();
         private IEnumerable<DeliveringFormDto> _deliveringFormDto;
         private IEnumerable<SupplierTypeDto> _supplierTypeDto = new ObservableCollection<SupplierTypeDto>();
-       
-        public Supplier(): this(null, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
+
+        public Supplier() : this(null, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
         }
         public Supplier(ISqlExecutor executor) : this(executor, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
         }
-        public Supplier(ISqlExecutor executor, string id): this(executor, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
+        public Supplier(ISqlExecutor executor, string id) : this(executor, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
             _supplierValue.NUM_PROVEE = id;
             _supplierDto.NUM_PROVEE = id;
@@ -181,17 +182,29 @@ namespace DataAccessLayer.Model
                     // here there is the problem that that sometimes a char is made of a bool.
                     destinationProperty?.SetValue(destination, sourceValueProperty.GetValue(source));
                 }
+
             }
         }
-      
+
 
         public async Task<bool> DeleteAsyncData()
         {
             bool value = false;
-            PROVEE1 proveedor1 = _supplierMapper.Map<SupplierPoco, PROVEE1>(_supplierValue);
-            PROVEE2 proveedor2 = _supplierMapper.Map<SupplierPoco, PROVEE2>(_supplierValue);
+            // in deleting things there is no need to remap every field.
+            var code = _supplierValue.NUM_PROVEE;
+            // theeris no need of this is slow.
+
+            PROVEE1 proveedor1 = new PROVEE1 { NUM_PROVEE = code };
+            PROVEE2 proveedor2 = new PROVEE2 { NUM_PROVEE = code };
+    
+
+
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
+                if (connection == null)
+                { 
+                    return false;
+                }
                 using (TransactionScope transactionScope =
                     new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
@@ -429,7 +442,8 @@ namespace DataAccessLayer.Model
 
         }
 
-/*  TODO: Refactor this like the client loader. Too many queries. Too many resposabiltities for this function
+/*  TODO: Refactor this like the client loader. Too many queries. It is slow. 
+ *  Too many resposabiltities for this function
  in the crud there is a
              */
 

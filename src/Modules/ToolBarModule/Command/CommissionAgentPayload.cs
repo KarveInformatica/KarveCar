@@ -71,7 +71,7 @@ namespace ToolBarModule.Command
                 case DataPayLoad.Type.Insert:
                 case DataPayLoad.Type.Update:
                     {
-                        result = await _commissionAgentDataServices.SaveCommissionAgent(agent).ConfigureAwait(false);
+                        result = await _commissionAgentDataServices.SaveAsync(agent).ConfigureAwait(false);
                         break;
                     }
                 case DataPayLoad.Type.UpdateInsertGrid:

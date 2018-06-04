@@ -14,9 +14,6 @@ namespace DataAccessLayer.MongoDB
         {
             throw new System.NotImplementedException();
         }
-
-        public int NumberPage { get; set; }
-        public long NumberItems { get; set; }
         public Task<ICommissionAgent> GetCommissionAgentDo(string commissionAgentId, IDictionary<string, string> queryDictionary = null)
         {
             throw new System.NotImplementedException();
@@ -27,49 +24,50 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
-        public ICommissionAgent GetNewCommissionAgentDo()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ICommissionAgent GetNewCommissionAgentDo(string id)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> SaveCommissionAgent(ICommissionAgent commissionAgent)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> DeleteDoAsync(ICommissionAgent commissionAgent)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public Task<DataSet> GetDataSetSummaryAsync(bool paged = false, long pageSize = 0)
         {
             throw new System.NotImplementedException();
         }
-
-        public string GetNewId()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryDoAsync()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(long pageIndex, int pageSize)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public Task<IEnumerable<CommissionAgentSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new System.NotImplementedException();
         }
+
+        public string NewId()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryAllAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<ICommissionAgent> GetDoAsync(string code)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> SaveAsync(ICommissionAgent bookingData)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ICommissionAgent GetNewDo(string value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(ICommissionAgent booking)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
+        {
+            throw new System.NotImplementedException();
+        }
+        public int NumberPage { get; set; }
+        public long NumberItems { get; set; }
     }
 }

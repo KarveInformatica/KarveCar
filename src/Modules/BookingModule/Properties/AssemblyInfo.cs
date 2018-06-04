@@ -17,6 +17,7 @@ using System.Windows;
 [assembly: InternalsVisibleTo("KarveTest")]
 [assembly: InternalsVisibleTo("KarveTest.ViewModels")]
 [assembly: InternalsVisibleTo("KarveCar.IntegrationTest")]
+[assembly: InternalsVisibleTo("KarveCar.Integration")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

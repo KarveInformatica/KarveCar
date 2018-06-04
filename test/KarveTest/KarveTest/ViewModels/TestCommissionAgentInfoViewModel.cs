@@ -56,6 +56,7 @@ namespace KarveTest.ViewModels
             Assert.IsTrue(raisedOnceChange);
             Assert.NotNull(_commissionAgentInfoViewModel.DataObject.ProvinceDto);
             Assert.GreaterOrEqual(_commissionAgentInfoViewModel.DataObject.ProvinceDto.Count(), 0);
+
         }
         /// <summary>
         ///  This test the retrieving of the province in the commission agent.

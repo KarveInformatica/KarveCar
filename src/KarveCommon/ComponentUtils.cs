@@ -139,6 +139,7 @@ namespace KarveCommon
 
         /// <summary>
         /// Set a value of a property, in case it is a prefix value. update the upper object.
+        /// FIXME: this method is too long and error prone.
         /// </summary>
         /// <param name="obj">Value of the object</param>
         /// <param name="propName">Name of the property</param>

@@ -1568,7 +1568,7 @@
   <data name="lnombre" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="ldireccion" xml:space="preserve">
+  <data name="c" xml:space="preserve">
     <value>Adresse</value>
   </data>
   <data name="ltelefono" xml:space="preserve">
@@ -2751,5 +2751,23 @@
   </data>
   <data name="lremoved" xml:space="preserve">
     <value>Storniert</value>
+  </data>
+  <data name="lvehiculo" xml:space="preserve">
+    <value>Fahrzeug</value>
+  </data>
+  <data name="lclientsconductores" xml:space="preserve">
+    <value>Kunden und Faharen</value>
+  </data>
+  <data name="lhoteldirection" xml:space="preserve">
+    <value>Hotel Adresse</value>
+  </data>
+  <data name="ldriverlicensenumber" xml:space="preserve">
+    <value>Driving License Number</value>
+  </data>
+  <data name="lwebaddress" xml:space="preserve">
+    <value>Web adressse</value>
+  </data>
+  <data name="lstreetwm" xml:space="preserve">
+    <value>Strasse</value>
   </data>
 </root>

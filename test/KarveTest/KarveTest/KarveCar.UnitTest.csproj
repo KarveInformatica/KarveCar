@@ -60,8 +60,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\lib\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -175,6 +173,7 @@
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="DAL\TestQueryPagedAsync.cs" />
     <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
+    <Compile Include="KarveControls\TestCreditCardDetector.cs" />
     <Compile Include="KarveDapper\TestKarveDapperAsync.cs" />
     <Compile Include="KarveDataServices\TestKarveDataServices.cs" />
     <Compile Include="Locale\TestCultureSwitcher.cs" />

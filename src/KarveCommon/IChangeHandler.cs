@@ -4,7 +4,10 @@ using KarveCommon.Services;
 namespace KarveCommon
 {
     /// <summary>
-    /// Handler algorithm for the event.
+    /// Handler interface for the change handling.
+    /// 1. The component send a dictionary that contains a changed item and the previous value
+    /// 2. The change handler extract valuable information from evDictionary and act accordily.
+    /// 3. After processing and updating value, notify the toolbar.
     /// </summary>
     public interface IChangeHandler
     {

@@ -170,32 +170,17 @@ namespace KarveTest.DAL
         [Test]
         public void Should_LoadAndNotify_CommissionAgent()
         {
-            _notificationResult = false;
-            _initializationTable =
-                NotifyTaskCompletion.Create<ICommissionAgent>(TestLoadDataValueNotify(),
-                    InitializationTableOnPropertyChanged);
-            System.Threading.Thread.Sleep(10 * 1000);
-            Assert.IsTrue(_notificationResult);
+            
+            var notifyTable = NotifyTaskCompletion.Create<ICommissionAgent>(TestLoadDataValueNotify(),
+                    (sender, ev)=>
+                    {
+                        if (sender is INotifyTaskCompletion<ICommissionAgent> task)
+                        {
+                            Assert.True(task.IsSuccessfullyCompleted);
+                        }
+                    });
         }
-
-        /// <summary>
-        ///  This is the initialization table on property changed.
-        /// </summary>
-        /// <param name="sender">Sender of the event.</param>
-        /// <param name="propertyChangedEventArgs">Properties initialized.</param>
-        private void InitializationTableOnPropertyChanged(object sender,
-            PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (_initializationTable.IsSuccessfullyCompleted)
-            {
-                _notificationResult = true;
-            }
-            else
-            {
-                _notificationResult = false;
-            }
-        }
-
+        
 
         /// <summary>
         /// Data value notify the commission agent data value.
@@ -204,7 +189,7 @@ namespace KarveTest.DAL
 
         public async Task<ICommissionAgent> TestLoadDataValueNotify()
         {
-            IDictionary<string, string> query = new Dictionary<string, string>();
+            var query = new Dictionary<string, string>();
             string primaryKeyValue = "0000003";
             query["COMISIO"] =
                 "NUM_COMI,PERSONA,NIF,TIPOCOMI,VENDE_COMI,MERCADO,NEGOCIO,CANAL,CLAVEPPTO,ORIGEN_COMI,ZONAOFI," +
@@ -212,7 +197,7 @@ namespace KarveTest.DAL
                 "baja_comi,idioma,IATA,IVASINO,RETENSINO,NACIONAL,CONCEPTOS_COND,AGENCIA,TRADUCE_WS," +
                 "TRUCK_RENTAL_BROKER,COMBUS_PREPAGO_COMI,NO_GENERAR_AUTOFAC,TODOS_EXTRAS,AUTO_ONEWAY,COT_INCLUIDOS_SIN_GRUPO," +
                 "NO_MAIL_RES,AUTOFAC_SIN_IVA,COMISION_SIN_IVA_COM";
-            ICommissionAgent agent = await _commissionAgentDataServices.GetCommissionAgentDo(primaryKeyValue, query);
+            var agent = await _commissionAgentDataServices.GetCommissionAgentDo(primaryKeyValue, query);
             await Task.Delay(1000);
             return agent;
 
@@ -320,7 +305,7 @@ namespace KarveTest.DAL
             string primaryKeyValue = await GetFirstId();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                var brokers = await connection.GetAllAsync<COMISIO>();
+                var brokers = await connection.GetPagedAsync<COMISIO>(1,20);
                 var singleBroker = brokers.FirstOrDefault();
                 if (singleBroker != null)
                 {
@@ -344,19 +329,17 @@ namespace KarveTest.DAL
         }
 
         [Test]
-        public void Should_Create_AgentCorrectly()
+        public async Task Should_Create_AgentCorrectly()
         {
             IDictionary<string, string> fields = new Dictionary<string, string>();
             fields.Add(CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI");
             fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
             fields.Add(CommissionAgent.Visitas, " * ");
             fields.Add(CommissionAgent.Branches, "* ");
-            string numComi = _commissionAgentDataServices.GetNewId();
-            ICommissionAgent agent = _commissionAgentDataServices.GetNewCommissionAgentDo(numComi);
-              
-            ICommissionAgent commissionAgent = agent;
+            string numComi = _commissionAgentDataServices.NewId();
+            var commissionAgent = await _commissionAgentDataServices.GetDoAsync(numComi);
             Assert.NotNull(commissionAgent);
-            ComisioDto value = commissionAgent.Value as ComisioDto;
+            var value = commissionAgent.Value as ComisioDto;
             Assert.NotNull(value);
             Assert.AreEqual(value.NUM_COMI, numComi);
         }
@@ -382,7 +365,7 @@ namespace KarveTest.DAL
             internalValue.NOMBRE = "Karve2Comission";
             commissionAgent.Value = internalValue;
             // act 
-            bool isSaved = await _commissionAgentDataServices.SaveCommissionAgent(commissionAgent).ConfigureAwait(false);
+            bool isSaved = await _commissionAgentDataServices.SaveAsync(commissionAgent).ConfigureAwait(false);
             // assert
             Assert.True(isSaved);
         }
@@ -394,17 +377,18 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Insert_CommissionAgent()
         {
-            ICommissionAgent commissionAgent = _commissionAgentDataServices.GetNewCommissionAgentDo();
-            ICommissionAgentTypeData commissionAgentTypeData = new CommissionAgentTypeData();
+            var id = _commissionAgentDataServices.NewId();
+            var commissionAgent = _commissionAgentDataServices.GetNewDo(id);
+            var commissionAgentTypeData = new CommissionAgentTypeData();
             commissionAgentTypeData.Code = "2";
             commissionAgentTypeData.Name = "KARVE INFORMATICA S.L";
           //  commissionAgent.Type = commissionAgentTypeData;
-            ICountryData dataCountry = new CountryData();
+            var dataCountry = new CountryData();
             dataCountry.Code = "34";
             dataCountry.CountryName = "Spain";
            // commissionAgent.Country = dataCountry;
             ComisioDto comisio = (ComisioDto) commissionAgent.Value;
-            comisio.NUM_COMI = _commissionAgentDataServices.GetNewId();
+            comisio.NUM_COMI = _commissionAgentDataServices.NewId();
             Assert.NotNull(comisio.NUM_COMI);
             comisio.TIPOCOMI = "2";
             comisio.CP = "080012";
@@ -412,7 +396,7 @@ namespace KarveTest.DAL
             comisio.DIRECCION = "Via Augusta 32";
             comisio.EMAIL = "giorgio@apache.org";
             commissionAgent.Value = comisio;
-            bool cAgent = await _commissionAgentDataServices.SaveCommissionAgent(commissionAgent);
+            bool cAgent = await _commissionAgentDataServices.SaveAsync(commissionAgent);
             Assert.True(cAgent);
            
         }
@@ -430,7 +414,7 @@ namespace KarveTest.DAL
             fields.Add(CommissionAgent.Branches," * ");
             string numComi = "0000003";
             ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi, fields);
-            bool deleteSuccess = await _commissionAgentDataServices.DeleteDoAsync(commissionAgent);
+            bool deleteSuccess = await _commissionAgentDataServices.DeleteAsync(commissionAgent).ConfigureAwait(false);
             Assert.True(deleteSuccess);
         }
         [Test]

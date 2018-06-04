@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace BookingModule.Views
+{
+    /// <summary>
+    /// Interaction logic for BookingDrivers.xaml
+    /// </summary>
+    public partial class BookingDrivers : UserControl
+    {
+        private string _header;
+
+        public BookingDrivers()
+        {
+            InitializeComponent();
+        }
+        /// <summary>
+        ///  Set or Get the header.
+        /// </summary>
+        public string Header
+        {
+            set
+            {
+                _header = value;
+            }
+            get
+            {
+                return _header;
+            }
+        }
+    }
+}

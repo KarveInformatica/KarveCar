@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using NUnit.Framework;
 using KarveDataServices;
-using KarveCommon.Services;
 using DataAccessLayer;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
 using KarveDapper.Extensions;
-using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 
 namespace KarveTest.DAL
@@ -65,7 +62,7 @@ namespace KarveTest.DAL
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    var invoiceSummary = await _invoiceDataService.GetInvoiceSummaryAsync();
+                    var invoiceSummary = await _invoiceDataService.GetPagedSummaryDoAsync(1,100);
                     Assert.GreaterOrEqual(invoiceSummary.Count(), 0);
                 }
             }
@@ -86,14 +83,13 @@ namespace KarveTest.DAL
             try
             {
                 // load every invoice
-                var invoiceSummary = await _invoiceDataService.GetInvoiceSummaryAsync();
+                var invoiceSummary = await _invoiceDataService.GetPagedSummaryDoAsync(1,10);
                 var invoice = invoiceSummary.FirstOrDefault();
                 Assert.NotNull(invoice);
-                var invoiceCode = await _invoiceDataService.GetInvoiceDoAsync(invoice.InvoiceName);
+                var invoiceCode = await _invoiceDataService.GetDoAsync(invoice.InvoiceName);
                 Assert.NotNull(invoiceCode);
                 Assert.IsNotInstanceOf<NullInvoice>(invoiceCode);
                 Assert.AreEqual(invoice.InvoiceName, invoiceCode.Value.NUMERO_FAC);
-
             }
             catch (Exception e)
             {
@@ -120,7 +116,7 @@ namespace KarveTest.DAL
                     facturas =  await connection.QueryFirstAsync<FACTURAS>(query);
                 }
 
-                var singleInvoiceData = await _invoiceDataService.GetInvoiceDoAsync(facturas.NUMERO_FAC);
+                var singleInvoiceData = await _invoiceDataService.GetDoAsync(facturas.NUMERO_FAC);
                 Assert.NotNull(singleInvoiceData);
                 Assert.IsNotInstanceOf<NullInvoice>(singleInvoiceData);
                 Assert.AreEqual(facturas.NUMERO_FAC, singleInvoiceData.Value.NUMERO_FAC);
@@ -139,7 +135,7 @@ namespace KarveTest.DAL
         public void Should_Fail_LoadingInvalidInvoice()
         {
             const string code = "-19292";
-            Assert.ThrowsAsync<DataLayerException>(async () => await _invoiceDataService.GetInvoiceDoAsync(code));
+            Assert.ThrowsAsync<DataLayerException>(async () => await _invoiceDataService.GetDoAsync(code));
         }
 
         [Test]
@@ -241,7 +237,7 @@ namespace KarveTest.DAL
             // act 
             var retValue = await dataFactory.SaveAsync(invoice);
             // assert
-            var invoiceValue = await dataFactory.GetInvoiceDoAsync(invoice.Value.NUMERO_FAC);
+            var invoiceValue = await dataFactory.GetDoAsync(invoice.Value.NUMERO_FAC);
             Assert.NotNull(invoiceValue);
             Assert.AreEqual(retValue, true);
             Assert.IsTrue(invoiceValue.Valid);
@@ -259,19 +255,19 @@ namespace KarveTest.DAL
         public async Task Should_Delete_InvoiceCorrectly()
         {
             var dataFactory = _dataServices.GetInvoiceDataServices();
-            var summary = await dataFactory.GetInvoiceSummaryAsync();
+            var summary = await dataFactory.GetPagedSummaryDoAsync(1,20);
             var invoice = summary.FirstOrDefault();
             var value = false;
             if (invoice != null)
             {
-                var invoiceDo = await dataFactory.GetInvoiceDoAsync(invoice.InvoiceName);
+                var invoiceDo = await dataFactory.GetDoAsync(invoice.InvoiceName);
                 Assert.IsNotInstanceOf(typeof(NullInvoice), invoiceDo);
                 value = await dataFactory.DeleteAsync(invoiceDo);
             }
 
             if (invoice != null)
             {
-                var invoiceValue = await dataFactory.GetInvoiceDoAsync(invoice.InvoiceName);
+                var invoiceValue = await dataFactory.GetDoAsync(invoice.InvoiceName);
                 Assert.IsInstanceOf(typeof(NullInvoice), invoiceValue);
             }
 
@@ -296,7 +292,6 @@ namespace KarveTest.DAL
             const string code = "-19292";
             var factory = AbstractDomainWrapperFactory.GetFactory(_dataServices);
             var invoice = factory.CreateInvoice(code);
-
             var dataFactory = _dataServices.GetInvoiceDataServices();
             // act 
             Assert.IsNotInstanceOf(typeof(NullInvoice), invoice);

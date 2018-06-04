@@ -78,7 +78,7 @@ namespace DataAccessLayer.Crud.Booking
         /// <returns>True if it has been saved correctly or false if it has not been saved correctly</returns>
         public async Task<bool> SaveAsync(BookingDto save)
         {
-            var items = save.BookingItems;
+            var items = save.Items;
             IEnumerable<BookingItemsDto> toUpdateItems = new List<BookingItemsDto>();
             IEnumerable<BookingItemsDto> toInsertItems = new List<BookingItemsDto>();
             IEnumerable<BookingItemsDto> toDeleteItems = new List<BookingItemsDto>();

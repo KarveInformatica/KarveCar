@@ -8,6 +8,7 @@ using SelectionChangedEventArgs = System.Windows.Controls.SelectionChangedEventA
 using System.Windows.Input;
 using KarveCommon;
 using Syncfusion.Windows.Controls.Input;
+using Syncfusion.Windows.Shared;
 
 namespace KarveControls
 {
@@ -16,7 +17,7 @@ namespace KarveControls
     /// Custom control for the date picker that support item changed command.
     /// </summary>
     [TemplatePart(Name = "PART_LabelText", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "PART_DatePicker", Type = typeof(DatePicker))]
+    [TemplatePart(Name = "PART_DatePicker", Type = typeof(DateTimeEdit))]
 
     public class DataDatePicker : DatePicker
     {

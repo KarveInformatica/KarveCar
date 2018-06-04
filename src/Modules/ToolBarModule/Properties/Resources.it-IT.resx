@@ -120,4 +120,7 @@
   <data name="KarveToolBarViewModel_KarveToolBarViewModel_NoPuedoBorrarFichaDeConsulta" xml:space="preserve">
     <value>Non posso cancellare la consulta</value>
   </data>
+  <data name="KarveToolBarViewModel_KarveToolBarViewModel_Confirmacion" xml:space="preserve">
+    <value>Conferma</value>
+  </data>
 </root>

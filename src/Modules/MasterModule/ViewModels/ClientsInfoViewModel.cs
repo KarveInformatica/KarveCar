@@ -29,7 +29,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// This class is responsible for allowing the client info view to communicate with the other levels.
     /// </summary>
-    internal sealed class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
+    public sealed class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
         #region Private Fields
         private IClientData _clientData;
@@ -76,23 +76,19 @@ namespace MasterModule.ViewModels
 
             ConfigurationService = configurationService;
             MailBoxHandler += MessageHandler;
-            _onBranchesPrimaryKey += ClientOnBranchesPrimaryKey;
-            _onContactsPrimaryKey += ClientOnContactsPrimaryKey;
             IsVisible = Visibility.Collapsed;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.ClientSubSystemName, this);
-            _clientDataServices = dataServices.GetClientDataServices();
-            InitVmCommands();
-            
+            InitVmCommands();            
             ClientInfoRightRegionName = CreateNameRegion("RightRegion");
             DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
             StateVisible = true;
+            _onBranchesPrimaryKey += ClientOnBranchesPrimaryKey;
+            _onContactsPrimaryKey += ClientOnContactsPrimaryKey;
+            _clientDataServices = dataServices.GetClientDataServices();
             _clientData =_clientDataServices.GetNewDo("0");
             eventHandler += OnDriverUpdate;
             ViewModelUri = new Uri("karve://client/viewmodel?id=" + Guid.ToString());
-
-            ActiveSubSystem();
-           
-          
+            ActiveSubSystem(); 
         }
         /// <summary>
         ///  Handle the notification of the driver event. 
@@ -626,6 +622,8 @@ namespace MasterModule.ViewModels
 
         public void Init(string primaryKey, DataPayLoad payload, bool isInsert)
         {
+            if (isInsert)
+                return;
             if (payload.HasDataObject)
             {
                 Logger.Info("ClientInfoViewModel has received payload type " + payload.PayloadType.ToString());

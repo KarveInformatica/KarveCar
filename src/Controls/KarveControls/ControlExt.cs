@@ -5,14 +5,10 @@ using System.Windows.Controls;
 using KarveControls.Generic;
 using System.Data;
 using System.Diagnostics.Contracts;
-using System.Windows.Interactivity;
 using ICommand = System.Windows.Input.ICommand;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
-using Syncfusion.UI.Xaml.Grid.ScrollAxis;
-using Prism.Commands;
 using KarveDataServices.DataTransferObject;
-using Syncfusion.Data;
 using System.Linq;
 using KarveCommon;
 using KarveCommon.Generic;
@@ -780,12 +776,6 @@ namespace KarveControls
                 var otherPath = "Value." + path;
                 propValue = ComponentUtils.GetPropValue(sourceNew, otherPath);
             }
-
-            if (path == "FECHACO")
-            {
-                var fechacode = 1;
-            }
-
             if (propValue != null)
             {
                 

@@ -39,18 +39,20 @@ namespace KarveCommon.Generic
             ActiveSubsystemCommand = new DelegateCommand(ActiveSubSystem);
         }
         /// <summary>
-        /// Karve Routing
+        /// Karve Routing View Model Constructor.
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="assistService"></param>
+        /// <param name="services">Data Services. They enable data retrieving.</param>
+        /// <param name="assistService">Interaction controller. It enables modal view that shows an incremental grid of data.</param>
         public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController interactionRequest) : base(services, interactionRequest)
         {
         }
         /// <summary>
-        ///  KarveViewModelBase.
+        /// Karve Routing View Model Constructor.
         /// </summary>
-        /// <param name="services">DataServices to be used</param>
-        /// <param name="dialogService">DialogServices to be used</param>
+        /// <param name="services"></param>
+        /// <param name="controller"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="eventManager"></param>
         public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager) : base(services, controller,dialogService)
         {
             EventManager = eventManager;
@@ -78,7 +80,6 @@ namespace KarveCommon.Generic
             currentPayload.PayloadType = DataPayLoad.Type.Show;
             currentPayload.Registration = routedName;
             currentPayload.HasDataObject = true;
-            currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.DataObject = Object;
             if (queries != null)
             {
@@ -86,8 +87,36 @@ namespace KarveCommon.Generic
             }
             return currentPayload;
         }
-
+        /// <summary>
+        /// Navigate to the view
+        /// </summary>
+        /// <param name="code">Code of the view to navigate</param>
+        /// <param name="viewName">Viewname to view</param>
+        protected void Navigate<T>(IRegionManager manager, string code, string viewName)
+        {
+            var navigationParameters = new NavigationParameters
+            {
+                {"id", code},
+                {ScopedRegionNavigationContentLoader.DefaultViewName, viewName}
+            };
+            var uri = new Uri(typeof(T).FullName + navigationParameters, UriKind.Relative);
+            manager.
+                RequestNavigate("TabRegion", uri);
+        }
+        /// <summary>
+        /// This command enable the selection of the active subsystem by XAML 
+        /// using an interaction trigger when the view has been loaded or changed.
+        /// </summary>
         public virtual ICommand ActiveSubsystemCommand { set; get; }
+        /// <summary>
+        ///  Register the current active subsystem. The toolbar needs to know which subsytem is active.
+        ///  (TODO: Decouple the handling of messages from the toolbar module.).
+        ///  Each view belongs to a subsystem that it is tighted with a domain concept: i.e vehicles,
+        ///  providers, invoices, booking. So when a view is active, its view model send a registration 
+        ///  payload to the toolbar.  This is needed for the new/delete command in the toolbar. 
+        ///  The toolbar when knows the active subsystem sends through the mediatior / event manager, 
+        ///  a payload to the controller of the subsystem for creating or deleting a view.
+        /// </summary>
         protected virtual void ActiveSubSystem()
         {
             // change the active subsystem in the toolbar state.
@@ -112,7 +141,10 @@ namespace KarveCommon.Generic
 
         }
         /// <summary>
-        ///  Associate to the mailbox a name.
+        ///  Associate to the mailbox a name.A view model can through the mediator/event manager 
+        ///  receive a payload in broacast (directed to each viewmodel belonging to a system) or
+        ///  directly through a mailbox. The mailbox handler will manage the DataPayload. It 
+        ///  can be an insert/delete/update/whatever from another view model.
         /// </summary>
         /// <param name="mailboxName">Mailbox name</param>
         protected void RegisterMailBox(string mailboxName)

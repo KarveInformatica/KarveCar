@@ -21,6 +21,7 @@ using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
 using Syncfusion.Data.Extensions;
 using Syncfusion.UI.Xaml.CellGrid.Helpers;
+using Syncfusion.Windows.Controls.Input;
 
 namespace KarveControls
 {
@@ -30,7 +31,7 @@ namespace KarveControls
     /// </summary>
     ///
     [TemplatePart(Name = "PART_SearchLabel", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "PART_SearchTextFirst", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_SearchTextFirst", Type = typeof(SfTextBoxExt))]
     [TemplatePart(Name = "PART_SearchTextSecond", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_MagnifierGrid", Type = typeof(SfDataGrid))]
     [TemplatePart(Name = "PART_PopUp", Type = typeof(Popup))]
@@ -83,6 +84,41 @@ namespace KarveControls
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty));
 
+
+        /// <summary>
+        /// Second field that it can be used in the assist table.
+        ///  AssistDataFields are used when we have not set the assist query 
+        /// </summary>
+        public static readonly DependencyProperty IsVisibleFirstProperty =
+            DependencyProperty.Register(
+                "IsVisibleFirst",
+                typeof(bool),
+                typeof(DualFieldSearchBox), new PropertyMetadata(true, OnFirstVisibilityChanged));
+
+        private static void OnFirstVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DualFieldSearchBox searchBox)
+            {
+                searchBox.ChangeFirstTextBoxVisibility(e.NewValue);
+            }
+        }
+
+        private void ChangeFirstTextBoxVisibility(object newValue)
+        {
+            var textBox = GetTemplateChild("PART_SearchTextFirst") as SfTextBoxExt;
+
+            if (newValue is bool visibilityValue)
+            {
+                if (visibilityValue)
+                {
+                    textBox.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    textBox.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
         /// <summary>
         /// Content of the first textbox.
         /// </summary>
@@ -206,6 +242,7 @@ namespace KarveControls
                 "DataAllowedFirst",
                 typeof(DataType),
                 typeof(DualFieldSearchBox), new PropertyMetadata(DataType.Any, OnChangedDataAllowedFirst));
+
 
 
         private static void OnChangedDataAllowedFirst(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -745,7 +782,7 @@ namespace KarveControls
         
 
         private bool _textMode = false;
-        private TextBox SearchTextFirst;
+        private SfTextBoxExt SearchTextFirst;
         private TextBox SearchTextSecond;
         private Popup Popup;
         private SfDataGrid MagnifierGrid;
@@ -775,7 +812,7 @@ namespace KarveControls
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as TextBox;
+            SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as SfTextBoxExt;
             SearchTextSecond = GetTemplateChild("PART_SearchTextSecond") as TextBox;
             if (SearchTextFirst != null)
             {
@@ -867,6 +904,15 @@ namespace KarveControls
         {
             get { return (string)GetValue(TextContentFirstWidthDependencyProperty); }
             set { SetValue(TextContentFirstWidthDependencyProperty, value); }
+        }
+
+        /// <summary>
+        /// Visibility of the first part.
+        /// </summary>
+        public bool IsVisibleFirstPart
+        {
+            get { return (bool)GetValue(IsVisibleFirstProperty); }
+            set { SetValue(IsVisibleFirstProperty, value); }
         }
         /// <summary>
         /// width of the second content.
@@ -1170,7 +1216,7 @@ namespace KarveControls
         private void OnSourceViewPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
 
-            DataTable currentTable = null;
+           
 
             if (_textMode)
             {
@@ -1390,7 +1436,7 @@ namespace KarveControls
         }
         private void OnTextContentFirstWidthPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as TextBox;
+            SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as SfTextBoxExt;
             if (e.NewValue != null)
             {
                 if (SearchTextFirst != null)

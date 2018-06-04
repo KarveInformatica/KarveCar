@@ -77,14 +77,19 @@ namespace DataAccessLayer.Crud.Booking
                 using (var multi = await dbConnection.QueryMultipleAsync(query))
                 {
                     var reservation = multi.Read<BookingPoco>().FirstOrDefault();
-                    var reservationItems = multi.Read<LIRESER>().ToList();
                     if (reservation != null)
                     {
                         reservationDto = _mapper.Map<BookingPoco, BookingDto>(reservation);
                     }
+                    else
+                    {
+                        return reservationDto;
+                    }
+
+                    var reservationItems = multi.Read<LIRESER>().ToList();
                     if (reservationItems != null)
                     {
-                        reservationDto.BookingItems = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsDto>>(reservationItems);
+                        reservationDto.Items = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsDto>>(reservationItems);
                     }
                     reservationDto.IsValid = true;
                 }

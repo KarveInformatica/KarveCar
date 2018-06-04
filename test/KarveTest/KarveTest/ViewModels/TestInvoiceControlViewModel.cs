@@ -23,7 +23,7 @@ namespace KarveTest.ViewModels
         {
            
             // This code simulate the return from the data base of a list of vehicles.
-            _mockDataServices.Setup(x => x.GetInvoiceDataServices().GetInvoiceSummaryAsync()).ReturnsAsync(
+            _mockDataServices.Setup(x => x.GetInvoiceDataServices().GetPagedSummaryDoAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(
                 (() => new List<InvoiceSummaryValueDto>()
                 {
                             new InvoiceSummaryValueDto(){ InvoiceCode="12239", InvoiceDate = DateTime.Now, ClientName = "Karve1" },

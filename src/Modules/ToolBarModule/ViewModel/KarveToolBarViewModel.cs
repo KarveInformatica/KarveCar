@@ -166,13 +166,15 @@ namespace ToolBarModule
                 PayloadType = DataPayLoad.Type.Delete,
                 PrimaryKeyValue = value,
                 Subsystem = _activeSubSystem,
-                PrimaryKey = value
+                PrimaryKey = value,
+                Sender = ViewModelUri.ToString()
             };
             payLoad.PrimaryKeyValue = value;
 
             if (!string.IsNullOrEmpty(currentViewObjectId))
             {
                 payLoad.ObjectPath = viewStack.Peek();
+
                 _eventManager.SendMessage(currentViewObjectId, payLoad);
             }
 
@@ -199,83 +201,86 @@ namespace ToolBarModule
                 Sender = ViewModelUri.ToString()
             };
             _states = ToolbarStates.Insert;
-            if (!string.IsNullOrEmpty(currentViewObjectId))
-            {
-                payLoad.ObjectPath = viewStack.Peek();
-               
-                _eventManager.SendMessage(currentViewObjectId, payLoad);
-            }
-            else
-            {
-               
-                // this send a message to the current control view model.
-                DeliverIncomingNotify(_activeSubSystem, payLoad);
-            }
 
-        }
-        /// <summary>
-        /// Return true when is a new enabled.
-        /// </summary>
-        public bool IsNewEnabled
-        {
-            get => _isNewEnabled;
-            set { _isNewEnabled = value; RaisePropertyChanged("IsNewEnabled"); }
-        }
+            /* if (!string.IsNullOrEmpty(currentViewObjectId))
+             {
+                 payLoad.ObjectPath = viewStack.Peek();
 
-        /// <summary>
-        /// Return true when is a delete enabled.
-        /// </summary>
-        public bool IsDeleteEnabled
-        {
-            get => _isDeleteEnabled;
-            set { _isDeleteEnabled = value; RaisePropertyChanged("IsDeleteEnabled"); }
-        }
-        /// <summary>
-        /// Return true when save is enabled
-        /// </summary>
-        public bool IsSaveEnabled
-        {
-            get => _buttonSaveEnabled;
-            set
-            {
-                _buttonSaveEnabled = value;
-                RaisePropertyChanged();
-            }
-        }
-        /// <summary>
-        ///  Return true when a new is enabeled.
-        /// </summary>
-        public bool ButtonEnabled
-        {
-            get => _buttonEnabled;
-            set
-            {
-                _buttonEnabled = value;
-                RaisePropertyChanged();
-            }
-        }
+                 _eventManager.SendMessage(currentViewObjectId, payLoad);
+             }
+             else
+             {
 
-        /// <summary>
-        /// Return the current saved image.
-        /// </summary>
-        public string CurrentSaveImagePath
-        {
-            get => _currentSaveImage;
-            set
-            {
-                _currentSaveImage = value;
-                RaisePropertyChanged("CurrentSaveImagePath");
-            }
+                 // this send a message to the current control view model.
+                 DeliverIncomingNotify(_activeSubSystem, payLoad);
+             }*/
 
-        }
+             DeliverIncomingNotify(_activeSubSystem, payLoad);
 
-        private bool CheckValidation(AbstractCommand command, DataPayLoad payLoad)
-        {
-            /* TODO: unit test this because it fails with helpers.
-            if (!command.CanExecute(payLoad))
-            {
-                return false;
-            }*/
+         }
+         /// <summary>
+         /// Return true when is a new enabled.
+         /// </summary>
+         public bool IsNewEnabled
+         {
+             get => _isNewEnabled;
+             set { _isNewEnabled = value; RaisePropertyChanged("IsNewEnabled"); }
+         }
+
+         /// <summary>
+         /// Return true when is a delete enabled.
+         /// </summary>
+         public bool IsDeleteEnabled
+         {
+             get => _isDeleteEnabled;
+             set { _isDeleteEnabled = value; RaisePropertyChanged("IsDeleteEnabled"); }
+         }
+         /// <summary>
+         /// Return true when save is enabled
+         /// </summary>
+         public bool IsSaveEnabled
+         {
+             get => _buttonSaveEnabled;
+             set
+             {
+                 _buttonSaveEnabled = value;
+                 RaisePropertyChanged();
+             }
+         }
+         /// <summary>
+         ///  Return true when a new is enabeled.
+         /// </summary>
+         public bool ButtonEnabled
+         {
+             get => _buttonEnabled;
+             set
+             {
+                 _buttonEnabled = value;
+                 RaisePropertyChanged();
+             }
+         }
+
+         /// <summary>
+         /// Return the current saved image.
+         /// </summary>
+         public string CurrentSaveImagePath
+         {
+             get => _currentSaveImage;
+             set
+             {
+                 _currentSaveImage = value;
+                 RaisePropertyChanged("CurrentSaveImagePath");
+             }
+
+         }
+
+         private bool CheckValidation(AbstractCommand command, DataPayLoad payLoad)
+         {
+             /* TODO: unit test this because it fails with helpers.
+             if (!command.CanExecute(payLoad))
+             {
+                 return false;
+             }*/
             _careKeeper.Do(new CommandWrapper(command));
             _states = ToolbarStates.None;
             return true;
@@ -319,9 +324,10 @@ namespace ToolBarModule
             {
                 payLoad.PayloadType = DataPayLoad.Type.UpdateView;
             }
-
+            payLoad.Sender = ViewModelUri.ToString();
             if (payLoad.ObjectPath != null)
             {
+              
                 // we deliver the answer to theobject itself.
                 _eventManager.SendMessage(payLoad.ObjectPath.ToString(), payLoad);
             }
@@ -420,6 +426,16 @@ namespace ToolBarModule
                     {
                         var objectPath = payload.ObjectPath;
                         CleanCareKeeper(objectPath);
+                        if (objectPath != null)
+                        {
+                            var list = viewStack.ToList();
+                            list.RemoveAll(x => x == objectPath);
+                            viewStack.Clear();
+                            foreach(var x in list)
+                            {
+                                viewStack.Push(x);
+                            }
+                        }
                         bool empty = this._careKeeper.ScheduledPayloadCount() == 0;
                         if (empty)
                         {

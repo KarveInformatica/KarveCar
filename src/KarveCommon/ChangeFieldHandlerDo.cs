@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿/**
+ * Copyright 2017 KarveInformatica S.L.
+ */
+
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using KarveCommon.Services;
 
 namespace KarveCommon
 {
     /// <summary>
-    /// This handles the change field data object
+    /// Implements a changed handler for a data object. 
+    /// Enforce the value changed in the data object.
     /// </summary>
     public class ChangeFieldHandlerDo<T> : IChangeHandler where T: class
     {
@@ -79,7 +84,6 @@ namespace KarveCommon
             payLoad.Subsystem = Subsystem;
             payLoad.HasDictionary = true;
             payLoad.DataDictionary = evDictionary;
-            //SqlBuilder.StripTop(ref _viewModelQueries);
             payLoad.Queries = _viewModelQueries;
             // this now contains an object.
             if (evDictionary.ContainsKey("DataObject"))

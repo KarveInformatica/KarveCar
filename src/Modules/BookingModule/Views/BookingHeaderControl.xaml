@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookingModule.Views"
+               xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="1024">
     <Grid>
@@ -28,6 +30,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Column="0">
@@ -46,18 +49,46 @@
 
                         </Grid.ColumnDefinitions>
                         <Label Content="Numero Reserva" Grid.Column="0" Width="100" />
-                        <TextBox Text="{Binding Path=DataObject.Value.NUMERO_RES, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" 
-                                         Height="30" x:Name="nUMERO_RES" Width="100"/>
+                        <TextBox  Text="{Binding Path=DataObject.Value.NUMERO_RES, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" 
+                                         Height="30" x:Name="nUMERO_RES" Width="100"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="NUMERO_RES"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 
+                                 
+                                 />
                         <Label Content="Empresa Reserva" Grid.Column="2" Width="100" />
-                        <TextBox Width="100" Text="{Binding Path=DataObject.Value.SUBLICEN_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                         Grid.Column="3" Height="30" x:Name="sUBLICEN_RES1"  />
+                        <syncfusion:SfTextBoxExt Width="100" Text="{Binding Path=DataObject.Value.SUBLICEN_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                         Grid.Column="3" Height="30" x:Name="sUBLICEN_RES1"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="SUBLICEN_RES1"
+                                 AutoCompleteSource="{Binding CompanyDto}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 
+                                 />
                         <Label Content="Oficina Creacion" Grid.Column="4" />
-                        <TextBox Text="{Binding Path=DataObject.Value.OFICINA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" Height="30" x:Name="oFICINA_RES1" Width="100" />
+                        <syncfusion:SfTextBoxExt Text="{Binding Path=DataObject.Value.OFICINA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" 
+                                 Height="30" x:Name="oFICINA_RES1" Width="100" 
+                                 AutoCompleteSource="{Binding OfficeDto}"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="OFICINA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                              />
 
                         <Label Content="RSC" Grid.Column="6" />
-                        <TextBox  Text="{Binding Path=DataObject.Value.RENTAL1_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="7" Height="30" x:Name="rENTAL1_RES1" Width="50" />
-                        <Label Grid.Column="8" Content="Dia Fact." />
-                        <TextBox Grid.Column="9" Width="100" Text="{Binding Path=DataObject.Value.DIAFAC_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="dIAFAC_RES1"/>
+                        <TextBox  Text="{Binding Path=DataObject.Value.RENTAL1_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="RENTAL_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                  Grid.Column="7" Height="30" x:Name="rENTAL1_RES1" Width="50" />
+                        <Label Grid.Column="8" Content="Dia Facturacion" />
+                        <TextBox Grid.Column="9" Width="130" Text="{Binding Path=DataObject.Value.DIAFAC_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIAFAC_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                 Height="30" x:Name="dIAFAC_RES1"/>
                     </Grid>
 
                     <Grid Grid.Column="0" Grid.Row="1">
@@ -74,14 +105,33 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Fecha Reserva" Grid.Column="0" Width="100"/>
-                        <DatePicker Width="100" SelectedDate="{Binding Path=DataObject.Value.FECHA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" Grid.Column="1" Height="30" x:Name="fECHA_RES1" />
+                        <syncfusion:DateTimeEdit Width="100" 
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FECHA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                    DateTime="{Binding Path=DataObject.Value.FECHA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Grid.Column="1" Height="30" x:Name="fECHA_RES1" />
                         <Label Content="Hora Reserva" Grid.Column="2" Width="100" />
 
-                        <TextBox  Width="100" Text="{Binding Path=DataObject.Value.HORA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Height="30" x:Name="hORA_RES1" />
+                        <TextBox  Width="100" 
+                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HORA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                  Text="{Binding Path=DataObject.Value.HORA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Height="30" x:Name="hORA_RES1" />
                         <Label Content="Documento" Grid.Column="4" Width="96"/>
-                        <TextBox Width="100" Text="{Binding Path=DataObject.Value.N_DOCU, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" Height="30" x:Name="n_DOCU" />
+                        <TextBox Width="100" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="N_DOCU"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                 Text="{Binding Path=DataObject.Value.N_DOCU, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" Height="30" x:Name="n_DOCU" />
                         <Label Content="Dias" Grid.Column="6" Width="32"/>
-                        <TextBox Width="50" Text="{Binding DataObject.Value.DIAS_RES1, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="dIAS_RES1" Grid.Column="7"  />
+                        <TextBox Width="50" Text="{Binding DataObject.Value.DIAS_RES1, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Height="30" x:Name="dIAS_RES1" Grid.Column="7"  />
                     </Grid>
 
 
@@ -107,17 +157,34 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Desde" Grid.Column="0" Width="100"/>
-                        <DatePicker Grid.Column="1" Width="100" SelectedDate="{Binding Path=DataObject.Value.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" Height="30" x:Name="fSALIDA_RES1" />
+                            <Label Content="Desde" Grid.Column="0" Width="100"/>
+                        <syncfusion:DateTimeEdit Grid.Column="1" Width="100" 
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                    karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
+                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                    DateTime="{Binding Path=DataObject.Value.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
                         <Label Content="Hora Salida" Grid.Column="2" Width="101"/>
 
-                        <TextBox Grid.Column="3" Width="100" Text="{Binding Path=DataObject.Value.HSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="hSALIDA_RES1" />
+                        <TextBox Grid.Column="3" Width="100" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HSALIDA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Text="{Binding Path=DataObject.Value.HSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="hSALIDA_RES1" />
 
                         <Label Width="96" Content="Oficina Salida" Grid.Column="4" />
-                        <TextBox  Width="100" Text="{Binding Path=DataObject.Value.OFISALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" Height="30" x:Name="OFISALIDA_RES1" />
+                        <TextBox  Width="100" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="OFISALIDA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Text="{Binding Path=DataObject.Value.OFISALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" Height="30" x:Name="OFISALIDA_RES1" />
 
                         <Label Content="Lugar de Entrega" Grid.Column="6" Width="104" />
-                        <TextBox Width="100" Grid.Column="7" Text="{Binding Path=DataObject.Value.LUENTRE_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="lUENTRE_RES1" />
+                        <TextBox Width="200" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="LUENTRE_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                 Grid.Column="7" Text="{Binding Path=DataObject.Value.LUENTRE_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="lUENTRE_RES1" />
                     </Grid>
                     <Grid Grid.Column="0" Grid.Row="3">
                         <Grid.ColumnDefinitions>
@@ -132,17 +199,54 @@
                         </Grid.ColumnDefinitions>
                         <Label Content="Hasta" Grid.Column="0" Width="100"/>
 
-                        <DatePicker  Width="100" Grid.Column="1" SelectedDate="{Binding Path=DataObject.Value.FPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" x:Name="fPREV_RES1" />
+                        <syncfusion:DateTimeEdit  Width="100" Grid.Column="1" 
+                                     karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FPREV_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                     DateTime="{Binding Path=DataObject.Value.FPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="fPREV_RES1" />
                         <Label Width="101" Content="Hora Entrega"  Grid.Column="2" />
-                        <TextBox Width="100"  Grid.Column="3" Text="{Binding Path=DataObject.Value.HPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="hPREV_RES1"  />
+                        <TextBox Width="100"  Grid.Column="3" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HPREV_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                 Text="{Binding Path=DataObject.Value.HPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="hPREV_RES1"  />
                         <Label Content="Oficina Retorno" Width="95" Grid.Column="4" />
-                        <TextBox Width="100" Grid.Column="5" Text="{Binding Path=DataObject.Value.OFIRETORNO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="oFIRETORNO_RES1" Margin="0,1" />
+                        <TextBox Width="100" Grid.Column="5" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="OFIRETORNO_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                 Text="{Binding Path=DataObject.Value.OFIRETORNO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="oFIRETORNO_RES1" Margin="0,1" />
                         <Label Width="104" Grid.Column="6" Content="Lugar Devolucion"/>
-                        <TextBox Width="100" Grid.Column="8" Text="{Binding Path=DataObject.Value.LUDEVO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="lUDEVO_RES1" Margin="0,1" />
+                        <TextBox Width="200" Grid.Column="8" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="LUDEVO_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Text="{Binding Path=DataObject.Value.LUDEVO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="lUDEVO_RES1" Margin="0,1" />
 
 
                     </Grid>
+                    <Grid Grid.Column="0" Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Datos Conductores" Grid.Column="0" FontWeight="Heavy"></Label>
+                        <Button Command="{Binding Path=ShowDrivers}" Grid.Column="1" Margin="0,5,0,0">
+                            <Image Source="/KarveControls;component/Images/driver.png" Height="30"></Image>
+                        </Button>
+                        <Label Content="Otro Datos" Grid.Column="2" FontWeight="Heavy"></Label>
+                        <Button Command="{Binding Path=OtherDataShowCommand}" Grid.Column="3" Margin="0,5,0,0">
+                            <Image Source="/KarveControls;component/Images/summary.png" Height="30"></Image>
+                        </Button>
+
+                    </Grid>
                 </Grid>
+                
             </Grid>
         </Border>
     </Grid>

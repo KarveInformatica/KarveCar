@@ -37,6 +37,85 @@
                     </Button>
             </Grid>
         </DataTemplate>
+
+            <DataTemplate x:Key="NavigateBookingUnit">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                     </Grid.ColumnDefinitions>
+
+                    <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
+                                            ItemsSource="{Binding Path=Value.Source}" SelectedIndex="{Binding Path=Value.Index}">
+                    </syncfusion:ComboBoxAdv>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="BillToBookin">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
+                                            SelectedIndex="{Binding Path=Value}">
+                        <syncfusion:ComboBoxItemAdv Width="200">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/KarveControls;component/Images/driver.png" Height="30"/>
+                                <TextBlock Text="{Binding ldriver, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                            </StackPanel>
+                        </syncfusion:ComboBoxItemAdv>
+                        <syncfusion:ComboBoxItemAdv Width="200">
+                            <StackPanel Orientation="Horizontal" >
+                                <Image Source="/KarveControls;component/Images/clients.png" Height="30"/>
+                                <TextBlock Text="{Binding lcliente, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                            </StackPanel>
+                        </syncfusion:ComboBoxItemAdv>
+                    </syncfusion:ComboBoxAdv>
+                </Grid>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="BookingInclude">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox  Grid.Column="0"
+                               Content="Km Incluidos"
+                               IsChecked="{Binding Path=Value, Mode=TwoWay}">
+                    </CheckBox>
+                </Grid>
+            </DataTemplate>
+
+
+            <DataTemplate x:Key="NavigateBookingConcept">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                   
+                    <TextBox x:Name="ColName" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}"
+                           Width="80"></TextBox>
+                    <Button Grid.Column="1" x:Name="NavigateButton" BorderBrush="Transparent" Background="Transparent" 
+                                        Width="50"
+                                        Height="20">
+
+                        <Image Source="/KarveControls;component/Images/search.png"></Image>
+                        <i:Interaction.Behaviors>
+                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ShowBookingConcept,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                        </i:Interaction.Behaviors>
+                    </Button>
+                    <Button Grid.Column="2" x:Name="AddConcept" BorderBrush="Transparent" Background="Transparent" 
+                                        Width="50"
+                                        Height="20">
+                        <Image Source="/KarveControls;component/Images/create.png"></Image>
+                        <i:Interaction.Behaviors>
+                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.AddNewConceptCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                        </i:Interaction.Behaviors>
+                    </Button>
+                </Grid>
+            </DataTemplate>
             <DataTemplate x:Key="NavigateVehicleItem">
                 <Grid>
                     <Grid.ColumnDefinitions>

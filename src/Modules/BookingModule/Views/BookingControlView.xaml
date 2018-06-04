@@ -17,6 +17,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -37,7 +38,32 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-
+        
+        <Grid Grid.Row="1" HorizontalAlignment="Center" DataContext="{Binding SearchViewModel}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="TitleImage" Grid.Column="0" HorizontalAlignment="Left"
+                   Source="/BookingModule;component/Images/booking.png" Height="48" />
+            <Syncfusion:SfTextBoxExt HorizontalAlignment="Left"
+                            VerticalAlignment="Center" 
+                            Height="40"
+                            Width="700"                                     
+                            Grid.Column="1"
+                            Watermark="Search.. (por ejemplo: RESNUM=1203 and CREATION_DATE=05/02/1024)"/>
+            <Button Background="Transparent" Height="40" Grid.Column="2">
+                <Image Source="/KarveControls;component/Images/searchImage.png"></Image></Button>
+            <Button Background="Transparent" Height="40" Grid.Column="3">
+                <Image Source="/KarveControls;component/Images/bt_add.png" ToolTip="Add a booking"></Image>
+            </Button>
+            <Button Background="Transparent" Height="40" Grid.Column="4">
+                <Image Source="/KarveControls;component/Images/sync.png" ToolTip="DataBase Refresh"></Image>
+            </Button>
+        </Grid>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock FontWeight="Bold" FontSize="30"
                        Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}" />
@@ -46,7 +72,7 @@
 
         <Syncfusion:SfDataGrid x:Name="BookingControlSummary"
                                ColumnSizer="AutoLastColumnFill"
-                               Grid.Row="1"
+                               Grid.Row="2"
                                AutoGenerateColumns="False"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
@@ -362,15 +388,12 @@
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
-           
-                <!--
-                ldrivercode
-                -->
+          
             </Syncfusion:SfDataGrid.Columns>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenItemCommand}"
-                                           CommandParameter="{Binding ElementName=InvoiceControlSummary, Path=SelectedItem}" />
+                    <i:InvokeCommandAction Command="{Binding OpenCommand}"
+                                           CommandParameter="{Binding ElementName=BookingControlSummary, Path=SelectedItem}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 

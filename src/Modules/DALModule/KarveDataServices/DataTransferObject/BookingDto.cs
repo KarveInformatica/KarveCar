@@ -11,7 +11,7 @@ namespace KarveDataServices.DataTransferObject
     ///  Remark: It will important in the mapper field just map the fields needed because otherwise
     /// it will heavy and slow the load/store.
     /// </summary>
-    public class BookingDto: BaseDto
+    public class BookingDto: LineBaseDto<BookingItemsDto>
     {
         [PrimaryKey]
         public string NUMERO_RES { get; set; }
@@ -2006,12 +2006,6 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the MOTIVO_NOCONFIRM_RES2 property.
         /// </summary>
         public string MOTIVO_NOCONFIRM_RES2 { get; set; }
-
-
-        /// <summary>
-        ///  Items of the booking.
-        /// </summary>
-        public IEnumerable<BookingItemsDto> BookingItems { set; get; }
 
     }
 }

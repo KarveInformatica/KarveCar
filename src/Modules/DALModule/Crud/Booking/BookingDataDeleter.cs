@@ -37,19 +37,22 @@ namespace DataAccessLayer.Crud.Booking
         public async Task<bool> DeleteAsync(BookingDto data)
         {
             var resultValue = true;
-            var book1 = _mapper.Map<BookingDto, RESERVAS1>(data);
-            var book2 = _mapper.Map<BookingDto, RESERVAS2>(data);
-            var bookItems = _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(data.BookingItems);
+            var book1 = new RESERVAS1() { NUMERO_RES = data.NUMERO_RES };
+            var book2 = new RESERVAS2() { NUMERO_RES = data.NUMERO_RES };
+
+            // var book1 = _mapper.Map<BookingDto, RESERVAS1>(data);
+            // var book2 = _mapper.Map<BookingDto, RESERVAS2>(data);
+            var bookItems = _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(data.Items);
             using (var deleter = _executor.OpenNewDbConnection())
             {
                 using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
-                    resultValue = await deleter.DeleteAsync(book1);
-                    resultValue = resultValue && await deleter.DeleteAsync(book2);
+                    resultValue = await deleter.DeleteAsync(book1).ConfigureAwait(false);
+                    resultValue = resultValue && await deleter.DeleteAsync(book2).ConfigureAwait(false);
 
                     if (bookItems.Any())
                     {
-                        resultValue = resultValue && await deleter.DeleteCollectionAsync(bookItems);
+                        resultValue = resultValue && await deleter.DeleteCollectionAsync(bookItems).ConfigureAwait(false);
                     }
                     if (resultValue)
                     {

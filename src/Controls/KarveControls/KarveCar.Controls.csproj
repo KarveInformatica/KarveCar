@@ -250,10 +250,15 @@
     </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="ControlState.cs" />
+    <Compile Include="CreditCardControl\CreditCardControlExt.cs" />
+    <Compile Include="CreditCardControl\CreditCardNumberValidator.cs" />
+    <Compile Include="CreditCardControl\CreditCardType.cs" />
     <Compile Include="CreditCardControl\CreditCardUserControl.xaml.cs">
       <DependentUpon>CreditCardUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreditCardControl\CreditFieldEventArgs.cs" />
+    <Compile Include="CreditCardControl\MonthValidationRule.cs" />
+    <Compile Include="CreditCardControl\YearValidationRule.cs" />
     <Compile Include="DataArea\DataArea.cs" />
     <Compile Include="DataArea\DataAreaFieldEventsArgs.cs" />
     <Compile Include="DataCheckBox\DataFieldCheckBox.cs" />
@@ -270,6 +275,12 @@
     <Compile Include="DataField\DataFieldEventArgs.cs" />
     <Compile Include="DirectionInfo\DirectionInfo.cs" />
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
+    <Compile Include="DriverSmallControl\DriverSmallControl.xaml.cs">
+      <DependentUpon>DriverSmallControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DriverUserControl\DriverUserControl.xaml.cs">
+      <DependentUpon>DriverUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DualFieldSearchBox\DualFieldSearchBox.cs" />
     <Compile Include="DualFieldSearchBox\PopupMovableBehaviour.cs" />
     <Compile Include="Generic\KarveRoutedEventsArgs.cs" />
@@ -279,9 +290,11 @@
       <DependentUpon>GridFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Behaviour\Grid\GridFilterCommand.cs" />
+    <Compile Include="HeaderedWindow\BillToConverter.cs" />
     <Compile Include="HeaderedWindow\HeaderedWindow.xaml.cs">
       <DependentUpon>HeaderedWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HeaderedWindow\HeaderedWindowFactory.cs" />
     <Compile Include="HeaderedWindow\LineGridView.xaml.cs">
       <DependentUpon>LineGridView.xaml</DependentUpon>
     </Compile>
@@ -350,6 +363,7 @@
     <Compile Include="UIObjects\UiSearchTextObject.cs" />
     <Compile Include="Utilities\KeyboardUtils.cs" />
     <Compile Include="ViewModels\DataProviderViewModel.cs" />
+    <Compile Include="ViewModels\HeaderedLineViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Clock\KarveClock.xaml">
@@ -367,6 +381,14 @@
     <Page Include="DataFieldItemsControl\DataFieldItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="DriverSmallControl\DriverSmallControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DriverUserControl\DriverUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GridFilter\GridFilter.xaml">
       <SubType>Designer</SubType>
@@ -451,6 +473,22 @@
     <Resource Include="Images\sortdescend.png" />
     <Resource Include="Images\bt_apply.png" />
     <Resource Include="Images\cancel2.png" />
+    <Resource Include="Images\driver.png" />
+    <Resource Include="Images\summary.png" />
+    <Resource Include="Images\clients.png" />
+    <Resource Include="Images\client.png" />
+    <Resource Include="Images\fare.png" />
+    <Resource Include="Images\create.png" />
+    <Resource Include="Images\calendar1.png" />
+    <Resource Include="Images\km.png" />
+    <Resource Include="Images\concept.jpg" />
+    <Resource Include="Images\paymentTypes.png" />
+    <Resource Include="Images\pdf.png" />
+    <Resource Include="Images\recompute.png" />
+    <Resource Include="Images\discover.png" />
+    <Resource Include="Images\creditcard.png" />
+    <Resource Include="Images\maps.png" />
+    <Resource Include="Images\sync.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />

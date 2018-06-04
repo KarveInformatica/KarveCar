@@ -32,7 +32,6 @@ namespace MasterModule.ViewModels
         private IVehicleDataServices _vehicleDataServices;
         private const string VehiclesAgentSummaryVm = "VehiclesAgentSummaryVm";
         private const string VehiclesModuleRoutePrefix = "VehiclesModule:";
-        public bool CreateRegionManagerScope => true;
        
         private INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> _vehicleTaskNotify;
 
@@ -111,6 +110,8 @@ namespace MasterModule.ViewModels
             _vehicleEventTask += OnNotifyIncrementalList<VehicleSummaryDto>;
             PagingEvent += OnPagedEvent;
             EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
+            // Register the current subsystem to the toolbar.
+            ActiveSubSystem();
             StartAndNotify();          
         }
         // FIXME: see if it is possible to get rid of this..
@@ -198,7 +199,7 @@ namespace MasterModule.ViewModels
         ///  Message incoming from different 
         /// </summary>
         /// <param name="payload">Kind of payload coming from the diffent view model</param>
-        public void IncomingPayload(DataPayLoad payload)
+        public override void IncomingPayload(DataPayLoad payload)
         {
         }
         /// <summary>

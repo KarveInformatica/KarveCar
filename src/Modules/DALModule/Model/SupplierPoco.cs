@@ -1206,18 +1206,7 @@ namespace DataAccessLayer.Model
 
         public byte? PRUEBA { get; set; }
 
-        /// <summary>
-        ///  Set or get the OLDNUMPR property.
-        /// </summary>
-
-        public string OLDNUMPR { get; set; }
-
-        /// <summary>
-        ///  Set or get the NEWNUMPR property.
-        /// </summary>
-
-        public string NEWNUMPR { get; set; }
-
+        
         /// <summary>
         ///  Set or get the TELF_ATENCION property.
         /// </summary>
@@ -1241,6 +1230,12 @@ namespace DataAccessLayer.Model
         /// </summary>
 
         public string CLAVEHAC_PRO { get; set; }
+
+        public string NOMBRE_POBLA { set; get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string NOMBRE_FORMA_PAGO { set; get; } 
 
 
     }

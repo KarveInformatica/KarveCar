@@ -38,6 +38,33 @@
 
                         </Setter>
                     </Style>
+                    <ControlTemplate x:Key="upErrorTemp">
+                        <StackPanel>
+                            <AdornedElementPlaceholder Name="MyAdorned">
+                                <Image HorizontalAlignment="Right" Stretch="Uniform" Height="13" Width="15" 
+                           ToolTip="{Binding [0].ErrorContent}" ToolTipService.InitialShowDelay="0" 
+                           ToolTipService.ShowDuration="60000" Margin="0,0,35,0" Source="/KarveControls;component/Images/error.png" />
+                            </AdornedElementPlaceholder>
+                        </StackPanel>
+                    </ControlTemplate>
+                    <ControlTemplate x:Key="dateErrorTemp">
+                        <StackPanel>
+                            <AdornedElementPlaceholder Name="MyAdorned">
+                                <Image HorizontalAlignment="Right" Stretch="Uniform" Height="13" Width="15" 
+                           ToolTip="{Binding [0].ErrorContent}" ToolTipService.InitialShowDelay="0" 
+                           ToolTipService.ShowDuration="60000" Margin="0,0,25,0" Source="/KarveControls;component/Images/error.png" />
+                            </AdornedElementPlaceholder>
+                        </StackPanel>
+                    </ControlTemplate>
+                    <ControlTemplate x:Key="ErrorTemp">
+                        <StackPanel>
+                            <AdornedElementPlaceholder Name="MyAdorned">
+                                <Image HorizontalAlignment="Right" Stretch="Uniform" Height="13" Width="15" 
+                           ToolTip="{Binding [0].ErrorContent}" ToolTipService.InitialShowDelay="0" 
+                           ToolTipService.ShowDuration="60000" Margin="0,0,5,0" Source="/KarveControls;component/Images/error.png" />
+                            </AdornedElementPlaceholder>
+                        </StackPanel>
+                    </ControlTemplate>
 
                     <Style x:Key="MyWindowStyle" TargetType="Window">
                         <Setter Property="FontSize" Value="12" />

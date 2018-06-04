@@ -222,21 +222,7 @@ namespace KarveTest.KarveDapper
             }
         }
 
-        [Test]
-        public async Task Should_Retrieve_Multiple()
-        {
-            using (var conn = _sqlExecutor.OpenNewDbConnection())
-            {
-                var connection = conn.GetAll<CLIENTES1>();
-                var connectionFirst = await conn.GetPagedAsync<CLIENTES1>(1, 25);
-                var connectionSecond = await conn.GetPagedAsync<CLIENTES1>(1, 50);
-                var clientes1S = connection as CLIENTES1[] ?? connection.ToArray();
-                var connectionIntersect1 = clientes1S.Intersect(connectionFirst);
-                var connectionIntersect2 = clientes1S.Intersect(connectionSecond);
-                Assert.AreEqual(connectionIntersect1.Count(), 25);
-                Assert.AreEqual(connectionIntersect2.Count(), 25);
-            }
-        }
+       
 
         private async Task GetPage()
         {
@@ -276,8 +262,6 @@ namespace KarveTest.KarveDapper
            
         }
 
-        private class connectionInterserct2
-        {
-        }
+       
     }
 }
