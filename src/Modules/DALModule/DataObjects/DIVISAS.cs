@@ -1,18 +1,23 @@
 using System;
- 
+using Dapper;
+using KarveDapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a DIVISAS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("DIVISAS")]
 	public class DIVISAS 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
+        [FieldSize("3")]
 		public string CODIGO { get; set; }
  
 	/// <summary>

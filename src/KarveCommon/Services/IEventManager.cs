@@ -51,7 +51,7 @@ namespace KarveCommon.Services
         /// <summary>
         ///  Inovice control view model.
         /// </summary>
-        public static string InvoiceSubsystemVm = "InvoiceControlViewModel";
+        public static string InvoiceSubsystemVm = "InvoiceSubsystem";
 
         public static string BookingSubsystemVm = "BookingSubsystemViewModel";
 

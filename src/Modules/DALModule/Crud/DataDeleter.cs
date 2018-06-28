@@ -9,6 +9,7 @@ using DataAccessLayer;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
 using KarveDataServices;
+using System.Transactions;
 
 namespace DataAccessLayer.Crud
 {
@@ -42,31 +43,25 @@ namespace DataAccessLayer.Crud
             /// <returns></returns>
             public async Task<bool> DeleteAsync(Dto data)
             {
-                IDbConnection conn = null;
+               
                 T entity = _mapper.Map<Dto, T>(data);
-                bool value = false;
-                if (this._executor.Connection.State == ConnectionState.Open)
-                {
-                    conn = this._executor.Connection;
-                }
-                else
-                {
-                    conn = this._executor.OpenNewDbConnection();
-                }
-                try
-                {
-                    if (conn != null)
+                bool retValue = false;
+                using (IDbConnection connection = _executor.OpenNewDbConnection())
+                { 
+                   try
                     {
-                        value = await conn.DeleteAsync<T>(entity);
+                        using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                        {
+                            retValue = await connection.DeleteAsync<T>(entity).ConfigureAwait(false);
+                         scope.Complete();
+                        }
                     }
-
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
-                finally
-                {
-                    conn?.Close();
-                    conn?.Dispose();
-                }
-                return value;
+                return retValue;
             }
         }   
 }

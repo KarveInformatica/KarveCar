@@ -38,7 +38,7 @@ namespace BookingModule.ViewModels
         private PayloadInterpeter<BookingSummaryDto> _payloadInterpeterReload;
         private PayloadInterpeter<IBookingData> _payloadInterpeter;
 
-        public DataPayLoad.Type OperationalState { get; private set; }
+      //  public DataPayLoad.Type OperationalState { get; private set; }
 
         /// <summary>
         ///  The region shall be scoped.
@@ -195,6 +195,7 @@ namespace BookingModule.ViewModels
             var tabName = id + "." + name;
             CreateNewItem(tabName);
             var provider = await _bookingDataService.GetDoAsync(id);
+            
             var currentPayload = BuildShowPayLoadDo(tabName, provider);
             currentPayload.DataObject = provider;
             currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
@@ -255,7 +256,7 @@ namespace BookingModule.ViewModels
             currentPayload.PrimaryKeyValue = id;
             currentPayload.Sender = ViewModelUri.ToString();
             EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
-         //   Navigate(id, viewName);
+       
         }
         protected override string GetRouteName(string name)
         {

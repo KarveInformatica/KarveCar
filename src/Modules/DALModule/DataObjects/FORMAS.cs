@@ -223,18 +223,6 @@ namespace DataAccessLayer.DataObjects
 		public string CAMS { get; set; }
  
 	/// <summary>
-    ///  Set or get the IBAN_FC property.
-    /// </summary>
-    
-		public string IBAN_FC { get; set; }
- 
-	/// <summary>
-    ///  Set or get the SWIFT_FC property.
-    /// </summary>
-    
-		public string SWIFT_FC { get; set; }
- 
-	/// <summary>
     ///  Set or get the IBAN property.
     /// </summary>
     

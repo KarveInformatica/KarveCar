@@ -20,6 +20,7 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
 		public string NOMBRE { get; set; }
  
+
 	/// <summary>
     ///  Set or get the PERSONA property.
     /// </summary>
@@ -625,6 +626,28 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     
 		public byte? SOLOGRUPOSDISPO_COMI { get; set; }
-        
-	}
+
+
+        public override bool HasErrors
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(NOMBRE))
+                {
+                    ErrorList.Add(ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if ((NOMBRE != null) && (NOMBRE.Length> 100))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                if (((PORCEN != null)) && ((PORCEN > 100) || (PORCEN < 0)))
+                {
+                    ErrorList.Add(ConstantDataError.InvalidRange);
+                }
+                return false;
+            }
+        }
+    }
 }

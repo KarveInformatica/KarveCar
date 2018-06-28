@@ -9,6 +9,9 @@ using KarveCommon.Generic;
 using KarveDataServices;
 using Syncfusion.UI.Xaml.Grid;
 using KarveCommonInterfaces;
+using AutoMapper;
+using DataAccessLayer.Logic;
+using KarveDataServices.DataTransferObject;
 
 namespace HelperModule.ViewModels
 {
@@ -17,7 +20,7 @@ namespace HelperModule.ViewModels
     /// </summary>
     /// <typeparam name="Dto">Data transfer object to be mapped</typeparam>
     /// <typeparam name="Entity">Entity to be mapped</typeparam>
-    public class HelperLoader<Dto, Entity>: IDisposable where Dto: class
+    public class HelperLoader<Dto, Entity>: IDisposable where Dto: class, new()
                                            where Entity: class
     {
         public PropertyChangedEventHandler PageEvent;
@@ -29,7 +32,7 @@ namespace HelperModule.ViewModels
         private IHelperDataServices _helperDataServices;
         private long _currentIndex;
         private const int _defaultPageSize = 500;
-      
+        private IMapper _mapper;
         /// <summary>
         ///  Helper loader. This loader helps to load the data from dataservices
         /// </summary>
@@ -40,6 +43,7 @@ namespace HelperModule.ViewModels
             _helperDataServices = services.GetHelperDataServices();
             _loadCompleted += OnLoadCompleted;
             _currentIndex = 0;
+            _mapper = MapperField.GetMapper();
             PageSize = _defaultPageSize;
         }
         /// <summary>
@@ -59,6 +63,10 @@ namespace HelperModule.ViewModels
         private void OnLoadCompleted(object sender, PropertyChangedEventArgs e)
         {
             INotifyTaskCompletion<IEnumerable<Dto>> pageSender = sender as INotifyTaskCompletion<IEnumerable<Dto>>;
+            if (pageSender == null)
+            {
+                throw new DataLayerException("Error loading data event");
+            }
             if (pageSender.IsFaulted)
             {
                 throw new DataLayerException("Error loading data");
@@ -129,8 +137,28 @@ namespace HelperModule.ViewModels
         /// <param name="value"></param>
         public void Load(string value)
         {
+            if (string.IsNullOrEmpty(value))
+                return;
             _initializationNotifier = NotifyTaskCompletion.Create(LoadDto(value), _loadCompleted);
 
+        }
+
+        public Dto LoadSingle(string code) 
+        {
+
+            Dto value = null;
+            NotifyTaskCompletion.Create<Dto>(_helperDataServices.GetSingleMappedAsyncHelper<Dto, Entity>(code), (task,ev) =>
+            {
+                if (task is INotifyTaskCompletion<Dto> notify)
+                {
+                    if (notify.IsSuccessfullyCompleted)
+                    {
+                        value =  notify.Result;
+                    }
+                }
+
+            });
+            return value;
         }
         /// <summary>
         ///  Load all the entities.
@@ -148,9 +176,15 @@ namespace HelperModule.ViewModels
         {
             IEnumerable<Dto> list = null;
             try
-
             {
-                list = await _helperDataServices.GetMappedAllAsyncHelper<Dto, Entity>();
+
+                HelperView?.Clear();
+                var countItem = await _helperDataServices.GetItemsCount<Entity>();
+                var currentList = new IncrementalList<Dto>(LoadMoreItems) { MaxItemCount = countItem };
+                var tmplist = await _helperDataServices.GetPagedSummaryDoAsync<Dto, Entity>(1, PageSize);
+                HelperView = currentList;
+                HelperView.LoadItems(tmplist);
+                list = currentList;
             }
             catch (Exception e)
             {
@@ -160,9 +194,7 @@ namespace HelperModule.ViewModels
             {
                 return null;
             }
-            var value = new ObservableCollection<Dto>(list);
-            _helperView.LoadItems(value);
-            return value;
+            return list;
         }
         /// <summary>
         ///  HelperView.
@@ -180,15 +212,12 @@ namespace HelperModule.ViewModels
         private async Task<IEnumerable<Dto>> LoadDto(string query) 
         {
             // we want to make in a way that we will not show more 
-            var listOfVehicles = await _helperDataServices.GetMappedAsyncHelper<Dto, Entity>(query);
-            if (listOfVehicles == null)
-            {
-                return null;
-            }
-            _loadedView = listOfVehicles;
-            var currentList = new IncrementalList<Dto>(LoadMoreItems) { MaxItemCount = _loadedView.Count()};
-            var shortListView = _loadedView.Take<Dto>(500);
-            HelperView.LoadItems(shortListView);
+            var loaded = await _helperDataServices.GetPagedQueryDoAsync<Entity>(query, 1,PageSize);
+            var dtoLoaded = _mapper.Map<IEnumerable<Entity>, IEnumerable<Dto>>(loaded); 
+            var countItem = await _helperDataServices.GetItemsCount<Entity>();
+            var currentList = new IncrementalList<Dto>(LoadMoreItems) { MaxItemCount = countItem };
+            currentList.LoadItems(dtoLoaded);
+            HelperView = currentList;
             return currentList;
         }
         /// <summary>
@@ -196,9 +225,9 @@ namespace HelperModule.ViewModels
         /// </summary>
         /// <param name="index"></param>
         /// <param name="baseIndex">Base index to be used</param>
-        private void LoadMoreItems(uint index, int baseIndex)
+        private async void LoadMoreItems(uint index, int baseIndex)
         {
-            var currentList =_loadedView.Skip(baseIndex).Take(100).ToList();
+            var currentList = await _helperDataServices.GetPagedSummaryDoAsync<Dto, Entity>(baseIndex, PageSize);
             HelperView.LoadItems(currentList);
         }
     } 

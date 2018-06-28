@@ -12,6 +12,8 @@ using KarveDataServices.DataTransferObject;
 using System.Linq;
 using KarveCommon;
 using KarveCommon.Generic;
+using Syncfusion.Windows.Shared;
+using Syncfusion.Windows.Controls.Input;
 
 namespace KarveControls
 {
@@ -263,6 +265,12 @@ namespace KarveControls
             {
                 return;
             }
+            if (dependencyObject is PercentTextBox)
+            {
+                PercentTextBox box = dependencyObject as PercentTextBox;
+                box.LostFocus += Box_LostFocus1;
+                return;
+            }
             if (dependencyObject is SfDataGrid currentDataGrid)
             {
                 //  currentDataGrid.CurrentCellEndEdit += CurrentDataGrid_CurrentCellEndEdit;
@@ -279,12 +287,19 @@ namespace KarveControls
                 dataArea.DataSourcePath = GetDataSourcePath(dataArea);
                 return;
             }
+            if (dependencyObject is SfTimePicker)
+            {
+                SfTimePicker picker = dependencyObject as SfTimePicker;
+                picker.ValueChanged += Picker_ValueChanged;
+              
+            }
             if (dependencyObject is DataDatePicker)
             {
                 DataDatePicker dataDatePicker = dependencyObject as DataDatePicker;
                 dataDatePicker.DataDatePickerChanged += DataDatePicker_DataDatePickerChanged;
                 return;
             }
+            
             if (dependencyObject is TextBox)
             {
                 TextBox box = dependencyObject as TextBox;
@@ -316,6 +331,7 @@ namespace KarveControls
                         }
                         
                     }
+                    
                 }
                  //checkBox.Checked += CheckBox_DataChecked;
                  // checkBox.Unchecked += CheckBox_DataUnChecked;
@@ -335,6 +351,32 @@ namespace KarveControls
                 comboBox.SelectionChanged += ComboBox_SelectionChanged;
             }
         }
+
+        private static void Picker_ValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var picker = d as SfTimePicker;
+            if (picker != null)
+            {
+                var command = picker.GetValue(ItemChangedCommandProperty) as ICommand;
+
+                if (command != null)
+                {
+
+                    var sourceObject = GetDataSource(picker);
+                    if (sourceObject != null)
+                    {
+                        IDictionary<string, object> values = new Dictionary<string, object>();
+
+                        values.Add("DataObject", sourceObject);
+                        values.Add("ChangedValue", picker.Value);
+                        values.Add("PreviousValue", picker.Value);
+                        command.Execute(values);
+                    }
+
+                }
+            }
+        }
+
         private static void CheckBox_DataChecked(object sender, RoutedEventArgs e)
         {
             var dataFieldCheckBox = sender as DataFieldCheckBox;
@@ -351,6 +393,7 @@ namespace KarveControls
                 {
                     dataFieldCheckBox.IsChecked = true;
                     ControlExt.SetDataSource(dataFieldCheckBox, true);
+                    EnforceDoChange(dataFieldCheckBox, path, 1);
                 }
             }
         }
@@ -364,6 +407,7 @@ namespace KarveControls
                 if (tmp is bool)
                 {
                     ControlExt.SetDataSource(dataFieldCheckBox, false);
+                    EnforceDoChange(dataFieldCheckBox, path, 0);
                 }
             }
         }
@@ -382,7 +426,31 @@ namespace KarveControls
                 }
             }
         }
+        private static void EnforceDoChange(DependencyObject ds, string fieldName, object valueName)
+        {
 
+            if ((valueName != null) && (!string.IsNullOrEmpty(fieldName)))
+            {
+                var currentObject = GetDataSource(ds);
+                string currentValue = string.Empty;
+                if (currentObject != null)
+                {
+                    if (currentObject is BaseDto)
+                    {
+                        // if the object that travels is a data object and not a domain object.
+                        currentValue = fieldName.Replace(".Value", "");
+                    }
+                    else
+                    {
+                        currentValue = !fieldName.Contains("Value") ? "Value." + fieldName : fieldName;
+
+                    }
+                    KarveCommon.ComponentUtils.SetPropValue(currentObject, currentValue, valueName, true);
+                }
+               // payLoad.DataObject = currentObject;
+
+            }
+        }
         private static void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox checkBox = sender as CheckBox;
@@ -395,9 +463,10 @@ namespace KarveControls
                 if (sourceObject != null)
                 {
                     IDictionary<string, object> values = new Dictionary<string, object>();
+                   
                     values.Add("DataObject", sourceObject);
-                    values.Add("ChangedValue", false);
-                    values.Add("PreviousValue", true);
+                    values.Add("ChangedValue", 0);
+                    values.Add("PreviousValue", 1);
                     command.Execute(values);
                 }
                  
@@ -419,8 +488,8 @@ namespace KarveControls
                 {
                     IDictionary<string, object> values = new Dictionary<string, object>();
                     values.Add("DataObject", sourceObject);
-                    values.Add("ChangedValue", true);
-                    values.Add("PreviousValue", false);
+                    values.Add("ChangedValue", 1);
+                    values.Add("PreviousValue", 0);
                     command.Execute(values);
                 }
             }
@@ -596,6 +665,12 @@ namespace KarveControls
                 var command = textBox.GetValue(ItemChangedCommandProperty) as ICommand;
                 if (command != null)
                 {
+                    var dataSource = GetDataSource(textBox);
+                    if (dataSource is BaseDto dto)
+                    {
+                        if (dto.HasErrors)
+                            return;
+                    }
                     IDictionary<string, object> objectName = new Dictionary<string, object>();
                     objectName["DataObject"] = GetDataSource(textBox);
                     objectName["DataSourcePath"] = GetDataSourcePath(textBox);
@@ -606,6 +681,33 @@ namespace KarveControls
                 }
             }
         }
+
+        private static void Box_LostFocus1(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as PercentTextBox;
+            if (textBox != null)
+            {
+                var command = textBox.GetValue(ItemChangedCommandProperty) as ICommand;
+                if (command != null)
+                {
+                    var dataSource = GetDataSource(textBox);
+                    if (dataSource is BaseDto dto)
+                    {
+                        if (dto.HasErrors)
+                            return;
+                    }
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    objectName["DataObject"] = GetDataSource(textBox);
+                    objectName["DataSourcePath"] = GetDataSourcePath(textBox);
+                    objectName["ChangedValue"] = Convert.ToDecimal(textBox.PercentValue);
+                    objectName["PreviousValue"] = Convert.ToDecimal(_lastPercentValue);
+                    _lastPercentValue = textBox.PercentValue;
+                    command.Execute(objectName);
+                }
+            }
+            
+        }
+
 
         /// <summary>
         ///  SelectionChanged. This event get triggered when the selection change in a property
@@ -923,5 +1025,6 @@ namespace KarveControls
        
         private static object _lastChangedRow;
         private static object _lastPassBoxValue;
+        private static object _lastPercentValue;
     }
 }

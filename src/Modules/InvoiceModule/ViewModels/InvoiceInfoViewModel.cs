@@ -8,13 +8,10 @@ using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using InvoiceModule.Common;
-using InvoiceModule.Views;
 using KarveCommon;
 using KarveControls;
 using KarveDataServices.DataTransferObject;
@@ -96,6 +93,7 @@ namespace InvoiceModule.ViewModels
             GridIdentifier = GridIdentifiers.InvoiceLineGrids;
             ViewModelUri = new Uri("karve://invoice/viewmodel?id=" + gid.ToString());
             MailBoxHandler += IncomingMailBox;
+            SubSystem = DataSubSystem.InvoiceSubsystem;
             RegisterMailBox(ViewModelUri.ToString());
         }
         private void IncomingMailBox(DataPayLoad payload)
@@ -247,7 +245,7 @@ namespace InvoiceModule.ViewModels
             DialogService?.ShowErrorMessage(errorAssist);
         }
 
-        public DataPayLoad.Type OperationalState { get; set; }
+       
 
 
         private void OnAssistCommand(object param)
@@ -317,9 +315,8 @@ namespace InvoiceModule.ViewModels
             DeleteRegion();
 
         }
-        /// <summary>
-        ///  This delete the region when there is a delete.
-        /// </summary>
+       
+        /*
         private void DeleteRegion()
         {
             var activeRegion = _regionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
@@ -339,6 +336,7 @@ namespace InvoiceModule.ViewModels
                     break;
             }
         }
+        */
         /// <summary>
         /// This answer the query
         /// </summary>
@@ -420,18 +418,42 @@ namespace InvoiceModule.ViewModels
             ClientDto.LoadItems(pagedClient);
 
         }
-    
+        /// <summary>
+        ///  Check the data context helper if has been clicked a agreement.
+        /// </summary>
+        /// <param name="helper">Data context helper</param>
+        /// <returns>True if it is an agreement, false otherwise</returns>
+        private bool IsAgreement(DataContextHelper helper)
+        {
+            var box = helper.Record as InvoiceSummaryDto;
+            var helperCode = helper.Value as string;
+            return ((helperCode != null) && (box != null) && (helperCode == box.AgreementCode));            
+        }
+        /// <summary>
+        ///  Check the data context helper if has been clicked a agreement.
+        /// </summary>
+        /// <param name="helper">Data context helper</param>
+        /// <returns>True if it is a vehicle, false otherwise</returns>
+
+        private bool IsVehicle(DataContextHelper helper)
+        {
+            var box = helper.Record as InvoiceSummaryDto;
+            var helperCode = helper.Value as string;
+            return ((helperCode != null) && (box != null) && (helperCode == box.VehicleCode));
+        }
         /// <summary>
         ///  This 
         /// </summary>
         /// <param name="obj"></param>
         private async void OnNavigate(object obj)
         {
-            if (!(obj is TextBox box)) return;
-            var boxName = box.Name;
-            var value = box.Text;
-            var tag = box.Tag;
-            if (boxName.Contains("VehicleItemBox"))
+            if (!(obj is DataContextHelper)) return;
+
+            var helper = obj as DataContextHelper;
+            var box = helper.Record as InvoiceSummaryDto;
+
+       
+            if (IsVehicle(helper))
             {
                 const string query = "Code,Matricula,Brand,Model,VehicleGroup,Office,Places,Activity," +
                                      "Color,CubeMeters,Owner,AssuranceCompany,LeasingCompany,LeavingDate,StartingData," +
@@ -440,12 +462,12 @@ namespace InvoiceModule.ViewModels
 
                 await OnVehicleSummaryAsync("Vehiculos", query, async delegate (VehicleSummaryDto vsdto)
                 {
-                    var dto = vsdto as VehicleSummaryDto;         
-                    await SetVehicleSummary(vsdto);
+                    var dto = vsdto as VehicleSummaryDto;
+                    box.VehicleCode = vsdto.Code;
 
                 }).ConfigureAwait(false);
             }
-            else
+            else if (IsAgreement(helper))
             {
 
 
@@ -454,18 +476,14 @@ namespace InvoiceModule.ViewModels
                 await OnContractSummaryAsync("Contractos", contractValues, async delegate (ContractSummaryDto cdto)
                 {
                     var dto = cdto as ContractSummaryDto;
-                    await SetContractSummary(cdto);
+                    box.AgreementCode = dto.Code;
+
                 }).ConfigureAwait(false);
 
 
             }
+           
         }
-
-        private async Task SetContractSummary(ContractSummaryDto cdto)
-        {
-            await Task.Delay(1);
-        }
-
 
         internal async Task SetVehicleSummary(VehicleSummaryDto vsdto)
         {
@@ -688,7 +706,7 @@ namespace InvoiceModule.ViewModels
         /// </summary>
         public ICommand AddNewClientCommand { set; get; }
 
-        public DelegateCommand<object> AssistCommand { get; }
+      
 
         /// <summary>
         ///  Opciones to be loaded in the grid.
@@ -702,6 +720,7 @@ namespace InvoiceModule.ViewModels
                 RaisePropertyChanged("CellGridPresentation");
             }
         }
+
 
         protected override string GetRouteName(string name)
         {

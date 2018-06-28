@@ -10,12 +10,12 @@ namespace DataAccessLayer.DataObjects
 	[Table("IDIOMAS")]
 	public class IDIOMAS 
 	{
-	
+        string _value;
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
         [Key]
-		public byte CODIGO { get; set; }
+		public byte CODIGO { get; set;}
  
 	/// <summary>
     ///  Set or get the NOMBRE property.
@@ -27,7 +27,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the CODIGOPRG property.
     /// </summary>
     
-		public Int32? CODIGOPRG { get; set; }
+	   public Int32? CODIGOPRG { get; set; }
  
 	/// <summary>
     ///  Set or get the COD_MBF property.
@@ -39,12 +39,12 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the USUARIO property.
     /// </summary>
     
-		public string USUARIO { get; set; }
+	//	public string USUARIO { get; set; }
  
 	/// <summary>
     ///  Set or get the ULTMODI property.
     /// </summary>
     
-		public string ULTMODI { get; set; }
+	//	public string ULTMODI { get; set; }
 	}
 }

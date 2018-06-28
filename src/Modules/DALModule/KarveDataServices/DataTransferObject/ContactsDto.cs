@@ -87,11 +87,11 @@ namespace KarveDataServices.DataTransferObject
         public string ContactId {
             get
             {
-                return base.CodeId;
+                return base.Code;
             }
             set
             {
-                base.CodeId = value;
+                base.Code = value;
             }
         }
         /// <summary>

@@ -23,8 +23,11 @@ namespace KarveTest.DAL
             MockSqlExecutor = new Mock<ISqlExecutor>();
             MockedDataService = new DataServiceImplementation(MockSqlExecutor.Object);
             DataServices = new DataServiceImplementation(SqlExecutor);
-
+            Executor = SqlExecutor;
+            Services = DataServices;
         }
+        public ISqlExecutor Executor { set; get; }
+        public IDataServices Services { set; get; }
         /// <summary>
         ///  Setup the configuration service
         /// </summary>

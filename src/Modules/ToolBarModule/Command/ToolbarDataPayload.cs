@@ -9,16 +9,18 @@ using KarveDataServices;
 using KarveCommon.Generic;
 using NLog;
 using KarveDataServices.DataTransferObject;
+using KarveCommonInterfaces;
 
 namespace ToolBarModule.Command
 {
     /// <summary>
     ///  Internal class with data payload
     /// </summary>
-    public abstract class  ToolbarDataPayload : IDataPayLoadHandler
+    public abstract class ToolbarDataPayload : IDataPayLoadHandler
     {
         protected IEventManager CurrentEventManager;
         protected DataPayLoad CurrentPayload;
+        protected IDialogService DialogService;
         private IDataServices _dataServices;
         protected readonly PropertyChangedEventHandler ExecutedPayloadHandler;
         protected INotifyTaskCompletion<DataPayLoad> ToolbarInitializationNotifier;
@@ -41,7 +43,11 @@ namespace ToolBarModule.Command
         public ToolbarDataPayload()
         {
             ExecutedPayloadHandler += OnExecutedPayload;
-           
+
+        }
+        public ToolbarDataPayload(IDialogService dialogService) : this()
+        {
+            DialogService = dialogService;
         }
         /// <summary>
         ///  Set or Get the event manager.
@@ -185,7 +191,9 @@ namespace ToolBarModule.Command
                 }
             } catch (Exception e)
             {
-                throw new DataLayerException("UpdateGridException", e);
+                /// FIXME: in case of exception happens that gets called twice.
+               // var msg = "UpdateGridException " + e.Message;
+               // throw new DataLayerException(msg);
             }
         }
 

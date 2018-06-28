@@ -10,6 +10,7 @@ using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
 using Prism.Commands;
+using KarveCommonInterfaces;
 
 namespace HelperModule.ViewModels
 {
@@ -30,7 +31,7 @@ namespace HelperModule.ViewModels
         /// <param name="region"> Region Manager</param>
         /// <param name="manager">Event Manager</param>
         public VehicleOwnerViewModel(IDataServices dataServices, IRegionManager region,
-            IEventManager manager): base(GenericSql.VehicleOwner, dataServices, region,manager)
+            IEventManager manager, IDialogService dialogService): base(GenericSql.VehicleOwner, dataServices, region,manager, dialogService)
         {
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);         
         }
@@ -68,7 +69,7 @@ namespace HelperModule.ViewModels
             }
         }
 
-        public ICommand AssistCommand { set; get; }
+     
         public IEnumerable<CountryDto> VehicleOwnerCountryDto
         {
             set { _vehicleOwnerCountryDto = value; RaisePropertyChanged(); }

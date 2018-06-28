@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:TestUIComponents"
         xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
         xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
+        xmlns:karvePhoto="clr-namespace:KarveControls.PhotoFrame;assembly=KarveControls"
         xmlns:karveBehavior="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
          xmlns:karveGridBehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
@@ -44,6 +45,7 @@
                     <karveControls:HolidayCalendar></karveControls:HolidayCalendar>
                 </Grid>
             </TabItem>
+            <!--
             <TabItem Header="TestInteractionButton">
                 <Button>
                     <i:Interaction.Behaviors>
@@ -60,8 +62,14 @@
                     </Button.Content>
                 </Button>
             </TabItem>
+            -->
             <TabItem Header="TestGrid">
                 <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="307*"/>
+                        <ColumnDefinition Width="22*"/>
+                        <ColumnDefinition Width="157*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
@@ -88,17 +96,18 @@
                                RowSelectionBrush="#FF8CC63F"
                                HeaderRowHeight="32"
                                ItemsSource="{Binding ElementName=sfDataPager,Path=PagedSource, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+                               AutoGenerateColumns="False" Grid.ColumnSpan="3">
 
-
-                        <i:Interaction.Triggers>
+                        <!--
+                            <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
                                 <i:InvokeCommandAction Command="{Binding OpenItemCommand}" 
                                            
                                            CommandParameter="{Binding ElementName=ClientSummary, Path=SelectedItem}"/>
                             </i:EventTrigger>
+                      
                         </i:Interaction.Triggers>
-
+-->
 
 
                         <syncfusion:SfDataGrid.Resources>
@@ -123,16 +132,21 @@
                         </i:Interaction.Behaviors>
 -->
                     </syncfusion:SfDataGrid>
-                    
-                        <syncfusion:SfDataPager x:Name="sfDataPager"
+
+                    <syncfusion:SfDataPager x:Name="sfDataPager"
                            Grid.Row="1"
                            AutoEllipsisMode="After"
                            NumericButtonCount="10"
                            AutoEllipsisText="...etc" 
                            PageSize="16" 
-                           Source="{Binding SourceView}" />
-                    
+                           Source="{Binding SourceView}" Grid.ColumnSpan="3" />
+
                 </Grid>
+            </TabItem>
+            <TabItem Header="TestPhotoFrame">
+                <karvePhoto:PhotoFrame ImageLabel="TestImage" ImageBinarySource="{Binding ImageSource}">
+
+                </karvePhoto:PhotoFrame>
             </TabItem>
         </TabControl>
     </Grid>

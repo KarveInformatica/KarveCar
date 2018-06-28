@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -17,8 +18,8 @@ namespace HelperModule.ViewModels
     /// </summary>
     public class BudgetKeyViewModel : GenericHelperViewModel<BudgetKeyDto, CLAVEPTO>
     {
-        public BudgetKeyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(
-            String.Empty, dataServices, region, manager)
+        public BudgetKeyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog) : base(
+            String.Empty, dataServices, region, manager, dialog)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperBudgetKey;
         }

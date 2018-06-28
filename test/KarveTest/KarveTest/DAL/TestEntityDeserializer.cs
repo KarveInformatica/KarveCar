@@ -18,6 +18,7 @@ namespace KarveTest.DAL
     [TestFixture]
     class TestEntityDeserializer: TestBase
     {
+        /*
        private ISqlExecutor _executor;
        private readonly List<EntityDecorator> _output = new List<EntityDecorator>();
 
@@ -107,6 +108,7 @@ namespace KarveTest.DAL
                 Assert.AreEqual(_output.Count, 2);
             }
         }
-
+        */
     }
+    
 }

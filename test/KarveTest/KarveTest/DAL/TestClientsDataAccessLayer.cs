@@ -86,7 +86,7 @@ namespace KarveTest.DAL
             using (IDbConnection dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 // Arrange value
-                IEnumerable<CLIENTES1> value = await dbConnection.GetAllAsync<CLIENTES1>();
+                IEnumerable<CLIENTES1> value = await dbConnection.GetPagedAsync<CLIENTES1>(1, 10);
                 var singleValue = value.FirstOrDefault();
                 Assert.NotNull(singleValue);
                 singleValue.NUMERO_CLI = "-1";

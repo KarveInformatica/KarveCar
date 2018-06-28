@@ -9,19 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Data transfer object for the currency.
     /// </summary>
-    public class CurrenciesDto : BaseDto
+    public class CurrenciesDto : BaseDtoDefaultName
     {
-        // Code
-        public string Code
-        {
-            set;get;
-        }
-        /// <summary>
-        ///  Name of the currency.
-        /// </summary>
-        public string Name
-        {
-            set; get;
-        }
     }
 }

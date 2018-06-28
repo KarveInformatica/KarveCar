@@ -10,6 +10,7 @@ using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
+using System.Diagnostics;
 
 namespace KarveTest.DAL.Crud.Client
 {
@@ -64,14 +65,20 @@ namespace KarveTest.DAL.Crud.Client
             string currentCode = string.Empty;
             using (IDbConnection db = _sqlExecutor.OpenNewDbConnection())
             {
-                var cli = await db.GetAsyncAll<DataAccessLayer.DataObjects.CLIENTES1>();
+                var cli = await db.GetPagedAsync<DataAccessLayer.DataObjects.CLIENTES1>(1,2).ConfigureAwait(false);
                 var value = cli.OrderByDescending(p=>p.NUMERO_CLI).FirstOrDefault();
                 if (value != null) currentCode = value.NUMERO_CLI;
             }
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             ClientDto dto = await _clientDataLoader.LoadValueAsync(currentCode);
+            stopwatch.Stop();
+            var elapesed = stopwatch.ElapsedMilliseconds;
             Assert.AreEqual(dto.NUMERO_CLI, currentCode); 
             Assert.NotNull(dto);
             Assert.NotNull(dto.Helper);
+            Assert.Greater(dto.Helper.ClientPaymentForm.Count(), 0, "ClientPaymentForm");
+            Assert.Greater(dto.Helper.LanguageDto.Count(), 0, "Language");
         }
 
         [Test]

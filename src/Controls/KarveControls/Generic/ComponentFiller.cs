@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using KarveCommon;
+using KarveDataServices.DataTransferObject;
 
 namespace KarveControls.Generic
 {
@@ -69,26 +70,41 @@ namespace KarveControls.Generic
             }
 
         }
+
+      
         /// <summary>
         /// Fill the data object with a type
         /// </summary>
         /// <param name="textField">Field of the text.</param>
         /// <param name="dataObject">Data object to be filled.</param>
         /// <param name="dataField">Data field to be filled.</param>
-        public void FillDataObject(string textField, string dataField, ref object dataObject)
+        public void FillDataObject(object textField, string dataField, ref object dataObject)
         {
-
+            bool isBasedDto = (dataObject is BaseDto);
             if (dataObject == null)
                 return;
                 try
                 {
 
+                if (!isBasedDto)
+                {
                     ComponentUtils.SetPropValue(dataObject, "Value." + dataField, textField, true);
                     var tmpValue = ComponentUtils.GetPropValue(dataObject, "Value." + dataField);
-                    if (tmpValue.ToString() != textField)
+                    if (tmpValue.ToString() != textField.ToString())
                     {
                         ComponentUtils.SetPropValue(dataObject, "Value." + dataField.ToUpper(), textField, true);
                     }
+                }
+                else
+                {
+                    ComponentUtils.SetPropValue(dataObject, dataField, textField, true);
+                    var tmpValue = ComponentUtils.GetPropValue(dataObject,  dataField);
+                    if (tmpValue.ToString() != textField.ToString())
+                    {
+                        ComponentUtils.SetPropValue(dataObject, dataField.ToUpper(), textField, true);
+                    }
+                }
+
                 }
                 catch (Exception e)
                 {

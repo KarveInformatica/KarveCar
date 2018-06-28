@@ -3,6 +3,8 @@ using System.Windows;
 using KarveCommon;
 using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
+using static DualFieldSearchBox.DualFieldSearchBox;
+using System;
 
 namespace KarveControls.Behaviour
 {
@@ -32,6 +34,8 @@ namespace KarveControls.Behaviour
         /// 
         public static readonly DependencyProperty dataObjectProperty =
             DependencyProperty.Register("DataObject", typeof(object), typeof(ChangeRuleBehavior));
+
+        
 
         /// <summary>
         /// 
@@ -102,15 +106,40 @@ namespace KarveControls.Behaviour
         protected override void OnSetup()
         {
             this.AssociatedObject.DataSearchTextBoxChanged += AssociatedObject_DataSearchTextBoxChanged;
+            this.AssociatedObject.SearchBoxResolvedEventHandler += AssociatedObject_SearchBoxResolvedEventHandler;
 
         }
 
+        private void AssociatedObject_SearchBoxResolvedEventHandler(object sender, RoutedEventArgs e)
+        {
+            if (e is SearchBoxResolvedEventArgs args)
+            {
+                if (args != null)
+                {
+                    if ((args.Code != null) && (args.Code.Length >= 2))
+                    {
+                        var code = args.Code.Substring(0, 2);
+                        ExecuteRuleWithCode(code);
+                    }
+                }
+            }
+        }
 
         private void AssociatedObject_DataSearchTextBoxChanged(object sender, RoutedEventArgs e)
         {
+           
             ExecuteRules(DataObject);
         }
 
+        public void Execute()
+        {
+            var cpValue = ComponentUtils.GetTextDo(DataObject, "CP", DataType.Any);
+            if (!string.IsNullOrEmpty(cpValue))
+            {
+                var provinceValue = cpValue.Substring(0, 2);
+                ComponentUtils.SetPropValue(DataObject, "PROV", provinceValue);
+            }
+        }
         /// <summary>
         /// Cleanup the behavior.
         /// </summary>
@@ -142,42 +171,57 @@ namespace KarveControls.Behaviour
         {
             var newDataObject = newValue;
             var box = this.RelatedObject as DualFieldSearchBox;
-
-
-            var cpValue = ComponentUtils.GetTextDo(newDataObject, "POBLACION", DataType.Any);
-            if (!string.IsNullOrEmpty(cpValue))
+            if (newValue != null)
             {
-                var provinceValue = cpValue.Substring(0, 2);
-                if (newValue is BaseDto)
-                {
-                    SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);
-                }
-                else
-                {
-                    SetValues(provinceValue, "Value.PROV", "Value.PROVINCIA", newDataObject);
-                }
 
+                var cpValue = ComponentUtils.GetTextDo(newDataObject, "POBLACION", DataType.Any);
+                if (!string.IsNullOrEmpty(cpValue))
+                {
+                    var provinceValue = cpValue.Substring(0, 2);
+                    if (newValue is BaseDto)
+                    {
+                        SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);
+                    }
+                    else
+                    {
+                        SetValues(provinceValue, "Value.PROV", "Value.PROVINCIA", newDataObject);
+                    }
+
+                }
+            }
+        }
+
+        private void ExecuteRuleWithCode(string cp)
+        {
+            if (string.IsNullOrEmpty(cp))
+                return;
+            var provinceDto = this.RelatedObject as DualFieldSearchBox;
+            if (provinceDto != null)
+            {
+                provinceDto.TextContentFirst = cp;
             }
         }
         private void ExecuteRules(object newValue)
         {
             var newDataObject = newValue;
             var box = this.RelatedObject as DualFieldSearchBox;
-
-           
-            var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", DataType.Any);
-            if (cpValue != null)
+            if (newDataObject != null)
             {
-                var provinceValue = cpValue.Substring(0, 2);
-                if (newValue is BaseDto)
-                {
-                    SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);                    
-                }
-                else
-                {
-                    SetValues(provinceValue, "Value.PROV", "Value.PROVINCIA", newDataObject);
-                }
 
+                var cpValue = ComponentUtils.GetTextDo(newDataObject, "CP", DataType.Any);
+                if (!string.IsNullOrEmpty(cpValue))
+                {
+                    var provinceValue = cpValue.Substring(0, 2);
+                    if (newValue is BaseDto)
+                    {
+                        SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);
+                    }
+                    else
+                    {
+                        SetValues(provinceValue, "Value.PROV", "Value.PROVINCIA", newDataObject);
+                    }
+
+                }
             }
             ExecuteRuleOnPobla(newValue);
 

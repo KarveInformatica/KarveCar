@@ -49,6 +49,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CreditCardValidator, Version=1.4.1.178, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\CreditCardValidator.1.4.1\lib\net40\CreditCardValidator.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EmailValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EmailValidation.1.0.3\lib\net45\EmailValidation.dll</HintPath>
+    </Reference>
     <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.13244, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -59,6 +67,9 @@
     </Reference>
     <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="sinkien.IBAN4Net, Version=1.0.6.0, Culture=neutral, PublicKeyToken=b72d67ea62346b72, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\IBAN4Net.1.0.6\lib\sinkien.IBAN4Net.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.SfShared.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
@@ -86,18 +97,25 @@
     <Compile Include="Assist\IAssist.cs" />
     <Compile Include="Assist\IAssistHandler.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
+    <Compile Include="ConstantDataError.cs" />
     <Compile Include="DataHelperBase.cs" />
     <Compile Include="DataObjects\IBookingData.cs" />
     <Compile Include="DataObjects\IHelperMasterCommon.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
+    <Compile Include="DataObjects\IReservationRequest.cs" />
     <Compile Include="DataObjects\IValidDomainObject.cs" />
+    <Compile Include="DataTransferObject\ActiveFareDto.cs" />
+    <Compile Include="DataTransferObject\BaseDtoDefaultName.cs" />
     <Compile Include="DataTransferObject\BookingDto.cs" />
     <Compile Include="DataTransferObject\BookingItemsDto.cs" />
     <Compile Include="DataTransferObject\BookingSummaryDto.cs" />
     <Compile Include="DataTransferObject\BrokerDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
     <Compile Include="DataTransferObject\ConfigurationSettingsDto.cs" />
+    <Compile Include="DataTransferObject\ContractByClientDto.cs" />
+    <Compile Include="DataTransferObject\CountryRegionDto.cs" />
     <Compile Include="DataTransferObject\DelegaContableDto.cs" />
+    <Compile Include="DataTransferObject\FareSummaryDto.cs" />
     <Compile Include="DataTransferObject\GridSettingsColumnDto.cs" />
     <Compile Include="DataTransferObject\InvoiceComponent.cs" />
     <Compile Include="DataTransferObject\InvoiceDto.cs" />
@@ -189,6 +207,10 @@
     <Compile Include="DataTransferObject\ProvinciaDto.cs" />
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />
     <Compile Include="DataTransferObject\RentingUseDto.cs" />
+    <Compile Include="DataTransferObject\RequestReasonDto.cs" />
+    <Compile Include="DataTransferObject\ReservationRequestDto.cs" />
+    <Compile Include="DataTransferObject\ReservationRequestSummary.cs" />
+    <Compile Include="DataTransferObject\ReservationRequestSummaryDto.cs" />
     <Compile Include="DataTransferObject\ResponsabilityDto.cs" />
     <Compile Include="DataTransferObject\SupplierDto.cs" />
     <Compile Include="DataTransferObject\SupplierSummaryDto.cs" />
@@ -217,7 +239,9 @@
     <Compile Include="IDataLoader.cs" />
     <Compile Include="IDataPageLoader.cs" />
     <Compile Include="IDataProvider.cs" />
+    <Compile Include="IDataProvider1.cs" />
     <Compile Include="IDataSaver.cs" />
+    <Compile Include="IFareDataServices.cs" />
     <Compile Include="IHelperBase.cs" />
     <Compile Include="IHelperData.cs" />
     <Compile Include="IIdentifier.cs" />
@@ -228,6 +252,8 @@
     <Compile Include="IMongoExecutor.cs" />
     <Compile Include="IOfficeDataServices.cs" />
     <Compile Include="IPageCounter.cs" />
+    <Compile Include="IReservationRequest.cs" />
+    <Compile Include="IReservationRequestDataService.cs" />
     <Compile Include="ISettingsDataService.cs" />
     <Compile Include="DataObjects\IValueObject.cs" />
     <Compile Include="DataTransferObject\VehicleDto.cs" />

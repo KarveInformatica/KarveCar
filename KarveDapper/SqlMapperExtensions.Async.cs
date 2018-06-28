@@ -64,7 +64,17 @@ namespace KarveDapper.Extensions
             return obj;
         }
 
-
+        public static async Task<T> GetRandomEntityAsync<T>(this IDbConnection connection, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
+        {
+            var firstHundred = await GetPagedAsync<T>(connection, 1, 100, "", transaction, commandTimeout).ConfigureAwait(false);
+            Random random = new Random();
+            var number = random.Next(99);
+            if (firstHundred.Count()> number)
+            {
+                return firstHundred.ElementAt(number);
+            }
+            return firstHundred.FirstOrDefault();
+        }
         /// <summary>
         /// Returns a list of entites from table "Ts".  
         /// Id of T must be marked with [Key] attribute.
@@ -309,7 +319,14 @@ namespace KarveDapper.Extensions
                     sb.AppendFormat(" and ");
             }
             string value = sb.ToString();
-            var updated = await connection.ExecuteAsync(sb.ToString(), entityToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
+            int updated = 0;
+            try
+            {
+               updated = await connection.ExecuteAsync(sb.ToString(), entityToUpdate, commandTimeout: commandTimeout, transaction: transaction).ConfigureAwait(false);
+            } catch (Exception e)
+            {
+                var ex = e.Message;
+            }
             return updated > 0;
         }
         /// <summary>

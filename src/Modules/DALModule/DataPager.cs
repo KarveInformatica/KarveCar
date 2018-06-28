@@ -16,6 +16,8 @@ namespace DataAccessLayer
     {
         private readonly QueryStoreFactory _factory;
         private readonly ISqlExecutor _executor;
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// This is a data pager
         /// </summary>
@@ -49,11 +51,13 @@ namespace DataAccessLayer
                 {
                     if (dbConnection != null)
                     {
+                        logger.Debug("Executing: " + query);
                         pagedList = await dbConnection.QueryAsync<T>(query);
                     }
                 } catch (System.Exception ex)
                 {
-                    throw new DataPagerException("DataPagerException", ex);
+                    var msgPager = "DataPagerException: "+ex.Message;
+                    throw new DataPagerException(msgPager, ex);
                 }
                
             }

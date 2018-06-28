@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\test\KarveTest\KarveTest\bin\Debug\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\src\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>True</Private>
@@ -184,6 +188,27 @@
     <Reference Include="XamlBuildTask" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KarveDataServices\DataTransferObject\ClientEvaluationDto.cs" />
+    <Compile Include="ViewModels\ActivitySectorViewModel.cs" />
+    <Compile Include="ViewModels\BrokerTypeViewModel.cs" />
+    <Compile Include="ViewModels\CountryRegionsViewModel.cs" />
+    <Compile Include="ViewModels\SupplierCurrencyViewModel.cs" />
+    <Compile Include="ViewModels\SupplierTypeViewModel.cs" />
+    <Compile Include="ViewModels\TravelAgencyViewModel.cs" />
+    <Compile Include="Views\ActivitySector.xaml.cs">
+      <DependentUpon>ActivitySector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BrokerType.xaml.cs">
+      <DependentUpon>BrokerType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CountryRegions.xaml.cs">
+      <DependentUpon>CountryRegions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaymentForm.xaml.cs">
+      <DependentUpon>PaymentForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\ClassifierViewModel.cs" />
+    <Compile Include="ViewModels\PaymentFormViewModel.cs" />
     <Compile Include="ViewModels\VehicleBrandViewModel.cs" />
     <Compile Include="ViewModels\CitiesViewModel.cs" />
     <Compile Include="ViewModels\ClientZoneViewModel.cs" />
@@ -197,9 +222,13 @@
     <Compile Include="ViewModels\ProvinceViewModel.cs" />
     <Compile Include="ViewModels\RentingUseViewModel.cs" />
     <Compile Include="ViewModels\VehicleExtraViewModel.cs" />
+    <Compile Include="ViewModels\VehicleGroupViewModel.cs" />
     <Compile Include="ViewModels\VisitTypeViewModel.cs" />
     <Compile Include="Views\Cities.xaml.cs">
       <DependentUpon>Cities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Classifier.xaml.cs">
+      <DependentUpon>Classifier.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ClientType.xaml.cs">
       <DependentUpon>ClientType.xaml</DependentUpon>
@@ -231,6 +260,15 @@
     </Compile>
     <Compile Include="Views\CreditCard.xaml.cs">
       <DependentUpon>CreditCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SupplierCurrency.xaml.cs">
+      <DependentUpon>SupplierCurrency.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SupplierType.xaml.cs">
+      <DependentUpon>SupplierType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TravelAgency.xaml.cs">
+      <DependentUpon>TravelAgency.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VehicleBrandView.xaml.cs">
       <DependentUpon>VehicleBrandView.xaml</DependentUpon>
@@ -325,7 +363,27 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ActivitySector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BrokerType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CountryRegions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PaymentForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Cities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Classifier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -362,6 +420,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreditCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SupplierCurrency.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SupplierType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TravelAgency.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

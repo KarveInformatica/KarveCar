@@ -8,6 +8,8 @@ using KarveDataServices;
 using DataAccessLayer;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.DataObjects;
+using KarveDapper;
+using KarveDapper.Extensions;
 
 namespace KarveTest.DAL.Crud.Office
 {
@@ -47,9 +49,9 @@ namespace KarveTest.DAL.Crud.Office
         public async Task Should_Load_HolidaysDates_Correctly()
         {
             /// arrange
-            var loaderOffices = await _officeDataLoader.LoadAsyncAll();
+            var loaderOffices = await _officeDataLoader.LoadValueAtMostAsync(1,10);
             var office = loaderOffices.FirstOrDefault<OfficeDtos>();
-           
+            var entity = await _officeDataLoader.LoadValueAsync(office.Codigo);
             // act
             if (office != null)
             {
@@ -91,7 +93,6 @@ namespace KarveTest.DAL.Crud.Office
         /// <returns></returns>
         private HolidayDto Craft_Holiday_Date(string oficina)
         {
-            HolidayDto dto = new HolidayDto();
             HolidayDto holidayDto = new HolidayDto();
             holidayDto.FESTIVO = new DateTime(2018, 12, 24);
             holidayDto.HORA_DESDE = new TimeSpan(14, 0, 0);
@@ -107,33 +108,34 @@ namespace KarveTest.DAL.Crud.Office
             IOfficeDataServices officeDataServices = _dataServices.GetOfficeDataServices();
             IHelperDataServices helperData = _dataServices.GetHelperDataServices();
             var asyncOffice = await _officeDataLoader.LoadAsyncAll();
-            var dto = asyncOffice.FirstOrDefault();
-            if (dto != null)
-            {
-                var holiday = new List<HolidayDto> {Craft_Holiday_Date(dto.Codigo)};
-                bool value = await _officeDataDeleter.DeleteAsync(dto);
-                Assert.IsTrue(value);
-                // act: now we act to receive an office.
-                dto.HolidayDates = holiday;
-                value = await _officeDataSaver.SaveAsync(dto);
-               
-                // assert: now we assert to get correctly and office.
-                var currentOffice = await officeDataServices.GetAsyncOfficeDo(dto.Codigo);
-                var dates = currentOffice.Value.HolidayDates;
-            
-                Assert.IsTrue(value);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            var id = officeDataServices.GetNewId();
+            var dto = officeDataServices.GetNewOfficeDo(id);
+                if (dto != null)
+                {
+                    var holiday = new List<HolidayDto> { Craft_Holiday_Date(dto.Value.Codigo) };
+                    // act: now we act to receive an office.
+                    dto.Value.HolidayDates = holiday;
+                    var value = await _officeDataSaver.SaveAsync(dto.Value);
+
+                    // assert: now we assert to get correctly and office.
+                    var currentOffice = await officeDataServices.GetAsyncOfficeDo(dto.Value.Codigo);
+                    var dates = currentOffice.Value.HolidayDates;
+                    var singleDate = dates.FirstOrDefault();
+                    Assert.Greater(dates.Count(), 0);
+                    Assert.IsTrue(value);
+                    Assert.AreEqual(singleDate.FESTIVO.ToLongDateString(), new DateTime(2018, 12, 24).ToLongDateString());
+
+                }
+                else
+                {
+                    Assert.Fail();
+                }
         }
         [Test]
         public async Task Should_Update_An_Office_Detail()
         {
             // arrange
-            var loaderOffices = await _officeDataLoader.LoadAsyncAll();
-           
+            var loaderOffices = await _officeDataLoader.LoadValueAtMostAsync(10);          
             var office = loaderOffices.FirstOrDefault<OfficeDtos>();
             var officeCode = office.Codigo;
             office.Nombre = "HPEnterprise";
@@ -142,8 +144,7 @@ namespace KarveTest.DAL.Crud.Office
             Assert.IsTrue(value);
             // assert
             var item = await _officeDataLoader.LoadValueAsync(officeCode);
-
-
+            Assert.AreEqual(office.Nombre, item.Nombre);
         }
         
     }

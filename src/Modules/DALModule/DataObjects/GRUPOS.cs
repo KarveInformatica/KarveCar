@@ -342,12 +342,6 @@ namespace DataAccessLayer.DataObjects
 		public string INFREV { get; set; }
  
 	/// <summary>
-    ///  Set or get the ONREQUEST property.
-    /// </summary>
-    
-		public byte? ONREQUEST { get; set; }
- 
-	/// <summary>
     ///  Set or get the FOTO_GR property.
     /// </summary>
     

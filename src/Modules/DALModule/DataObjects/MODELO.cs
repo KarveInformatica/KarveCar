@@ -14,7 +14,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the MARCA property.
     /// </summary>
-    [ExplicitKey]
+   
 		public string MARCA { get; set; }
  
 	/// <summary>
@@ -26,8 +26,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the VARIANTE property.
     /// </summary>
-    [ExplicitKey]
-		public string VARIANTE { get; set; }
+   	public string VARIANTE { get; set; }
  
 	/// <summary>
     ///  Set or get the NOMBRE property.
@@ -657,7 +656,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the COSTETRANS_MO property.
     /// </summary>
     
-		public Decimal? COSTETRANS_MO { get; set; }
+	//	public Decimal? COSTETRANS_MO { get; set; }
  
 	/// <summary>
     ///  Set or get the SRV_SEGURO_MO property.

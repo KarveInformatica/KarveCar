@@ -6,7 +6,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     /// Date time of the holiday date. It allows to say which holiday is possible. 
     /// </summary>
-    public class HolidayDto: IComparable
+    public class HolidayDto: BaseDto, IComparable
     {
 
         /// <summary>
@@ -47,5 +47,15 @@ namespace KarveDataServices.DataTransferObject
             }
             return 1;
         }
+        public bool IsInvalid()
+        {
+            if ((OFICINA != null) && (OFICINA.Length > 2))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            return false;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
     }
 }

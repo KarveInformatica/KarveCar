@@ -143,7 +143,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
             {
                 PRECIO = 35000,
                 COMPRADOR = "Carles Ruiz Floriach",
-                FRAVEN = "12829893",
+               // FRAVEN = "12829893",
                 PVP = 200000,
                 VENDEDOR_VTA = "Yngvar Rossow"
             };

@@ -545,7 +545,7 @@ namespace KarveCar.Integration
                 .Callback(() => { sentDeleteMessage = true; });
             // arrange
 
-            var viewModel = new OfficesControlViewModel(_configurationService, _eventManager.Object, _dataServices,
+            var viewModel = new OfficesControlViewModel(_configurationService, _eventManager.Object, _dataServices, null, null,
                 _regionManager.Object);
 
             var helperDataService = _dataServices.GetHelperDataServices();
@@ -933,7 +933,7 @@ namespace KarveCar.Integration
             Assert.NotNull(invoiceDto.ContractSummary);
             Assert.NotNull(invoiceDto.ClientSummary);
             Assert.NotNull(invoiceDto.Value);
-            Assert.AreNotEqual(string.Empty, invoiceDto.Value.CodeId);
+            Assert.AreNotEqual(string.Empty, invoiceDto.Value.Code);
             Assert.AreNotEqual(string.Empty, invoiceDto.Value.NUMERO_FAC);
             Assert.NotNull(notifiedPayload);
             Assert.AreEqual(DataSubSystem.InvoiceSubsystem, _receivedPayLoad.Subsystem);
@@ -1204,6 +1204,12 @@ namespace KarveCar.Integration
             {
                 Assert.Fail(e.Message);
             }
+
+        }
+        [Test]
+        public async Task WhenIntegratedShould_Update_ReservationRequest()
+        {
+            // 1. Register the view in the payload.
 
         }
 

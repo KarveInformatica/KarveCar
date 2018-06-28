@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -14,13 +15,13 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the NUM_PROPIE property.
         /// </summary>
         [PrimaryKey]
-       
+        [Required]
         public string Codigo { get; set; }
 
         /// <summary>
         ///  Set or get the NOMBRE property.
         /// </summary>
-
+        [Required]
         public string Nombre { get; set; }
 
         /// <summary>
@@ -51,5 +52,25 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the TELEFONO property.
         /// </summary>
         public string Telefono { get; set; }
+
+        public override bool HasErrors
+        {
+            get
+            {
+                var chain = false;
+                if (Nombre == null)
+                {
+                    ErrorList.Add(ConstantDataError.AgentNamePresent);
+                    chain = true;
+                }
+                if ((Nombre != null) && (Nombre.Length > 30))
+                {
+                    ErrorList.Add(ConstantDataError.AgentNameTooLong);
+                    chain = chain || true;
+                }
+               
+                return chain;
+            }
+        }
     }
 }

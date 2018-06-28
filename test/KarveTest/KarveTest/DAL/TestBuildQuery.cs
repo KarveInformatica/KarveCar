@@ -4,8 +4,12 @@ using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
 using Dapper;
 using KarveDapper;
+using KarveDapper.Extensions;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
+using KarveDapper.Extensions;
+using DataAccessLayer.DataObjects;
+using System.Text;
 
 namespace KarveTest.DAL
 {
@@ -92,6 +96,63 @@ namespace KarveTest.DAL
                 dto.Code);
             var q = store.BuildQuery();
             Assert.AreEqual(q, Query3);
+        }
+        [Test]
+        public async Task Should_Build_ACorrectBookingMultiQuery()
+        {
+            var testBase = new TestBase();
+            var sqlExecutor = testBase.SetupSqlQueryExecutor();
+            var queryStore = _storeFactory.GetQueryStore();
+            var code1 = string.Empty;
+            var code2 = string.Empty;
+            var code3 = string.Empty;
+            using (var dbConnection = sqlExecutor.OpenNewDbConnection())
+            {
+                var dbContract = await dbConnection.GetPagedAsync<CONTRATOS1>(1, 4).ConfigureAwait(false);
+                var contract = dbContract.AsList<CONTRATOS1>();
+                queryStore.AddParam(QueryType.QueryContractsByClient, contract[0].CLIENTE_CON1);
+                queryStore.AddParam(QueryType.QueryClientSummaryExtById, contract[1].CLIENTE_CON1);
+
+               // queryStore.AddParam(QueryType.QueryClientById, contract[2].CLIENTE_CON1);
+                var queryValue = queryStore.BuildQuery();
+                var builder = new StringBuilder();
+                builder.Append(queryValue.TrimEnd());
+                var secondStore = _storeFactory.GetQueryStore();
+                secondStore.AddParam(QueryType.QueryClientSummaryExtById, contract[2].CLIENTE_CON1);
+                builder.Append(";");
+                builder.Append(secondStore.BuildQuery().TrimEnd());
+                var splittedValue = builder.ToString().Split(';');
+                Assert.AreEqual(6,splittedValue.Length);
+              
+            }
+        }
+        [Test]
+        public async Task Should_Build_AMultiKeyQueryCorrectly()
+        {
+            // arrange
+            var testBase = new TestBase();
+            var sqlExecutor = testBase.SetupSqlQueryExecutor();
+            var resultQuery = new VEHICULO1();
+            using (var connection = sqlExecutor.OpenNewDbConnection())
+            {
+                resultQuery = await connection.GetRandomEntityAsync<VEHICULO1>();
+            }
+            var auxQueryStore = new QueryStore();
+            auxQueryStore.AddParam(QueryType.QueryVehicleModelWithCount, resultQuery.MAR, resultQuery.MO1, resultQuery.MO2);
+            auxQueryStore.AddParamCount(QueryType.QueryBrandByVehicle, resultQuery.MAR, resultQuery.CODIINT);
+            auxQueryStore.AddParam(QueryType.QueryVehiclePhoto, resultQuery.CODIINT);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, resultQuery.ACTIVIDAD);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleOwner, resultQuery.PROPIE);
+            auxQueryStore.AddParamCount(QueryType.QueryAgentByVehicle, resultQuery.AGENTE);
+            auxQueryStore.AddParam(QueryType.QueryVehicleMaintenance, resultQuery.CODIINT);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleColor, resultQuery.COLOR);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, resultQuery.GRUPO);
+            auxQueryStore.AddParamCount(QueryType.QuerySupplierSummaryById, resultQuery.PROVEEDOR);
+            auxQueryStore.AddParamCount(QueryType.QueryReseller, resultQuery.VENDEDOR_VTA);
+            auxQueryStore.AddParamCount(QueryType.QuerySupplierSummaryById, resultQuery.CIALEAS);
+            var outQuery = auxQueryStore.BuildQuery();
+
+
         }
         [Test]
         public async Task Should_Execute_AQueryWithFilters()

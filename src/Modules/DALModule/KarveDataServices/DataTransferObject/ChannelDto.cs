@@ -1,13 +1,11 @@
 ﻿using System.Runtime.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
     [DataContract]
-    public class ChannelDto: BaseDto
+    public class ChannelDto : BaseDtoDefaultName
     {
-        [DataMember]
-        public string Code { get; set; }
-        [DataMember]
-        public string Name { get; set; }
+        
     }
 }

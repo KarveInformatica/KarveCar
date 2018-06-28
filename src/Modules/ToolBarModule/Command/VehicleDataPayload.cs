@@ -5,6 +5,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
+using KarveCommonInterfaces;
 
 namespace ToolBarModule.Command
 {
@@ -19,6 +20,10 @@ namespace ToolBarModule.Command
         public VehicleDataPayload(): base()
         {
             
+        }
+        public VehicleDataPayload(IDialogService dialogService) : base(dialogService)
+        {
+
         }
   /// <summary>
   /// 
@@ -36,6 +41,7 @@ namespace ToolBarModule.Command
                 DataPayLoad nullDataPayLoad = new NullDataPayload();
                 return nullDataPayLoad;
             }
+            _vehicleDataServices = DataServices.GetVehicleDataServices();
             if (vehicleData == null)
             {
                 string message = (payLoad.PayloadType == DataPayLoad.Type.Insert) ? "Error during the insert" : "Error during the update";
@@ -46,14 +52,10 @@ namespace ToolBarModule.Command
             switch (payLoad.PayloadType)
             {
                 case DataPayLoad.Type.Update:
-                {
-                    result = await DataServices.GetVehicleDataServices().SaveChangesVehicle(vehicleData).ConfigureAwait(false);
-                    break;
-                }
                 case DataPayLoad.Type.Insert:
                 {
                     isInsert = true;
-                    result = await DataServices.GetVehicleDataServices().SaveVehicle(vehicleData).ConfigureAwait(true); 
+                    result = await _vehicleDataServices.SaveAsync(vehicleData).ConfigureAwait(false);
                     break;
                 }
             }

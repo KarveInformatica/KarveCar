@@ -1,11 +1,16 @@
 using System;
- 
+using Dapper;
+using KarveDapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a TL_CONDICION_PRECIO.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    /// 
+    [Table("TL_CONDICION_PRECIO")]
 	public class TL_CONDICION_PRECIO 
 	{
 	

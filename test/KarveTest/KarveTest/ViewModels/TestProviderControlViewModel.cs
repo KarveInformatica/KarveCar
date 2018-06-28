@@ -78,11 +78,12 @@ namespace KarveTest.ViewModels
                 }
             };
 
-            _providersControlViewModel = new ProvidersControlViewModel(_configurationService.Object, 
+          /*  _providersControlViewModel = new ProvidersControlViewModel(_configurationService.Object, 
                                                                        _unity.Object, 
                                                                        _dataServices.Object, 
                                                                        _regionManager.Object, 
                                                                        _eventManager.Object);
+                                                                       */
             _supplierMock.Setup(c => c.GetSupplierAsyncSummaryDo()).ReturnsAsync(summary);
             _dataServices.Setup(ds => ds.GetSupplierDataServices()).Returns(_supplierMock.Object);
             _providersControlViewModel.StartAndNotify();
@@ -93,11 +94,15 @@ namespace KarveTest.ViewModels
         [Test]
         private void Should_SupplierNavigate_Correctly()
         {
+            /*
             _providersControlViewModel = new ProvidersControlViewModel(_configurationService.Object,
                 _unity.Object,
                 _dataServices.Object,
                 _regionManager.Object,
+                null,
+                null,
                 _eventManager.Object);
+                */
             _providersControlViewModel.StartAndNotify();
             IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
             Assert.NotNull(collection);

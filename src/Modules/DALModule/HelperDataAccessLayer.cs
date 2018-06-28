@@ -338,6 +338,28 @@ namespace DataAccessLayer
          
             return outputPagedData;
         }
+
+        /// <summary>
+        ///  GetPagedQueryDoAsync.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query">Query to be executed.</param>
+        /// <param name="pageIndex">Page Index</param>
+        /// <param name="pageSize">Page Size</param>
+        /// <returns></returns>
+        public async Task<IEnumerable<T>> GetPagedQueryDoAsync<T>(string query, int pageIndex, int pageSize)
+           where T : class
+        {
+            IEnumerable<T> pagedData = new List<T>();
+            using (var connection = SqlExecutor.OpenNewDbConnection())
+            {
+                if (connection != null)
+                {
+                    pagedData = await connection.GetPagedAsync<T>(pageIndex, pageSize).ConfigureAwait(false);
+                }
+            }
+            return pagedData;
+        }
         /// <summary>
         /// GetMappedAllAsyncHelper.
         /// </summary>
@@ -421,20 +443,22 @@ namespace DataAccessLayer
         public async Task<DtoTransfer> GetSingleMappedAsyncHelper<DtoTransfer, T>(string code) where T : class
                                                                                         where DtoTransfer : class, new()
         {
-            var connection = SqlExecutor.Connection;
+
             var result = new DtoTransfer();
-            if ((connection == null) || ((connection.State != ConnectionState.Open)))
-            {
-                connection = SqlExecutor.OpenNewDbConnection();
-            }
-            try
+            using (var connection = SqlExecutor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<T>(code);
-                result = _mapper.Map<DtoTransfer>(value);
-            }
-            finally
-            {
-                connection.Close();
+
+                if (value != null)
+                {
+                    try
+                    {
+                        result = _mapper.Map<DtoTransfer>(value);
+                    } catch (System.Exception ex)
+                    {
+                        result = new DtoTransfer();
+                    }
+                }
             }
             return result;
         }
@@ -566,11 +590,15 @@ namespace DataAccessLayer
             where T : class
         {
             IEnumerable<DtoTransfer> transfer = new List<DtoTransfer>();
+            long currentIndex = (pageIndex == 0) ? 1 : pageIndex;
+
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
+
                 if (dbConnection != null)
                 {
-                    var conn = await dbConnection.GetPagedAsync<T>(pageIndex, pageSize);
+                        
+                    var conn = await dbConnection.GetPagedAsync<T>(currentIndex, pageSize).ConfigureAwait(false);
                     transfer = _mapper.Map<IEnumerable<T>, IEnumerable<DtoTransfer>>(conn);
                     return transfer;
                 }

@@ -24,15 +24,22 @@
                         <Setter Property="Header" Value="Selecciona una fecha"/>
                     </Style>
                 </ResourceDictionary>
-                
+
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
-                
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto">
-        <Grid>
 
+
+
+    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+        <interactivity:Interaction.Triggers>
+            <interactivity:EventTrigger EventName="Loaded">
+                <mvvm:InvokeCommandAction Command="{Binding ActiveSubsystemCommand}"/>
+            </interactivity:EventTrigger>
+        </interactivity:Interaction.Triggers>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -40,11 +47,12 @@
 
             <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource VehicleUpperView}"></ContentControl>
 
-            <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible">
-
-
+            <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible" 
+                                      syncfusion:SkinStorage.VisualStyle="Metro"
+                                      CloseButtonType="Hide">
 
                 <syncfusion:TabItemExt x:Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" 
+                                       kc:KarveTabItemExt.CloseButtonVisibility="Hidden"
                                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <i:Grid>
                         <i:Grid.ColumnDefinitions>
@@ -52,13 +60,19 @@
                             <i:ColumnDefinition />
                         </i:Grid.ColumnDefinitions>
                         <i:Grid.RowDefinitions>
-                            <i:RowDefinition/>
-                            <i:RowDefinition/>
+                            <i:RowDefinition Height="196*"/>
+                            <i:RowDefinition Height="142*"/>
+                            <i:RowDefinition Height="53*"/>
+                            <i:RowDefinition Height="388*"/>
                         </i:Grid.RowDefinitions>
-                        <i:StackPanel Orientation="Vertical" i:Grid.Row="0" i:Grid.Column="0" i:Grid.RowSpan="2">
+                        <i:StackPanel Orientation="Vertical" i:Grid.Row="0" i:Grid.Column="0" i:Grid.RowSpan="4" Margin="0,0,0,-0.334">
 
                             <i:GroupBox Header="{Binding DatoGenerales, Source={StaticResource ResourceLanguage}}">
                                 <Grid>
+                                    <i:Grid.ColumnDefinitions>
+                                        <i:ColumnDefinition Width="67*"/>
+                                        <i:ColumnDefinition Width="7*"/>
+                                    </i:Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="25*"></RowDefinition>
                                         <RowDefinition Height="25*"></RowDefinition>
@@ -72,7 +86,7 @@
                                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                  DataAreaWidth="400"
                                                 
-                                                 Width="Auto"/>
+                                                 Width="Auto" i:Grid.ColumnSpan="2"/>
 
                                     <kc:DataArea Grid.Row="1" DataAreaTitle="{Binding lextras, Source={StaticResource ResourceLanguage}}" DataAreaWidth="400" 
                                                  kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -80,18 +94,18 @@
                                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                  Width="Auto" 
                                               
-                                                 Margin="10,4,64.125,23" Height="Auto"/>
+                                                 Margin="10,4,15,23" Height="Auto"/>
                                     <kc:DataArea  Grid.Row="2" DataAreaTitle="{Binding lacessorios, Source={StaticResource ResourceLanguage}}" 
                                                      DataAreaWidth="400" 
                                                    ItemChangedCommand="{i:Binding ItemChangedCommand}"
                                                  
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
-                                                 DataSourcePath="ACCESORIOS_VH" Margin="10,4,95.5,27" Width="Auto" Height="Auto"/>
+                                                 DataSourcePath="ACCESORIOS_VH" Margin="10,4,46,27" Width="Auto" Height="Auto"/>
                                     <kc:DataArea Grid.Row="3" DataAreaTitle="{Binding lavisos, Source={StaticResource ResourceLanguage}}" DataAreaWidth="400" 
                                                  ItemChangedCommand="{i:Binding ItemChangedCommand}"                                                 
                                                  DataSource="{i:Binding DataObject, Mode=TwoWay}" 
                                                  
-                                                 DataSourcePath="AVISO" Margin="10,3,72,26" Width="Auto" Height="Auto"/>
+                                                 DataSourcePath="AVISO" Margin="10,3,23,26" Width="Auto" Height="Auto"/>
 
                                 </Grid>
 
@@ -135,7 +149,7 @@
                                                            AssistDataFieldFirst="NUM_ACTIVEHI"
                                                            AssistTableName="activehi"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                           AssistProperties="Code, Activity, Compute"
+                                                           AssistProperties="Codigo,Nombre"
                                                            TextContentFirstWidth="40"
                                                            TextContentSecondWidth="180"
                                                            Height="30"
@@ -148,13 +162,13 @@
                                                            LabelTextWidth="105"
                                                            DataSource="{i:Binding Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                            SourceView="{i:Binding Path=OwnerDtos, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                           DataFieldFirst="propie"
+                                                           DataFieldFirst="PROPIE"
                                                            ItemChangedCommand="{i:Binding ItemChangedCommand }"
                                                            MagnifierCommand="{i:Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            AssistQuery="{i:Binding Path=DataObject.AssistQueryOwner, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                            AssistDataFieldFirst="NUM_PROPIE"
                                                            AssistDataFieldSecond="NOMBRE"
-                                                           AssistTableName="propie"
+                                                           AssistTableName="PROPIE"
                                                            AssistProperties="Codigo, Nombre"
                                                            TextContentFirstWidth="40"
                                                            TextContentSecondWidth="180"
@@ -203,7 +217,7 @@
                                DeleteCommand="{i:Binding DeleteCommand}"/>
                           -->
                         </i:StackPanel>
-                        <i:GroupBox Header="{Binding OtrasInformaciones, Source={StaticResource ResourceLanguage}}" i:Grid.Row="1" i:Grid.Column="1">
+                        <i:GroupBox Header="{Binding OtrasInformaciones, Source={StaticResource ResourceLanguage}}" i:Grid.Row="2" i:Grid.Column="1" Margin="0,53,0,0.666" i:Grid.RowSpan="2">
 
 
 
@@ -333,41 +347,43 @@
                             </i:Grid>
 
                         </i:GroupBox>
-                        <i:GroupBox Header="{Binding lhistorialvehiculo, Source={StaticResource ResourceLanguage}}" i:Grid.Row="0" i:Grid.Column="1">
-                            
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
+                        <i:GroupBox Header="{Binding lhistorialvehiculo, Source={StaticResource ResourceLanguage}}" i:Grid.Row="0" i:Grid.Column="1" i:Grid.RowSpan="2" Margin="0,0,0,0.333">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
-                                    <Label Content="{Binding lprimerdiaenflota, Source={StaticResource ResourceLanguage}}" Width="150" />
-                                    <syncfusion:SfDatePicker Value="{Binding Path=DataObject.Value.FECHACO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                                             Grid.Column="1" Grid.Row="0" Height="30" />
-                                    <Label Content="{Binding lultimodiaenflota, Source={StaticResource ResourceLanguage}}" Grid.Row="1" Width="150" />
-                                <syncfusion:SfDatePicker Value="{Binding Path=DataObject.Value.FEBAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" Height="30" />
-                                <Label Content="{Binding ldevolucionprevista, Source={StaticResource ResourceLanguage}}" Grid.Row="2" Width="150" />
-                                <syncfusion:SfDatePicker Value="{Binding Path=DataObject.Value.FDEVO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Grid.Column="1" Grid.Row="2" Height="30" />
-                                <Label Content="{Binding FechaFabricacion, Source={StaticResource ResourceLanguage}}" Grid.Row="3" Width="150" />
-                                <syncfusion:SfDatePicker Value="{Binding Path=DataObject.Value.FFABRI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="3" Height="30" />
-                                <Label Content="{Binding FechaMatriculacion, Source={StaticResource ResourceLanguage}}" Grid.Row="4" Width="150" />
-                                <syncfusion:SfDatePicker Value="{Binding Path=DataObject.Value.FMATRI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" Height="30" />
-                                </Grid>
+                                <Label Content="{Binding lprimerdiaenflota, Source={StaticResource ResourceLanguage}}" Width="150" />
+                                <syncfusion:DateTimeEdit DateTime="{Binding Path=DataObject.Value.FECHACO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                                             Grid.Column="1" Grid.Row="0" Height="30" NullValue="{x:Null}"  />
+                                <Label Content="{Binding lultimodiaenflota, Source={StaticResource ResourceLanguage}}" Grid.Row="1" Width="150" />
+                                <syncfusion:DateTimeEdit DateTime="{Binding Path=DataObject.Value.FEBAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" Height="30" NullValue="{x:Null}" />
+                                <Label Content="{Binding ldevolucionprevista, Source={StaticResource ResourceLanguage}}" Grid.Row="2" Width="150"  />
+                                <syncfusion:DateTimeEdit DateTime="{Binding Path=DataObject.Value.FDEVO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Grid.Column="1" Grid.Row="2" Height="30" NullValue="{x:Null}"/>
+                                <Label Content="{Binding FechaFabricacion, Source={StaticResource ResourceLanguage}}" Grid.Row="3" Width="150"  />
+                                <syncfusion:DateTimeEdit DateTime="{Binding Path=DataObject.Value.FFABRI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="3" Height="30" NullValue="{x:Null}"/>
+                                <Label Content="{Binding FechaMatriculacion, Source={StaticResource ResourceLanguage}}" Grid.Row="4" Width="150"  />
+                                <syncfusion:DateTimeEdit DateTime="{Binding Path=DataObject.Value.FMATRI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" Height="30" NullValue="{x:Null}"/>
+                            </Grid>
 
-                                
+
                         </i:GroupBox>
 
                     </i:Grid>
                 </syncfusion:TabItemExt>
 
-                <syncfusion:TabItemExt x:Name="Reselling"  Header="{Binding CompraVenta,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <syncfusion:TabItemExt x:Name="Reselling"  
+                                       kc:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                                       Header="{Binding CompraVenta,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -386,7 +402,9 @@
                     </Grid>
 
                 </syncfusion:TabItemExt>
-                <syncfusion:TabItemExt x:Name="Assurance"  Header="{Binding lseguro, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <syncfusion:TabItemExt x:Name="Assurance"  
+                                       kc:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                                       Header="{Binding lseguro, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <i:StackPanel Orientation="Vertical" >
                         <vehicleViews:GeneralAssurance Width="900" HorizontalAlignment="Left"/>
                         <i:Grid>
@@ -473,31 +491,43 @@
                 </syncfusion:TabItemExt>
 
 
-                <syncfusion:TabItemExt x:Name="Acomulado"  Header="{Binding Acumulados, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <syncfusion:TabItemExt x:Name="Acomulado" 
+                                       kc:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                                       Header="{Binding Acumulados, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
 
                 </syncfusion:TabItemExt>
-                <syncfusion:TabItemExt x:Name="Mantainance"  Header="{Binding Mantenimiento, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Bottom" VerticalContentAlignment="Stretch">
+                <syncfusion:TabItemExt x:Name="Mantainance"  
+                                       kc:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                                       Header="{Binding Mantenimiento, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Bottom" VerticalContentAlignment="Stretch">
 
                     <vehicleViews:Mantainence>
 
                     </vehicleViews:Mantainence>
                 </syncfusion:TabItemExt>
-                <i:TabItem x:Name="Revision"  Header="{Binding lrevisiones, Source={StaticResource ResourceLanguage}}" 
+                <syncfusion:TabItemExt kc:KarveTabItemExt.CloseButtonVisibility="Hidden" x:Name="Revision"  Header="{Binding lrevisiones, Source={StaticResource ResourceLanguage}}" 
                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <vehicleViews:Revision MaxWidth="900"></vehicleViews:Revision>
-                </i:TabItem>
-                <!--
+                </syncfusion:TabItemExt>
+               
                 <syncfusion:TabItemExt x:Name="Photo" Header="{Binding Foto, Source={StaticResource ResourceLanguage}}">
 
-                    <photoFrame:PhotoFrame MaxWidth="900" 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45*"></ColumnDefinition>
+                            <ColumnDefinition Width="40*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                        <photoFrame:PhotoFrame  
+                            Grid.Column="0"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="">
 
-                    </photoFrame:PhotoFrame>
+                        </photoFrame:PhotoFrame>
+                        <photoFrame:PhotoFrame Grid.Column="1" Height="215" Width="380" VerticalAlignment="Top" HorizontalAlignment="Left"></photoFrame:PhotoFrame>
+                    </Grid>
                 </syncfusion:TabItemExt>
-                -->
-                <!--
+                               <!--
                 <syncfusion:TabItemExt x:Name="ActualState" Header="{Binding EstadoActual, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>

@@ -9,7 +9,7 @@ namespace DataAccessLayer.DataObjects
     /// <summary>
     ///  This is a 
     /// </summary>
-    class ProDelegaPoco: ProDelega
+    public class ProDelegaPoco: ProDelega
     {
         /// <summary>
         ///  ProDelegaPoco is a poco object 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,9 @@ namespace KarveDataServices.DataTransferObject
     public class BookingDto: LineBaseDto<BookingItemsDto>
     {
         [PrimaryKey]
+        [Required]
         public string NUMERO_RES { get; set; }
+
 
         /// <summary>
         ///  Set or get the LOCALIZA_RES1 property.
@@ -2006,6 +2009,6 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the MOTIVO_NOCONFIRM_RES2 property.
         /// </summary>
         public string MOTIVO_NOCONFIRM_RES2 { get; set; }
-
+        
     }
 }

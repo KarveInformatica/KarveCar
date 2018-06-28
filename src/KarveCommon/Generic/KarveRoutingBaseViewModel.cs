@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Prism.Commands;
 using Prism.Regions;
 using System.ComponentModel;
+using System.Linq;
 
 namespace KarveCommon.Generic
 {
@@ -27,6 +28,8 @@ namespace KarveCommon.Generic
     {
 
         protected IEventManager EventManager;
+        protected IRegionManager RegionManager;
+
         protected const string RegionName = "TabRegion";
       
 
@@ -57,6 +60,39 @@ namespace KarveCommon.Generic
         {
             EventManager = eventManager;
         }
+
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IRegionManager regionManager) :this(services, controller, dialogService, eventManager)
+        {
+            RegionManager = regionManager;
+        }
+      
+        protected void DeleteRegion()
+        {
+
+            if ((RegionManager == null) || (RegionManager.Regions == null))
+            {
+                return;
+            }
+            var activeRegion = RegionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
+            switch (activeRegion)
+            {
+                case null:
+                    return;
+                case IHeaderedView _:
+                    if (activeRegion is IHeaderedView headeredView)
+                        RegionManager.Regions[RegionName].Remove(headeredView);
+                    break;
+
+                case FrameworkElement _:
+                    RegionManager.Regions[RegionName].Remove(activeRegion);
+                    var framework = activeRegion as FrameworkElement;
+                    framework?.ClearValue(Prism.Regions.RegionManager.RegionManagerProperty);
+                    break;
+            }
+
+        }
+
+
         /// <summary>
         ///  Get the routing name for the payload for sending the payload to the event manager.
         ///  The event manager will switch the values following the payload
@@ -87,6 +123,45 @@ namespace KarveCommon.Generic
             }
             return currentPayload;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataObject"></param>
+        /// <param name="eventDictionary"></param>
+        /// <param name="subSystem"></param>
+        /// <param name="subsystemName"></param>
+        /// <param name="objectPath"></param>
+        protected void OnChangedCommand<DtoType>(DtoType dataObject,
+            IDictionary<string, object> eventDictionary, DataSubSystem subSystem, string subsystemName, string objectPath) where DtoType : class
+        {
+
+            var evDictionary = eventDictionary as IDictionary<string, object>;
+            var changedDataObject = evDictionary["DataObject"] as DtoType;
+            var payLoad = BuildDataPayload(eventDictionary);
+            var data = dataObject;
+            payLoad.PayloadType = DataPayLoad.Type.Update;
+            payLoad.PrimaryKeyValue = PrimaryKeyValue;
+            payLoad.HasDataObject = true;
+            payLoad.DataObject = data;
+            payLoad.Sender = ViewModelUri.ToString();
+            payLoad.ObjectPath = ViewModelUri;
+            var handlerDo = new ChangeFieldHandlerDo<DtoType>(EventManager, subSystem);
+            if (OperationalState == DataPayLoad.Type.Insert)
+            {
+                handlerDo.OnInsert(payLoad, eventDictionary);
+            }
+            else
+            {
+                payLoad.PayloadType = DataPayLoad.Type.Update;
+
+                handlerDo.OnUpdate(payLoad, eventDictionary);
+            }
+
+        }
+
+
         /// <summary>
         /// Navigate to the view
         /// </summary>
@@ -139,6 +214,19 @@ namespace KarveCommon.Generic
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             EventManager.NotifyToolBar(payLoad);
 
+        }
+        protected void RegisterToolBar(ICommand saveCommand, ICommand deleteCommand)
+        {
+            var payLoad = new DataPayLoad();
+            payLoad.HasSaveCommand = true;
+            payLoad.HasDeleteCommand = true;
+            payLoad.SaveCommand = saveCommand;
+            payLoad.DeleteCommand = deleteCommand;
+            payLoad.ObjectPath = ViewModelUri;
+            payLoad.Sender = ViewModelUri.ToString();
+            SetRegistrationPayLoad(ref payLoad);
+            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
+            EventManager.NotifyToolBar(payLoad);
         }
         /// <summary>
         ///  Associate to the mailbox a name.A view model can through the mediator/event manager 
@@ -295,6 +383,53 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
             };
             EventManager.NotifyToolBar(payLoadUnregister);
         }
+        protected void UnregisterToolBar(string key, ICommand newCommand, ICommand savedCommand, ICommand deleteCommand)
+        {
+            var payLoadUnregister = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.UnregisterPayload,
+                PrimaryKeyValue = key,
+                ObjectPath = ViewModelUri,
+                Sender = ViewModelUri.ToString(),
+                NewCommand = newCommand,
+                SaveCommand = savedCommand,
+                DeleteCommand = deleteCommand,
+                HasNewCommand = (newCommand != null),
+                HasDeleteCommand = (deleteCommand != null),
+                HasSaveCommand = (savedCommand != null)
+            };
+            EventManager.NotifyToolBar(payLoadUnregister);
+        }
+        protected void DisposeToolBar()
+        {
+            var payLoadUnregister = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.Dispose,
+               
+                ObjectPath = ViewModelUri,
+                Sender = ViewModelUri.ToString(),
+               
+            };
+            EventManager.NotifyToolBar(payLoadUnregister);
+
+        }
+
+
+        protected void UnregisterToolBar(string key, ICommand savedCommand, ICommand deleteCommand)
+        {
+            var payLoadUnregister = new DataPayLoad
+            {
+                PayloadType = DataPayLoad.Type.UnregisterPayload,
+                PrimaryKeyValue = key,
+                ObjectPath = ViewModelUri,
+                Sender = ViewModelUri.ToString(),
+                HasSaveCommand = true,
+                HasDeleteCommand = true,
+                SaveCommand = savedCommand,
+                DeleteCommand = deleteCommand
+            };
+            EventManager.NotifyToolBar(payLoadUnregister);
+        }
         /// <summary>
         ///  This build a data payload, enforcing the value that cames from the UI.
         /// </summary>
@@ -310,6 +445,7 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
             }
             if (eventDictionary.ContainsKey("DataObject"))
             {
+
                 if (eventDictionary["DataObject"] == null)
                 {
                     DialogService?.ShowErrorMessage("DataObject is null");

@@ -131,12 +131,21 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public string TARCADU { get; set; }
- 
-	/// <summary>
-    ///  Set or get the DTO property.
-    /// </summary>
-    
-		public Decimal? DTO { get; set; }
+
+        /// <summary>
+        /// </summary>
+        public string TARTITULAR { get; set; }
+
+        /// <summary>
+        ///  Set or get the TARTI property.
+        /// </summary>
+
+
+        /// <summary>
+        ///  Set or get the DTO property.
+        /// </summary>
+
+        public Decimal? DTO { get; set; }
  
 	/// <summary>
     ///  Set or get the PERMISO property.
@@ -389,12 +398,7 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public byte? MESVACA { get; set; }
- 
-	/// <summary>
-    ///  Set or get the TARTITULAR property.
-    /// </summary>
-    
-		public string TARTITULAR { get; set; }
+
  
 	/// <summary>
     ///  Set or get the TARJETA_COMI_CL1 property.

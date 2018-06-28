@@ -27,6 +27,9 @@ namespace MasterModule.Views.Vehicles
         private string BuyingDateValue = KarveLocale.Properties.Resources.StringConstants_FechaCompra;
         private string VehicleCopyValue = KarveLocale.Properties.Resources.lcopiavehiculo;
         private string SummaryValue = KarveLocale.Properties.Resources.StringConstants_Importe;
+
+        public string ExpirationDate => KarveLocale.Properties.Resources.ExpirationDate;
+
         /// <summary>
         /// import value
         /// </summary>

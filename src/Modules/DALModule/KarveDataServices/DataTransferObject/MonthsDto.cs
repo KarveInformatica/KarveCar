@@ -19,5 +19,16 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string MES { get; set; }
+
+        public bool IsInvalid()
+        {
+            if ((MES != null) && (MES.Length > 12))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            return false;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
     }
 }

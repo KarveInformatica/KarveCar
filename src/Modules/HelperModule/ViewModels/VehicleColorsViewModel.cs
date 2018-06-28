@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
@@ -20,7 +21,8 @@ namespace HelperModule.ViewModels
     class VehicleColorsViewModel : GenericHelperViewModel<ColorDto, COLORFL>
     {
         private string _assist;
-
+        
+        // TODO: generic 
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -28,7 +30,7 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region where the tab is present.</param>
         /// <param name="eventManager">Event manager to send and receive messages from other view models.</param>
 
-        public VehicleColorsViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager) : base(GenericSql.ColorTypes, dataServices, region, eventManager)
+        public VehicleColorsViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService service) : base(GenericSql.ColorTypes, dataServices, region, eventManager, service)
         {
             var assistList = new StringBuilder();
             

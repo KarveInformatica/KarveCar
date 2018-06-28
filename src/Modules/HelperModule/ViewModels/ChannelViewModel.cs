@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -17,7 +18,7 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            ChannelDto dto = payLoad.DataObject as ChannelDto;
+            var dto = payLoad.DataObject as ChannelDto;
             if (dto != null)
             {
                 string codeId = await helperDal.GetMappedUniqueId<ChannelDto, CANAL>(dto);
@@ -26,7 +27,7 @@ namespace HelperModule.ViewModels
             }
             return payLoad;
         }
-        public ChannelViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
+        public ChannelViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperChannel;
         }

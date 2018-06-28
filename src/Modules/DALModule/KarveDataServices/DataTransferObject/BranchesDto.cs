@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace KarveDataServices.DataTransferObject
@@ -35,11 +36,13 @@ namespace KarveDataServices.DataTransferObject
             Fax = lastBranchesDto.Fax;
         }
         [DataMember]
+        [Required]
         public string BranchKeyId { get; set; }
         [DataMember]
         [PrimaryKey]
         public string BranchId { get; set; }
         [DataMember]
+        [StringLength(45,ErrorMessage ="Nombre delegacion demasiado ancho")]
         public string Branch { get; set; }
         [DataMember]
         public string Address { get; set; }
@@ -78,7 +81,18 @@ namespace KarveDataServices.DataTransferObject
                 return _provincia;
             }
         }
-
+        public override bool HasErrors
+        {
+            get
+            {
+                if ((Branch != null) && (Branch.Length > 45))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                return false;
+            }
+        }
         public string CellPhone { get; set; }
     }
 }

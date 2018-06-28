@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class VehicleProvisionReasonDto
+    public class VehicleProvisionReasonDto: BaseDtoDefaultName
     {
-        public byte Code { get; set; }
+        public new byte Code { get; set; }
 
-        public  string Name { get; set; }
+        
 
-        public string LastModification { get; set; }
+ 
     }
 }

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    // This maps vehicle1 and vehicle2 entities in an unique data transfer object
+
     public class VehicleDto
     {
         /// <summary>
         ///  Set or get the CODIINT property.
         /// </summary>
+
         public string CODIINT { get; set; }
 
         /// <summary>
@@ -318,7 +319,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the RECIBO_V1 property.
         /// </summary>
 
-        public Boolean? RECIBO_V1 { get; set; }
+        //public Boolean? RECIBO_V1 { get; set; }
 
         /// <summary>
         ///  Set or get the NUMPLAZAS property.
@@ -1908,7 +1909,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the FRAVEN property.
         /// </summary>
 
-        public string FRAVEN { get; set; }
+        //  public string FRAVEN { get; set; }
 
         /// <summary>
         ///  Set or get the COMPRAFRA_BASE property.
@@ -2743,11 +2744,11 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the VTOSEGU2 property. Replicato.
         /// </summary>
 
-         /// <summary>
+        /// <summary>
         ///  Set or get the PRIMA2 property.
         /// </summary>
 
-        public Double? PRIMA2 { get; set; }
+        ///   public Double? PRIMA2 { get; set; }
 
         /// <summary>
         ///  Set or get the ADA3 property.
@@ -3307,7 +3308,7 @@ namespace KarveDataServices.DataTransferObject
 
         public DateTime? VTOADA5 { get; set; }
 
-        
+
         /// <summary>
         ///  Set or get the SUPLIDO0 property.
         /// </summary>
@@ -3997,6 +3998,7 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public DateTime? CANCELA_LEASING { get; set; }
-
+        // This maps vehicle1 and vehicle2 entities in an unique data transfer object
     }
+     
 }

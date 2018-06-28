@@ -304,7 +304,7 @@ namespace KarveCommon.Generic
             
             if (!string.IsNullOrEmpty(viewName))
             {
-                Type currentType = view.GetType();
+                 Type currentType = view.GetType();
                 var currentProperty = currentType.GetProperty("Header");
                 if (currentProperty != null)
                 {
@@ -351,11 +351,18 @@ namespace KarveCommon.Generic
        
             if (string.IsNullOrEmpty(viewName))
             {
-                    region.Add(view, null, CreateRegionManagerScope(view));
+                region.Add(view, null, CreateRegionManagerScope(view));
             }
             else
             {
-                region.Add(view, viewName, CreateRegionManagerScope(view));  
+                // here is slow.
+                Stopwatch start = new Stopwatch();
+                start.Start();
+                ///region.Add(view, viewName, false);
+                region.Add(view, viewName, CreateRegionManagerScope(view));
+                start.Stop();
+                var elapsedTome = start.ElapsedMilliseconds;
+                
             }
 
             if (view is UserControl control)

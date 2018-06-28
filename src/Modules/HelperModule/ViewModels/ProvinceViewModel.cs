@@ -14,11 +14,13 @@ using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.Windows.PdfViewer;
 using Syncfusion.UI.Xaml.Grid;
+using KarveCommonInterfaces;
 
 namespace HelperModule.ViewModels
 {
     class ProvinceViewModel: GenericHelperViewModel<ProvinciaDto, PROVINCIA>
     {
+        private HelperLoader<ProvinciaDto, PROVINCIA> _provinceLoader;
         private HelperLoader<CountryDto, Country> _loader;
         private IEnumerable<CountryDto> _countryDto;
         
@@ -29,12 +31,15 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices testing</param>
         /// <param name="region">Region </param>
         /// <param name="manager"> event manager to send and put messages.</param>
-        public ProvinceViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(
-            string.Empty, dataServices, region, manager)
+        public ProvinceViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(string.Empty, dataServices, region, manager, service)
         {
             LoadAllCountries();
+            _provinceLoader = new HelperLoader<ProvinciaDto, PROVINCIA>(dataServices);
             AssistCountryCommand = new DelegateCommand<object>(OnAssistCountryCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperProvince;
+            _provinceLoader.LoadAll();
+           
+            HelperView = _provinceLoader.HelperView;
         }
 
         private void OnAssistCountryCommand(object obj)
@@ -43,6 +48,27 @@ namespace HelperModule.ViewModels
             {
                 _loader.LoadAll();
                 CountryDto = _loader.HelperView;
+            }
+        }
+        /// <summary>
+        /// Selection changed within the grid.
+        /// </summary>
+        /// <param name="obj"></param>
+        protected override void OnSelectionChangedCommand(object obj)
+        {
+            var value = obj as ProvinciaDto;
+            if (value != null)
+            {
+                var country = _loader.LoadSingle(value.Country);
+                if (country != null)
+                {
+                    CountryDto = new List<CountryDto> { country };
+                    HelperDto = value;
+                    HelperDto.Country = country.Code;
+                    HelperDto.CountryValue = country;
+                    PreviousValue = CurrentValue;
+                    CurrentValue = value;
+                }
             }
         }
 

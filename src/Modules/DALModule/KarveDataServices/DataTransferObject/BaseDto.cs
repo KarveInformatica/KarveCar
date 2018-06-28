@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Windows.Input;
 using Syncfusion.Windows.Shared;
 using KarveCommonInterfaces;
+using System.Collections.Generic;
+using EmailValidation;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -16,6 +18,9 @@ namespace KarveDataServices.DataTransferObject
     {
         // the problem is the _email;
         protected string _email;
+        protected List<string> ErrorList = new List<string>();
+        protected const int NameSize = 35;
+        protected const int SecondNameSize = 50;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
 
@@ -26,15 +31,23 @@ namespace KarveDataServices.DataTransferObject
 
         private void BaseDto_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
         {
-            throw new NotImplementedException();
+           
         }
+
+        public virtual string Name { set; get; }
+
         public string KeyId { set; get; }
 
+        protected bool IsValidEmailField(string data)
+        {
+           
+            return EmailValidator.Validate(data);
+        }
         /// <summary>
         ///  it is an alias for code
         ///  
         /// </summary>
-        public string CodeId
+        public virtual string Code
         {
             set; get;
         }
@@ -74,9 +87,10 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public ValidationChain<BaseDto> ValidationChain 
             { get; set;}
-        public IEnumerable GetErrors(string propertyName)
+
+        public virtual IEnumerable GetErrors(string propertyName)
         {
-          return new ArrayList();
+            return ErrorList;
         }
         /// <summary>
         /// Get if there are validation erros
@@ -104,7 +118,10 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public void Dispose()
         {
+            HasErrors = false;
+            ErrorList.Clear();
             ErrorsChanged -= BaseDto_ErrorsChanged;
+            
         }
         public bool IsDeleted { get; set; }
 

@@ -9,7 +9,7 @@ using Prism.Mvvm;
 
 namespace DataAccessLayer
 {
-    internal class HelperBase: BindableBase, IHelperData
+    public class HelperBase : BindableBase, IHelperData
     {
         private IEnumerable<ActividadDto> _activityDto;
         private IEnumerable<ClientTypeDto> _clientTypeDto;
@@ -20,6 +20,12 @@ namespace DataAccessLayer
         private IEnumerable<DelegaContableDto> _contableDelega;
         private IEnumerable<ClientZoneDto> _clientZoneDto;
         private IEnumerable<OrigenDto> _origenDto;
+        private IEnumerable<MercadoDto> _mercadoDto;
+        private IEnumerable<CommissionAgentSummaryDto> _brokerDto;
+        private IEnumerable<ResellerDto> _resellerDto;
+        private IEnumerable<PaymentFormDto> _clientpayment;
+        private IEnumerable<InvoiceBlockDto> _invoiceBlockDto;
+        private IEnumerable<RentingUseDto> _rentUsageDto;
 
         public IEnumerable<ActividadDto> ActivityDto
         {
@@ -38,7 +44,8 @@ namespace DataAccessLayer
             {
                 return _clientTypeDto;
             }
-            set {
+            set
+            {
                 _clientTypeDto = value;
                 RaisePropertyChanged();
             }
@@ -60,7 +67,7 @@ namespace DataAccessLayer
         {
             get
             {
-                return _provinciaDto; 
+                return _provinciaDto;
 
             }
             set
@@ -87,7 +94,8 @@ namespace DataAccessLayer
         public IEnumerable<ClientZoneDto> ZoneDto
         {
             get { return _clientZoneDto; }
-            set { _clientZoneDto = value; } }
+            set { _clientZoneDto = value; }
+        }
 
         public IEnumerable<DelegaContableDto> ContableDelegaDto
         {
@@ -98,21 +106,30 @@ namespace DataAccessLayer
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<OrigenDto> OrigenDto {
-            get { return _origenDto; }
+        public IEnumerable<OrigenDto> OrigenDto
+        {
+            get {  return _origenDto; }
             set { _origenDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
-        public IEnumerable<MercadoDto> ClientMarketDto { get; set; }
-        public IEnumerable<ResellerDto> ResellerDto { get; set; }
-        public IEnumerable<CompanyDto> CompanyDto { get; set; }
+        public IEnumerable<CommissionAgentSummaryDto> BrokerDto
+        { get { return _brokerDto; }
+            set { _brokerDto = value; RaisePropertyChanged(); } }
+        public IEnumerable<MercadoDto> ClientMarketDto
+        {
+            get
+            {
+                return _mercadoDto;
+            } set { _mercadoDto = value; RaisePropertyChanged(); }
+        }
+        public IEnumerable<ResellerDto> ResellerDto { get { return _resellerDto; } set { _resellerDto = value; RaisePropertyChanged(); } }
+        public IEnumerable<CompanyDto> CompanyDto { get ; set; }
         public IEnumerable<OfficeDtos> OfficeDto { get; set; }
         public IEnumerable<BusinessDto> BusinessDto { get; set; }
         public IEnumerable<ChannelDto> ChannelDto { get; set; }
         public IEnumerable<BudgetKeyDto> BudgetKeyDto { get; set; }
-        public IEnumerable<PaymentFormDto> ClientPaymentForm { get; set; }
-        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get; set; }
-        public IEnumerable<RentingUseDto> RentUsageDto { get; set; }
+        public IEnumerable<PaymentFormDto> ClientPaymentForm { get { return _clientpayment; } set { _clientpayment = value; RaisePropertyChanged(); }  }
+        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get { return _invoiceBlockDto;  } set { _invoiceBlockDto = value; RaisePropertyChanged(); } }
+        public IEnumerable<RentingUseDto> RentUsageDto { get { return _rentUsageDto;  } set { _rentUsageDto = value; RaisePropertyChanged(); } }
         public IEnumerable<LanguageDto> LanguageDto { get; set; }
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         public IEnumerable<ContactsDto> ContactsDto { get; set; }

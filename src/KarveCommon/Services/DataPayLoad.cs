@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
+using System.Windows.Input;
 
 namespace KarveCommon.Services
 {
@@ -88,6 +89,11 @@ namespace KarveCommon.Services
         /// <summary>
         ///  contains the value of the oldvalue
         /// </summary>
+
+        public bool HasSaveCommand { set; get; }
+        public bool HasNewCommand { set; get; }
+
+        public bool HasDeleteCommand { set; get; }
 
         public object OldValue { set; get; }
 
@@ -183,6 +189,11 @@ namespace KarveCommon.Services
         public string ResultString { get; set; }
 
         public bool IsTest { get; set; }
+
+        public ICommand SaveCommand { get; set; }
+
+        public ICommand DeleteCommand { get; set; }
+        public ICommand NewCommand { get; set; }
 
         /// <summary>
         ///  Set or Get the the name of the ShallowCopy.

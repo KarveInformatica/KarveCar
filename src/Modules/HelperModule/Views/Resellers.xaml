@@ -13,23 +13,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                  
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*"></RowDefinition>
-            <RowDefinition Height="85*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        
+
         <GroupBox Grid.Row ="0" Header="Datos" Grid.Column="0" Grid.ColumnSpan="2">
-            
-                <StackPanel Orientation="Horizontal">
+
+            <StackPanel Orientation="Horizontal">
                 <karveControls:DataField LabelText="Code"
-                                         MaxHeight="30"
+                                         Height="30"
                                          LabelTextWidth="60"
                                          IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -37,7 +34,7 @@
                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"></karveControls:DataField>
                 <karveControls:DataField LabelText="Name"
-                                         MaxHeight="30"
+                                         Height="30"
                                          LabelTextWidth="60"
                                          IsReadOnly="False"
                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -45,7 +42,7 @@
                                          DataSourcePath="Name"
                                          TextContentWidth="250"></karveControls:DataField>
                 <karveControls:DataField LabelText="Nif"
-                                         MaxHeight="30"
+                                         Height="30"
                                          LabelTextWidth="60"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataSourcePath="Nif"
@@ -54,32 +51,60 @@
 
             </StackPanel>
         </GroupBox>
-
-        <TabControl Grid.Row="1" TabStripPlacement="Left" Grid.Column="0" BorderThickness="0" Visibility="Visible">
-            <TabItem x:Name="OwnerData" Header="Vendedor">
+        <Syncfusion:SfDataGrid Grid.Row="1" Grid.Column="1"   x:Name="ResellerSummary"                       
+                                   ColumnSizer="Star"
+                                   AllowDraggingColumns="True"
+                                   AllowEditing="False"
+                                   AllowFiltering="True"
+                                   AllowResizingColumns="True"
+                                   AllowSorting="True"
+                                   AllowGrouping="True"
+                                   ShowGroupDropArea="True"
+                                   NavigationMode="Row"
+                                   FilterRowPosition="FixedTop"
+                                   AutoGenerateColumns="True"
+                                   karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                   ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  >
+            <i:Interaction.Behaviors>
+                <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <karveControls:GridColumnFilterBehaviour AssistProperties="Code,Name,CellPhone,LeaveDate"></karveControls:GridColumnFilterBehaviour>
+            </i:Interaction.Behaviors>
+            <Syncfusion:SfDataGrid.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Syncfusion:SfDataGrid.Resources>
+        </Syncfusion:SfDataGrid>
+        <Syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" Grid.Column="0" BorderThickness="0" Visibility="Visible">
+            <Syncfusion:TabItemExt x:Name="OwnerData" Header="Vendedor">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <WrapPanel  HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
 
 
-                        <karveControls:DirectionInfo 
+                    <karveControls:DirectionInfo Grid.Row="0" Grid.Column="0"
                                 HideSecondDirection="True"
                                 DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Direction="Direction"
                                 City="City.Code"
                                 Country="Country.Code"
                                 Province="Province.Code"
-                                CityAssistName="POBLA"
-                                CountryAssistName="PAIS"
-                                ProvinceAssistName="PROV"
+                                CityAssistName="CITY_ASSIST"
+                                CountryAssistName="COUNTRY_ASSIST"
+                                ProvinceAssistName="PROVINCE_ASSIST"
                                 Phone="CellPhone"
                                 Fax="Fax"
                                 Email="Email"
@@ -91,7 +116,6 @@
                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             />
 
-                    </WrapPanel>
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
                         <karveControls:DataDatePicker LabelText="Fecha Alta" 
                                                DataDatePickerHeight="25"
@@ -104,73 +128,20 @@
 
                         </karveControls:DataDatePicker>
                     </StackPanel>
-                    <karveControls:DataArea Grid.Row="2" Grid.Column="0" Height="100" DataAreaTitle="Notes"
-                                                DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                DataSourcePath="Notes"
-                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                    </karveControls:DataArea>
-                    <Syncfusion:SfDataGrid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Stretch" x:Name="HelperSummary"                       
-                                           ColumnSizer="Star"  
-                                           AllowDraggingColumns="True"
-                                           AllowEditing="False"
-                                           AllowFiltering="True"
-                                           AllowResizingColumns="True"
-                                           AllowSorting="True"
-                                           AllowGrouping="True"
-                                           ShowGroupDropArea="True"
-                                           NavigationMode="Row"
-                                           
-                                           
-                                           ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           AutoGenerateColumns="False">
-                        <i:Interaction.Behaviors>
-                            <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </i:Interaction.Behaviors>
-                        <Syncfusion:SfDataGrid.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.MergedDictionaries>
-                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                                </ResourceDictionary.MergedDictionaries>
-                            </ResourceDictionary>
-                        </Syncfusion:SfDataGrid.Resources>
-                        <Syncfusion:SfDataGrid.Columns>
-                            <Syncfusion:GridTextColumn HeaderText="Codigo" 
-                                                       MappingName="Code" 
-                                                       TextAlignment="Left"
-                                                       AllowFiltering="True"                                
-                                                       AllowEditing="False"
-                                                       AllowGrouping="True"/>
-                            <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                                       MappingName="Name" 
-                                                       TextAlignment="Left"
-                                                       AllowEditing="False"
-                                                       AllowGrouping="True"
-                            />
-                            <Syncfusion:GridTextColumn HeaderText="NIF" 
-                                                       MappingName="Nif" 
-                                                       TextAlignment="Left"
-                                                       AllowEditing="False"
-                                                       AllowGrouping="True"
-                            />
-                          
-                            <Syncfusion:GridTextColumn HeaderText="Movil" 
-                                                       MappingName="CellPhone" 
-                                                       TextAlignment="Left"
-                                                       AllowEditing="False"
-                                                       AllowGrouping="True"
-                            />
-                            <Syncfusion:GridDateTimeColumn HeaderText="Fecha Baja"
-                                                           MappingName="LeaveDate" 
-                                                           TextAlignment="Left"
-                                                           AllowEditing="False"
-                                                           AllowGrouping="True"
-                            />
-                        </Syncfusion:SfDataGrid.Columns>
-                    </Syncfusion:SfDataGrid>
+
+
+                    <karveControls:DataArea Grid.Row="2"  DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}" 
+                                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 karveControls:ControlExt.DataSourcePath="Notes"
+                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Width="Auto"/>
+                  
+
 
                 </Grid>
-               
-            </TabItem>
-        </TabControl>
+
+            </Syncfusion:TabItemExt>
+        </Syncfusion:TabControlExt>
+  
     </Grid>
 </UserControl>

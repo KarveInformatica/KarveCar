@@ -9,6 +9,9 @@ using System.Windows;
 
 namespace KarveCommon.DialogService
 {
+    /// <summary>
+    ///  This implementation shall be differe and ssociated with a view first scenario or using intraction
+    /// </summary>
     public class KarveDialogService : IDialogService
     {
         public MessageDialogResult ShowDialogMessage(string title, string message)
@@ -34,7 +37,7 @@ namespace KarveCommon.DialogService
 
         public void ShowMessage(string title, string message)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(message, title, MessageBoxButton.OK);
         }
 
         public void ShowView(object view, object viewModel)

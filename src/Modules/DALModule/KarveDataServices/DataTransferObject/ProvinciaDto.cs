@@ -3,18 +3,18 @@ using KarveDataServices.DataObjects;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class ProvinciaDto : BaseDto, IProvinceData
+    public class ProvinciaDto : BaseDtoDefaultName, IProvinceData
     {
         /// <summary>
         /// Code
         /// </summary>
         [Display(GroupName = "Codigo")]
-        public string Code { get; set; }
+        public override string Code { get; set; }
         /// <summary>
         /// Name
         /// </summary>
         [Display(GroupName = "Provincia")]
-        public string Name { get; set; }
+        public override string Name { get; set; }
         /// <summary>
         ///  Code of the country. It is a redondant field
         /// </summary>
@@ -28,5 +28,26 @@ namespace KarveDataServices.DataTransferObject
         // value of the province.
         public CountryDto CountryValue { set; get; }
         public bool Valid { get; set; }
+
+        public bool IsInvalid()
+        {
+            if ((Code != null) && (Code.Length > 8))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            if ((Name != null) && (Name.Length >35))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            if ((Capital != null) && (Capital.Length > 35))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            return false;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
     }
 }

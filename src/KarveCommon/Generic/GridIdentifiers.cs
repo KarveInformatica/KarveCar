@@ -100,6 +100,18 @@ namespace KarveCommon.Generic
         /// </summary>
         public static long InvoiceLineGrids = 0x104;
 
+        public static long VehicleGroup = 0x105;
 
+        public static long ReservationRequestGrid = 0x106;
+
+        public static long PaymentFormGrid = 0x107;
+
+        public static long SupplierTypeGrid = 0x108;
+        /// <summary>
+        ///  
+        /// </summary>
+        public static long BrokerTypeGrid = 0x109;
+
+        public static long ActivitySector = 0x110;
     }
 }

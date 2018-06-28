@@ -25,6 +25,10 @@ namespace DataAccessLayer
         private readonly IDataLoader<BookingDto> _dataLoader;
         private readonly IDataSaver<BookingDto> _dataSaver;
         private readonly IDataDeleter<BookingDto> _dataDeleter;
+        private readonly IDataLoader<ReservationRequestDto> dataLoaderRequest;
+        private readonly IDataSaver<ReservationRequestDto> _dataSaverRequest;
+        private readonly IDataDeleter<ReservationRequestDto> _dataDeleterRequest;
+
         private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
 
 
@@ -203,12 +207,36 @@ namespace DataAccessLayer
         public async Task<IBookingData> GetDoAsync(string code)
         {
             var bookingData = await _dataLoader.LoadValueAsync(code);
+           
             IBookingData data = new NullReservation();
             if ((bookingData != null) && (bookingData.IsValid))
             {
                 data = new Reservation { Value = bookingData, IsValid = bookingData.IsValid, ItemsDtos = bookingData.Items };
-            }       
+            }
+            if (data.IsValid)
+            {
+
+                var queryStore = _queryStoreFactory.GetQueryStore();
+                queryStore.AddParam(QueryType.QueryContractsByClient, data.Value.CLIENTE_RES1);
+                queryStore.AddParam(QueryType.QueryClientById, data.Value.CONDUCTOR_RES1);
+                queryStore.AddParam(QueryType.QueryClientById, data.Value.CLIENTE_RES1);
+                using (var connection = SqlExecutor.OpenNewDbConnection())
+                {
+                    if (connection != null)
+                    {
+                        var query = queryStore.BuildQuery();
+
+                        var multipleQuery = await connection.QueryMultipleAsync(query);
+                        data.IsValid = ParseResult(data, multipleQuery);
+                    }
+                }
+            }
             return data;
+        }
+
+        private bool ParseResult(IBookingData data, SqlMapper.GridReader multi)
+        {
+            return true;
         }
 
         /// <summary>
@@ -308,6 +336,8 @@ namespace DataAccessLayer
             }
             return numberOfItems;
         }
+
+        
     }
 
 }

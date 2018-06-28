@@ -84,7 +84,7 @@ namespace MasterModule.ViewModels
                 string messageBox = "Delete error: " + completion.ErrorMessage;
                 if (DialogService!=null)
                 {
-                    DialogService.ShowErrorMessage(messageBox);
+                    DialogService?.ShowErrorMessage(messageBox);
                 }
             }
         }

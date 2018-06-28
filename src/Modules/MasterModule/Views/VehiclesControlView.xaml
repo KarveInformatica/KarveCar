@@ -106,7 +106,7 @@
                 <syncfusion:GridTextColumn HeaderText="{Binding lcubemeters, Source={StaticResource ResourceLanguage}}" MappingName="CubeMeters" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lactividad, Source={StaticResource ResourceLanguage}}" MappingName="Activity" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lcolor, Source={StaticResource ResourceLanguage}}" MappingName="Color" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
-                <syncfusion:GridTextColumn HeaderText="{Binding lowner, Source={StaticResource ResourceLanguage}}" MappingName="Owner" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
+                <syncfusion:GridTextColumn HeaderText="Propietario" MappingName="Owner" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lnameproprietario, Source={StaticResource ResourceLanguage}}" MappingName="OwnerName" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lpoliza, Source={StaticResource ResourceLanguage}}" MappingName="Policy" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>
                 <syncfusion:GridTextColumn HeaderText="{Binding lleasing, Source={StaticResource ResourceLanguage}}" MappingName="LeasingCompany" FilterPopupStyle="{StaticResource GenericCodeStyle}"/>

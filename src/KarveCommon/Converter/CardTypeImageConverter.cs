@@ -36,6 +36,16 @@ namespace KarveCommon.Converter
                         vpath = "/KarveControls;component/Images/fourb.png";
                         break;
                     }
+                case maestro:
+                    {
+                        vpath = "/KarveControls;component/Images/maestro.png";
+                        break;
+                    }
+                case "SX":
+                    {
+                        vpath = "/KarveControls;component/Images/sxexpresscard.jpg";
+                        break;
+                    }
                 default:
                     {
                         vpath = "/KarveControls;component/Images/maestro.png";

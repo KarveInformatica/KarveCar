@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveCommon.Generic;
-
+using KarveDataServices.DataTransferObject;
 
 namespace KarveCommon
 {
@@ -163,7 +163,47 @@ namespace KarveCommon
             {
                 var type = obj.GetType();
                 var info = type.GetProperty(propName);
-                
+
+                if (info != null)
+                {
+                    if ((value != null) && (info.PropertyType == typeof(byte?)))
+                    {
+                        value = Convert.ToByte(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(char?)))
+                    {
+                        value = Convert.ToChar(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.Int32)))
+                    {
+                        value = Convert.ToInt32(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.Int16)))
+                    {
+                        value = Convert.ToInt32(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.Int64)))
+                    {
+                        value = Convert.ToInt64(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.Double)))
+                    {
+                        value = Convert.ToDouble(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.Single)))
+                    {
+                        value = Convert.ToSingle(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.Decimal)))
+                    {
+                        value = Convert.ToDecimal(value);
+                    }
+                    if ((value != null) && (info.PropertyType == typeof(System.DateTime)))
+                    {
+                        value = Convert.ToDateTime(value);
+                    }
+                }
+
                 var currentValue = value;
                 if (value is bool)
                 {

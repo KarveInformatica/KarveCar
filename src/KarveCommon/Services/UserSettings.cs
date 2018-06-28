@@ -19,7 +19,8 @@ namespace KarveCommon.Services
         private IDictionary<Uri, object> settingDictionary = new Dictionary<Uri, object>()
         {
             { UserSettingConstants.BookingClientGridColumnsKey, "Code,Name,Nif,Direction,Telefono,Movil,Email,CreditCardType, NumberCreditCard,AccountableAccount,Zip,City,Sector,Reseller,Oficina,Falta"},
-             { UserSettingConstants.BookingDriverGridColumnsKey, "Code,Name,Nif,Direction,Telefono,Movil,Email,CreditCardType, NumberCreditCard,AccountableAccount,Zip,City,Sector,Reseller,Oficina,Falta"}
+             { UserSettingConstants.BookingDriverGridColumnsKey, "Code,Name,Nif,Direction,Telefono,Movil,Email,CreditCardType, NumberCreditCard,AccountableAccount,Zip,City,Sector,Reseller,Oficina,Falta"},
+            { UserSettingConstants.VehicleSummaryGridColumnsKey, "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,LastModification" }
         };
 
         [DataMember]

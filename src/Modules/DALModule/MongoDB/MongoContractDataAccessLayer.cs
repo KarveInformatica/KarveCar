@@ -15,6 +15,11 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
+        public Task<IEnumerable<ContractByClientDto>> GetContractByClientAsync(string code)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<IEnumerable<ContractByConductorDto>> GetContractByConductorAsync(string vehicleId)
         {
             throw new System.NotImplementedException();
@@ -26,6 +31,11 @@ namespace DataAccessLayer.MongoDB
         }
 
         public Task<int> GetPageCount(int pageSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<ContractSummaryDto>> GetPagedSummaryDoAsync(int first, int baseIndex)
         {
             throw new System.NotImplementedException();
         }

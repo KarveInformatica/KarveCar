@@ -83,5 +83,15 @@ namespace DataAccessLayer.MongoDB
         {
             throw new NotImplementedException();
         }
+
+        public IFareDataServices GetFareDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReservationRequestDataService GetReservationRequestDataService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

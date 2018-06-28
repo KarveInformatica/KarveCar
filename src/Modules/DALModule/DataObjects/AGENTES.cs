@@ -1,12 +1,15 @@
 using System;
- 
+using KarveDapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a AGENTES.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class AGENTES 
+    /// <summary>
+    /// Represents a AGENTES.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("AGENTES")]
+    public class AGENTES 
 	{
 	
 	/// <summary>

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -9,9 +7,7 @@ using MasterModule.Common;
 using KarveDataServices.DataObjects;
 using KarveCommon.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using AutoMapper;
-using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Views.Vehicles;
@@ -20,6 +16,8 @@ using Prism.Regions;
 using KarveCommonInterfaces;
 using DataAccessLayer.SQL;
 using KarveCommon;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace MasterModule.ViewModels
 {
@@ -40,57 +38,58 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
        
         private string _assistQueryOwner;
-        private ObservableCollection<ActividadDto> _activity;
-        private ObservableCollection<AgentDto> _agents;
-        private ObservableCollection<OwnerDto> _owner;
-        private ObservableCollection<SupplierSummaryDto> _supplier;
-        private ObservableCollection<PaymentFormDto> _paymentFormDto;
-        private ObservableCollection<ClientsSummaryDto> _clients;
-        private ObservableCollection<ResellerDto> _vendedor;
-        private ObservableCollection<ClientsSummaryDto> _clientDto;
-        private ObservableCollection<SupplierSummaryDto> _assuranceCompany;
-        private ObservableCollection<SupplierSummaryDto> _assuranceAgent;
-        private ObservableCollection<SupplierSummaryDto> _assuranceAdditionalCompany;
-        private ObservableCollection<SupplierSummaryDto> _assistanceAssuranceCompany;
-        private ObservableCollection<SupplierSummaryDto> _assistancePolicyAssuranceCompany;
-        private ObservableCollection<MaintainanceDto> _maintenaince = new ObservableCollection<MaintainanceDto>();
+        private IEnumerable<ActividadDto> _activity;
+        private IEnumerable<AgentDto> _agents;
+        private IEnumerable<OwnerDto> _owner;
+        private IEnumerable<SupplierSummaryDto> _supplier;
+        private IEnumerable<PaymentFormDto> _paymentFormDto;
+        private IEnumerable<ClientSummaryExtended> _clients;
+        private IEnumerable<ResellerDto> _vendedor;
+        private IEnumerable<ClientSummaryExtended> _clientDto;
+        private IEnumerable<SupplierSummaryDto> _assuranceCompany;
+        private IEnumerable<SupplierSummaryDto> _assuranceAgent;
+        private IEnumerable<SupplierSummaryDto> _assuranceAdditionalCompany;
+        private IEnumerable<SupplierSummaryDto> _assistanceAssuranceCompany;
+        private IEnumerable<SupplierSummaryDto> _assistancePolicyAssuranceCompany;
+        private IEnumerable<MaintainanceDto> _maintenaince;
         
-        private INotifyTaskCompletion<ObservableCollection<ElementDto>> _elementLoadNotifyTaskCompletion;
+        private INotifyTaskCompletion<IEnumerable<ElementDto>> _elementLoadNotifyTaskCompletion;
 
         // this is in the vehicle stuff.
         private readonly PropertyChangedEventHandler _deleteEventHandler;
         /// <summary>
         ///  vehicle revision
         /// </summary>
-        private ObservableCollection<UiComposedFieldObject> _vehicleRevision;
+        private IEnumerable<UiComposedFieldObject> _vehicleRevision;
         /// <summary>
         ///  account stuff.
         /// </summary>
-        private ObservableCollection<AccountDto> _accountDto;
-        private ObservableCollection<ElementDto> _elementDto;
-        private ObservableCollection<AccountDto> _accountPreviousRepaymentDto;
-        private ObservableCollection<AccountDto> _accountImmobilizedDto;
-        private ObservableCollection<AccountDto> _accountDtoPaymentAccountDto;
-        private ObservableCollection<AccountDto> _accountDtoCapitalCp;
-        private ObservableCollection<AccountDto> _accomulatedRepayment;
+        private IEnumerable<AccountDto> _accountDto;
+        private IEnumerable<ElementDto> _elementDto;
+        private IEnumerable<AccountDto> _accountPreviousRepaymentDto;
+        private IEnumerable<AccountDto> _accountImmobilizedDto;
+        private IEnumerable<AccountDto> _accountDtoPaymentAccountDto;
+        private IEnumerable<AccountDto> _accountDtoCapitalCp;
+        private IEnumerable<AccountDto> _accomulatedRepayment;
         private IRegionManager _regionManager;
-        private ObservableCollection<CityDto> _cityDto;
-        private ObservableCollection<CityDto> _roadTaxesCities = new ObservableCollection<CityDto>();
-        private ObservableCollection<ZonaOfiDto> _officeZoneRoadTaxes;
-        private ObservableCollection<CurrentSituationDto> _situationDto;
-        private ObservableCollection<CompanyDto> _otherOffice1Dto;
-        private ObservableCollection<CompanyDto> _otherOffice2Dto = new ObservableCollection<CompanyDto>();
-        private ObservableCollection<CompanyDto> _otherOffice3Dto = new ObservableCollection<CompanyDto>();
+        private IEnumerable<CityDto> _cityDto;
+        private IEnumerable<CityDto> _roadTaxesCities ;
+        private IEnumerable<ZonaOfiDto> _officeZoneRoadTaxes;
+        private IEnumerable<CurrentSituationDto> _situationDto;
+        private IEnumerable<OfficeDtos> _otherOffice1Dto;
+        private IEnumerable<OfficeDtos> _otherOffice2Dto ;
+        private IEnumerable<OfficeDtos> _otherOffice3Dto ;
         private IEnumerable<BrandVehicleDto> _brandDtos;
-        private IEnumerable<ModelVehicleDto> _modelDtos = new ObservableCollection<ModelVehicleDto>();
+        private IEnumerable<ModelVehicleDto> _modelDtos;
         private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
         private IEnumerable<ColorDto> _colorDto;
         private readonly QueryStoreFactory _queryStoreFactory;
         private ICollection<string> _dataFieldCollection;
-
+        private IAssistDataService _assistDataService;
+        private IEnumerable<ResellerDto> _resellerDto;
 
         // This returns the list of activity when asked.
-        public ObservableCollection<ActividadDto> ActivityDtos
+        public IEnumerable<ActividadDto> ActivityDtos
         {
             get
             {
@@ -104,7 +103,7 @@ namespace MasterModule.ViewModels
             
         }
 
-        public ObservableCollection<ResellerDto> VendedorDtos
+        public IEnumerable<ResellerDto> VendedorDtos
         {
             get { return _vendedor; }
             set { _vendedor = value; RaisePropertyChanged(); }
@@ -114,7 +113,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<AccountDto> AccountDtos
+        public IEnumerable<AccountDto> AccountDtos
         {
             get
             {
@@ -131,7 +130,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<AccountDto> AccountDtosImmobilized
+        public IEnumerable<AccountDto> AccountDtosImmobilized
         {
             get
             {
@@ -150,7 +149,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<AccountDto> AccountDtoPreviousRepayment
+        public IEnumerable<AccountDto> AccountDtoPreviousRepayment
         {
             get
             {
@@ -166,7 +165,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<AccountDto> AccountDtoPaymentAccount
+        public IEnumerable<AccountDto> AccountDtoPaymentAccount
         {
             get
             {
@@ -181,7 +180,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<AccountDto> AccountDtoCapitalCp
+        public IEnumerable<AccountDto> AccountDtoCapitalCp
         {
             get
             {
@@ -197,7 +196,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<ElementDto> ElementDtos
+        public IEnumerable<ElementDto> ElementDtos
         {
             get
             {
@@ -213,7 +212,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public ObservableCollection<AgentDto> AgentDtos
+        public IEnumerable<AgentDto> AgentDtos
         {
             get
             {
@@ -228,7 +227,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of owners.
         /// </summary>
-        public ObservableCollection<OwnerDto> OwnerDtos
+        public IEnumerable<OwnerDto> OwnerDtos
         {
             get
             {
@@ -243,7 +242,7 @@ namespace MasterModule.ViewModels
 
         
         /// </summary>
-        public ObservableCollection<SupplierSummaryDto> AssuranceDtos
+        public IEnumerable<SupplierSummaryDto> AssuranceDtos
         {
             get
             {
@@ -256,7 +255,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public ObservableCollection<SupplierSummaryDto> AdditionalAssuranceDtos
+        public IEnumerable<SupplierSummaryDto> AdditionalAssuranceDtos
         {
             get
             {
@@ -268,7 +267,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<SupplierSummaryDto> AssistanceAssuranceDtos
+        public IEnumerable<SupplierSummaryDto> AssistanceAssuranceDtos
         {
             get
             {
@@ -280,7 +279,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<SupplierSummaryDto> AssistancePolicyAssuranceDtos
+        public IEnumerable<SupplierSummaryDto> AssistancePolicyAssuranceDtos
         {
             get
             {
@@ -295,7 +294,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns a maintenance collection 
         /// </summary>
-        public ObservableCollection<MaintainanceDto> MaintenanceCollection
+        public IEnumerable<MaintainanceDto> MaintenanceCollection
         {
             get
             {
@@ -309,7 +308,7 @@ namespace MasterModule.ViewModels
         }
 
 
-        public ObservableCollection<AccountDto> AccountDtoAccmulatedRepayment
+        public IEnumerable<AccountDto> AccountDtoAccmulatedRepayment
         {
             get { return _accomulatedRepayment; }
             set
@@ -321,7 +320,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This is an assurance agent dtos.
         /// </summary>
-        public ObservableCollection<SupplierSummaryDto> AssuranceAgentDtos
+        public IEnumerable<SupplierSummaryDto> AssuranceAgentDtos
         {
             get
             {
@@ -336,7 +335,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns a client dtpo.
         /// </summary>
-        public ObservableCollection<ClientsSummaryDto> ClientesDtos
+        public IEnumerable<ClientSummaryExtended> ClientesDtos
         {
             get
             {
@@ -360,8 +359,12 @@ namespace MasterModule.ViewModels
             IDataServices services, IRegionManager regionManager, IInteractionRequestController requestController) : 
             base(eventManager, configurationService,services ,dialogService,regionManager, requestController)
         {
+            // by default is not initialized until it comes to Init completed.
+            IsViewModelInitialized = false;
+            SubSystem = DataSubSystem.VehicleSubsystem;
  			MailBoxHandler += MessageHandler;
             _vehicleDataServices = services.GetVehicleDataServices();
+            _assistDataService = services.GetAssistDataServices();
             ItemChangedCommand = new DelegateCommand<object>(ChangeUnpack);
             MetaDataObject = InitAssuranceObject();
             DataFieldCollection = InitDataField();
@@ -378,12 +381,12 @@ namespace MasterModule.ViewModels
             ActiveSubSystem();
         }
       
-        private async Task<ObservableCollection<ElementDto>> InitElements()
+        private async Task<IEnumerable<ElementDto>> InitElements()
         {
             IEnumerable<ElementDto> value = await DataServices.GetHelperDataServices().GetAsyncHelper<ElementDto>(GenericSql.ElementsSummaryQuery);
-            return new ObservableCollection<ElementDto>(value);
+            return value;
         }
-        public ObservableCollection<UiComposedFieldObject> RevisionObject
+        public IEnumerable<UiComposedFieldObject> RevisionObject
         {
              get { return _vehicleRevision; }
             set { _vehicleRevision = value; RaisePropertyChanged(); }
@@ -397,6 +400,9 @@ namespace MasterModule.ViewModels
             /*  ok now i have to handle the assist helper.
              *  The smartest thing is to detect the table from the query.
              */
+
+            var resultMap = await _assistDataService.Mapper.ExecuteAssistGeneric(assistTableName.ToUpper(), assistQuery);
+
             IMapper mapper = MapperField.GetMapper();
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
             if (assistTableName != null)
@@ -407,188 +413,155 @@ namespace MasterModule.ViewModels
                 {
                     case "ACTIVEHI":
                     {
-                        var act =
-                            await helperDataServices.GetMappedAsyncHelper<ActividadDto, ACTIVEHI>(assistQuery);
-                        ActivityDtos = new ObservableCollection<ActividadDto>(act);
+                        ActivityDtos = resultMap as IEnumerable<ActividadDto>;
                         break;
                     }
                     case "PROPIE":
                     {
-                        var propie = await helperDataServices.GetMappedAllAsyncHelper<OwnerDto, PROPIE>();
-                        var ownerDtos = new ObservableCollection<OwnerDto>(propie);
-                        OwnerDtos = ownerDtos;
+                        OwnerDtos = resultMap as IEnumerable<OwnerDto>;
                         break;
                     }
                     case "AGENTES":
                     {
-                        var agents = await helperDataServices.GetAsyncHelper<AgentDto>(assistQuery);
-                        ObservableCollection<AgentDto> agentDtos = new ObservableCollection<AgentDto>(agents);
-                        AgentDtos = agentDtos;
+                        AgentDtos = resultMap as IEnumerable<AgentDto>;
                         break;
                     }
                     case "ASSURANCE":
                     {
-                        var provee =
-                            await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql
-                                .SupplierSummaryQuery);
-                        AssuranceDtos = new ObservableCollection<SupplierSummaryDto>(provee);
+                        AssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "ASSURANCE_1":
                     {
-                        AssistancePolicyAssuranceDtos = await FetchSupplierCollection();
+                        AssistancePolicyAssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "ASSURANCE_2":
                     {
-                        AdditionalAssuranceDtos = await FetchSupplierCollection();
+                        AdditionalAssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "ASSURANCE_3":
                     {
-                        AssistanceAssuranceDtos = await FetchSupplierCollection();
+                        AssistanceAssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "ASSURANCE_AGENT":
                     {
-                        AssuranceAgentDtos = await FetchSupplierCollection();
+                        AssuranceAgentDtos = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "PROVEE1":
                     {
-                        ProveeDto = await FetchSupplierCollection();
+                        ProveeDto = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "PROVEE2":
                     {
-                        var provee =
-                            await helperDataServices.GetAsyncHelper<SupplierSummaryDto>(GenericSql
-                                .SupplierSummaryQuery);
-                        ProveeDto2 = new ObservableCollection<SupplierSummaryDto>(provee);
+                        ProveeDto2 = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
 
                     case "CU1":
                     {
-                        var contable =
-                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                        AccountDtos = new ObservableCollection<AccountDto>(contable);
+                        AccountDtos = resultMap as IEnumerable<AccountDto>;
                         break;
                     }
                     case "FORMAS":
                     {
-                        var paymentForm = await helperDataServices.GetMappedAllAsyncHelper<PaymentFormDto, FORMAS>();
-                        PaymentFormDto = new ObservableCollection<PaymentFormDto>(paymentForm);
+                        PaymentFormDto = resultMap as IEnumerable<PaymentFormDto>;
                         break;
                     }
                     case "CLIENTES1":
                     {
-                        var clientes =
-                            await helperDataServices.GetAsyncHelper<ClientsSummaryDto>(GenericSql.SupplierSummaryQuery);
-                        ClientsDto = new ObservableCollection<ClientsSummaryDto>(clientes);
+                        ClientsDto = resultMap as IEnumerable<ClientSummaryExtended>;
                         break;
                     }
+                    case "CLIENT_ASSIST":
+                        {
+                            ClientsDto = resultMap as IEnumerable<ClientSummaryExtended>;
+                            break;
+                        }
                     case "ACCOUNT_INMOVILIZADO":
                     {
-                        var contable =
-                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                        AccountDtosImmobilized = new ObservableCollection<AccountDto>(contable);
+                        AccountDtosImmobilized = resultMap as IEnumerable<AccountDto>;
                         break;
                     }
                     case "ACCOUNT_PAYMENT_ACCOUNT":
                     {
-                        var contable =
-                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                        AccountDtoPaymentAccount = new ObservableCollection<AccountDto>(contable);
+                        AccountDtoPaymentAccount = resultMap as IEnumerable<AccountDto>;
                         break;
                     }
                     case "ACCOUNT_PREVIUOS_PAYMENT":
                     {
-                        var contable =
-                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                        AccountDtoPreviousRepayment = new ObservableCollection<AccountDto>(contable);
-                        break;
+                            AccountDtoPreviousRepayment = resultMap as IEnumerable<AccountDto>;
+
+                                                    break;
                     }
                     case "ACCOUNT_ACCUMULATED_REPAYMENT":
                     {
-                        var contable =
-                            await helperDataServices.GetAsyncHelper<AccountDto>(GenericSql.AccountSummaryQuery);
-                        AccountDtoAccmulatedRepayment = new ObservableCollection<AccountDto>(contable);
+                        AccountDtoAccmulatedRepayment = resultMap as IEnumerable<AccountDto>;
                         break;
                     }
                     case "POBLACIONES":
                     {
-                        var prov = await helperDataServices.GetAsyncHelper<POBLACIONES>(assistQuery);
-                        IEnumerable<CityDto> cities = mapper.Map<IEnumerable<POBLACIONES>, IEnumerable<CityDto>>(prov);
-                        CityDto = new ObservableCollection<CityDto>(cities);
+                        CityDto = resultMap as IEnumerable<CityDto>;
                         break;
                     }
                     case "OFICINA1":
                     {
-                        var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
-                        OtherOffice1Dto = new ObservableCollection<CompanyDto>(oficina);
+                        OtherOffice1Dto = resultMap as IEnumerable<OfficeDtos>;
                         break;
                     }
                     case "OFICINA2":
                     {
-                        var oficina2 = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
-                        OtherOffice2Dto = new ObservableCollection<CompanyDto>(oficina2);
+                        OtherOffice2Dto = resultMap as IEnumerable<OfficeDtos>;
                         break;
                     }
                     case "OFICINA3":
                     {
-                        var oficina = await helperDataServices.GetMappedAllAsyncHelper<CompanyDto, SUBLICEN>();
-                        OtherOffice3Dto = new ObservableCollection<CompanyDto>(oficina);
+                        OtherOffice3Dto = resultMap as IEnumerable<OfficeDtos>;
                         break;
                     }
 
                     case "COLORFL":
                     {
-                        var colos = await helperDataServices.GetMappedAllAsyncHelper<ColorDto, COLORFL>();
-                        ColorDtos = new ObservableCollection<ColorDto>(colos);
+                        ColorDtos = resultMap as IEnumerable<ColorDto>;
                         break;
                     }
                     case "MARCAS":
-                    {
-                        var brands = await helperDataServices.GetMappedAllAsyncHelper<BrandVehicleDto, MARCAS>();
-                        BrandDtos = brands;
+                   {
+                        BrandDtos = (IEnumerable<BrandVehicleDto>) resultMap;
                         break;
                     }
                     case "MODELO":
                     {
-                        var models = await helperDataServices.GetMappedAllAsyncHelper<ModelVehicleDto, MODELO>();
-                        ModelDtos = new ObservableCollection<ModelVehicleDto>(models);
+                        ModelDtos = resultMap as IEnumerable<ModelVehicleDto>;
                         break;
                     }
                     case "GRUPOS":
                     {
-                        var vehicles = await helperDataServices
-                            .GetMappedAllAsyncHelper<VehicleGroupDto, GRUPOS>();
-                        VehicleGroupDtos = vehicles;
+                        VehicleGroupDtos = resultMap as IEnumerable<VehicleGroupDto>;
                         break;
                     }
                     case "SITUATION":
                     {
-                        var sit = await helperDataServices.GetMappedAllAsyncHelper<CurrentSituationDto, SITUACION>();
-                        CurrentSituationDto = new ObservableCollection<CurrentSituationDto>(sit);
+                        CurrentSituationDto = resultMap as IEnumerable<CurrentSituationDto>;
                         break;
                     }
                     case "ROAD_TAXES_CITY":
                     {
-                        var prov = await helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
-                        RoadTaxesCityDto = new ObservableCollection<CityDto>(prov);
+                        RoadTaxesCityDto = resultMap as IEnumerable<CityDto>;
                         break;
                     }
                     case "ROAD_TAXES_ZONAOFI":
                     {
-                        var oficinas = await helperDataServices.GetMappedAllAsyncHelper<ZonaOfiDto, ZONAOFI>();
-                        RoadTaxesOfficeZoneDto = new ObservableCollection<ZonaOfiDto>(oficinas);
+                        RoadTaxesOfficeZoneDto =resultMap as IEnumerable<ZonaOfiDto>;
                         break;
                     }
                     case "VENDEDOR":
                     {
-                        var vendedor = await helperDataServices.GetMappedAllAsyncHelper<ResellerDto, VENDEDOR>();
-                        VendedorDtos = new ObservableCollection<ResellerDto>(vendedor);
+                        ResellerDto = resultMap as IEnumerable<ResellerDto>;
                         break;
                     }
                 }
@@ -618,7 +591,7 @@ namespace MasterModule.ViewModels
                 return store.BuildQuery();
             }
         }
-        public ObservableCollection<ZonaOfiDto> RoadTaxesOfficeZoneDto
+        public IEnumerable<ZonaOfiDto> RoadTaxesOfficeZoneDto
         {
             get
             {
@@ -640,7 +613,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<CurrentSituationDto> SituationDto
+        public IEnumerable<CurrentSituationDto> SituationDto
         {
             get => _situationDto;
             set
@@ -649,19 +622,13 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        private async Task<ObservableCollection<SupplierSummaryDto>> FetchSupplierCollection()
-        {
-            var provee =
-                await DataServices.GetHelperDataServices().GetAsyncHelper<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery);
-            var collection = new ObservableCollection<SupplierSummaryDto>(provee);
-            return collection;
-        }
-        public ObservableCollection<SupplierSummaryDto> ProveeDto
+       
+        public IEnumerable<SupplierSummaryDto> ProveeDto
         {
             get { return _supplier; }
             set { _supplier = value; RaisePropertyChanged(); }
         }
-        public ObservableCollection<SupplierSummaryDto> ProveeDto2
+        public IEnumerable<SupplierSummaryDto> ProveeDto2
         {
             get { return _supplier; }
             set { _supplier = value; RaisePropertyChanged(); }
@@ -698,14 +665,14 @@ namespace MasterModule.ViewModels
         private void LoadElementAccounts()
         {
             _elementLoadNotifyTaskCompletion =
-                NotifyTaskCompletion.Create<ObservableCollection<ElementDto>>(InitElements(), InitializationElementDto);
+                NotifyTaskCompletion.Create<IEnumerable<ElementDto>>(InitElements(), InitializationElementDto);
         }
 
         private void InitializationElementDto(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is ObservableCollection<ElementDto>)
+            if (sender is IEnumerable<ElementDto>)
             {
-                ElementDtos = (ObservableCollection<ElementDto>) sender;
+                ElementDtos = (IEnumerable<ElementDto>) sender;
 
             }
         }
@@ -772,7 +739,7 @@ namespace MasterModule.ViewModels
             IVehicleData vehicle = null;
             if (isInsertion)
             {
-                vehicle = _vehicleDataServices.GetNewVehicleDo(PrimaryKeyValue);
+                vehicle = _vehicleDataServices.GetNewDo(PrimaryKeyValue);
                 if (vehicle != null)
                 {
                     DataObject = vehicle;
@@ -780,7 +747,7 @@ namespace MasterModule.ViewModels
             }
             else
             {
-                vehicle = await _vehicleDataServices.GetVehicleDo(primaryKeyValue);
+                vehicle = await _vehicleDataServices.GetDoAsync(primaryKeyValue).ConfigureAwait(false);
                 DataObject = vehicle;
                
             }
@@ -810,12 +777,12 @@ namespace MasterModule.ViewModels
             get { return GenericSql.SupplierSummaryQuery; }
         }
             
-            public ObservableCollection<PaymentFormDto> PaymentFormDto {
+            public IEnumerable<PaymentFormDto> PaymentFormDto {
             get { return _paymentFormDto; }
             private set { _paymentFormDto = value; RaisePropertyChanged();}
         }
 
-        public ObservableCollection<ClientsSummaryDto> ClientsDto
+        public IEnumerable<ClientSummaryExtended> ClientsDto
         {
             get { return _clientDto; }
             set
@@ -853,30 +820,24 @@ namespace MasterModule.ViewModels
         /// <param name="insertable">Is an insert operation</param>
         private void Init(string primaryKeyValue, DataPayLoad payload, bool insertable)
         {
+            if (IsViewModelInitialized)
+            {
+                return;
+            }
             if (!payload.HasDataObject)
             {
                 return;
             }
             _vehicleDo = (IVehicleData) payload.DataObject;
+            if (_vehicleDo == null)
+            {
+                DialogService?.ShowErrorMessage("There is an error while doing the last operation");
+            }
             DataObject = _vehicleDo;
             ModelDtos = _vehicleDo?.ModelDtos;
-            BrandDtos = _vehicleDo?.BrandDtos;
-            ColorDtos = _vehicleDo?.ColorDtos;
-            VehicleGroupDtos = _vehicleDo?.VehicleGroupDtos;
-            if (_vehicleDo?.OwnerDtos != null)
-            {
-                OwnerDtos = new ObservableCollection<OwnerDto>(_vehicleDo.OwnerDtos);
-            }
+            SetDataObjects(_vehicleDo);
 
-            if (_vehicleDo?.AgentsDto != null)
-            {
-                AgentDtos = new ObservableCollection<AgentDto>(_vehicleDo.AgentsDto);
-            }
 
-            if (_vehicleDo?.ActivityDtos != null)
-            {
-                ActivityDtos = new ObservableCollection<ActividadDto>(_vehicleDo.ActivityDtos);
-            }
 
             if (_vehicleDo?.MaintenanceHistory != null)
             {
@@ -884,6 +845,85 @@ namespace MasterModule.ViewModels
             }
             RevisionObject = InitRevisionComposedFieldObjects();
             ActiveSubSystem();
+            IsViewModelInitialized = true;
+        }
+        private void SetDataObjects(IVehicleData vehicle)
+        {
+            if (vehicle.BrandDtos.Count() == 0)
+            {
+                var brand = new BrandVehicleDto();
+                var firstModel = _vehicleDo.ModelDtos.FirstOrDefault();
+                if (firstModel != null)
+                {
+                    brand.Code = firstModel.Marca;
+                    brand.Name = firstModel.NomeMarca;
+                    var brandVehi = new List<BrandVehicleDto>() { brand };
+                    vehicle.BrandDtos = vehicle.BrandDtos.Union(brandVehi);
+                }
+            }
+            else
+            {
+                BrandDtos = _vehicleDo?.BrandDtos;
+            }
+            ColorDtos = _vehicleDo?.ColorDtos;
+            VehicleGroupDtos = _vehicleDo?.VehicleGroupDtos;
+            MaintenanceCollection = _vehicleDo.MaintenanceHistory;
+
+
+
+            if (_vehicleDo?.ActivityDtos != null)
+            {
+                ActivityDtos = _vehicleDo?.ActivityDtos;
+
+            }
+            if (_vehicleDo?.OwnerDtos != null)
+            {
+                OwnerDtos = _vehicleDo?.OwnerDtos;
+            }
+            if (_vehicleDo?.AgentsDto != null)
+            {
+                AgentDtos = _vehicleDo?.AgentsDto;
+            }
+            if (_vehicleDo?.Supplier1 != null)
+            {
+                this.ProveeDto = new ObservableCollection<SupplierSummaryDto>(_vehicleDo.Supplier1);
+            }
+            if (_vehicleDo?.PaymentForm != null)
+            {
+                PaymentFormDto = _vehicleDo.PaymentForm;
+            }
+            if (_vehicleDo?.ResellerDto!=null)
+            {
+                ResellerDto = _vehicleDo.ResellerDto;
+            }
+            if (_vehicleDo?.ClientDto != null)
+            {
+                ClientsDto = _vehicleDo.ClientDto;
+            }
+            if (_vehicleDo?.Supplier2 != null)
+            {
+                this.ProveeDto2 = _vehicleDo.Supplier2;
+            }
+            if (_vehicleDo?.RoadOfficeZoneDto != null)
+            {
+                this.RoadTaxesOfficeZoneDto = _vehicleDo.RoadOfficeZoneDto;
+            }
+            if (_vehicleDo?.RoadOfficeZoneDto != null)
+            {
+                this.RoadTaxesCityDto = _vehicleDo.RoadTaxesCityDto;
+            }
+            if (_vehicleDo?.AdditionalAssuranceDto != null)
+            {
+                this.AdditionalAssuranceDtos = _vehicleDo.AdditionalAssuranceDto;
+            }
+            if (_vehicleDo?.AssistenceAssuranceDto != null)
+            {
+                this.AssistanceAssuranceDtos = _vehicleDo.AssistenceAssuranceDto;
+            }
+            if (_vehicleDo?.AssistencePolicyDto != null)
+            {
+                this.AssistancePolicyAssuranceDtos = _vehicleDo.AssistencePolicyDto;
+            }
 
         }
         /// <summary>
@@ -913,13 +953,13 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         private async Task<DataPayLoad> HandleDeleteItem(DataPayLoad inDataPayLoad)
         {
-           var vehicle = await _vehicleDataServices.GetVehicleDo(inDataPayLoad.PrimaryKeyValue);
+           var vehicle = await _vehicleDataServices.GetDoAsync(inDataPayLoad.PrimaryKeyValue);
             var payload = new DataPayLoad();
             if (!vehicle.Valid)
             {
                 return payload;
             }
-            var returnValue = await _vehicleDataServices.DeleteVehicleDo(vehicle);
+            var returnValue = await _vehicleDataServices.DeleteAsync(vehicle);
 
             if (!returnValue)
             {
@@ -935,7 +975,7 @@ namespace MasterModule.ViewModels
             return payload;
         }
     
-        public ObservableCollection<CityDto> CityDto
+        public IEnumerable<CityDto> CityDto
         {
             get => _cityDto;
             set {
@@ -944,7 +984,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public ObservableCollection<CityDto> RoadTaxesCityDto
+        public IEnumerable<CityDto> RoadTaxesCityDto
         {
             get
             {
@@ -959,7 +999,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public ObservableCollection<CurrentSituationDto> CurrentSituationDto
+        public IEnumerable<CurrentSituationDto> CurrentSituationDto
         {
             get { return _situationDto; }
             set { _situationDto = value; RaisePropertyChanged(); }
@@ -968,7 +1008,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Other office 1 dto
         /// </summary>
-        public ObservableCollection<CompanyDto> OtherOffice1Dto
+        public IEnumerable<OfficeDtos> OtherOffice1Dto
         {
             get { return _otherOffice1Dto; }
             set { _otherOffice1Dto = value; RaisePropertyChanged(); }
@@ -977,7 +1017,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Other office 2 dto
         /// </summary>
-        public ObservableCollection<CompanyDto> OtherOffice2Dto
+        public IEnumerable<OfficeDtos> OtherOffice2Dto
         {
             get { return _otherOffice2Dto; }
             set { _otherOffice2Dto = value; RaisePropertyChanged(); }
@@ -985,10 +1025,15 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Other office 3 dto
         /// </summary>
-        public ObservableCollection<CompanyDto> OtherOffice3Dto
+        public IEnumerable<OfficeDtos> OtherOffice3Dto
         {
             get { return _otherOffice3Dto; }
             set { _otherOffice3Dto = value; RaisePropertyChanged(); }
+        }
+        public IEnumerable<ResellerDto> ResellerDto
+        {
+            get { return _resellerDto; }
+            set { _resellerDto = value; RaisePropertyChanged(); }
         }
         /// <summary>
         ///  BrandDtos. Brand Dto.
@@ -1046,7 +1091,10 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged("ColorDtos");
             }
         }
-
+        public ISqlCommand VehicleCopyCommand
+        {
+            set; get;
+        }
         // move this to the upper interface.
         /// <summary>
         /// Incoming payload
@@ -1095,7 +1143,7 @@ namespace MasterModule.ViewModels
                         if (string.IsNullOrEmpty(PrimaryKeyValue))
                         {
                             PrimaryKeyValue =
-                                _vehicleDataServices.GetNewId();
+                                _vehicleDataServices.NewId();
 
                             CurrentOperationalState = DataPayLoad.Type.Insert;
                         }

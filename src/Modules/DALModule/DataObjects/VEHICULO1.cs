@@ -421,7 +421,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the AGENTE2 property.
     /// </summary>
     
-		public string AGENTE2 { get; set; }
+//		public string AGENTE2 { get; set; }
  
 	/// <summary>
     ///  Set or get the CIAADA3 property.
@@ -1915,7 +1915,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the FRAVEN property.
     /// </summary>
     
-		public string FRAVEN { get; set; }
+		//public string FRAVEN { get; set; }
  
 	/// <summary>
     ///  Set or get the COMPRAFRA_BASE property.

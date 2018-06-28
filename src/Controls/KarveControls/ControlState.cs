@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KarveDataServices.DataTransferObject;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -105,6 +106,29 @@ new FrameworkPropertyMetadata(0));
         public static void SetTextPrevious(FrameworkElement ds, object item)
         {
             ds.SetValue(IsChangedDependencyProperty, item);
+        }
+        /// </summary>
+        public static DependencyProperty DataSourceProperty
+            = DependencyProperty.RegisterAttached(
+                "DataSource",
+                typeof(object),
+                typeof(ControlState),
+                new UIPropertyMetadata(new object()));
+
+
+
+        public static string GetDataSource(FrameworkElement ds)
+        {
+            return (string)ds.GetValue(DataSourceProperty);
+        }
+        /// <summary>
+        /// Set the item changed command
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="item"></param>
+        public static void SetDataSource(FrameworkElement ds, object item)
+        {
+            ds.SetValue(DataSourceProperty, item);
         }
 
 
@@ -226,6 +250,7 @@ new FrameworkPropertyMetadata(0));
             {
                 component.TextChanged += Component_TextChanged;
                 component.LostFocus += Component_LostFocus;
+             
                 d.SetValue(DescriptionDependencyProperty, component.Name);
             }
            
@@ -279,8 +304,16 @@ new FrameworkPropertyMetadata(0));
         {
             FrameworkElement box = sender as FrameworkElement;
             bool valueChanged = (bool)box.GetValue(IsChangedDependencyProperty);
+
+            var ds = box.GetValue(DataSourceProperty);
+            if (ds is BaseDto dto)
+            {
+                if (dto.HasErrors)
+                    return;
+            }
             if (valueChanged)
             {
+                var data = box.GetValue(DataSourceProperty);
                 ICommand command = (ICommand)box.GetValue(ItemChangedCommandProperty);
                 if (command != null)
                 {

@@ -14,11 +14,11 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Codigo code.
         /// </summary>
-        public string Code { set; get; }
+        public override string Code { set; get; }
         /// <summary>
         ///  Nombre name
         /// </summary>
-        public string Name { set; get; }
+        public override string Name { set; get; }
         /// <summary>
         ///  Direction.
         /// </summary>

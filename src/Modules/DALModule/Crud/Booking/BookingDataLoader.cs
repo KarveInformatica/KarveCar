@@ -73,6 +73,7 @@ namespace DataAccessLayer.Crud.Booking
             using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
             {
                 var queryStore = _queryStoreFactory.GetQueryStore();
+               
                 var query = queryStore.AddParam(QueryType.QueryBooking, code).BuildQuery();
                 using (var multi = await dbConnection.QueryMultipleAsync(query))
                 {

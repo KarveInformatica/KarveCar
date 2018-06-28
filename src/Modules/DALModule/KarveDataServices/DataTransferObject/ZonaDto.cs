@@ -9,10 +9,9 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  ZonaDts
     /// </summary>
-    public class ZonasDto : BaseDto
+    public class ZonasDto : BaseDtoDefaultName
     {
-        public string Code { set; get; }
-        public string Name { set; get; }
+      
         public string TerminationZone { set; get; }
     }
 }

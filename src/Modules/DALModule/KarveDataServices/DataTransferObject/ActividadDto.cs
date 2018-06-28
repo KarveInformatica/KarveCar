@@ -19,5 +19,20 @@ namespace KarveDataServices.DataTransferObject
         ///  Name of the activity.
         /// </summary>
         public string Nombre { set; get; }
+
+
+        public override bool HasErrors
+        {
+            get
+            {
+                if ((Nombre != null) && (Nombre.Length > 35))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                return false;
+            }
+        }
+
     }
 }

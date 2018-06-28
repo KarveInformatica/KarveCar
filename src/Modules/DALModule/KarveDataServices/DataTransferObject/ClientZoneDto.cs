@@ -3,16 +3,8 @@
 namespace KarveDataServices.DataTransferObject
 {
 
-    public class ClientZoneDto : BaseDto
+    public class ClientZoneDto : BaseDtoDefaultName
     {
-        /// <summary>
-        ///  Code of the zone
-        /// </summary>
-        public string Code { set; get; }
-        /// <summary>
-        ///  Name of the zone.
-        /// </summary>
-        public string Name { set; get; }
 
     }
 

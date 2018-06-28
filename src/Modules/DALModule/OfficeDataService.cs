@@ -41,7 +41,9 @@ namespace DataAccessLayer
             _loader = new OfficeDataLoader(SqlExecutor, _mapper);
             _saver = new OfficeDataSaver(SqlExecutor, _mapper);
             _deleter = new OfficeDataDeleter(SqlExecutor, _mapper);
-         
+            // it is useful for the page count.
+            TableName = "OFICINAS";
+
         }
         /// <summary>
         ///  Delete asynchronously an office.
@@ -56,7 +58,7 @@ namespace DataAccessLayer
         ///  Get the list asychronously of all offices.
         /// </summary>
         /// <returns>A list of summary office data transfer objects</returns>
-        public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
+        public async Task<IEnumerable<OfficeSummaryDto>> GetSummaryAllAsync()
         {
             IEnumerable<OfficeSummaryDto> summaryCollection;
             var qs = QueryStoreFactory.GetQueryStore();
@@ -73,19 +75,19 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="identifier">Identifier of the office</param>
         /// <returns>A single office data</returns>
-        public async Task<IOfficeData> GetAsyncOfficeDo(string identifier)
+        public async Task<IOfficeData> GetDoAsync(string code)
         {
-            var data =  await _loader.LoadValueAsync(identifier).ConfigureAwait(false);
+            var data =  await _loader.LoadValueAsync(code).ConfigureAwait(false);
             var office = new Office();
-            if (data != null)
+            office.Valid = data.IsValid;
+            if ((data != null) && (data.IsValid))
             { 
                 
                 office.Value = data;
-                office.Valid = true;
             }
             else
             {
-                throw new DataLayerException("Invalid office identifier " + identifier);
+                throw new DataLayerException("Invalid office identifier " + code);
             }
           return office;
         }
@@ -188,7 +190,11 @@ namespace DataAccessLayer
         public async Task<IEnumerable<OfficeSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
           var dataPager = new DataPager<OfficeSummaryDto>(SqlExecutor);
-          var pages = await  dataPager.GetPagedSummaryDoAsync(QueryType.QueryOfficeSummaryPaged, baseIndex, defaultPageSize);
+            var pageStart = baseIndex;
+            if (pageStart == 0)
+                pageStart = 1;
+            NumberPage = await GetPageCount(defaultPageSize);
+            var pages = await  dataPager.GetPagedSummaryDoAsync(QueryType.QueryOfficeSummaryPaged, pageStart, defaultPageSize);
           return pages;
         }
 
@@ -240,6 +246,26 @@ namespace DataAccessLayer
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
             var datas = await dataPager.GetPagedSummaryDoSortedAsync(QueryType.QueryClientPagedSummary, sortChain, pageIndex, pageSize);
             return datas;
+        }
+
+        public IOfficeData GetNewDo(string value)
+        {
+            return GetNewOfficeDo(value);
+        }
+
+        public async Task<bool> DeleteAsync(IOfficeData booking)
+        {
+            return await DeleteOfficeAsyncDo(booking).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
+        {
+            return await GetSummaryAllAsync().ConfigureAwait(false);
+        }
+
+        public async Task<IOfficeData> GetAsyncOfficeDo(string clientIndentifier)
+        {
+            return await GetDoAsync(clientIndentifier).ConfigureAwait(false);
         }
     }
 }

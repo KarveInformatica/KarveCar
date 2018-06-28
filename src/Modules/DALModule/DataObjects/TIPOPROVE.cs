@@ -15,7 +15,8 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the NUM_TIPROVE property.
     /// </summary>
-        [ExplicitKey]
+        [Key]
+        [FieldSize("2")]
 		public Int16 NUM_TIPROVE { get; set; }
  
 	/// <summary>

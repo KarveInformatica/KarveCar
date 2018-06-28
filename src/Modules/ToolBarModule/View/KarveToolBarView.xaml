@@ -23,10 +23,11 @@
             <mvvm1:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True"/>
         </mvvm1:InteractionRequestTrigger>
          </i:Interaction.Triggers>
-    <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" ToolBar.OverflowMode="Never" >
+    <ToolBarTray x:Name="tbtAcciones" DockPanel.Dock="Top" ToolBar.OverflowMode="Never" Background="Transparent">
         <ToolBar>
 
             <Button x:Name="tbbtnNuevo" 
+                     Background="Transparent"
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsNewEnabled}" >
                 <StackPanel>
@@ -54,6 +55,7 @@
                 
             </Button>
             <Button x:Name="tbbtnBorrar" 
+                    Background="Transparent"
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsDeleteEnabled}" >
                 <StackPanel>
@@ -93,6 +95,7 @@
             </Button>
             
             <Button x:Name="tbbtnGuardar" 
+                     Background="Transparent"
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsSaveEnabled}" >
                 <StackPanel>
@@ -119,6 +122,7 @@
                 </Button.InputBindings>
             </Button>
             <Button x:Name="tbbtnReload" 
+                     Background="Transparent"
                     HorizontalAlignment="Left"
                     IsEnabled="False" >
                 <StackPanel>
@@ -145,6 +149,7 @@
                 </Button.InputBindings>
             </Button>
             <Button x:Name="tbbtnUndo" 
+                     Background="Transparent"
                     HorizontalAlignment="Left"
                     IsEnabled="False" >
                 <StackPanel>

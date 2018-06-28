@@ -18,14 +18,14 @@
         <prism:InteractionRequestTrigger SourceObject="{Binding ItemSelectionRequest, Mode=OneWay}">
             <!-- This PopupWindowAction has a custom view defined. When this action is executed the view will be shown inside a new window -->
             <!-- Take into account that the view and its view model are created only once and will be reused each time the action is executed -->
-            <prism:PopupWindowAction IsModal="True"  >
+            <prism:PopupWindowAction IsModal="True">
                 <prism:PopupWindowAction.WindowContent>
                     <!-- 
                     As further step here we can add a datatemplate selector
                     In this case we can put any custom view following the view model
                     We want to stretch the view.
                     -->
-                    <views:ItemSelectionView Width="NaN" Height="NaN"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                    <views:ItemSelectionView Width="NaN" Height="NaN"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="1024" MaxHeight="768"/>
                 </prism:PopupWindowAction.WindowContent>
             </prism:PopupWindowAction>
         </prism:InteractionRequestTrigger>

@@ -12,6 +12,7 @@ namespace MasterModule.Views
         {
             try
             {
+               
                 InitializeComponent();
             } catch(Exception e)
             {
@@ -20,5 +21,6 @@ namespace MasterModule.Views
         }
         public string Header
         { set; get; }
+
     }
 }

@@ -9,15 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     /// VisitTypeDto. Tipo visita. 
     /// </summary>
-    public class VisitTypeDto: BaseDto
+    public class VisitTypeDto: BaseDtoDefaultName
     {
-        /// <summary>
-        ///  Codigo visita
-        /// </summary>
-        public string Code { get; set; }
-        /// <summary>
-        ///  Nombre
-        /// </summary>
-        public string Name { get; set; }
     }
 }

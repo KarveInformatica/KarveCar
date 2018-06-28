@@ -113,15 +113,7 @@ namespace MasterModule.Common
         get { return _itemChangedHandler; }
     }
 
-    /// <summary>
-        ///  Assist Command
-        /// </summary>
-        public ICommand AssistCommand
-        {
-            set { _assistCommand = value; RaisePropertyChanged(); }
-            get { return _assistCommand; }
-        }
-
+   
         /// <summary>
         ///  ChangedItem
         /// </summary>

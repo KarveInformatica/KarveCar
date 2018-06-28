@@ -36,6 +36,11 @@ namespace KarveCommon.Services
             }
             else
             {
+                if (payLoad.PayloadType == DataPayLoad.Type.Delete)
+                {
+                    NotifyObserverSubsystem(viewModuleId, payLoad);
+                    return;
+                }
                 if (payLoad.PrimaryKeyValue == null)
                 {
                     NotifyObserverSubsystem(viewModuleId, payLoad);
@@ -52,14 +57,13 @@ namespace KarveCommon.Services
         }
         private void NotifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
         {
+          
             for (int i = 0; i < eoList.Count; ++i)
             {
                 IEventObserver eo = eoList[i];
-               
-                    eo.IncomingPayload(payload);
+                eo.IncomingPayload(payload);
                 
             }
-            
         }
         /// <summary>
         ///  Summary. Registered mailbox.

@@ -8,14 +8,7 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class BrandVehicleDto : BaseDto
     {
-        /// <summary>
-        /// This is the code.
-        /// </summary>
-        public string Code { get; set; }
-        /// <summary>
-        ///  Name
-        /// </summary>
-        public string Name { get; set; }
+       
         /// <summary>
         ///  Leave date. Fecha baja
         /// </summary>
@@ -36,5 +29,19 @@ namespace KarveDataServices.DataTransferObject
         ///  Observation.
         /// </summary>
         public string Observation { get; set; }
+
+        public override bool HasErrors
+        {
+            get
+            {
+                if ((Name != null) && (Name.Length > 60))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                return false;
+            }
+        }
+
     }
 }

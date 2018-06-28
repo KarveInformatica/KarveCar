@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Security.RightsManagement;
-using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
-using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
 using System.Windows.Input;
-using DataAccessLayer.Assist;
 using Prism.Commands;
-using Syncfusion.Data;
 using Syncfusion.UI.Xaml.Grid;
+using KarveCommonInterfaces;
 
 namespace HelperModule.ViewModels
 {
@@ -29,60 +24,29 @@ namespace HelperModule.ViewModels
         private IEnumerable<CityCountryDto> _cityCountryDto = new ObservableCollection<CityCountryDto>();
         private static long _gridIdentifier = 0;
         private ObservableCollection<CountryDto> _countryCities;
-
+        private HelperLoader<CountryDto, Country> _countryDto;
+        private HelperLoader<CityDto, POBLACIONES> _cityDto;
+        private IAssistDataService _assistDataService;
         /// <summary>
         ///  CitiesViewModel
         /// </summary>
         /// <param name="dataServices">DataService</param>
         /// <param name="region">Region</param>
         /// <param name="manager">EventManager</param>
-        public CitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
+        public CitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
         {
-            AssistCommand = new DelegateCommand<object>(OnCityCountry);
-            AssistCountryCommand = new DelegateCommand<object>(OnCountry);
+            AssistCommand = new DelegateCommand<object>(OnAssistRequest);
             if (_gridIdentifier == 0)
             {
                 _gridIdentifier = GenerateGridId();
             }
+            _assistDataService = dataServices.GetAssistDataServices();
             GridIdentifier = _gridIdentifier;
-            LoadAllCountries();
-            SetCurrentCountryDto();
         }
 
-        private void SetCurrentCountryDto()
+        private void OnAssistRequest(object obj)
         {
-            var value = CityCountryDto;
-            var country = from citycountry in value
-                where citycountry.City.Code == HelperDto.Code
-                select citycountry;
-            var cval = country.FirstOrDefault();
-            if (cval != null)
-            {
-                PreviousValue = HelperDto;
-                CurrentValue.Country = new CountryDto()
-                {
-                    Code = cval.Country.Code,
-                    CountryCode = cval.Country.CountryCode,
-                    CountryName = cval.Country.CountryName,
-                    IsIntraco = cval.Country.IsIntraco,
-                    Language = cval.Country.Language,
-                    ShortName = cval.Country.ShortName
-                };
-                HelperDto = CurrentValue;
-
-            }
-        }
-
-        /// <summary>
-        ///  Country Data Trasnfer object
-        /// </summary>
-        /// <param name="country">Country Data Transfer object</param>
-        private async void OnCountry(object country)
-        {
-            IHelperDataServices dataServices = DataServices.GetHelperDataServices();
-            var value = await dataServices.GetMappedAllAsyncHelper<CountryDto, Country>();
-            CountryCitiesDto = new ObservableCollection<CountryDto>(value);
-          //  LoadAllCountries();
+         
         }
 
         public ObservableCollection<CountryDto> CountryCitiesDto
@@ -91,14 +55,6 @@ namespace HelperModule.ViewModels
             set { _countryCities = value; RaisePropertyChanged(); }
                 
         }
-        /// <summary>
-        ///  AssistCommand to be executed
-        /// </summary>
-        public ICommand AssistCommand { get; set; }
-        /// <summary>
-        ///  AssistCommand to be executed
-        /// </summary>
-        public ICommand AssistCountryCommand { get; set; }
         /// <summary>
         ///  CityCountryDto
         /// </summary>
@@ -113,30 +69,7 @@ namespace HelperModule.ViewModels
                 where l.CountryCode == r.Country.CountryCode
                 select new CityCountryDto() {City = r, Country = l};
         }
-        private void LoadAllCountries()
-        {
-
-            HelperLoader<CountryDto, Country> loader = new HelperLoader<CountryDto, Country>(DataServices);
-            loader.LoadAll();
-            var list = from country in loader.HelperView
-                from city in HelperView
-                where city.Pais == country.Code
-                select new CityCountryDto()
-                {
-                    Code = city.Code,
-                    City = city, Country = new CountryDto()
-                    {
-                        Code = country.Code,
-                        CountryCode = country.CountryCode,
-                        CountryName = country.CountryName,
-                        IsIntraco = country.IsIntraco,
-                        Language = country.Language,
-                        ShortName = country.ShortName
-                    }
-                };
-            CityCountryDto= new ObservableCollection<CityCountryDto>(list);
-
-        }
+     
 
         /// <summary>
         ///  Update.
@@ -144,7 +77,6 @@ namespace HelperModule.ViewModels
         protected override void Update()
         {
             HelperView = LoadView();
-            LoadAllCountries();
             PreviousValue = CurrentValue;
             CurrentValue = HelperView.FirstOrDefault();
         }

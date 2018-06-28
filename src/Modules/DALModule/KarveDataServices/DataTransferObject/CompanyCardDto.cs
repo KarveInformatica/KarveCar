@@ -2,21 +2,12 @@
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class CompanyCardDto: BaseDto
+    public class CompanyCardDto: BaseDtoDefaultName
     {
 
-        /// <summary>
-        ///  Set or get the COD_TARJETA property.
-        /// </summary>
-
-        public string Code { get; set; }
-
-        /// <summary>
-        ///  Set or get the NOMBRE property.
-        /// </summary>
-
-        public string Name { get; set; }
-
+        
+        
+        
         /// <summary>
         ///  Set or get the PRECIO property.
         /// </summary>
@@ -34,5 +25,6 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string Prefix { get; set; }
+       
     }
 }

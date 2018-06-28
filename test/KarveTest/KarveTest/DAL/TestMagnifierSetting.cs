@@ -13,6 +13,8 @@ using System.IO;
 using System.Transactions;
 using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
+using AutoMapper;
+using DataAccessLayer.Logic;
 
 namespace KarveTest.DAL
 {
@@ -62,19 +64,20 @@ namespace KarveTest.DAL
         {
             byte[] currentBytes= {0x10, 0xFF, 0x23, 0x25, 0x23, 0x80};
             var base64 = Convert.ToBase64String(currentBytes);
+            IMapper mapper = MapperField.GetMapper();
+            GridSettingsDto gridSettingsDto = new GridSettingsDto();
+            gridSettingsDto.GridIdentifier = 0x800;
+            gridSettingsDto.GridName = "Not known";
+            gridSettingsDto.XmlBase64 = @"<grid></grid>";
+
            
             try
             {
+               var serialize =  mapper.Map<GridSettingsDto, GRID_SERIALIZATION>(gridSettingsDto);
                 using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
                 {
                     using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        var serialize = new GRID_SERIALIZATION
-                        {
-                            GRID_ID = 1,
-                            GRID_NAME = "Named",
-                            SERILIZED_DATA = base64
-                        };
                         var value = false;
                         if (!connection.IsPresent<GRID_SERIALIZATION>(serialize))
                         {
@@ -85,7 +88,7 @@ namespace KarveTest.DAL
                             value = await connection.UpdateAsync<GRID_SERIALIZATION>(serialize);
                         }
                         Assert.IsTrue(value);
-                        connection.DeleteAll<GRID_SERIALIZATION>();
+                        scope.Complete();
                     }
                 }
                
@@ -95,6 +98,7 @@ namespace KarveTest.DAL
                 var ex = e;
                 Assert.Fail(ex.Message);
             }
+            // nowe we have to assert this.
           
         }
         [Test]

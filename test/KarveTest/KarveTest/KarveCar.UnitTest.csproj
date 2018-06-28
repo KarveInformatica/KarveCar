@@ -56,9 +56,8 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper, Version=1.12.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -70,9 +69,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.EF6.dll</HintPath>
     </Reference>
-    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.20434, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\SQL Anywhere 16\Assembly\V4.5\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
+    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.19484, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\iAnywhere.Data.SQLAnywhere.v4.5.16.0.0.19484\lib\net45\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -151,7 +149,6 @@
     <Compile Include="Behavior\Xaml\TestData.cs" />
     <Compile Include="Commands\BranchesOperation.cs" />
     <Compile Include="Common\TestCareKeeper.cs" />
-    <Compile Include="Common\TestEntitySerializer.cs" />
     <Compile Include="Common\TestPayLoadInterpeter.cs" />
     <Compile Include="DAL\AbstractLoadTestBase.cs" />
     <Compile Include="DAL\Crud\Client\TestClientCrud.cs" />
@@ -172,6 +169,7 @@
     <Compile Include="DAL\TestMappingData.cs" />
     <Compile Include="DAL\TestOfficeDataAccessLayer.cs" />
     <Compile Include="DAL\TestQueryPagedAsync.cs" />
+    <Compile Include="DAL\TestReservationRequestDataAccessLayer.cs" />
     <Compile Include="DAL\TestVehicleDataAccessLayer.cs" />
     <Compile Include="KarveControls\TestCreditCardDetector.cs" />
     <Compile Include="KarveDapper\TestKarveDapperAsync.cs" />
@@ -207,6 +205,7 @@
     <Compile Include="Services\TestDtoFactory.cs" />
     <Compile Include="Services\TestInteractionService.cs" />
     <Compile Include="TestBootStrapper.cs" />
+    <Compile Include="ViewModels\TestReservationRequestsViewModel.cs" />
     <Compile Include="ViewModels\TestToolBarViewModel.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />
     <Compile Include="ViewModels\TestBase.cs" />
@@ -240,6 +239,10 @@
       <Project>{d670e5eb-634c-41e4-a7dd-3621e80e5ef7}</Project>
       <Name>KarveCar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\KarveCar.NavigationInterface\KarveCar.NavigationInterface.csproj">
+      <Project>{801eac52-8dfe-4c96-8550-3bc263d6f8f5}</Project>
+      <Name>KarveCar.NavigationInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
       <Name>KarveCar.CommonInterfaces</Name>
@@ -251,6 +254,10 @@
     <ProjectReference Include="..\..\..\src\KarveLocale\KarveCar.Locale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveCar.Locale</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\Modules\BookingModule\BookingModule.csproj">
+      <Project>{28298225-CD5C-40DA-A6D4-F48506446A4B}</Project>
+      <Name>BookingModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\Modules\CarModel\CarModel\CarModelModule.csproj">
       <Project>{88410e16-a500-4947-b11b-bca1a73d4fc5}</Project>
@@ -293,6 +300,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DAL\Crud\Booking\" />
     <Folder Include="Toolbar\" />
     <Folder Include="UI\KarveControls\DataAreaTest\" />
     <Folder Include="UI\KarveControls\TripleButtonTest\" />

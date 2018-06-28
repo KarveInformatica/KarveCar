@@ -58,7 +58,7 @@ namespace KarveTest.ViewModels
             // Act
             command.Execute(dto);
            // Assert.
-            VehicleTypeDto resultDto = _vehicleTypeViewModel.VehicleType;
+            VehicleTypeDto resultDto = _vehicleTypeViewModel.HelperDto;
             Assert.AreEqual(dto.Code, resultDto.Code);
             Assert.AreEqual(dto.Name, resultDto.Name);
             Assert.AreEqual(dto.WebName, resultDto.WebName);
@@ -79,7 +79,7 @@ namespace KarveTest.ViewModels
             dto.TerminationDate = DateTime.Now;
             // act
             command.Execute(dto);
-            VehicleTypeDto resultDto = _vehicleTypeViewModel.VehicleType;
+            VehicleTypeDto resultDto = _vehicleTypeViewModel.HelperDto;
             // assert
             Assert.AreEqual(dto.Code, resultDto.Code);
             Assert.AreEqual(dto.Name, resultDto.Name);

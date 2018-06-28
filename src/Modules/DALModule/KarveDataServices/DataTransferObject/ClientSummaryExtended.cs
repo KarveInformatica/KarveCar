@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
@@ -19,7 +15,7 @@ namespace KarveDataServices.DataTransferObject
             Phone = string.Empty;
             Movil = string.Empty;
             Email = string.Empty;
-            Direccion = string.Empty;
+            Direction = string.Empty;
             Zip = string.Empty;
             City = string.Empty;
             CreditCardType = string.Empty;
@@ -34,12 +30,7 @@ namespace KarveDataServices.DataTransferObject
             Falta = DateTime.Now;
             BirthDate = DateTime.Now;
         }
-        public string Codigo { get { return Code; } set { Codigo = value; } }
-        public string Direccion { get { return Direction; }  set { Direction = value; } }
-        public string Provincia { get; set; }
-        public string Poblacion { get { return City; } set { City = value; } }
-        public string Pais { get; set; }
-
+       
         [Display(Name = "Numero")]
         public  string  Code { set; get; }
         [Display(Name = "Nombre Cliente")]
@@ -54,6 +45,7 @@ namespace KarveDataServices.DataTransferObject
         public string Movil { set; get; }
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
+  
         public string Email
         {
             set

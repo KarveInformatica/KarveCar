@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="HelperModule.Views.TravelAgency"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HelperModule.Views"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviour="clr-namespace:HelperModule.Views.Behaviour"
+             xmlns:commonGeneric="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
+             mc:Ignorable="d" 
+             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+
+    <GroupBox Grid.Row ="0" Header="Datos" Grid.Column="0" Grid.ColumnSpan="2">
+
+        <StackPanel Orientation="Horizontal">
+            <karveControls:DataField LabelText="Code"
+                                         Height="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="True"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Code"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="100"></karveControls:DataField>
+            <karveControls:DataField LabelText="Name"
+                                         Height="30"
+                                         LabelTextWidth="60"
+                                         IsReadOnly="False"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Name"
+                                         TextContentWidth="250"></karveControls:DataField>
+            <karveControls:DataField LabelText="Nif"
+                                         Height="30"
+                                         LabelTextWidth="60"
+                                         DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         DataSourcePath="Nif"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="100"></karveControls:DataField>
+
+        </StackPanel>
+    </GroupBox>
+    <Syncfusion:SfDataGrid Grid.Row="1" Grid.Column="1"   x:Name="TravelAgencySummary"                       
+                                   ColumnSizer="Star"
+                                   AllowDraggingColumns="True"
+                                   AllowEditing="False"
+                                   AllowFiltering="True"
+                                   AllowResizingColumns="True"
+                                   AllowSorting="True"
+                                   AllowGrouping="True"
+                                   ShowGroupDropArea="True"
+                                   NavigationMode="Row"
+                                   FilterRowPosition="FixedTop"
+                                   AutoGenerateColumns="True"
+                                   karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                                   karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                   ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  >
+        <i:Interaction.Behaviors>
+            <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <karveControls:GridColumnFilterBehaviour AssistProperties="Code,Name,CellPhone,LeaveDate"></karveControls:GridColumnFilterBehaviour>
+        </i:Interaction.Behaviors>
+        <Syncfusion:SfDataGrid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Syncfusion:SfDataGrid.Resources>
+    </Syncfusion:SfDataGrid>
+    <Syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" Grid.Column="0" BorderThickness="0" Visibility="Visible">
+        <Syncfusion:TabItemExt x:Name="OwnerData" Header="Empleado Agencia Viajes">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <karveControls:DirectionInfo Grid.Row="0" Grid.Column="0"
+                                HideSecondDirection="True"
+                                DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Direction="Direction"
+                                City="City.Code"
+                                Country="Country.Code"
+                                Province="Province.Code"
+                                CityAssistName="CITY_ASSIST"
+                                CountryAssistName="COUNTRY_ASSIST"
+                                ProvinceAssistName="PROVINCE_ASSIST"
+                                Phone="CellPhone"
+                                Fax="Fax"
+                                Email="Email"
+                                Web="Web"
+                                MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                CountrySourceView="{Binding TravelCountryDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                CitySourceView="{Binding TravelCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ProvinceSourceView="{Binding TravelProvinceDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            />
+
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                    <karveControls:DataDatePicker LabelText="Fecha Alta" 
+                                               DataDatePickerHeight="25"
+                                               karveControls:ControlExt.DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               karveControls:ControlExt.DataSourcePath="StartDate"></karveControls:DataDatePicker>
+                    <karveControls:DataDatePicker LabelText="Fecha Baja" 
+                                               DataDatePickerHeight="25"
+                                               karveControls:ControlExt.DataSource="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               karveControls:ControlExt.DataSourcePath="LeaveDate">
+
+                    </karveControls:DataDatePicker>
+                </StackPanel>
+
+
+                <karveControls:DataArea Grid.Row="2"  DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}" 
+                                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 karveControls:ControlExt.DataSourcePath="Notes"
+                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Width="Auto"/>
+
+
+
+            </Grid>
+
+        </Syncfusion:TabItemExt>
+    </Syncfusion:TabControlExt>
+
+</Grid>
+
+</UserControl>

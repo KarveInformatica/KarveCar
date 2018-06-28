@@ -160,10 +160,14 @@
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\CardTypeImageConverter.cs" />
     <Compile Include="Converter\CharToIntegerConverter.cs" />
+    <Compile Include="Converter\DateTimeToTimeSpanConverter.cs" />
     <Compile Include="Converter\DebugDataBindingConverter.cs" />
     <Compile Include="Converter\GridCellConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
+    <Compile Include="Converter\IsClientCompanyConverter.cs" />
+    <Compile Include="Converter\IsClientPersonConverter.cs" />
     <Compile Include="Converter\NullBoleanToBooleanConverter.cs" />
+    <Compile Include="Converter\RatioScreenConverter.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
     <Compile Include="Converter\StringToByteConverter.cs" />
     <Compile Include="Converter\StringToIntegerConverter.cs" />
@@ -201,6 +205,7 @@
     <Compile Include="Generic\SuppliersValidationRule.cs" />
     <Compile Include="Generic\ValidationChainBuilder.cs" />
     <Compile Include="Generic\VehicleValidationRule.cs" />
+    <Compile Include="Generic\ViewModelNames.cs" />
     <Compile Include="Generic\VisualTreeAdapter.cs" />
     <Compile Include="IChangeHandler.cs" />
     <Compile Include="Services\DataPayloadFactory.cs" />
@@ -533,6 +538,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Style\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\sxexpresscard.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

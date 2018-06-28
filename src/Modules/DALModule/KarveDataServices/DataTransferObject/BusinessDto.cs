@@ -1,9 +1,6 @@
 ﻿namespace KarveDataServices.DataTransferObject
 {
-    public class BusinessDto: BaseDto
+    public class BusinessDto : BaseDtoDefaultName
     {
-        public string Code { get; set; }
-        public string Name { get;  set; }
-       
     }
 }

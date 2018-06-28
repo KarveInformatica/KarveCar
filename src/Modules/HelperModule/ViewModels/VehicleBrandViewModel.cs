@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -21,11 +22,9 @@ namespace HelperModule.ViewModels
         private PropertyChangedEventHandler _loadCompleted;
         private IEnumerable<SupplierSummaryDto> _supplierSummary;
 
-        public VehicleBrandViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager) : base(query, dataServices, region, manager)
+        public VehicleBrandViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(query, dataServices, region, manager, dialogService)
         {
             _loadCompleted += OnLoadCompleted;
-
-          //  _initializationNotifier = NotifyTaskCompletion.Create(LoadSuppliers(), _loadCompleted);
         }
 
         private void OnLoadCompleted(object sender, PropertyChangedEventArgs e)
@@ -41,7 +40,11 @@ namespace HelperModule.ViewModels
                 }
             }
         }
-
+        public override void DisposeEvents()
+        {
+            base.DisposeEvents();
+            _loadCompleted -= OnLoadCompleted;
+        }
         public override Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             throw new NotImplementedException();

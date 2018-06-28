@@ -213,7 +213,7 @@ namespace KarveTest.DAL
                 var singleBroker = brokers.FirstOrDefault();
                 QueryStore store = QueryStore.GetInstance();
                 store.Clear();
-                store.AddParam(QueryType.QueryResellerByClient, singleBroker.NUM_COMI);
+                store.AddParam(QueryType.QueryClientVisits, singleBroker.NUM_COMI);
                 var query = store.BuildQuery();
                 // act
                 var visitasComi = await connection.QueryAsync<VisitasComiPoco>(query);

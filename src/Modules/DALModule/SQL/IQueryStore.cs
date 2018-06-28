@@ -39,6 +39,8 @@ namespace DataAccessLayer.SQL
         /// <param name="firstCode">First code</param>
         /// <param name="secondCode">Second code</param>
         IQueryStore AddParam<T1, T2>(QueryType queryType, T1 firstCode, T2 secondCode);
+       
+
 
         /// <summary>
         ///  A query parameters to be added
@@ -51,6 +53,7 @@ namespace DataAccessLayer.SQL
         /// <param name="secondCode">Second code parameter</param>
         /// <param name="thirdCode">Third code parameter</param>
         IQueryStore AddParam<T1, T2, T3>(QueryType queryType, T1 firstCode, T2 secondCode, T3 thirdCode);
+       
 
         /// <summary>
         ///  Add sorting parameters to the query.
@@ -117,5 +120,17 @@ namespace DataAccessLayer.SQL
         /// <param name="number">Number of the inner value</param>
         /// <returns>The number of items</returns>
         string GetCountItems(string table, string key, string number);
+        /// <summary>
+        ///  This will allows yout to add parameters with count.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="table"></param>
+        /// <param name="primaryKey"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        IQueryStore AddParamCount(QueryType type, string code);
+        IQueryStore AddParamCount(QueryType type, string code, string refCode="");
+        IQueryStore AddParamCount(QueryType type, string table, string primaryKey, string code, string refCode = "");
+       
     }
 }

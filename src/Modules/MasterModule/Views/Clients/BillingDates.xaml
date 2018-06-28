@@ -22,7 +22,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="115"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"

@@ -60,15 +60,16 @@
                                CurrentCellBorderThickness="0"
                                FontWeight="Normal"
                                Foreground="#FF808080"
-                               RowSelectionBrush="#FF8CC63F"
+                               RowSelectionBrush="#c8ede6"
                                HeaderRowHeight="32"
-                              
+                               SelectionForegroundBrush="Magenta"
+                               
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+                               AutoGenerateColumns="False" CaptionSummaryCellStyle="{DynamicResource GridCaptionSummaryCellStyle}" HeaderStyle="{DynamicResource GridHeaderCellControlStyle1}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

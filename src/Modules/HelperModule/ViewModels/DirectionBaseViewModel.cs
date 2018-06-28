@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveControls;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
@@ -26,14 +27,16 @@ namespace HelperModule.ViewModels
 
     {
 
-        private const string CityTag = "POBLA";
-        private const string CountryTag = "PAIS";
-        private const string ProvinceTag = "PROV";
+        private const string CityTag = "CITY_ASSIST";
+        private const string CountryTag = "COUNTRY_ASSIST";
+        private const string ProvinceTag = "PROVINCE_ASSIST";
+        private IAssistDataService _assistDataService;
 
 
-
-        public DirectionBaseViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager) : base(query, dataServices, region, manager)
+        public DirectionBaseViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(query, dataServices, region, manager, dialogService)
         {
+            _assistDataService = dataServices.GetAssistDataServices();
+            AssistMapper = _assistDataService.Mapper;
             AssistCommand = new DelegateCommand<object>(OnAssistAsync);
             AssistCompletionEventHandler += AssistComplete;
         }
@@ -58,26 +61,25 @@ namespace HelperModule.ViewModels
                 if (assistData != null)
                 {
                     string name = assistData[ControlExt.AssistTable];
-                    string assistQuery = assistData[ControlExt.AssistQuery];
+                string assistQuery = assistData[ControlExt.AssistQuery];
+                    var resultDto = await AssistMapper.ExecuteAssistGeneric(name, assistQuery);
                     IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
                     // remove this if it possible.
                     switch (name)
                     {
                         case CityTag:
                         {
-                            GenericCityDto = await helperDataServices.GetMappedAsyncHelper<CityDto, POBLACIONES>(assistQuery);
+                            GenericCityDto = (IEnumerable<CityDto>)resultDto; 
                             break;
                         }
                         case CountryTag:
                         {
-                            GenericCountryDto =
-                                await helperDataServices.GetMappedAsyncHelper<CountryDto, Country>(assistQuery);
+                            GenericCountryDto = (IEnumerable<CountryDto>)resultDto;
                             break;
                         }
                         case ProvinceTag:
                         {
-                            GenericProvinciaDto = await helperDataServices
-                                .GetMappedAsyncHelper<ProvinciaDto, PROVINCIA>(assistQuery);
+                            GenericProvinciaDto = (IEnumerable<ProvinciaDto>)resultDto; 
                             break;
 
                         }
@@ -86,10 +88,7 @@ namespace HelperModule.ViewModels
                 }
             return false;
         }
-        /// <summary>
-        ///  AssistCommand
-        /// </summary>
-        public DelegateCommand<object> AssistCommand { get; set; }
+        
         /// <summary>
         ///  GenericCityDto.
         /// </summary>

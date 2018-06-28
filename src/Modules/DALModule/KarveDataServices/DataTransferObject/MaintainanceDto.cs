@@ -5,7 +5,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Mantenaince dto
     /// </summary>
-    public class MaintainanceDto
+    public class MaintainanceDto: BaseDto
     {
 
         public MaintainanceDto()
@@ -54,6 +54,30 @@ namespace KarveDataServices.DataTransferObject
         /// Observation
         /// </summary>
         public string Observation { set; get; }
+        /// <summary>
+        ///  Returns false if the maintenance is not valid 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInvalid()
+        {
+            if ((MaintananceName != null) && (MaintananceName.Length > 100))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            if ((MaintananceCode != null) && (MaintananceCode.Length > 6))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            if ((Observation != null) && (Observation.Length > 2000))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            return false;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
 
     }
 }

@@ -21,5 +21,6 @@ namespace KarveDataServices
         /// <param name="code">Reservation number</param>
         /// <returns>The number of items or -1 in case of any errors.</returns>
         Task<int> GetBookingItemsCount(string code);
+
     }
 }

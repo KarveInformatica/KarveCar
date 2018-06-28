@@ -13,7 +13,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <GroupBox Header="Actividades de Vehiculo">
+        <GroupBox Header="{Binding lrbtnActividadesVehiculos, Source={StaticResource ResourceLanguage}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -26,24 +26,24 @@
                                          LabelTextWidth="60"
                                          IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataSourcePath="Code"
+                                         DataSourcePath="Codigo"
                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          TextContentWidth="100"></karveControls:DataField>
 
                 <karveControls:DataField  LabelText="Nombre"
                                          MaxHeight="30"
                                          LabelTextWidth="60"
-                                         IsReadOnly="True"
                                          DataObject="{Binding HelperDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                         DataSourcePath="Activity"
+                                         DataSourcePath="Nombre"
                                          ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TextContentWidth="100"></karveControls:DataField>
+                                         TextContentWidth="200"></karveControls:DataField>
+                    <!--
                     <kc:DataFieldCheckBox Content="Afecta al calcolo de Ocupación"   
                                           kc:ControlExt.DataSource="{Binding HelperDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                           kc:ControlExt.DataSourcePath="Compute">
                     </kc:DataFieldCheckBox>
-
+-->
                 </StackPanel>
                 <syncfusion:SfDataGrid x:Name="HelperSummary"
                                ColumnSizer="Star"
@@ -61,7 +61,7 @@
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False">
+                               AutoGenerateColumns="True">
                     <syncfusion:SfDataGrid.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
@@ -71,23 +71,9 @@
                     </syncfusion:SfDataGrid.Resources>
                     <i:Interaction.Behaviors>
                         <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <karveControls:GridColumnFilterBehaviour AssistProperties="Codigo,Nombre"></karveControls:GridColumnFilterBehaviour>
                     </i:Interaction.Behaviors>
                    
-                    <syncfusion:SfDataGrid.Columns>
-                        <syncfusion:GridTextColumn HeaderText="Code" 
-                                           MappingName="Code" 
-                                           TextAlignment="Left"
-                                           AllowFiltering="True"                                
-                                           AllowEditing="True"
-                                           AllowGrouping="True"/>
-                        <syncfusion:GridTextColumn HeaderText="Nombre" 
-                                           MappingName="Activity" 
-                                           TextAlignment="Left"
-                                           AllowEditing="True"
-                                           AllowGrouping="True"
-                                           />
-                    </syncfusion:SfDataGrid.Columns>
-               
                 </syncfusion:SfDataGrid>
 
           

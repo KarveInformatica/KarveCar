@@ -145,7 +145,7 @@ namespace KarveTest.DAL
             var strDictionary = new HashSet<string>();
             var isValueDuplicated = false;
             // act
-            for (int i = 0; i < 200; ++i)
+            foreach (var v in Enumerable.Range(1,10))
             {
                 var currentId = _invoiceDataService.NewId();
                 var isPresent = strDictionary.Contains(currentId);

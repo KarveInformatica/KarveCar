@@ -59,8 +59,8 @@
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
+    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Dapper.SqlBuilder, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.SqlBuilder.1.50.4\lib\net451\Dapper.SqlBuilder.dll</HintPath>
@@ -101,6 +101,9 @@
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
+    <Reference Include="sinkien.IBAN4Net, Version=1.0.6.0, Culture=neutral, PublicKeyToken=b72d67ea62346b72, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\IBAN4Net.1.0.6\lib\sinkien.IBAN4Net.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Shared.Wpf, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
@@ -124,12 +127,13 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Z.Dapper.Plus, Version=1.3.11.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.Dapper.Plus.1.3.11\lib\net45\Z.Dapper.Plus.dll</HintPath>
+    <Reference Include="Z.Dapper.Plus, Version=1.3.18.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Z.Dapper.Plus.1.3.18\lib\net45\Z.Dapper.Plus.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
+    <Compile Include="AssistDataException.cs" />
     <Compile Include="AssistDataService.cs" />
     <Compile Include="AssistMapper.cs" />
     <Compile Include="Assist\Assist.cs" />
@@ -165,7 +169,12 @@
     <Compile Include="Crud\Office\OfficeDataDeleter.cs" />
     <Compile Include="Crud\Office\OfficeDataLoader.cs" />
     <Compile Include="Crud\Office\OfficeDataSaver.cs" />
+    <Compile Include="Crud\SelectionHelpers.cs" />
     <Compile Include="Crud\Supplier\SupplierDataLoader.cs" />
+    <Compile Include="Crud\Vehicle\VehicleDataDeleter.cs" />
+    <Compile Include="Crud\Vehicle\VehicleDataLoader.cs" />
+    <Compile Include="Crud\Vehicle\VehicleDataSaver.cs" />
+    <Compile Include="Crud\DataSaver.cs" />
     <Compile Include="DataObjects\ACCESO.cs" />
     <Compile Include="DataObjects\AccesorioVehiculoDataObject.cs" />
     <Compile Include="DataObjects\AccountDataObject.cs" />
@@ -268,21 +277,15 @@
     <Compile Include="DataObjects\CK_PERMCONCEP.cs" />
     <Compile Include="DataObjects\CK_PERMCONCEP_INF.cs" />
     <Compile Include="DataObjects\CLASIFICACLI.cs" />
-    <Compile Include="DataObjects\CliContactsPoco.cs" />
-    <Compile Include="DataObjects\CliDelegaPoco.cs" />
-    <Compile Include="DataObjects\ClientPoco.cs" />
-    <Compile Include="DataObjects\DataConnectionSettingsDto.cs" />
-    <Compile Include="DataObjects\EntityDecorator.cs" />
-    <Compile Include="DataObjects\EntityDeserializer.cs" />
-    <Compile Include="DataObjects\EntityDeserializerException.cs" />
-    <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\ClaveFee.cs" />
     <Compile Include="DataObjects\ClavePresupuesto.cs" />
     <Compile Include="DataObjects\CLAVEPTO.cs" />
     <Compile Include="DataObjects\CLAVESHACIENDA.cs" />
     <Compile Include="DataObjects\CLAVESHACIENDA_CMP.cs" />
     <Compile Include="DataObjects\CliContactos.cs" />
+    <Compile Include="DataObjects\CliContactsPoco.cs" />
     <Compile Include="DataObjects\cliDelega.cs" />
+    <Compile Include="DataObjects\CliDelegaPoco.cs" />
     <Compile Include="DataObjects\CLIENTES1.cs" />
     <Compile Include="DataObjects\CLIENTES2.cs" />
     <Compile Include="DataObjects\CLIENTES_NOTAS.cs" />
@@ -291,6 +294,7 @@
     <Compile Include="DataObjects\CLIENTES_VIASPAGO.cs" />
     <Compile Include="DataObjects\CLIENTE_COMERCIAL.cs" />
     <Compile Include="DataObjects\CLIENTE_HIST_MANDATO.cs" />
+    <Compile Include="DataObjects\ClientPoco.cs" />
     <Compile Include="DataObjects\CLI_EURO.cs" />
     <Compile Include="DataObjects\CLI_GARAN.cs" />
     <Compile Include="DataObjects\CLI_INDESEABLES.cs" />
@@ -462,6 +466,7 @@
     <Compile Include="DataObjects\DANOS_CONTRATO.cs" />
     <Compile Include="DataObjects\DANOS_PRECIOS.cs" />
     <Compile Include="DataObjects\DANOS_VEHICULO.cs" />
+    <Compile Include="DataObjects\DataConnectionSettingsDto.cs" />
     <Compile Include="DataObjects\DataWrapper.cs" />
     <Compile Include="DataObjects\DEFINICION_ASIENTOS_EMP.cs" />
     <Compile Include="DataObjects\DEF_BALSITU.cs" />
@@ -496,6 +501,7 @@
     <Compile Include="DataObjects\EMPRESA_PRODUCTS_GROUPS.cs" />
     <Compile Include="DataObjects\EMPRESA_REMUN_CON.cs" />
     <Compile Include="DataObjects\ENTIDAD_MODIFICADA.cs" />
+    <Compile Include="DataObjects\EntityDeserializerException.cs" />
     <Compile Include="DataObjects\ENTREGAS.cs" />
     <Compile Include="DataObjects\ENTREGA_BONO.cs" />
     <Compile Include="DataObjects\ENTREGA_MAN.cs" />
@@ -568,6 +574,7 @@
     <Compile Include="DataObjects\GA_FALLOS.cs" />
     <Compile Include="DataObjects\GA_MOTIVOS_RECHAZO.cs" />
     <Compile Include="DataObjects\GA_SISTEMAS.cs" />
+    <Compile Include="DataObjects\GRID_SERIALIZATION.cs" />
     <Compile Include="DataObjects\GRUCOSTE.cs" />
     <Compile Include="DataObjects\GRUORI.cs" />
     <Compile Include="DataObjects\GRUPOINFREV_LI.cs" />
@@ -1143,12 +1150,12 @@
     <Compile Include="DataObjects\_TmpEstProdFacVehiOfi.cs" />
     <Compile Include="DataObjects\_TMPSC.cs" />
     <Compile Include="DataObjects\_TMPXX.cs" />
-    <Compile Include="Crud\DataSaver.cs" />
     <Compile Include="DataPager.cs" />
     <Compile Include="DataPagerException.cs" />
     <Compile Include="DataServiceImplementation.cs" />
     <Compile Include="Exception\DataAccessLayerException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
+    <Compile Include="FareDataServices.cs" />
     <Compile Include="FilterService\AbstractDataFilterService.cs" />
     <Compile Include="FilterService\DataFilterService.cs" />
     <Compile Include="FilterService\DataFilterSummaryService.cs" />
@@ -1158,9 +1165,28 @@
     <Compile Include="Logic\ClientDtoToClientes1.cs" />
     <Compile Include="Logic\ClientDtoToClientes2.cs" />
     <Compile Include="Logic\ContactsComiToDto.cs" />
+    <Compile Include="Logic\SupplierPocoConverter.cs" />
+    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\CommissionAgent.cs" />
+    <Compile Include="Model\Company.cs" />
+    <Compile Include="Model\DataLayerExecutionException.cs" />
+    <Compile Include="Model\DomainObject.cs" />
+    <Compile Include="Model\Invoice.cs" />
+    <Compile Include="Model\InvoiceFareDto.cs" />
+    <Compile Include="Model\MagnifierColumns.cs" />
+    <Compile Include="Model\MagnifierSettings.cs" />
+    <Compile Include="Model\NullClient.cs" />
+    <Compile Include="Model\NullCommissionAgentTypeData.cs" />
     <Compile Include="Model\NullInvoice.cs" />
     <Compile Include="Model\NullReservation.cs" />
+    <Compile Include="Model\NullReservationRequest.cs" />
+    <Compile Include="Model\Office.cs" />
     <Compile Include="Model\Reservation.cs" />
+    <Compile Include="Model\ReservationRequest.cs" />
+    <Compile Include="Model\Supplier.cs" />
+    <Compile Include="Model\SupplierPoco.cs" />
+    <Compile Include="Model\Vehicle.cs" />
+    <Compile Include="Model\VehiclePoco.cs" />
     <Compile Include="MongoDB\MongoAssistDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoClientDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoCommissionAgentDataAccessLayer.cs" />
@@ -1174,6 +1200,8 @@
     <Compile Include="MongoDB\MongoSettingsDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoSupplierDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoVehicleDataAccessLayer.cs" />
+    <Compile Include="NullAssist.cs" />
+    <Compile Include="ReservationRequestDataAccessLayer.cs" />
     <Compile Include="SQL\IQueryStore.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />
@@ -1184,26 +1212,11 @@
     <Compile Include="Logic\MapperField.cs" />
     <Compile Include="MapperUtils.cs" />
     <Compile Include="Logic\SQL_EditDAL.cs" />
-    <Compile Include="Model\CommissionAgent.cs" />
-    <Compile Include="Model\Client.cs" />
-    <Compile Include="Model\Company.cs" />
-    <Compile Include="Model\DataLayerExecutionException.cs" />
-    <Compile Include="Model\DomainObject.cs" />
-    <Compile Include="Model\Invoice.cs" />
-    <Compile Include="Model\InvoiceFareDto.cs" />
-    <Compile Include="Model\MagnifierColumns.cs" />
-    <Compile Include="Model\MagnifierSettings.cs" />
-    <Compile Include="Model\NullClient.cs" />
-    <Compile Include="Model\NullCommissionAgentTypeData.cs" />
-    <Compile Include="Model\Office.cs" />
-    <Compile Include="Model\Supplier.cs" />
-    <Compile Include="Model\SupplierPoco.cs" />
-    <Compile Include="Model\Vehicle.cs" />
-    <Compile Include="Model\VehiclePoco.cs" />
     <Compile Include="OfficeDataService.cs" />
     <Compile Include="SettingsDataService.cs" />
     <Compile Include="SQL\AbstractSqlExecutor.cs" />
     <Compile Include="SQL\DataDescription.cs" />
+    <Compile Include="SQL\MultiDictionary.cs" />
     <Compile Include="SQL\OdbcExecutor.cs" />
     <Compile Include="SQL\OleDbExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1252,14 +1265,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataObjects\dataobjects.txt" />
-    <Content Include="DataObjects\SupplierSummaryDataObject.cs.txt" />
-    <Content Include="DataObjects\SupplierSummaryObject.cs.txt" />
+    <Resource Include="DataObjects\dataobjects.txt" />
+    <Resource Include="DataObjects\SupplierSummaryDataObject.cs.txt" />
+    <Resource Include="DataObjects\SupplierSummaryObject.cs.txt" />
     <Content Include="Data\CommissionAgentFields.xml" />
     <Content Include="Data\VehicleFields.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Crud\Vehicle\" />
+    <Folder Include="DataAccessLayer\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

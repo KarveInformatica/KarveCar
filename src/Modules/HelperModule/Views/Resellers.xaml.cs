@@ -24,7 +24,14 @@ namespace HelperModule.Views
         public string Header { get { return _header; } }
         public Resellers()
         {
-            InitializeComponent();
+
+            try
+            {
+                InitializeComponent();
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

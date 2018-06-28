@@ -16,33 +16,26 @@
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
     <Grid x:Name="GridTaxLayout">
         <GroupBox Header="{Binding ldanos, Source={StaticResource ResourceLanguage}}" d:IsLocked="True">
-            <StackPanel>
-                <WrapPanel>
-
-                    <kc:DataDatePicker LabelText="{Binding lfechaalta, Source={StaticResource ResourceLanguage}}"
-                                   DataDatePickerHeight="25"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <kc:DataDatePicker LabelText="{Binding lfechaalta, Source={StaticResource ResourceLanguage}}"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="Value.FEC_CIRC_V1" d:IsLocked="True"/>
-                    
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="80" Text="{Binding limporte, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                        <TextBox   Height="25" Width="100"
-                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="Value.IMP_CIRC_V1"
-                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                           
-                        </TextBox>
-                    </StackPanel>
-
-
-                    <kc:DataFieldCheckBox Content="{Binding lfacturar, Source={StaticResource ResourceLanguage}}"
-                                      Margin="10,0,10,0"
-                                        kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        kc:ControlExt.DataSourcePath="Value.ImpCircuCliente"
-                                      />
-                    <kc:DualFieldSearchBox  LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
+                <kc:DualFieldSearchBox  LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
+                                         Grid.Row="0"
+                                        Grid.Column="1"
+                                  
                                         LabelTextWidth="100"
                                         TextContentFirstWidth="60"
                                         TextContentSecondWidth="120"
@@ -50,7 +43,7 @@
                                         AssistDataFieldFirst="CP"
                                         AssistDataFieldSecond="POBLA"
                                         DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        DataFieldFirst="CP"
+                                        DataFieldFirst="POBLA_IMP"
                                         MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                         AssistTableName="ROAD_TAXES_CITY"
@@ -59,8 +52,10 @@
                                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 
-                    <kc:DualFieldSearchBox LabelText="Zona"
-                                        LabelTextWidth="55"
+                <kc:DualFieldSearchBox LabelText="Zona"
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                       LabelTextWidth="55"
                                         TextContentFirstWidth="60"
                                         TextContentSecondWidth="120"
                                         LabelVisible="True"
@@ -76,14 +71,40 @@
                                         ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                         Height="25" d:IsLocked="True"/>
 
-                </WrapPanel>
-                <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30" d:IsLocked="True">
+
+
+                <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                    <TextBlock Width="80" Text="{Binding limporte, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                        <TextBox   Height="30" VerticalAlignment="Top"
+                                   Width="120"
+                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   kc:ControlExt.DataSourcePath="Value.IMP_CIRC_V1"
+                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                           
+                        </TextBox>
+                    <kc:DataFieldCheckBox Content="{Binding lfacturar, Source={StaticResource ResourceLanguage}}"
+                                       
+                                        kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        kc:ControlExt.DataSourcePath="Value.ImpCircuCliente"
+                                      />
+
+                </StackPanel>
+
+
+                    
+
+                
+                <Button Command="{Binding VehicleCopyCommand,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Width="100" Height="30"  Grid.Row="1" 
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Center"
+                        Grid.Column="1" d:IsLocked="True">
                     <StackPanel Orientation="Horizontal" d:IsLocked="True">
                         <TextBlock Text="{Binding lcopiavehiculo, Source={StaticResource ResourceLanguage}}" d:IsLocked="True"></TextBlock>
                         <Image Source="/MasterModule;component/Images/copycool.png"></Image>
                     </StackPanel>
                 </Button>
-            </StackPanel>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

@@ -62,10 +62,17 @@ namespace DataAccessLayer
         /// </summary>
         private IBookingDataService _bookingDataService;
         /// <summary>
+        ///  Data services for managing the fares.
+        /// </summary>
+        private IFareDataServices _fareDataService;
+
+        private IReservationRequestDataService _reservationRequestDataService;
+
+        /// <summary>
         /// DataService Implementation
         /// </summary>
         /// <param name="sqlExecutor">Command executor for sql</param>
-        
+
         public DataServiceImplementation(ISqlExecutor sqlExecutor)
         {
             InitServices(sqlExecutor);         
@@ -130,6 +137,8 @@ namespace DataAccessLayer
             _contractDataService = new ContractDataServices(sqlExecutor);
             _invoiceDataService = new InvoiceDataServices(sqlExecutor);
             _bookingDataService = new BookingDataAccessLayer(sqlExecutor);
+            _fareDataService = new FareDataServices(sqlExecutor);
+            _reservationRequestDataService = new ReservationRequestDataAccessLayer(sqlExecutor);
 
         }
         /// <summary>
@@ -250,6 +259,16 @@ namespace DataAccessLayer
         public IBookingDataService GetBookingDataService()
         {
             return _bookingDataService;
+        }
+
+        public IFareDataServices GetFareDataServices()
+        {
+            return _fareDataService;
+        }
+        public IReservationRequestDataService GetReservationRequestDataService()
+
+        {
+            return _reservationRequestDataService;
         }
     }
 }

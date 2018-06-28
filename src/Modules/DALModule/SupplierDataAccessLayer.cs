@@ -62,6 +62,7 @@ namespace DataAccessLayer
             // this is used for paging, to count the number of items.
             TableName = "PROVEE1";
 
+
         }
         /// <summary>
         ///  Get Supplier Data Object
@@ -235,7 +236,7 @@ namespace DataAccessLayer
         public async Task<ISupplierData> GetAsyncSupplierDo(string supplierCode)
         {
             var supplier = new Supplier(SqlExecutor);
-            var loaded = await supplier.LoadValue(null, supplierCode);
+            var loaded = await supplier.LoadValue(null, supplierCode).ConfigureAwait(false);
             if (loaded)
             {
                 return supplier;
@@ -262,7 +263,7 @@ namespace DataAccessLayer
 
         public async Task<bool> SaveChanges(ISupplierData supplierData)
         {
-            var ret = await supplierData.SaveChanges();
+            var ret = await supplierData.SaveChanges().ConfigureAwait(false);
             return ret;
         }
 

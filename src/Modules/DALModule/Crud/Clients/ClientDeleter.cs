@@ -62,9 +62,15 @@ namespace DataAccessLayer.Crud.Clients
         public async Task<bool> DeleteAsync(ClientDto data)
         {
             Contract.Assert(data != null, "Invalid data transfer object");
-            var currentPoco = _mapper.Map<ClientDto, ClientPoco>(data);
-            CLIENTES1 client1 = _mapper.Map<ClientPoco, CLIENTES1>(currentPoco);
-            CLIENTES2 client2 = _mapper.Map<ClientPoco, CLIENTES2>(currentPoco);
+            //var currentPoco = _mapper.Map<ClientDto, ClientPoco>(data);
+            //  var code = currentPoco;
+            CLIENTES1 client1 = new CLIENTES1();
+            CLIENTES2 client2 = new CLIENTES2();
+            client1.NUMERO_CLI = data.NUMERO_CLI;
+            client2.NUMERO_CLI = data.NUMERO_CLI;
+            
+//            CLIENTES1 client1 = _mapper.Map<ClientPoco, CLIENTES1>(currentPoco);
+ //           CLIENTES2 client2 = _mapper.Map<ClientPoco, CLIENTES2>(currentPoco);
             bool retValue = false;
             if ((client1 == null) || (client2 == null))
             {
@@ -76,10 +82,10 @@ namespace DataAccessLayer.Crud.Clients
                 {
                     using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        retValue = await connection.DeleteAsync<CLIENTES1>(client1);
+                        retValue = await connection.DeleteAsync<CLIENTES1>(client1).ConfigureAwait(false);
                         if (retValue)
                         {
-                            retValue = await connection.DeleteAsync<CLIENTES2>(client2);
+                            retValue = await connection.DeleteAsync<CLIENTES2>(client2).ConfigureAwait(false);
                         }
                         await DeleteReferredTables(connection, data);
                         scope.Complete();

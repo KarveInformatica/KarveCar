@@ -20,7 +20,8 @@ namespace ToolBarModule.Command
                 { DataSubSystem.ClientSubsystem, new ClientDataPayload() },
                 { DataSubSystem.OfficeSubsystem, new OfficeDataPayload() },
                 { DataSubSystem.CompanySubsystem, new CompanyDataPayload() },
-               { DataSubSystem.InvoiceSubsystem, new InvoiceDataPayload()}
+                { DataSubSystem.InvoiceSubsystem, new InvoiceDataPayload()},
+                { DataSubSystem.BookingSubsystem, new BookingDataPayload()}
            };
 
         public abstract void Dispose();

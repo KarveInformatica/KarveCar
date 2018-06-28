@@ -14,7 +14,7 @@ namespace KarveDataServices.DataTransferObject
     {
 
         [Display(Name = "Codigo", Description = "Codigo de vehiculo")]
-        public string Code { set; get; }
+        public override string Code { set; get; }
         [Display(Name = "Marca", Description = "Marca de vehiculo")]
         public string Brand { set; get; }
         [Display(Name = "Modelo", Description = "Modelo de vehiculo")]
@@ -61,7 +61,7 @@ namespace KarveDataServices.DataTransferObject
         public string MotorNumber { set; get; }
         [Display(Name = "Año Modelo", Description = "Numero Motor")]
         public string ModelYear { set; get; }
-        [Display(Name = "Nombre Proprietario", Description = "Nombre Proprietario")]
+        [Display(Name = "Nombre Propietario", Description = "Nombre Propietario")]
         public string OwnerName { set; get; }
         [Display(Name = "Referencia", Description = "Referencia")]
         public string Reference { set; get; }

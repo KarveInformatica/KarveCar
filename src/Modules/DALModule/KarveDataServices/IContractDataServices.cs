@@ -21,6 +21,18 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>A list of agreement and conductors summary </returns>
         Task<IEnumerable<ContractByConductorDto>> GetContractByConductorAsync(string vehicleId);
-
+        /// <summary>
+        ///  Returns a summary list of contract data used by the client.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns>A list of contracts</returns>
+        Task<IEnumerable<ContractByClientDto>> GetContractByClientAsync(string code);
+        /// <summary>
+        /// Returns a list of contract data used by the client.
+        /// </summary>
+        /// <param name="first">First part of the event.</param>
+        /// <param name="baseIndex">Base index to be used.</param>
+        /// <returns>A list of contract summary.</returns>
+        Task<IEnumerable<ContractSummaryDto>> GetPagedSummaryDoAsync(int first, int baseIndex);
     }
 }

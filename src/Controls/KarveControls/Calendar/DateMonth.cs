@@ -231,6 +231,13 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>()));
             if (currentButton != null)
             {
                 int day = SelectedDay.GetDayIndex(currentButton);
+                int mIndex = MonthIndex;
+                // i shall check if i can stay on the ranges.
+                
+                var value = YearMonthArray();
+                var year = Convert.ToInt16(value[0]);
+                var month = Convert.ToInt16(value[1]);
+                day = filterLimit(day, mIndex, year);
                 var param = CreateCommand(day, false);
                 List<int> daysOff = DaysOff.ToList();
 
@@ -255,6 +262,62 @@ typeof(DateMonth), new FrameworkPropertyMetadata(new List<int>()));
                     SelectedDayCommand.Execute(param);
                 }
             }
+        }
+
+        private int filterLimit(int day, int month, int year)
+        {
+            int[] numDays = new int[12]
+             {
+                31,28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+             };
+
+            var maxDay = numDays[month-1];
+            if ((isLeapYear(year)) && (month == 2))
+            {
+                maxDay = 29;
+            }
+            
+            var firstDay = new DateTime(year, month, 1);
+            var dayWeek = firstDay.DayOfWeek;
+            switch (dayWeek)
+            {
+                case DayOfWeek.Sunday:
+                    {
+                        day = day + 1;
+                        break;
+                    }
+                case DayOfWeek.Tuesday:
+                    {
+                        day = day - 1;
+                        break;
+                    }
+                case DayOfWeek.Wednesday:
+                    {
+                        day = day - 2;
+                        break;
+                    }
+                case DayOfWeek.Thursday:
+                    {
+                        day = day - 3;
+                        break;
+                    }
+                case DayOfWeek.Friday:
+                    {
+                        day = day - 4;
+                        break;
+                    }
+                case DayOfWeek.Saturday:
+                    {
+                        day = day - 5;
+                        break;
+                    }
+            }
+            if (day > maxDay)
+            {
+                return maxDay;
+            }
+
+            return day;
         }
 
         private void HighlightWorkingDay(int j, int k)

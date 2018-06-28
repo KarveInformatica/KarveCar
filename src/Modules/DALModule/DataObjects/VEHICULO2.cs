@@ -285,7 +285,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the FRAVEN property.
     /// </summary>
     
-		public string FRAVEN { get; set; }
+	///	public string FRAVEN { get; set; }
  
 	/// <summary>
     ///  Set or get the FSEGUBA property.
@@ -381,7 +381,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the PRIMA2 property.
     /// </summary>
     
-		public Double? PRIMA2 { get; set; }
+	///	public Double? PRIMA2 { get; set; }
  
 	/// <summary>
     ///  Set or get the ADA3 property.

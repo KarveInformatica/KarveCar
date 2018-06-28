@@ -141,6 +141,7 @@ namespace BookingModule.ViewModels
             CreateClient = new DelegateCommand<object>(CreateNewClient);
             DataHelper = new BookingDataHelper();
             ShowFares = new DelegateCommand<object>(ShowClientFares);
+            CreateVehicleCommand = new DelegateCommand<object>(CreateVehicle);
 
             _bookingDataService = DataServices.GetBookingDataService();
             OtherDataShowCommand = new DelegateCommand<object>(OtherDataShow);
@@ -161,9 +162,29 @@ namespace BookingModule.ViewModels
             CellGridPresentation = presenter;
         }
 
+
+
         private void ShowClientFares(object obj)
         {
             DialogService?.ShowErrorMessage("FareModule Not Implemeted");
+        }
+
+        private void CreateVehicle(object obj)
+        {
+            var vehicleRepository = DataServices.GetVehicleDataServices();
+            var numberCode = vehicleRepository.NewId();
+            var payLoad = vehicleRepository.GetNewDo(numberCode);
+            if (payLoad == null)
+            {
+                DialogService?.ShowErrorMessage("Cannot navigate to a new vehicle");
+
+            }
+            var viewName = numberCode + "." + payLoad.Value.MARCA;
+            var factory = DataPayloadFactory.GetInstance();
+            var dataPayload = factory.BuildInsertPayLoadDo<IVehicleData>(viewName, payLoad, DataSubSystem.VehicleSubsystem, ViewModelUri.ToString());
+            Navigate<MasterModule.ViewModels.VehicleInfoViewModel>(_regionManager, numberCode, viewName);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, dataPayload);
+
         }
 
         /// <summary>
@@ -177,9 +198,9 @@ namespace BookingModule.ViewModels
             var payload = clientDataService.GetNewDo(numberCode);
             var viewName = payload.Value.NOMBRE + "." + numberCode;
             var factory = DataPayloadFactory.GetInstance();
-            var dataPayload = factory.BuildShowPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, ViewModelUri.ToString(), ViewModelUri.ToString(), ViewModelUri);
-                Navigate<MasterModule.ViewModels.ClientsInfoViewModel>(_regionManager, numberCode, viewName);
-                EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
+            var dataPayload = factory.BuildInsertPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, ViewModelUri.ToString(), ViewModelUri.ToString(), ViewModelUri);
+            Navigate<MasterModule.ViewModels.ClientsInfoViewModel>(_regionManager, numberCode, viewName);
+            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
         }
         /// <summary>
         ///  Show current client.
@@ -200,7 +221,7 @@ namespace BookingModule.ViewModels
         }
         private async void ShowBookingDriver(object obj)
         {
-            await ShowBookingDriversOrClients(obj);
+            await ShowBookingDriversOrClients(obj).ConfigureAwait(false);
             ShowDataTransferObjects<ClientSummaryExtended>(bookingClientsIncrementalList,
                                               "Conductores",
                                               _gridColumnsKey,
@@ -235,6 +256,25 @@ namespace BookingModule.ViewModels
             // configure the incremental loading just using lambda function now we can pass 
             // the first to the interaction controller
             bookingClientsIncrementalList.LoadItems(firstData);
+        }
+        private async void ShowContractByReservation(object obj)
+        {
+            var contractDataService = DataServices.GetContractDataServices();
+            // i doubt that i will more than 1000 contacts.
+            var contractByClient = await contractDataService.GetContractByClientAsync(DataObject.CLIENTE_RES1);
+            /// This show uip  a magnifier updating the raise property changed,
+            ShowDataTransferObjects<ContractByClientDto>(contractByClient, "Contractos per cliente","Contract,DepartureDate, ForecastDeparture,ReturnDate,Days,Driver,Matricula,Brand,Model,Fare,InvoiceNumber,GrossInvoice", (selectedItem) => 
+            {
+                if (selectedItem!=null)
+                {
+                    if (DataHelper.ContractByClientDto == null)
+                    {
+                        DataHelper.ContractByClientDto = new List<ContractByClientDto>();
+                    }
+                    DataHelper.ContractByClientDto.Union<ContractByClientDto>(new List<ContractByClientDto>() { selectedItem });
+                    RaisePropertyChanged("DataHelper");
+                }
+            });
         }
         private async void ShowBookingClients(object obj)
         {
@@ -308,6 +348,11 @@ namespace BookingModule.ViewModels
 
         private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
+            var assistContext = new Dictionary<string, object>()
+            {
+                {"query", assistQuery },
+                { "clientCode", DataObject.CLIENTE_RES1 }
+            };
             var collectionValue = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery);
             if (collectionValue == null)
             {
@@ -316,34 +361,43 @@ namespace BookingModule.ViewModels
             switch (assistTableName)
             {
                 case "CITY_ASSIST":
-                {
-                        this.DataHelper.CityDto = (IEnumerable<CityDto>)collectionValue;
+                    {
+                        DataHelper.CityDto = (IEnumerable<CityDto>)collectionValue;
                         break;
-                }
+                    }
                 case "CLIENT_ASSIST":
                     {
 
-                        this.DataHelper.ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
+                        DataHelper.ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
-
-
                 case "VEHICLE_ASSIST":
-                {
+                    {
                         DataHelper.VehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
                         break;
-                }
+                    }
                 case "BROKER_ASSIST":
                     {
 
-                        this.DataHelper.BrokerDto= collectionValue as IEnumerable<CommissionAgentSummaryDto>;
+                        DataHelper.BrokerDto = collectionValue as IEnumerable<CommissionAgentSummaryDto>;
                         break;
                     }
                 case "VEHICLE_GROUP_ASSIST":
                     {
-                        this.DataHelper.VehicleGroupDto = collectionValue as IEnumerable<VehicleGroupDto>;
+                        DataHelper.VehicleGroupDto = collectionValue as IEnumerable<VehicleGroupDto>;
                         break;
                     }
+                case "ACTIVE_FARE_ASSIST":
+                    {
+                        DataHelper.ActiveFareDto = collectionValue as IEnumerable<ActiveFareDto>;
+                        break;
+                    }
+                case "CONTRACT_CLIENT_ASSIST":
+                    {
+                        DataHelper.ContractByClientDto = collectionValue as IEnumerable<ContractByClientDto>;
+                        break;
+                    }
+            
                 default:
                     {
                         throw new ArgumentException("In the assist you neeed simply a valid tag");
@@ -394,6 +448,7 @@ namespace BookingModule.ViewModels
         }
 
         public DelegateCommand<object> ShowFares { get; private set; }
+        public DelegateCommand<object> CreateVehicleCommand { get; private set; }
 
         /// <summary>
         ///     Data object for the reservation
@@ -530,7 +585,7 @@ namespace BookingModule.ViewModels
         private BookingDataHelper _dataHelper;
         private IBookingData _bookingData;
         public ICommand OpenItemCommand { get; set; }
-        public ICommand AssistCommand { get; set; }
+     
         public ICommand ShowDrivers { get; set; }
         public DelegateCommand<object> ShowClients { get; private set; }
         public ICommand ShowClientOrDrivers { get; set; }

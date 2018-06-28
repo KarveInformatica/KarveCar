@@ -121,5 +121,15 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public IFareDataServices GetFareDataServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReservationRequestDataService GetReservationRequestDataService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

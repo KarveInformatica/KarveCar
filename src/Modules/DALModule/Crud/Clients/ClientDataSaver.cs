@@ -76,30 +76,30 @@ namespace DataAccessLayer.Crud.Clients
                       
                         if (!present)
                         {
-                            retValue = await connection.InsertAsync<CLIENTES1>(client1) > 0;
+                            retValue = await connection.InsertAsync<CLIENTES1>(client1).ConfigureAwait(false) > 0;
                             if (retValue)
                             {
-                                retValue = await connection.InsertAsync<CLIENTES2>(client2) > 0;
+                                retValue = await connection.InsertAsync<CLIENTES2>(client2).ConfigureAwait(false) > 0;
                             }
                         }
                         else
                         {
-                            retValue = await connection.UpdateAsync<CLIENTES1>(client1);
+                            retValue = await connection.UpdateAsync<CLIENTES1>(client1).ConfigureAwait(false);
                             if (retValue)
                             {
-                                retValue = await connection.UpdateAsync<CLIENTES2>(client2);
+                                retValue = await connection.UpdateAsync<CLIENTES2>(client2).ConfigureAwait(false);
 
                                 /* there is a case of lack of cohoerence, due to the split between databases,
                                  * in case of a bad importation*/
                                 if (!retValue)
                                 {
-                                    retValue = await connection.InsertAsync<CLIENTES2>(client2) > 0;
+                                    retValue = await connection.InsertAsync<CLIENTES2>(client2).ConfigureAwait(false) > 0;
                                 }
                             }
                         }
-                        retValue = retValue && await SaveBranchesAsync(connection, save.BranchesDto);
-                        retValue = retValue && await SaveContactsAsync(connection, save.ContactsDto);
-                        retValue = retValue && await SaveVisitsAsync(connection, save.VisitsDto);
+                        retValue = retValue && await SaveBranchesAsync(connection, save.BranchesDto).ConfigureAwait(false);
+                        retValue = retValue && await SaveContactsAsync(connection, save.ContactsDto).ConfigureAwait(false);
+                        retValue = retValue && await SaveVisitsAsync(connection, save.VisitsDto).ConfigureAwait(false);
                         scope.Complete();
                     }
                 }
@@ -121,14 +121,14 @@ namespace DataAccessLayer.Crud.Clients
         {
             Contract.Assert(saveVisitsDto != null, "Save contacts shall be not null");
 
-            bool retValue = false;
+           var retValue = false;
             if (saveVisitsDto.Count<VisitsDto>() == 0)
             {
                 return true;
             }
             // SELECT * from Visitas;
             IEnumerable<Visitas> visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(saveVisitsDto);
-            int value = await connection.InsertAsync(saveVisitsDto);
+            int value = await connection.InsertAsync(saveVisitsDto).ConfigureAwait(false);
             retValue = value > 0;
             return retValue;
 
@@ -148,7 +148,7 @@ namespace DataAccessLayer.Crud.Clients
             {
                 return true;
             }
-            var value = await connection.InsertAsync(entityToInsert);
+            var value = await connection.InsertAsync(entityToInsert).ConfigureAwait(false);
             retValue = value > 0;
             return retValue;
         }
@@ -167,8 +167,7 @@ namespace DataAccessLayer.Crud.Clients
             {
                 return true;
             }
-           
-            var value = await connection.InsertAsync(entityToInsert);
+            var value = await connection.InsertAsync(entityToInsert).ConfigureAwait(false);
             retValue = value > 0;
             return retValue;
         }

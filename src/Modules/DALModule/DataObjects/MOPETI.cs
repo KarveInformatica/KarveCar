@@ -1,11 +1,13 @@
 using System;
- 
+using KarveDapper;
+using KarveDapper.Extensions;
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a MOPETI.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("MOPETI")]
 	public class MOPETI 
 	{
 	

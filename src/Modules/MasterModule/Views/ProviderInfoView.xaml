@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
+              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
@@ -20,6 +21,7 @@
              xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:validation="clr-namespace:KarveCommon.Validation;assembly=KarveCommon"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1100" Visibility="{Binding IsVisible,Mode=TwoWay}">
 
@@ -32,6 +34,7 @@
                           
                 <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+          
             <DataTemplate x:Key="ProviderUpperBar">
                 <Grid>
                     
@@ -123,14 +126,23 @@
         <Grid ShowGridLines="False">
             <StackPanel Orientation="Vertical">
              
-                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ProviderUpperBar}"></ContentControl> 
-              
-                <Syncfusion:TabControlExt TabStripPlacement="Left" BorderThickness="0">
-                    <Syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ProviderUpperBar}"></ContentControl>
+
+                <Syncfusion:TabControlExt 
+                    Syncfusion:SkinStorage.VisualStyle="Metro"
+                    TabStripPlacement="Left" BorderThickness="0"  CloseButtonType="Hide">
+                    <Syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" 
+                                           karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden" 
+                                           
+                                           HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+                                           VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <Grid ShowGridLines="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
 
-
-                            <StackPanel>
+                            <StackPanel Grid.Column="0">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition></RowDefinition>
@@ -146,7 +158,7 @@
                                         <RowDefinition></RowDefinition>
                                         <RowDefinition></RowDefinition>
                                         <RowDefinition></RowDefinition>
-                                    
+
                                     </Grid.RowDefinitions>
                                 </Grid>
                                 <karveControls:DataField  DataSourcePath="NOMBRE" Grid.Row="0"
@@ -189,50 +201,51 @@
                                                   TextContentWidth="400"
                                                   IsReadOnly="False">
                                 </karveControls:DataField>
-                                <Grid  VerticalAlignment="Top" HorizontalAlignment="Left">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
 
 
-                                    <karveControls:DualFieldSearchBox 
+
+                                <karveControls:DualFieldSearchBox 
                                         Grid.Row="3"
                                                           x:Name="CitySearchBox"
                                                           DataFieldFirst="CP"
                                                           DataFieldSecond="POBLACION"
-                                                          AssistTableName="POBLACIONES"
+                                                          AssistTableName="CITY_ASSIST"
                                                           AssistDataFieldFirst="CP"
                                                           AssistDataFieldSecond="POBLA"
                                                           AssistProperties="Code,Poblacion"
-                                                          LabelVisible="False"
+                                                          LabelVisible="True"
+                                                           
                                                           LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="0,5,0,0"
                                       
                                                           LabelTextWidth="137"
 				    			  ItemChangedCommand="{Binding ItemChangedCommand}"
                                                           MagnifierCommand="{Binding AssistCommand}"
-                                                          IsReadOnlySecond="True"
+                                                          IsReadOnlySecond="False"
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                          SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
-                                        <i:Interaction.Behaviors>
-                                            <behaviors:ChangeRuleBehavior
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:ChangeRuleBehavior
                                                DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               RelatedObject="{Binding ElementName=Provincia}">
+                                               RelatedObject="{Binding ElementName=ProvinceSearchBox}"
+                                               Path="{Binding ElementName=CitySearchBox, Path=TextContentFirst}"
+                                               RelatedPath="{Binding ElementName=ProvinceSearchBox,Path=TextContentFirst}">
+                                        </behaviors:ChangeRuleBehavior>
+                                    </i:Interaction.Behaviors>
 
-                                            </behaviors:ChangeRuleBehavior>
-                                        </i:Interaction.Behaviors>
-                                        
-                                    </karveControls:DualFieldSearchBox>
 
 
-                                </Grid>
-                                <karveControls:DualFieldSearchBox x:Name="Provincia" DataFieldFirst="PROV"
+
+                                </karveControls:DualFieldSearchBox>
+
+
+
+                                <karveControls:DualFieldSearchBox x:Name="ProvinceSearchBox" DataFieldFirst="PROV"
                                                           AssistTableName="PROVINCIA"
                                                           AssistDataFieldFirst="SIGLAS"
                                                           AssistDataFieldSecond="PROV"
@@ -259,7 +272,7 @@
                                                                TriggerParameterPath="ChangedValuesObjects"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-                                 
+
                                 </karveControls:DualFieldSearchBox>
 
 
@@ -365,7 +378,7 @@
                                     </i:Interaction.Triggers>
 
                                 </karveControls:DataField>
-                                
+
                                 <karveControls:DualFieldSearchBox DataFieldFirst="SUBLICEN"
                                                           AssistTableName="SUBLICEN"
                                                           AssistDataFieldFirst="CODIGO"
@@ -415,6 +428,9 @@
 
 
                                 </karveControls:DualFieldSearchBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+
                                 <karveControls:DataArea 
                             DataAreaWidth="400"
                             DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
@@ -434,13 +450,21 @@
                             karveControls:ControlExt.DataSourcePath="OBSERVA"
                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="145">
                                 </karveControls:DataArea>
-                            </StackPanel>
 
+                            </StackPanel>
 
                         </Grid>
                     </Syncfusion:TabItemExt>
 
-                    <Syncfusion:TabItemExt Name="Contables" Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Syncfusion:TabItemExt Name="Contables" 
+                                           karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                                         
+                                           Header="{Binding lcontables, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Loaded">
+                                <mvvm1:InvokeCommandAction Command="{Binding LoadOtherData}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <StackPanel Orientation="Vertical">
 
                             <GroupBox Header="{Binding lfacturacion, Source={StaticResource ResourceLanguage}}">
@@ -482,9 +506,16 @@
                 SourceView="{Binding Path=PaymentDtos, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 DataFieldFirst="FORPA"/>
                                         <Grid Grid.Column="1">
-                                            <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
-                                                <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    
+                                                </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding lplazodepago, Source={StaticResource ResourceLanguage}}" Margin="10,0,0,10"></TextBlock>
+                                                <karveControls:DataField Grid.Column="1"  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
@@ -493,7 +524,7 @@
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
                                                 </karveControls:DataField>
 
-                                            <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                <karveControls:DataField Grid.Column="2"  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO2"
                                                      LabelVisible="False"
                                                      TextContentWidth="50"
@@ -502,7 +533,7 @@
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                             </karveControls:DataField>
-                                            <karveControls:DataField DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                <karveControls:DataField Grid.Column="3"  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                      DataSourcePath="PLAZO3"
                                                      LabelVisible="False"
                                                          Margin="0,5,0,0"
@@ -511,7 +542,7 @@
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
 
                                             </karveControls:DataField>
-                                            </StackPanel>
+                                            </Grid>
                                         </Grid>
                                         <Grid Grid.Column="2">
                                             <Grid.ColumnDefinitions>
@@ -664,13 +695,22 @@
                                                      DataSourcePath="IBAN"
                                                      LabelVisible="True"
                                                      LabelText="{Binding liban, Source={StaticResource ResourceLanguage}}"
+                                                     x:Name="IBANData"
                                                      Margin="0,5,0,0"
                                                      LabelTextWidth="60"
-                                                     TextContentWidth="200"
+                                                     TextContentWidth="250"
                                                      Height="30"
                                                      ItemChangedCommand="{Binding ItemChangedCommand}">
-
+                                            
+                                            <karveControls:DataField.TextContent>
+                                                <Binding Path="DataObject.Value.IBAN" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <validation:IbanValidationRule></validation:IbanValidationRule>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </karveControls:DataField.TextContent>
                                         </karveControls:DataField>
+                                        
 
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Grid.Row="4">
@@ -733,7 +773,7 @@
                                  
                                     <karveControls:DataFieldCheckBox Content="{Binding lgestiondealbanares, Source={StaticResource ResourceLanguage}}" 
                                                   karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                  karveControls:ControlExt.DataSourcePath="Value.PALBARAN">
+                                                  karveControls:ControlExt.DataSourcePath="PALBARAN">
 
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="DataFieldCheckBoxChanged">
@@ -747,7 +787,7 @@
                                     <karveControls:DataFieldCheckBox Content="{Binding lesintracomunitario, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                          karveControls:ControlExt.DataSourcePath="Value.PALBARAN">
+                                                          karveControls:ControlExt.DataSourcePath="INTRACO">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="DataFieldCheckBoxChanged">
                                                 <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
@@ -758,7 +798,7 @@
                                     <karveControls:DataFieldCheckBox Content="{Binding lgestionarivaimportacion, Source={StaticResource ResourceLanguage}}"
                                                           Margin="10,0,0,0"
                                                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"            
-                                                          karveControls:ControlExt.DataSourcePath="Value.GESTION_IVA_IMPORTA">
+                                                          karveControls:ControlExt.DataSourcePath="GESTION_IVA_IMPORTA">
                                         
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="DataFieldCheckBoxChanged">
@@ -986,7 +1026,9 @@
                         </StackPanel>
                     </Syncfusion:TabItemExt>
 
-                    <Syncfusion:TabItemExt Name="Direcciones1" Header="{Binding ldirecciones, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <Syncfusion:TabItemExt Name="Direcciones1" 
+                                           karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                                           Header="{Binding ldirecciones, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -1093,14 +1135,20 @@
                     </Syncfusion:TabItemExt>
 
 
-                        <Syncfusion:TabItemExt Header="{Binding ldelegaciones, Source={StaticResource ResourceLanguage}}">
+                        <Syncfusion:TabItemExt 
+                            karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                            Header="{Binding ldelegaciones, Source={StaticResource ResourceLanguage}}">
                         <ContentControl VerticalAlignment="Top" Content="{Binding}" ContentTemplate="{StaticResource BranchGrid}"></ContentControl>
                            
                     </Syncfusion:TabItemExt>
-                        <Syncfusion:TabItemExt Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
+                        <Syncfusion:TabItemExt 
+                            karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                            Header="{Binding lcontactos, Source={StaticResource ResourceLanguage}}">
                             <ContentControl VerticalAlignment="Top" Content="{Binding}" ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
                     </Syncfusion:TabItemExt>
-                    <Syncfusion:TabItemExt Header="{Binding VisitsGrid, Source={StaticResource ResourceLanguage}}">
+                    <Syncfusion:TabItemExt 
+                        karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden"
+                        Header="{Binding VisitsGrid, Source={StaticResource ResourceLanguage}}">
                         <ContentControl VerticalAlignment="Top" Content="{Binding}" ContentTemplate="{StaticResource VisitsGrid}"></ContentControl>
                     </Syncfusion:TabItemExt>
 

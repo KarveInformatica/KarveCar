@@ -29,14 +29,14 @@ namespace MasterModule.Common
         // TODO: remove this
         internal const string UiRightPartPage = "UiRightPartPageBuilder";
         internal const string CommissionAgentInfoView = "CommissionAgentInfoView";
-        internal const string VehiclesSystemInfoView = "CommissionAgentInfoView";
-        internal const string FareSystemInfoView = "CommissionAgentInfoView";
-        internal const string CompanyInfoView = "CompanyInfoView";
-        internal const string OfficeInfoView = "OfficeInfoView";
-        internal const string CommissionAgentControlVm = "CommissionAgentControlViewModel";
-        internal const string VehiclesSystemName = "VehiclesSystemName";
-        internal const string FareSystemName = "FareSystemName";
-        internal const string CommissionAgentSystemName = "CommissionAgentSystem";
+        public const string VehiclesSystemInfoView = "CommissionAgentInfoView";
+        public const string FareSystemInfoView = "CommissionAgentInfoView";
+        public const string CompanyInfoView = "CompanyInfoView";
+        public const string OfficeInfoView = "OfficeInfoView";
+        public const string CommissionAgentControlVm = "CommissionAgentControlViewModel";
+        public const string VehiclesSystemName = "VehiclesSystemName";
+        public const string FareSystemName = "FareSystemName";
+        public const string CommissionAgentSystemName = "CommissionAgentSystem";
         public const string ClientSubSystemName = "ClientSystemName";
         public const string CompanySubSystemName = "CompanySystemName";
         internal const string OfficeSubSytemName = "OfficeSubSystemName";

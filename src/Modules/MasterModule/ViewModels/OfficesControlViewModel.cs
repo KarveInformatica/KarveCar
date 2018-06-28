@@ -18,6 +18,8 @@ using System.Diagnostics;
 using Microsoft.Practices.Unity;
 using NLog;
 using Syncfusion.UI.Xaml.Grid;
+using KarveCommonInterfaces;
+using System.Windows.Input;
 
 namespace MasterModule.ViewModels
 {
@@ -34,15 +36,13 @@ namespace MasterModule.ViewModels
         /// <param name="services">Data Services</param>
         /// <param name="regionManager">Region manager</param>
         /// 
-        public OfficesControlViewModel(IConfigurationService configurationService, 
-            IEventManager  eventManager, 
-            IDataServices  services, 
-            IRegionManager regionManager) :
-            base(configurationService, eventManager, services, regionManager)
+        public OfficesControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDataServices services, IInteractionRequestController interactionService, IDialogService dialogService, IRegionManager regionManager) :
+            base(configurationService, eventManager, services, interactionService, dialogService, regionManager)
         {
-            InitViewModel();
+           
             _officeDataServices = services.GetOfficeDataServices();
-            ItemName = "Oficinas";  
+            ItemName = "Oficinas";
+            InitViewModel();
         }
         protected override void OnSortCommand(object obj)
         {
@@ -94,13 +94,8 @@ namespace MasterModule.ViewModels
             return retValue;
         }
         
-        /// <inheritdoc />
-        /// <summary>
-        ///  NewItem. This is a new item for the office.
-        /// </summary>
-        protected override void NewItem()
+        private void NewOffice()
         {
-           
             string name = "NuevaOficina";
             string officeId = DataServices.GetOfficeDataServices().GetNewId();
             string viewNameValue = officeId + "." + name;
@@ -120,6 +115,15 @@ namespace MasterModule.ViewModels
             currentPayload.HasDataObject = true;
             currentPayload.Sender = EventSubsystem.OfficeSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.OfficeSubSytemName, currentPayload);
+
+        }
+        /// <inheritdoc />
+        /// <summary>
+        ///  NewItem. This is a new item for the office.
+        /// </summary>
+        protected override void NewItem()
+        {
+           
             
         }
         /// <inheritdoc />
@@ -129,12 +133,14 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             IOfficeDataServices officeDataService = DataServices.GetOfficeDataServices();
-            InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(officeDataService.GetAsyncAllOfficeSummary(), InitEventHandler);
+            InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(officeDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), _officeEventTask);
         }
 
         private void InitViewModel()
         {
+            ViewModelUri = new Uri("karve://office/viewmodel?id=" + Guid.ToString());
             PagingEvent += OnPagedEvent;
+            _newOfficeCommand = new DelegateCommand(NewOffice);
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.OfficeSummaryGrid;
             InitEventHandler += LoadNotificationHandler;
@@ -143,7 +149,6 @@ namespace MasterModule.ViewModels
             _mailBoxName = EventSubsystem.OfficeSummaryVm;
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(_mailBoxName, MessageHandlerMailBox);
-            OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             StartAndNotify();
             
         }
@@ -159,25 +164,28 @@ namespace MasterModule.ViewModels
                 var result = value.Task.Result;
                 if (!result)
                 {
-                    MessageBox.Show("Error during the delete");
+                    DialogService?.ShowErrorMessage("Error during delete");
+                        
                 }
                 // ok in this case we can
             }
             else if (value.IsFaulted)
             {
                 var exc = value.InnerException;
-                MessageBox.Show("Exception: "+exc);
+                DialogService?.ShowErrorMessage("Exception: "+exc);
             }
         }
         public override void DisposeEvents()
         {  
-            base.DisposeEvents();
+           
+            UnregisterToolBar(PrimaryKey, _newOfficeCommand, null, null);
             MessageHandlerMailBox -= MessageHandler;
             InitEventHandler -= LoadNotificationHandler;
             DeleteEventHandler -= OfficeDeleteHandler;
             PagingEvent -= OnPagedEvent;
             _officeEventTask -= OnNotifyIncrementalList<OfficeSummaryDto>;
             DeleteMailBox(_mailBoxName);
+            base.DisposeEvents();
         }
         /// <summary>
         ///  Open a new item.
@@ -228,7 +236,7 @@ namespace MasterModule.ViewModels
             string propertyName = ev.PropertyName;
             if (propertyName.Equals("Status"))
             {
-                if (InitializationNotifierOffice.IsSuccessfullyCompleted)
+                if (value.IsSuccessfullyCompleted)
                 {
                     if (value != null)
                     {
@@ -244,9 +252,9 @@ namespace MasterModule.ViewModels
             }
             else
             {
-                if (InitializationNotifierOffice.IsFaulted)
+                if (value.IsFaulted)
                 {
-                    MessageBox.Show(InitializationNotifierOffice.ErrorMessage);
+                    DialogService?.ShowErrorMessage(value.ErrorMessage);
                 }
             }
             Contract.Ensures(SourceView != null, "SourceView shall be present");
@@ -271,11 +279,16 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.OfficeSubsystem;
+            payLoad.HasNewCommand = true;
+            payLoad.NewCommand = _newOfficeCommand;
+            payLoad.Sender = ViewModelUri.ToString();
+            payLoad.ObjectPath = ViewModelUri;
         }
         protected override void SetDataObject(object result)
         {
             
         }
+       
         // TODO eliminate this.
         protected override void SetTable(DataTable table)
         {
@@ -286,7 +299,9 @@ namespace MasterModule.ViewModels
         {
             var maxItems = _officeDataServices.NumberItems;
             PageCount = _officeDataServices.NumberPage;
-            SummaryView = new IncrementalList<OfficeSummaryDto>(LoadMoreItems) { MaxItemCount = (int)PageCount };
+            var officeList = new IncrementalList<OfficeSummaryDto>(LoadMoreItems) { MaxItemCount = (int)PageCount };
+            officeList.LoadItems(result as IEnumerable<OfficeSummaryDto>);
+            SummaryView = officeList;
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
@@ -304,6 +319,7 @@ namespace MasterModule.ViewModels
         private IUnityContainer _container;
         private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> _initializationNotifierOffice;
         private PropertyChangedEventHandler _officeEventTask;
+        private ICommand _newOfficeCommand;
 
         #endregion
     }

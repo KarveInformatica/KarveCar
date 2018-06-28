@@ -119,5 +119,25 @@ namespace KarveTest.Mock
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IEnumerable<OfficeSummaryDto>> GetSummaryAllAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IOfficeData> GetDoAsync(string code)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IOfficeData GetNewDo(string value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(IOfficeData booking)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

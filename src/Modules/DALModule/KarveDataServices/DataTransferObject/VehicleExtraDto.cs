@@ -4,16 +4,8 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  VehcileExtraDto.
     /// </summary>
-    public class VehicleExtraDto : BaseDto
+    public class VehicleExtraDto : BaseDtoDefaultName
     {
-        /// <summary>
-        ///  Code of the extra
-        /// </summary>
-        public string Code { set; get; }
-        /// <summary>
-        ///  Name of the extra
-        /// </summary>
-        public string Name { set; get; }
         /// <summary>
         ///  Reference of the extra
         /// </summary>
@@ -23,6 +15,24 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public string Notes { set; get; }
         public VehicleTypeDto VehicleType { set; get; }
+
+        bool IsInvalid()
+        {
+            var errors = base.HasErrors;
+            if (!errors)
+            {
+                if ((Notes != null) && (Notes.Length>200))
+                {
+                    return true;
+                }
+                if ((Reference != null) && (Reference.Length > 10))
+                {
+                    return true;
+                }
+            }
+            return errors;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
     }
 
 }

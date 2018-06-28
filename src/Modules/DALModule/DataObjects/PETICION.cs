@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a PETICION.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("PETICION")]
 	public class PETICION 
 	{
 	
 	/// <summary>
     ///  Set or get the NUMERO property.
     /// </summary>
-    
+        [Key]
 		public string NUMERO { get; set; }
  
 	/// <summary>

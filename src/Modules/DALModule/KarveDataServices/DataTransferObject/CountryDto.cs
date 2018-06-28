@@ -1,4 +1,5 @@
 ﻿using KarveDataServices.DataObjects;
+using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -11,11 +12,16 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Code 
         /// </summary>
-        public string Code { get; set; }
+        
+        [Display(Name="Codigo")]
+        [Required]
+        public override string Code { get; set; }
 
         /// <summary>
         ///  CountryName
         /// </summary>
+        [Display(Name = "País")]
+        [Required]
         public string CountryName
         {
             get { return _cname; }
@@ -25,7 +31,19 @@ namespace KarveDataServices.DataTransferObject
                 ShortName = _cname.Substring(0, 2).ToUpper();
             }
         }
-
+        private bool IsInvalid()
+        {
+           if (string.IsNullOrEmpty(CountryName))
+            {
+                return true;
+            }
+            if ((CountryName!=null) && (CountryName.Length>30))
+            {
+                return true;
+            }
+            return false;
+        }
+        public override bool HasErrors { get =>IsInvalid(); set => base.HasErrors = value; }
         public byte? Language { set; get; }
         /// <summary>
         ///  CountryCode

@@ -9,15 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Public current situation dto.
     /// </summary>
-    public class CurrentSituationDto: BaseDto
+    public class CurrentSituationDto: BaseDtoDefaultName
     {
-        /// <summary>
-        ///  code
-        /// </summary>
-        public byte Code { set;get; }
-        /// <summary>
-        ///  name.
-        /// </summary>
-        public string Name { get; set; }
     }
 }

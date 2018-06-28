@@ -13,6 +13,7 @@ using AutoMapper;
 using Dapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
+using DataAccessLayer.Crud;
 
 namespace KarveTest.DAL
 {
@@ -70,6 +71,15 @@ namespace KarveTest.DAL
             
         }
 
+        private async Task<Entity> FetchSingleEntityCode<Entity>() where Entity: class
+        {
+            Entity value;
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                value= await dbConnection.GetRandomEntityAsync<Entity>();
+            }
+            return value;
+        }
         [Test]
         public async Task Should_Load_ABookingEntity()
         {
@@ -100,6 +110,34 @@ namespace KarveTest.DAL
             Assert.AreEqual(singleDto.APELLIDO1, singleDto.APELLIDO1);
             Assert.AreEqual(itemReservation.Count(), numberOfReservations);
         }
-     }
+        [Test]
+        public async Task Should_Load_AReservationRequest()
+        {
+            // arrange
+            var reserve = await FetchSingleEntityCode<PETICION>().ConfigureAwait(false);
+            var dataLoader = new DataLoader<PETICION, ReservationRequestDto>(SqlExecutor);
+            var singleValue = await dataLoader.LoadValueAsync(reserve.NUMERO).ConfigureAwait(false);
+            Assert.AreEqual(singleValue.NUMERO, reserve.NUMERO);
+            Assert.AreEqual(singleValue.NOMCLI, reserve.NOMCLI);
+            Assert.AreEqual(singleValue.OFICINA, reserve.OFICINA);
+            Assert.AreEqual(singleValue.OBS1, reserve.OBS1);
+            Assert.AreEqual(singleValue.SUBLICEN, reserve.SUBLICEN);
+            Assert.AreEqual(singleValue.CATEGO, reserve.CATEGO);
+        }
+        [Test]
+        public async Task Should_Save_AReservationRequest()
+        {
+            var dataSaver = new DataSaver<PETICION, ReservationRequestDto>(SqlExecutor);
+            var reserve = await FetchSingleEntityCode<PETICION>().ConfigureAwait(false);
+            var dataLoader = new DataLoader<PETICION, ReservationRequestDto>(SqlExecutor);
+            var reservationDto = await dataLoader.LoadValueAsync(reserve.NUMERO).ConfigureAwait(false);
+            reservationDto.MOPETI = reserve.MOPETI;
+            var retValue = await dataSaver.SaveAsync(reservationDto);
+            Assert.AreEqual(retValue, true);
+            // now we want to see if it has been saved.
+            var reservationDto2 = await dataLoader.LoadValueAsync(reserve.NUMERO).ConfigureAwait(false);
+            Assert.AreEqual(reservationDto.MOPETI, reservationDto2.MOPETI);
+        }
+    }
 
 }

@@ -9,7 +9,8 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:interactivity="http://prismlibrary.com/"
   xmlns:calendar="clr-namespace:KarveControls.Calendar"
-  xmlns:photo="clr-namespace:KarveControls.PhotoFrame"
+  xmlns:converters="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
+    xmlns:photo="clr-namespace:KarveControls.PhotoFrame"
     xmlns:behaviors="clr-namespace:KarveControls.Behaviour"
     mc:Ignorable="d">
   <SolidColorBrush x:Key="DataField_Background" Color="White" />
@@ -26,8 +27,75 @@
   </LinearGradientBrush>
   <SolidColorBrush x:Key="DataField_LabelTextColor" Color="Gray" />
 
-    
 
+
+    <Style x:Key="SfFieldErrorStyle" TargetType="{x:Type Syncfusion:SfTextBoxExt}">
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate x:Name="TextErrorTemplate">
+                    <DockPanel LastChildFill="True">
+                        <AdornedElementPlaceholder>
+                            <Border BorderBrush="Red" 
+
+                                BorderThickness="2"/>
+                        </AdornedElementPlaceholder>
+                        <TextBlock FontSize="20" 
+
+                            Foreground="Red">*?*</TextBlock>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" 
+
+                Value="True">
+                <Setter Property="ToolTip" 
+
+                    Value="{Binding RelativeSource=
+            {x:Static RelativeSource.Self},
+            Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <ControlTemplate x:Key="validationTemplate">
+        <Grid>
+            <Ellipse Fill="Red" Opacity="0.8" Width="10" Height="10"
+                 HorizontalAlignment="Right" VerticalAlignment="Top"
+                 ToolTip="{Binding Path=/ErrorContent}" />
+            <AdornedElementPlaceholder />
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="TextBoxErrorStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                      <Border BorderThickness="2" BorderBrush="DarkRed">
+                            <StackPanel>
+                                <AdornedElementPlaceholder    
+                                x:Name="errorControl" />
+                            </StackPanel>
+                        </Border>
+                        <TextBlock Text="{Binding AdornedElement.ToolTip    
+                        , ElementName=errorControl}" Foreground="Red" />
+                      
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="BorderBrush" Value="Red" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="ToolTip"    
+                Value="{Binding RelativeSource={RelativeSource Self}    
+                    , Path=(Validation.Errors)[0].ErrorContent}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style TargetType="Syncfusion:GridHeaderCellControl" x:Key="headerStyle">
         <Setter Property="Background" Value="#3373f2"/>
             <Setter Property="Foreground" Value="White"/>
@@ -100,8 +168,46 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+    <Style TargetType="{x:Type local:ButtonImage}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="40"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Template">
+      
+    <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ButtonImage}">
+                    <Grid x:Name="ControlLayout">
+                        <Border x:Name="Border"
+                    Padding="2"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Button x:Name="PART_Button" Grid.Row="0" Width="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Width}" Command="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Command}" CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=CommandParameter}" Height="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Height}">
+                                    <StackPanel Orientation="Vertical">
+                                        <Image x:Name="PART_Image" Source="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Icon}" Width="25" Height="25"></Image>
+                                        <TextBlock x:Name="PART_LabelField" Text="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=LabelText}"
+                                                    HorizontalAlignment="Center"></TextBlock>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type local:DataField}">
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DataField}">
@@ -124,14 +230,14 @@
                         Padding="1"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch">
-                                    <TextBox x:Name="PART_TextField"
-                            
+                                    <Syncfusion:SfTextBoxExt x:Name="PART_TextField"
+                            Style="{StaticResource TextBoxErrorStyle}"
                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=TextContentWidth}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContent, Mode=TwoWay}"
                            IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsReadOnly}">
                                        
-                                    </TextBox>
+                                    </Syncfusion:SfTextBoxExt>
                                 </Border>
                             </StackPanel>
 
@@ -161,10 +267,11 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                     <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"
-                                Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelWidth}"/>
+                                Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelTextWidth}"/>
                         <Syncfusion:DateTimeEdit x:Name="PART_DatePicker"
                                                   Grid.Column="1"
-                                                
+                                                  CanEdit="True"
+                                                  IsEmptyDateEnabled="True"
                                 Margin="20,0,0,0"
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PickerWidth}"
                                 DateTime="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
@@ -174,6 +281,47 @@
                 
                 </Grid>
             </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type local:EmailBox}">
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+        </Style.Resources>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="200"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4,0,0,0"/>
+
+
+        <Setter Property="Template">
+            <Setter.Value>
+
+                <ControlTemplate TargetType="{x:Type local:EmailBox}">
+                    <StackPanel Orientation="Horizontal">
+                        <local:DataField x:Name="EmailField" 
+                                                     DataObject="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     DataSourcePath="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataSourcePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     TextContentWidth="200"
+                                                     LabelTextWidth="0"
+                                                     LabelVisible="False"
+                                                     DataAllowed="Email"
+                                                     ItemChangedCommand="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                     IsReadOnly="False"
+                                                     >
+
+
+
+                        </local:DataField>
+                        <Button Command="{Binding EmailCommand}" CommandParameter="{Binding TextContent, ElementName=EmailField}">
+                            <Image Source="/MasterModule;component/Images/email.png" Width="19"/>
+
+                        </Button>
+                    </StackPanel>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -325,13 +473,12 @@
                 <ControlTemplate TargetType="{x:Type photo:PhotoFrame}">
                     <Grid x:Name="GridLayout">
                         <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="80*"></RowDefinition>
+                            <RowDefinition Height="20*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <GroupBox Header="Foto" Grid.Row="0">
 
-                            <Button x:Name="PART_ImageButton" Background="White" MinHeight="200"
+                            <Button x:Name="PART_LoadButton" Background="White" MinHeight="200"
                     HorizontalAlignment="Stretch" 
                     VerticalAlignment="Stretch" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ImageChanging, Mode=OneWay}">
                                 <StackPanel Orientation="Vertical">
@@ -342,17 +489,59 @@
                                 </StackPanel>
                             </Button>
                         </GroupBox>
-                        <StackPanel Grid.Row="2" Orientation="Horizontal">
-                            <TextBlock Text="Carpeta "></TextBlock>
-                            <TextBox Name="PART_ImageText" Height="20" Width="300"></TextBox>
-                        </StackPanel>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Carpeta" Grid.Row="0" Height="20" FontStyle="Italic" FontSize="10"></TextBlock>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Syncfusion:SfTextBoxExt Grid.Column="0"   x:Name="PART_ImageText" Height="20" Width="300">
+                                    <i:Interaction.Behaviors>
+                                        <behaviors:FileListingBehaviour />
+                                    </i:Interaction.Behaviors>
+                                </Syncfusion:SfTextBoxExt>
+
+                                <Syncfusion:ButtonAdv Grid.Column="1" x:Name="ImageLoadComand"  SmallIcon="/KarveControls;component/Images/folderphoto.png" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LoadCommand, Mode=OneWay}" Label="Carga"></Syncfusion:ButtonAdv>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
         <Style TargetType="{x:Type local:DualFieldSearchBox}">
-       
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+            <converters:BoolToVisiblityConverter x:Key="BooleanToVisibilityConverterKey">
+                
+            </converters:BoolToVisiblityConverter>
+
+            <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="True">
+                        <Setter Property="Background" Value="White" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsReadOnly, RelativeSource={RelativeSource Self}}" Value="True">
+                        <Setter Property="Background" Value="LightCyan" />
+                    </DataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsReadOnly, RelativeSource={RelativeSource Self}}" Value="True"/>
+                            <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="LightCyan"/>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
         <Setter Property="Template">
                 <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DualFieldSearchBox}">
@@ -365,19 +554,26 @@
 
                             <StackPanel  x:Name="PART_DataFieldContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
                                 <TextBlock x:Name="PART_SearchLabel" 
+                                     
                                            Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}" 
+                                           Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelVisible, Converter={StaticResource BooleanToVisibilityConverterKey}}"
                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelTextWidth}" Margin="10,0,0,0"></TextBlock>
-                                <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextFirst" Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
+                                <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextFirst" 
+                                    Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
                                     Path=TextContentFirst}"
+                                    IsReadOnly="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=IsReadOnlyFirst}"
                                     Watermark="Codigo.."                                   
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentFirstWidth}"
                                     Margin="10,0,0,0">
                                     
                                 </Syncfusion:SfTextBoxExt>
-                                <TextBox x:Name="PART_SearchTextSecond" 
+                                <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextSecond" 
+                                         IsReadOnly="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=IsReadOnlySecond}"
+                                         Style="{StaticResource TextBoxStyle}"
                                          Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecondWidth}"
                                          Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}" 
-                                         ></TextBox>
+                                   
+                                         ></Syncfusion:SfTextBoxExt>
 
                                 <StackPanel Background="Azure">
                                     
@@ -391,6 +587,8 @@
                                             
                        
                       >
+
+                                       
                                         <!--      BorderBrush="#FF000000" //-->
 
                                         <Border  HorizontalAlignment="Stretch"
@@ -412,10 +610,12 @@
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
 
+                                               
                                                 <local:TextedThumb Grid.Row="0" Width="Auto" Height="40" FontWeight="Bold" FontSize="24"
                                                                    Foreground="White"
                                                     Title="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
-                                   Tag="{Binding ElementName=PART_PopUp}">
+                                   Tag="{Binding ElementName=PART_PopUp}" local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
+
                                                     <!--
                                                     
                                                     local:PopupMovableBehaviour.IsMoveEnabledProperty="true">
@@ -511,7 +711,16 @@
                                                     </StackPanel>
                                                 </Border>
                                                 -->
-                                                <Button Grid.Row="3" Margin="10" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpCloseCommand}">Close</Button>
+                                                <Button Grid.Row="3" Margin="10" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpCloseCommand}">
+                                                    <Grid HorizontalAlignment="Center">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="80"></ColumnDefinition>
+                                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                            <Image Grid.Column="0" Source="/KarveControls;component/Images/cancel2.png" Height="25"></Image>
+                                                        <TextBlock Grid.Column="1"  Text="{Binding lclosebutton, Source={StaticResource ResourceLanguage}}" Height="25" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                                    </Grid>
+                                                </Button>
 
                                                 
 
@@ -671,7 +880,6 @@
                                 AssistDataFieldFirst="CP"
                                 AssistDataFieldSecond="POBLA"
                                 AssistProperties="Code,Poblacion"
-                                LabelVisible="False"
                                 LabelText="{Binding Pobl, Source={StaticResource ResourceLanguage}}"
                                 Margin="0,5,0,0"
                                 LabelTextWidth="30"
@@ -701,7 +909,6 @@
                                 AssistDataFieldFirst="SIGLAS"
                                 AssistDataFieldSecond="PROV"
                                 AssistProperties="Code,Name"
-                                LabelVisible="False"
                                 LabelText="{Binding Prov, Source={StaticResource ResourceLanguage}}"
                                 Margin="0,5,0,0"
                                 LabelTextWidth="30"
@@ -721,7 +928,6 @@
                                 AssistDataFieldFirst="SIGLAS"
                                 AssistDataFieldSecond="PAIS"
                                 AssistProperties="Code,CountryName"
-                                LabelVisible="False"
                                 LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}"
                                 Margin="0,5,0,0"
                                 LabelTextWidth="30"

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -30,7 +31,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices testing</param>
         /// <param name="region">Region </param>
         /// <param name="manager"> event manager to send and put messages.</param>
-        public ClientBanksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(GenericSql.BanksSql, dataServices, region, manager)
+        public ClientBanksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(GenericSql.BanksSql, dataServices, region, manager, dialogService)
         {
             
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.BankGrid;

@@ -163,13 +163,15 @@
                                                FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                                AllowEditing="False"
                                                AllowGrouping="True" />
+
                 <Syncfusion:GridTextColumn HeaderText="{Binding ldriver, Source={StaticResource ResourceLanguage}}"
-                                           MappingName="DriverName"
-                                           TextAlignment="Center"
-                                           AllowFiltering="False"
-                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="False"
-                                           AllowGrouping="True" />
+                                               MappingName="DriverName"
+                                               TextAlignment="Center"
+                                               AllowFiltering="True"
+                                               FilterPopupStyle="{StaticResource GenericCodeStyle}"
+                                               AllowEditing="False"
+                                               AllowGrouping="True" />
+                
                 <Syncfusion:GridTextColumn HeaderText="{Binding lcliente, Source={StaticResource ResourceLanguage}}"
                                            MappingName="ClientName"
                                            TextAlignment="Center"

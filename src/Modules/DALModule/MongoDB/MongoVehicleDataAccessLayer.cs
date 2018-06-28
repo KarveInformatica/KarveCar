@@ -11,32 +11,17 @@ namespace DataAccessLayer.MongoDB
         public int NumberPage { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public long NumberItems { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-        public Task<bool> DeleteVehicleData(IVehicleData vehicleData)
+        public Task<bool> DeleteAsync(IVehicleData booking)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> DeleteVehicleDo(IVehicleData vehicle)
+        public Task<IVehicleData> GetDoAsync(string code)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<IVehicleData>> GetAsyncVehicles()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IEnumerable<VehicleSummaryDto>> GetAsyncVehicleSummary()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public string GetNewId()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IVehicleData GetNewVehicleDo(string primaryKeyValue)
+        public IVehicleData GetNewDo(string value)
         {
             throw new System.NotImplementedException();
         }
@@ -46,27 +31,22 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IVehicleData> GetVehicleDo(string primaryKeyValue)
+        public Task<IEnumerable<VehicleSummaryDto>> GetSummaryAllAsync()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<VehicleSummaryDto>> GetVehiclesAgentSummary(int pageSize, int offset)
+        public string NewId()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> SaveChangesVehicle(IVehicleData data)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> SaveVehicle(IVehicleData vehicleData)
+        public Task<bool> SaveAsync(IVehicleData bookingData)
         {
             throw new System.NotImplementedException();
         }

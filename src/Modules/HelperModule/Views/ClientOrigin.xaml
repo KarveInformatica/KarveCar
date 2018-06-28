@@ -14,27 +14,27 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <GroupBox Header="{Binding lrbtnOrigenClientes, Source={StaticResource ResourceLanguage}}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <TextBlock Text="Code" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
-                <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="Code" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
+                    <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
                          Text="{Binding HelperDto.Code, Mode=TwoWay}" Margin="0,18.5"
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>
 
 
-                <TextBlock Text="Nombre" Width="64" Height="25" Margin="5,19,0,19" 
+                    <TextBlock Text="Nombre" Width="64" Height="25" Margin="5,19,0,19" 
                 ></TextBlock>
-                <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
+                    <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                         Style="{StaticResource TextBoxErrorStyle}"
                          Text="{Binding HelperDto.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
-            </StackPanel>
-            <Syncfusion:SfDataGrid Grid.Row="1" 
-                                   x:Name="Summary"                       
+                </StackPanel>
+                <Syncfusion:SfDataGrid Grid.Row="1" 
+                                   x:Name="SupplierTypeSummary"                       
                                    ColumnSizer="Star"
                                    AllowDraggingColumns="True"
                                    AllowEditing="False"
@@ -49,34 +49,22 @@
                                    karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                    karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                    ItemsSource="{Binding HelperView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   AutoGenerateColumns="False">
-                <Syncfusion:SfDataGrid.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </Syncfusion:SfDataGrid.Resources>
-                <i:Interaction.Behaviors>
-                    <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </i:Interaction.Behaviors>
-                <Syncfusion:SfDataGrid.Columns>
-                    <Syncfusion:GridTextColumn HeaderText="Code" 
-                                               MappingName="Code" 
-                                               TextAlignment="Left"
-                                               AllowFiltering="True"                                
-                                               AllowEditing="True"
-                                               AllowGrouping="True"/>
-                    <Syncfusion:GridTextColumn HeaderText="Nombre" 
-                                               MappingName="Name" 
-                                               TextAlignment="Left"
-                                               AllowEditing="True"
-                                               AllowGrouping="True"
-                    />
-                </Syncfusion:SfDataGrid.Columns>
+                                   AutoGenerateColumns="True">
+                    <Syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </Syncfusion:SfDataGrid.Resources>
+                    <i:Interaction.Behaviors>
+                        <karveControls:GridColumnFilterBehaviour AssistProperties="Code,Name"></karveControls:GridColumnFilterBehaviour>
+                        <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </i:Interaction.Behaviors>
+                   
 
-            </Syncfusion:SfDataGrid>
-        </Grid>
+                </Syncfusion:SfDataGrid>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

@@ -8,7 +8,9 @@ using System.Data;
 using KarveDapper.Extensions;
 using AutoMapper;
 using Dapper;
+
 using System.Diagnostics.Contracts;
+using System;
 
 namespace DataAccessLayer.Crud.Office
 {
@@ -49,40 +51,64 @@ namespace DataAccessLayer.Crud.Office
             return officeDtos;
         }
 
-        private async Task<OfficeDtos> LoadAuxAsync(IDbConnection connection, 
-                                                    EntityDeserializer deserializer, 
-                                                    OfficeDtos officeDtos, OFICINAS value)
+
+        /// <summary>
+        ///  Parse the result of an office multiple query
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="reader"></param>
+        /// <returns></returns>
+       
+        private bool ParseResult(OfficeDtos request, OFICINAS  value, SqlMapper.GridReader reader)
         {
-            var output = new List<EntityDecorator>();
-            if (value != null)
+
+            if ((request == null) || (reader == null))
             {
-                IQueryStore queryStore = _queryStoreFactory.GetQueryStore();
-                queryStore.AddParam(QueryType.QueryCity, officeDtos.POBLACION);
-                queryStore.AddParam(QueryType.QueryProvince, officeDtos.PROVINCIA);
-                queryStore.AddParam(QueryType.QueryCurrency);
-                queryStore.AddParam(QueryType.HolidaysByOffice, value.CODIGO);
-                var queryHolidays = queryStore.BuildQuery();
-                var reader = await connection.QueryMultipleAsync(queryHolidays);
-                while (!reader.IsConsumed)
-                {
-                    var row = reader.Read();
-
-                    foreach (var singleValue in row)
-                    {
-                        var deserialized = deserializer.Deserialize(singleValue);
-                        if (deserialized != null)
-                        {
-                            output.Add(deserialized);
-                        }
-                    }
-                }
-
-                officeDtos.City = deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, output);
-                officeDtos.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper, output);
-                officeDtos.Currencies = deserializer.SelectDto<CURRENCIES, CurrenciesDto>(_mapper, output);
-                officeDtos.HolidayDates = deserializer.SelectDto<FESTIVOS_OFICINA, HolidayDto>(_mapper, output);
+                return false;
             }
+            if (request.Value == null)
+            {
+                return false;
+            }
+            try
+            {
+                request.City = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(value.CP, _mapper, reader);
+                request.Province = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(value.PROVINCIA, _mapper, reader);
+                request.Currencies = SelectionHelpers.WrappedSelectedDto<CURRENCIES, CurrenciesDto>(value.CURRENCY_OFI, _mapper, reader);
+                request.HolidayDates= SelectionHelpers.WrappedSelectedDto<FESTIVOS_OFICINA, HolidayDto>(value.CODIGO, _mapper, reader);
+                request.DelegaContable = SelectionHelpers.WrappedSelectedDto<DELEGA, DelegaContableDto>(value.DEPARTA, _mapper, reader);
+                request.Country = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(value.PAIS, _mapper, reader);
+                request.OfficeZone = SelectionHelpers.WrappedSelectedDto<ZONAOFI, ZonaOfiDto>(value.ZONAOFI, _mapper, reader);
+#pragma warning disable CS0168 // Variable is declared but never used
+            }
+            catch (System.Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
+            {
+                return false;
+            }
+            return true;
+        }
 
+        private async Task<OfficeDtos> LoadAuxAsync(IDbConnection connection,
+                                                    OfficeDtos officeDtos, OFICINAS value)
+
+        {
+
+            if ((officeDtos == null) || (value == null) || (connection == null))
+            {
+                throw new ArgumentNullException("Invalid input during load!");                 
+            }
+            var auxQueryStore = _queryStoreFactory.GetQueryStore();
+            auxQueryStore.AddParamCount(QueryType.QueryCity, value.CP);
+            auxQueryStore.AddParamCount(QueryType.QueryProvince, value.PROVINCIA);
+            auxQueryStore.AddParamCount(QueryType.QueryCurrencyValue, value.CURRENCY_OFI);
+            auxQueryStore.AddParamCount(QueryType.HolidaysByOffice, value.CODIGO);
+            auxQueryStore.AddParamCount(QueryType.QueryDeptContable, value.DEPARTA);
+            auxQueryStore.AddParamCount(QueryType.QueryCountry, value.PAIS);
+            auxQueryStore.AddParamCount(QueryType.QueryOfficeZone, value.ZONAOFI);
+            var query = auxQueryStore.BuildQuery();
+            var multipleResult = await connection.QueryMultipleAsync(query).ConfigureAwait(false);
+            officeDtos.IsValid = ParseResult(officeDtos,value, multipleResult);
             return officeDtos;
         }
 
@@ -95,28 +121,19 @@ namespace DataAccessLayer.Crud.Office
         {
 
             Contract.Requires(condition: !string.IsNullOrEmpty(code));
-            OfficeDtos officeDtos;
-            IList<object> entities = new List<object>()
-           {
-               new POBLACIONES(),
-               new PROVINCIA(),
-               new CURRENCIES(),
-               new FESTIVOS_OFICINA()
-           };
-            IList<object> dto = new List<object>()
-            {
-                new CityDto(),
-                new ProvinciaDto(),
-                new CurrenciesDto(),
-                new HolidayDto()
-            };
-            EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
-            var output = new List<EntityDecorator>();
+            OfficeDtos officeDtos = new OfficeDtos();
+         
             using (var connection = _executor.OpenNewDbConnection())
             {
-                var value = await connection.GetAsync<OFICINAS>(code);
+                var value = await connection.GetAsync<OFICINAS>(code).ConfigureAwait(false);
+                if (value == null)
+                {
+                    officeDtos.IsValid = false;
+                    return officeDtos;
+                }
                 officeDtos = _mapper.Map<OFICINAS, OfficeDtos>(value);
-                officeDtos = await LoadAuxAsync(connection, deserializer, officeDtos, value).ConfigureAwait(false);
+                officeDtos = await LoadAuxAsync(connection, officeDtos, value).ConfigureAwait(false);
+                officeDtos.IsValid = true;
             }
             return officeDtos;
         }
@@ -125,6 +142,10 @@ namespace DataAccessLayer.Crud.Office
         {
             IEnumerable<OfficeDtos> officeDtos;
             IQueryStore store = _queryStoreFactory.GetQueryStore();
+            if (_currentPos < 0)
+            {
+                _currentPos = 1;
+            }
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
                 store.AddParamRange(QueryType.QueryCompanyPaged, _currentPos, n);

@@ -7,7 +7,7 @@ namespace KarveDataServices
     /// <summary>
     ///  This interface specified all the service repository to handle the crud of a single office.
     /// </summary>
-    public interface IOfficeDataServices: IPageCounter, ISorterData<OfficeSummaryDto>
+    public interface IOfficeDataServices: IPageCounter, ISorterData<OfficeSummaryDto>, IDataProvider<IOfficeData, OfficeSummaryDto>
     {
         /// <summary>
         ///  This give us the summary query.
@@ -26,12 +26,7 @@ namespace KarveDataServices
       /// <param name="data">Data of the office.</param>
       /// <returns></returns>
         Task<bool> DeleteOfficeAsyncDo(IOfficeData data);
-        /// <summary>
-        ///  This save the office data.
-        /// </summary>
-        /// <param name="data">Office data to be saved</param>
-        /// <returns>true or false in case of a client.</returns>
-        Task<bool> SaveAsync(IOfficeData data);
+       
         /// <summary>
         ///  Client data object
         /// </summary>
@@ -62,12 +57,6 @@ namespace KarveDataServices
         /// <param name="companyId">Identifier of the company</param>
         /// <returns></returns>
         Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId);
-        /// <summary>
-        ///  Return the paged evet
-        /// </summary>
-        /// <param name="baseIndex">Index to start</param>
-        /// <param name="defaultPageSize">Default page size</param>
-        /// <returns></returns>
-        Task<IEnumerable<OfficeSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
+     
     }
 }

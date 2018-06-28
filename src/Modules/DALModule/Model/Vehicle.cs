@@ -20,109 +20,10 @@ using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using Model;
 using NLog;
+using DataAccessLayer.Logic;
 
 namespace DataAccessLayer.Model
 {
-
-    /// <summary>
-    ///  This is the class factory for each vehicle.
-    /// </summary>
-    public class VehicleFactory
-    {
-        private const string VehicleIds = " SELECT {0} FROM VEHICULO1 INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT=VEHICULO2.CODIINT";
-        private const string VehicleLimitIds = " SELECT TOP {0} START AT {1} {2} FROM VEHICULO1 INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT=VEHICULO2.CODIINT";
-        private readonly ISqlExecutor _sqlExecutor;
-        /// <summary>
-        ///  This is the queryExecutro factory.
-        /// </summary>
-        /// <param name="executor"></param>
-        private VehicleFactory(ISqlExecutor executor)
-        {
-            _sqlExecutor = executor;
-        }
-        /// <summary>
-        ///  This is the factory for the commission agent. 
-        /// </summary>
-        /// <param name="executor">Query executor of the things</param>
-        /// <returns></returns>
-        public static VehicleFactory GetFactory(ISqlExecutor executor)
-        {
-            return new VehicleFactory(executor);
-        }
-        /// <summary>
-        /// This returns a new vehicle.
-        /// </summary>
-        /// <returns></returns>
-        public IVehicleData NewVehicle(string id)
-        {
-            IVehicleData data = new Vehicle(_sqlExecutor);
-            VehicleDto dto = new VehicleDto();
-            dto.CODIINT = id;
-            data.Valid = true;
-            data.Value = dto;
-            return data;
-        }
-
-        /// <summary>
-        /// Create a list of vehicles
-        /// </summary>
-        /// <param name="fields">Fields to be fetched</param>
-        /// <param name="maxLimit">Limit maximum of the agents to be fetched. Zero all fields</param>
-        /// <param name="offset">Starting offset from which we can fetch</param>
-        /// <returns></returns>
-        public async Task<IList<IVehicleData>> CreateVehicleList(
-            IDictionary<string, string> fields, int maxLimit = 0, int offset = 0)
-        {
-            IDbConnection connection = _sqlExecutor.Connection;
-            string currentQueryAgent = "";
-            IList<IVehicleData> list = new List<IVehicleData>();
-            string vehiclesFields = fields["VEHICULO1"] + "," + fields["VEHICULO2"];
-            if (maxLimit == 0)
-            {
-                currentQueryAgent = string.Format(VehicleIds, vehiclesFields);
-            }
-            else
-            {
-                currentQueryAgent = string.Format(VehicleLimitIds, maxLimit, offset, vehiclesFields);
-            }
-            using (connection)
-            {
-                if (connection.State != ConnectionState.Open)
-                {
-                    connection.Open();
-                }
-                IEnumerable<VehiclePoco> vehicleAgents = await connection.QueryAsync<VehiclePoco>(currentQueryAgent);
-                foreach (VehiclePoco c in vehicleAgents)
-                {
-
-                    Vehicle agent = new Vehicle(_sqlExecutor);
-                    bool loaded = await agent.LoadValue(fields, c.CODIINT);
-                    if (loaded)
-                    {
-                        list.Add(agent);
-                    }
-                }
-            }
-            return list;
-        }
-        /// <summary>
-        /// This retrieve a commission agent.
-        /// </summary>
-        /// <param name="fields">Fields to be selected in the db</param>
-        /// <param name="commissionId">Commission Id</param>
-        /// <returns>A commmission agent data transfer object</returns>
-        public async Task<IVehicleData> GetVehicle(IDictionary<string, string> fields, string vehicleId)
-        {
-            Contract.Requires(fields.Count > 0, "Fields not valid");
-            Contract.Requires(!string.IsNullOrEmpty(vehicleId), "VehicleId valid");
-            Vehicle agent = new Vehicle(_sqlExecutor);
-            bool loaded = await agent.LoadValue(fields, vehicleId).ConfigureAwait(false);
-            agent.Valid = loaded;
-            return agent;
-        }
-
-
-    }
 
     /// <summary>
     /// This is a domain object that wraps all the pocos for representing the vehicle. It is a model wrapper.
@@ -233,6 +134,9 @@ namespace DataAccessLayer.Model
         private IEnumerable<PICTURES> _pictureResult;
         private Logger _logger = LogManager.GetCurrentClassLogger();
         private static QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
+        private VehicleDto _vehicleDto;
+        
+
 
         #endregion
 
@@ -241,126 +145,28 @@ namespace DataAccessLayer.Model
         /// </summary>
         /// <param name="sqlExecutor">Sql Query Executor</param>
 
-        public Vehicle(ISqlExecutor sqlExecutor)
+        public Vehicle()
         {
-            _sqlExecutor = sqlExecutor;
-            InitializeMapping();
+            _vehicleMapper = MapperField.GetMapper();
         }
-
+        
         public string VehicleModelQuery {
             get
             {
                 return QueryModel;
             }
         }
-
-    /// <summary>
-        ///  This is the initialize mapping for the vehiculos.
-        /// </summary>
-        public void InitializeMapping()
-        {
-            var mapperConfiguration = new MapperConfiguration(cfg =>
-            {
-
-                cfg.CreateMap<VehiclePoco, VehicleDto>();
-                cfg.CreateMap<VehicleDto, VehiclePoco>();
-                cfg.CreateMap<PICTURES, PictureDto>();
-                cfg.CreateMap<VehiclePoco, VEHICULO1>().ConvertUsing<PocoToVehiculo1>();
-                cfg.CreateMap<VehiclePoco, VEHICULO2>().ConvertUsing<PocoToVehiculo2>();
-                cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(src =>
-                {
-                    var marcas = new MARCAS();
-                    marcas.CODIGO = src.Code;
-                    marcas.NOMBRE = src.Name;
-                    return marcas;
-                });
-                // _vehicleMapper.Map<IEnumerable<PICTURES>, IEnumerable<PictureDto>>(pictureResult);
-                cfg.CreateMap<MARCAS, BrandVehicleDto>().ConvertUsing(src =>
-                {
-                    var marcas = new BrandVehicleDto();
-                    marcas.Code = src.CODIGO;
-                    marcas.Name = src.NOMBRE;
-                    return marcas;
-                });
-                cfg.CreateMap<PICTURES, PictureDto>();
-                cfg.CreateMap<ColorDto, COLORFL>().ConvertUsing(src =>
-                    {
-                        var color = new COLORFL();
-                        color.CODIGO = src.Code;
-                        color.NOMBRE = src.Name;
-                        return color;
-                    }
-                );
-                cfg.CreateMap<COLORFL, ColorDto>().ConvertUsing(src =>
-                    {
-                        var color = new ColorDto();
-                        color.Code = src.CODIGO;
-                        color.Name = src.NOMBRE;
-                        return color;
-                    }
-                );
-
-                cfg.CreateMap<MODELO, ModelVehicleDto>().ConvertUsing(src =>
-                    {
-                        var model = new ModelVehicleDto();
-                        model.Codigo = src.CODIGO;
-                        model.Nombre = src.NOMBRE;
-                        model.Marca = src.MARCA;
-                        model.Categoria = src.CATEGORIA;
-                        model.Variante = src.VARIANTE;
-                        model.NomeMarca = src.NOMMARCA;
-                        return model;
-                    }
-                );
-                cfg.CreateMap<ModelVehicleDto, MODELO>().ConvertUsing(src =>
-                    {
-                        var model = new MODELO();
-                        model.MARCA = src.Marca;
-                        model.CODIGO = src.Codigo;
-                        model.NOMBRE = src.Nombre;
-                        model.CATEGORIA = src.Categoria;
-                        model.VARIANTE = src.Variante;
-                        model.NOMMARCA = src.NomeMarca;
-                        return model;
-                    }
-                );
-                
-                cfg.CreateMap<ACTIVEHI, ActividadDto>().ConvertUsing(src =>
-                    {
-                        var color = new ActividadDto();
-                        color.Codigo = src.NUM_ACTIVEHI;
-                        color.Nombre = src.NOMBRE;
-                        return color;
-                    }
-                );
-                cfg.CreateMap<ActividadDto, ACTIVEHI>().ConvertUsing(src =>
-                    {
-                        var color = new ACTIVEHI();
-                        color.NUM_ACTIVEHI = src.Codigo;
-                        color.NOMBRE = src.Nombre;
-                        return color;
-                    }
-                );
-              
-
-            });
-            _vehicleMapper = mapperConfiguration.CreateMapper();
-
-        }
-        /// <summary>
-        ///  Changed value agent
-        /// </summary>
-        public bool Changed { set; get; }
-
+        
         /// <summary>
         ///  Return the vehicle data transfer object 
         /// </summary>
         public VehicleDto Value
         {
-            get { return _vehicleMapper.Map<VehiclePoco, VehicleDto>(_vehicleValue); }
+            get { return _vehicleDto; }
             set
             {
-                _vehicleValue = _vehicleMapper.Map<VehicleDto, VehiclePoco>(value);
+                _vehicleDto = value;
+                //_vehicleValue = _vehicleMapper.Map<VehicleDto, VehiclePoco>(value);
                 RaisePropertyChanged();
             }
         }
@@ -447,6 +253,8 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         public async Task<bool> Save()
         {
+            var vehicleDto = Value;
+            _vehicleValue = _vehicleMapper.Map<VehicleDto, VehiclePoco>(vehicleDto);
             VEHICULO1 vehiculo1 = _vehicleMapper.Map<VehiclePoco, VEHICULO1>(_vehicleValue);
             VEHICULO2 vehiculo2 = _vehicleMapper.Map<VehiclePoco, VEHICULO2>(_vehicleValue);
             vehiculo2.CODIINT = vehiculo1.CODIINT;
@@ -658,9 +466,6 @@ namespace DataAccessLayer.Model
             get { return QueryModel; }
         }
 
-        public IEnumerable<AgentDto> AgentsDto { get; set; }
-        public IEnumerable<ActividadDto> ActivityDtos { get; set; }
-
         /// <summary>
         ///  Converter for the the new vehiculo2.
         /// </summary>
@@ -706,5 +511,22 @@ namespace DataAccessLayer.Model
                 return vehiculo;
             }
         }
+
+        public IEnumerable<AgentDto> AgentsDto { get; set; }
+        public IEnumerable<ActividadDto> ActivityDtos { get; set; }
+        public IEnumerable<PictureDto> PicturesDtos { get; set; }
+        public IEnumerable<SupplierSummaryDto> Supplier2 { get; set; }
+        public IEnumerable<PaymentFormDto> PaymentForm { get; set; }
+        public IEnumerable<SupplierSummaryDto> Supplier1 { get; set; }
+        public IEnumerable<ClientSummaryExtended> ClientDto { get; set; }
+        public IEnumerable<ResellerDto> ResellerDto { get; set; }
+        public IEnumerable<CityDto> RoadTaxesCityDto { get; set; }
+        public IEnumerable<ZonaOfiDto> RoadOfficeZoneDto { get; set; }
+        public IEnumerable<SupplierSummaryDto> AssistencePolicyDto { get ; set ; }
+        public IEnumerable<SupplierSummaryDto> AssistenceAssuranceDto { get ; set; }
+        public IEnumerable<SupplierSummaryDto> AdditionalAssuranceDto { get ; set ; }
+        public IEnumerable<SupplierSummaryDto> AssuranceDto { get ; set ; }
+        public IEnumerable<AgentDto> AssuranceAgentDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
+
 }

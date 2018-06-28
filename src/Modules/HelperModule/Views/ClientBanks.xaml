@@ -23,7 +23,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <TextBlock Text="Codigo" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
-                <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan" 
+                <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="Cyan"
                          Text="{Binding HelperDto.Code, Mode=TwoWay}" Margin="0,18.5"
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>
 
@@ -31,13 +31,17 @@
                 <TextBlock Text="Nombre" Width="64" Height="25" Margin="5,19,0,19" 
                 ></TextBlock>
                 <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
+                         Style="{StaticResource TextBoxErrorStyle}"
+                         karveControls:ControlState.DataSource="{Binding HelperDto, Mode=TwoWay}"
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                         Text="{Binding HelperDto.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
+                         Text="{Binding HelperDto.Name, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True,ValidatesOnExceptions=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,18.5"/>
                 <TextBlock Text="Swift" Width="64" Height="25" Margin="5,19,0,19" 
                 ></TextBlock>
                     <TextBox x:Name="Swift"  Width="230" Height="25" 
+                         karveControls:ControlState.DataSource="{Binding HelperDto, Mode=TwoWay}"
+                          Style="{StaticResource TextBoxErrorStyle}"
                          karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                         Text="{Binding HelperDto.Swift, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
+                         Text="{Binding HelperDto.Swift, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,18.5"/>
                     <TextBlock Text="{Binding State,Mode=OneWay}" HorizontalAlignment="Right"></TextBlock>
                 </StackPanel>
             <Syncfusion:SfDataGrid Grid.Row="1" 
@@ -51,8 +55,9 @@
                                    AllowGrouping="True"
                                    ShowGroupDropArea="True"
                                    NavigationMode="Row"
+                                   FilterRowPosition="FixedTop"
                                    AutoGenerateColumns="True"
-                                   karveControls:KarveGridExt.GridIdentifier="1"
+                                   karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                    karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                    karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                    karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
@@ -67,7 +72,7 @@
                 </Syncfusion:SfDataGrid.Resources>
                 <i:Interaction.Behaviors>
                     <behaviour:GridChangeSelectionBehaviour ChangedSelectionCommand="{Binding SelectionChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <karveControls:GridColumnFilterBehaviour AssistProperties="Code,Name,Swift"></karveControls:GridColumnFilterBehaviour>
+                        <karveControls:GridColumnFilterBehaviour AssistProperties="Code,Name,Swift, CurrentUser, LastModification"></karveControls:GridColumnFilterBehaviour>
                 </i:Interaction.Behaviors>
                
             </Syncfusion:SfDataGrid>

@@ -11,39 +11,20 @@ namespace KarveTest.Mock
 
     internal class MockVehicleDataService : IVehicleDataServices
     {
-        public MockVehicleDataService()
-        {
-        }
-
         public int NumberPage { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public long NumberItems { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public Task<bool> DeleteVehicleData(IVehicleData vehicleData)
+        public Task<bool> DeleteAsync(IVehicleData booking)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteVehicleDo(IVehicleData vehicle)
+        public Task<IVehicleData> GetDoAsync(string code)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IVehicleData>> GetAsyncVehicles()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<DataSet> GetAsyncVehicleSummary()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetNewId()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IVehicleData GetNewVehicleDo(string primaryKeyValue)
+        public IVehicleData GetNewDo(string value)
         {
             throw new NotImplementedException();
         }
@@ -53,37 +34,22 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IVehicleData> GetVehicleDo(string primaryKeyValue)
+        public Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<DataSet> GetVehiclesAgentSummary(int pageSize, int offset)
+        public Task<IEnumerable<VehicleSummaryDto>> GetSummaryAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveChangesVehicle(IVehicleData data)
+        public string NewId()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SaveVehicle(IVehicleData vehicleData)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IEnumerable<VehicleSummaryDto>> IVehicleDataServices.GetAsyncVehicleSummary()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<IEnumerable<VehicleSummaryDto>> IVehicleDataServices.GetVehiclesAgentSummary(int pageSize, int offset)
+        public Task<bool> SaveAsync(IVehicleData bookingData)
         {
             throw new NotImplementedException();
         }

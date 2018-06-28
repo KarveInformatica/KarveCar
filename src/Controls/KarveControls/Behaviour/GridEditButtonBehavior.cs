@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using KarveCommon.Generic;
 
 
 namespace KarveControls.Behaviour
@@ -12,6 +13,10 @@ namespace KarveControls.Behaviour
     /// </summary>
     public class GridEditButtonBehavior: KarveBehaviorBase<Button>
     {
+
+
+
+        
         /// <summary>
         ///  This is a property for the cell presentation.
         /// </summary>
@@ -75,7 +80,36 @@ namespace KarveControls.Behaviour
         /// </summary>
         protected override void OnSetup()
         { 
-            this.AssociatedObject.MouseDoubleClick += AssociatedObject_Click;   
+            this.AssociatedObject.Click += AssociatedObject_Click;
+            this.AssociatedObject.PreviewKeyDown += AssociatedObject_PreviewKeyDown;
+        }
+
+        private void AssociatedObject_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var key = e.Key;
+            if (key == Key.F4)
+            {
+                Button currentButton = sender as Button;
+                ICommand command = Command;
+                /*
+                if (command == null)
+                {
+                    // we look up to the visual tree.
+                    var item = new VisualTreeAdapter(this.AssociatedObject);
+                    var frameworkElement = item.Parent;
+                    while ((frameworkElement.Parent!=null) && (frameworkElement.Parent.GetType() != typeof(UserControl)))
+                    {
+                        frameworkElement = frameworkElement.Parent;
+                    }
+                } */
+
+                if (currentButton == null)
+                {
+                    return;
+                }
+                var v = Param ?? currentButton.DataContext;
+                ExecuteCommand(currentButton, command, v);
+            }
         }
 
         protected virtual void ExecuteCommand(Button currentButton,ICommand command, object param)
@@ -108,7 +142,8 @@ namespace KarveControls.Behaviour
         /// </summary>
         protected override void OnCleanup()
         {
-            this.AssociatedObject.MouseDoubleClick -= AssociatedObject_Click;
+            this.AssociatedObject.Click -= AssociatedObject_Click;
+            this.AssociatedObject.PreviewKeyDown -= AssociatedObject_PreviewKeyDown;
         }
 
 

@@ -344,7 +344,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         {
             Dictionary<string, object> ev = new Dictionary<string, object>();
             var items = new List<BaseDto>();
-            var outerDtoCandidate = outerDtoList.FirstOrDefault(x => x.CodeId == outerDto.CodeId);
+            var outerDtoCandidate = outerDtoList.FirstOrDefault(x => x.Code == outerDto.Code);
             if (outerDtoCandidate == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;

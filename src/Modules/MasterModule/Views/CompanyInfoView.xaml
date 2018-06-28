@@ -13,6 +13,7 @@
                xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              mc:Ignorable="d" 
+               xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              d:DesignHeight="900" d:DesignWidth="1150">
 
 
@@ -153,7 +154,7 @@
                                      ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                      TextContent="{Binding Path=DataObject.DIRECCION, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="dIRECCION" Margin="0,5.5" />
 
-                <karveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="4" x:Name="CitySearchBox"
+                <karveControls:DualFieldSearchBox x:Name ="CitySearchBox" Grid.Column="0"  Grid.Row="4" 
                                               DataFieldFirst="CP"
                                               AssistTableName="CITY_ASSIST"
                                               AssistProperties="Code,Poblacion"
@@ -164,14 +165,25 @@
                                               
                                               ItemChangedCommand="{Binding ItemChangedCommand}"
                                               MagnifierCommand="{Binding AssistCommand}"
-                                              IsReadOnlySecond="True"
+                                              IsReadOnlySecond="False"
                                               TextContentFirstWidth="100"
                                               TextContentSecondWidth="300"
                                                          
                                               SourceView="{Binding Path=CompanyHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2"/>
+                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
+                    <i:Interaction.Behaviors>
+                        <behaviors:ChangeRuleBehavior
+                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               RelatedObject="{Binding ElementName=ProvinceSearchBox}"
+                                               Path="{Binding ElementName=CitySearchBox, Path=TextContentFirst}"
+                                               RelatedPath="{Binding ElementName=ProvinceSearchBox,Path=TextContentFirst}">
+                        </behaviors:ChangeRuleBehavior>
+                    </i:Interaction.Behaviors>
 
-                <karveControls:DualFieldSearchBox Grid.Column="1"  Grid.Row="4" DataFieldFirst="PROVINCIA"
+
+                </karveControls:DualFieldSearchBox>
+
+                <karveControls:DualFieldSearchBox x:Name="ProvinceSearchBox" Grid.Column="1"  Grid.Row="4" DataFieldFirst="PROVINCIA"
                                               AssistTableName="PROVINCE_ASSIST"
                                               AssistProperties="Code,Name"
                                               LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"

@@ -2783,4 +2783,49 @@
   <data name="lstreetwm" xml:space="preserve">
     <value>Via</value>
   </data>
+  <data name="lclosebutton" xml:space="preserve">
+    <value>Chiudi..</value>
+  </data>
+  <data name="ldireccion" xml:space="preserve">
+    <value>Indirizzo</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Data di Scadenza</value>
+  </data>
+  <data name="lbookingRequests" xml:space="preserve">
+    <value>Richieste di Prenotazione</value>
+  </data>
+  <data name="lcodigoempresa" xml:space="preserve">
+    <value>Codice Azienda</value>
+  </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="lday" xml:space="preserve">
+    <value>Giorno</value>
+  </data>
+  <data name="lreason" xml:space="preserve">
+    <value>Motivazione</value>
+  </data>
+  <data name="lreservationrequestdate" xml:space="preserve">
+    <value>Data Richiesta Prenotazione</value>
+  </data>
+  <data name="loption" xml:space="preserve">
+    <value>Opzioni</value>
+  </data>
+  <data name="ldays" xml:space="preserve">
+    <value>Giorni</value>
+  </data>
+  <data name="lothervehi" xml:space="preserve">
+    <value>Altro Veicolo</value>
+  </data>
+  <data name="lrbtnClassificaCliente" xml:space="preserve">
+    <value>Classifica Cliente</value>
+  </data>
+  <data name="lrbtnComunidadAutonoma" xml:space="preserve">
+    <value>Regione</value>
+  </data>
+  <data name="imagefile" xml:space="preserve">
+    <value>File di Immagini</value>
+  </data>
 </root>

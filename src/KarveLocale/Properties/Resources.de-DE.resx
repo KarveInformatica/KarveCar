@@ -2770,4 +2770,37 @@
   <data name="lstreetwm" xml:space="preserve">
     <value>Strasse</value>
   </data>
+  <data name="lclosebutton" xml:space="preserve">
+    <value>Geschloss</value>
+  </data>
+  <data name="ldireccion" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Haltbarkeitsdatum</value>
+  </data>
+  <data name="lbookingRequests" xml:space="preserve">
+    <value>Buchungsanfragen</value>
+  </data>
+  <data name="lcodigoempresa" xml:space="preserve">
+    <value>Buchungskreis</value>
+  </data>
+  <data name="lday" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="lreason" xml:space="preserve">
+    <value>Ursache</value>
+  </data>
+  <data name="ldays" xml:space="preserve">
+    <value>Tagen</value>
+  </data>
+  <data name="lothervehi" xml:space="preserve">
+    <value>Anderes Fahrzeug</value>
+  </data>
+  <data name="lrbtnComunidadAutonoma" xml:space="preserve">
+    <value>Bund</value>
+  </data>
+  <data name="imagefile" xml:space="preserve">
+    <value>Bild</value>
+  </data>
 </root>

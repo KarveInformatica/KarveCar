@@ -7,7 +7,8 @@ namespace KarveCommon.Services
     {
         public static Uri BookingClientGridColumnsKey = new Uri("karve://booking/settings/clientgrid");
         public static Uri BookingDriverGridColumnsKey = new Uri("karve://booking/settings/drivergrid");
- 
+
+        public static Uri VehicleSummaryGridColumnsKey = new Uri("karve://vehicles/settings/summarygrid");
     }
 
 }

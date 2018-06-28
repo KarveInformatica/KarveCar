@@ -36,7 +36,7 @@ namespace KarveTest.ViewModels
         public void SetUp()
         {
             // This code simulate the return from the data base of a list of vehicles.
-            _mockDataServices.Setup(x => x.GetVehicleDataServices().GetAsyncVehicleSummary()).ReturnsAsync(
+            _mockDataServices.Setup(x => x.GetVehicleDataServices().GetSummaryAllAsync()).ReturnsAsync(
                 (() => new List<VehicleSummaryDto>()
                 {
                             new VehicleSummaryDto(){ Code = "12920", Brand="FIAT" },

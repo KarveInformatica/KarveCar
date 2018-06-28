@@ -32,7 +32,8 @@
                   
                         <Image Source="/KarveControls;component/Images/contract.png"></Image>
                         <i:Interaction.Behaviors>
-                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.NavigateCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.NavigateCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" 
+                                                              />
                         </i:Interaction.Behaviors>
                     </Button>
             </Grid>
@@ -140,10 +141,11 @@
     <Grid>
         <Grid>
             <Grid.Resources>
-                <Style TargetType="syncfusion:GridHeaderCellControl" x:Key="headerStyle">
+                <Style TargetType="syncfusion:GridHeaderCellControl" x:Key="LineGridHeaderStyle">
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="FontSize" Value="14"/>
                     <Setter Property="Foreground" Value="DarkBlue"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,0"/>
                     <Setter Property="FilterIconVisiblity" Value="Visible"></Setter>
                     
                 </Style>
@@ -185,6 +187,7 @@
                                     ShowGroupDropArea="True"
                                     ShowRowHeader="True" >
                 <i:Interaction.Behaviors>
+                    <gridbehaviours:GridDefaultBehavior/>
 
                     <behaviour:LineGridBehaviour GridColumns="{Binding GridColumns, Mode=OneWay}"
                                                  CellPresenterItems="{Binding CellGridPresentation, Mode=OneWay}">

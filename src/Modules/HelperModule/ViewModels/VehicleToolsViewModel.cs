@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -25,7 +26,7 @@ namespace HelperModule.ViewModels
             }
             return payLoad;
         }
-        public VehicleToolsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(GenericSql.VehicleTools, dataServices, region, manager)
+        public VehicleToolsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(GenericSql.VehicleTools, dataServices, region, manager, dialogService)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleTools;
         }

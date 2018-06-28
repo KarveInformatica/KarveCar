@@ -7,7 +7,7 @@ using KarveDapper.Extensions;
 
 namespace DataAccessLayer.DataObjects
 {
-    class ClientPoco
+    public class ClientPoco
     {
         /// <summary>
         ///  Set or get the NUMERO_CLI property.
@@ -117,6 +117,14 @@ namespace DataAccessLayer.DataObjects
         /// </summary>
 
         public string TARTI { get; set; }
+
+
+        /// <summary>
+        ///  Set or get the TARTI property.
+        /// </summary>
+
+        public string TARTITULAR { get; set; }
+
 
         /// <summary>
         ///  Set or get the TARNUM property.
@@ -392,7 +400,7 @@ namespace DataAccessLayer.DataObjects
         ///  Set or get the TARTITULAR property.
         /// </summary>
 
-        public string TARTITULAR { get; set; }
+   
 
         /// <summary>
         ///  Set or get the TARJETA_COMI_CL1 property.

@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EmailValidation;
+using Prism.Mvvm;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class OfficeOpenClose
+    public class OfficeOpenClose: BindableBase
     {
-        public TimeSpan? Open { set; get; }
-        public TimeSpan? Close { set; get; }
+        private TimeSpan? _open;
+        private TimeSpan? _close;
+        
+        public TimeSpan? Open { set { _open = value; RaisePropertyChanged(); } get { return _open; } }
+        
+        public TimeSpan? Close { set { _close = value; RaisePropertyChanged(); } get { return _close; } }
     }
     /// <summary>
     ///  Daily open for the open.
     /// </summary>
-    public class DailyTime
+    public class DailyTime: BindableBase
     {
 
         public DailyTime()
@@ -21,6 +27,7 @@ namespace KarveDataServices.DataTransferObject
             Afternoon = new OfficeOpenClose();
         }
 
+        public string DayName { set; get; }
         /// <summary>
         ///  Morning daily office open.
         /// </summary>
@@ -59,6 +66,8 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public IList<DailyTime> TimeTable { set; get; }
 
+        public DateTime InitOpen { set; get; }
+        public DateTime CloseOpen { set; get; }
         /// <summary>
         ///  Currencies dto.
         /// </summary>
@@ -190,7 +199,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the ID_CONTRACTO_SAVIA
         /// </summary>
-        public string ID_CONTRACTO_SAVIA {get;set;}
+        public string ID_CONTRATO_SAVIA {get;set;}
         /// <summary>
         ///  Set or get the FEC_ALTA property.
         /// </summary>
@@ -556,11 +565,8 @@ namespace KarveDataServices.DataTransferObject
 
         public string HORARIO_TEXTO_OFI { get; set; }
 
-        /// <summary>
-        ///  Set or get the ID_CONTRATO_SAVIA property.
-        /// </summary>
-
-        public string ID_CONTRATO_SAVIA { get; set; }
+       
+       
 
         /// <summary>
         ///  Set or get the ID_LOCAL_SAVIA property.
@@ -669,6 +675,63 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public Decimal? CANON_OTROS { get; set; }
 
+          
+        private bool IsInvalid()
+        {
+            var valid = true;
+            if (!string.IsNullOrEmpty(EMAIL_OFI))
+            {
+                valid = valid && IsValidEmailField(EMAIL_OFI);
+                if (!valid)
+                {
+                    ErrorList.Add(ConstantDataError.InvalidEmail);
+                    return true;
+                }
+            }
+            if (!string.IsNullOrEmpty(EMAIL_RESONREQ))
+            {
+                valid = valid && IsValidEmailField(EMAIL_RESONREQ);
+                if (!valid)
+                {
+                    ErrorList.Add(ConstantDataError.InvalidEmail);
+                    return true;
+                }
+            }
+            if (!string.IsNullOrEmpty(EMAIL_RESRECHAZA))
+            {
+                valid = IsValidEmailField(EMAIL_RESRECHAZA);
+                if (!valid)
+                {
+                    ErrorList.Add(ConstantDataError.InvalidEmail);
+                    return true;
+                }
+            }
+            if (!string.IsNullOrEmpty(EMAIL_RESCONFIRM))
+            {
+                valid = IsValidEmailField(EMAIL_RESCONFIRM);
+                if (!valid)
+                {
+                    ErrorList.Add(ConstantDataError.InvalidEmail);
+                    return true;
+                }
+            }
+            if (string.IsNullOrEmpty(Codigo))
+            {
+                return true;
+            }
+            if (string.IsNullOrEmpty(Nombre))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if ((Nombre != null) && (Nombre.Length > 80))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            return !valid;
+        }
+        public override bool HasErrors { get => base.HasErrors = IsInvalid(); set => base.HasErrors = value; }
         public IEnumerable<CityDto> City
         {
             get
@@ -690,5 +753,10 @@ namespace KarveDataServices.DataTransferObject
                 RaisePropertyChanged();
             }
         }
+
+        public IEnumerable<CountryDto> Country { get; set; }
+        public IEnumerable<ClientSummaryExtended> ClientDto { get; set; }
+        public IEnumerable<DelegaContableDto> DelegaContable { get; set; }
+        public IEnumerable<ZonaOfiDto> OfficeZone { get; set; }
     }
 }

@@ -43,7 +43,7 @@ namespace MasterModule.ViewModels
                 } ,
                 new UiDfSearch(KarveLocale.Properties.Resources.StringConstants_Mercado)
                 {
-                    AssistTableName = "MERCADO",
+                    AssistTableName = "MARKET_ASSIST",
                     AssistDataFieldFirst = "CODIGO",
                     AssistDataFieldSecond = "NOMBRE",
                     DataAllowed = DataType.Any,
@@ -59,7 +59,7 @@ namespace MasterModule.ViewModels
                 },
                 new UiDfSearch(KarveLocale.Properties.Resources.StringConstants_Negocio)
                 {
-                    AssistTableName="NEGOCIO",
+                    AssistTableName="BUSINESS_ASSIST",
                     AssistDataFieldFirst = "CODIGO",
                     AssistDataFieldSecond = "NOMBRE",
                     AssistProperties = "Code,Name",
@@ -76,7 +76,7 @@ namespace MasterModule.ViewModels
                 new UiDfSearch(KarveLocale.Properties.Resources.StringConstants_Canal)
                 {
                     DataField = "CANAL",
-                    AssistTableName = "CANAL",
+                    AssistTableName = "CHANNEL_TYPE",
                     AssistDataFieldFirst = "CODIGO",
                     AssistDataFieldSecond = "NOMBRE",
                     TextContentFirstWidth = "50",
@@ -92,10 +92,10 @@ namespace MasterModule.ViewModels
                 new UiDfSearch(KarveLocale.Properties.Resources.StringConstants_ClavePpto)
                 {
                     DataField = "CLAVEPPTO",
-                    AssistTableName = "CLAVEPTO",
+                    AssistTableName = "CLIENT_BUDGET",
                     AssistDataFieldFirst = "COD_CLAVE",
                     AssistDataFieldSecond = "NOMBRE",
-                    AssistProperties = "Numero, Nombre",
+                    AssistProperties = "Code,Name",
                     DataAllowed = DataType.Any,
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "350",
@@ -108,7 +108,7 @@ namespace MasterModule.ViewModels
                 new UiDfSearch(KarveLocale.Properties.Resources.StringConstants_Origen)
                 {
                     DataField = "ORIGEN_COMI",
-                    AssistTableName = "ORIGEN",
+                    AssistTableName = "ORIGIN_ASSIST",
                     AssistDataFieldFirst = "NUM_ORIGEN",
                     AssistDataFieldSecond = "NOMBRE",
                     TextContentFirstWidth = "50",
@@ -124,12 +124,12 @@ namespace MasterModule.ViewModels
                 new UiDfSearch(KarveLocale.Properties.Resources.StringConstants_ZonaOfi)
                 {
                     DataField = "ZONAOFI",
-                    AssistTableName = "ZONAOFI",
+                    AssistTableName = "OFFICE_ZONE_ASSIST",
                     AssistDataFieldFirst = "COD_ZONAOFI",
                     AssistDataFieldSecond = "NOM_ZONA",
                     TextContentFirstWidth = "50",
                     TextContentSecondWidth = "300",
-                    AssistProperties = "Codigo,Nombre",
+                    AssistProperties = "Codigo,Nombre,Plaza",
                     SourceView = new DataTable(),
                     DataSource = new object(),
                     ButtonImage = MasterModuleConstants.ImagePath,

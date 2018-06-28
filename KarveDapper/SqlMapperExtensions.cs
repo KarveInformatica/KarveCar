@@ -384,6 +384,13 @@ namespace KarveDapper.Extensions
             return name;
         }
 
+            public static bool HasRows(this SqlMapper.GridReader reader)
+            {
+            return false;
+               // return (reader?. as DbDataReader)?.HasRows ?? false;
+            }
+        
+
         /// <summary>
         /// Inserts an entity into table "Ts" and returns identity id or number if inserted rows if inserting a list.
         /// </summary>

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -11,7 +12,7 @@ using Prism.Regions;
 namespace HelperModule.ViewModels
 {
     internal class VehicleRepostajeReasonViewModel : GenericHelperViewModel<VehicleProvisionReasonDto, MOT_REPOSTAJE>
-    {   public VehicleRepostajeReasonViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty,dataServices, region, manager)
+    {   public VehicleRepostajeReasonViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty,dataServices, region, manager, dialogService)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleRepostaje;
         }

@@ -8,7 +8,7 @@ using KarveDapper.Extensions;
 namespace DataAccessLayer.DataObjects
 {
     [Table("CliContactos")]
-    class CliContactsPoco
+    public class CliContactsPoco
     {
 
         [Key]

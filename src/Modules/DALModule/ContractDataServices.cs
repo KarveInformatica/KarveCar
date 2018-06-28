@@ -16,7 +16,8 @@ namespace DataAccessLayer
     /// </summary>
     internal class ContractDataServices: AbstractDataAccessLayer, IContractDataServices
     {
-     
+
+        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
         /// <summary>
         ///  ContractDataServices.
         /// </summary>
@@ -86,6 +87,47 @@ namespace DataAccessLayer
         {
             await Task.Delay(1);
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ContractByClientDto>> GetContractByClientAsync(string code)
+        {
+            var queryStore = _queryStoreFactory.GetQueryStore();
+            queryStore.AddParam(QueryType.QueryContractsByClient, code);
+            var query = queryStore.BuildQuery();
+            IEnumerable<ContractByClientDto> listOfValues = new List<ContractByClientDto>();
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                if (dbConnection != null)
+                {
+                    listOfValues = await  dbConnection.QueryAsync<ContractByClientDto>(query);
+                }
+            }
+            return listOfValues;
+        }
+
+        public async Task<IEnumerable<ContractSummaryDto>> GetPagedSummaryDoAsync(int offset, int pageSize)
+        {
+           
+            IQueryStore store = QueryStoreFactory.GetQueryStore();
+            var list = new List<string>();
+            list.Add(pageSize.ToString());
+            list.Add(offset.ToString());
+            var query = store.BuildQuery(QueryType.QueryContractSummaryPaged, list);
+            var result = new List<ContractSummaryDto>();
+            using (var conn = SqlExecutor.OpenNewDbConnection())
+            {
+                if (conn == null)
+                {
+                    return result;
+                }
+                var resultValues = await conn?.QueryAsync<ContractSummaryDto>(query);
+                if (resultValues != null)
+                {
+                    return resultValues;
+                }
+            }
+            // safe default in case of error.
+            return new List<ContractSummaryDto>();
         }
     }
 }

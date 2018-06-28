@@ -11,19 +11,19 @@ namespace KarveDataServices.DataTransferObject
     ///  Client Type Dto. Client Data Transfer Object
     /// </summary>
    
-    public class ClientTypeDto: BaseDto
+    public class ClientTypeDto: BaseDtoDefaultName
     {
         /// <summary>
         ///  Code. Code of the type.
         /// </summary>
         [PrimaryKey]
         [Display(Name = "Codigo", Description ="Codigo Tipo Cliente")]
-        public string Code { set; get; }
+        public override string Code { set; get; }
         /// <summary>
         ///  Name. Name of the type.
         /// </summary>
         [Display(Name="Importancia", Description = "Tipo Cliente")]
-        public string Name { set; get; }
+        public override string Name { set; get; }
       
     }
 }

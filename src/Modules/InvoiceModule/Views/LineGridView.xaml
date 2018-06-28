@@ -13,7 +13,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -44,7 +43,6 @@
                                SelectionUnit="Cell"
                                ShowGroupDropArea="True"
                                ShowRowHeader="True">
-
 
             <i:Interaction.Behaviors>
                 <local:LineGridBehaviour CellPresenterItems="{Binding CellPresentation, Mode=OneWay}" />

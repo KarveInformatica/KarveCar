@@ -16,10 +16,10 @@ using System.ComponentModel;
 
 namespace DataAccessLayer
 {
-     /// <summary>
-     /// This class has the resposability to handle the client wrapper and delete, insert, update values. 
-     /// </summary>
-    internal class ClientDataAccessLayer : AbstractDataAccessLayer,IClientDataServices
+    /// <summary>
+    /// This class has the resposability to handle the client wrapper and delete, insert, update values. 
+    /// </summary>
+    internal class ClientDataAccessLayer : AbstractDataAccessLayer, IClientDataServices
     {
         private readonly IDataLoader<ClientDto> _dataLoader;
         private readonly IDataSaver<ClientDto> _dataSaver;
@@ -30,17 +30,17 @@ namespace DataAccessLayer
         /// </summary>
         private readonly ISqlExecutor _sqlExecutor;
 
-      
+
         /// <summary>
         ///  Constructor
         /// </summary>
         /// <param name="sqlExecutor">SqlExecutor value</param>
-        public ClientDataAccessLayer(ISqlExecutor sqlExecutor): base(sqlExecutor)
+        public ClientDataAccessLayer(ISqlExecutor sqlExecutor) : base(sqlExecutor)
         {
             _sqlExecutor = sqlExecutor;
             _dataLoader = new ClientDataLoader(sqlExecutor);
             _dataSaver = new ClientDataSaver(sqlExecutor);
-            _dataDeleter= new ClientDeleter(sqlExecutor);
+            _dataDeleter = new ClientDeleter(sqlExecutor);
             TableName = "CLIENTES1";
         }
         /// <summary>
@@ -100,13 +100,13 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<ClientSummaryDto>> GetSummaryDo(string clientsSummaryQuery)
         {
-          
+
             IEnumerable<ClientSummaryDto> summaryDtos = new List<ClientSummaryDto>();
             using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 try
                 {
-                   
+
                     summaryDtos = await connection.QueryAsync<ClientSummaryDto>(clientsSummaryQuery).ConfigureAwait(false);
                 }
                 finally
@@ -119,7 +119,7 @@ namespace DataAccessLayer
         public IClientData GetNewDo(string code)
         {
             IClientData varClientData = new Client();
-            varClientData.Value = new ClientDto {NUMERO_CLI = code};
+            varClientData.Value = new ClientDto { NUMERO_CLI = code };
             return varClientData;
         }
         /// <summary>
@@ -134,13 +134,13 @@ namespace DataAccessLayer
             {
                 try
                 {
-                    uniqueIdTask =  connection.UniqueId(value);
+                    uniqueIdTask = connection.UniqueId(value);
 
                 }
                 finally
                 {
                     connection.Close();
-                }    
+                }
             }
             return uniqueIdTask;
         }
@@ -166,8 +166,12 @@ namespace DataAccessLayer
             var pager = new DataPager<ClientSummaryExtended>(_sqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
+            {
                 pageStart = 1;
+
+            }
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
+
             var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryClientPagedSummary, pageStart, pageSize).ConfigureAwait(false);
             return datas;
         }

@@ -165,6 +165,9 @@ namespace DataAccessLayer.DataObjects
         [Browsable(false)]
         public string COMO_LLEGAR { get; set; }
 
+
+        [Browsable(false)]
+        public string PAIS { get; set; }
         /// <summary>
         ///  Set or get the ZONA_OF property.
         /// </summary>

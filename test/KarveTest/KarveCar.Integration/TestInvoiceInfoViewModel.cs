@@ -147,7 +147,7 @@ namespace KarveCar.Integration
             // assert.
             var clientsDto = viewModel.ClientDto;
             Assert.NotNull(clientsDto);
-            var codesFromDataService = summaryDs.Select(l => l.Codigo).ToList();
+            var codesFromDataService = summaryDs.Select(l => l.Code).ToList();
             var codesFromClientService = clientsDto.Select(l => l.Code).ToList();
             var clientValue = codesFromDataService.Except(codesFromClientService);
             Assert.AreEqual(clientValue.Count(), 0);

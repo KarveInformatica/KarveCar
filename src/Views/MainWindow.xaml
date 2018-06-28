@@ -19,15 +19,20 @@
                              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                              xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
                              xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
+                             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
                              xmlns:sys="clr-namespace:System;assembly=mscorlib"
                              xmlns:uc="clr-namespace:KarveCar.View"
+                             xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
                              Icon="/KarveCar;component/Images/rentCarIcon.png"
                              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                              xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
-                              d:DesignHeight="900" d:DesignWidth="1200"
+                             d:DesignHeight="900" d:DesignWidth="1200"
+                             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.9' }" 
+                             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.9' }" 
                              xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
-                             Background="White"
-                             Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="1200" MinHeight="900"
+                             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+                         Background="White"
+                             Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
 >
 
     <syncfusion:RibbonWindow.Resources>
@@ -38,8 +43,55 @@
                 <ResourceDictionary Source="/Syncfusion.Tools.WPF;component/Framework/Ribbon/Themes/MetroStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <DataTemplate x:Key="SupplierTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/supplier.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="BrokerTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/cagent.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="CarTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/cars.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="{Binding lrbtnVehiculos, Source={StaticResource ResourceLanguage}}" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="InvoiceTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/invoicesfolder.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="Facturas" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="OfficeTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/office.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="Oficinas" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="CompanyTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/company.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="Empresas" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="ClientTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/clients.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="{Binding lrbtnClientes, Source={StaticResource ResourceLanguage}}" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
 
-
+            <DataTemplate x:Key="BookingTree">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/KarveCar;component/Images/booking.png" Height="30" ></Image>
+                    <TextBlock Margin="25,0,0,0" Text="Reservas" Foreground="White"/>
+                </StackPanel>
+            </DataTemplate>
             <karvecm:KarveInterTabClient x:Key="KarveInterTabClient"/>
 
             <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
@@ -122,7 +174,9 @@
 
     <Grid>
 
-
+        <Grid Grid.Column="0" Grid.RowSpan="3">
+         
+        </Grid>
         <DockPanel x:Name="RibbonWindow" Grid.Column="1">
             <!--Permite hacer scroll entre las diferentes tabs de la ribbon-->
             <!--StatusBar-->
@@ -153,6 +207,7 @@
                                             Label="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}"
                                             HorizontalAlignment="Left" 
                                                   SizeForm="Large"
+                                                 
                                            LargeIcon="/KarveCar;component/Images/supplier.png"
                                              
                                           Command="{Binding NavigateCommand}" 
@@ -222,6 +277,15 @@
                                           Command="{Binding NavigateCommand}" 
                                           CommandParameter="BookingSummary">
                         </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton x:Name="rbtnRerservasPeticiones"
+                                            Label="{Binding lrbtnPeticiones, Source={StaticResource ResourceLanguage}}"
+                                            HorizontalAlignment="Left" 
+                                            SizeForm="Large"
+                                            LargeIcon="/KarveCar;component/Images/reservation.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="BookingRequestSummary">
+                        </syncfusion:RibbonButton>
+
                     </syncfusion:RibbonTab>
                     <syncfusion:RibbonTab Caption="Auxiliares">
 
@@ -231,8 +295,48 @@
                                 Name="_ribbonGallerySuppliers" Width="230" VisualMode="DropDown" Label="{Binding lrbtnProveedores, Source={StaticResource ResourceLanguage}}">
 
 
-                           
+                                
+                                <syncfusion:RibbonGalleryItem>
 
+                                    <KarveControls:ButtonImage
+                                            LabelText="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
+                                            ToolTip="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/banks.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ClientBanks">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            LabelText="F.Pago" 
+                                            ToolTip="{Binding lrbtnFormaPagoProveedor, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/paymentTypes.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="PaymentForm">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            LabelText="T.Prove" 
+                                            ToolTip="{Binding lrbtnTiposProveedores, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/suppliertype.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="SupplierType">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            LabelText="Divisa" 
+                                            ToolTip="{Binding lrbtnDivisas, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/supplier.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="SupplierCurrency">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                
+                           
                             </syncfusion:RibbonGallery>
 
                         </syncfusion:RibbonBar>
@@ -242,11 +346,27 @@
                                 Name="_ribbonGalleryBrokers" Width="230" VisualMode="DropDown" Label="{Binding lrbtnComisionistas, Source={StaticResource ResourceLanguage}}">
 
 
-                                <syncfusion:RibbonGalleryItem  >
-                                    <!--
-                                    <Image Source="BlueLarge.png"/>
--->
+                                    <syncfusion:RibbonGalleryItem>
+                                        <KarveControls:ButtonImage
+                                            LabelText="T.Comisio" 
+                                            ToolTip="{Binding lrbtnTipoComisionista, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/brokertype.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="BrokerType">
+                                        </KarveControls:ButtonImage>
+                                    </syncfusion:RibbonGalleryItem>
+
+                                <!---
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            LabelText="Viajes" 
+                                            ToolTip="{Binding lrbtnEmpleadosAgencia, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/travelagent.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="TravelAgencyEmployee">
+                                    </KarveControls:ButtonImage>
                                 </syncfusion:RibbonGalleryItem>
+-->
 
                             </syncfusion:RibbonGallery>
 
@@ -258,24 +378,222 @@
                                 Name="_ribbonGalleryClients" Width="230" VisualMode="DropDown" Label="{Binding lrbtnClientes, Source={StaticResource ResourceLanguage}}">
 
 
-                                <syncfusion:RibbonGalleryItem>
+                              
                                     <syncfusion:RibbonGalleryItem>
-                                        <syncfusion:ButtonAdv 
-                                            Label="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
-                                            HorizontalAlignment="Left" 
-                                            LargeIcon="/KarveCar;component/Images/banks.png"
+                                    <KarveControls:ButtonImage
+                                            LabelText="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}" 
+                                            ToolTip="{Binding lrbtnBancosClientes, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/banks.png"
                                             Command="{Binding NavigateCommand}" 
-                                            CommandParameter="ClientBanks"
-                                            SizeMode="Large"/>
+                                            CommandParameter="ClientBanks">
+                                    </KarveControls:ButtonImage> 
+                                          
+                                            
                                     </syncfusion:RibbonGalleryItem>
 
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            Icon="/KarveCar;component/Images/blockinvoice.png"
+                                            Command="{Binding NavigateCommand}"
+                                            LabelText="Bloq.Fac"
+                                            ToolTip="{Binding lrbtnBloqueFacturacion, Source={StaticResource ResourceLanguage}}"
+                                            CommandParameter="ClientInvoiceBlocks">
+                                    </KarveControls:ButtonImage>
                                 </syncfusion:RibbonGalleryItem>
                                 <syncfusion:RibbonGalleryItem>
-                                    <!--
-                                    <Image Source="BlueLarge.png"/>
--->
+                                    <KarveControls:ButtonImage
+                                            LabelText="{Binding lrbtnCanales, Source={StaticResource ResourceLanguage}}"
+                                            ToolTip="{Binding lrbtnCanales, Source={StaticResource ResourceLanguage}}" 
+                                            Icon="/KarveCar;component/Images/channel.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Channel">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                        LabelText="Cargo"
+                                            ToolTip="{Binding lrbtnCargosPersonal, Source={StaticResource ResourceLanguage}}" 
+                                            Icon="/KarveCar;component/Images/position.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="PeoplePosition">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                             
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                           LabelText="Com.Auto."
+                                            ToolTip="{Binding lrbtnCCAA, Source={StaticResource ResourceLanguage}}" 
+                                            Icon="/KarveCar;component/Images/countryregion.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="CCAA">
+                                    </KarveControls:ButtonImage>
                                 </syncfusion:RibbonGalleryItem>
 
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            LabelText="Presup."
+                                            ToolTip="{Binding lrbtnClavesPresupuesto, Source={StaticResource ResourceLanguage}}" 
+                                            Icon="/KarveCar;component/Images/budget.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="BudgetKey">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                        LabelText="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}"
+                                            ToolTip="{Binding lrbtnMercados, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/market.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Market">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage
+                                            LabelText="{Binding lrbtnNegocios, Source={StaticResource ResourceLanguage}}"
+                                            ToolTip="{Binding lrbtnNegocios, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/business.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Business">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+
+                              
+
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnOrigenClientes" 
+                                            ToolTip="{Binding lrbtnOrigenClientes, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left"
+                                            LabelText="Origin"
+                                            Icon="/KarveCar;component/Images/originclient.png" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ClientLocation" >
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+
+                                    <KarveControls:ButtonImage x:Name="rbtnPaises" 
+                                            ToolTip="{Binding lrbtnPaises, Source={StaticResource ResourceLanguage}}" 
+                                            LabelText="{Binding lrbtnPaises, Source={StaticResource ResourceLanguage}}"
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/country.png"
+                                              Command="{Binding NavigateCommand}" 
+                                              CommandParameter="Country"/>
+
+                                    </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnPoblaciones" 
+                                            ToolTip="{Binding lrbtnPoblaciones, Source={StaticResource ResourceLanguage}}" 
+                                            LabelText="Pobl."
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/city.png"
+                                            Command="{Binding NavigateCommand}" 
+                                                CommandParameter="Cities"/>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnProvincias" 
+                                            ToolTip="{Binding lrbtnProvincias, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            LabelText="{Binding lrbtnProvincias, Source={StaticResource ResourceLanguage}}"
+                                            Icon="/KarveCar;component/Images/province.png"
+                                            Command="{Binding NavigateCommand}" 
+                                                CommandParameter="Province"/>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnSectoresActividad" 
+                                            ToolTip="{Binding lrbtnSectoresActividad, Source={StaticResource ResourceLanguage}}" 
+                                            LabelText="Sect.Act."
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/activity.png"
+                                            Command="{Binding NavigateCommand}" 
+                                                CommandParameter="ActivitySector"/>
+                                </syncfusion:RibbonGalleryItem>
+
+                                
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnTarjetasCredito" 
+                                            ToolTip="{Binding lrbtnTarjetasCredito, Source={StaticResource ResourceLanguage}}" 
+                                            LabelText="Tarj.Cred" 
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/genericcard.gif"
+                                            Command="{Binding NavigateCommand}" 
+                                                CommandParameter="CreditCard"/>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+
+                                    <KarveControls:ButtonImage x:Name="rbtnTarjetasEmpresa" 
+                                            ToolTip="{Binding lrbtnTarjetasEmpresa, Source={StaticResource ResourceLanguage}}" 
+                                            LabelText="Tar.Emp."
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/companycard.png" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="CompanyCard">
+                                    </KarveControls:ButtonImage>
+
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnTiposCliente" 
+                                            ToolTip="{Binding lrbtnTiposCliente, Source={StaticResource ResourceLanguage}}" 
+                                            LabelText="Tipo.Cli."
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/clienttype.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ClientType">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnTiposContacto"  
+                                            ToolTip="{Binding lrbtnTiposContacto, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            LabelText="Tipo.Cont."                   
+                                            Icon="/KarveCar;component/Images/contacttype.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ContactType">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnTiposVisita"  
+                                            ToolTip="{Binding lrbtnTiposVisita, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            LabelText="Tipo.Visi." 
+                                            Icon="/KarveCar;component/Images/visit.jpg"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ContactType">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnUsoAlquiler"  
+                                            ToolTip="{Binding lrbtnUsoAlquiler, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            LabelText="Uso.Alq."
+                                            Icon="/KarveCar;component/Images/rentinguse.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="RentingUse">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnVendedores"  
+                                            ToolTip="{Binding lrbtnVendedores, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            LabelText="Vend." 
+                                            Icon="/KarveCar;component/Images/seller.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="Resellers">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnZonasCliente"  
+                                            ToolTip="{Binding lrbtnZonasCliente, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/clientzone.jpg"
+                                            LabelText="Zona.Cli" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="ClientZone">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                             
+                           
                             </syncfusion:RibbonGallery>
 
                         </syncfusion:RibbonBar>
@@ -284,10 +602,44 @@
                             <syncfusion:RibbonGallery  SizeForm="Large" LargeIcon="/KarveCar;component/Images/cars.png"
                                 Name="_ribbonGalleryVehicles" Width="230" VisualMode="DropDown" Label="{Binding lrbtnVehiculos, Source={StaticResource ResourceLanguage}}">
 
-                             
 
+                                <!--
+                            
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnActividadesVehiculos"  
+                                            ToolTip="{Binding lrbtnActividadesVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/vehicleactivity.png"
+                                            LabelText="Act.Vehi" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="VehicleActivities">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                                <syncfusion:RibbonGalleryItem>
+                                    <KarveControls:ButtonImage x:Name="rbtnTipoVehiculos"  
+                                            ToolTip="{Binding lrbtnTipoVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/vehicletype.png"
+                                            LabelText="Tipo" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="VehicleType">
+                                    </KarveControls:ButtonImage>
+                                </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem>
+
+                            <KarveControls:ButtonImage x:Name="rbtnAccesoriosVehiculos"  
+                                            ToolTip="{Binding lrbtnAccesoriosVehiculos, Source={StaticResource ResourceLanguage}}" 
+                                            HorizontalAlignment="Left" 
+                                            Icon="/KarveCar;component/Images/vehicletools.png"
+                                            LabelText="Accessorio" 
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="VehicleTools">
+                                    </KarveControls:ButtonImage>
+
+                                </syncfusion:RibbonGalleryItem>
+                            -->
                             </syncfusion:RibbonGallery>
-
+                                
                         </syncfusion:RibbonBar>
 
                         
@@ -307,7 +659,74 @@
                             </dragablz:TabablzControl.InterTabController>
                         </dragablz:TabablzControl>-->
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="90*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
+                <syncfusion:SfTreeNavigator 
+                            Header="KarveCar"
+                            Background="#bc2a1d"
+                            Foreground="White"
+                            VerticalAlignment="Stretch" >
+                    <syncfusion:SfTreeNavigator.HeaderTemplate>
+                        <DataTemplate>
+                            <Image Source="/KarveCar;component/Images/carveheader.png" MaxHeight="100"></Image>
+                        </DataTemplate>
+                    </syncfusion:SfTreeNavigator.HeaderTemplate>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource SupplierTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <prism:InvokeCommandAction Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Suppliers"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource BrokerTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <prism:InvokeCommandAction Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="CommissionAgent"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource CarTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <prism:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Vehicles"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource OfficeTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Offices"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource CompanyTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Companies"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource InvoiceTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="InvoiceSummary"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource BookingTree}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="BookingSummary"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </syncfusion:SfTreeNavigatorItem>
+                    <i:Interaction.Behaviors>
+                        <behaviour:SfTreeNavigatorBehavior />
+                    </i:Interaction.Behaviors>
+                </syncfusion:SfTreeNavigator>
 
                 <!--<dragablz:TabablzControl Grid.Column="1" x:Name="NewTabControl" 
                                          Style="{StaticResource TabablzControlStyle}" 
@@ -319,7 +738,7 @@
                 </dragablz:TabablzControl>
                 -->
                 <syncfusion:TabControlExt x:Name="NewTabControl"  
-                                          
+                                          Grid.Column="1"
                                            EnableLabelEdit="False"
                                            CloseButtonType="Common"
                                           TabScrollStyle="Extended"

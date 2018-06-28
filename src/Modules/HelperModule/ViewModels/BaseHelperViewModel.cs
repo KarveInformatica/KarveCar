@@ -118,7 +118,7 @@ namespace HelperModule.ViewModels
         public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, 
             IEventManager eventManager): this(dataServices, region, eventManager, null)
         {
-
+            SubSystem = DataSubSystem.HelperSubsytsem;
         }
         /// <summary>
         ///  Constructor of the base class
@@ -126,11 +126,11 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">Data service implementation.</param>
         /// <param name="region">Region manager.</param>
         /// <param name="eventManager">Event manager.</param>
-        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService): base(dataServices)
+        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService): base(dataServices, null, dialogService)
         { 
             RegionManager = region;
             EventManager = eventManager;
-          
+            SubSystem = DataSubSystem.HelperSubsytsem;
             RegisterSubsystem();
         }
         protected  void IncomingMailbox(DataPayLoad payLoad)
@@ -152,6 +152,8 @@ namespace HelperModule.ViewModels
         protected  void RegisterView(ref DataPayLoad dataPayLoad)
         {
             Address = new Uri(new Uri("karve://helpers/"), UniqueId);
+            // needs an unique.
+            ViewModelUri = Address;
             dataPayLoad.ObjectPath = Address;
         }
 
@@ -173,21 +175,30 @@ namespace HelperModule.ViewModels
                     }
                     case DataPayLoad.Type.Delete:
                     {
-                        bool deleted = await DeleteEntity(payLoad);
+                        bool deleted = await DeleteEntity(payLoad).ConfigureAwait(false);
                         if (!deleted)
                         {
-                            MessageBox.Show("Cannot delete helper entity");
+
+                                DialogService?.ShowErrorMessage("Cannot delete helper entity");
+                        }
+                        else
+                        {
+                                DialogService?.ShowMessage("Information","Line deleted with success");
                         }
                         break;
                     }
                     case DataPayLoad.Type.Insert:
                     {
-                        bool inserted = await InsertEntity(payLoad);
+                        bool inserted = await InsertEntity(payLoad).ConfigureAwait(false);
                         if (!inserted)
                         {
-                            MessageBox.Show("Cannot insert helper entity");
+                                DialogService?.ShowErrorMessage("Cannot insert helper entity");
                         }
-                            break;
+                        else
+                        {
+                             DialogService?.ShowMessage("Information", "Line inserted with success");
+                        }
+                        break;
                     }
                     case DataPayLoad.Type.Update:
                     {
@@ -195,6 +206,10 @@ namespace HelperModule.ViewModels
                         if (!update)
                         {
                             MessageBox.Show("Cannot update helper entity");
+                        }
+                        else
+                        {
+                            DialogService?.ShowMessage("Information", "Line updated with success");
                         }
                         break;
                     }

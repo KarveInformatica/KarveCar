@@ -17,7 +17,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
 		public string CODIGO { get; set; }
  
 	/// <summary>

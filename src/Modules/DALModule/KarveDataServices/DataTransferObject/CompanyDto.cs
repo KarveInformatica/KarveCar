@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,9 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class CompanyDto : BaseDto
     {
+        private string _name;
+        private string _commercialName;
+
         public CompanyDto() : base()
         {
             City = new CityDto();
@@ -18,16 +22,38 @@ namespace KarveDataServices.DataTransferObject
             Country = new CountryDto();
             Offices = new List<OfficeDtos>();
         }
-        /// <summary>
-        ///  Code 
-        /// </summary>
-        public string Code { get; set; }
-        /// <summary>
-        ///  Name
-        /// </summary>
-        public string Name { get; set; }
+        public override string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
+        public override bool HasErrors
+        {
+            get
+            {
+                if ((Name != null) && (Name.Length > 80))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                if ((CommercialName != null) && (CommercialName.Length > 250))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                return false;
+            }
+        }
+
         // Commercial Name
-        public string CommercialName { get; set; }
+        public string CommercialName { get { return _commercialName; }
+            set { _commercialName = value; } }
         /// <summary>
         ///  Poblacion
         /// </summary>
@@ -55,8 +81,8 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the NOMBRE property.
         /// </summary>
-
-        public string NOMBRE { get; set; }
+        [Required]
+        public string NOMBRE { get { return _name; } set { _name = value; } }
 
         /// <summary>
         ///  Set or get the DIRECCION property.
@@ -314,13 +340,16 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the NOMCOMER property.
         /// </summary>
 
-        public string NOMCOMER { get; set; }
+        public string NOMCOMER
+        {
+            get { return _commercialName; }
+            set { _commercialName = value; }
+        }
+    /// <summary>
+///  Set or get the PERSONA property.
+/// </summary>
 
-        /// <summary>
-        ///  Set or get the PERSONA property.
-        /// </summary>
-
-        public string PERSONA { get; set; }
+public string PERSONA { get; set; }
 
         /// <summary>
         ///  Set or get the RESPDNI property.

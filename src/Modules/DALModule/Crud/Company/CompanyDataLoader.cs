@@ -25,7 +25,7 @@ namespace DataAccessLayer.Crud.Company
         private IHelperData _helperBase;
         private long _currentPos;
         private QueryStoreFactory _queryStoreFactory;
-        private List<EntityDecorator> _output = new List<EntityDecorator>();
+      
         private EntityMapper _entityMapper = new EntityMapper();
 
         /// <summary>
@@ -90,11 +90,13 @@ namespace DataAccessLayer.Crud.Company
                     new OfficeDtos()
                 };
                   
-                var deserializer = new EntityDeserializer(entities, dto);
+             /*  var deserializer = new EntityDeserializer(entities, dto);
                 reader = await connection.QueryMultipleAsync(multipleQuery);
-                var v = _entityMapper.Map(reader, deserializer);
-                companyDto.City = deserializer.SelectDto<POBLACIONES,CityDto>(_mapper,v).FirstOrDefault();
-                companyDto.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper,v).FirstOrDefault();
+                // var v = _entityMapper.Map(reader, deserializer);
+                //companyDto.City = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(companyDto.CP, _mapper, reader).FirstOrDefault();
+               // companyDto.Province = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(companyDto.CP, _mapper, reader).FirstOrDefault();
+
+                //companyDto.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper,v).FirstOrDefault();
                 var selectedDto = deserializer.SelectDto<OFICINAS, OfficeDtos>(_mapper,v);
                 var offices = new ObservableCollection<OfficeDtos>();
                 foreach (var selected in selectedDto)
@@ -102,6 +104,7 @@ namespace DataAccessLayer.Crud.Company
                     offices.Add(selected);
                 }
                 companyDto.Offices = offices;
+                */
             }
             return companyDto;
         }

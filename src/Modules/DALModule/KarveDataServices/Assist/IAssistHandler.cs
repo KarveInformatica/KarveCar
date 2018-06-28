@@ -11,8 +11,8 @@ namespace KarveDataServices.Assist
     /// This give us an handler list.
     /// </summary>
  
-    public interface IAssistHandler
+    public interface IAssistHandler 
     {
-        Task<IAssistResult<T>> HandleAssist<T>(IAssist assist);
+        Task<IAssistResult<T1>> HandleAssist<T,T1>(IAssist assist) where T : class where T1: class;
     }
 }

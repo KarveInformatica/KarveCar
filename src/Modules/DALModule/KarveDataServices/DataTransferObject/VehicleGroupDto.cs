@@ -18,6 +18,20 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string Nombre { get; set; }
-        
+
+        bool IsInvalid()
+        {
+            var errors = base.HasErrors;
+            if (!errors)
+            {
+                if ((Nombre != null) && (Nombre.Length > 35))
+                {
+                    return true;
+                }
+            }
+            return errors;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
+
     }
 }

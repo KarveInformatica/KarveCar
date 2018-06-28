@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailValidation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,29 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class OwnerDto
+    public class OwnerDto: BaseDto
     {
+
+        public bool IsInvalid()
+        {
+            if ((Nombre != null) && (Nombre.Length > 150))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            if (EMail != null)
+            {
+                var email = EmailValidator.Validate(EMail);
+                if (!email)
+                {
+                    ErrorList.Add(ConstantDataError.InvalidEmail);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
         /// <summary>
         ///  Set or get the NUM_PROPIE property.
         /// </summary>

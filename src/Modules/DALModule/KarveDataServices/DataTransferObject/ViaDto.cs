@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class ViaDto
+    public class ViaDto: BaseDto
     {
         /// <summary>
         ///  Set or get the NUM_VIA property.
@@ -37,5 +37,19 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string NOMBRE { get; set; }
+
+        bool IsInvalid()
+        {
+            var errors = base.HasErrors;
+            if (!errors)
+            {
+                if ((NOMBRE != null) && (NOMBRE.Length > 35))
+                {
+                    return true;
+                }
+            }
+            return errors;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
     }
 }

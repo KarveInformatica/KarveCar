@@ -65,7 +65,7 @@ namespace DataAccessLayer
                 {
 
 
-                    var dto = await dbConnection.GetAsync<GRID_SERIALIZATION>(idValue);
+                    var dto = await dbConnection.GetAsync<GRID_SERIALIZATION>(idValue).ConfigureAwait(true);
                     if (dto != null)
                     {
                         settingsDto = mapper.Map<GRID_SERIALIZATION, GridSettingsDto>(dto);
@@ -101,8 +101,14 @@ namespace DataAccessLayer
                             // update
                           string updateSql = string.Format(GenericSql.GridSettingsUpdate, serialize.GRID_ID,
                                 serialize.GRID_NAME, serialize.SERILIZED_DATA);
-                          bool v = await dbConnection.ExecuteAsync(updateSql) > 0;
-                           
+                            try
+                            {
+                                value = await dbConnection.ExecuteAsync(updateSql) > 0;
+
+                            } catch(System.Exception e)
+                            {
+                                throw new DataLayerException(e.Message, e);
+                            }
                         }
                         else
                         {
@@ -142,12 +148,23 @@ namespace DataAccessLayer
             Contract.Requires(registeredGridIds != null);
             using (var dbConnection = _executorSql.OpenNewDbConnection())
             {
-                var dto = await dbConnection.GetAsyncAll<GRID_SERIALIZATION>();
-                var first = dto.OrderBy(x => x.GRID_ID).ToList();
-                foreach (var ids in registeredGridIds)
-                {
-                    settings.Add(first.FirstOrDefault(x => x.GRID_ID == ids));
 
+                if (dbConnection != null)
+                {
+                    try
+                    {
+                        var dto = await dbConnection.GetAllAsync<GRID_SERIALIZATION>().ConfigureAwait(false);
+
+                        var first = dto.OrderBy(x => x.GRID_ID).ToList();
+                        foreach (var ids in registeredGridIds)
+                        {
+                            settings.Add(first.FirstOrDefault(x => x.GRID_ID == ids));
+
+                        }
+                    } catch (System.Exception e)
+                    {
+                        throw new DataLayerException(e.Message, e);
+                    }
                 }
             }
             var outSettings = MapperField.GetMapper()

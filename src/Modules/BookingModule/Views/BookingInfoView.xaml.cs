@@ -24,5 +24,6 @@ namespace BookingModule.Views
         {
             InitializeComponent();
         }
+        
     }
 }

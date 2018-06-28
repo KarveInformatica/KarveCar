@@ -22,7 +22,7 @@ using CarModel;
 using MasterModule.Views.Clients;
 using DataAccessLayer.Logic;
 using AutoMapper;
-
+using KarveCar.Navigation;
 
 namespace KarveCar.Boot
 {
@@ -110,8 +110,6 @@ namespace KarveCar.Boot
                 Container.RegisterType<IUserSettings, UserSettings>(new ContainerControlledLifetimeManager());
                 Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager());
 
-                
-
                 string connParams = ConnectionString;
                 object[] currentValue = new object[1];
                 currentValue[0] = connParams;
@@ -150,6 +148,17 @@ namespace KarveCar.Boot
                 Container.RegisterType<IInteractionRequestController, KarveControls.Interactivity.RequestController>(new ContainerControlledLifetimeManager(), injectContainer);
                 Container.RegisterType<KarveControls.Interactivity.Views.InteractionRequestView>();
                 Container.RegisterType<KarveControls.Interactivity.ViewModels.InteractionRequestViewModel>();
+
+                object[] navigatorInjectionValues = new object[4]
+                {
+                    Container.Resolve<IDataServices>(),
+                    Container.Resolve<IRegionManager>(),
+                    Container.Resolve<IEventManager>(),
+                    Container.Resolve<IDialogService>()
+                };
+                InjectionConstructor navigatorInjection = new InjectionConstructor(navigatorInjectionValues);
+                Container.RegisterType<IKarveNavigator, KarveNavigator>(new ContainerControlledLifetimeManager(),
+                    navigatorInjection);
             }
             catch (Exception e)
             {
@@ -192,12 +201,12 @@ namespace KarveCar.Boot
                 Application.Current.MainWindow.Show();
                 // we preload some heavy modules.
                 // this is a trick to speed up further creations and load prism.
-                Container.Resolve<ProviderInfoView>();
-                Container.Resolve<CommissionAgentInfoView>();
-                Container.Resolve<ClientsInfoView>();
-                Container.Resolve<VehicleInfoView>();
-                Container.Resolve<DriverLicenseView>();
-                Container.Resolve<BookingModule.Views.BookingInfoView>();
+                //  Container.Resolve<ProviderInfoView>();
+                //  Container.Resolve<CommissionAgentInfoView>();
+                //  Container.Resolve<ClientsInfoView>();
+                //  Container.Resolve<VehicleInfoView>();
+                //  Container.Resolve<DriverLicenseView>();
+               //   Container.Resolve<BookingModule.Views.BookingInfoView>();
 
                 IMapper mapper = MapperField.GetMapper();
             } catch (Exception e)

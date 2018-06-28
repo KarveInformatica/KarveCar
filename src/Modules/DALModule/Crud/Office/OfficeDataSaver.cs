@@ -74,16 +74,20 @@ namespace DataAccessLayer.Crud.Office
                 if (!festivosOficinas.Any())
                 {
                     saved = await connection.InsertAsync(holidayOffice).ConfigureAwait(false) > 0;
-                        
+
                 }
                 else
                 {
-                    // FIXME : check for concurrent optimistic lock.               
-                    var enumerable = holidayOffice as FESTIVOS_OFICINA[] ?? holidayOffice.ToArray();
-                    var holidaysToBeInserted = enumerable.Except(festivosOficinas);
-                    saved =  await connection.InsertAsync(holidaysToBeInserted).ConfigureAwait(false)>0;
-                    var holidaysToBeUpdated = enumerable.Intersect(festivosOficinas);
-                    saved = saved && await connection.UpdateAsync(holidaysToBeUpdated).ConfigureAwait(false);
+                    if (!isAlreadyPresent(festivosOficinas, currentHolidays))
+                    {
+                        saved = await connection.InsertAsync(holidayOffice).ConfigureAwait(false) > 0;
+                    }
+                    else
+                    {
+                        saved = await connection.UpdateAsync(holidayOffice).ConfigureAwait(false);
+
+
+                    }
                 }
                 
             }
@@ -94,6 +98,10 @@ namespace DataAccessLayer.Crud.Office
                 throw new DataLayerException(e.Message, e);
             }
             Contract.Ensures(saved);
+        }
+        bool isAlreadyPresent(IEnumerable<FESTIVOS_OFICINA> oldValues, IEnumerable<FESTIVOS_OFICINA> toBeInserted)
+        {
+            return oldValues.Intersect(toBeInserted).Count() > 0;
         }
         /// <summary>
         ///  Save the asynchronous client

@@ -56,7 +56,7 @@
                                              ItemChangedCommand="{Binding ItemChangedCommand }"
                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding ClientHelper.ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             SourceView="{Binding ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             </KarveControls:DualFieldSearchBox>
 
 

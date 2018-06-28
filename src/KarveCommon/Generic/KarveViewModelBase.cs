@@ -34,10 +34,11 @@ namespace KarveCommon.Generic
 
         protected Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public DataPayLoad.Type OperationalState { get; set; }
         /// <summary>
         /// Each view model has associated an unique uri.
         /// </summary>
-        protected Uri ViewModelUri;
+        private Uri _viewModelUri;
 
         /// <summary>
         /// Each view model has a mailbox. 
@@ -93,6 +94,7 @@ namespace KarveCommon.Generic
         /// </summary>
         protected IDataServices DataServices;
        
+        public bool Faulted { set; get; }
         /// <summary>
         ///  Disable/Enable any popup from the dialog service.
         /// </summary>
@@ -136,6 +138,8 @@ namespace KarveCommon.Generic
         private IncrementalList<ClientSummaryExtended> _clientAssistList;
         private ICommand _changeCommand;
         private ICommand _changedCommand;
+        private IncrementalList<ContractSummaryDto> _contractAuxiliar;
+        private IncrementalList<VehicleSummaryDto> _vehicleAuxiliar;
 
 
         /// <summary>
@@ -145,6 +149,8 @@ namespace KarveCommon.Generic
         {
             InitViewModelState();
             Header = "DefaultTab";
+            SubSystem = DataSubSystem.None;
+            DefaultPageSize = 100;
 
         }
 
@@ -210,23 +216,8 @@ namespace KarveCommon.Generic
 
             }
         }
-
-        /// <summary>
-        ///  Set or Get ItemChangedCommand. 
-        /// </summary>
-      /*  public ICommand ItemChangedCommand
-        {
-            set
-            {
-                _changeCommand = value;
-                RaisePropertyChanged("ItemChangedCommand");
-            }
-            get
-            {
-                return _changedCommand;
-            }
-        }
-        */
+        
+       
         /// <summary>
         ///  This is meant to be overriden only when the PageEvent is needed
         /// </summary>
@@ -251,7 +242,7 @@ namespace KarveCommon.Generic
 
             if (notification != null && notification.IsFaulted)
             {
-                DialogService?.ShowErrorMessage("Error loading grid data");
+                DialogService?.ShowErrorMessage("Error loading grid data: " + notification.ErrorMessage);
             }
         }
 
@@ -277,6 +268,7 @@ namespace KarveCommon.Generic
                 RaisePropertyChanged("ItemName");
             }
         }
+        public DataSubSystem SubSystem { set; get; }
 
         /// <summary>
         ///  Name of the header to be used.
@@ -339,6 +331,7 @@ namespace KarveCommon.Generic
             return value;
         }
 
+       
         /// <summary>
         ///  Command to detect a change.
         /// </summary>
@@ -349,6 +342,7 @@ namespace KarveCommon.Generic
         /// </summary>
         public ICommand GridRegisterCommand { get; set; }
 
+        public bool IsViewModelInitialized { get; set; }
         /// <summary>
         /// CurrentGrid Settings
         /// </summary>
@@ -405,7 +399,7 @@ namespace KarveCommon.Generic
 
             }
         }
-
+        
         private void OnGridRegister(object var)
         {
             if (var is KarveGridParameters param)
@@ -414,6 +408,26 @@ namespace KarveCommon.Generic
                 RegisteredGridIds.Add(param.GridIdentifier);
                 InitGridSettings(DataServices, param.GridIdentifier);
             }
+        }
+        public virtual bool IsDeleter {  get; } = false;
+        /*
+         * We want to give to each view the ability to save/delete himself. This function will be part of a composite command.
+         */
+        /// <summary>
+        ///  Method to be overridden to allow the view to delete himself.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public virtual bool DeleteView(object key)
+        {
+            return false;
+        }
+        /// <summary>
+        ///  Method to be overridden to allow the view to save himself..
+        /// </summary>
+        public virtual void SaveView()
+        {
+            return;
         }
 
         /// <summary>
@@ -583,17 +597,52 @@ namespace KarveCommon.Generic
 
         public virtual async Task OnVehicleSummaryAsync(string title, string properties, Action<VehicleSummaryDto> callback )
         {
+           
             var vehicleDataServices =DataServices.GetVehicleDataServices(); 
-            var summary = await vehicleDataServices.GetAsyncVehicleSummary().ConfigureAwait(false);
-            ShowDataTransferObjects<VehicleSummaryDto>(summary, title, properties, callback);
+            var vehicleList = await vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize).ConfigureAwait(false);
+            _vehicleAuxiliar = new IncrementalList<VehicleSummaryDto>(LoadMoreVehicles);
+            _vehicleAuxiliar.LoadItems(vehicleList);
+            ShowDataTransferObjects<VehicleSummaryDto>(_vehicleAuxiliar, title, properties, callback);
+        }
+
+        private async void LoadMoreVehicles(uint arg1, int idx)
+        {
+            var vehicleDataServices = DataServices.GetVehicleDataServices();
+            var vehicleList = await vehicleDataServices.GetPagedSummaryDoAsync(idx, DefaultPageSize).ConfigureAwait(false);
+            _vehicleAuxiliar.LoadItems(vehicleList);
         }
 
         public virtual async Task OnContractSummaryAsync(string title, string properties, Action<ContractSummaryDto> callback)
         {
             var contractDataServices = DataServices.GetContractDataServices();
-            var summary = await contractDataServices.GetContractSummaryAsync().ConfigureAwait(false);
-            ShowDataTransferObjects<ContractSummaryDto>(summary, title, properties, callback);
+            _contractAuxiliar = new IncrementalList<ContractSummaryDto>(
+                LoadMoreContracts);
+            var contractSummary = await contractDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize).ConfigureAwait(false);
+           _contractAuxiliar.LoadItems(contractSummary);
+
+            ShowDataTransferObjects<ContractSummaryDto>(_contractAuxiliar, title, properties, callback);
         }
+
+        private void LoadMoreContracts(uint arg1, int index)
+        {
+            var contractDataServices = DataServices.GetContractDataServices();
+            NotifyTaskCompletion.Create(contractDataServices.GetPagedSummaryDoAsync(1, index), (sender, ev)=>
+            {
+                if (sender is INotifyTaskCompletion<IEnumerable<ContractSummaryDto>> task)
+                {
+                    if (task.IsSuccessfullyCompleted)
+                    {
+                        _contractAuxiliar.LoadItems(task.Result);
+                    }
+                    else
+                    {
+                        DialogService?.ShowErrorMessage("Cannot load more contracts");
+                    }
+                }
+            });
+                     
+        }
+
         /// <summary>
         /// GridSettings.
         /// </summary>
@@ -655,5 +704,9 @@ namespace KarveCommon.Generic
         ///  Command for the grid filter who gets paged information from the database.
         /// </summary>
         public ICommand SortCommand { get; set; }
+        public ICommand AssistCommand { set; get; }
+        public string DirectSubsystem { get; set; }
+        public Uri ViewModelUri { set { _viewModelUri = value; } get { return _viewModelUri; } }
+
     }
 }

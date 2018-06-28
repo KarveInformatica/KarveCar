@@ -176,9 +176,15 @@ namespace DataAccessLayer.Model
                 var prop = currentProperties[i];
                 // source Value
                 var sourceValueProperty = source.GetType().GetProperty(prop.Name);
+                // skip palbaran
+                if (prop.Name == "PALBARAN")
+                {
+                    continue;
+                }
                 if (sourceValueProperty != null)
                 {
                     var destinationProperty = destination.GetType().GetProperty(prop.Name);
+                    
                     // here there is the problem that that sometimes a char is made of a bool.
                     destinationProperty?.SetValue(destination, sourceValueProperty.GetValue(source));
                 }
@@ -380,6 +386,26 @@ namespace DataAccessLayer.Model
             }
 
         }
+        private List<MonthsDto> fillMonths()
+        {
+            var supplier = new List<MonthsDto>()
+            {
+                new MonthsDto() {NUMERO_MES = 1, MES= "Enero"},
+                new MonthsDto() {NUMERO_MES = 2, MES= "Febrero"},
+                new MonthsDto() {NUMERO_MES = 3, MES= "Marzo"},
+                new MonthsDto() {NUMERO_MES = 4, MES= "Avril"},
+                new MonthsDto() {NUMERO_MES = 5, MES= "Mayo"},
+                new MonthsDto() {NUMERO_MES = 6, MES= "Junio"},
+                new MonthsDto() {NUMERO_MES = 7, MES= "Julio"},
+                new MonthsDto() {NUMERO_MES = 8, MES= "Agosto"},
+                new MonthsDto() {NUMERO_MES = 9, MES= "Septiembre"},
+                new MonthsDto() {NUMERO_MES = 10, MES= "Octubre"},
+                new MonthsDto() {NUMERO_MES = 11, MES= "Noviembre"},
+                new MonthsDto() {NUMERO_MES = 12, MES= "Diciembre"}
+
+            };
+            return supplier;
+        }
         public async Task<bool> SaveChanges()
         {
             
@@ -402,7 +428,7 @@ namespace DataAccessLayer.Model
 
                        
                         string value = string.Format(TipoProveSelect, provee1.NUM_PROVEE);
-                        IEnumerable<TIPOPROVE> prove = await connection.QueryAsync<TIPOPROVE>(value);
+                        IEnumerable<TIPOPROVE> prove = await connection.QueryAsync<TIPOPROVE>(value).ConfigureAwait(false);
                         var tipoProve = prove.FirstOrDefault<TIPOPROVE>();
 
                         // here we shall already have the correct change in the VehiclePoco. It shall already validated.
@@ -410,10 +436,10 @@ namespace DataAccessLayer.Model
                         try
                         {
 
-                            retValue = await connection.UpdateAsync(provee1);
-                            retValue = retValue && await connection.UpdateAsync(provee2);
-                            retValue = retValue && await SaveContacts(connection);
-                            retValue = await SaveBranches(connection) && retValue;
+                            retValue = await connection.UpdateAsync(provee1).ConfigureAwait(false);
+                            retValue = retValue && await connection.UpdateAsync(provee2).ConfigureAwait(false);
+                            retValue = retValue && await SaveContacts(connection).ConfigureAwait(false);
+                            retValue = await SaveBranches(connection).ConfigureAwait(false) && retValue;
                             transactionScope.Complete();
                         }
                         catch (TransactionException ex)
@@ -442,20 +468,35 @@ namespace DataAccessLayer.Model
 
         }
 
-/*  TODO: Refactor this like the client loader. Too many queries. It is slow. 
- *  Too many resposabiltities for this function
- in the crud there is a
-             */
+
+        public async Task<bool> LoadAuxValue(SupplierPoco supplier)
+        {
+            var queryStoreFactory = new QueryStoreFactory();
+            var queryStore = queryStoreFactory.GetQueryStore();
+          ///  queryStore.AddParam(QueryType.QuerySupplierType, supplier.TIPO.ToString());
+          ///  queryStore.AddParam(QueryType.AccountById, supplier.CUGASTO);
+
+            return true;
+
+        }
+
+        /*  TODO: Refactor this like the client loader. Too many queries. It is slow. 
+         *  Too many resposabiltities for this function
+         in the crud there is a
+                     */
 
         public async Task<bool> LoadValue(IDictionary<string, string> fields, string code)
         {
             var currentQuery = string.Format(SupplierQuery, code);
             Valid = false;
+            
+            MonthsDtos = fillMonths();
+         
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
                 try
                 {
-                    var queryResult = await connection.QueryAsync<SupplierPoco>(currentQuery);
+                    var queryResult = await connection.QueryAsync<SupplierPoco>(currentQuery).ConfigureAwait(false);
                     _supplierValue = queryResult.FirstOrDefault(c => c.NUM_PROVEE == code);
                     if (_supplierValue == null)
                     {

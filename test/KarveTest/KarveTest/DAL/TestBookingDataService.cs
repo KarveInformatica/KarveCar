@@ -214,10 +214,11 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Throw_When_IsInvaldReservation()
         {
-            var booking = await _bookingDataServices.GetSummaryAllAsync();
+            var booking = await _bookingDataServices.GetPagedSummaryDoAsync(1,10);
             var item = booking.FirstOrDefault();
             var bookingKey = string.Empty;
             Assert.NotNull(item);
+            Assert.NotNull(item.BookingNumber);
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 var linRes = new LIRESER();
@@ -232,7 +233,7 @@ namespace KarveTest.DAL
             var result = await _bookingDataServices.SaveAsync(bookingNow);
             var changed = await _bookingDataServices.GetDoAsync(reservationNumber);
             Assert.AreEqual(result, true);
-            Assert.NotNull(changed);
+            Assert.IsInstanceOf<NullReservation>(changed);
         }
     }
 }

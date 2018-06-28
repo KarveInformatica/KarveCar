@@ -81,5 +81,18 @@ namespace KarveDataServices.DataObjects
         ///  Activities dto.
         /// </summary>
         IEnumerable<ActividadDto> ActivityDtos { get; set; }
+        IEnumerable<PictureDto> PicturesDtos { get; set; }
+        IEnumerable<SupplierSummaryDto> Supplier1 { get; set; }
+        IEnumerable<PaymentFormDto> PaymentForm { get; set; }
+        IEnumerable<ClientSummaryExtended> ClientDto { get; set; }
+        IEnumerable<ResellerDto> ResellerDto { get; set; }
+        IEnumerable<SupplierSummaryDto> Supplier2 { get; set; }
+        IEnumerable<CityDto> RoadTaxesCityDto { get; set; }
+        IEnumerable<ZonaOfiDto> RoadOfficeZoneDto { get; set; }
+        IEnumerable<SupplierSummaryDto> AssistencePolicyDto { get; set; }
+        IEnumerable<SupplierSummaryDto> AssistenceAssuranceDto { get; set; }
+        IEnumerable<SupplierSummaryDto> AdditionalAssuranceDto { get; set; }
+        IEnumerable<SupplierSummaryDto> AssuranceDto { get; set; }
+        IEnumerable<AgentDto> AssuranceAgentDto { get; set; }
     }
 }

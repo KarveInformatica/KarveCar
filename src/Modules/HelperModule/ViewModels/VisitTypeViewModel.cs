@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -22,7 +23,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">Tipo de visita</param>
         /// <param name="region">Region</param>
         /// <param name="manager">Manager</param>
-        public VisitTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
+        public VisitTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(String.Empty, dataServices, region, manager, dialogService)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VisitType;
         }

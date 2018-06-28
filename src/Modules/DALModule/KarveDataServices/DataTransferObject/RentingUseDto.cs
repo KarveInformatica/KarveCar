@@ -9,15 +9,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  RentingUseDto.
     /// </summary>
-    public class RentingUseDto: BaseDto
+    public class RentingUseDto: BaseDtoDefaultName
     {
-        /// <summary>
-        ///  Code of renting
-        /// </summary>
-        public string Code { set; get; }
-        /// <summary>
-        ///  Name of renting.
-        /// </summary>
-        public string Name { set; get; }
     }
 }

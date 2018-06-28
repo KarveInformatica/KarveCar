@@ -11,6 +11,9 @@ using System.ComponentModel;
 using System.Reflection;
 using KarveCommon.Generic;
 using Syncfusion.UI.Xaml.Grid;
+using KarveCommonInterfaces;
+using System.Windows.Controls;
+using KarveDataServices.DataTransferObject;
 
 namespace HelperModule.ViewModels
 {
@@ -21,10 +24,10 @@ namespace HelperModule.ViewModels
     /// </summary>
     /// <typeparam name="Dto">Data Transfer Object</typeparam>
     /// <typeparam name="Entity">Entity to be mapped.</typeparam>
-    public abstract class GenericHelperViewModel<Dto, Entity> : BaseHelperViewModel where Entity : class, new()
+    public abstract class GenericHelperViewModel<Dto, Entity> : BaseHelperViewModel, IEventObserver, IDisposeEvents where Entity : class, new()
         where Dto : class, new()
     {
-        
+
         protected Dto CurrentValue = new Dto();
         protected Dto PreviousValue;
         /// <summary>
@@ -59,7 +62,7 @@ namespace HelperModule.ViewModels
         protected PropertyChangedEventHandler AssistCompletionEventHandler;
 
         protected PropertyChangedEventHandler PagedEvent;
-        
+
         /// <summary>
         /// GenericHelperViewModel
         /// </summary>
@@ -68,18 +71,22 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region to navigate</param>
         /// <param name="manager">EventManager for communicate with other components</param>
         public GenericHelperViewModel(string query, IDataServices dataServices, IRegionManager region,
-            IEventManager manager) : base(dataServices, region, manager)
+            IEventManager manager, IDialogService dialogService) : base(dataServices, region, manager)
         {
             _saver = new HelperSaver<Dto, Entity>(dataServices);
             SelectionChangedCommand = new DelegateCommand<object>(OnSelectionChangedCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnItemChangedCommand);
             SaveState = false;
             QueryLoad = query;
+            DialogService = dialogService;
             InitLoader(dataServices, query);
+            ViewModelUri = new Uri("karve://helpers/" + UniqueId);
             HelperDataServices = dataServices.GetHelperDataServices();
             var id = Address.ToString();
             MailBoxMessageHandler += IncomingMailbox;
             EventManager.RegisterMailBox(id, MailBoxMessageHandler);
+            EventManager.RegisterObserverSubsystem(EventSubsystem.HelperSubsystem, this);
+
         }
 
 
@@ -110,7 +117,7 @@ namespace HelperModule.ViewModels
         /// Selection changed within the grid.
         /// </summary>
         /// <param name="obj"></param>
-        private void OnSelectionChangedCommand(object obj)
+        protected virtual void OnSelectionChangedCommand(object obj)
         {
             var value = obj as Dto;
             if (value != null)
@@ -162,16 +169,16 @@ namespace HelperModule.ViewModels
 
         protected IncrementalList<Dto> LoadView()
         {
-            _loader.Load(QueryLoad);
+            _loader.LoadAll();
             return _loader.HelperView;
         }
-       
-    /// <summary>
+
+        /// <summary>
         ///  Update the value.
         /// </summary>
         protected virtual void Update()
         {
-            
+
             HelperView = LoadView();
             if (HelperView != null)
             {
@@ -194,7 +201,7 @@ namespace HelperModule.ViewModels
 
         private static void LoadMoreItems(uint index, int numberItems)
         {
-           
+
         }
 
         protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
@@ -208,6 +215,7 @@ namespace HelperModule.ViewModels
             base.DisposeEvents();
             var id = Address.ToString();
             EventManager.DeleteMailBoxSubscription(id);
+            EventManager.DeleteObserverSubSystem(EventSubsystem.HelperSubsystem, this);
         }
         /// <summary>
         ///  Notify the toolbar after a change.
@@ -282,7 +290,7 @@ namespace HelperModule.ViewModels
             Update();
             return SaveState;
         }
-      
+
         /// <summary>
         ///  This is to save or update the data contained in the payload.
         /// </summary>
@@ -294,7 +302,7 @@ namespace HelperModule.ViewModels
             if (currentPayLoad.HasDataObject)
             {
                 SetModification(ref currentPayLoad);
-                Dto currentDto = currentPayLoad.DataObject as Dto ;
+                Dto currentDto = currentPayLoad.DataObject as Dto;
                 if (currentDto == null)
                 {
                     currentDto = CurrentValue;
@@ -309,12 +317,45 @@ namespace HelperModule.ViewModels
                     HelperView.Add(currentDto);
 
                 }
-               SaveState = value;
-               State = "";
+                SaveState = value;
+                State = "";
             }
             return currentPayLoad;
         }
 
-      
+        /// <summary>
+        ///  TODO when it is called an insert.
+        /// </summary>
+        /// <param name="payload"></param>
+        public void IncomingPayload(DataPayLoad payload)
+        {
+            if (payload.PayloadType == DataPayLoad.Type.Insert)
+            {
+                // just the active view shall do an insert for the helpers
+                var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+                if (activeView is UserControl control)
+                {
+                    if (control.DataContext is KarveViewModelBase baseViewModel)
+                    {
+                        if (ViewModelUri == baseViewModel.ViewModelUri)
+                        {
+                            NotifyTaskCompletion.Create(InsertEntity(payload), (ev, result) =>
+                            {
+                                if (result is INotifyTaskCompletion<bool> taskResult)
+
+                                {
+                                    if (taskResult.IsFaulted)
+                                    {
+                                        DialogService?.ShowErrorMessage("Error inserting:" + taskResult.ErrorMessage);
+
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+       
     }
 }

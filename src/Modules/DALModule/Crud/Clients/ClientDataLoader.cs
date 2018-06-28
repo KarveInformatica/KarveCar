@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics.Contracts;
@@ -13,9 +12,8 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
-using DataAccessLayer.Crud;
-using System.Reflection;
-using System.Collections;
+using NLog;
+using System;
 
 namespace DataAccessLayer.Crud.Clients
 {
@@ -29,6 +27,10 @@ namespace DataAccessLayer.Crud.Clients
         private readonly QueryStoreFactory _queryStoreFactory;
         private readonly EntityMapper _entityMapper = new EntityMapper();
         private IHelperData _helper = new HelperBase();
+        /// <summary>
+        /// in some case i log even if it is an antipattern.
+        /// </summary>
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private ClientDto _currentPoco;
         private long _currentQueryPos;
@@ -90,6 +92,50 @@ namespace DataAccessLayer.Crud.Clients
             }
             return conn;
         }
+
+        private IEnumerable<DtoType> SelectDto<EntityType, DtoType>(IMapper mapper, SqlMapper.GridReader gridReader) where DtoType: class
+        {
+            
+            var hasValue = gridReader.ReadSingle<int>() > 0;
+            if (hasValue)
+            {
+                var entityCollection = gridReader.Read<EntityType>();
+                if (entityCollection != null)
+                {
+                    if (typeof(EntityType) != typeof(DtoType))
+                    {
+                        return mapper.Map<IEnumerable<EntityType>, IEnumerable<DtoType>>(entityCollection);
+                    }
+                    else
+                    {
+                        return entityCollection as IEnumerable<DtoType>;
+                    }
+                }
+            }
+            else
+            {
+            var badValue =   gridReader.Read();
+            }
+            var list = new List<DtoType>();
+            return list;
+        }
+
+        private IEnumerable<DtoType> WrappedSelectedDto<EntityType, DtoType>(object value, IMapper mapper, SqlMapper.GridReader reader) where DtoType: class
+        {
+            if (value == null)
+            {
+                return new List<DtoType>();
+            }
+            try
+            {
+                
+                var current = SelectDto<EntityType, DtoType>(mapper, reader);
+                return current;
+            } catch (System.Exception ex)
+            {
+                return new List<DtoType>();
+            }
+        }
         /// <summary>
         ///  Load a single client value
         /// </summary>
@@ -101,41 +147,7 @@ namespace DataAccessLayer.Crud.Clients
             IDbConnection conn = null;
             bool returnValue = false;
 
-            IList<object> entities = new List<object>() {
-                new FORMAS(),
-                new POBLACIONES(),
-                new TIPOCLI(),
-                new MERCADO(),
-                new ZONAS(),
-                new IDIOMAS(),
-                new TARCREDI(),
-                new CANAL(),
-                new SUBLICEN(),
-                new OFICINAS(),
-                new USO_ALQUILER(),
-                new ACTIVI(),
-                new ClientSummaryDto(),
-                new CliContactsPoco(),
-                new FORMAS()
-            };
-            IList<object> dto = new List<object>()
-            {
-                new PaymentFormDto(),
-                new CityDto(),
-                new ClientTypeDto(),
-                new MercadoDto(),
-                new ClientZoneDto(),
-                new LanguageDto(),
-                new CreditCardDto(),
-                new ChannelDto(),
-                new CompanyDto(),
-                new OfficeDtos(),
-                new RentingUseDto(),
-                new ActividadDto(),
-                new ClientSummaryDto(),
-                new ContactsDto()
-                
-            };
+          
 
             if (_sqlExecutor.Open())
             {
@@ -148,42 +160,54 @@ namespace DataAccessLayer.Crud.Clients
                 // we load the helpers.
                 if (_currentPoco != null)
                 {
-                    SqlMapper.GridReader reader = null;
                     IQueryStore store = CreateQueryStore(_currentPoco);
                     string multipleQuery = store.BuildQuery();
                     if (!string.IsNullOrEmpty(multipleQuery))
                     {
-                        reader = await conn.QueryMultipleAsync(multipleQuery);
-                        EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
-                        var mappedEntity = _entityMapper.Map(reader, deserializer);             
-                        string delega = string.Format(_queryDelegations, DefaultDelegation, _currentPoco.NUMERO_CLI);
-                        if (_currentPoco.Helper != null)
-                        {
-                            _currentPoco.Helper.ActivityDto =
-                                deserializer.SelectDto<ACTIVI, ActividadDto>(_mapper, mappedEntity);
-                            _currentPoco.Helper.CityDto =
-                                deserializer.SelectDto<POBLACIONES, CityDto>(_mapper, mappedEntity);
-                            _currentPoco.Helper.ClientTypeDto =
-                                deserializer.SelectDto<TIPOCLI, ClientTypeDto>(_mapper, mappedEntity);
-                            _currentPoco.Helper.ClientMarketDto =
-                                deserializer.SelectDto<MERCADO, MercadoDto>(_mapper, mappedEntity);
-
-                            var delegations = await conn.QueryAsync<CliDelegaPoco, PROVINCIA, CliDelegaPoco>(delega,
-                                (branch, prov) =>
-                                {
-                                    branch.PROV = prov;
-                                    return branch;
-                                }, splitOn: "SIGLAS");
-
-                            if (delegations != null)
+                        var reader = await conn.QueryMultipleAsync(multipleQuery).ConfigureAwait(false);
+                      
+                            if (_currentPoco.Helper != null)
                             {
-                                branchesDto =
-                                    _mapper.Map<IEnumerable<CliDelegaPoco>, IEnumerable<BranchesDto>>(delegations);
-                                _currentPoco.BranchesDto = _currentPoco.BranchesDto.Union(branchesDto);
+                                try
+                                {
+                                    _currentPoco.Helper.ClientPaymentForm = WrappedSelectedDto<FORMAS, PaymentFormDto>(_currentPoco.FPAGO, _mapper, reader);
+                                    _currentPoco.Helper.CityDto = WrappedSelectedDto<POBLACIONES, CityDto>(_currentPoco.CP,_mapper, reader);
+                                    _currentPoco.Helper.ProvinciaDto = WrappedSelectedDto<PROVINCIA,ProvinciaDto>(_currentPoco.PROVINCIA,_mapper, reader);
+                                    _currentPoco.Helper.CountryDto = WrappedSelectedDto<Country,CountryDto>(_currentPoco.PAIS,_mapper, reader);
+                                    _currentPoco.Helper.ClientTypeDto = WrappedSelectedDto<TIPOCLI, ClientTypeDto>(_currentPoco.TIPOCLI, _mapper, reader);
+                                    _currentPoco.Helper.ClientMarketDto = WrappedSelectedDto<MERCADO, MercadoDto>(_currentPoco.MERCADO, _mapper, reader);
+                                    _currentPoco.Helper.ZoneDto = WrappedSelectedDto<ZONAS, ClientZoneDto>(_currentPoco.ZONA, _mapper, reader);
+                                    _currentPoco.Helper.LanguageDto = WrappedSelectedDto<IDIOMAS, LanguageDto>(_currentPoco.IDIOMA,_mapper, reader);
+                                    _currentPoco.Helper.CreditCardType = WrappedSelectedDto<TARCREDI, CreditCardDto>(_currentPoco.TARTI, _mapper, reader);
+                                    _currentPoco.Helper.ChannelDto = WrappedSelectedDto<CANAL, ChannelDto>(_currentPoco.CANAL, _mapper, reader);
+                                    _currentPoco.Helper.CompanyDto = WrappedSelectedDto<SUBLICEN, CompanyDto>(_currentPoco.SUBLICEN,_mapper, reader);
+                                    _currentPoco.Helper.OfficeDto = WrappedSelectedDto<OFICINAS, OfficeDtos>(_currentPoco.OFICINA, _mapper,reader);
+                                    _currentPoco.Helper.RentUsageDto = WrappedSelectedDto<USO_ALQUILER, RentingUseDto>(_currentPoco.USO_ALQUILER, _mapper, reader);
+                                    _currentPoco.Helper.ResellerDto = WrappedSelectedDto<VENDEDOR, ResellerDto>(_currentPoco.VENDEDOR, _mapper, reader);
+                                    _currentPoco.Helper.ActivityDto = WrappedSelectedDto<ACTIVI,ActividadDto>(_currentPoco.SECTOR, _mapper, reader);
+                                    _currentPoco.Helper.OrigenDto = WrappedSelectedDto<ORIGEN, OrigenDto>(_currentPoco.ORIGEN, _mapper, reader);
+                                    _currentPoco.Helper.BusinessDto = WrappedSelectedDto<NEGOCIO, BusinessDto>(_currentPoco.NEGOCIO, _mapper, reader);
+                                    _currentPoco.Helper.InvoiceBlock = WrappedSelectedDto<BLOQUEFAC,InvoiceBlockDto>(_currentPoco.BLOQUEFAC, _mapper, reader);
+                                    _currentPoco.Helper.BudgetKeyDto = WrappedSelectedDto<CLAVEPTO, BudgetKeyDto>(_currentPoco.CLAVEPTO, _mapper, reader);
+                                    _currentPoco.Helper.DriversDto = WrappedSelectedDto<ClientSummaryDto, ClientSummaryDto>(_currentPoco.CLIENTEFAC, _mapper, reader);
+                                    _currentPoco.Helper.BrokerDto = WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(_currentPoco.COMISIO, _mapper, reader);
+                                    _currentPoco.ContactsDto = WrappedSelectedDto<CliContactsPoco, ContactsDto>(_currentPoco.NUMERO_CLI,_mapper, reader);
+                                    _currentPoco.BranchesDto = WrappedSelectedDto<CliContactsPoco, BranchesDto>(_currentPoco.NUMERO_CLI, _mapper, reader);
+
+
 
                             }
-                        }
+                            catch (System.Exception ex)
+                                {
+                                    // this is an antipatter log and throw but i need the log.
+                                    logger.Error(ex.Message);
+                                    throw new DataLayerException(ex.Message, ex);
+                                }
+
+                            }
+
                     }
+                                           
                 }
 
                 if (_currentPoco == null)
@@ -257,21 +281,29 @@ namespace DataAccessLayer.Crud.Clients
         private IQueryStore CreateQueryStore(ClientDto clientPoco)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
-            store.AddParam(QueryType.QueryPaymentForm, ValueToString(clientPoco.FPAGO));
-            store.AddParam(QueryType.QueryCity, clientPoco.CP);
-            store.AddParam(QueryType.QueryClientType, clientPoco.TIPOCLI);
-            store.AddParam(QueryType.QueryMarket, clientPoco.MERCADO);
-            store.AddParam(QueryType.QueryZone, clientPoco.ZONA);
-            store.AddParam(QueryType.QueryLanguage, ValueToString(clientPoco.IDIOMA));
-            store.AddParam(QueryType.QueryCreditCard, clientPoco.TARTI);
-            store.AddParam(QueryType.QueryChannel, clientPoco.CANAL);
-            store.AddParam(QueryType.QueryCompany, clientPoco.SUBLICEN);
-            store.AddParam(QueryType.QueryOffice, clientPoco.OFICINA);
-            store.AddParam(QueryType.QueryRentingUse, ValueToString(clientPoco.USO_ALQUILER));
-            store.AddParam(QueryType.QueryActivity, clientPoco.SECTOR);
-            store.AddParam(QueryType.QueryClientSummary, clientPoco.CLIENTEFAC);
-            store.AddParam(QueryType.QueryClientContacts, clientPoco.NUMERO_CLI);
-            
+            store.AddParamCount(QueryType.QueryPaymentForm, "FORMAS", "CODIGO", ValueToString(clientPoco.FPAGO));
+            store.AddParamCount(QueryType.QueryCity, "POBLACIONES", "CP", clientPoco.CP);
+            store.AddParamCount(QueryType.QueryProvince, "PROVINCIA", "SIGLAS", clientPoco.PROVINCIA);
+            store.AddParamCount(QueryType.QueryCountry, "PAIS", "SIGLAS", clientPoco.PAIS);
+            store.AddParamCount(QueryType.QueryClientType, "TIPOCLI", "NUM_TICLI", clientPoco.TIPOCLI);
+            store.AddParamCount(QueryType.QueryMarket, "MERCADO", "CODIGO", clientPoco.MERCADO);
+            store.AddParamCount(QueryType.QueryZone, "ZONAS", "NUM_ZONA", clientPoco.ZONA);
+            store.AddParamCount(QueryType.QueryLanguage, "IDIOMAS", "CODIGO", ValueToString(clientPoco.IDIOMA));
+            store.AddParamCount(QueryType.QueryCreditCard, "TARCREDI", "CODIGO",clientPoco.TARTI);
+            store.AddParamCount(QueryType.QueryChannel, "CANAL", "CODIGO", clientPoco.CANAL);
+            store.AddParamCount(QueryType.QueryCompany, "SUBLICEN", "CODIGO", clientPoco.SUBLICEN);
+            store.AddParamCount(QueryType.QueryOffice, "OFICINAS", "CODIGO", clientPoco.OFICINA);
+            store.AddParamCount(QueryType.QueryRentingUse, "USO_ALQUILER", "CODIGO", ValueToString(clientPoco.USO_ALQUILER));
+            store.AddParamCount(QueryType.QuerySeller, "VENDEDOR", "NUM_VENDE", clientPoco.VENDEDOR);
+            store.AddParamCount(QueryType.QueryActivity, "ACTIVI", "NUM_ACTIVI", clientPoco.SECTOR);
+            store.AddParamCount(QueryType.QueryOrigin, "ORIGEN", "NUM_ORIGEN", ValueToString(clientPoco.ORIGEN));
+            store.AddParamCount(QueryType.QueryBusiness, "NEGOCIO", "CODIGO", clientPoco.NEGOCIO);
+            store.AddParamCount(QueryType.QueryInvoiceBlocks, "BLOQUEFAC", "CODIGO", clientPoco.BLOQUEFAC);
+            store.AddParamCount(QueryType.QueryBudgetKey, "CLAVEPTO", "COD_CLAVE", clientPoco.CLAVEPTO);
+            store.AddParamCount(QueryType.QueryClientSummary, "CLIENTES1", "NUMERO_CLI", clientPoco.CLIENTEFAC);
+            store.AddParamCount(QueryType.QueryCommissionAgentSummaryById, "COMISIO", "NUM_COMI", clientPoco.COMISIO);
+            store.AddParamCount(QueryType.QueryClientDelegations, "CliDelega", "cldIdCliente", clientPoco.NUMERO_CLI);
+            store.AddParamCount(QueryType.QueryClientContacts, "CliContactos", "ccoIdCliente", clientPoco.NUMERO_CLI);
             return store;
         }
         /// <summary>
@@ -286,7 +318,7 @@ namespace DataAccessLayer.Crud.Clients
             clientPocoQueryStore.AddParam(QueryType.QueryClient1, code);
             clientPocoQueryStore.AddParam(QueryType.QueryClient2, code);
             var query = clientPocoQueryStore.BuildQuery();
-            var pocoReader = await conn.QueryMultipleAsync(query);
+            var pocoReader = await conn.QueryMultipleAsync(query).ConfigureAwait(false);
             var clients1 = pocoReader.Read<CLIENTES1>().FirstOrDefault();
             var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
             var outClient = new ClientDto
@@ -331,14 +363,30 @@ namespace DataAccessLayer.Crud.Clients
             }
             return outClient;
         }
-
+        private byte NumberToString(byte? b)
+        {
+            if (!b.HasValue)
+            {
+                return 0;
+            }
+            return b.Value;
+        }
         private string ValueToString(byte? b)
         {
             if (!b.HasValue)
             {
                 return string.Empty;
             }
-            var value = (b == 0) ? "0" : "1";
+            var value = Convert.ToString(b);
+            return value;
+        }
+        private string ValueToString(int? b)
+        {
+            if (!b.HasValue)
+            {
+                return string.Empty;
+            }
+            var value = Convert.ToString(b);
             return value;
         }
         /// <summary>
@@ -350,12 +398,16 @@ namespace DataAccessLayer.Crud.Clients
         {
             IEnumerable<ClientDto> dtoCollection;
             var store =  _queryStoreFactory.GetQueryStore();
-            store.AddParamRange(QueryType.QueryPagedClient, _currentQueryPos, n);
-            var query = store.BuildQuery();
+            var currentPos = _currentQueryPos;
+            if (currentPos == 0)
+            {
+                currentPos = 1;
+            }
+            var query = store.BuildQuery(QueryType.QueryPagedClient, new List<string>() { currentPos.ToString(), n.ToString() });
             _currentQueryPos = _currentQueryPos + n - back; 
             using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
-               var currentPoco  = await conn.QueryAsync<ClientPoco>(query);
+               var currentPoco  = await conn.QueryAsync<ClientPoco>(query).ConfigureAwait(false);
                dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(currentPoco);
             }   
             return dtoCollection;

@@ -35,7 +35,7 @@
                 <StackPanel Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="Code" Height="25"  Width="61" Margin="0,28.45,0,0" VerticalAlignment="Top"></TextBlock>
                     <TextBox x:Name="CodeTextBox" MinWidth="1" Height="25" Width="189" IsReadOnly="True" Background="LightCyan" 
-                             Text="{Binding VehicleType.Code, Mode=TwoWay}" Margin="0,18.5"
+                             Text="{Binding HelperDto.Code, Mode=TwoWay}" Margin="0,18.5"
                              karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"></TextBox>
 
 
@@ -43,26 +43,26 @@
                                ></TextBlock>
                     <TextBox x:Name="NameTextBox"  Width="230" Height="25" 
                              karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                             Text="{Binding VehicleType.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
+                             Text="{Binding HelperDto.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,18.5"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <i:TextBlock Text="Fecha de Baja" Width="100" Height="25" Margin="0,28.45,0,0" 
                                  karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}" VerticalAlignment="Top"/>
                     <i:DatePicker  Height="25" 
                                    
-                                   SelectedDate="{i:Binding VehicleType.TerminationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   SelectedDate="{i:Binding HelperDto.TerminationDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                    Margin="0,16.95,0,38.95" Width="150.64"/>
                     <i:TextBlock Text="Margen Oferta" Width="100"  Height="25" Margin="5,0,0,0"/>
                     <i:TextBox   
                         karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                 Text="{i:Binding VehicleType.OfferMargin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="194" Height="25" Margin="0,27.95"/>
+                                 Text="{i:Binding HelperDto.OfferMargin, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Width="194" Height="25" Margin="0,27.95"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal">
                     <TextBlock Text="Nombre Web" Height="25" Margin="5,19,0,19" Width="84"></TextBlock>
                     <TextBox  Width="460" Height="25" 
                               karveControls:ControlState.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                              Text="{Binding VehicleType.WebName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,19">
+                              Text="{Binding HelperDto.WebName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="0,19">
                         
                     </TextBox>
                 </StackPanel>

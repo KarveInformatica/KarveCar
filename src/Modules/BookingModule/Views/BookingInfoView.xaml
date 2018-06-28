@@ -63,8 +63,8 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBox Width="120" Text="{Binding Path=DataObject.Value.CLIENTE_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Height="30" x:Name="Client" />
-                        <TextBox Width="145" Text="{Binding Path=DataHelper.Client.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Height="30" x:Name="ClientName" />
-                        <TextBox Width="120" Text="{Binding Path=DataHelper.Client.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Height="30" x:Name="ClientNif" />
+                        <TextBox Width="145" Text="{Binding Path=DataHelper.ClientDto.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Height="30" x:Name="ClientName" />
+                        <TextBox Width="120" Text="{Binding Path=DataHelper.ClientDto.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Height="30" x:Name="ClientNif" />
                         <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/clients.png" Height="30" Width="30" Grid.Column="3" ToolTip="Ver Clientes" Command="{Binding Path=ShowClients}"></Syncfusion:ButtonAdv>
                         <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/client.png" Height="30" Width="30" ToolTip="Ver Cliente"  Grid.Column="4" Command="{Binding Path=ShowClient}" CommandParameter="{Binding ElementName=Client, Path=Text}"></Syncfusion:ButtonAdv>
                         <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/fare.png" Height="30" Width="30"  Grid.Column="5"  Visibility="Collapsed" Command="{Binding ShowFares}" ToolTip="Tarifa asociada a clientes" CommandParameter="{Binding ElementName=Client}"></Syncfusion:ButtonAdv>
@@ -84,9 +84,17 @@
                             <ColumnDefinition Width="16"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Width="120" Text="{Binding Path=DataObject.Value.CONDUCTOR_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Height="30" x:Name="Driver" Margin="0,0,1,1" />
-                        <TextBox Width="149" Text="{Binding Path=DataHelper.Driver.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Height="30" x:Name="DriverName" Margin="0,0,0,1" />
-                        <TextBox Width="120" Text="{Binding Path=DataObject.Driver.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Height="30" x:Name="DriverNif" Margin="0,0,0,1" />
+                        <TextBox Width="120" 
+                                   KarveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   KarveControls:ControlExt.DataSourcePath="CONDUCTOR_RES1"
+                                 KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                       
+                                 Text="{Binding Path=DataObject.Value.CONDUCTOR_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Height="30" x:Name="Driver" Margin="0,0,1,1" />
+                        <TextBox 
+                            IsReadOnly="True"
+                            Width="149" Text="{Binding Path=DataHelper.DriverDto.NOMBRE, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Height="30" x:Name="DriverName" Margin="0,0,0,1" />
+                        <TextBox 
+                            IsReadOnly="True"
+                            Width="120" Text="{Binding Path=DataObject.DriverDto.NIF, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Height="30" x:Name="DriverNif" Margin="0,0,0,1" />
                         <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/clients.png" Height="30" Width="30" Grid.Column="3" ToolTip="Ver Clientes" Command="{Binding Path=ShowClients}" Margin="0,0,0,1"></Syncfusion:ButtonAdv>
                         <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/driver.png" Height="30" Width="30" ToolTip="Ver Conductor"  Grid.Column="4" Command="{Binding Path=ShowClient}" CommandParameter="{Binding ElementName=Driver}" Margin="0,0,0,1">
                         </Syncfusion:ButtonAdv>
@@ -103,7 +111,7 @@
                             KarveControls:ControlExt.DataSourcePath="OBS1_RES2"
                             KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="125">
                     </KarveControls:DataArea>
-                    
+
                 </Grid>
             </GroupBox>
         </Grid>
@@ -125,7 +133,7 @@
                 <KarveControls:DualFieldSearchBox DataFieldFirst="TARIFA_RES1"
                                                   Grid.Column="0"    
                                                   AssistTableName="FARE_ASSIST"
-                                                      AssistProperties="Code,Name"
+                                                      AssistProperties="Fare,Name,IsActive"
                                                       LabelText="{Binding ltarifa, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="60"   
                                                       Margin="0,5,0,0"
@@ -134,7 +142,7 @@
                                                       TextContentSecondWidth="150"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding DataHelper.FareDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding DataHelper.ActiveFareDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/create.png" Height="30" Width="30" ToolTip="Nueva Tarifa"  Grid.Column="1" Command="{Binding Path=CreateFare}" Visibility="Collapsed">
                 </Syncfusion:ButtonAdv>
@@ -142,7 +150,7 @@
                                                   Grid.Row="1"
                                                   Grid.Column="0"    
                                                   AssistTableName="VEHICLE_GROUP_ASSIST"
-                                                      AssistProperties="Code,Name"
+                                                      AssistProperties="Codigo,Nombre"
                                                       LabelText="{Binding lgrupo, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="60"   
                                                       Margin="0,5,0,0"
@@ -153,8 +161,7 @@
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       SourceView="{Binding DataHelper.VehicleGroupDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Syncfusion:ButtonAdv Grid.Row="1"   SmallIcon="/KarveControls;component/Images/create.png" Height="30" Width="30" ToolTip="Nuevo Grupo"  Grid.Column="1" Command="{Binding Path=CreateGroupCommand}">
-                </Syncfusion:ButtonAdv>
+                <Syncfusion:ButtonAdv Grid.Row="1"   SmallIcon="/KarveControls;component/Images/create.png" Width="30" ToolTip="Nuevo Grupo"  Grid.Column="1" Command="{Binding Path=CreateGroupCommand}" RenderTransformOrigin="0.533,0.583" Margin="1,9,1,3"/>
 
                 <KarveControls:DataField Grid.Row="2" Grid.ColumnSpan="2" 
                     LabelText="Preferencias"
@@ -172,7 +179,7 @@
                                                   Grid.Row="3"
                                                   Grid.Column="0"    
                                                   AssistTableName="BROKER_ASSIST"
-                                                      AssistProperties="Code,Name"
+                                                      AssistProperties="Code,Name,Person,NIF,Direction,Zip,City,Province,Country,IATA,Company,OfficeZone"
                                                       LabelText="{Binding lbroker, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="80"   
                                                       Margin="0,5,0,0"
@@ -181,10 +188,9 @@
                                                       TextContentSecondWidth="130"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding BrokersDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding DataHelper.BrokerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Syncfusion:ButtonAdv Grid.Row="3"   SmallIcon="/KarveControls;component/Images/create.png" Height="30" Width="30" ToolTip="Nuevo Comisionista"  Grid.Column="1" Command="{Binding Path=CreateBrokerCommand}">
-                </Syncfusion:ButtonAdv>
+                <Syncfusion:ButtonAdv Grid.Row="3"   SmallIcon="/KarveControls;component/Images/create.png" Width="30" ToolTip="Nuevo Comisionista"  Grid.Column="1" Command="{Binding Path=CreateBrokerCommand}" Margin="1,7,0,3"/>
 
                 <KarveControls:DualFieldSearchBox DataFieldFirst="VCACT_RES1"
                                                   Grid.Row="4"
@@ -209,15 +215,12 @@
                         </ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/create.png" Height="30" Width="30" ToolTip="Nuevo Comisionista"  Grid.Column="1" Command="{Binding Path=CreateVehicleCommand}">
-                    </Syncfusion:ButtonAdv>
+                    <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/create.png" Width="30" ToolTip="Nuevo Vehiculo"  Grid.Column="1" Command="{Binding Path=CreateVehicleCommand}" Margin="0,8,1,3"/>
                     <Syncfusion:ButtonAdv Label="Disponibilidad"
-                                          SmallIcon="/KarveControls;component/Images/calendar1.png" 
-                                          Height="30" Width="30" ToolTip="Prueba Disponibilidad"  
-                                          Grid.Column="1" 
+                                          SmallIcon="/KarveControls;component/Images/calendar1.png" Width="30" ToolTip="Prueba Disponibilidad"  
+                                          Grid.Column="0" 
                                           
-                                          CommandParameter="{Binding Path=DataObject.Value.VCACT_RES1}">
-                    </Syncfusion:ButtonAdv>
+                                          CommandParameter="{Binding Path=DataObject.Value.VCACT_RES1}" Margin="0,8,0,3"/>
 
                 </Grid>
                 <Grid Grid.Row="5">
@@ -249,30 +252,31 @@
                 <TextBlock Grid.Row="0" Grid.Column="3" Text="Contractos"></TextBlock>
                 <TextBox Grid.Column="0" Grid.Row="1"
                                  HorizontalContentAlignment="Left"
-                         IsReadOnly="True"        
+                         IsReadOnly="True"
+                         Text="{Binding DataHelper.ContractByClientDto.InvoiceNumber}"
+                         
                          Width="80"></TextBox>
                 <TextBox Grid.Column="1" Grid.Row="1"
+                         Text="{Binding DataHelper.ContractByClientDto.Days}"
+
                                  IsReadOnly="True"
                                  Width="80"></TextBox>
                 <TextBox Grid.Column="2" Grid.Row="1" 
                                  Width="80"
+                          Text="{Binding DataHelper.ContractByClientDto.GrossInvoice}"
                                  IsReadOnly="True"></TextBox>
                 <Grid Grid.Column="3" Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <KarveControls:DualFieldSearchBox Grid.Column="0"
-                                              TextContentFirstWidth="80"
-                                              TextContentSecondWidth="120"
-                                              LabelVisible="False"
-                                              LabelTextWidth="0"
-                                              DataFieldFirst=""></KarveControls:DualFieldSearchBox>
+                    
                     <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/contract.png" Height="30" 
-                                  Width="30" ToolTip="Nuevo Contracto"  
-                                  Grid.Column="1" Command="{Binding Path=CreateContrato}">
+                                  Width="30" ToolTip="Muestra Contracto"  
+                                  Grid.Column="0" Command="{Binding Path=ShowContract}">
                     </Syncfusion:ButtonAdv>
+                    <Syncfusion:ButtonAdv SmallIcon="/KarveControls;component/Images/create.png" Width="30" ToolTip="Nuevo Contracto"  Grid.Column="1" 
+                                          Command="{Binding Path=CreateContractCommand}"/>
 
 
                 </Grid>

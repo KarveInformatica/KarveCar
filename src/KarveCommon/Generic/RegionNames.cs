@@ -27,5 +27,9 @@ namespace KarveCommon.Generic
         ///  Tab region.
         /// </summary>
         public const string TabRegion = "TabRegion";
+        /// <summary>
+        ///  Region for the drivers in the client.
+        /// </summary>
+        public const string ClientDrivers = "ClientDriverRegion";
     }
 }

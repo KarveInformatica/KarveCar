@@ -1,18 +1,21 @@
 using System;
+using KarveDapper.Extensions;
+
  
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a PRODUCTS.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class PRODUCTS 
+    /// <summary>
+    /// Represents a PRODUCTS.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("PRODUCTS")]
+    public class PRODUCTS 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO_PRD property.
     /// </summary>
-    
+        [Key]
 		public Int32 CODIGO_PRD { get; set; }
  
 	/// <summary>

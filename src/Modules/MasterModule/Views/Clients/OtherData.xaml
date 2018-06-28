@@ -45,7 +45,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.ActivityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=ActivityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -62,7 +62,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.ZoneDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=ZoneDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -78,7 +78,7 @@
                                                       ItemChangedCommand="{Binding ItemChangedCommand}"
                                                       MagnifierCommand="{Binding AssistCommand}" 
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding Path=ClientHelper.OrigenDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding Path=OrigenDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       LabelTextWidth="100"
                                                       TextContentFirstWidth="60" 
                                                       TextContentSecondWidth="150"
@@ -96,7 +96,7 @@
                                                       ItemChangedCommand="{Binding ItemChangedCommand}"
                                                       MagnifierCommand="{Binding AssistCommand}" 
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding Path=ClientHelper.ResellerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding Path=ResellerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       LabelTextWidth="100"
                                                       TextContentFirstWidth="60" 
                                                       TextContentSecondWidth="150"
@@ -126,7 +126,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding ClientHelper.ClientMarketDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding ClientMarketDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -143,7 +143,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.BusinessDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=BusinessDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -160,7 +160,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.ChannelDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=ChannelDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -177,7 +177,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.BudgetKeyDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=BudgetKeyDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -196,7 +196,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.RentUsageDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=RentUsageDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -213,7 +213,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding Path=ClientHelper.LanguageDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding Path=LanguageDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="100"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
@@ -292,23 +292,23 @@
                         <TextBox Text="{Binding Path=DataObject.CODPROV_CLI1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" Height="30" />
                         <!---->
                           <KarveControls:DualFieldSearchBox x:Name="Formas" 
-                                              LabelText="Forma de Cobro" 
+                                              LabelText="Forma de Pago" 
                                               Height="30" 
                                               
                                                             Grid.ColumnSpan="2"
                                                               Grid.Row="3"
                                           AssistTableName="CLIENT_PAYMENT_FORM"
                                           IsReadOnlySecond="True"
-                                          DataFieldFirst="BLOQUEFAC"
-                                          AssistProperties="Code,Name"
+                                          DataFieldFirst="FPAGO"
+                                          AssistProperties="Codigo,Nombre"
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                          LabelTextWidth="100"
+                                          SourceView="{Binding ClientPaymentForm, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          LabelTextWidth="106"
                                           TextContentFirstWidth="50" 
-                                          TextContentSecondWidth="106"
-                                          ButtonImage="/KarveCar;component/Images/search.png" VerticalAlignment="Bottom" Margin="-4,0,0,1"/>
+                                          TextContentSecondWidth="115"
+                                          ButtonImage="/KarveCar;component/Images/search.png" VerticalAlignment="Bottom"/>
                         
                         <Label Content="Banco " Grid.Row="4" />
                         <TextBox Text="{Binding Path=DataObject.BANCO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" Height="30" />
@@ -494,6 +494,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <KarveControls:DualFieldSearchBox x:Name="InvoceBloq" 
                                               LabelText="Bloque Facturacion" 
@@ -507,7 +508,7 @@
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding ClientHelper.InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding InvoiceBlock, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="125"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="180"
@@ -524,23 +525,36 @@
                                                       Height="35"
                                                      Grid.Row="1"
                                                       IsReadOnly="False"/>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Facturaction Acumulada" Width="146" Height="30" Grid.Column="0"></TextBlock>
+                            <syncfusion:CurrencyTextBox Grid.Column="1" Width="210"
+                                                      Background="LightCyan"
+                                                        Height="30"
+                                                      IsReadOnly="False"
+                                                        CurrencySymbol="€ "/>
+                        </Grid>
                         <KarveControls:DualFieldSearchBox x:Name="InvoiceBroker" 
                                               LabelText="Abonar Comision a" 
                                               Height="30" 
-                                                              Grid.Row="2"
+                                                              Grid.Row="3"
                                           Margin="0,5,0,0"
                                           AssistTableName="CLIENT_BROKER"
                                           IsReadOnlySecond="True"
                                           DataFieldFirst="COMISIO"
-                                          AssistProperties="Numero,Nombre,Persona,Nif,Direccion,Poblacion,Provincia,Pais"
+                                          AssistProperties="Code,Name,Person,Nif,Direction,City,Province,Country"
                                           ItemChangedCommand="{Binding ItemChangedCommand}"
                                           MagnifierCommand="{Binding AssistCommand}" 
                                           DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SourceView="{Binding ClientHelper.BrokerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SourceView="{Binding BrokerDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                           LabelTextWidth="125"
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
+                        <!--
                         <KarveControls:DualFieldSearchBox x:Name="TarifaBloq" 
                                               LabelText="Tarifa Comision" 
                                               Height="30" 
@@ -558,6 +572,7 @@
                                           TextContentFirstWidth="60" 
                                           TextContentSecondWidth="150"
                                           ButtonImage="/KarveCar;component/Images/search.png"/>
+                        -->
 
                         <StackPanel Grid.Row="4" HorizontalAlignment="Left" Orientation="Horizontal" Margin="0,5,0,0">
                             <KarveControls:DataField

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class CreditCardDto: BaseDto
+    public class CreditCardDto: BaseDtoDefaultName
     {
         /// <summary>
         ///  Default mapping for the images.
@@ -52,5 +52,7 @@ namespace KarveDataServices.DataTransferObject
             set { _name = value; }
             get { return _name; }
         }
+        
+
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -17,7 +18,7 @@ namespace HelperModule.ViewModels
     /// </summary>
     class BusinessViewModel: GenericHelperViewModel<BusinessDto, NEGOCIO>
     {
-        public BusinessViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
+        public BusinessViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperBusiness;
         }

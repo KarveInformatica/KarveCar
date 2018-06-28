@@ -123,6 +123,8 @@
     <Compile Include="ViewModels\BookingControlViewModel.cs" />
     <Compile Include="ViewModels\BookingDataHelper.cs" />
     <Compile Include="ViewModels\BookingInfoViewModel.cs" />
+    <Compile Include="ViewModels\ReservationRequestControlViewModel.cs" />
+    <Compile Include="ViewModels\ReservationRequestsViewModel.cs" />
     <Compile Include="Views\BookingControlView.xaml.cs">
       <DependentUpon>BookingControlView.xaml</DependentUpon>
     </Compile>
@@ -141,6 +143,12 @@
     <Compile Include="Views\BookingInfoView.xaml.cs">
       <DependentUpon>BookingInfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReservationRequestControl.xaml.cs">
+      <DependentUpon>ReservationRequestControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReservationRequests.xaml.cs">
+      <DependentUpon>ReservationRequests.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -156,6 +164,10 @@
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveCar.Controls</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\KarveCar.NavigationInterface\KarveCar.NavigationInterface.csproj">
+      <Project>{801eac52-8dfe-4c96-8550-3bc263d6f8f5}</Project>
+      <Name>KarveCar.NavigationInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
       <Name>KarveCar.CommonInterfaces</Name>
@@ -167,6 +179,10 @@
     <ProjectReference Include="..\..\KarveLocale\KarveCar.Locale.csproj">
       <Project>{d1d7504f-994c-42fb-a78f-b6078f460f7f}</Project>
       <Name>KarveCar.Locale</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DALModule\KarveDataAccessLayer.csproj">
+      <Project>{140C1044-4F56-4855-AF52-A2F91B369460}</Project>
+      <Name>KarveDataAccessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\DALModule\KarveDataServices\KarveDataServices.csproj">
       <Project>{83407587-1785-481B-A4FB-23E035173190}</Project>
@@ -199,6 +215,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BookingInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReservationRequestControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReservationRequests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

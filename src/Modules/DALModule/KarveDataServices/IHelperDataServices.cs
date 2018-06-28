@@ -162,6 +162,18 @@ namespace KarveDataServices
         /// <returns></returns>
         Task<IEnumerable<DtoTransfer>> GetPagedSummaryDoAsync<DtoTransfer, T>(long pageIndex, int pageSize)
         where DtoTransfer : class where T : class;
-       
+
+        /// <summary>
+        ///  Fetch the paged queries.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<IEnumerable<T>> GetPagedQueryDoAsync<T>(string query, int pageIndex, int pageSize) where T : class;
+
+
+
     }
 }

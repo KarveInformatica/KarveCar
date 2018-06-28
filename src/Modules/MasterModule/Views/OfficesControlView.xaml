@@ -69,7 +69,7 @@
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                    
-                               ItemsSource="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 
 
@@ -118,18 +118,8 @@
           
 
         </Syncfusion:SfDataGrid>
-        <Syncfusion:SfDataPager x:Name="OfficeDataPager"
-                                PageSize="{Binding DefaultPagingSize}"                                      
-                                Grid.Row="2"
-                                AccentBackground="#FF8CBF26"
-                                AccentForeground="White" 
-                                AutoEllipsisMode="Both"
-                                NumericButtonCount="10" 
-                                Source="{Binding SummaryView}">
-
-
-        </Syncfusion:SfDataPager>
-
+        
+        
 
     </Grid>
 

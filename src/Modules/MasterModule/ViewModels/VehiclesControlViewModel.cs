@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Data;
 using System.Windows.Input;
 using KarveCommon.Generic;
@@ -14,11 +13,8 @@ using KarveCommonInterfaces;
 using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using Syncfusion.UI.Xaml.Grid;
-
 namespace MasterModule.ViewModels
 {
     /// <summary>
@@ -37,7 +33,7 @@ namespace MasterModule.ViewModels
 
         private IEnumerable<VehicleSummaryDto> _vehicleSummaryDtos;
         private PropertyChangedEventHandler _vehicleEventTask;
-
+       
         
         /// <summary>
         ///  This is the vehicle control view model. 
@@ -54,10 +50,13 @@ namespace MasterModule.ViewModels
             UnityContainer container,
             IRegionManager regionManager) : base(configurationService, eventManager, services, regionManager)
         {
+            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGrid;
             _container = container;
             _regionManager = regionManager;
+            _vehicleDataServices = DataServices.GetVehicleDataServices();
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             AllowedGridColumns = GenerateAllowedColumns();
+
             InitViewModel();
         }
         private async void OpenCurrentItem(object selectedItem)
@@ -66,11 +65,12 @@ namespace MasterModule.ViewModels
             {
                 var idNameTuple = new Tuple<string, string>(summaryItem.Code, summaryItem.Brand);
                 var tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
-                var agent = await _vehicleDataServices.GetVehicleDo(idNameTuple.Item1);
+                var agent = await _vehicleDataServices.GetDoAsync(idNameTuple.Item1).ConfigureAwait(false);
                 var navigationParameters = new NavigationParameters();
                 navigationParameters.Add("id",  idNameTuple.Item1);
                 navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
                 var uri = new Uri(typeof(VehicleInfoView).FullName+navigationParameters,UriKind.Relative);
+              //  _navigationService.NavigateAsync<MainPageviewModel>();
                 _regionManager.RequestNavigate("TabRegion", uri);
                 var currentPayload = BuildShowPayLoadDo(tabName, agent);
                 currentPayload.PrimaryKeyValue = idNameTuple.Item1;
@@ -103,7 +103,7 @@ namespace MasterModule.ViewModels
         }
         private void InitViewModel()
         {
-            base.GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGrid;
+          
             MessageHandlerMailBox += MessageHandler;
             SummaryView = new IncrementalList<VehicleSummaryDto>(LoadMoreItems);
             StartAndNotify();
@@ -146,7 +146,7 @@ namespace MasterModule.ViewModels
         protected override void NewItem()
         {
             var name = KarveLocale.Properties.Resources.VehiclesControlViewModel_NewItem_NuevoVehiculos;
-            var codigo = DataServices.GetSupplierDataServices().GetNewId();
+            var codigo = _vehicleDataServices.NewId();
             var viewNameValue = name + "." + codigo;
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add("id", codigo);
@@ -158,7 +158,7 @@ namespace MasterModule.ViewModels
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = codigo;
             currentPayload.HasDataObject = true;
-            currentPayload.DataObject = DataServices.GetVehicleDataServices().GetNewVehicleDo(codigo);
+            currentPayload.DataObject = _vehicleDataServices.GetNewDo(codigo);
             currentPayload.Sender = EventSubsystem.VehichleSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload);
         }
@@ -172,6 +172,7 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
+            SubSystem = DataSubSystem.VehicleSubsystem;
         }
        
 
@@ -212,8 +213,8 @@ namespace MasterModule.ViewModels
         }
         public override async Task<bool> DeleteAsync(string vehiculeId, DataPayLoad payLoad)
         {
-            var vehicleData = await DataServices.GetVehicleDataServices().GetVehicleDo(vehiculeId);
-            var retValue = await DataServices.GetVehicleDataServices().DeleteVehicleDo(vehicleData);
+            var vehicleData = await _vehicleDataServices.GetDoAsync(vehiculeId).ConfigureAwait(false);
+            var retValue = await _vehicleDataServices.DeleteAsync(vehicleData).ConfigureAwait(false);
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, payLoad);
             return retValue;
         }

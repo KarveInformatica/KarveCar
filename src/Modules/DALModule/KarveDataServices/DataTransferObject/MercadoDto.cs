@@ -1,12 +1,8 @@
-﻿//using System.ComponentModel.DataAnnotations;
-namespace KarveDataServices.DataTransferObject
+﻿namespace KarveDataServices.DataTransferObject
 {
-    public class MercadoDto: BaseDto
+    public class MercadoDto: BaseDtoDefaultName
     {
-        [PrimaryKey]
-      //  [Display(Name = "Name of the Customer", Description = "CustomerName is necessary for identification ")]
-        public string Code { get; set; }
-        public string Name { get; set; }
+   
         
     }
 }

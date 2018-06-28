@@ -1,34 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
+using DataAccessLayer.Crud.Vehicle;
+using DataAccessLayer.Model;
 
 namespace DataAccessLayer
 {
-    /*
-     * Move to query store. 
-     * Add incremental load 
-     */
+    
     /// <summary>
     /// This is an implementation of the data access layer for the data services.
     /// </summary>
     internal class VehiclesDataAccessLayer : AbstractDataAccessLayer, IVehicleDataServices
     {
         private readonly ISqlExecutor _sqlExecutor;
+        private IDataLoader<IVehicleData> _dataLoader;
+        private IDataDeleter<IVehicleData> _dataDeleter;
+        private IDataSaver<IVehicleData> _dataSaver;
         private const string PrimaryKey = "CODIINT";
         private const string VehicleDataFile = @"\Data\VehicleFields.xml";
-        private readonly VehicleFactory _factory = null;
-
+        ///private readonly VehicleFactory _factory = null;
+        private QueryStoreFactory _queryStoreFactory;
         /// <summary>
         /// VehicleDataAccessLayer class.
         /// </summary>
@@ -37,7 +37,9 @@ namespace DataAccessLayer
         {
             _sqlExecutor = sqlExecutor;
             base.InitData(VehicleDataFile);
-            _factory = VehicleFactory.GetFactory(_sqlExecutor);
+            _dataLoader = new VehicleDataLoader(_sqlExecutor);
+            _dataSaver = new VehicleDataSaver(_sqlExecutor);
+            _dataDeleter = new VehicleDataDeleter(_sqlExecutor);
             TableName = "VEHICULO1";
         }
 
@@ -59,35 +61,15 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<VehicleSummaryDto>> GetVehiclesAgentSummary(int pageSize, int offset)
         {
-            // TODO: Fix the usage of the query store.
-            QueryStore store = new QueryStore();
-
-
-           
-            IEnumerable<VehicleSummaryDto> vehicles = null;
-            string value = "";
-            if (pageSize == 0)
-            {
-                store.AddParam(QueryType.QueryVehicleSummary);
-                value = store.BuildQuery();
-            }
-            else
-            {
-                store.Clear();
-                store.AddParamRange(QueryType.QueryVehicleSummaryPaged, pageSize, offset);
-                var query = store.BuildQuery();
-
-            }
-
+            IEnumerable<VehicleSummaryDto> summary = new List<VehicleSummaryDto>();
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            store.AddParam(QueryType.QueryVehicleSummary);
+            var query = store.BuildQuery();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                /*
-                 *  Move to query store.
-                 */
-                vehicles = await connection.QueryAsync<VehicleSummaryDto>(GenericSql.VehiclesSummaryQuery);
+                  summary = await connection.QueryAsync<VehicleSummaryDto>(query).ConfigureAwait(false);
             }
-
-            return vehicles;
+            return summary;
         }
 
         /// <summary>
@@ -103,24 +85,12 @@ namespace DataAccessLayer
                 if (dbConnection != null)
                 {
                     uniqueStr = dbConnection.UniqueId(vehicle);
-                }
-                
+                }   
             }
             return uniqueStr;
-    
         }
 
-        /// <summary>
-        ///  This return a new identifier for vehicle
-        /// </summary>
-        /// <returns></returns>
-        public IVehicleData GetNewVehicleDo()
-        {
-            string identifier = GetNewId();
-            IVehicleData dictionaryData = _factory.NewVehicle(identifier);
-            return dictionaryData;
-        }
-
+       
         /// <summary>
         /// Fetch a single vehicle Data object
         /// </summary>
@@ -130,43 +100,12 @@ namespace DataAccessLayer
         public async Task<IVehicleData> GetVehicleDo(string vehicleId, IDictionary<string, string> queryDictionary)
         {
             Contract.Requires(!string.IsNullOrEmpty(vehicleId), "A valid id is needed");
-
             IDictionary<string, string> queries;
             queries = queryDictionary ?? base.BaseQueryDictionary;
-
-            // old method was too complicated.
-            IVehicleData dictionaryData = await _factory.GetVehicle(queries, vehicleId);
-            return dictionaryData;
+            var item = await _dataLoader.LoadValueAsync(vehicleId).ConfigureAwait(false);
+            return item;
 
         }
-
-
-
-        /// <summary>
-        /// Gives us a commission agent collection list
-        /// </summary>
-        /// <param name="fields">Fields to be present in the query</param>
-        /// <param name="pageSize">Page dimension</param>
-        /// <param name="startAt">Initialization of the object</param>
-        /// <returns></returns>
-        public async Task<IEnumerable<IVehicleData>> GetVehicleCollection(IDictionary<string, string> fields,
-            int pageSize = 0, int startAt = 0)
-        {
-            IEnumerable<IVehicleData> vehicles = await _factory.CreateVehicleList(fields, pageSize, startAt);
-            return vehicles;
-        }
-
-        /// <summary>
-        ///  Fetch list of data objects for vehicles.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IEnumerable<IVehicleData>> GetAsyncVehicles()
-        {
-            var queries = base.BaseQueryDictionary;
-            IEnumerable<IVehicleData> vehicleDatas = await _factory.CreateVehicleList(queries, 0, 0);
-            return vehicleDatas;
-        }
-
         /// <summary>
         ///  Save a new inserted vehicle.
         /// </summary>
@@ -210,30 +149,9 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IVehicleData> GetVehicleDo(string primaryKeyValue)
         {
-            return await GetVehicleDo(primaryKeyValue, null);
+            return await GetVehicleDo(primaryKeyValue, null).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Delete vehicle data.
-        /// </summary>
-        /// <param name="vehicleData">Delete a vehicle agent saved.</param>
-        /// <returns></returns>
-        public async Task<bool> DeleteVehicleDo(IVehicleData vehicleData)
-        {
-            var value = await vehicleData.DeleteAsyncData();
-            return value;
-        }
-
-        /// <summary>
-        ///  This gives to us a vehicle data object from the factory
-        /// </summary>
-        /// <param name="primaryKeyValue"></param>
-        /// <returns></returns>
-        public IVehicleData GetNewVehicleDo(string primaryKeyValue)
-        {
-            return _factory.NewVehicle(primaryKeyValue);
-        }
-
+    
         /// <summary>
         ///  Updates a vehicle changes
         /// </summary>
@@ -252,13 +170,65 @@ namespace DataAccessLayer
         /// <returns></returns>
         public async Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
+            IEnumerable<VehicleSummaryDto> pagedSummary = new List<VehicleSummaryDto>(); 
             var pager = new DataPager<VehicleSummaryDto>(SqlExecutor);
             var startIndex = (baseIndex == 0) ? 1 : defaultPageSize;
             NumberPage = await GetPageCount(defaultPageSize);
-            var pagedSummary =
-                await pager.GetPagedSummaryDoAsync(QueryType.QueryVehicleSummaryPaged, startIndex, defaultPageSize);
-            return pagedSummary;
+            try
+            {
+                pagedSummary =
+                    await pager.GetPagedSummaryDoAsync(QueryType.QueryVehicleSummaryPaged, startIndex, defaultPageSize);
+            } catch (System.Exception ex)
+            {
+                throw new DataLayerException(ex.Message, ex);
+            }
+                return pagedSummary;
+        }
+        public async Task<IEnumerable<VehicleSummaryDto>> GetSummaryAllAsync()
+        {
+            IEnumerable<VehicleSummaryDto> summary = new List<VehicleSummaryDto>();
+            IQueryStore store = _queryStoreFactory.GetQueryStore(); 
+            store.AddParam(QueryType.QueryVehicleSummary);
+            var query = store.BuildQuery();
+        
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                summary = await connection.QueryAsync<VehicleSummaryDto>(query).ConfigureAwait(false);
+            }
+            return summary;
+        }
+        public async Task<IVehicleData> GetDoAsync(string code)
+        {
+            var vehicleData = await _dataLoader.LoadValueAsync(code).ConfigureAwait(false);
+            return vehicleData;
+        }
+        public async Task<bool> SaveAsync(IVehicleData data)
+        {
+            var retValue = await _dataSaver.SaveAsync(data).ConfigureAwait(false);
+            return retValue;
+        }
+        public IVehicleData GetNewDo(string value)
+        {
+            IVehicleData vehicle = new Vehicle();
+            vehicle.Value = new VehicleDto();
+            vehicle.Value.CODIINT = value;
+            vehicle.Valid = true;
+            return vehicle;
+        }
+        public async Task<bool> DeleteAsync(IVehicleData vehicleData)
+        {
+            var retValue = await _dataDeleter.DeleteAsync(vehicleData).ConfigureAwait(false);
+            return retValue;
+        }
 
+        public string NewId()
+        {
+            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            {
+                VEHICULO1 veiculo = new VEHICULO1();
+                var id = connection.UniqueId<VEHICULO1>(veiculo);
+                return id;
+            }
         }
     }
 }

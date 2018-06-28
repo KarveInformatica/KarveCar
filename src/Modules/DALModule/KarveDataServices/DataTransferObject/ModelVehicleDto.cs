@@ -6,7 +6,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     /// Data transfer object.
     /// </summary>
-    public class ModelVehicleDto
+    public class ModelVehicleDto: BaseDto
     {
         /// <summary>
         ///  brand
@@ -48,6 +48,22 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         [Display(Name = "Referencia")]
         public string Referencia { get; set; }
+
+        public bool IsInvalid()
+        {
+            if ((Nombre != null) && (Nombre.Length > 50))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            if ((NomeMarca != null) && (NomeMarca.Length > 20))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                return true;
+            }
+            return false;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
 
     }
 }

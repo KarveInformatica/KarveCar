@@ -1,23 +1,28 @@
-﻿using System;
+﻿using sinkien.IBAN4Net;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-        public class SupplierDto
+        public class SupplierDto: BaseDto
         {
             /// <summary>
             ///  Set or get the NUM_PROVEE property.
             /// </summary>
             public string NUM_PROVEE { get; set; }
 
-        /// <summary>
+            /// <summary>
             ///  Set or get the NOMBRE property.
             /// </summary>
-
+            [Required(ErrorMessage = "A supplier name is required")]
+            [StringLength(160)]
             public string NOMBRE { get; set; }
+
+            
 
             /// <summary>
             ///  Set or get the DIRECCION property.
@@ -97,11 +102,13 @@ namespace KarveDataServices.DataTransferObject
 
             public string INTERNET { get; set; }
 
-            /// <summary>
-            ///  Set or get the EMAIL property.
-            /// </summary>
-
-            public string EMAIL { get; set; }
+        /// <summary>
+        ///  Set or get the EMAIL property.
+        /// </summary>
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress]
+        public string EMAIL { get; set; }
 
             /// <summary>
             ///  Set or get the NACIOPER property.
@@ -505,11 +512,11 @@ namespace KarveDataServices.DataTransferObject
 
             public string FAX_DEVO { get; set; }
 
-            /// <summary>
-            ///  Set or get the MAIL_DEVO property.
-            /// </summary>
-
-            public string MAIL_DEVO { get; set; }
+        /// <summary>
+        ///  Set or get the MAIL_DEVO property.
+        /// </summary>
+       
+        public string MAIL_DEVO { get; set; }
 
             /// <summary>
             ///  Set or get the PERSONA_DEVO property.
@@ -659,7 +666,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the GESTION_IVA_IMPORTA property.
             /// </summary>
 
-            public bool GESTION_IVA_IMPORTA { get; set; }
+            public byte GESTION_IVA_IMPORTA { get; set; }
 
             /// <summary>
             ///  Set or get the NUMCOMI_PR property.
@@ -908,12 +915,6 @@ namespace KarveDataServices.DataTransferObject
             public DateTime? F_ULT_CAMBIO_PREC { get; set; }
 
             /// <summary>
-            ///  Set or get the NOAUTOMARGEN property.
-            /// </summary>
-
-            public bool NOAUTOMARGEN { get; set; }
-
-            /// <summary>
             ///  Set or get the TIPO_PROVEE_IVA property.
             /// </summary>
 
@@ -1033,23 +1034,25 @@ namespace KarveDataServices.DataTransferObject
 
             public byte? FORMA { get; set; }
 
-            /// <summary>
-            ///  Set or get the PLAZO property.
-            /// </summary>
+        /// <summary>
+        ///  Set or get the PLAZO property.
+        /// </summary>
+         [Range(0, Int16.MaxValue, ErrorMessage = "Contact number should not contain characters")]
+        public Int16? PLAZO { get; set; }
 
-            public Int16? PLAZO { get; set; }
+        /// <summary>
+        ///  Set or get the PLAZO2 property.
+        /// </summary>
+        [Range(0, Int16.MaxValue, ErrorMessage = "Contact number should not contain characters")]
 
-            /// <summary>
-            ///  Set or get the PLAZO2 property.
-            /// </summary>
+        public Int16? PLAZO2 { get; set; }
 
-            public Int16? PLAZO2 { get; set; }
+        /// <summary>
+        ///  Set or get the PLAZO3 property.
+        /// </summary>
+        [Range(0, Int16.MaxValue, ErrorMessage = "Contact number should not contain characters")]
 
-            /// <summary>
-            ///  Set or get the PLAZO3 property.
-            /// </summary>
-
-            public Int16? PLAZO3 { get; set; }
+        public Int16? PLAZO3 { get; set; }
 
             /// <summary>
             ///  Set or get the DIA property.
@@ -1081,17 +1084,20 @@ namespace KarveDataServices.DataTransferObject
 
             public string MONEDA { get; set; }
 
-            /// <summary>
-            ///  Set or get the INTRACO property.
-            /// </summary>
+            
 
-            public bool INTRACO { get; set; }
+            public byte? PALBARAN { get; set; }
+             /// <summary>
+             ///  Set or get the INTRACO property.
+             /// </summary>
+            public byte? INTRACO { get; set; }
 
+            public byte? NOAUTOMARGEN { set; get; }
             /// <summary>
             ///  Set or get the PREFIJO property.
             /// </summary>
 
-            public string PREFIJO { get; set; }
+        public string PREFIJO { get; set; }
 
             /// <summary>
             ///  Set or get the CONTABLE property.
@@ -1169,7 +1175,7 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the PALBARAN property.
             /// </summary>
 
-            public Boolean PALBARAN { get; set; }
+           /// public Boolean PALBARAN { get; set; }
 
             /// <summary>
             ///  Set or get the EXCLUSIVIDAD property.
@@ -1211,13 +1217,13 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the OLDNUMPR property.
             /// </summary>
 
-            public string OLDNUMPR { get; set; }
+           /// public string OLDNUMPR { get; set; }
 
             /// <summary>
             ///  Set or get the NEWNUMPR property.
             /// </summary>
 
-            public string NEWNUMPR { get; set; }
+///            public string NEWNUMPR { get; set; }
 
             /// <summary>
             ///  Set or get the TELF_ATENCION property.
@@ -1241,5 +1247,33 @@ namespace KarveDataServices.DataTransferObject
             ///  Set or get the CLAVEHAC_PRO property.
             /// </summary>
             public string CLAVEHAC_PRO { get; set; }
-}
+
+
+             public override bool HasErrors
+             {
+                get
+                 {
+                    if (this.NOMBRE == null)
+                    {
+                        return true;
+                    }
+                    if (this.NOMBRE.Length > 150)
+                    {
+                    return true;
+                    }
+                    if (!string.IsNullOrEmpty(IBAN))
+                    {
+                        try
+                        {
+                            var bic = Iban.CreateInstance(IBAN);
+                        }
+                        catch (BicFormatException ex)
+                        {
+                            return true;
+                        }
+                }
+                return false;
+            }
+        }
+    }
 }

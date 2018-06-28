@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
-    public class DelegaContableDto: BaseDto 
+    public class DelegaContableDto: BaseDtoDefaultName 
     {
-      public string Code { set; get; }
-      public string Name { set; get; }
     }
 }

@@ -329,7 +329,7 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Clave Ppto Dto
         /// </summary>
-        public IEnumerable<ClavePtoDto> ClavePptoDto { get; set; }
+        public IEnumerable<BudgetKeyDto> ClavePptoDto { get; set; }
         /// <summary>
         ///  Origen Dto
         /// </summary>
@@ -476,6 +476,7 @@ namespace DataAccessLayer.Model
         {
             string tmpQuery = "";
 
+           
             if (!string.IsNullOrEmpty(comisio.TIPOCOMI))
             {
                 //tmpQuery = string.Format(_queryTipoComi, comisio.TIPOCOMI);
@@ -534,7 +535,7 @@ namespace DataAccessLayer.Model
             {
                 tmpQuery = string.Format(_queryComiDapper, ClavePpto, DefaultClavePpto, "COD_CLAVE", comisio.CLAVEPPTO);
                 _clavePpto = await _dbConnection.QueryAsync<CLAVEPTO>(tmpQuery);
-                ClavePptoDto = _mapper.Map<IEnumerable<CLAVEPTO>, IEnumerable<ClavePtoDto>>(_clavePpto);
+                ClavePptoDto = _mapper.Map<IEnumerable<CLAVEPTO>, IEnumerable<BudgetKeyDto>>(_clavePpto);
 
             }
             if (comisio.ORIGEN_COMI != null)
@@ -641,7 +642,7 @@ namespace DataAccessLayer.Model
                             }, splitOn: "SIGLAS");
                         BranchesDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
                         store.Clear();
-                        store.AddParam(QueryType.QueryResellerByClient, _currentComisio.NUM_COMI);
+                        store.AddParam(QueryType.QueryClientVisits, _currentComisio.NUM_COMI);
                         var visitas = store.BuildQuery();
                         _visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco>(visitas);
                         VisitsDto = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VisitsDto>>(_visitasComis);

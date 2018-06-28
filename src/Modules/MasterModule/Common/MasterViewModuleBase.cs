@@ -124,15 +124,11 @@ namespace MasterModule.Common
 
         protected bool IsInsertion = false;
 
-        protected IRegionManager RegionManager;
+       
 
         protected const string OperationConstKey = "Operation";
 
-        /// <summary>
-        /// Command to detect and assist in case of a window.
-        /// </summary>
-        public ICommand AssistCommand { set; get; }
-
+       
         /// <summary>
         ///  This is a command for open a new window.
         /// </summary>
@@ -283,6 +279,7 @@ namespace MasterModule.Common
                 var helper = await DataServices.GetCommissionAgentDataServices().GetPagedSummaryDoAsync(1, DefaultPageSize);
                 return helper;
             });
+
         }
 
 
@@ -328,9 +325,13 @@ namespace MasterModule.Common
                 if (eventDictionary.ContainsKey("Field"))
                 {
                     fieldName = eventDictionary["Field"] as string;
-                    if (fieldName != null)
+                    if ((fieldName != null) && (!fieldName.Contains("Value")))
                     {
-                        fieldName = fieldName.ToUpper();
+                        // there is at least this where the assumption is not true.
+                        if (fieldName != "Recogida")
+                        {
+                            fieldName = fieldName.ToUpper();
+                        }
                     }
                     if (fieldName == "CP")
                     {
@@ -347,9 +348,21 @@ namespace MasterModule.Common
                 if ((valueName != null) && (!string.IsNullOrEmpty(fieldName)))
                 {
                     var currentObject = payLoad.DataObject;
-                    var currentValue = !fieldName.Contains("Value") ? "Value." + fieldName : fieldName;
-                    KarveCommon.ComponentUtils.SetPropValue(currentObject, currentValue, valueName , true);
+                    string currentValue = string.Empty;
+                    if (currentObject is BaseDto)
+                    {
+                        // if the object that travels is a data object and not a domain object.
+                        currentValue = fieldName.Replace(".Value","");
+                    }
+                    else
+                    {
+                         currentValue = !fieldName.Contains("Value") ? "Value." + fieldName : fieldName;
+
+                    }
+                    KarveCommon.ComponentUtils.SetPropValue(currentObject, currentValue, valueName, true);
+
                     payLoad.DataObject = currentObject;
+                  
                 }   
             }
             
@@ -383,10 +396,21 @@ namespace MasterModule.Common
             if (value != null)
             {
                 string webBrowser = value as string;
-                if (webBrowser.Length > 0)
+                Uri uriResult;
+                if (webBrowser != null)
                 {
+                    bool result = Uri.TryCreate(webBrowser, UriKind.Absolute, out uriResult)
+                        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 
-                    System.Diagnostics.Process.Start(webBrowser);
+                    if (result)
+                    {
+
+                        System.Diagnostics.Process.Start(webBrowser);
+                    }
+                    else
+                    {
+                        DialogService?.ShowErrorMessage("Invalid url");
+                    }
                 }
             }
         }

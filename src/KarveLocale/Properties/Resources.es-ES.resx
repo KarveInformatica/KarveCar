@@ -1387,7 +1387,7 @@
     <value>Banco</value>
   </data>
   <data name="lidiomas" xml:space="preserve">
-    <value>Language</value>
+    <value>Idioma</value>
   </data>
   <data name="ldivisa" xml:space="preserve">
     <value>Divisa</value>
@@ -2380,7 +2380,7 @@
     <value>Listado conductores</value>
   </data>
   <data name="lowner" xml:space="preserve">
-    <value>Proprietario</value>
+    <value>Propietario</value>
   </data>
   <data name="lcreditcardtype" xml:space="preserve">
     <value>Tipo Tarjeta de Credito</value>
@@ -2459,5 +2459,50 @@
   </data>
   <data name="lstreetwm" xml:space="preserve">
     <value>Calle..</value>
+  </data>
+  <data name="lclosebutton" xml:space="preserve">
+    <value>Cierra</value>
+  </data>
+  <data name="ldireccion" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Fecha de caducidad</value>
+  </data>
+  <data name="lbookingRequests" xml:space="preserve">
+    <value>Petición Reservas</value>
+  </data>
+  <data name="lcodigoempresa" xml:space="preserve">
+    <value>Codigo Empresa</value>
+  </data>
+  <data name="lday" xml:space="preserve">
+    <value>Dia</value>
+  </data>
+  <data name="lreason" xml:space="preserve">
+    <value>Motivo</value>
+  </data>
+  <data name="lreservationrequestdate" xml:space="preserve">
+    <value>Fecha Petición Reserva</value>
+  </data>
+  <data name="lreservationrequestservice" xml:space="preserve">
+    <value>Fecha Servicio</value>
+  </data>
+  <data name="loption" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="ldays" xml:space="preserve">
+    <value>Días</value>
+  </data>
+  <data name="lothervehi" xml:space="preserve">
+    <value>Otro Vehiculo</value>
+  </data>
+  <data name="lrbtnClassificaCliente" xml:space="preserve">
+    <value>Importancia Cliente</value>
+  </data>
+  <data name="lrbtnComunidadAutonoma" xml:space="preserve">
+    <value>Comunidad Autonomica</value>
+  </data>
+  <data name="imagefile" xml:space="preserve">
+    <value>Imagen</value>
   </data>
 </root>

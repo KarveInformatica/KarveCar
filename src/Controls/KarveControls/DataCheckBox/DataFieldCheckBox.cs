@@ -140,9 +140,18 @@ namespace KarveControls
                 var current = (IsChecked == true) ? 1 : 0;
                 IDictionary<string, object> values = new Dictionary<string, object>();
                 values.Add("DataObject", DataObject);
-                values.Add("ChangedValue", IsChecked);
+                values.Add("ChangedValue", current);
                 values.Add("PreviousValue", _previous);
                 values.Add("Field", path);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    try
+                    {
+
+                    } catch (Exception ex)
+                    {
+                    }
+                }
             if (Command != null)
             {
                 Command.Execute(values);

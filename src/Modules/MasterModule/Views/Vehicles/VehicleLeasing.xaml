@@ -49,8 +49,7 @@
                                        DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
     
                                        SourceView="{Binding  ProveeDto2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                      
-                                       AssistQuery="{Binding LeasingSupplierQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    
                                        MagnifierCommand="{Binding AssistCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}" Height="25">

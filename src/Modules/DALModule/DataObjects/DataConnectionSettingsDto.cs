@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataTransferObject;
 
+/*
 namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
@@ -47,3 +48,4 @@ namespace KarveDataServices.DataTransferObject
 
     }
 }
+*/

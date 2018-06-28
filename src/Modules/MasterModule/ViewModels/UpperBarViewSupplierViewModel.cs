@@ -10,12 +10,12 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveCommon.Services;
-using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using Prism.Commands;
+using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {

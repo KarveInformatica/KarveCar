@@ -59,7 +59,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Clave Data Transfer Object
         /// </summary>
-        IEnumerable<ClavePtoDto> ClavePptoDto { get; set; }
+        IEnumerable<BudgetKeyDto> ClavePptoDto { get; set; }
         /// <summary>
         /// Clientes data transfer object.
         /// </summary>

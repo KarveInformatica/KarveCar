@@ -6,6 +6,8 @@ using KarveControls.Generic;
 using System.Windows.Input;
 using KarveCommon;
 using KarveCommon.Generic;
+using KarveDataServices.DataTransferObject;
+using System.ComponentModel.DataAnnotations;
 
 namespace KarveControls
 {
@@ -110,7 +112,7 @@ namespace KarveControls
         /// Data object dependency properties.
         /// </summary>
         public static readonly DependencyProperty DataAllowedDependencyProperty =
-            DependencyProperty.Register("DataAllowed", typeof(DataType), typeof(DataField), new PropertyMetadata(DataType.Any, OnDataAllowedChanged));
+            DependencyProperty.Register("DataAllowed", typeof(KarveCommon.Generic.DataType), typeof(DataField), new PropertyMetadata(KarveCommon.Generic.DataType.Any, OnDataAllowedChanged));
 
         private static void OnDataAllowedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -120,16 +122,16 @@ namespace KarveControls
 
         private void OnDataAllowedChanged(DependencyPropertyChangedEventArgs e)
         {
-            DataType dataType = (DataType)e.NewValue;
+            KarveCommon.Generic.DataType dataType = (KarveCommon.Generic.DataType)e.NewValue;
         }
 
         #region
         /// <summary>
         /// DataAllowed.
         /// </summary>
-        public DataType DataAllowed
+        public KarveCommon.Generic.DataType DataAllowed
         {
-            get { return (DataType)GetValue(DataAllowedDependencyProperty); }
+            get { return (KarveCommon.Generic.DataType)GetValue(DataAllowedDependencyProperty); }
             set { SetValue(DataAllowedDependencyProperty, value); }
         }
         #endregion
@@ -140,7 +142,7 @@ namespace KarveControls
             if (value != null)
             {
                 string objectValue = value.ToString();
-                if (DataAllowed == DataType.Email)
+                if (DataAllowed == KarveCommon.Generic.DataType.Email)
                 {
                     objectValue = objectValue.Replace("#", "@");
                 }
@@ -208,13 +210,14 @@ namespace KarveControls
                 else
                 {
                     box.Background = System.Windows.Media.Brushes.White;
+                    box.TextChanged += TextField_TextChanged;
+                    box.GotFocus += TextField_GotFocus;
+                    GotFocus += DataField_GotFocus;
+                    LostFocus += DataField_LostFocus;
                 }
                 box.Visibility = Visibility.Visible;
-                box.IsReadOnly = false;
-                box.TextChanged += TextField_TextChanged;
-                box.GotFocus += TextField_GotFocus;
-                GotFocus += DataField_GotFocus;
-                LostFocus += DataField_LostFocus;
+                box.IsReadOnly = IsReadOnly;
+               
                 
             }
             TextBlock block = GetTemplateChild("PART_LabelField") as TextBlock;
@@ -433,7 +436,7 @@ namespace KarveControls
             if (textField != null)
             {
                 string tmpValue = value;
-                if (DataAllowed == DataType.Email)
+                if (DataAllowed == KarveCommon.Generic.DataType.Email)
                 {
                     tmpValue = value.Replace("@", "#");
                 }
@@ -501,6 +504,20 @@ namespace KarveControls
             set { SetValue(LabelTextDependencyProperty, value); }
         }
 
+        public static readonly DependencyProperty ErrorTextDependencyProperty =
+          DependencyProperty.Register(
+              "ErrorText",
+              typeof(string),
+              typeof(DataField),
+              new PropertyMetadata(string.Empty));
+        /// <summary>
+        ///  Label text dependency property.
+        /// </summary>
+        public string ErrorText
+        {
+            get { return (string)GetValue(ErrorTextDependencyProperty); }
+            set { SetValue(ErrorTextDependencyProperty, value); }
+        }
         #endregion
         #region LabelTextWidth 
         public static readonly DependencyProperty LabelTextWidthDependencyProperty =
@@ -615,10 +632,14 @@ namespace KarveControls
         public static string DATAOBJECT = "DataObject";
         /// <summary>
         /// </summary>
-     
 
-        private void TextField_TextChanged(object sender, TextChangedEventArgs e)
+ 
+private void TextField_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (IsReadOnly)
+            {
+                return;
+            }
             _textContentChanged = true;
             RaiseEvent(e);
         }
@@ -647,11 +668,44 @@ namespace KarveControls
                 _filler.FillDataObject(value, DataSourcePath, ref dataObject);
             }
         }
+
+        
         private void DataField_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox textField = GetTemplateChild("PART_TextField") as TextBox;
 
-           
+
+            // here we put the validation logic using data annotations just for data objects
+            if (IsReadOnly)
+                return;
+            if (DataObject != null)
+             {
+
+                BaseDto baseDto = null;
+                if (DataObject is BaseDto)
+                {
+                    baseDto = DataObject as BaseDto;
+                 }
+                else
+                {
+                    var dto = ComponentUtils.GetPropValue(DataObject, "Value");
+                    baseDto = dto as BaseDto;
+
+                }
+                if (baseDto != null)
+                {
+                    var context = new ValidationContext(baseDto, serviceProvider: null, items: null);
+                    var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+                    var isValid = Validator.TryValidateObject(baseDto, context, results);
+                    if (!isValid)
+                    {
+                        baseDto.IsValid = isValid;
+                        ErrorText = results[0].ErrorMessage;
+                    }
+                }
+
+            }
+
             if (textField?.Text.Length > 0 && (_textContentChanged))
             {
                 DataFieldEventArgs ev = new DataFieldEventArgs(DataFieldChangedEvent)
@@ -680,7 +734,7 @@ namespace KarveControls
         private void TextField_GotFocus(object sender, RoutedEventArgs e)
         {
             _textContentChanged = false;
-            TextBox box = GetTemplateChild("PART_TextField") as TextBox;
+            var box = GetTemplateChild("PART_TextField") as TextBox;
            
             if (box != null)
             {
@@ -691,7 +745,7 @@ namespace KarveControls
 
         private void DataField_GotFocus(object sender, RoutedEventArgs e)
         {
-            TextBox box = GetTemplateChild("PART_TextField") as TextBox;
+            var box = GetTemplateChild("PART_TextField") as TextBox;
             if (box != null)
             {
                 box.Focus();

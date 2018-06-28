@@ -1,36 +1,46 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace KarveDataServices.DataTransferObject
 {
     public class ResellerDto: BaseDto
     {
-    
+
+        public ResellerDto()
+        {
+            City = new CityDto();
+            Province = new ProvinciaDto();
+            Country = new CountryDto();
+        }
         /// <summary>
         ///  Reseller code.
         /// </summary>
+        [Display(Name = "Codigo ")]
         public string Code { get; set; }
 
         /// <summary>
         ///  Reseller Name.
         /// </summary>
+        [Display(Name = "Nombre")]
         public string Name { get; set; }
         /// <summary>
         ///  Reseller direciton.
         /// </summary>
+        [Display(Name = "Dirección ")]
         public string Direction { get; set; }
 
         /// <summary>
         ///  Set or get the POBLACION property.
         /// </summary>
+        [Display(Name = "Poblacion ")]
 
         public CityDto City { get; set; }
 
         /// <summary>
         ///  Set or get the PROVINCIA property.
         /// </summary>
-
+        [Display(Name = "Provincia ")]
         public ProvinciaDto Province { get; set; }
-
         /// <summary>
         ///  Set or get the NACIOPER property.
         /// </summary>
@@ -38,24 +48,29 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the NACIODOMI property.
         /// </summary>
-
+        [Display(Name = "Codigo Pais")]
         public string CountryDomain { get; set; }
 
         /// <summary>
         ///  Set or get the CP property.
         /// </summary>
+        [Display(Name = "CP")]
 
         public string Zip { get; set; }
+
+       
 
         /// <summary>
         ///  Set or get the TELEFONO property.
         /// </summary>
+        [Display(Name = "Telefono")]
 
         public string Phone { get; set; }
 
         /// <summary>
         ///  Set or get the ZONA property.
         /// </summary>
+        [Display(Name = "Zona")]
 
         public string Zone { get; set; }
 
@@ -68,7 +83,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the OBS1 property.
         /// </summary>
-
+        [Display(Name = "Notes")]
         public string Observation { get; set; }
 
         /// <summary>
@@ -83,13 +98,14 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the MOVIL property.
         /// </summary>
-
+        
+        [Display(Name = "Movil")]
         public string CellPhone { get; set; }
 
         /// <summary>
         ///  Set or get the EMAIL property.
         /// </summary>
-
+        [Display(Name = "Email")]
         public string Email {
             get
             {

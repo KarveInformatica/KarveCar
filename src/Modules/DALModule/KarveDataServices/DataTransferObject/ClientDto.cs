@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace KarveDataServices.DataTransferObject
@@ -8,6 +9,10 @@ namespace KarveDataServices.DataTransferObject
     [DataContract]
     public class ClientDto: BaseDto
     {
+        private string _clientNumber;
+       
+        private string _clientName;
+
         public ClientDto()
         {
             VisitsDto = new ObservableCollection<VisitsDto>();
@@ -15,26 +20,82 @@ namespace KarveDataServices.DataTransferObject
             BranchesDto = new ObservableCollection<BranchesDto>();
         }
         [DataMember]
-        public string Numero { get; set; }
+        public string Numero { get { return _clientNumber; } set { _clientNumber = value; } }
         [DataMember]
         public string Movil { get;  set; }
         [DataMember]
-        public string Nombre { get; set; }
+        public string Nombre { get { return _clientName;  } set { _clientName = value; } }
 
+
+        private bool IsInvalid()
+        {
+            bool isInvalid = false;
+            if ((Nombre == null))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                isInvalid = true;
+            }
+            if ((Nombre != null) && (Nombre.Length > 100))
+            {
+                ErrorList.Add(ConstantDataError.NameTooLong);
+                isInvalid = true;
+            }
+            // credit card validation
+            if (this.TARNUM != null)
+            {
+                var credit = new CreditCardValidator.CreditCardDetector(TARNUM);
+                isInvalid = isInvalid || (!credit.IsValid());
+            }
+            if (this.MESVACA != null)
+            {
+                isInvalid = isInvalid || ((this.MESVACA < 0) || (this.MESVACA > 12));
+            }
+            if (this.MESVACA2 != null)
+            {
+                isInvalid = isInvalid || ((this.MESVACA2 < 0) || (this.MESVACA2 > 12));
+            }
+            return isInvalid;
+        }
+        public override bool HasErrors
+        {
+            get
+            {
+                IsValid = IsInvalid();
+                return IsValid;
+            }
+        }
 
         /// <summary>
         ///  Set or get the NUMERO_CLI property.
         /// </summary>
-        
-        [PrimaryKey]
 
-        public string NUMERO_CLI { get; set; }
+        [PrimaryKey]
+        [Required]
+        public string NUMERO_CLI
+        {
+            get
+            {
+                return _clientNumber;
+            }
+            set
+            {
+                _clientNumber = value;
+            }
+        }
 
         /// <summary>
         ///  Set or get the NOMBRE property.
         /// </summary>
-
-        public string NOMBRE { get; set; }
+        [Required]
+        public string NOMBRE {
+            get
+            {
+                return _clientName;
+            }
+            set {
+                _clientName = value;
+            }
+        }
 
         /// <summary>
         ///  Set or get the DIRECCION property.
@@ -131,6 +192,13 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public string TARTI { get; set; }
+
+        /// <summary>
+        ///  Set or get the TARTITULAR property.
+        /// </summary>
+
+
+        public string TARTITULAR { get; set; }
 
         /// <summary>
         ///  Set or get the TARNUM property.
@@ -406,7 +474,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the TARTITULAR property.
         /// </summary>
 
-        public string TARTITULAR { get; set; }
+       
 
         /// <summary>
         ///  Set or get the TARJETA_COMI_CL1 property.
@@ -2468,5 +2536,7 @@ namespace KarveDataServices.DataTransferObject
         public IEnumerable<BranchesDto> BranchesDto { get; set; }
 
         public IHelperData Helper { get; set; }
+        public string CreditCardExpiryMonth { get; set; }
+        public string CreditCardExpiryYear { get; set; }
     }
 }

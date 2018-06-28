@@ -2,6 +2,7 @@
 using Prism.Modularity;
 using Prism.Regions;
 using HelperModule.Views;
+using Prism.Unity;
 
 namespace HelperModule
 { 
@@ -22,6 +23,12 @@ namespace HelperModule
         }
         protected void RegisterViewsAndServices()
         {
+            _container.RegisterType<object, ActivitySector>("ActivitySector");
+            _container.RegisterType<object, CountryRegions>("CCAA");
+            _container.RegisterType<object, SupplierCurrency>("SupplierCurrency");
+            _container.RegisterType<object, BrokerType>("BrokerType");
+            _container.RegisterType<object, SupplierType>("SupplierType");
+            _container.RegisterType<object, PaymentForm>("PaymentForm");
             _container.RegisterType<object, BudgetKey>("BudgetKey");
             _container.RegisterType<object, Business>("Business");
             _container.RegisterType<object, Cities>("Cities");
@@ -41,9 +48,10 @@ namespace HelperModule
             _container.RegisterType<object, VehicleActivities>("VehicleActivities");
             _container.RegisterType<object, VehicleBrandView>("VehicleBrand");
             _container.RegisterType<object, VehicleColors>("VehicleColors");
-            _container.RegisterType<object, VehicleGroup>("VehicleGroup");
+            _container.RegisterTypeForNavigation<VehicleGroup>();
+              
             _container.RegisterType<object, VehicleManteinanceCode>("VehicleMantienanceCode");
-            _container.RegisterType<object, VehicleTypes>("VehiclesType");
+            _container.RegisterType<object, VehicleTypes>("VehicleType");
             _container.RegisterType<object, VehicleRepostajeReason>("VehicleRepostajeReason");
             _container.RegisterType<object, RentingUse>("RentingUse");
             _container.RegisterType<object, Resellers>("Resellers");

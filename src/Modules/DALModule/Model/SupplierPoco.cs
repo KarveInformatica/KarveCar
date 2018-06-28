@@ -1084,8 +1084,15 @@ namespace DataAccessLayer.Model
         ///  Set or get the INTRACO property.
         /// </summary>
 
+        public byte? PALBARAN { get; set; }
+        /// <summary>
+        ///  Set or get the INTRACO property.
+        /// </summary>
         public byte? INTRACO { get; set; }
 
+      //  public byte? NOAUTOMARGEN { set; get; }
+
+        
         /// <summary>
         ///  Set or get the PREFIJO property.
         /// </summary>
@@ -1168,7 +1175,7 @@ namespace DataAccessLayer.Model
         ///  Set or get the PALBARAN property.
         /// </summary>
 
-        public char? PALBARAN { get; set; }
+        //public string PALBARAN { get; set; }
 
         /// <summary>
         ///  Set or get the EXCLUSIVIDAD property.
@@ -1230,13 +1237,6 @@ namespace DataAccessLayer.Model
         /// </summary>
 
         public string CLAVEHAC_PRO { get; set; }
-
-        public string NOMBRE_POBLA { set; get; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string NOMBRE_FORMA_PAGO { set; get; } 
-
 
     }
 }

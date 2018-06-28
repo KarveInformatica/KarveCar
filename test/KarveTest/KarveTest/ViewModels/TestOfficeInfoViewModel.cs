@@ -9,6 +9,7 @@ using Prism.Regions;
 using KarveTest.Mock;
 using KarveCommonInterfaces;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace KarveTest.ViewModels
 {
@@ -23,7 +24,8 @@ namespace KarveTest.ViewModels
         private readonly Mock<IConfigurationService> _configurationService = new Mock<IConfigurationService>();
         private readonly Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
         private readonly Mock<IInteractionRequestController> _interactionRequest = new Mock<IInteractionRequestController>();
-        private CompanyInfoViewModel _companyInfoViewModel = null;
+        private readonly Mock<IUnityContainer> _unityContainer = new Mock<IUnityContainer>();
+        private OfficeInfoViewModel _companyInfoViewModel = null;
         private bool _subSystemRegistered = false;
  
 
@@ -34,7 +36,7 @@ namespace KarveTest.ViewModels
                     It.IsAny<string>(),
                     It.IsAny<IEventObserver>()))
                 .Callback<string, IEventObserver>((x, x1) => { _subSystemRegistered = true; });
-            _companyInfoViewModel = new CompanyInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices.Object, _mockDialogService.Object,_regionManager.Object, _interactionRequest.Object);
+            _companyInfoViewModel = new OfficeInfoViewModel(_eventManager.Object, _configurationService.Object, _dataServices.Object, _mockDialogService.Object,_unityContainer.Object,_regionManager.Object, _interactionRequest.Object);
             _dataServices.Setup(x => x.GetHelperDataServices()).Returns<IHelperDataServices>(x =>
             {
                 IHelperDataServices hds = new MockHelperDataServices();
@@ -49,6 +51,8 @@ namespace KarveTest.ViewModels
         [Test]
         public async Task Should_Receive_ACorrectPayloadAndExposeDataObject()
         {
+            _testBase = new DAL.TestBase();
+
             IConfigurationService configurationService = _testBase.SetupConfigurationService();
             ISqlExecutor queryExecutor = _testBase.SetupSqlQueryExecutor();
             IDataServices dataServices = new DataServiceImplementation(queryExecutor);
@@ -64,7 +68,7 @@ namespace KarveTest.ViewModels
             _companyInfoViewModel.IncomingPayload(dataPayLoad);
             var outObject = _companyInfoViewModel.DataObject;
             Assert.NotNull(outObject);
-            Assert.Equals(outObject.CODIGO, IdDefault);
+            Assert.Equals(outObject.Codigo, IdDefault);
         }
         [Test]
         public void Should_Refuse_An_Incoming_Null_Payload()
@@ -82,7 +86,7 @@ namespace KarveTest.ViewModels
             dataPayLoad.HasDataObject = true;
             _companyInfoViewModel.IncomingPayload(dataPayLoad);
             var outObject = _companyInfoViewModel.DataObject;
-            Assert.Null(outObject.CODIGO);
+            Assert.Null(outObject.Codigo);
         }
     }
 }

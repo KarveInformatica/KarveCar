@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -23,7 +24,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices"></param>
         /// <param name="region"></param>
         /// <param name="manager"></param>
-        public RentingUseViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(String.Empty, dataServices, region, manager)
+        public RentingUseViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service ) : base(String.Empty, dataServices, region, manager, service)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperRentingUse;
 
@@ -41,7 +42,7 @@ namespace HelperModule.ViewModels
             if (dto != null)
             {
                 string codeId = await helperDal.GetMappedUniqueId<RentingUseDto,USO_ALQUILER>(dto);
-                dto.Code = codeId.Substring(0, 4);
+                dto.Code = codeId.Substring(0, 2);
                 payLoad.DataObject = dto;
             }
             return payLoad;

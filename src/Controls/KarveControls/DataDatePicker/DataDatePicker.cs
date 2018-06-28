@@ -23,7 +23,7 @@ namespace KarveControls
     {
         private DateTime? previousDate = DateTime.Now;
         private TextBlock _labelText = null;
-        private SfDatePicker _datePicker = null;
+        private DateTimeEdit _datePicker = null;
 
         /// <summary>
         /// ItemCommand changed event
@@ -46,7 +46,6 @@ namespace KarveControls
                 typeof(RoutedEventHandler),
                 typeof(DataDatePicker));
 
-       
 
         /// <summary>
         /// Event class of the event picker.
@@ -142,14 +141,14 @@ namespace KarveControls
         {
             base.OnApplyTemplate();
             _labelText = GetTemplateChild("PART_LabelText") as TextBlock;
-            _datePicker = GetTemplateChild("PART_DatePicker") as SfDatePicker;
+            _datePicker = GetTemplateChild("PART_DatePicker") as DateTimeEdit;
             if (_labelText != null)
             {
                 _labelText.Visibility = Visibility.Visible;
             }
             if (_datePicker != null)
             {
-                _datePicker.ValueChanged += _datePicker_SelectedDateChanged;
+                _datePicker.DateTimeChanged += _datePicker_SelectedDateChanged;
             }
 
         }
@@ -165,7 +164,7 @@ namespace KarveControls
                 return;
             var value = ControlExt.GetDataSourcePath(this);
             var dataObject = ControlExt.GetDataSource(this);
-            if (_datePicker.Value != null && previousDate == (DateTime)_datePicker.Value)
+            if (_datePicker.DateTime != null && previousDate == (DateTime)_datePicker.DateTime)
             {
                 return;
             }
@@ -179,7 +178,7 @@ namespace KarveControls
                     DataObject = dataObject;
                 }
 
-                if (_datePicker.Value != null)
+                if (_datePicker.DateTime != null)
                 {
                     DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
                     {
@@ -190,10 +189,10 @@ namespace KarveControls
                     {
                         ["Field"] = value,
                         ["DataObject"] = DataObject,
-                        ["ChangedValue"] = (DateTime) _datePicker.Value,
+                        ["ChangedValue"] = (DateTime) _datePicker.DateTime,
                         ["PreviousValue"] = previousDate
                     };
-                    previousDate = (DateTime) _datePicker.Value;
+                    previousDate = (DateTime) _datePicker.DateTime;
                     ev.ChangedValuesObjects = valueDictionary;
                     RaiseEvent(ev);
                     HandleCommandItemChanged(valueDictionary);

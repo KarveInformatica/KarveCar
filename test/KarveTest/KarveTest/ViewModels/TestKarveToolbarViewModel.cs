@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using KarveCommon;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using MasterModule.Common;
 using MasterModule.ViewModels;
-using MasterModule.Views;
 using Moq;
 using NUnit.Framework;
 using Prism.Regions;
@@ -62,7 +56,7 @@ namespace KarveTest.ViewModels
         {
             // arrange
             IDictionary<string, string> viewModelQueries = new Dictionary<string, string>();
-            IVehicleData data = _veichleDataServices.Object.GetNewVehicleDo("1234");
+            IVehicleData data = _veichleDataServices.Object.GetNewDo("1234");
             KarveCommon.ChangeFieldHandlerDo<IVehicleData> handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,DataSubSystem.VehicleSubsystem);
             DataPayLoad payLoad = new DataPayLoad
             {
@@ -80,7 +74,7 @@ namespace KarveTest.ViewModels
         public void Should_ReceiveAVehicle_InsertMessage()
         {
             // arrange
-            var data = _veichleDataServices.Object.GetNewVehicleDo("123"); 
+            var data = _veichleDataServices.Object.GetNewDo("123"); 
 
             IDictionary<string, string> viewModelQueries = new Dictionary<string, string>();
             var handlerDo = new ChangeFieldHandlerDo<IVehicleData>(_eventManager.Object,
@@ -96,7 +90,7 @@ namespace KarveTest.ViewModels
         [Test]
         public void Should_ReceiveAUpdateTheData()
         {
-            var data = _veichleDataServices.Object.GetNewVehicleDo("123");
+            var data = _veichleDataServices.Object.GetNewDo("123");
             var payLoad = new DataPayLoad
             {
                 DataObject = data,
@@ -112,7 +106,7 @@ namespace KarveTest.ViewModels
         [Test]
         public void Should_UncorrectVehicle_UpdateRefuse()
         {
-            var data = _veichleDataServices.Object.GetNewVehicleDo("123");
+            var data = _veichleDataServices.Object.GetNewDo("123");
             var payLoad = new DataPayLoad {DataObject = data};
             data.Value.CODIINT = null;
             payLoad.PayloadType = DataPayLoad.Type.Update;

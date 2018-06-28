@@ -10,10 +10,11 @@ namespace DataAccessLayer.DataObjects
     [Table("MERCADO")]
     public class MERCADO 
 	{	
+
 	    /// <summary>
         ///  Set or get the USUARIO property.
         /// </summary>
-		public string USUARIO { get; set; } 
+	//	public string USUARIO { get; set; } 
 	    /// <summary>
         ///  Set or get the CODIGO property.
         /// </summary>
@@ -26,7 +27,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the ULTMODI property.
     /// </summary>
     
-		public string ULTMODI { get; set; }
+		//public string ULTMODI { get; set; }
  
 	/// <summary>
     ///  Set or get the NOMBRE property.

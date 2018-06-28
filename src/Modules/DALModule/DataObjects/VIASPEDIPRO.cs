@@ -1,4 +1,8 @@
 using System;
+using Dapper;
+using KarveDapper;
+using KarveDapper.Extensions;
+
  
 namespace DataAccessLayer.DataObjects
 {
@@ -6,6 +10,7 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a VIASPEDIPRO.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("VIASPEDIPRO")]
 	public class VIASPEDIPRO 
 	{
 	

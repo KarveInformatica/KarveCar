@@ -22,8 +22,8 @@ namespace KarveDataServices.DataObjects
         /// </summary>
 
         public string NUMERO_FAC {
-            get { return CodeId; }
-            set { CodeId = value; }
+            get { return base.Code; }
+            set { base.Code = value; }
         }
 
         /// <summary>

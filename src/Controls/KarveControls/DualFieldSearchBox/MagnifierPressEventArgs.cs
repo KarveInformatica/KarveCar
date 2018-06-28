@@ -7,7 +7,6 @@ namespace KarveControls
     public partial class DualFieldSearchBox
     {
 
-
         public class SelectedItemEventArgs: KarveRoutedEventsArgs
         {
 

@@ -25,9 +25,9 @@ namespace KarveCommon.Generic
         public const string VehicleOwner =
                 "select NUM_PROPRIE,NOMBRE, DIRECCION, POBLACION,CP,PROVINCIA,NIF,TELEFONO,FAX,NACIOPER,NOTAS,PROVEEDOR,COORDGPS,WEB,EMAIL from PROPIE";
 
-        public const string AccountSummaryQuery = "select codigo,descrip,cc from cu1";
+        public const string AccountSummaryQuery = "select top 100 start at 1 codigo,descrip,cc from cu1";
 
-        public const string SupplierSummaryQuery = "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE";
+        public const string SupplierSummaryQuery = "SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT,  PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as UltimaModifica, PROVEE1.USUARIO as Usuario FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE";
 
     
 

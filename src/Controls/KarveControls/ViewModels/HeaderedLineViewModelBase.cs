@@ -25,15 +25,8 @@ namespace KarveControls.ViewModels
     /// <typeparam name="InnerDtoType">Type of the other dto</typeparam>
     public abstract class HeaderedLineViewModelBase<DataType, DtoType, InnerDtoType>: KarveRoutingBaseViewModel, ICreateRegionManagerScope,IEventObserver where DtoType: LineBaseDto<InnerDtoType> where InnerDtoType: BaseDto
     {
-        /// <summary>
-        ///  Region Manager
-        /// </summary>
-        protected IRegionManager RegionManager;
-        /// <summary>
-        ///  New id interface
-        /// </summary>
+
         protected IIdentifier IdentifierGenerator;
-        protected DataSubSystem SubSystem;
         /// <summary>
         ///  Magnifier popup window to be shown when interacting with the view model.
         /// </summary>
@@ -46,7 +39,7 @@ namespace KarveControls.ViewModels
         private List<string> _gridView;
         private object _sourceView;
 
-        public DataPayLoad.Type OperationalState { get; private set; }
+       
         
         protected HeaderedLineViewModelBase(IDataServices dataServices,
             IDialogService dialogServices,
@@ -105,12 +98,12 @@ namespace KarveControls.ViewModels
                 if (!(dataPayLoad.DataObject is DtoType dto))
                 {
                     if (dataPayLoad.DataObject is DtoType domainObject)
-                        if (domainObject.CodeId != PrimaryKeyValue)
+                        if (domainObject.Code != PrimaryKeyValue)
                             return;
                 }
                 else
                 {
-                    if (dto.CodeId != PrimaryKeyValue) return;
+                    if (dto.Code != PrimaryKeyValue) return;
                 }
             }
             
@@ -143,30 +136,7 @@ namespace KarveControls.ViewModels
         /// <summary>
         ///     This delete the region when there is a delete.
         /// </summary>
-        protected void DeleteRegion()
-        {
-           
-            if ((RegionManager == null) || (RegionManager.Regions == null))
-            {
-                return;
-            }
-            var activeRegion = RegionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
-            switch (activeRegion)
-                {
-                    case null:
-                        return;
-                    case IHeaderedView _:
-                        if (activeRegion is IHeaderedView headeredView)
-                            RegionManager.Regions[RegionName].Remove(headeredView);
-                        break;
-                    case FrameworkElement _:
-                        var framework = activeRegion as FrameworkElement;
-                        framework?.ClearValue(Prism.Regions.RegionManager.RegionManagerProperty);
-                        break;
-            }
-           
-        }
-
+        
         protected abstract  Task<bool> DeleteAsync(DataPayLoad payLoad);
 
         public IncrementalList<InnerDtoType> SourceView

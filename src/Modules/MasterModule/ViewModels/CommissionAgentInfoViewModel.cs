@@ -24,6 +24,7 @@ using System.Linq;
 using KarveCommon;
 using KarveControls;
 using Prism.Commands;
+using System.Collections;
 
 namespace MasterModule.ViewModels
 {
@@ -65,7 +66,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<ResellerDto> _vendedor = new List<ResellerDto>();
         private IEnumerable<CommissionTypeDto> _tipocomisions = new List<CommissionTypeDto>();
         private IEnumerable<ZonaOfiDto> _officies = new List<ZonaOfiDto>();
-        private IEnumerable<ClavePtoDto> _clavePto = new List<ClavePtoDto>();
+        private IEnumerable<BudgetKeyDto> _clavePto = new List<BudgetKeyDto>();
         private IEnumerable<LanguageDto> _language = new List<LanguageDto>();
         private IEnumerable<BranchesDto> _branchesDto = new ObservableCollection<BranchesDto>();
         private string _uniqueId = "";
@@ -108,7 +109,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// ClavePto.
         /// </summary>
-        public IEnumerable<ClavePtoDto> Clavepto
+        public IEnumerable<BudgetKeyDto> Clavepto
         {
             get { return _clavePto; }
             set
@@ -253,7 +254,9 @@ namespace MasterModule.ViewModels
         private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
         private string _mailBoxName;
         private IEnumerable<CommissionTypeDto> _brokerType;
-        
+        private IMapper _mapper;
+        private int _countTime;
+
 
         /// <summary>
         /// Commision agent info view model.
@@ -292,13 +295,14 @@ namespace MasterModule.ViewModels
             InitEvents();
             InitCommands();
             ViewModelUri = new Uri("karve://broker/viewmodel?id=" + Guid.ToString());
-
+            _mapper = MapperField.GetMapper();
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, this);
             // update the assist.
             UpdateAssist(ref _leftSideDualDfSearchBoxes);
             UpdateChangeCommand(ref _leftSideDualDfSearchBoxes);
             // register itself in the broacast.
             EventManager.RegisterObserver(this);
+            _countTime = 0;
         }
 
        
@@ -380,17 +384,17 @@ namespace MasterModule.ViewModels
         // TODO: remove duplications.
         private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
         {
-            primaryKey.CodeId = PrimaryKeyValue;
+            primaryKey.Code = PrimaryKeyValue;
             primaryKey.ContactsKeyId = PrimaryKeyValue;
         }
         private void CommissionAgentInfoViewModel__onBranchesPrimaryKey(ref BranchesDto primaryKey)
         {
-            primaryKey.CodeId = PrimaryKeyValue;
+            primaryKey.Code = PrimaryKeyValue;
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
         private void CommissionAgentInfoViewModel__onVisitPrimaryKey(ref VisitsDto primaryKey)
         {
-            primaryKey.CodeId = PrimaryKeyValue;
+            primaryKey.Code = PrimaryKeyValue;
             primaryKey.KeyId = PrimaryKeyValue;
         }
         private void ItemChangedHandler(object obj)
@@ -400,9 +404,20 @@ namespace MasterModule.ViewModels
 
         private void ChangedTaskEvent(object sender, PropertyChangedEventArgs e)
         {
-            if (sender is INotifyTaskCompletion<bool> taskCompletion && taskCompletion.IsFaulted)
+            if (sender is INotifyTaskCompletion<bool> taskCompletion)
             {
-                DialogService?.ShowErrorMessage(taskCompletion.ErrorMessage);
+                if (taskCompletion.IsFaulted)
+                {
+                    if (!Faulted)
+                    {
+                        DialogService?.ShowErrorMessage(taskCompletion.ErrorMessage);
+                        Faulted = true;
+                    }
+                }
+                if (taskCompletion.IsSuccessfullyCompleted)
+                {
+                    Faulted = false;
+                }
             }
         }
 
@@ -467,7 +482,15 @@ namespace MasterModule.ViewModels
             IDictionary<string, string> values = (Dictionary<string, string>)param;
             string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
             string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
-            await AssistQueryRequestHandlerDo(assistTableName, assistQuery);
+            try
+            {
+
+                await AssistQueryRequestHandlerDo(assistTableName, assistQuery).ConfigureAwait(false);
+            } catch (Exception ex)
+            {
+                DialogService?.ShowErrorMessage("Input no permitido: "+ ex.Message);
+                Faulted = true;
+            }
         }
 
         // move to the master view model or to a data layer
@@ -476,51 +499,48 @@ namespace MasterModule.ViewModels
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
             object currentView = null;
             IMapper mapper = MapperField.GetMapper();
-           
+            var assistDataService = DataServices.GetAssistDataServices();
+            var resultData = await assistDataService.Mapper.ExecuteAssistGeneric(assistTableName.ToUpper(), assistQuery);
+
             switch (assistTableName)
             {
                 case "TIPOCOMI":
                     {
-                        var query = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI");
-                        BrokerTypeDto = await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(query);
+
+                        BrokerTypeDto = (IEnumerable<CommissionTypeDto>)(resultData);
                         break;
 
                     }
                 case "PAIS":
                     {
-                        var countries = await helperDataServices.GetAsyncHelper<Country>(assistQuery);
-                        IEnumerable<CountryDto> countryDtos = mapper.Map<IEnumerable<Country>, IEnumerable<CountryDto>>(countries);
+                        IEnumerable<CountryDto> countryDtos = (IEnumerable<CountryDto>)(resultData);
                         Country = countryDtos;
                         currentView = countryDtos;
                         break;
                     }
                 case "PROVINCIA":
                     {
-                        var prov = await helperDataServices.GetAsyncHelper<PROVINCIA>(assistQuery);
-                        IEnumerable<ProvinciaDto> provDtos = mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(prov);
-                        Province = provDtos;
-                        currentView = provDtos;
+                       
+                        Province = (IEnumerable<ProvinciaDto>) resultData;
                         break;
                     }
                 case "PROVINCE_BRANCHES":
                     {
-                        var provDtos = await helperDataServices.GetMappedAllAsyncHelper<ProvinciaDto, PROVINCIA>
-                            ();
-                            
+                        var provDtos = (IEnumerable<ProvinciaDto>)resultData;
+    
                         currentView = provDtos;
                         break;
                     }
                 case "POBLACIONES":
                     {
-                        var prov = await helperDataServices.GetMappedAllAsyncHelper<CityDto, POBLACIONES>();
+                        var prov = (IEnumerable<CityDto>)resultData;
                         CityDto = prov;
                         currentView = CityDto;
                         break;
                     }
                 case "PRODUCTS":
                     {
-                        var prod = await helperDataServices.GetAsyncHelper<PRODUCTS>(assistQuery);
-                        IEnumerable<ProductsDto> productDto = mapper.Map<IEnumerable<PRODUCTS>, IEnumerable<ProductsDto>>(prod);
+                        IEnumerable<ProductsDto> productDto = (IEnumerable<ProductsDto>)(resultData);
                         Products = productDto;
                         currentView = productDto;
                         break;
@@ -528,87 +548,77 @@ namespace MasterModule.ViewModels
 
                 case "VENDEDOR":
                     {
-                        var vendedor = await helperDataServices.GetAsyncHelper<VENDEDOR>(assistQuery);
-                        IEnumerable<ResellerDto> vendedorDto = mapper.Map<IEnumerable<VENDEDOR>, IEnumerable<ResellerDto>>(vendedor);
+
+                        IEnumerable<ResellerDto> vendedorDto = (IEnumerable<ResellerDto>)(resultData);
                         Vendedor = vendedorDto;
                         currentView = Vendedor;
                         break;
                     }
-                case "MERCADO":
+                case "MARKET_ASSIST":
                     {
-                        var mercados = await helperDataServices.GetAsyncHelper<MERCADO>(assistQuery);
-                        IEnumerable<MercadoDto> mercadoDtos = mapper.Map<IEnumerable<MERCADO>, IEnumerable<MercadoDto>>(mercados);
+                        IEnumerable<MercadoDto> mercadoDtos = (IEnumerable<MercadoDto>)(resultData);
                         Mercado = mercadoDtos;
                         currentView = Mercado;
                         break;
                     }
-                case "NEGOCIO":
+                case "BUSINESS_ASSIST":
                     {
-                        var negocio = await helperDataServices.GetAsyncHelper<NEGOCIO>(assistQuery);
-                        IEnumerable<BusinessDto> negocios = mapper.Map<IEnumerable<NEGOCIO>, IEnumerable<BusinessDto>>(negocio);
+                        
+                        IEnumerable<BusinessDto> negocios = (IEnumerable<BusinessDto>)(resultData);
                         Negocio = negocios;
                         currentView = Negocio;
                         break;
 
                     }
-                case "CLIENTES1":
+                case "CLIENT_ASSIST_COMI":
                     {
-                        var clientes = await helperDataServices.GetAsyncHelper<CLIENTES1>(assistQuery);
-                        IEnumerable<ClientDto> cli = mapper.Map<IEnumerable<CLIENTES1>, IEnumerable<ClientDto>>
-                            (clientes);
-                        ClientOne = cli;
+
+                        ClientOne = (IEnumerable<ClientDto>)(resultData);
                         currentView = ClientOne;
+
                         break;
                     }
-                case "CANAL":
+                case "CHANNEL_TYPE":
                     {
-                        var canal = await helperDataServices.GetAsyncHelper<CANAL>(assistQuery);
-                        IEnumerable<ChannelDto> cli = mapper.Map<IEnumerable<CANAL>, IEnumerable<ChannelDto>>(canal);
+                        IEnumerable<ChannelDto> cli = (IEnumerable<ChannelDto>)(resultData);
                         Canal = cli;
                         currentView = Canal;
                         break;
                     }
                 case "TIPOCOMISION":
                     {
-                        var tipocomisions = await helperDataServices.GetAsyncHelper<TIPOCOMISION>(assistQuery);
-                        IEnumerable<CommissionTypeDto> cli = mapper.Map<IEnumerable<TIPOCOMISION>, IEnumerable<CommissionTypeDto>>(tipocomisions);
+                        IEnumerable<CommissionTypeDto> cli = (IEnumerable<CommissionTypeDto>)(resultData);
+                        
                         TipoComission = cli;
                         currentView = TipoComission;
                         break;
                     }
-                case "ZONAOFI":
+                case "OFFICE_ZONE_ASSIST":
                     {
-                        var oficinas = await helperDataServices.GetAsyncHelper<ZONAOFI>(assistQuery);
-                        IEnumerable<ZonaOfiDto> cli = mapper.Map<IEnumerable<ZONAOFI>, IEnumerable<ZonaOfiDto>>(oficinas);
+                        IEnumerable<ZonaOfiDto> cli = (IEnumerable<ZonaOfiDto>)(resultData);
                         Offices = cli;
                         currentView = Offices;
                         break;
                     }
-                case "CLAVEPTO":
+                case "CLIENT_BUDGET":
                     {
-                        var clavePto = await helperDataServices.GetAsyncHelper<CLAVEPTO>(assistQuery);
-                        IEnumerable<ClavePtoDto> cli =
-                            mapper.Map<IEnumerable<CLAVEPTO>, IEnumerable<ClavePtoDto>>(clavePto);
+                        IEnumerable<BudgetKeyDto> cli = (IEnumerable<BudgetKeyDto>)(resultData);
                         Clavepto = cli;
                         currentView = Clavepto;
                         break;
                     }
-                case "ORIGEN":
+                case "ORIGIN_ASSIST":
                     {
-                        var origen = await helperDataServices.GetAsyncHelper<ORIGEN>(assistQuery);
-                        IEnumerable<OrigenDto> orig =
-                            mapper.Map<IEnumerable<ORIGEN>, IEnumerable<OrigenDto>>(origen);
-                        Origen = orig;
+                        IEnumerable<OrigenDto> cli = (IEnumerable<OrigenDto>)(resultData);
+                        
+                        Origen = cli;
                         currentView = Origen;
                         break;
                     }
                 case "IDIOMAS":
                     {
-                        var language = await helperDataServices.GetAsyncHelper<IDIOMAS>(assistQuery);
-                        IEnumerable<LanguageDto> orig =
-                            mapper.Map<IEnumerable<IDIOMAS>, IEnumerable<LanguageDto>>(language);
-                        Language = new ObservableCollection<LanguageDto>(orig);
-
+                        IEnumerable<LanguageDto> cli = (IEnumerable<LanguageDto>)(resultData);
+                        Language = cli;
                         currentView = Language;
                         break;
                     }
@@ -838,6 +848,7 @@ namespace MasterModule.ViewModels
             payLoad.SubsystemName = MasterModuleConstants.CommissionAgentSystemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.ObjectPath = ViewModelUri;
+            payLoad.HasDataObject = true;
 
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
@@ -949,7 +960,7 @@ namespace MasterModule.ViewModels
                     {
                         _leftSideDualDfSearchBoxes[i].OnAssistQueryDo += AssistQueryRequestHandlerDo;
                         _leftSideDualDfSearchBoxes[i].OnChangedField += OnChangedField;
-                        _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
+                         _leftSideDualDfSearchBoxes[i].DataSource = DataObject;
                         _leftSideDualDfSearchBoxes[i].ChangedItem = ItemChangedCommand;
                     }
                     LeftValueCollection = _leftSideDualDfSearchBoxes;
@@ -968,7 +979,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-      
+        public new ICommand ItemChangedCommand { set; get; }
         public ICommand DelegationMagnifierCommand { set; get; }
 
         /// <summary>
@@ -979,18 +990,20 @@ namespace MasterModule.ViewModels
         /// <param name="insertable">Is an insert operation</param>
         private void Init(string primaryKeyValue, DataPayLoad payload, bool insertable)
         {
+            _countTime++;
+
             if (payload.HasDataObject)
             {
                 _commissionAgentDo = (ICommissionAgent)payload.DataObject;
-
+                // review.
                 IDictionary<string, object> lookup = new Dictionary<string, object>();
-                lookup.Add("NEGOCIO", _commissionAgentDo.NegocioDto);
+                lookup.Add("BUSINESS_ASSIST", _commissionAgentDo.NegocioDto);
                 lookup.Add("VENDEDOR", _commissionAgentDo.VendedorDto);
-                lookup.Add("MERCADO", _commissionAgentDo.MercadoDto);
-                lookup.Add("CANAL", _commissionAgentDo.CanalDto);
-                lookup.Add("ORIGEN", _commissionAgentDo.OrigenDto);
-                lookup.Add("ZONAOFI", _commissionAgentDo.ZonaOfiDto);
-                lookup.Add("CLAVEPTO", _commissionAgentDo.ClavePptoDto);
+                lookup.Add("MARKET_ASSIST", _commissionAgentDo.MercadoDto);
+                lookup.Add("CHANNEL_TYPE", _commissionAgentDo.CanalDto);
+                lookup.Add("ORIGIN_ASSIST", _commissionAgentDo.OrigenDto);
+                lookup.Add("OFFICE_ZONE_ASSIST", _commissionAgentDo.ZonaOfiDto);
+                lookup.Add("CLIENT_BUDGET", _commissionAgentDo.ClavePptoDto);
 
                 Province = _commissionAgentDo.ProvinceDto;
                 Country = _commissionAgentDo.CountryDto;
@@ -998,8 +1011,11 @@ namespace MasterModule.ViewModels
                 Language = _commissionAgentDo.LanguageDto;  
                 Delegation = _commissionAgentDo.BranchesDto;
                 BrokerTypeDto = _commissionAgentDo.CommisionTypeDto;
+
                 ClientOne = _commissionAgentDo.ClientsDto;
                 CityDto = _commissionAgentDo.CityDtos;
+                
+               
                 // configure branches command.
                 ConfigureBranchesCommand(_commissionAgentDo.BranchesDto);
                 // configure contacts command.
@@ -1018,20 +1034,21 @@ namespace MasterModule.ViewModels
 
 
                 /* Items controls to the left */
-
+               
                     for (int i = 0; i < _leftSideDualDfSearchBoxes.Count; ++i)
-                {
-                    _leftSideDualDfSearchBoxes[i].DataSource = _commissionAgentDo;
-
-                    if (lookup.ContainsKey(_leftSideDualDfSearchBoxes[i].AssistTableName))
-
                     {
-                        var currentDto = lookup[_leftSideDualDfSearchBoxes[i].AssistTableName];
-                        _leftSideDualDfSearchBoxes[i].SourceView = currentDto;
+                        _leftSideDualDfSearchBoxes[i].DataSource = _commissionAgentDo;
+
+                        if (lookup.ContainsKey(_leftSideDualDfSearchBoxes[i].AssistTableName))
+
+                        {
+                            var currentDto = lookup[_leftSideDualDfSearchBoxes[i].AssistTableName];
+                            _leftSideDualDfSearchBoxes[i].SourceView = currentDto;
+
+                        }
 
                     }
-
-                }
+               
                 LeftValueCollection = _leftSideDualDfSearchBoxes;
                 // This register the last active payload.
                 ActiveSubSystem();

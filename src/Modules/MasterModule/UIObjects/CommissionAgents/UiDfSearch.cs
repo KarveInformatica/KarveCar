@@ -52,13 +52,13 @@ namespace MasterModule.UIObjects.CommissionAgents
             string assistTable = "";
             string assistQuery = "";
 
-            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE))
+            if (valueDictionary.ContainsKey(KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE))
             {
-                assistTable = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE] as string;
+                assistTable = valueDictionary[KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.ASSISTTABLE] as string;
             }
-            if (valueDictionary.ContainsKey(DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY))
+            if (valueDictionary.ContainsKey(KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY))
             {
-                assistQuery = valueDictionary[DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY] as string;
+                assistQuery = valueDictionary[KarveControls.DualFieldSearchBox.MagnifierPressEventArgs.ASSISTQUERY] as string;
             }
             OnAssistQueryDo?.Invoke(assistTable, assistQuery);
         }

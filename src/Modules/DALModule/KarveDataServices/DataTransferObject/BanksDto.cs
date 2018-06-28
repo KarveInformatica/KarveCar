@@ -1,32 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using sinkien.IBAN4Net;
 
 namespace KarveDataServices.DataTransferObject
 {
     public class BanksDto : BaseDto
     {
-            /// <summary>
-            ///  Set or get the CODBAN property.
-            /// </summary>
 
-            public string Code { get; set; }
+        [Display(Name="Codigo")]
+        public override string Code { get => base.Code; set => base.Code = value; }
+        [Display(Name = "Nombre")]
+        public override string Name { get => base.Name; set => base.Name = value; }
+        /// <summary>
+        ///  Set or get the USUARIO property.
+        /// </summary>
 
-          
-            /// <summary>
-            ///  Set or get the USUARIO property.
-            /// </summary>
+        public string Usuario { get; set; }
 
-            public string Usuario { get; set; }
-
-            /// <summary>
-            ///  Set or get the NOMBRE property.
-            /// </summary>
-
-            public string Name { get; set; }
-
+           
             /// <summary>
             ///  Set or get the GESTIONAR property.
             /// </summary>
@@ -44,6 +39,38 @@ namespace KarveDataServices.DataTransferObject
             /// </summary>
 
             public string CTAPAGO_ASOCIA { get; set; }
+            public override bool HasErrors
+            {
+            get
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    return true;
+                }
+                if (base.Name.Length > 40)
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                if (!string.IsNullOrEmpty(Swift))
+                {
+                    try
+                    {
+                       
+                        var bic = Bic.CreateInstance(Swift);
+                    } catch (BicFormatException ex)
+                    {
+                        ErrorList.Add(ConstantDataError.SwiftInvalid);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            }
+
+            
+
         
+
     }
 }

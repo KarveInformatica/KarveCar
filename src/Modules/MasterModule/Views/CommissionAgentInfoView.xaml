@@ -113,7 +113,7 @@
 
             <syncfusion:TabControlExt  Grid.Row="1" Name="MainTabControl"  TabScrollStyle="Extended" TabStripPlacement="Left" BorderThickness="0" 
                                        syncfusion:SkinStorage.VisualStyle="Metro"
-                                       CloseButtonType="IndividualOnMouseOver">
+                                       CloseButtonType="Hide">
 
                 <syncfusion:TabItemExt Name="General"  Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <ScrollViewer>
@@ -135,6 +135,10 @@
                                 </Grid.ColumnDefinitions>
                                 <GroupBox Grid.Column="1" Grid.RowSpan="4" Margin="0,0,0,0.333">
                                     <WrapPanel Orientation="Vertical">
+                                        
+                                        
+                                        
+                                        
                                         <ItemsControl x:Name="leftPart" HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch" 
                                       ItemsSource="{Binding LeftValueCollection}">
@@ -150,11 +154,8 @@
                                                     <StackPanel>
                                                         <karveControls:DualFieldSearchBox
                                              LabelText ="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             LabelVisible="True"
                                              LabelTextWidth="100"
                                              DataFieldFirst="{Binding DataField}"
-                                             AssistDataFieldFirst="{Binding AssistDataFieldFirst}" 
-                                             AssistDataFieldSecond="{Binding AssistDataFieldSecond}"
                                              AssistTableName="{Binding AssistTableName}"
                                              AssistProperties="{Binding AssistProperties}"
                                              TextContentFirstWidth="100"
@@ -162,7 +163,6 @@
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                              ItemChangedCommand="{Binding ChangedItem, Mode=Default}"
                                              DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             ButtonImage="{Binding ButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
 
                                                         </karveControls:DualFieldSearchBox>
@@ -207,18 +207,19 @@
                                             AssistDataFieldFirst="CP"
                                             AssistDataFieldSecond="POBLA"
                                             AssistProperties="Code,Poblacion"
-                                            LabelVisible="False"
+                                            LabelVisible="True"
                                             LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                                             Margin="0,5,0,0"
                                             LabelTextWidth="86"
                                             ItemChangedCommand="{Binding ItemChangedCommand}"
                                             MagnifierCommand="{Binding AssistCommand}"
-                                            IsReadOnlySecond="True"
+                                            IsReadOnlySecond="False"
                                             TextContentFirstWidth="100"
                                             TextContentSecondWidth="200"
                                             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
                                             SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                           <!--
                                             <i:Interaction.Behaviors>
                                                 <behaviors:ChangeRuleBehavior
                                                DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -226,7 +227,7 @@
 
                                                 </behaviors:ChangeRuleBehavior>
                                             </i:Interaction.Behaviors>
-
+                                        -->
                                         </karveControls:DualFieldSearchBox>
                                     </StackPanel>
                                     <karveControls:DualFieldSearchBox x:Name="Province" 
@@ -637,7 +638,7 @@
                                                     LabelTextWidth="200"
                                                     LabelText="{Binding lpercentsubcontractados, Source={StaticResource ResourceLanguage}}"
                                         DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                    TextContent="{Binding DataObject.Value.IMP_COMI,
+                                                    TextContent="{Binding DataObject.Value.POR_SUBCONTRA,
                                                              Mode=TwoWay,
                                                              ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
           
@@ -678,7 +679,7 @@
                                     TextContentSecondWidth="200"
                                   
                                     DataFieldFirst="CLIENTE"
-                                    AssistTableName="CLIENTES1"
+                                    AssistTableName="CLIENT_ASSIST_COMI"
                                     AssistDataFieldFirst="NUMERO_CLI"
                                     AssistDataFieldSecond="NOMBRE"
                                     AssistProperties="Numero,Nombre"

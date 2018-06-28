@@ -84,6 +84,17 @@ namespace KarveDataServices
        /// </summary>
        /// <returns>Return the service for the assist get data services</returns>
        IAssistDataService GetAssistDataServices();
+       /// <summary>
+       ///  Get the fare data services.
+       ///  
+       /// </summary>
+       /// <returns></returns>
+        IFareDataServices GetFareDataServices();
+        /// <summary>
+        ///  Get the reservatiobn request data service.
+        /// </summary>
+        /// <returns></returns>
+        IReservationRequestDataService GetReservationRequestDataService();
     }
 
 }

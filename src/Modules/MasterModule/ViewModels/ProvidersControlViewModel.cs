@@ -21,6 +21,7 @@ using DataAccessLayer.Model;
 using NLog;
 using Syncfusion.UI.Xaml.Grid;
 using DataRow = System.Data.DataRow;
+using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
 {
@@ -60,12 +61,13 @@ namespace MasterModule.ViewModels
 
         private ISupplierDataServices _supplierDataServices;
         // Yes it violateds SRP it does two things. Show the main and fireup a new ui.
-
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public ProvidersControlViewModel(IConfigurationService configurationService,
             IUnityContainer container,
             IDataServices services,
             IRegionManager regionManager,
-            IEventManager eventManager) : base(configurationService, eventManager, services, regionManager)
+            IDialogService service,
+            IEventManager eventManager) : base(configurationService, eventManager, services, null, service,regionManager)
         {
             _container = container;
             _regionManager = regionManager;
@@ -94,7 +96,7 @@ namespace MasterModule.ViewModels
         private void InitViewModel()
         {
             base.GridIdentifier = GridIdentifiers.Supplier;
-         
+            SubSystem = DataSubSystem.SupplierSubsystem;
             StartAndNotify();
             ActiveSubSystem();
         }
@@ -240,6 +242,7 @@ namespace MasterModule.ViewModels
  
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
+            Logger.Debug("Base" + baseIndex.ToString());
             NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(
                 _supplierDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
 

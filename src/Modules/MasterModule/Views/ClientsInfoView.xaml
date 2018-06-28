@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:MasterModule.Views"
              xmlns:clients="clr-namespace:MasterModule.Views.Clients"
              xmlns:mvvm1="http://prismlibrary.com/"
+                xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:common="clr-namespace:MasterModule.Common;assembly=MasterModule"
               mvvm1:ViewModelLocator.AutoWireViewModel="True"
            xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
@@ -21,6 +22,13 @@
             
             <DataTemplate x:Key="CreditCardFormat">
                 <Grid>
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <!--
+                                <converter:CardTypeImageConverter x:Key="CreditCardToImageConverter"></converter:CardTypeImageConverter>
+                            -->
+                        </ResourceDictionary>
+                    </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
@@ -30,18 +38,21 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Image Source="/KarveControls;component/Images/creditcards.png" Height="25" Grid.Row="0"></Image>
+                    <!--
+                    <Image Source="{Binding DataObject.TARTI, Converter={StaticResource CreditCardToImageConverter}}" Height="25" Grid.Row="0"></Image>
+                    -->
                     <StackPanel Grid.Row="1" Orientation="Vertical">
                         <TextBlock Text="Tipo" FontSize="10"></TextBlock>
                         <karveControls:DualFieldSearchBox LabelVisible="False"
                                       DataFieldFirst="TARTI"
+                                      LabelText="{Binding lcreditcardtype,Source={StaticResource ResourceLanguage}}"
                                       AssistProperties="Code,Name"
                                       AssistTableName="CREDIT_CARD"
                                       LabelTextWidth="10"
                                       TextContentFirstWidth="60"
                                       TextContentSecondWidth="180"
                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay}"
-                                      SourceView="{Binding ClientHelper.CreditCardType, Mode=OneWay}"
+                                      SourceView="{Binding CreditCardType, Mode=OneWay}"
                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
                         </karveControls:DualFieldSearchBox>
@@ -50,7 +61,7 @@
 
                     <StackPanel Grid.Row="2" Orientation="Vertical">
                         <TextBlock Text="Titular" FontSize="10"></TextBlock>
-                        <TextBox  Margin="33,10,194,5" Height="25" Width="Auto" Text="{Binding Path=DataObject., Mode=TwoWay}"></TextBox>
+                        <TextBox  Margin="33,10,194,5" Height="25" Width="Auto" Text="{Binding Path=DataObject.TARTITULAR, Mode=TwoWay}"></TextBox>
                     </StackPanel>
                     <StackPanel Grid.Row="3">
                         <TextBlock  Text="Numero" FontSize="10"></TextBlock>
@@ -72,9 +83,9 @@
                             <TextBlock  Grid.Row="0" Grid.Column="0" Text="Expiry date" FontSize="10"></TextBlock>
                             <TextBlock  Grid.Row="0" Grid.Column="1" Text="Security Code" FontSize="10"></TextBlock>
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                                <TextBox Height="25" Margin="10,5,10,5" Width="25"  Text="{Binding Path=ExpiryMonth, Mode=TwoWay}"></TextBox>
+                                <TextBox Height="25" Margin="10,5,10,5" Width="25"  Text="{Binding Path=DataObject.CreditCardExpiryMonth, Mode=TwoWay}"></TextBox>
                                 <TextBlock Text="/" Height="25"></TextBlock>
-                                <TextBox Height="25" Margin="10,5,10,5" Width="50"  Text="{Binding Path=ExpiryYear, Mode=TwoWay}"></TextBox>
+                                <TextBox Height="25" Margin="10,5,10,5" Width="50"  Text="{Binding Path=DataObject.CreditCardExpiryYear, Mode=TwoWay}"></TextBox>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                                 <TextBox Text="{Binding Path=DataObject.TARCODI, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Height="25" Width="60"></TextBox>
@@ -217,14 +228,13 @@
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Seleciona" Margin="10,0,0,10" Width="150"></TextBlock>
-                                <ComboBox Width="200" x:Name="CompanyAndDriver">
+                                <ComboBox Width="200" x:Name="CompanyAndDriver" SelectedIndex="{Binding DataObject.PERSONA,Mode=TwoWay,Converter={StaticResource CharToCompanyConverter}}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
                                             <mvvm1:InvokeCommandAction Command="{Binding SelectCompanyOrDriver,Mode=OneWay}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
-
-                                    <ComboBoxItem  x:Name="Person" IsSelected="True" Width="200">
+                                    <ComboBoxItem  x:Name="Person" Width="200">
                                         <StackPanel Orientation="Horizontal" x:Name="ShowPerson">
                                             <Image Source="/MasterModule;component/Images/contacts.png" Height="25"></Image>
                                             <TextBlock Text="Persona" Foreground="Black"></TextBlock>
@@ -343,9 +353,12 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"></RowDefinition>
                                         <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <ContentControl mvvm1:RegionManager.RegionName="{Binding DriverZoneRegionName}" Grid.Row="0"></ContentControl>
-                                    <GroupBox  Grid.Row="1" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
+                                    <ContentControl x:Name="Drivers" Content="{Binding}"  ContentTemplate="{StaticResource Drivers}"  Grid.Row="0" Visibility="{Binding SelectedDrivers, Converter={StaticResource BooleanToVisibility}}"></ContentControl>
+                                    <ContentControl x:Name="CompanyDrivers" Content="{Binding}"  ContentTemplate="{StaticResource CompanyDrivers}"  Grid.Row="0" Visibility="{Binding SelectedDrivers, Converter={StaticResource InvertedBooleanToVisibility}}"></ContentControl>
+                                   
+                                    <GroupBox  Grid.Row="2" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
                                         <ContentControl x:Name="CreditCardForm" Content="{Binding}" ContentTemplate="{StaticResource CreditCardFormat}"></ContentControl>
                                     </GroupBox>
 
@@ -372,35 +385,18 @@
                         <ContentControl x:Name="ClientContactGrid" Content="{Binding}"  ContentTemplate="{StaticResource ContactGrid}"></ContentControl>
                     </Syncfusion:TabItemExt>
 
-
                     <Syncfusion:TabItemExt Header="Permiso">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-
-
-                            <photoframe:PhotoFrame Grid.Row="0" HorizontalAlignment="Left" Width="514"></photoframe:PhotoFrame>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}" Height="30"/>
-                                <Button Height="30" Content="{Binding lloaddocument,Source={StaticResource ResourceLanguage}}"/>
-                            </StackPanel>
+                            <photoframe:PhotoFrame Grid.Row="0"></photoframe:PhotoFrame>
                         </Grid>
                     </Syncfusion:TabItemExt>
                     <Syncfusion:TabItemExt Header="Documento" VerticalAlignment="Top">
+
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <photoframe:PhotoFrame Margin="20,0,566,0" Width="666" HorizontalAlignment="Left"></photoframe:PhotoFrame>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
-                                <Button Content="{Binding Carga, Source={StaticResource ResourceLanguage}}" Height="30"></Button>
-                                <Button Height="30">Adquirir..</Button>
-                            </StackPanel>
+                            <photoframe:PhotoFrame Grid.Row="0"></photoframe:PhotoFrame>
                         </Grid>
+                        
+                        
                     </Syncfusion:TabItemExt>
 
 

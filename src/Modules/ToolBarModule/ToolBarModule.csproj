@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\BaseToolBarCommand.cs" />
+    <Compile Include="Command\BookingDataPayload.cs" />
     <Compile Include="Command\ClientDataPayload.cs" />
     <Compile Include="Command\CommissionAgentPayload.cs" />
     <Compile Include="Command\CompanyDataPayload.cs" />

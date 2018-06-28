@@ -7,6 +7,7 @@ using System.Linq;
 using System.ComponentModel;
 using Prism.Commands;
 using KarveControls.Calendar;
+using System.Collections.ObjectModel;
 
 namespace KarveControls
 {
@@ -46,7 +47,7 @@ namespace KarveControls
     public class HolidayCalendar : Control, INotifyPropertyChanged
     {
 
-        public enum Status { CurrentHolidays, ChangedValue, PreviousValue };
+        public enum Status { CurrentHolidays, ChangedValue, PreviousValue, ActionState, ActionDelete, ActionAdd };
 
         /// <summary>
         ///  Dependency properties command.You can set the command and then execute when a selection change. 
@@ -119,7 +120,7 @@ namespace KarveControls
         /// <summary>
         ///  Dependency propriety for the Holidays. It sets the holidays during the year.
         /// </summary>
-        public static readonly DependencyProperty HolidayDependencyProperty = DependencyProperty.Register("Holidays", typeof(IEnumerable<DateTime>), typeof(HolidayCalendar), new PropertyMetadata(new List<DateTime>(), OnHolidaysChanged));
+        public static readonly DependencyProperty HolidayDependencyProperty = DependencyProperty.Register("Holidays", typeof(IEnumerable<DateTime>), typeof(HolidayCalendar), new PropertyMetadata(new ObservableCollection<DateTime>(), OnHolidaysChanged));
 
         private static void OnHolidaysChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -138,17 +139,21 @@ namespace KarveControls
         {
             for (int i = 0; i < 12; i++)
             {
-                _months[i].DaysOff = new List<int>();
+                if (_months.ContainsKey(i))
+                {
+                    _months[i].DaysOff = new List<int>();
+                }
             }
         }
         private void ChangeData(object newValue)
         {
-            var value = newValue as List<DateTime>;
+            var value = newValue as IEnumerable<DateTime>;
             if (value != null)
             {
                 ClearHoliday();
                 foreach (var data in value)
                 {
+                  
                     var dayList = _months[data.Month].DaysOff;
                     if ((dayList != null) && (!dayList.Contains<int>(data.Day)))
                     {
@@ -186,20 +191,34 @@ namespace KarveControls
             if (holiday != null)
             {
                 dictionary[Status.PreviousValue] = holiday;
-  
-                var itemFound = holiday.Where<DateTime>(x => x.Date.IsSameDateAs(value.Item1));
-                if (itemFound != null)
+                //case base
+                if ((holiday.Count() == 0) && (value != null) && (value.Item2 == true))
                 {
-                    if (!value.Item2)
-                    {
-                        Holidays = Holidays.Except(itemFound);
-                    }
+                    Holidays = holiday.Union(new List<DateTime>() { value.Item1 });
+                    // new.
+                    dictionary[Status.ActionState] = Status.ActionAdd;
                 }
                 else
                 {
-                    List<DateTime> newHolidays = new List<DateTime>();
-                    newHolidays.Add(value.Item1);
-                    Holidays = Holidays.Union<DateTime>(newHolidays);
+
+                    var itemFound = holiday.Where<DateTime>(x => x.DayOfYear == value.Item1.DayOfYear);
+                    if (itemFound.Any())
+                    {
+                        if (!value.Item2)
+                        {
+                            Holidays = Holidays.Except(itemFound);
+                            // delete.
+                            dictionary[Status.ActionState] = Status.ActionDelete;
+                        }
+                    }
+                    else
+                    {
+                        List<DateTime> newHolidays = new List<DateTime>();
+                        newHolidays.Add(value.Item1);
+                        // new
+                        dictionary[Status.ActionState] = Status.ActionAdd;
+                        Holidays = Holidays.Union<DateTime>(newHolidays);
+                    }
                 }
                 if (Command != null)
                 {

@@ -63,7 +63,7 @@
             </StackPanel>  
                 
             <Syncfusion:SfDataGrid Grid.Row="1" 
-                                   x:Name="InvoiceSummary"                       
+                                   x:Name="CountrySummary"                       
                                    ColumnSizer="Star"
                                    AllowDraggingColumns="True"
                                    AllowEditing="False"
@@ -103,15 +103,6 @@
                                                AllowGrouping="True"
                      
                     />
-                    <Syncfusion:GridCheckBoxColumn 
-                        HeaderText="Intracomunitario"
-                        MappingName="IsIntraco"
-                        TextAlignment="Left"
-                        AllowFiltering="True"                                
-                        AllowEditing="False"
-                        AllowGrouping="True">
-                        
-                    </Syncfusion:GridCheckBoxColumn>
                 </Syncfusion:SfDataGrid.Columns>
 
             </Syncfusion:SfDataGrid>

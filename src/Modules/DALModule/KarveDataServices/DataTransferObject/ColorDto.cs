@@ -3,16 +3,8 @@
     /// <summary>
     ///  Data Transfer Object for a color.
     /// </summary>
-    public class ColorDto : BaseDto
+    public class ColorDto : BaseDtoDefaultName
     {
-        /// <summary>
-        ///  codigo of the color.
-        /// </summary>
-        public string Code { get;  set; }
-        /// <summary>
-        ///  name of the color
-        /// </summary>
-        public string Name { get;  set; }
         /// <summary>
         ///  metalizad
         /// </summary>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
+using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using Prism.Regions;
@@ -14,7 +15,7 @@ namespace HelperModule.ViewModels
 {
     class ClientOriginViewModel : GenericHelperViewModel<OrigenDto, ORIGEN>
     {
-        public ClientOriginViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager) : base(string.Empty, dataServices, region, manager)
+        public ClientOriginViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperClientOrigin;
         }
@@ -25,7 +26,7 @@ namespace HelperModule.ViewModels
             if (dto != null)
             {
                 string codeId = await helperDal.GetMappedUniqueId<OrigenDto, ORIGEN>(dto);
-                dto.Code = Convert.ToInt32(codeId);
+                dto.Code =codeId;
                 payLoad.DataObject = dto;
                
             }

@@ -47,7 +47,7 @@
             </WrapPanel>
            
                         <syncfusion:SfDataGrid x:Name="sfGrid"
-                                               ColumnSizer="Star"
+                                               ColumnSizer="AutoLastColumnFill"
                                                AllowDraggingColumns="True"
                                                AllowEditing="True"
                                                AllowFiltering="True"
@@ -56,6 +56,7 @@
                                                AllowGrouping="True"
                                                NavigationMode="Row"
                                                AddNewRowPosition="Top"
+                                               FilterRowPosition="Top"
                                                kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                ItemsSource="{Binding MaintenanceCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

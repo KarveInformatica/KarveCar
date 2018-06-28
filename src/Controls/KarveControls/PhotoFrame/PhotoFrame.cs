@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using Prism.Commands;
+using Syncfusion.Windows.Controls.Input;
 
 namespace KarveControls.PhotoFrame
 {
@@ -17,7 +20,7 @@ namespace KarveControls.PhotoFrame
     /// 
     [TemplatePart(Name = "PART_ImageFile", Type = typeof(Image))]
     [TemplatePart(Name = "PART_LoadButton", Type = typeof(Button))]
-    [TemplatePart(Name = "PART_ImageText", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_ImageText", Type = typeof(SfTextBoxExt))]
 
     public class PhotoFrame : Control
     {
@@ -27,7 +30,7 @@ namespace KarveControls.PhotoFrame
 
         private Image _imageFile = new Image();
         private Button _loadButton;
-        private TextBox _imageText;
+        private SfTextBoxExt _imageText;
 
         /// <summary>
         ///  Public class for press algorithms.
@@ -78,6 +81,7 @@ namespace KarveControls.PhotoFrame
 
         private List<ImageSource> _sourceImages = new List<ImageSource>();
 
+        public ICommand LoadCommand { set; get; }
         private enum ComponentStates
         {
             InitState,
@@ -346,6 +350,11 @@ namespace KarveControls.PhotoFrame
         /// </summary>
         public PhotoFrame()
         {
+            LoadCommand = new DelegateCommand(OnPhotoLoad);
+        }
+        static PhotoFrame()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PhotoFrame), new FrameworkPropertyMetadata(typeof(PhotoFrame)));
 
         }
         public override void OnApplyTemplate()
@@ -353,10 +362,92 @@ namespace KarveControls.PhotoFrame
             base.OnApplyTemplate();
             _imageFile = GetTemplateChild("PART_ImageFile") as Image;
             _loadButton = GetTemplateChild("PART_LoadButton") as Button;
-            _imageText = GetTemplateChild("PART_ImageText") as TextBox;
+            _imageText = GetTemplateChild("PART_ImageText") as SfTextBoxExt;
+         
             if (_loadButton != null)
             {
                 _loadButton.Click += ImageButton_Click;
+            }
+            if (_imageText != null)
+            {
+                _imageText.PreviewKeyDown += ImageText_PreviewKeyDown;
+            }
+          
+        }
+
+        private void ImageText_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (File.Exists(_imageText.Text))
+                {
+                    ImageSource source = CreateImageSource(_imageText.Text, true);
+                    if (source != null)
+                    {
+                        _imageFile.Source = source;
+                        _sourceImages.Clear();
+                        _sourceImages.Add(source);
+                        ImageArray = _sourceImages;
+                    }
+                }
+            }
+        }
+
+        private void LoadAutoComplete(string pathFile)
+        {
+            try
+            {
+                var path = Path.GetDirectoryName(pathFile);
+                string[] filePaths = Directory.GetFiles(path);
+                if (filePaths.Count() > 0)
+                {
+                    _imageText.AutoCompleteMode = AutoCompleteMode.Suggest;
+                    _imageText.AutoCompleteSource = filePaths;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        private void OnPhotoLoad()
+        {
+            // Configure open file dialog box
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            string openImageFile = "Abres File";
+            dlg.Filter = openImageFile + "(*.bmp, *.jpg, *.png) | *.bmp; *.jpg;*.png";
+            dlg.Title = "Nueva imagen";
+            dlg.DefaultExt = ".png"; // Default file extension
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results
+            if (result == true)
+            {
+                // Open document
+                string filename = dlg.FileName;
+                // at this point i shall check if the file is not empty
+                if ((!string.IsNullOrEmpty(filename)) && (File.Exists(filename)))
+                {
+                    // ok in this case the file exists.
+                    // we can load it.
+                    currentFile = dlg.FileName;
+                    _imageText.Text = currentFile;
+                    LoadAutoComplete(_imageText.Text);
+                    ImageSource source = CreateImageSource(dlg.FileName, true);
+                    if (source != null)
+                    {
+                        _imageFile.Source = source;
+
+                        _sourceImages.Clear();
+                        _sourceImages.Add(source);
+                        ImageArray = _sourceImages;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Fichero corrupto", "Error en la carga",MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         private void ImageButton_Click(object sender, RoutedEventArgs e)
@@ -373,11 +464,14 @@ namespace KarveControls.PhotoFrame
                     {
                         currentFile = openFileDialog.FileName;
                         _imageText.Text = currentFile;
+                        LoadAutoComplete(_imageText.Text);
+                        
                         ImageSource source = CreateImageSource(openFileDialog.FileName, true);
                         if (source != null)
                         {
                             _sourceImages.Clear();
                             _sourceImages.Add(source);
+                            _imageFile.Source = source;
                             ImageArray = _sourceImages;
                         }
                     }
@@ -386,7 +480,8 @@ namespace KarveControls.PhotoFrame
             }
             catch (Exception cException)
             {
-                throw new PhotoFrameException("Cannot open the file.", cException.InnerException);
+                MessageBox.Show("The selected image is invalid: " + cException.Message);
+                //throw new PhotoFrameException("Cannot open the file.", cException.InnerException);
             }
 
         }
@@ -398,19 +493,27 @@ namespace KarveControls.PhotoFrame
         /// <returns>A frozen image source object representing the loaded image.</returns>
         private ImageSource CreateImageSource(string file, bool forcePreLoad)
         {
+            var src = new BitmapImage();
+
             if (forcePreLoad)
             {
-                var src = new BitmapImage();
-                src.BeginInit();
-                src.UriSource = new Uri(file, UriKind.Absolute);
-                src.CacheOption = BitmapCacheOption.OnLoad;
-                src.EndInit();
-                src.Freeze();
+                try
+                {
+                    src.BeginInit();
+                    src.UriSource = new Uri(file, UriKind.Absolute);
+                    src.CacheOption = BitmapCacheOption.OnLoad;
+                    src.EndInit();
+                    src.Freeze();
+                } catch (NotSupportedException ex)
+                {
+                    MessageBox.Show("Not supported format");
+                    return null;
+                }
                 return src;
             }
             else
             {
-                var src = new BitmapImage(new Uri(file, UriKind.Absolute));
+                src = new BitmapImage(new Uri(file, UriKind.Absolute));
                 src.Freeze();
                 return src;
             }

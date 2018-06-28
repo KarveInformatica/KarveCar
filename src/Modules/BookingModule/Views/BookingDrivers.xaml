@@ -10,7 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1224">
 
-    <Grid>
+    <ScrollViewer>
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -51,4 +52,6 @@
             <TripleButton:TripleButton Grid.Row="2" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
         </Grid>
     </Grid>
+    </ScrollViewer>
+
 </UserControl>

@@ -12,6 +12,11 @@ namespace DataAccessLayer.MongoDB
         public int NumberPage { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         public long NumberItems { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
+        public Task<bool> DeleteAsync(IOfficeData booking)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<bool> DeleteOfficeAsyncDo(IOfficeData data)
         {
             throw new System.NotImplementedException();
@@ -32,7 +37,17 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
+        public Task<IOfficeData> GetDoAsync(string code)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IOfficeData GetNewDo(string value)
         {
             throw new System.NotImplementedException();
         }
@@ -58,6 +73,11 @@ namespace DataAccessLayer.MongoDB
         }
 
         public Task<IEnumerable<OfficeSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<OfficeSummaryDto>> GetSummaryAllAsync()
         {
             throw new System.NotImplementedException();
         }

@@ -102,12 +102,21 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public byte? DIA3 { get; set; }
- 
-	/// <summary>
-    ///  Set or get the PP property.
-    /// </summary>
-    
-		public Decimal? PP { get; set; }
+
+
+
+        /// <summary>
+        /// Get the supplier albaran.
+        /// </summary>
+        public char? PALBARAN {
+            get;
+            set; }
+
+        /// <summary>
+        ///  Set or get the PP property.
+        /// </summary>
+
+        public Decimal? PP { get; set; }
  
 	/// <summary>
     ///  Set or get the MONEDA property.
@@ -199,12 +208,8 @@ namespace DataAccessLayer.DataObjects
     
 		public string DIVISA { get; set; }
  
-	/// <summary>
-    ///  Set or get the PALBARAN property.
-    /// </summary>
     
-		public char? PALBARAN { get; set; }
- 
+    
 	/// <summary>
     ///  Set or get the EXCLUSIVIDAD property.
     /// </summary>
