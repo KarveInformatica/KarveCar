@@ -136,8 +136,25 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             _vehicleDataServices = DataServices.GetVehicleDataServices();
-            _vehicleTaskNotify = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), _vehicleEventTask);
-        
+            _vehicleTaskNotify = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev)=> {
+                if (task is INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> vehicles)
+                {
+                    if (vehicles.IsSuccessfullyCompleted)
+                    {
+                        var collection = vehicles.Result;
+                        var maxItems = _vehicleDataServices.NumberItems;
+                        PageCount =_vehicleDataServices.NumberPage;
+                        var summaryList = new IncrementalList<VehicleSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                        summaryList.LoadItems(collection);
+                        SummaryView = summaryList;
+
+                    }
+                    else
+                    {
+                        DialogService?.ShowErrorMessage("No puedo cargar datos de vehiculos : " + vehicles.ErrorMessage);
+                    }
+                }
+            });
         }
         
         /// <summary>

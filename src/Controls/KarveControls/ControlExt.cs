@@ -278,6 +278,7 @@ namespace KarveControls
                 currentDataGrid.AddNewRowInitiating += CurrentDataGrid_AddNewRowInitiating;
                
                 currentDataGrid.RowValidated += CurrentDataGrid_RowValidated;
+                currentDataGrid.PreviewKeyDown += CurrentDataGrid_PreviewKeyDown;
             }
             if (dependencyObject is DataArea)
             {
@@ -350,6 +351,82 @@ namespace KarveControls
                 // here we do the combox box.
                 comboBox.SelectionChanged += ComboBox_SelectionChanged;
             }
+        }
+
+        private static void CurrentDataGrid_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            object dataValue = null;
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                if (sender is SfDataGrid dataGrid)
+                {
+                    DependencyObject dependencyObject = sender as DependencyObject;
+                    var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
+                    List<object> value = new List<object>();
+                    if ((command != null) && (dataGrid != null))
+                    {
+                        dataValue = dataGrid.SelectedItem;
+                        var rowState = GetGridOperation(dependencyObject);
+                        if (dataValue != null)
+                        {
+                            BaseDto dto = dataValue as BaseDto;
+                            if (dto != null)
+                            {
+                                dto.LastModification = DateTime.Now.ToLongTimeString();
+                                if (!dto.IsNew)
+                                {
+                                    dto.IsNew = (rowState == GridOp.Insert) ? true : false;
+
+                                }
+                                dto.IsDirty = true;
+
+                            }
+                        }
+
+                        var collection = dataGrid.View.SourceCollection;
+                        if (collection is IEnumerable<BaseDto> dtoArray)
+                        {
+                            if (dtoArray.Count() == 0)
+                            {
+                                return;
+                            }
+                        }
+                        foreach (var c in collection)
+                        {
+                            BaseDto v = c as BaseDto;
+                            if (v != null)
+                            {
+                                if (v.IsNew)
+                                {
+                                    value.Add(c);
+                                }
+                                else if (v.IsDirty)
+                                {
+                                    value.Add(c);
+                                }
+                                else if (v.IsDeleted)
+                                {
+                                    value.Add(c);
+                                }
+                            }
+                        }
+
+                        IDictionary<string, object> objectName = new Dictionary<string, object>();
+                        value.Add(dataValue);
+                        objectName["DataObject"] = GetDataSource(dataGrid);
+                        objectName["DataSourcePath"] = GetDataSourcePath(dataGrid);
+                        objectName["ChangedValue"] = value;
+                        objectName["PreviousValue"] = _lastChangedRow;
+                        objectName["Operation"] = rowState;
+                        objectName["DeletedItems"] = false;
+                        objectName["LastRowId"] = dataGrid.GetLastRowIndex();
+                        _lastChangedRow = dataValue;
+                        command.Execute(objectName);
+                        SwitchToUpdate(dependencyObject, rowState);
+                    }
+                }
+            }
+
         }
 
         private static void Picker_ValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -524,17 +601,20 @@ namespace KarveControls
                     if (dto != null)
                     {
                         dto.LastModification = DateTime.Now.ToLongTimeString();
-                        if (!dto.IsNew)
-                        {
-                            dto.IsNew = (rowState == GridOp.Insert) ? true : false;
-
-                        }
-                       dto.IsDirty = true;
+                        dto.IsNew = (rowState == GridOp.Insert) ? true : false;
+                        dto.IsDirty = true;
 
                     }
                 }
                 
                 var collection = dataGrid.View.SourceCollection;
+                if (collection is IEnumerable<BaseDto> dtoArray)
+                {
+                    if (dtoArray.Count() == 0)
+                    {
+                        return;
+                    }
+                }
                 foreach (var c in collection)
                 {
                     BaseDto v = c as BaseDto;
@@ -554,6 +634,7 @@ namespace KarveControls
                         }
                     }
                 }
+               
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 value.Add(dataValue);
                 objectName["DataObject"] = GetDataSource(dataGrid);

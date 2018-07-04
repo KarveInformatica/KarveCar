@@ -270,7 +270,6 @@
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelTextWidth}"/>
                         <Syncfusion:DateTimeEdit x:Name="PART_DatePicker"
                                                   Grid.Column="1"
-                                                  CanEdit="True"
                                                   IsEmptyDateEnabled="True"
                                 Margin="20,0,0,0"
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PickerWidth}"
@@ -467,6 +466,57 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type local:DataTimePicker}">
+        <Setter Property="Width" Value="50"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="SpinHeight" Value="13"/>
+        <Setter Property="DropDownHeight" Value="28"/>
+      
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DataTimePicker}">
+                    <Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                       
+                            <local:MaskedTextBox x:Name="PART_MaskedTextBox" Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Width}" 
+                                                 Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextTime, Mode=TwoWay}" 
+                                                 Mask="00:00" 
+                                                 Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}" 
+                                                 Grid.Column="0" 
+                                                ></local:MaskedTextBox>
+                            <Grid Grid.Column="1" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Button x:Name="PART_SpinUp" Height="13" Grid.Row="0" >
+                                    <Image Source="/KarveControls;component/Images/uparrow.png" Height="15.5"></Image>
+                                </Button>
+                                <Button x:Name="PART_SpinDown" Height="13" Grid.Row="1">
+                                    <Image Source="/KarveControls;component/Images/downarrow.png" Height="9.5" ></Image>
+                                </Button>
+                            </Grid>
+                            <Button x:Name="PART_DropDown" Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DropDownHeight}" Grid.Column="2" Width="20">
+                                <Image Source="/KarveControls;component/Images/downpopup.png"></Image>
+                            </Button>
+                            <Popup x:Name="PART_PopUp" Placement="Bottom" StaysOpen="True">
+
+                                <ListBox x:Name="PART_TimeSelected">
+
+                                </ListBox>
+                            </Popup>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+           
     <Style TargetType="{x:Type photo:PhotoFrame}">
         <Setter Property="Template">
             <Setter.Value>
@@ -652,12 +702,16 @@
                                                                        AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row"
+                                                                        CellStyle="{StaticResource KarveGridCell}"
+                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                               AlternationCount="2"
+                                HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                                                        FilterRowPosition="FixedTop"
                                                                        Height="800"
                                                                        MaxWidth="1100"
                                                                        Background="White"
                                                                        BorderBrush="#3373f2" 
-                                                                        HeaderStyle="{StaticResource headerStyle}" 
+                                                                  
                                                 >
         
                                                     <Syncfusion:SfDataGrid.Resources>
@@ -1060,10 +1114,11 @@
                                         <DataTemplate>
 
                                             <local:DateMonth 
-                                                             YearMonth="{Binding YearMonth}" 
-                                                     SelectedDayCommand="{Binding SelectedDayCommand}" 
-                                                     MonthIndex="{Binding MonthIndex}"
-                                                     DaysOff="{Binding DaysOff}" Margin="0,0,10,0"></local:DateMonth>
+                                                     ResetCommand="{Binding Reset, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                                
+                                                     YearMonth="{Binding YearMonth, UpdateSourceTrigger=PropertyChanged}" 
+                                                     SelectedDayCommand="{Binding SelectedDayCommand, UpdateSourceTrigger=PropertyChanged}" 
+                                                     MonthIndex="{Binding MonthIndex, UpdateSourceTrigger=PropertyChanged}"
+                                                     DaysOff="{Binding DaysOff,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"></local:DateMonth>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

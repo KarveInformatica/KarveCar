@@ -11,12 +11,11 @@ namespace MasterModule.Views
         public OfficeInfoView()
         {
             try
-            {
-               
+            {  
                 InitializeComponent();
             } catch(Exception e)
             {
-                var v = e.Message;
+                var current = e.Message;
             }
         }
         public string Header

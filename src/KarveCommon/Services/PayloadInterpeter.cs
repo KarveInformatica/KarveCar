@@ -71,8 +71,14 @@ namespace KarveCommon.Services
                 {
                     throw new Exception("Interpreter not initalized"); 
                 }
-
-                switch (payLoad)
+            // check on primary key
+            if ((payLoad.PayloadType == DataPayLoad.Type.Insert) &&
+           (primaryKeyValue == payLoad.PrimaryKeyValue))
+            {
+                return;
+            }
+            
+            switch (payLoad)
                 {
                     case null:
                     case NullDataPayload _:

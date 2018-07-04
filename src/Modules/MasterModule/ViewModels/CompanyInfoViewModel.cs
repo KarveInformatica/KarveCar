@@ -20,7 +20,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     ///  This view model handles the view of company form.
     /// </summary>
-  internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
+    internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
     {
         private CompanyDto _currentCompanyDto = new CompanyDto();
         #region Constructor 
@@ -33,22 +33,35 @@ namespace MasterModule.ViewModels
         /// <param name="dialogService"></param>
         /// <param name="manager"></param>
         /// <param name="controller"></param>
-        public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, 
+        public CompanyInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices,
             IDialogService dialogService,
             IRegionManager manager,
-            IInteractionRequestController controller) : base(eventManager, configurationService,dataServices,dialogService, 
+            IInteractionRequestController controller) : base(eventManager, configurationService, dataServices, dialogService,
                 manager, controller)
         {
-            base.ConfigureAssist();
+
+
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
             ShowOfficesCommand = new DelegateCommand<object>(ShowOffices);
+            _newCommand = new DelegateCommand(OnNewCommand);
+            _assistDataService = dataServices.GetAssistDataServices();
+            AssistMapper = _assistDataService.Mapper;
             AssistExecuted += CompanyAssistResult;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.CompanySubSystemName, this);
             ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
             ItemName = "Empresa";
             ActiveSubSystem();
         }
+        private void OnNewCommand()
+        {
+            if (IsActive(ViewModelUri))
+            {
+                // here the view model is active.
+                NewItem();
+            }
+        }
+
         #endregion
         #region Properties
         /// <summary>
@@ -101,7 +114,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Show client data transfer object.
         /// </summary>
-        public IEnumerable<ClientSummaryDto> ClientDto
+        public IEnumerable<ClientSummaryExtended> ClientDto
         {
             get
             {
@@ -115,6 +128,36 @@ namespace MasterModule.ViewModels
         }
 
         public bool CreateRegionManagerScope => true;
+        public IEnumerable<CityDto> CityDto {
+            get
+
+            { return _cityDto; }
+
+            set {
+                _cityDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        public IEnumerable<ProvinciaDto> ProvinciaDto {
+            get {
+                return _provinciaDto;
+            }
+            set
+            {
+                _provinciaDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        public IEnumerable<CountryDto> CountryDto { get
+            {
+                return _countryDto;
+            }
+            set
+            {
+                _countryDto = value;
+                RaisePropertyChanged();
+            }
+        }
         #endregion
 
 
@@ -211,6 +254,11 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CompanySubsystem;
+            payLoad.ObjectPath = ViewModelUri;
+            payLoad.Sender = ViewModelUri.ToString();
+            payLoad.HasNewCommand = true;
+            payLoad.NewCommand = _newCommand;
+
         }
         #endregion
 
@@ -243,7 +291,7 @@ namespace MasterModule.ViewModels
         }
         private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
-            var value = await AssistMapper.ExecuteAssist(assistTableName, assistQuery);
+            var value = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery);
             bool retValue = false;
             if (value != null)
             {
@@ -251,19 +299,19 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                         {
-                            CompanyHelper.CityDto = (IEnumerable<CityDto>)value;
+                            CityDto = (IEnumerable<CityDto>)value;
                             retValue = true;
                             break;
                         }
                     case "PROVINCE_ASSIST":
                         {
-                            CompanyHelper.ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
+                            ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
                             retValue = true;
                             break;
                         }
                     case "COUNTRY_ASSIST":
                         {
-                            CompanyHelper.CountryDto = (IEnumerable<CountryDto>)value;
+                            CountryDto = (IEnumerable<CountryDto>)value;
                             retValue = true;
                             break;
                         }
@@ -276,12 +324,14 @@ namespace MasterModule.ViewModels
                         }
                     case "CLIENT_ASSIST":
                         {
-                            ClientDto = (IEnumerable<ClientSummaryDto>)value;
+                            ClientDto = (IEnumerable<ClientSummaryExtended>) value;
+
+                            
                             retValue = true;
                             break;
                         }
                 }
-                RaisePropertyChanged("CompanyHelper");
+                
             }
             return retValue;
         }
@@ -350,8 +400,12 @@ namespace MasterModule.ViewModels
         }
         public override void DisposeEvents()
         {
+            UnregisterToolBar(PrimaryKeyValue, _newCommand);
             EventManager.DeleteMailBoxSubscription(_mailBoxName);
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.CompanySubSystemName, this);
+            DataObject = null;
+            _currentCompanyDto = null;
+            _companyData = null;
         }
 
         internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
@@ -380,10 +434,15 @@ namespace MasterModule.ViewModels
         #region Private Fields
         private ICompanyData _companyData;
         private string _mailBoxName;
+        private ICommand _newCommand;
         private IHelperBase _companyHelper;
+        private IAssistDataService _assistDataService;
         //private CompanyDto _currentCompanyDto;
         private IEnumerable<CommissionAgentSummaryDto> _brokers;
-        private IEnumerable<ClientSummaryDto> _clientDto;
+        private IEnumerable<ClientSummaryExtended> _clientDto;
+        private IEnumerable<CityDto> _cityDto;
+        private IEnumerable<ProvinciaDto> _provinciaDto;
+        private IEnumerable<CountryDto> _countryDto;
         #endregion
 
 

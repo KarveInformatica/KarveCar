@@ -149,7 +149,7 @@ namespace DataAccessLayer
         public async Task<IEnumerable<InvoiceSummaryValueDto>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
         {
             var pager = new DataPager<InvoiceSummaryValueDto>(SqlExecutor);
-            var startIndex = (pageIndex == 0) ? 1 : pageSize;
+            var startIndex = (pageIndex <= 0) ? 1 : pageIndex;
             NumberPage = await GetPageCount(pageSize);
             var summary = await pager.GetPagedSummaryDoAsync(QueryType.QueryInvoiceSummaryPaged, startIndex, pageSize);
             return summary;

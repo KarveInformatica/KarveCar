@@ -172,8 +172,8 @@ namespace KarveDataServices
         /// <param name="pageSize"></param>
         /// <returns></returns>
         Task<IEnumerable<T>> GetPagedQueryDoAsync<T>(string query, int pageIndex, int pageSize) where T : class;
-
-
-
+        Task<IEnumerable<Dto>> GetPagedAsyncHelper<Dto, Entity>(string query, int pageIndex, int pageSize)
+            where Dto : class
+            where Entity : class;
     }
 }

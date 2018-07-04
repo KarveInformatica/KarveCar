@@ -1,5 +1,6 @@
 ﻿using KarveCommon.Command;
 using KarveCommon.Services;
+using KarveDataServices.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,28 @@ namespace ToolBarModule.Command
                 { DataSubSystem.InvoiceSubsystem, new InvoiceDataPayload()},
                 { DataSubSystem.BookingSubsystem, new BookingDataPayload()}
            };
-
+        public override bool CanExecute(object parameter)
+        {
+            if (parameter == null)
+            {
+                return false;
+            }
+            if (!base.CanExecute(parameter))
+            {
+                return false;
+            }
+            if (parameter is BaseDto baseDto)
+            {
+                var tmp = baseDto.IsNew;
+                if (tmp == true)
+                {
+                    baseDto.IsNew = false;
+                }
+                if (baseDto.HasErrors)
+                    return false;
+            }
+            return true;
+        }
         public abstract void Dispose();
 
     }

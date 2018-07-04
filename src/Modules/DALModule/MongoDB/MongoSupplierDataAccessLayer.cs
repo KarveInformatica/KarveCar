@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -115,6 +116,11 @@ namespace DataAccessLayer.MongoDB
         }
 
         public Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<SupplierSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new NotImplementedException();
         }

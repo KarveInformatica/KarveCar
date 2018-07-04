@@ -27,8 +27,16 @@ namespace KarveControls.Behaviour
         }
         private void AssociatedObject_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            var item = e;
-            var s = sender;
+            var item = this.AssociatedObject.SelectedItem;
+            if (item is SfTreeNavigatorItem navigator)
+            {
+                var command = CommandExt.GetCommand(navigator);
+                var commandExt = CommandExt.GetCommandParameter(navigator);
+                if ((command != null) && (commandExt != null))
+                {
+                    command.Execute(commandExt);
+                }
+            }
         }
 
     }

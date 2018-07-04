@@ -273,20 +273,22 @@ namespace MasterModule.ViewModels
         /// Dictionary of events.
         /// </summary>
         /// <param name="eventDictionary"></param>
-        private void OnChangedField(IDictionary<string, object>  eventDictionary)
+        private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = BuildDataPayload(eventDictionary);
-           
+
             ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,
                 DataSubSystem.ClientSubsystem);
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
             }
+           
             SetBasePayLoad(eventDictionary, ref payLoad);
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);
+               
 
             }
             else
@@ -294,6 +296,8 @@ namespace MasterModule.ViewModels
                 payLoad.PayloadType = DataPayLoad.Type.Update;
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
+            
+
         }
         public bool SelectedDrivers
         {

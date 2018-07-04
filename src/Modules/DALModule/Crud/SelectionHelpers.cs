@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Dapper;
+using DataAccessLayer.DataObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace DataAccessLayer.Crud
         {
 
             var hasValue = gridReader.ReadSingle<int>() > 0;
+            
             if (hasValue)
             {
                 var entityCollection = gridReader.Read<EntityType>();

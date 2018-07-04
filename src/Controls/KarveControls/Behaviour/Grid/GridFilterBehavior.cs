@@ -70,14 +70,14 @@ namespace KarveControls.Behaviour.Grid
         {
 
             this.AssociatedObject.SortColumnsChanging += DataGrid_SortColumnsChanging;
-            this.AssociatedObject.FilterChanged += dataGrid_FilterChanged;
+        //    this.AssociatedObject.FilterChanged += dataGrid_FilterChanged;
             this.AssociatedObject.CurrentCellEndEdit += dataGrid_CurrentCellEndEdit;
             this.AssociatedObject.CurrentCellBeginEdit += dataGrid_BeginCellEdit;
         }
 
         private void dataGrid_FilterChanged(object sender, GridFilterEventArgs e)
         {
-            MessageBox.Show("FilterChanged");
+          //  MessageBox.Show("FilterChanged");
            
         ///    var records = (sender as SfDataGrid).View.Records;
             //records.Reverse();
@@ -116,10 +116,19 @@ namespace KarveControls.Behaviour.Grid
             foreach (var sortColumn in this.AssociatedObject.View.SortDescriptions)
             {
                 var columnName = sortColumn.PropertyName;
-                UpdateDictionary(columnName, sortColumn, ref sortDictionary, ListSortDirection.Ascending);
-                UpdateDictionary(columnName, sortColumn, ref sortDictionary, ListSortDirection.Descending);
+                if (sortColumn.Direction == ListSortDirection.Ascending)
+                {
+                    UpdateDictionary(columnName, sortColumn, ref sortDictionary, ListSortDirection.Ascending);
+                }
+                else
+                {
+                    UpdateDictionary(columnName, sortColumn, ref sortDictionary, ListSortDirection.Descending);
+                }
             }
-            viewModel.SortCommand.Execute(sortDictionary);
+            if (viewModel.SortCommand != null)
+            {
+                viewModel.SortCommand.Execute(sortDictionary);
+            }
         }
 
         private void dataGrid_BeginCellEdit(object sender, CurrentCellBeginEditEventArgs e)

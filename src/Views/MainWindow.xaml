@@ -674,54 +674,21 @@
                             <Image Source="/KarveCar;component/Images/carveheader.png" MaxHeight="100"></Image>
                         </DataTemplate>
                     </syncfusion:SfTreeNavigator.HeaderTemplate>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource SupplierTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <prism:InvokeCommandAction Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Suppliers"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource SupplierTree}" 
+                                                    KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="Suppliers">
                     </syncfusion:SfTreeNavigatorItem>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource BrokerTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <prism:InvokeCommandAction Command="{Binding DataContext.NavigateCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="CommissionAgent"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource BrokerTree}" KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="CommissionAgent">
+                      
                     </syncfusion:SfTreeNavigatorItem>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource CarTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <prism:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Vehicles"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource CarTree}" KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="Vehicles">
+                                           </syncfusion:SfTreeNavigatorItem>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource OfficeTree}" KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="Offices">
                     </syncfusion:SfTreeNavigatorItem>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource OfficeTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Offices"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource CompanyTree}" KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="Companies">
                     </syncfusion:SfTreeNavigatorItem>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource CompanyTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="Companies"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource InvoiceTree}" KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="InvoiceSummary">
                     </syncfusion:SfTreeNavigatorItem>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource InvoiceTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="InvoiceSummary"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </syncfusion:SfTreeNavigatorItem>
-                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource BookingTree}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseClick">
-                                <i:InvokeCommandAction Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="BookingSummary"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                    <syncfusion:SfTreeNavigatorItem HeaderTemplate="{StaticResource BookingTree}" KarveControls:CommandExt.Command="{Binding DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" KarveControls:CommandExt.CommandParameter="BookingSummary">
                     </syncfusion:SfTreeNavigatorItem>
                     <i:Interaction.Behaviors>
                         <behaviour:SfTreeNavigatorBehavior />

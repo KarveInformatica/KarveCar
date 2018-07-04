@@ -9,5 +9,17 @@ namespace KarveDataServices.DataTransferObject
 {
     public class RequestReasonDto: BaseDtoDefaultName
     {
+        public override bool HasErrors
+        {
+            get
+            {
+                if ((Name != null) && (Name.Length > NameSize))
+                {
+                    ErrorList.Add(ConstantDataError.NameTooLong);
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

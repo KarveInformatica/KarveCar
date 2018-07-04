@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -192,6 +194,7 @@
     <Compile Include="ViewModels\ActivitySectorViewModel.cs" />
     <Compile Include="ViewModels\BrokerTypeViewModel.cs" />
     <Compile Include="ViewModels\CountryRegionsViewModel.cs" />
+    <Compile Include="ViewModels\RequestReasonViewModel.cs" />
     <Compile Include="ViewModels\SupplierCurrencyViewModel.cs" />
     <Compile Include="ViewModels\SupplierTypeViewModel.cs" />
     <Compile Include="ViewModels\TravelAgencyViewModel.cs" />
@@ -260,6 +263,9 @@
     </Compile>
     <Compile Include="Views\CreditCard.xaml.cs">
       <DependentUpon>CreditCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RequestReason.xaml.cs">
+      <DependentUpon>RequestReason.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SupplierCurrency.xaml.cs">
       <DependentUpon>SupplierCurrency.xaml</DependentUpon>
@@ -420,6 +426,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreditCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RequestReason.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

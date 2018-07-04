@@ -172,7 +172,7 @@ namespace DataAccessLayer
         {
             IEnumerable<VehicleSummaryDto> pagedSummary = new List<VehicleSummaryDto>(); 
             var pager = new DataPager<VehicleSummaryDto>(SqlExecutor);
-            var startIndex = (baseIndex == 0) ? 1 : defaultPageSize;
+            var startIndex = (baseIndex == 0) ? 1 : baseIndex;
             NumberPage = await GetPageCount(defaultPageSize);
             try
             {

@@ -18,6 +18,7 @@ using NLog;
 using MasterModule.Common;
 using KarveCommonInterfaces;
 using Syncfusion.UI.Xaml.Grid;
+using System.Windows.Input;
 
 namespace MasterModule.ViewModels
 {
@@ -28,7 +29,8 @@ namespace MasterModule.ViewModels
     /// </summary>
     public sealed class CompanyControlViewModel : MasterControlViewModuleBase
     {
-        
+
+
         /// <summary>
         /// Controller View Model for the company.
         /// </summary>
@@ -37,38 +39,54 @@ namespace MasterModule.ViewModels
         /// <param name="dialogService">DialogService for spotting errors.</param>
         /// <param name="services">Data Services to fetch/store data.</param>
         /// <param name="regionManager">Region manager for navigating to the child</param>
-        public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDialogService dialogService,IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, null, dialogService, regionManager)
+        public CompanyControlViewModel(IConfigurationService configurationService, IEventManager eventManager, IDialogService dialogService, IDataServices services, IRegionManager regionManager) : base(configurationService, eventManager, services, null, dialogService, regionManager)
         {
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
-            InitEventHandler += LoadNotificationHandler;
+
             _mailBoxName = EventSubsystem.CompanySummaryVm;
             _companyDataServices = DataServices.GetCompanyDataServices();
+            ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
+            _newCommand = new DelegateCommand(OnNewCommand);
+            SortCommand = new DelegateCommand<object>(OnSortCommand);
             InitViewModel();
-            
+            _gridSorter = new GridSorter<CompanySummaryDto>(DialogService, _companyDataServices, DefaultPageSize);
+            _gridSorter.OnInitPage += _gridSorter_OnInitPage;
+            _gridSorter.OnNewPage += _gridSorter_OnNewPage;
+            // ItenName is for the title.
             ItemName = "Empresas";
             ActiveSubSystem();
         }
 
-        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
+        private void _gridSorter_OnNewPage(IEnumerable<CompanySummaryDto> page)
         {
-           var listCompletion = sender as INotifyTaskCompletion<IEnumerable<CompanySummaryDto>>;
-            if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
+             if (SummaryView is IncrementalList<CompanySummaryDto> list)
             {
-
-                if (SummaryView is IncrementalList<CompanySummaryDto> summary)
-                {
-                    summary.LoadItems(listCompletion.Result);
-                    SummaryView = summary;
-                }
-            }
-
-            if ((listCompletion != null) && (listCompletion.IsFaulted))
-            {
-                DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
+                list.LoadItems(page);
+                SummaryView = list;
             }
         }
 
+        private void _gridSorter_OnInitPage(IEnumerable<CompanySummaryDto> result)
+        {
+            PageCount = (_companyDataServices.NumberPage == 0) ? 1 : _companyDataServices.NumberPage;
+            var maxItems = _companyDataServices.NumberItems;
+            if (result.Count() > 0)
+            {
+                var list = new IncrementalList<CompanySummaryDto>(_gridSorter.Loader) { MaxItemCount = (int)maxItems };
+                list.LoadItems(result);
+                SummaryView = list;
+            }
+        }
+        private void OnNewCommand()
+        {
+            if (IsActive(ViewModelUri))
+            {
+                // here the view model is active.
+                NewItem();
+            }
+        }
 
+        private ICommand _newCommand;
         #region Public Properties
         public IEnumerable<CompanySummaryDto> SourceView
         {
@@ -80,6 +98,10 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CompanySubsystem;
+            payLoad.Sender = ViewModelUri.ToString();
+            payLoad.ObjectPath = ViewModelUri;
+            payLoad.HasNewCommand = true;
+            payLoad.NewCommand = _newCommand;
         }
         /// <summary>
         ///  Delete a company given its primary key
@@ -93,11 +115,6 @@ namespace MasterModule.ViewModels
             var data = await _companyDataServices.GetAsyncCompanyDo(primaryKey);
             var retValue = await _companyDataServices.DeleteCompanyAsyncDo(data);
             return retValue;
-        }
-        protected override void OnSortCommand(object obj)
-        {
-            var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
-            _initializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _companyEventTask);
         }
 
         protected override string GetRouteName(string name)
@@ -132,6 +149,12 @@ namespace MasterModule.ViewModels
         // since company we dont use anymore data tables for performance issues.
         protected override void SetTable(DataTable table)
         {
+        }
+        public override void DisposeEvents()
+        {
+            base.DisposeEvents();
+            _gridSorter.OnInitPage -= _gridSorter_OnInitPage;
+            _gridSorter.OnNewPage -= _gridSorter_OnNewPage;
         }
         private void LoadNotificationHandler(object sender, PropertyChangedEventArgs ev)
         {
@@ -226,16 +249,20 @@ namespace MasterModule.ViewModels
         private void InitViewModel()
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.CompanySummaryGrid;
-            _companyEventTask += OnNotifyIncrementalList<CompanySummaryDto>;
+        
             StartAndNotify();
         }
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {
             // TODO: fix this correctly. This shall call the company paged configuration.
-            var maxItems = result.Count();
+           
             PageCount = (_companyDataServices.NumberPage == 0) ? 1: _companyDataServices.NumberPage;
-            SummaryView = new IncrementalList<CompanySummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+            var maxItems = _companyDataServices.NumberItems;
+            var list  = new IncrementalList<CompanySummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+            var summary = result as IEnumerable<CompanySummaryDto>;
+            list.LoadItems(summary);
+            SummaryView = list;
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
@@ -246,7 +273,10 @@ namespace MasterModule.ViewModels
 
         public override void StartAndNotify()
         {
-            _initializationNotifierCompany = NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), _companyEventTask);
+            NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (sender, ev) =>
+            {
+                OnNotifyIncrementalList<CompanySummaryDto>(sender, ev);
+            });
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);
             ActiveSubSystem();
@@ -266,6 +296,7 @@ namespace MasterModule.ViewModels
         private IRegionManager object2;
         private readonly ICompanyDataServices _companyDataServices;
         private PropertyChangedEventHandler _companyEventTask;
+        private GridSorter<CompanySummaryDto> _gridSorter;
 
         #endregion
 

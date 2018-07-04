@@ -142,14 +142,14 @@ namespace DataAccessLayer.Crud.Office
         {
             IEnumerable<OfficeDtos> officeDtos;
             IQueryStore store = _queryStoreFactory.GetQueryStore();
-            if (_currentPos < 0)
+            if (_currentPos <= 0)
             {
                 _currentPos = 1;
             }
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
-                store.AddParamRange(QueryType.QueryCompanyPaged, _currentPos, n);
-                _currentPos += n + back;
+                store.AddParam<int, long>(QueryType.QueryOfficePaged,  n, _currentPos);
+                _currentPos += n - back;
                 var query = store.BuildQuery();
                 var value = await connection.QueryAsync<OFICINAS>(query);
                 officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(value);

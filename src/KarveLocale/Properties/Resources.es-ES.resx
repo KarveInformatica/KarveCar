@@ -2505,4 +2505,13 @@
   <data name="imagefile" xml:space="preserve">
     <value>Imagen</value>
   </data>
+  <data name="webPassword" xml:space="preserve">
+    <value>Contraseña Web</value>
+  </data>
+  <data name="lcodigosociety" xml:space="preserve">
+    <value>Codigo Sociedad</value>
+  </data>
+  <data name="lclientorigin" xml:space="preserve">
+    <value>Origen Clientes</value>
+  </data>
 </root>

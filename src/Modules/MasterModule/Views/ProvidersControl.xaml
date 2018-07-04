@@ -48,6 +48,10 @@
                                ColumnSizer="AutoLastColumnFill"
                                AllowDraggingColumns="True"
                                AllowEditing="False"
+                               CellStyle="{StaticResource KarveGridCell}"
+                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                               AlternationCount="2"
+                                HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                AllowFiltering="True"
                                AllowResizingColumns="True"
                                AllowSorting="True"
@@ -60,7 +64,7 @@
                                CurrentCellBorderThickness="0"
                                FontWeight="Normal"
                                Foreground="#FF808080"
-                               RowSelectionBrush="#c8ede6"
+                               RowSelectionBrush="#FF8CC63F"
                                HeaderRowHeight="32"
                                SelectionForegroundBrush="Magenta"
                                
@@ -69,7 +73,7 @@
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False" CaptionSummaryCellStyle="{DynamicResource GridCaptionSummaryCellStyle}" HeaderStyle="{DynamicResource GridHeaderCellControlStyle1}">
+                               AutoGenerateColumns="False">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

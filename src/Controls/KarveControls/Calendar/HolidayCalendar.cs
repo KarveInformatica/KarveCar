@@ -6,17 +6,86 @@ using System.Windows.Input;
 using System.Linq;
 using System.ComponentModel;
 using Prism.Commands;
-using KarveControls.Calendar;
 using System.Collections.ObjectModel;
+using Prism.Mvvm;
 
 namespace KarveControls
 {
-    public class MonthData
+    /// <summary>
+    ///  MonthData is an entity to be used for displaying each month.
+    /// </summary>
+    public class MonthData: BindableBase
     {
+        
+        /// <summary>
+        ///  Set or Get the year month data. i.e 2018.01 
+        /// </summary>
+        public string YearMonth
+        { set
+            {
+                _yearMonth = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _yearMonth;
+            }
+        }
+        /// <summary>
+        ///  Set or Get the SelectedDayCommand. 
+        ///  The SelectedDayCommand is a command that it gets executed when the user clicks on a day. 
+        /// </summary>
+        public ICommand SelectedDayCommand {
+            set
+            {
+                _selectedDay = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _selectedDay;
+            }
+        }
+        /// <summary>
+        /// Set or Get the MonthIndex. The index ranges from 1 to 12.
+        /// </summary>
+        public int MonthIndex { set {
+                _monthIdx = value;
+                RaisePropertyChanged();
+            } get {
+               return _monthIdx;
+            }
+        }
+        /// <summary>
+        ///  Set or Get the reset command. The reset command should be used for cleaning up after a change of DaysOff property. 
+        ///  </summary>
+        public ICommand Reset
+        {
+            set
+            {
+                _reset = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _reset;
+            }
+        }
+        /// <summary>
+        ///  Set or Get the list of the days off in this current month.
+        /// </summary>
+        public IEnumerable<int> DaysOff {
+            set
+            {
+                _daysOff = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _daysOff;
+            }
+        }
 
-        private int _rowIdx;
-        private int _colIdx;
-        // this shall be internal
         internal int RowIdx
         {
             get
@@ -39,24 +108,63 @@ namespace KarveControls
                 _colIdx = value;
             }
         }
-        public string YearMonth { set; get; }
-        public ICommand SelectedDayCommand { set; get; }
-        public int MonthIndex { set; get; }
-        public IEnumerable<int> DaysOff { set; get; }
+        private IEnumerable<int> _daysOff;
+        private string _yearMonth;
+        private ICommand _selectedDay;
+        private int _monthIdx;
+        private ICommand _reset;
+        private int _rowIdx;
+        private int _colIdx;
     }
+    /// <summary>
+    ///  Control that displays and notify changes of a year calendar.
+    /// </summary>
     public class HolidayCalendar : Control, INotifyPropertyChanged
     {
+        /// <summary>
+        ///  Describes the type of change that it might happen to the holiday collection.
+        /// </summary>
+        public enum Status {
+            /// <summary>
+            /// Retrieve the current holidays.
+            /// </summary>
+            CurrentHolidays,
+            /// <summary>
+            /// Retrieve the changed value.
+            /// </summary>
+            ChangedValue,
+            /// <summary>
+            /// Retrieve the previous value.
+            /// </summary>
+            PreviousValue,
+            /// <summary>
+            /// Retrieve the state of the action in the change dictionary.
+            /// </summary>
+            ActionState,
+            /// <summary>
+            /// The current action is a delete.
+            /// </summary>
+            ActionDelete,
+            /// <summary>
+            /// The current action is an add.
+            /// </summary>
+            ActionAdd
+        };
 
-        public enum Status { CurrentHolidays, ChangedValue, PreviousValue, ActionState, ActionDelete, ActionAdd };
-
+        private readonly ICommand _resetCommand;
         /// <summary>
         ///  Dependency properties command.You can set the command and then execute when a selection change. 
-        ///  It will give you back the list of valid vacations;
+        ///  It will give you back the list of valid vacations.
         /// </summary>
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(HolidayCalendar), new FrameworkPropertyMetadata(null));
 
         /// <summary>
-        ///  Command property.
+        ///  Default noop operation used just for initalizatoin
+        /// </summary>
+        private void OnNoop() {}
+
+        /// <summary>
+        ///  Set or Get the command property. The command will be executed at each change.
         /// </summary>
         public ICommand Command
         {
@@ -70,18 +178,16 @@ namespace KarveControls
             }
         }
         /// <summary>
-        ///  Dependency properties for the Year. 
-        ///  You can set the year and from them you can generate thecalendar.
+        ///  Dependency property for the year.
         /// </summary>
         public static readonly DependencyProperty YearDependencyProperty = DependencyProperty.Register("Year", typeof(string), typeof(HolidayCalendar), new PropertyMetadata(string.Empty, OnYearChanged));
-        
         
         /// <summary>
         /// Generate the visual calendar and initialize the change command  to detect when a click on the month
         ///  has been done.
         /// </summary>
         /// <param name="d">Dependency Object</param>
-        /// <param name="e">Dependnecy Properties</param>
+        /// <param name="e">Dependency Properties</param>
 
         private static void OnYearChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -107,6 +213,8 @@ namespace KarveControls
 
             if (calendar == null)
             { return;}
+            //
+            //
             calendar.RaisePropertyChanged("Months");
         }
 
@@ -121,6 +229,11 @@ namespace KarveControls
         ///  Dependency propriety for the Holidays. It sets the holidays during the year.
         /// </summary>
         public static readonly DependencyProperty HolidayDependencyProperty = DependencyProperty.Register("Holidays", typeof(IEnumerable<DateTime>), typeof(HolidayCalendar), new PropertyMetadata(new ObservableCollection<DateTime>(), OnHolidaysChanged));
+        /// <summary>
+        ///  Dependnecy property fro the last holiday.
+        /// </summary>
+        public static readonly DependencyProperty LastHolidaysDependencyProperty = DependencyProperty.Register("LastHolidays", typeof(IEnumerable<DateTime>), typeof(HolidayCalendar), new PropertyMetadata(new ObservableCollection<DateTime>()));
+     
 
         private static void OnHolidaysChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -144,42 +257,89 @@ namespace KarveControls
                     _months[i].DaysOff = new List<int>();
                 }
             }
+         
+        }
+        private Dictionary<int, List<DateTime>> CovertToBucketList(IEnumerable<DateTime> inList)
+        {
+            var hashData = new Dictionary<int, List<DateTime>>();
+            foreach (var data in inList)
+            {
+                if (hashData.ContainsKey(data.Month))
+                {
+                    var tmp = new List<DateTime>();
+                    hashData.TryGetValue(data.Month, out tmp);
+                    tmp.Add(data);
+                    hashData[data.Month] = tmp;
+                }
+                else
+                {
+                    var tmp = new List<DateTime>();
+                    tmp.Add(data);
+                    hashData.Add(data.Month, tmp);
+                }
+            }
+            return hashData;
+
+        }
+        private IEnumerable<int> ExtractDays(List<DateTime> dataList)
+        {
+            var days = new ObservableCollection<int>();
+
+            foreach(var data in dataList)
+            {
+                days.Add(data.Day);
+            }
+            return days;
         }
         private void ChangeData(object newValue)
         {
             var value = newValue as IEnumerable<DateTime>;
+
+            var hashData = CovertToBucketList(value);
+
             if (value != null)
             {
-                ClearHoliday();
-                foreach (var data in value)
+
+                foreach (var index in _months.Keys)
                 {
-                  
-                    var dayList = _months[data.Month].DaysOff;
-                    if ((dayList != null) && (!dayList.Contains<int>(data.Day)))
+                    if (hashData.ContainsKey(index))
                     {
-                        var list = _months[data.Month].DaysOff.ToList<int>();
-                        list.Add(data.Day);
-                        _months[data.Month].DaysOff = list;
+                        var tmp = ExtractDays(hashData[index]);
+                        // ordering using linq.
+                        _months[index].DaysOff = tmp.OrderBy(x=>x).ToList();
+                    }
+                    else
+                    {
+                        DoPerformReset(index);
                     }
                 }
-                RaisePropertyChanged("Months");
+                Months = _months.Values;
             }
         }
-
+        private void DoPerformReset(int index)
+        {
+            if ((_months[index].DaysOff != null) && (_months[index].DaysOff.Count() > 0))
+            {
+                if (_months[index].Reset != null)
+                {
+                    _months[index].Reset.Execute(null);
+                }
+            }
+        }
         private IDictionary<int, MonthData> _months = new Dictionary<int, MonthData>()
         {
-            {1, new MonthData(){ RowIdx=0, ColIdx = 0, MonthIndex = 1, YearMonth="2018.01", DaysOff=new List<int>() }},
-           {2, new MonthData(){ ColIdx = 1, RowIdx = 0, MonthIndex = 2, YearMonth="2018.02", DaysOff=new List<int>() }},
-          {3, new MonthData(){ ColIdx = 2, RowIdx = 0, MonthIndex = 3, YearMonth="2018.03", DaysOff=new List<int>(),  }},
-             {4, new MonthData(){ ColIdx = 3, RowIdx = 0,MonthIndex = 4, YearMonth="2018.04", DaysOff=new List<int>()  }},
- {5, new MonthData(){ColIdx = 0, RowIdx = 1, MonthIndex = 5, YearMonth="2018.05", DaysOff=new List<int>(), }},
- {6, new MonthData(){ColIdx =1, RowIdx = 1, MonthIndex = 6, YearMonth="2018.06", DaysOff=new List<int>() }},
- {7, new MonthData(){ColIdx = 2, RowIdx = 1, MonthIndex = 7, YearMonth="2018.07", DaysOff=new List<int>() }},
- {8, new MonthData(){ColIdx = 3, RowIdx = 1, MonthIndex = 8, YearMonth="2018.08", DaysOff=new List<int>()}},
- {9, new MonthData(){ ColIdx = 0, RowIdx = 2, MonthIndex = 9, YearMonth="2018.09", DaysOff=new List<int>() }},
- {10, new MonthData(){ ColIdx = 1, RowIdx = 2, MonthIndex = 10, YearMonth="2018.10", DaysOff=new List<int>() }},
- {11, new MonthData(){ ColIdx = 2, RowIdx = 2,MonthIndex =11, YearMonth="2018.11", DaysOff=new List<int>() }},
- {12, new MonthData(){ ColIdx = 3, RowIdx = 2,MonthIndex = 12, YearMonth="2018.12", DaysOff=new List<int>() }}
+            {1, new MonthData(){ RowIdx=0, ColIdx = 0, MonthIndex = 1, YearMonth="2018.01", DaysOff=new ObservableCollection<int>() }},
+           {2, new MonthData(){ ColIdx = 1, RowIdx = 0, MonthIndex = 2, YearMonth="2018.02", DaysOff=new ObservableCollection<int>() }},
+          {3, new MonthData(){ ColIdx = 2, RowIdx = 0, MonthIndex = 3, YearMonth="2018.03", DaysOff=new ObservableCollection<int>(),  }},
+             {4, new MonthData(){ ColIdx = 3, RowIdx = 0,MonthIndex = 4, YearMonth="2018.04", DaysOff=new ObservableCollection<int>()  }},
+ {5, new MonthData(){ColIdx = 0, RowIdx = 1, MonthIndex = 5, YearMonth="2018.05", DaysOff=new ObservableCollection<int>(), }},
+ {6, new MonthData(){ColIdx =1, RowIdx = 1, MonthIndex = 6, YearMonth="2018.06", DaysOff=new ObservableCollection<int>() }},
+ {7, new MonthData(){ColIdx = 2, RowIdx = 1, MonthIndex = 7, YearMonth="2018.07", DaysOff=new ObservableCollection<int>() }},
+ {8, new MonthData(){ColIdx = 3, RowIdx = 1, MonthIndex = 8, YearMonth="2018.08", DaysOff=new ObservableCollection<int>()}},
+ {9, new MonthData(){ ColIdx = 0, RowIdx = 2, MonthIndex = 9, YearMonth="2018.09", DaysOff=new ObservableCollection<int>() }},
+ {10, new MonthData(){ ColIdx = 1, RowIdx = 2, MonthIndex = 10, YearMonth="2018.10", DaysOff=new ObservableCollection<int>() }},
+ {11, new MonthData(){ ColIdx = 2, RowIdx = 2,MonthIndex =11, YearMonth="2018.11", DaysOff=new ObservableCollection<int>() }},
+ {12, new MonthData(){ ColIdx = 3, RowIdx = 2,MonthIndex = 12, YearMonth="2018.12", DaysOff=new ObservableCollection<int>() }}
 
         };
 
@@ -187,14 +347,17 @@ namespace KarveControls
         {
             IDictionary<Status, object> dictionary = new Dictionary<Status, object>();
 
+
             var holiday = Holidays;
+            
             if (holiday != null)
             {
                 dictionary[Status.PreviousValue] = holiday;
                 //case base
                 if ((holiday.Count() == 0) && (value != null) && (value.Item2 == true))
                 {
-                    Holidays = holiday.Union(new List<DateTime>() { value.Item1 });
+                    holiday.Add(value.Item1);
+                    Holidays = holiday;
                     // new.
                     dictionary[Status.ActionState] = Status.ActionAdd;
                 }
@@ -206,18 +369,22 @@ namespace KarveControls
                     {
                         if (!value.Item2)
                         {
-                            Holidays = Holidays.Except(itemFound);
-                            // delete.
-                            dictionary[Status.ActionState] = Status.ActionDelete;
+                            var item = itemFound.FirstOrDefault();
+                            if (item != null)
+                            {
+                                Holidays.Remove(item);
+                                // delete.
+                                dictionary[Status.ActionState] = Status.ActionDelete;
+                            }
                         }
                     }
                     else
                     {
-                        List<DateTime> newHolidays = new List<DateTime>();
+                        ObservableCollection<DateTime> newHolidays = new ObservableCollection<DateTime>();
                         newHolidays.Add(value.Item1);
                         // new
                         dictionary[Status.ActionState] = Status.ActionAdd;
-                        Holidays = Holidays.Union<DateTime>(newHolidays);
+                        Holidays = new ObservableCollection<DateTime>(newHolidays.Union(Holidays));
                     }
                 }
                 if (Command != null)
@@ -231,7 +398,7 @@ namespace KarveControls
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        ///  Year selected
+        ///  Get or Set the year selected.
         /// </summary>
         public string Year
         {
@@ -245,31 +412,71 @@ namespace KarveControls
             }
         }
 
-        public IEnumerable<MonthData> Months => _months.Values;
         /// <summary>
-        ///  Holiday during the year.
+        ///  Get or Set the Months selected.
         /// </summary>
-        public IEnumerable<DateTime> Holidays
+        public IEnumerable<MonthData> Months
+        {
+            set { _monthData = value; RaisePropertyChanged("Months"); }
+            get { return _monthData; }
+        }
+            
+           
+        /// <summary>
+        ///  Set or Get the current holidays.
+        /// </summary>
+        public ObservableCollection<DateTime> Holidays
         {
             get
             {
-                return (IEnumerable<DateTime>)GetValue(HolidayDependencyProperty);
+                return (ObservableCollection<DateTime>)GetValue(HolidayDependencyProperty);
             }
             set
             {
                 SetValue(HolidayDependencyProperty, value);
             }
         }
+        /// <summary>
+        /// Set or Get the former value of the holidays in order to revert changes. 
+        /// At the beginning the last holidays is equal to holidays.  
+        /// </summary>
+        public ObservableCollection<DateTime> LastHolidays
+        {
+            get
+            {
+                return (ObservableCollection<DateTime>)GetValue(LastHolidaysDependencyProperty);
+            }
+            set
+            {
+                SetValue(LastHolidaysDependencyProperty, value);
+            }
+        }
+        /// <summary>
+        ///  Constructor 
+        /// </summary>
         public HolidayCalendar()
         {
-            RaisePropertyChanged("Months");
+            /*
+             * This might be weird at first but in this case we have a way to initialize the databinding.
+             * Internally the DataMonth control will modify the binding to point out to the correct function.
+             * The data binding is a two way binding, so all it will get reflected to upper level. 
+             */
+            _resetCommand = new DelegateCommand(OnNoop);
+            for (int i = 1; i <= 12; ++i)
+            {
+                _months[i].Reset = _resetCommand;
+            }
+            Months = _months.Values;
         }
+        /// <summary>
+        ///  Control constructor.
+        /// </summary>
         static HolidayCalendar()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HolidayCalendar),
                                                            new FrameworkPropertyMetadata(typeof(HolidayCalendar)));
         }
         private IEnumerable<MonthData> months = new List<MonthData>();
-
+        private IEnumerable<MonthData> _monthData;
     }
 }

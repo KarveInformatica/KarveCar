@@ -171,8 +171,8 @@
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                  Text="{Binding Path=DataObject.Value.HSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="hSALIDA_RES1" />
 
-                        <Label Width="96" Content="Oficina Salida" Grid.Column="4" />
-                        <TextBox  Width="100" 
+                        <syncfusion:SfTextBoxExt Watermark="Oficina Salida" Width="100"
+                                                  
                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
                                  karveControls:ControlExt.DataSourcePath="OFISALIDA_RES1"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"

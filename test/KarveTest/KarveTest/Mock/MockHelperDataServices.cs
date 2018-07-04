@@ -284,5 +284,12 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Dto>> GetPagedAsyncHelper<Dto, Entity>(string query, int pageIndex, int pageSize)
+            where Dto : class
+            where Entity : class
+        {
+            throw new NotImplementedException();
+        }
     }
 }

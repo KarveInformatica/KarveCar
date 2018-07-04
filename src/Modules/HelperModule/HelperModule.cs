@@ -58,6 +58,7 @@ namespace HelperModule
             _container.RegisterType<object, ClientZone>("ClientZone");
             _container.RegisterType<object, VehicleExtra>("VehicleExtra");
             _container.RegisterType<object, VehicleTools>("VehicleTools");
+            _container.RegisterType<object, RequestReason>(typeof(RequestReason).FullName);
         
         }
         public void Initialize()

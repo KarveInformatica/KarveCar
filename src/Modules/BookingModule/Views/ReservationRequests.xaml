@@ -50,6 +50,7 @@
                                                   ItemChangedCommand="{Binding ItemChangedCommand }"
                                                   LabelVisible="True"
                                                   IsReadOnly="True"
+                                                  AssistTableName="COMPANY_ASSIST"
                                                   AssistProperties="Code,Name"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding  CompanyDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -67,6 +68,7 @@
                                                   ItemChangedCommand="{Binding ItemChangedCommand }"
                                                   LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}" 
                                                   Height="30"
+                                                  AssistTableName="OFFICE_ASSIST"
                                                   LabelVisible="True"
                                                   IsReadOnly="True"
                                                   AssistProperties="Codigo,Nombre"
@@ -293,7 +295,7 @@
                     <DockPanel Grid.Column="0" Grid.Row="6">
                         <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   Background="Transparent" Label="{Binding lvehiculos,Source={StaticResource ResourceLanguage}}"
                                   Height="30" Width="30" ToolTip="New Vehicle"
-                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewFare}"></Syncfusion:ButtonAdv>
+                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewVehicle}"></Syncfusion:ButtonAdv>
                         <KarveControls:DualFieldSearchBox x:Name="OtherVehicle" 
                                                   DockPanel.Dock="Right"
                                                       TextContentSecondWidth="180"

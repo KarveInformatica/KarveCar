@@ -996,11 +996,17 @@
                                                     AllowEditing="True"
                                                     AllowDeleting ="True"
                                                     AllowFiltering="True"
+                                                    CellStyle="{StaticResource KarveGridCell}"
+                                                    AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                                                    AlternationCount="2"
+                                                    HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                                     AllowResizingColumns="True"
                                                     AllowSorting="True"
                                                     AllowGrouping="True"
                                                     NavigationMode="Cell"
+                                                    EditTrigger="OnTap"
                                                     AddNewRowPosition="Top"
+                                                    KarveControls:ControlExt.DataSourcePath="Visits"
                                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                     ItemsSource="{Binding DataObject.VisitsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1168,7 +1174,7 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBox Grid.Column="0" Width="50" Text="{Binding Path=ContactsSource.Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                 <TextBlock Grid.Column="1"  Width="150" Text="{Binding Path=ContactsSource.Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBlock>
-                                <Button Grid.Column="2" Width="30" >
+                                <Button Grid.Column="2" Width="30" Syncfusion:FocusManagerHelper.FocusedElement="True">
                                     <Image Source="/KarveCar;component/Images/search.png" Height="25"></Image>
                                     <i:Interaction.Behaviors>
                                         <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ContactMagnifierCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
@@ -1186,7 +1192,7 @@
                                             AllowNullValue="True"
                                             HeaderText="{Binding lfecha, Source={StaticResource ResourceLanguage}}"
                                             MappingName="Date"
-                                            NullValue="01/01/2017" />
+                                            />
 
                 <Syncfusion:GridTemplateColumn HeaderText="{Binding lvendidor, Source={StaticResource ResourceLanguage}}"
                                                          
@@ -1251,6 +1257,7 @@
 
 
                 </Syncfusion:GridTemplateColumn>
+                <!--
                 <Syncfusion:GridTemplateColumn HeaderText="{Binding lrbtnTiposVisita, Source={StaticResource ResourceLanguage}}" MappingName="VisitType">
                     <Syncfusion:GridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -1289,6 +1296,7 @@
                         </DataTemplate>
                     </Syncfusion:GridTemplateColumn.EditTemplate>
                 </Syncfusion:GridTemplateColumn>
+                -->
                 <Syncfusion:GridTextColumn HeaderText="{Binding ltext, Source={StaticResource ResourceLanguage}}" MappingName="Text">
 
                 </Syncfusion:GridTextColumn>
@@ -1307,7 +1315,12 @@
                                                     AllowSorting="True"
                                                     AllowGrouping="True"
                                                     NavigationMode="Cell"
+                                                    CellStyle="{StaticResource KarveGridCell}"
+                                                    AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                                                    AlternationCount="2"
+                                                    HeaderStyle ="{StaticResource BasicHeaderStyle}"                                                    
                                                     AddNewRowPosition="Top"
+                                                    KarveControls:ControlExt.DataSourcePath="Contacts"
                                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                     ItemsSource="{Binding DataObject.ContactsDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1513,6 +1526,11 @@
                                                     AllowGrouping="True"
                                                     NavigationMode="Cell"
                                                     AddNewRowPosition="Top"
+                                                    CellStyle="{StaticResource KarveGridCell}"
+                                                    AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                                                    AlternationCount="2"
+                                                    HeaderStyle ="{StaticResource BasicHeaderStyle}"
+                                                    KarveControls:ControlExt.DataSourcePath="Delegation"
                                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                     ItemsSource="{Binding DataObject.BranchesDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

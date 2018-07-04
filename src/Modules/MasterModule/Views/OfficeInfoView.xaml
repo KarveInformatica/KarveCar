@@ -1219,29 +1219,26 @@
                                             <TextBlock Text="{Binding CurrentYear, Mode=OneWay}"></TextBlock>
                                         </DockPanel>
                                        
-                                        <DockPanel Grid.Column="1">
-                                            <TextBlock Text="Horario Desde"  DockPanel.Dock="Left"></TextBlock>
-
-                                            <syncfusion:SfTimePicker  DockPanel.Dock="Right"   Margin="10 5" x:Name="TP1" 
-                                               AllowNull="True" 
-                                                                      FormatString="t"
-                                                                      AllowInlineEditing="True"
-                                                                      InputScope="Number"  Value="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               MinWidth="200" Width="auto" HorizontalAlignment="Left">
-                                            </syncfusion:SfTimePicker>
+                                        <DockPanel Grid.Column="1"  Width="170">
+                                            <TextBlock Text="Horario Desde" Width="120" DockPanel.Dock="Left" VerticalAlignment="Center"></TextBlock>
+                                           
+                                            <karveControls:DataTimePicker DockPanel.Dock="Right" x:Name="DataTimePicker"
+                                                                          Height="30"
+                                                                          DropDownHeight="28"
+                                                                          SpinHeight="13"
+                                                                          Value="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                         Width="50"  HorizontalAlignment="Left"/>
                                         </DockPanel>
-                                        <DockPanel Grid.Column="2">
-                                            <TextBlock Text="Hasta"  DockPanel.Dock="Left"></TextBlock>
-
-                                            <syncfusion:SfTimePicker  DockPanel.Dock="Right"   Margin="10 5" x:Name="TP2" 
-                                               AllowNull="True"
-                                                                    
-                                                                      FormatString="t"
-                                                                      
-                                                                      AllowInlineEditing="True"
-                                               InputScope="Number"  Value="{Binding HolidayTimeTo,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               MinWidth="200" Width="auto" HorizontalAlignment="Left">
-                                            </syncfusion:SfTimePicker>
+                                        <DockPanel Grid.Column="2" Width="170">
+                                            <TextBlock Text="Hasta" Width="120"   DockPanel.Dock="Left" VerticalAlignment="Center"></TextBlock>
+                                            <karveControls:DataTimePicker DockPanel.Dock="Right" x:Name="DataTimePicker2"
+                                                                          Height="30"
+                                                                          DropDownHeight="28"
+                                                                          SpinHeight="13"
+                                                                          Value="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                         Width="50"  HorizontalAlignment="Left"/>
+                                            
+                                            
                                         </DockPanel>
                                         <syncfusion:ComboBoxAdv DefaultText="..Parte del día.." Grid.Column="3" Width="200" 
                                                                 Name="PartOfDay"
@@ -1263,7 +1260,10 @@
                                         <tripleButton1:TripleButton Grid.Column="4" HorizontalAlignment="Left"
                                                                     SaveCommand="{Binding TimePickerSaveCommand,Mode=OneWay}"
                                                                     DeleteCommand="{Binding TimePickerDeleteCommand, Mode=OneWay}"
-                                                                    ResetCommand="{Binding TimePickerResetCommand, Mode=OneWay}"></tripleButton1:TripleButton>
+                                                                    ResetCommand="{Binding TimePickerResetCommand, Mode=OneWay}" 
+                                                                    DeleteVisible="False">
+                                            
+                                        </tripleButton1:TripleButton>
                                     </Grid>
                                 </GroupBox>
                                 <DockPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center">
@@ -1272,6 +1272,7 @@
                                 </DockPanel>
                                 <karveControls:HolidayCalendar Grid.Row="2" Grid.Column="0" Year="{Binding CurrentYear, Mode=OneWay}" MaxWidth="800" 
                                                                Holidays="{Binding CurrentVacationDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                               LastHolidays="{Binding SavedVacationDays, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                Command="{Binding SelectedDaysCommand}">
                                 </karveControls:HolidayCalendar>
 

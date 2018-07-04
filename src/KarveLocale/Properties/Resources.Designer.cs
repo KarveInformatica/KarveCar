@@ -943,6 +943,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Origen Clientes.
+        /// </summary>
+        public static string lclientorigin {
+            get {
+                return ResourceManager.GetString("lclientorigin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clientes y Conductores.
         /// </summary>
         public static string lclientsconductores {
@@ -1002,6 +1011,15 @@ namespace KarveLocale.Properties {
         public static string lcodigomantenimiento {
             get {
                 return ResourceManager.GetString("lcodigomantenimiento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cod.Sociedad.
+        /// </summary>
+        public static string lcodigosociety {
+            get {
+                return ResourceManager.GetString("lcodigosociety", resourceCulture);
             }
         }
         
@@ -7275,6 +7293,15 @@ namespace KarveLocale.Properties {
         public static string Visitas {
             get {
                 return ResourceManager.GetString("Visitas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Contraseña Web.
+        /// </summary>
+        public static string webPassword {
+            get {
+                return ResourceManager.GetString("webPassword", resourceCulture);
             }
         }
         

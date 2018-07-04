@@ -26,7 +26,7 @@ namespace InvoiceModule.ViewModels
     public sealed class InvoiceControlViewModel : KarveRoutingBaseViewModel, INavigationAware, IEventObserver,
         IDisposeEvents
     {
-      
+
         private const string SummaryViewConst = "SummaryView";
         private const int LoadStep = 50;
         private readonly IUnityContainer _container;
@@ -35,7 +35,7 @@ namespace InvoiceModule.ViewModels
         private IEnumerable<InvoiceSummaryValueDto> _invoiceSummaryDtos;
         private IInvoiceDataServices _invoiceDataServices;
         private IncrementalList<InvoiceSummaryDto> _summaryValue;
-        
+
 
         private bool _isBusy;
 
@@ -72,34 +72,8 @@ namespace InvoiceModule.ViewModels
             MailboxName = ViewModelUri.ToString();
             EventManager.RegisterObserverSubsystem(InvoiceModule.InvoiceSubSystem, this);
             RegisterMailBox(ViewModelUri.ToString());
-            PagingEvent += OnPagedEvent;
-          
             StartAndNotify();
         }
-
-
-
-
-        protected  override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
-        {
-            INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>> listCompletion =
-                sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>>;
-            if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
-            {
-                IsBusy = false;
-                if (SummaryView is IncrementalList<InvoiceSummaryValueDto> summary)
-                {
-                    summary.LoadItems(listCompletion.Result);
-                    SummaryView = summary;
-                }
-            }
-
-            if ((listCompletion != null) && (listCompletion.IsFaulted))
-            {
-                DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
-            }
-        }
-
         public ICommand ShowClientCommand { set; get; }
 
         /// <summary>
@@ -135,11 +109,12 @@ namespace InvoiceModule.ViewModels
 
         public override void DisposeEvents()
         {
+            base.DisposeEvents();
             if (MailBoxHandler != null) MailBoxHandler -= MailboxHandlerName;
             EventManager.DeleteObserverSubSystem(InvoiceModule.InvoiceSubSystem, this);
             DeleteMailBox(MailboxName);
-            PagingEvent -= OnPagedEvent;
-            // do what to do with _detailsRegionManager.
+            UnregisterToolBar(PrimaryKeyValue);
+
         }
 
         public void IncomingPayload(DataPayLoad payload)
@@ -156,9 +131,9 @@ namespace InvoiceModule.ViewModels
                     StartAndNotify();
                     break;
                 case DataPayLoad.Type.Insert:
-                    
-                        NewItem();
-                    
+
+                    NewItem();
+
                     break;
             }
         }
@@ -227,7 +202,7 @@ namespace InvoiceModule.ViewModels
             {
                 if (payLoad.PayloadType == DataPayLoad.Type.Insert) NewItem();
 
-               
+
             }
         }
 
@@ -236,17 +211,32 @@ namespace InvoiceModule.ViewModels
         /// </summary>
         public void StartAndNotify()
         {
-            _initEventHandler += OnLoadedSummary;
-            _taskInit = NotifyTaskCompletion.Create(LoadAsync(), _initEventHandler);
+            _taskInit = NotifyTaskCompletion.Create(LoadAsync(), (task, sender) =>
+            {
+                OnNotifyIncrementalList<InvoiceSummaryValueDto>(task, sender);
+            });
         }
-
+        protected override void SetResult<T>(IEnumerable<T> taskResult)
+        {
+            var maxItems = _invoiceDataServices.NumberItems;
+            PageCount = _invoiceDataServices.NumberPage;
+            if (taskResult is IEnumerable<InvoiceSummaryValueDto> invoiceList)
+            {
+                SummaryView =
+                    new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems)
+                    {
+                        MaxItemCount = (int)maxItems
+                    };
+                SummaryView.LoadItems(invoiceList);
+            }
+        }
         /// <summary>
         ///     This load asynchronously a list of invoice summary values.
         /// </summary>
         /// <returns>This returns the summary value data transfer object</returns>
         private async Task<IEnumerable<InvoiceSummaryValueDto>> LoadAsync()
         {
-            var value = await _invoiceDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize);
+            var value = await _invoiceDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize).ConfigureAwait(false);
             if (value == null) return value;
             var invoiceSummaryValueDtos = value as InvoiceSummaryValueDto[] ?? value.ToArray();
             foreach (var item in invoiceSummaryValueDtos)
@@ -264,7 +254,6 @@ namespace InvoiceModule.ViewModels
             GridIdentifier = GridIdentifiers.InvoiceSummaryGrid;
             MailBoxHandler += MailboxHandlerName;
             base.MailboxName = MailboxName;
-            //  RegisterMailBox(ViewModelUri.ToString());
         }
 
         /// <summary>
@@ -279,21 +268,21 @@ namespace InvoiceModule.ViewModels
             {
                 /* this is the correct mechanism for any summary grid to support incremental loading */
                 _invoiceSummaryDtos = s.Task.Result;
-               var maxItems = _invoiceDataServices.NumberItems;
+                var maxItems = _invoiceDataServices.NumberItems;
                 PageCount = _invoiceDataServices.NumberPage;
 
                 SummaryView =
                     new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems)
                     {
-                         MaxItemCount = (int)maxItems
+                        MaxItemCount = (int)maxItems
                     };
             }
 
             if (s != null && s.IsFaulted) DialogService?.ShowErrorMessage(s.ErrorMessage);
-          
+
         }
 
-       
+
         /// <summary>
         ///     Get the route name.
         /// </summary>
@@ -385,13 +374,28 @@ namespace InvoiceModule.ViewModels
         }
         private void LoadMoreItems(uint count, int baseIndex)
         {
-           
+
             NotifyTaskCompletion.Create<IEnumerable<InvoiceSummaryValueDto>>(
-               _invoiceDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
-           
+               _invoiceDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (sender, ev) =>
+               {
+                   INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>> listCompletion =
+                sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>>;
+                   if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
+                   {
+                       if (SummaryView is IncrementalList<InvoiceSummaryValueDto> summary)
+                       {
+                           summary.LoadItems(listCompletion.Result);
+                           SummaryView = summary;
+                       }
+                   }
+
+                   if ((listCompletion != null) && (listCompletion.IsFaulted))
+                   {
+                       DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
+                   }
+               });
+
         }
-
-
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             if (payLoad == null)

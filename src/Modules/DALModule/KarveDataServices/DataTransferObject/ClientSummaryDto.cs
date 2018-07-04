@@ -12,9 +12,9 @@ namespace KarveDataServices.DataTransferObject
         private string _eMail;
 
         [Display(Name = "Numero Cliente")]
-        public string Code { set; get; }
+        public override string Code { set; get; }
         [Display(Name = "Nombre Cliente")]
-        public string Name { set; get; }
+        public override string Name { set; get; }
         [Display(Name = "Nif")]
         public string Nif { set; get; }
         [Display(Name = "Direccion")]

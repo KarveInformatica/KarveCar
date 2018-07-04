@@ -140,7 +140,9 @@ namespace KarveCommon.Generic
         private ICommand _changedCommand;
         private IncrementalList<ContractSummaryDto> _contractAuxiliar;
         private IncrementalList<VehicleSummaryDto> _vehicleAuxiliar;
-
+        private int _assistPaged = 1;
+        
+      
 
         /// <summary>
         ///  empty constructor
@@ -180,6 +182,7 @@ namespace KarveCommon.Generic
         {
             DataServices = services;
             Controller = requestController;
+           
             HelperDataServices = services.GetHelperDataServices();
         }
 
@@ -245,17 +248,17 @@ namespace KarveCommon.Generic
                 DialogService?.ShowErrorMessage("Error loading grid data: " + notification.ErrorMessage);
             }
         }
-
+       
         /// <summary>
         ///  This class set the results for the incremental load
         /// </summary>
         /// <typeparam name="T">Dto type to be set during the incremental load.</typeparam>
         /// <param name="result">Set to be loaded in the incremental load.</param>
-  
+
         protected virtual void SetResult<T>(IEnumerable<T> taskResult)
         {
         }
-
+       
         /// <summary>
         /// Name of the item to be used.
         /// </summary>
@@ -584,8 +587,15 @@ namespace KarveCommon.Generic
             var dtos = await services.GetMappedAllAsyncHelper<Dto, Entity>().ConfigureAwait(false);
             ShowDataTransferObjects<Dto>(dtos, title, properties, callback);            
         }
-        
-
+        public virtual async Task OnAssistPagedAsync<Dto, Entity>(string title, string properties, string query,Action<Dto> callback)
+            where Dto : class
+            where Entity : class
+        {
+            var services = DataServices.GetHelperDataServices();
+            var dtos = await services.GetPagedAsyncHelper<Dto, Entity>(query, _assistPaged, DefaultPageSize).ConfigureAwait(false);
+            ShowDataTransferObjects<Dto>(dtos, title, properties, callback);
+        }
+        // GetPagedQueryDoAsync<
         public virtual async Task OnAssistQueryAsync<Dto, Entity>(string title, string properties, string query,
             Action<Dto> callback) where Dto: class 
                                    where Entity: class

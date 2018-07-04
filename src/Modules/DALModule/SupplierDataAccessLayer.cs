@@ -18,6 +18,7 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.SQL;
 using KarveCommonInterfaces;
 using KarveDapper.Extensions;
+using System.ComponentModel;
 
 namespace DataAccessLayer
 {
@@ -275,7 +276,7 @@ namespace DataAccessLayer
         public async Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
             var pager = new DataPager<SupplierSummaryDto>(SqlExecutor);
-            var startIndex = (baseIndex == 0) ? 1 : defaultPageSize;
+            var startIndex = (baseIndex == 0) ? 1 : baseIndex;
             NumberPage = await GetPageCount(defaultPageSize);
             var summary = await pager.GetPagedSummaryDoAsync(QueryType.QuerySupplierSummaryPaged, startIndex, defaultPageSize);
             return summary;
@@ -399,5 +400,9 @@ namespace DataAccessLayer
             return queryAsync;
         }
 
+        public Task<IEnumerable<SupplierSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

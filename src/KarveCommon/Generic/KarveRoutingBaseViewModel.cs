@@ -11,6 +11,7 @@ using Prism.Commands;
 using Prism.Regions;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace KarveCommon.Generic
 {
@@ -92,7 +93,21 @@ namespace KarveCommon.Generic
 
         }
 
-
+        protected bool IsActive(Uri uri)
+        {
+            var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+            if (activeView != null)
+            {
+                if (activeView is UserControl control)
+                {
+                    if (control.DataContext is KarveViewModelBase vm)
+                    {
+                        return (uri == vm.ViewModelUri);
+                    }
+                }
+            }
+            return false;
+        }
         /// <summary>
         ///  Get the routing name for the payload for sending the payload to the event manager.
         ///  The event manager will switch the values following the payload
@@ -373,7 +388,7 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
                 PrimaryKeyValue = "";
             }
         }
-
+        /*
         protected void UnregisterToolBar(string key)
         {
             var payLoadUnregister = new DataPayLoad
@@ -382,8 +397,8 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
                 PrimaryKeyValue = key
             };
             EventManager.NotifyToolBar(payLoadUnregister);
-        }
-        protected void UnregisterToolBar(string key, ICommand newCommand, ICommand savedCommand, ICommand deleteCommand)
+        }*/
+        protected void UnregisterToolBar(string key, ICommand newCommand = null, ICommand savedCommand = null, ICommand deleteCommand = null)
         {
             var payLoadUnregister = new DataPayLoad
             {

@@ -46,7 +46,7 @@ namespace KarveTest.KarveDapper
             {
                 try
                 {
-                    var value = await conn.GetAllAsync<CLIENTES1>();
+                    var value = await conn.GetPagedAsync<CLIENTES1>(1,10);
                     for (int i = 0; i < value.Count<CLIENTES1>() && i < 10; i++)
                     {
                         clientes.Add(value.ElementAt(i));
@@ -161,13 +161,10 @@ namespace KarveTest.KarveDapper
                 try
                 {
                     state = await conn.DeleteCollectionAsync(entities);
-                }
-                finally
+                } catch (Exception ex)
                 {
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        conn.Close();
-                    }
+                    throw new DataLayerException("DeleteEntities", ex);
+
                 }
             }
             return state;
@@ -240,7 +237,7 @@ namespace KarveTest.KarveDapper
         [Test]
         public async Task Should_Not_Update_InvalidCollection()
         {
-            bool state = false;
+            
             // arrange
             var clientes = await FetchClientes();
             for (int i = 0; i < clientes.Count(); ++i)

@@ -192,8 +192,8 @@ namespace ToolBarModule.Command
             } catch (Exception e)
             {
                 /// FIXME: in case of exception happens that gets called twice.
-               // var msg = "UpdateGridException " + e.Message;
-               // throw new DataLayerException(msg);
+                var msg = "UpdateGridException " + e.Message;
+               throw new DataLayerException(msg);
             }
         }
 

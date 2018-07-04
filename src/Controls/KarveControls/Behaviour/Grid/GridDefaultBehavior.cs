@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Syncfusion.UI.Xaml.Grid;
 using System.Windows;
-
+using Syncfusion.UI.Xaml.Grid.Helpers;
 
 namespace KarveControls.Behaviour.Grid
 {
@@ -26,6 +26,18 @@ namespace KarveControls.Behaviour.Grid
             this.AssociatedObject.SizeChanged += GridDefaultBehavior_SizeChanged;
             this.AssociatedObject.Loaded += AssociatedObject_Loaded;
             this.AssociatedObject.ColumnSizer = GridLengthUnitType.Star;
+            this.AssociatedObject.CurrentCellValueChanged += AssosciatedObject_CurrentCellValueChanged;
+        }
+        void AssosciatedObject_CurrentCellValueChanged(object sender, Syncfusion.UI.Xaml.Grid.CurrentCellValueChangedEventArgs args)
+        {
+            int columnIndex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(args.RowColumnIndex.ColumnIndex);
+
+                this.AssociatedObject.GetValidationHelper().SetCurrentRowValidated(false);
+            
+        }
+        private void AssociatedObject_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+           
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)

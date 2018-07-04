@@ -91,5 +91,15 @@ namespace DataAccessLayer.MongoDB
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<bool> SaveHolidaysAsync(IEnumerable<HolidayDto> holidaysDates)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

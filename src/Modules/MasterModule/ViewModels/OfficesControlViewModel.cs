@@ -133,7 +133,26 @@ namespace MasterModule.ViewModels
         public override void StartAndNotify()
         {
             IOfficeDataServices officeDataService = DataServices.GetOfficeDataServices();
-            InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(officeDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), _officeEventTask);
+            InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(officeDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), 
+                (task, ev)=> 
+                {
+                    if (task is INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> vehicles)
+                    {
+                        if (vehicles.IsSuccessfullyCompleted)
+                        {
+                            var collection = vehicles.Result;
+                            var maxItems = officeDataService.NumberItems;
+                            PageCount = officeDataService.NumberPage;
+                            var summaryList = new IncrementalList<OfficeSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                            summaryList.LoadItems(collection);
+                            SummaryView = summaryList;
+                        }
+                        else
+                        {
+                            DialogService?.ShowErrorMessage("No puedo cargar datos de vehiculos : " + vehicles.ErrorMessage);
+                        }
+                    }
+                });
         }
 
         private void InitViewModel()

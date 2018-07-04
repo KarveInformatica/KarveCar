@@ -11,6 +11,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
@@ -31,43 +32,65 @@
                         <x:Type TypeName="Syncfusion:FilterMode" />
                     </ObjectDataProvider.MethodParameters>
                 </ObjectDataProvider>
-             
+
 
                 <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
                     <Setter Property="FilterMode" Value="Both" />
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        
-        <Grid Grid.Row="1" HorizontalAlignment="Center" DataContext="{Binding SearchViewModel}">
+        <Grid Grid.Row="1" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Image x:Name="TitleImage" Grid.Column="0" HorizontalAlignment="Left"
-                   Source="/BookingModule;component/Images/booking.png" Height="48" />
-            <Syncfusion:SfTextBoxExt HorizontalAlignment="Left"
-                            VerticalAlignment="Center" 
-                            Height="40"
-                            Width="700"                                     
-                            Grid.Column="1"
-                            Watermark="Search.. (por ejemplo: RESNUM=1203 and CREATION_DATE=05/02/1024)"/>
-            <Button Background="Transparent" Height="40" Grid.Column="2">
-                <Image Source="/KarveControls;component/Images/searchImage.png"></Image></Button>
-            <Button Background="Transparent" Height="40" Grid.Column="3">
-                <Image Source="/KarveControls;component/Images/bt_add.png" ToolTip="Add a booking"></Image>
-            </Button>
-            <Button Background="Transparent" Height="40" Grid.Column="4">
-                <Image Source="/KarveControls;component/Images/sync.png" ToolTip="DataBase Refresh"></Image>
-            </Button>
+            <Syncfusion:SfDataPager x:Name="BookingDataPager" 
+						   AccentBackground="DodgerBlue"
+						   NumericButtonCount="5"
+						   PageSize="20" 
+                           Grid.Column="0"
+						   Source="{Binding SummaryView}" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="200,0,0,0">
+                <Syncfusion:ComboBoxAdv DefaultText="20" Width="40" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,0">
+                    <Syncfusion:ComboBoxItemAdv>
+                        20
+                    </Syncfusion:ComboBoxItemAdv>
+                    <Syncfusion:ComboBoxItemAdv>50</Syncfusion:ComboBoxItemAdv>
+                </Syncfusion:ComboBoxAdv>
+                <TextBlock Margin="10,10,0,10" Text="Rigas per pagina" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+            </StackPanel>
+            <Grid Grid.Column="2" VerticalAlignment="Center" Margin="100,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Mostrando " Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text=" 1-20 " Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text="di " Grid.Column="2" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text="1000" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+            </Grid>
+            <Grid Grid.Column="3" HorizontalAlignment="Right" Margin="200,0,0,0">
+                <GroupBox Header="Suggerencia">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="F4  Abre" Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15" Margin="10,0,0,0"></TextBlock>
+                        <TextBlock Text="Del Borra" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15" Margin="10,0,0,0"></TextBlock>
+                    </Grid>
+                </GroupBox>
+            </Grid>
         </Grid>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock FontWeight="Bold" FontSize="30"
+            <TextBlock FontWeight="Bold" FontSize="20"
                        Text="{Binding Elenco, Source={StaticResource ResourceLanguage}}" />
-            <TextBlock FontWeight="Bold" FontSize="30" Margin="10,0,0,1" Text="{Binding ItemName}" />
+            <TextBlock FontWeight="Bold" FontSize="20" Margin="10,0,0,1" Text="{Binding ItemName}" />
         </StackPanel>
 
         <Syncfusion:SfDataGrid x:Name="BookingControlSummary"
@@ -77,11 +100,17 @@
                                AllowDraggingColumns="True"
                                AllowEditing="False"
                                AllowFiltering="True"
+                               CellStyle="{StaticResource KarveGridCell}"
+                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                               AlternationCount="2"
+                               HeaderStyle ="{StaticResource BasicHeaderStyle}"
+                               RowSelectionBrush="#FF8CC63F"
                                AllowResizingColumns="True"
                                AllowSorting="True"
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
                                NavigationMode="Row"
+                               SelectionMode="Single"
                                FilterRowPosition="FixedTop"
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
@@ -93,7 +122,11 @@
              {Binding lnumerorserve, Source={StaticResource ResourceLanguage}}"
             -->
             <Syncfusion:SfDataGrid.Columns>
-                <Syncfusion:GridTextColumn
+                <Syncfusion:GridCheckBoxColumn HeaderText="Seleciona" MappingName="IsSelected" 
+                                               TextAlignment="Left" AllowEditing="True">
+                    
+                </Syncfusion:GridCheckBoxColumn>
+                    <Syncfusion:GridTextColumn
                     HeaderText="{Binding lbookingnumber,Source={StaticResource ResourceLanguage}}"
                     MappingName="BookingNumber"
                     TextAlignment="Left"
@@ -107,27 +140,26 @@
                     HeaderText="{Binding lcreationdate, Source={StaticResource ResourceLanguage}}"
                     MappingName="BookingDate" FilterPopupStyle="{StaticResource GenericCodeStyle}">
                 </Syncfusion:GridDateTimeColumn>
-                <Syncfusion:GridTemplateColumn HeaderText="{Binding CancelaReserva, Source={StaticResource ResourceLanguage}}"
+                <Syncfusion:GridTemplateColumn HeaderText="{Binding lrbtnAnularReserva, Source={StaticResource ResourceLanguage}}"
                                                 MappingName="CancelBook">
                     <Syncfusion:GridTemplateColumn.CellTemplate>
 
 
                         <DataTemplate>
-                        <Grid>
-                            <Button Command="{Binding CancelBook}" CommandParameter="{Binding BookingNumber}" Background="Transparent">
-                                <Button.Content>
-                                    <Grid>
-                                      <Grid.ColumnDefinitions>
-                                           <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <Grid>
+                                <Button Command="{Binding CancelBook}" CommandParameter="{Binding BookingNumber}" Background="Transparent">
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                      </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column ="0" Text="{Binding lcancelled, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                                            <Image Grid.Column ="1" Source="/KarveControls;component/Images/cancel2.png"></Image>
-                                    </Grid>
-                                </Button.Content>
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image Grid.Column ="0" Source="/KarveControls;component/Images/cancel2.png"></Image>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
                     </Syncfusion:GridTemplateColumn.CellTemplate>
                 </Syncfusion:GridTemplateColumn>
                 <Syncfusion:GridCheckBoxColumn HeaderText="{Binding lcancelled, Source={StaticResource ResourceLanguage}}"
@@ -139,7 +171,7 @@
                                                AllowGrouping="True">
 
                 </Syncfusion:GridCheckBoxColumn>
-                    
+
                 <Syncfusion:GridTextColumn HeaderText="{Binding localizador, Source={StaticResource ResourceLanguage}}"
                                            MappingName="Locator"
                                            TextAlignment="Left"
@@ -164,21 +196,60 @@
                                                AllowEditing="False"
                                                AllowGrouping="True" />
 
-                <Syncfusion:GridTextColumn HeaderText="{Binding ldriver, Source={StaticResource ResourceLanguage}}"
-                                               MappingName="DriverName"
-                                               TextAlignment="Center"
+                <Syncfusion:GridTemplateColumn HeaderText="{Binding ldriver, Source={StaticResource ResourceLanguage}}"
                                                AllowFiltering="True"
                                                FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                                AllowEditing="False"
-                                               AllowGrouping="True" />
-                
-                <Syncfusion:GridTextColumn HeaderText="{Binding lcliente, Source={StaticResource ResourceLanguage}}"
-                                           MappingName="ClientName"
-                                           TextAlignment="Center"
-                                           AllowFiltering="False"
-                                           FilterPopupStyle="{StaticResource GenericCodeStyle}"
-                                           AllowEditing="False"
-                                           AllowGrouping="True" />
+                                               AllowGrouping="True" 
+                                               MappingName="DriverName">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+
+
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding DriverName}" Width="200"></TextBlock>
+                                <Button Grid.Column ="1" Command="{Binding NavigateClient}" CommandParameter="{Binding DriverCode}" Background="Transparent">
+                                    <Button.Content>
+                                        <Grid>
+                                            <Image  Margin="10,0,0,0" Source="/KarveControls;component/Images/driver2.png"></Image>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                </Syncfusion:GridTemplateColumn>
+
+
+
+                <Syncfusion:GridTemplateColumn HeaderText="{Binding lcliente, Source={StaticResource ResourceLanguage}}"
+                                               MappingName="ClientName">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+
+
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding ClientName}" Width="200"></TextBlock>
+                                <Button Grid.Column ="1" Command="{Binding NavigateClient}" CommandParameter="{Binding ClientCode}" Background="Transparent">
+                                    <Button.Content>
+                                        <Grid>
+                                            
+                                            <Image  Margin="10,0,0,0" Source="/KarveControls;component/Images/client.png"></Image>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                </Syncfusion:GridTemplateColumn>
 
                 <Syncfusion:GridDateTimeColumn HeaderText="{Binding ldeparturedate, Source={StaticResource ResourceLanguage}}"
                                            MappingName="DepartureDate"
@@ -258,7 +329,7 @@
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
-                    
+
 
                 <Syncfusion:GridTextColumn HeaderText="{Binding lcodigocliente, Source={StaticResource ResourceLanguage}}"
                                            MappingName="ClientCode"
@@ -294,7 +365,7 @@
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                            AllowEditing="True"
                                            AllowGrouping="True" />
-                
+
                 <Syncfusion:GridTextColumn HeaderText="{Binding lnumerobono, Source={StaticResource ResourceLanguage}}"
                                            MappingName="Bonus"
                                            TextAlignment="Left"
@@ -312,7 +383,7 @@
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
 
-               
+
                 <Syncfusion:GridTextColumn
                                            MappingName="OtherDriver1"
                                            TextAlignment="Left"
@@ -390,7 +461,7 @@
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
-          
+
             </Syncfusion:SfDataGrid.Columns>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
@@ -399,7 +470,11 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 
-
+            <i:Interaction.Behaviors>
+                <behaviors:GridKeyboardBehavior OpenCommand="{Binding OpenCommand}" DeleteCommand="{Binding DeleteCommand}">
+                </behaviors:GridKeyboardBehavior>
+            </i:Interaction.Behaviors>
+            
             <Syncfusion:SfDataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -411,5 +486,5 @@
 
         </Syncfusion:SfDataGrid>
     </Grid>
-    
+
 </UserControl>

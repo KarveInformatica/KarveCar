@@ -819,15 +819,23 @@ namespace DataAccessLayer.Logic
             visitsDto.ClientId = source.VisitClientId;
             visitsDto.ContactId = source.ContactId;
             visitsDto.ContactName = source.ContactName;
+            visitsDto.ContactsSource = new ContactsDto();
+            visitsDto.ContactsSource.ContactId = source.ContactId;
+            visitsDto.ContactsSource.ContactName = source.ContactName;
             visitsDto.Date = source.VisitDate;
             visitsDto.SellerId = source.ResellerId;
             visitsDto.VisitId = source.VisitId;
+            visitsDto.Text = source.VisitText;
+            visitsDto.Email = source.Email;
+            visitsDto.IsOrder = (source.VisitOrder == 0);
+
             visitsDto.VisitType = new VisitTypeDto();
             visitsDto.VisitType.Code = source.VisitTypeId;
             visitsDto.VisitType.Name = source.VisitTypeName;
             visitsDto.VisitType.LastModification = source.VisitTypeLastModification;
             visitsDto.VisitType.User = source.VisitTypeUser;
             visitsDto.SellerSource = new ResellerDto();
+            visitsDto.SellerId = source.ResellerId;
             visitsDto.SellerSource.Code = source.ResellerId;
             visitsDto.SellerSource.Name = source.ResellerName;
             visitsDto.SellerSource.CellPhone = source.ResellerCellPhone;
@@ -889,6 +897,10 @@ namespace DataAccessLayer.Logic
             comiVisita.visIdVisita = source.VisitId;
             comiVisita.visTexto = source.VisitText;
             comiVisita.visIdVisitaTipo = source.VisitTypeId;
+            comiVisita.EMAIL = source.Email;
+            comiVisita.PEDIDO = source.VisitOrder;
+            comiVisita.ULTMODI = source.LastModification;
+            comiVisita.USUARIO = source.User;
             return comiVisita;
         }
     }
@@ -1066,6 +1078,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<IDIOMAS, LanguageDto>().ConvertUsing(new LanguageConverter());
                 cfg.CreateMap<ContactsDto, ProContactos>().ConvertUsing(new ContactToProContactosConverter());
                 cfg.CreateMap<VisitasComiPoco, VisitsDto>().ConvertUsing(new VisitaCommissionConverter());
+                cfg.CreateMap<VisitsDto, VISITAS_COMI>().ConvertUsing(new VisitaCommissionBackConverter());
                 cfg.CreateMap<ComiDelegaPoco, BranchesDto>().ConvertUsing(new BranchesConverter());
                 cfg.CreateMap<BranchesDto, COMI_DELEGA>().ConvertUsing(new BranchesToComiDelega());
                 cfg.CreateMap<BranchesDto, cliDelega>().ConvertUsing(new BranchesToCliDelega());
@@ -2504,6 +2517,29 @@ namespace DataAccessLayer.Logic
             return mappingConfig;
         }
     }
+
+    class VisitaCommissionBackConverter: ITypeConverter<VisitsDto, VISITAS_COMI>
+    {
+        public VisitaCommissionBackConverter()
+        {
+        }
+
+        public VISITAS_COMI Convert(VisitsDto source, VISITAS_COMI destination, ResolutionContext context)
+        {
+            var outValue = new VISITAS_COMI();
+            outValue.PEDIDO = System.Convert.ToByte(source.IsOrder);
+            outValue.EMAIL = source.Email;
+            outValue.ULTMODI = source.LastModification;
+            outValue.USUARIO = source.User;
+            outValue.visIdVisitaTipo = source.VisitType.Code;
+            outValue.visIdContacto = source.ContactsSource.Code;
+            outValue.visIdCliente = source.ClientSource.Code;
+            outValue.visIdVendedor = source.SellerSource.Code;
+            outValue.visTexto = source.Text;
+            return outValue;
+        }
+    }
+
     /// <summary>
     ///  Converter for the the new vehiculo2.
     /// </summary>

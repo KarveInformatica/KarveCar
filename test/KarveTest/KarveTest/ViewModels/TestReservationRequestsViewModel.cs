@@ -63,7 +63,7 @@ namespace KarveTest.ViewModels
         public void Should_Add_ANewReason()
         {
             bool isClientNavigated = false;
-           _navigator.Setup(x => x.NewHelperView<MOPETI,RequestReasonDto>(It.IsAny<string>(), It.IsAny<Uri>(), It.IsAny<MOPETI>(), It.IsAny<string>())).Callback(() => { isClientNavigated = true; });
+           _navigator.Setup(x => x.NewHelperView<MOPETI,RequestReasonDto>(It.IsAny<MOPETI>(), It.IsAny<string>())).Callback(() => { isClientNavigated = true; });
             var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null);
             _reservationRequestsView.CreateNewRequestReason.Execute();
             Assert.IsTrue(isClientNavigated);

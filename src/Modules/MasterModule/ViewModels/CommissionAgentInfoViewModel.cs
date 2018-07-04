@@ -232,7 +232,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-     #endregion
+        #endregion
 
         /// <summary>
         ///  Primary  key on branches
@@ -246,7 +246,7 @@ namespace MasterModule.ViewModels
         /// Primary key on visits.
         /// </summary>
         private event SetPrimaryKey<VisitsDto> _onVisitPrimaryKey;
- 
+
         public ICommand PrintAssociate { set; get; }
         public ICommand DelegationChangedRowsCommand { set; get; }
         private IRegionManager _regionManager;
@@ -271,13 +271,13 @@ namespace MasterModule.ViewModels
                                             IEventManager eventManager,
                                             IDataServices services,
                                             IDialogService dialogService,
-                                            IRegionManager regionManager,                                                        IInteractionRequestController controller
-                                            ) : base(eventManager, 
+                                            IRegionManager regionManager, IInteractionRequestController controller
+                                            ) : base(eventManager,
                                                 configurationService,
                                                 services,
                                                 dialogService,
-                                               
-                                                regionManager, 
+
+                                                regionManager,
                                                 controller)
         {
 
@@ -305,7 +305,7 @@ namespace MasterModule.ViewModels
             _countTime = 0;
         }
 
-       
+
 
 
         /// <summary>
@@ -316,11 +316,11 @@ namespace MasterModule.ViewModels
         public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
         {
             var contacts = DataObject.ContactsDto;
-            Dictionary<string, object> ev = new Dictionary<string, object> {["DataObject"] = DataObject};
+            Dictionary<string, object> ev = new Dictionary<string, object> { ["DataObject"] = DataObject };
             var items = new List<ContactsDto>();
 
 
-            var contact =contacts.FirstOrDefault(x => x.ContactId == contactsDto.ContactId);
+            var contact = contacts.FirstOrDefault(x => x.ContactId == contactsDto.ContactId);
             if (contact == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;
@@ -336,7 +336,7 @@ namespace MasterModule.ViewModels
                 contact.IsChanged = true;
                 contact.IsDirty = true;
                 contact.IsNew = false;
-               
+
             }
             contact.ResponsabilitySource = personal;
             personal.ShowCommand = this.ContactChargeMagnifierCommand;
@@ -344,8 +344,8 @@ namespace MasterModule.ViewModels
             // add the changed value to the branch.
             items.Add(contact);
             ev["ChangedValue"] = items;
-           
-           
+
+
             await GridChangedNotification<ContactsDto, CONTACTOS_COMI>(ev, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
             RaisePropertyChanged("DataObject");
             RaisePropertyChanged("DataObject.ContactsDto");
@@ -359,10 +359,10 @@ namespace MasterModule.ViewModels
         internal override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
         {
             // set the base event dictionary
-            IDictionary<string,object> ev = SetBranchProvince(province, branchesDto, DataObject, DataObject.BranchesDto);
+            IDictionary<string, object> ev = SetBranchProvince(province, branchesDto, DataObject, DataObject.BranchesDto);
             // send the opportune event where it is needed.
-            await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev, 
-                _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);   
+            await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev,
+                _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
         private void OnPrintCommand(object obj)
         {
@@ -399,7 +399,7 @@ namespace MasterModule.ViewModels
         }
         private void ItemChangedHandler(object obj)
         {
-            _changeTask = NotifyTaskCompletion.Create(HandleChangedHandler(obj), ChangedTaskEvent);   
+            _changeTask = NotifyTaskCompletion.Create(HandleChangedHandler(obj), ChangedTaskEvent);
         }
 
         private void ChangedTaskEvent(object sender, PropertyChangedEventArgs e)
@@ -434,18 +434,25 @@ namespace MasterModule.ViewModels
             if (eventDictionary.ContainsKey(OperationConstKey))
             {
                 var value = eventDictionary["DataSourcePath"] as string;
-                if (value == "ContactsDtos")
+                switch (value)
                 {
-                   
-                   await ContactsChangedCommandHandler(eventDictionary);
-                   
-                }
-                else
-                {
-                   await DelegationChangedCommandHandler(eventDictionary);
-                   
-                }
-            }
+                    case "Contacts":
+                        {
+                            await ContactsChangedCommandHandler(eventDictionary).ConfigureAwait(false);
+                            break;
+                        }
+                    case "Visits":
+                        {
+                            await VisitsChangedCommandHandler(eventDictionary).ConfigureAwait(false);
+                            break;
+                        }
+                    case "Delegation":
+                        {
+                            await DelegationChangedCommandHandler(eventDictionary).ConfigureAwait(false);
+                            break;
+                        }
+
+                } }
             else
             {
                 OnChangedField(eventDictionary);
@@ -458,8 +465,7 @@ namespace MasterModule.ViewModels
         /// </summary>
         /// <param name="obj">This send a delegation fo the changed command</param>
         private async Task DelegationChangedCommandHandler(object obj)
-        {
-           
+        {   
             await GridChangedNotification<BranchesDto, COMI_DELEGA>(obj, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
         /// <summary>
@@ -469,9 +475,13 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         private async Task ContactsChangedCommandHandler(object obj)
         {
-
             await GridChangedNotification<ContactsDto, CONTACTOS_COMI>(obj, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem);
         }
+        private async Task VisitsChangedCommandHandler(object obj)
+        {
+            await GridChangedNotification<VisitsDto, VISITAS_COMI>(obj, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem);
+        }
+
         /// <summary>
         /// This item is enabled to the magnifier command. When the user press the magnifier.
         /// </summary>
@@ -1128,7 +1138,7 @@ namespace MasterModule.ViewModels
             DataObject.VisitsDto = mergedList;
             ev["DataObject"] = DataObject;
             // craft the event dictionary.
-            await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+          //  await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
 
         internal override async Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
@@ -1142,9 +1152,8 @@ namespace MasterModule.ViewModels
             DataObject.VisitsDto = mergedList;
             ev["DataObject"] = DataObject;
             // Notify the toolbar.
-            await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
-          //  RaisePropertyChanged("DataObject");
-          //  RaisePropertyChanged("DataObject.VisitDto");
+//            await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+         
         }
 
         internal override async Task SetVisitReseller(ResellerDto param, VisitsDto visitsDto)
@@ -1158,7 +1167,7 @@ namespace MasterModule.ViewModels
             DataObject.VisitsDto = mergedList;
 
             // craft the event dictionary.
-            await GridChangedNotification<VisitsDto, VENDEDOR>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+  //          await GridChangedNotification<VisitsDto, VENDEDOR>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
             RaisePropertyChanged("DataObject");
             RaisePropertyChanged("DataObject.VisitDto");
         }

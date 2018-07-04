@@ -2828,4 +2828,10 @@
   <data name="imagefile" xml:space="preserve">
     <value>File di Immagini</value>
   </data>
+  <data name="webPassword" xml:space="preserve">
+    <value>Password Web</value>
+  </data>
+  <data name="lcodigosociety" xml:space="preserve">
+    <value>Codice Società</value>
+  </data>
 </root>

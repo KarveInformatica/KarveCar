@@ -53,10 +53,13 @@
                                CurrentCellBorderThickness="0"
                                FontWeight="Normal"
                                Foreground="#FF808080"
-                               RowSelectionBrush="#FF8CC63F"
+                                RowSelectionBrush="#FF8CC63F"
                                 FilterRowPosition="FixedTop"    
                                HeaderRowHeight="32"
-                               
+                               CellStyle="{StaticResource KarveGridCell}"
+                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                               AlternationCount="2"
+                               HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                AutoGenerateColumns="False"               
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
@@ -103,6 +106,28 @@
                                            FilterPopupStyle="{StaticResource GenericCodeStyle}"
                                            AllowEditing="True"
                                            AllowGrouping="True"/>
+
+                <Syncfusion:GridTemplateColumn HeaderText="{Binding ltbbtnBorrar, Source={StaticResource ResourceLanguage}}"
+                                                MappingName="CancelBook">
+                    <Syncfusion:GridTemplateColumn.CellTemplate>
+
+
+                        <DataTemplate>
+                            <Grid>
+                                <Button Command="{Binding CancelBook}" CommandParameter="{Binding BookingNumber}" Background="Transparent">
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <Image Grid.Column ="1" Source="/KarveControls;component/Images/cancel2.png"></Image>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </Syncfusion:GridTemplateColumn.CellTemplate>
+                </Syncfusion:GridTemplateColumn>
             </Syncfusion:SfDataGrid.Columns>
 
             <Syncfusion:SfDataGrid.Resources>

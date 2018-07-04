@@ -36,14 +36,21 @@ namespace HelperModule.ViewModels
             
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.BankGrid;
         }
-        
+        public override void DisposeEvents()
+        {
+            base.DisposeEvents();
+            var value =  HelperDto as BanksDto;
+            value.ClearErrors();
+            HelperDto = value;
+            value = null;
+        }
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
             BanksDto dto = payLoad.DataObject as BanksDto;
             if (dto != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<BanksDto, BANCO>(dto);
+                string codeId = await helperDal.GetMappedUniqueId<BanksDto, BANCO>(dto).ConfigureAwait(false);
                 dto.Code = codeId.Substring(0, 4);
                 payLoad.DataObject = dto;
             }

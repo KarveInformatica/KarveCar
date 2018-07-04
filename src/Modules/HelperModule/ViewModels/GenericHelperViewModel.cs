@@ -212,10 +212,15 @@ namespace HelperModule.ViewModels
         /// </summary>
         public override void DisposeEvents()
         {
-            base.DisposeEvents();
+          
             var id = Address.ToString();
             EventManager.DeleteMailBoxSubscription(id);
             EventManager.DeleteObserverSubSystem(EventSubsystem.HelperSubsystem, this);
+            if (HelperDto is BaseDto baseDto)
+            {
+                baseDto.ClearErrors();
+            }
+            base.DisposeEvents();
         }
         /// <summary>
         ///  Notify the toolbar after a change.
@@ -354,6 +359,8 @@ namespace HelperModule.ViewModels
                         }
                     }
                 }
+                
+               
             }
         }
        

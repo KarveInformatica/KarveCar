@@ -77,7 +77,8 @@
                     <DataTemplate x:Key="BrokerDualSearchBox">
                         <karveControls:DualFieldSearchBox DataFieldFirst="COMISIO"
                                                       AssistTableName="BROKER_ASSIST"
-                                                      AssistProperties="Code,Name"
+                                                      AssistProperties="Code,Name,Person,NIF,Direction,Zip,City,Province,Country,IATA,Company,OfficeZone"
+                                
                                                       LabelText="{Binding lrbtnListadosComisionistas, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="86"   
                                                       Margin="0,5,0,0"
@@ -169,7 +170,7 @@
                                               TextContentFirstWidth="100"
                                               TextContentSecondWidth="300"
                                                          
-                                              SourceView="{Binding Path=CompanyHelper.CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2">
                     <i:Interaction.Behaviors>
                         <behaviors:ChangeRuleBehavior
@@ -194,7 +195,7 @@
                                               TextContentSecondWidth="300"
                                               MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=CompanyHelper.ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=ProvinciaDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <karveControls:DualFieldSearchBox Grid.Column="0"  Grid.Row="6" 
                                               LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}" 
@@ -208,7 +209,7 @@
                                               MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SourceView="{Binding Path=CompanyHelper.CountryDto, UpdateSourceTrigger=PropertyChanged}"
+                                              SourceView="{Binding Path=CountryDto, UpdateSourceTrigger=PropertyChanged}"
             />
                 <karveControls:DataField Grid.Column="0"  Grid.Row="7" LabelText="{Binding ltelefono, Source={StaticResource ResourceLanguage}}" 
                                      DataObject="{Binding DataObject, Mode=TwoWay}"
@@ -230,12 +231,45 @@
                                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_BAJA" />
                 </StackPanel>
-                <karveControls:DataArea Grid.Column="0" Grid.RowSpan="2" Grid.Row="10" DataAreaTitle="Observaciones" DataAreaWidth="200" Height="Auto" TextContent="{Binding Path=DataObject.OBS1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="oBS1" Margin="1,5,1,2" Width="Auto" />
+
+                <karveControls:DataArea 
+                            DataAreaWidth="400"
+                            Grid.Row="10"
+                          
+                            Grid.RowSpan="2"
+                            DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
+                            LabelVisible="False"
+                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            karveControls:ControlExt.DataSourcePath="OBS1"
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="139">
+                </karveControls:DataArea>
+               
 
                 <GroupBox Grid.Row="12" Grid.Column="0" Header="{Binding CredencialesWeb, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Left" Height="92" Margin="0,7.25,0,0"  VerticalAlignment="Top" Width="540" Grid.RowSpan="2">
                     <StackPanel>
-                        <karveControls:DataField LabelText="{Binding UsuarioWeb, Source={StaticResource ResourceLanguage}}"  TextContent="{Binding DataObject.USUARIOWEB_EMP, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" x:Name="uSUARIOWEB_EMP_Copy"/>
-                        <karveControls:DataField LabelText="{Binding PasswordWeb, Source={StaticResource ResourceLanguage}}" TextContent="{Binding Path=DataObject.PWDWEB_EMP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="pWDWEB_EMP"/>
+                        <karveControls:DataField LabelText="{Binding webUser, Source={StaticResource ResourceLanguage}}"  
+                                                 LabelTextWidth="94"
+                                                 Height="28"
+                                                 TextContent="{Binding DataObject.USUARIOWEB_EMP, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                                                 TextContentWidth="120"
+                                                 x:Name="uSUARIOWEB_EMP_Copy"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        
+                        <Label Grid.Column="0" Content="{Binding webPassword, Source={StaticResource ResourceLanguage}}" Width="100" Height="28"></Label>
+                        <PasswordBox Height="28" x:Name="pWDWEB_EMP" Grid.Column="1"
+                                     Width="120"
+                                     karveControls:ControlExt.Attach="True"
+                                     karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     karveControls:ControlExt.Password="{Binding Path=DataObject.PWDWEB_EMP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Margin="1,0,0,0">
+                            
+                        </PasswordBox>
+                        </Grid>
                     </StackPanel>
                 </GroupBox>
 
@@ -255,7 +289,7 @@
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <karveControls:DualFieldSearchBox Grid.Row="3" Grid.Column="1" DataFieldFirst="COMISIO"
                                                       AssistTableName="BROKER_ASSIST"
-                                                      AssistProperties="Numero,Nombre,Persona,Nif,Direccion,Poblacion,Provincia,Pais"
+                                                      AssistProperties="Code,Name,Nif,Direction,City,Province,Country,IATA,OfficeZone"
                                                       LabelText="{Binding lrbtnListadosComisionistas, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="86"   
                                                       Margin="0,5,0,0"
@@ -279,8 +313,8 @@
                         <karveControls:DataDatePicker
                         DataObject="{Binding DataObject, Mode=TwoWay}"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                        Width="Auto" LabelTextWidth="200" LabelText="Fecha Aportacion" SelectedDate="{Binding Path=DataObject.FEAPOR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" 
-                        DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEAPOR"/>
+                        Width="Auto" LabelTextWidth="182" LabelText="Fecha Aportacion" SelectedDate="{Binding Path=DataObject.FEAPOR, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" 
+                        DisplayDateStart="{x:Static sys:DateTime.Now}" Height="25" x:Name="fEAPOR"/>
                     </StackPanel>
                 </GroupBox>
 
@@ -299,14 +333,21 @@
                         DataObject="{Binding DataObject, Mode=TwoWay}"
                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         LabelText="Facturacion Prevista" LabelTextWidth="110" TextContent="{Binding Path=DataObject.FAC_PREV, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fAC_PREV"/>
-                        <karveControls:DataField LabelText="{Binding CodigoSociedad, Source={StaticResource ResourceLanguage}}" 
-                                     DataObject="{Binding DataObject, Mode=TwoWay}"
+                        <karveControls:DataField LabelText="{Binding lcodigosociety, Source={StaticResource ResourceLanguage}}" 
+                                     LabelTextWidth="110"
+                                                 DataObject="{Binding DataObject, Mode=TwoWay}"
                                      TextContent="{Binding DataObject.COD_SOCIEDAD, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="cOD_SOCIEDAD" Margin="0,0,-51,0"/>
                         <karveControls:DataFieldCheckBox 
                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
                         karveControls:ControlExt.DataSourcePath="PROSPECCION"
-                        karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        Content="{Binding EmpresaDeProspeccion, Source={StaticResource ResourceLanguage}}" Height="30" x:Name="pROSPECCION" />
+                       
+                        Content="{Binding EmpresaDeProspeccion, Source={StaticResource ResourceLanguage}}" Height="30" x:Name="pROSPECCION">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </karveControls:DataFieldCheckBox>
 
                     </StackPanel>
                 </GroupBox>

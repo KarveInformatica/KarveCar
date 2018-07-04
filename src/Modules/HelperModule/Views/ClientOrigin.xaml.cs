@@ -20,7 +20,7 @@ namespace HelperModule.Views
     /// </summary>
     public partial class ClientOrigin : UserControl
     {
-        private string _header = "Origin Clientes";
+        private string _header = KarveLocale.Properties.Resources.lclientorigin;
         public ClientOrigin()
         {
             InitializeComponent();

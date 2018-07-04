@@ -110,5 +110,12 @@ namespace DataAccessLayer.MongoDB
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IEnumerable<Dto>> GetPagedAsyncHelper<Dto, Entity>(string query, int pageIndex, int pageSize)
+            where Dto : class
+            where Entity : class
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

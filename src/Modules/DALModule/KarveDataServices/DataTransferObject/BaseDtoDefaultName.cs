@@ -8,16 +8,12 @@ namespace KarveDataServices.DataTransferObject
 {
     public class BaseDtoDefaultName : BaseDto, IDisposable
     {
-     
+       
         public override bool HasErrors
         {
             get
             {
-                if (string.IsNullOrEmpty(Name))
-                {
-                    ErrorList.Add(ConstantDataError.NameIsEmpty);
-                    return true;
-                }
+                
                 if ((Name != null) && (Name.Length > NameSize))
                 {
                     ErrorList.Add(ConstantDataError.NameTooLong);

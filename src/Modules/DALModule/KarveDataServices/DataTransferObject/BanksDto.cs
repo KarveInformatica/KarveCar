@@ -39,7 +39,13 @@ namespace KarveDataServices.DataTransferObject
             /// </summary>
 
             public string CTAPAGO_ASOCIA { get; set; }
-            public override bool HasErrors
+            public override void ClearErrors()
+            {
+                Name = "default";
+                Swift = string.Empty;
+                base.ClearErrors();
+            }
+        public override bool HasErrors
             {
             get
             {

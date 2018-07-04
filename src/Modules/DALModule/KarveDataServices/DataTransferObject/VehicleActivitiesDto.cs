@@ -11,7 +11,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Activity code
         /// </summary>
         [Display(Name ="Codigo")]
-        public string Code { get; set; }
+        public override string Code { get; set; }
         /// <summary>
         ///  Activity
         /// </summary>

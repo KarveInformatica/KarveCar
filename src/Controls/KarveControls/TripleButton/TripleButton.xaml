@@ -9,18 +9,18 @@
     <Grid Name="TripleCommandLayout">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Name="Save" Command="{Binding SaveCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Name="SaveText" Text="Save  "></TextBlock>
+                <StackPanel Orientation="Horizontal"  Visibility="{Binding SaveVisible, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock Name="SaveText" Text="Save  " ></TextBlock>
                     <Image Source="/KarveCommon;component/Images/save.png" Height="20"/>
                 </StackPanel>
             </Button>
-            <Button Name="Reset" Command="{Binding ResetCommand}">
+            <Button Name="Reset" Command="{Binding ResetCommand}" Visibility="{Binding ResetVisible, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Name="ResetText" Text="Reset  "></TextBlock>
                     <Image  Source="/KarveCommon;component/Images/undo_red.png" Height="20"/>
                 </StackPanel>
             </Button>
-            <Button Name="Delete" Command="{Binding DeleteCommand}">
+            <Button Name="Delete" Command="{Binding DeleteCommand}"  Visibility="{Binding DeleteVisible, Converter={StaticResource BooleanToVisibility}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Name="DeleteText" Text="Delete "></TextBlock>
                     <Image  Source="/KarveCommon;component/Images/bt_delete.png" Height="20"/>

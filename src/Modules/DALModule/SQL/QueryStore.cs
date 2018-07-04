@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using Dapper;
 using NLog;
-using KarveDataServices;
-using Z.BulkOperations;
 using KarveCommonInterfaces;
 using System.ComponentModel;
 using System.Linq;
@@ -42,6 +39,7 @@ namespace DataAccessLayer.SQL
             {  QueryType.QueryOrigin, new Tuple<string,string>("ORIGEN", "NUM_ORIGEN") },
             {  QueryType.QueryClientSummaryExtById, new Tuple<string,string>("CLIENTES1", "NUMERO_CLI") },
             {  QueryType.QueryOffice, new Tuple<string,string>("OFICINAS", "CODIGO") },
+            {  QueryType.QueryOfficePaged, new Tuple<string,string>("OFICINAS", "CODIGO") },
             {  QueryType.QueryOfficeZone, new Tuple<string,string>("ZONAOFI", "COD_ZONAOFI") },
             {  QueryType.QueryReservationRequestReason, new Tuple<string,string>("MOPETI", "CODIGO") },
             {  QueryType.QueryVehicle, new Tuple<string,string>("VEHICULO1", "CODIINT") },
@@ -86,6 +84,7 @@ namespace DataAccessLayer.SQL
             {QueryType.QuerySeller, @"SELECT * FROM VENDEDOR WHERE NUM_VENDE='{0}'"},
             {QueryType.QueryInvoiceBlocks, @"SELECT * FROM BLOQUEFAC WHERE CODIGO='{0}'"},
             {QueryType.QueryOffice, @"SELECT * FROM OFICINAS WHERE CODIGO='{0}'" },
+             {QueryType.QueryOfficePaged, @"SELECT TOP {0} START AT {1} * FROM OFICINAS" },
             {QueryType.QueryCompanyOffices, @"SELECT * FROM OFICINAS WHERE SUBLICEN='{0}'" },
             {QueryType.QueryOfficeZone, @"SELECT * FROM ZONAOFI WHERE COD_ZONAOFI='{0}'" },
             {QueryType.QueryActivity, @"SELECT * FROM ACTIVI WHERE NUM_ACTIVI='{0}'" },
@@ -214,6 +213,7 @@ namespace DataAccessLayer.SQL
 
             { QueryType.QueryCommissionAgentPaged, "SELECT TOP {0} START AT {1} NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACIONES.CP as Zip, POBLACIONES.POBLA as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS LEFT OUTER JOIN POBLACIONES on COMISIO.CP = POBLACIONES.CP;" },
             { QueryType.QueryBrokerContacts, "SELECT CONTACTO,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CARGO, PG.NOMBRE AS NOM_CARGO, TELEFONO, MOVIL, FAX, EMAIL, CC.USUARIO, CC.ULTMODI, DL.CLDIDDELEGA as DelegaId, cldDelegacion DELEGACC_NOM FROM CONTACTOS_COMI AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.CARGO = PG.CODIGO LEFT OUTER JOIN COMI_DELEGA AS DL ON CC.DELEGA_CC = DL.CLDIDDELEGA AND CC.COMISIO = DL.CLDIDCOMI WHERE COMISIO = '{0}' ORDER BY CC.CONTACTO;" },
+             { QueryType.QueryBrokerContactsPaged, "SELECT CONTACTO,COMISIO,NOM_CONTACTO, NIF, PG.CODIGO as CARGO, PG.NOMBRE AS NOM_CARGO, TELEFONO, MOVIL, FAX, EMAIL, CC.USUARIO, CC.ULTMODI, DL.CLDIDDELEGA as DelegaId, cldDelegacion DELEGACC_NOM FROM CONTACTOS_COMI AS CC LEFT OUTER JOIN PERCARGOS AS PG ON CC.CARGO = PG.CODIGO LEFT OUTER JOIN COMI_DELEGA AS DL ON CC.DELEGA_CC = DL.CLDIDDELEGA AND CC.COMISIO = DL.CLDIDCOMI  ORDER BY CC.CONTACTO;" },
             { QueryType.QueryClientVisits, "SELECT visIdVisita as VisitId,visIdCliente as ClientId,visIdContacto as VisitClientId,visFecha as VisitDate,visIdVendedor as VisitResellerId,visIdVisitaTipo as VisitTypeId,PEDIDO as VisitOrder, PV.CONTACTO as ContactId,TV.CODIGO_VIS as VisitCode, TV.NOMBRE_VIS as VisitTypeName, TV.ULTMODI as VisitTypeLastModification, TV.USUARIO as VisitTypeUser , NUM_VENDE as ResellerId, PV.nom_contacto AS ContactName, VE.NOMBRE as ResellerName, VE.MOVIL as ResellerCellPhone FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON PV.COMISIO = CC.VISIDCLIENTE AND PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE='{0}' ORDER BY CC.visFECHA;"},
             { QueryType.QuerySupplierById, "SELECT PROVEE1.NUM_PROVEE as NUM_PROVEE,NIF,TIPO,NOMBRE,DIRECCION,DIREC2,PROVEE1.CP,PROVEE2.COMERCIAL,PROVEE2.PREFIJO,PROVEE2.CONTABLE,PROVEE2.FORPA,PROVEE2.PLAZO,PROVEE2.PLAZO2,PROVEE2.PLAZO3,PROVEE2.DIA,PROVEE2.PALBARAN, PROVEE2.INTRACO,PROVEE2.DIA2,PROVEE2.DIA3,PROVEE2.DTO,PROVEE2.PP,PROVEE2.DIVISA,PROVEE2.PALBARAN,PROVEE2.INTRACO,PROVEE1.POBLACION,PROVEE1.PROV,NACIOPER,TELEFONO,FAX,MOVIL,INTERNET,EMAIL,PERSONA,SUBLICEN,GESTION_IVA_IMPORTA,OFICINA,FBAJA,FALTA,NOTAS,OBSERVA,CTAPAGO,TIPOIVA,MESVACA,MESVACA2,CC,IBAN,BANCO,SWIFT,IDIOMA_PR1,GESTION_IVA_IMPORTA,NOAUTOMARGEN,PROALB_COSTE_TRANSP,EXENCIONES_INT,CTALP,CONTABLE,CUGASTO,RETENCION,CTAPAGO,AUTOFAC_MANTE,CTACP,CTALP,DIR_PAGO,DIR2_PAGO,CP_PAGO,POB_PAGO, PROV_PAGO,PAIS_PAGO,TELF_PAGO,FAX_PAGO, PERSONA_PAGO,MAIL_PAGO,DIR_DEVO,DIR2_DEVO,POB_DEVO,CP_DEVO,PROV_DEVO,PAIS_DEVO,TELF_DEVO,FAX_DEVO,PERSONA_DEVO,MAIL_DEVO,DIR_RECLAMA,DIR2_RECLAMA,CP_RECLAMA,POB_RECLAMA,PROV_RECLAMA,PAIS_RECLAMA,TELF_RECLAMA,FAX_RECLAMA,PERSONA_RECLAMA,MAIL_RECLAMA,VIA,FORMA_ENVIO,CONDICION_VENTA,DIRENVIO6,CTAINTRACOP,ctaintracoPRep FROM PROVEE1 LEFT OUTER JOIN POBLACIONES POBLA ON PROVEE1.POBLACION = POBLA.POBLA LEFT OUTER JOIN PROVINCIA as P  ON PROVEE1.PROV=P.SIGLAS INNER JOIN PROVEE2 ON PROVEE1.NUM_PROVEE = PROVEE2.NUM_PROVEE WHERE PROVEE2.NUM_PROVEE='{0}'"},
             {QueryType.QuerySuppliersBranches, "SELECT cldIdDelega, cldDelegacion,cldDireccion1,cldDireccion2, cldIdProvincia, cldPoblacion, cldTelefono1, cldTelefono2, cldEmail,cldFax,CP as CP, PROV as NOM_PROV FROM ProDelega LEFT OUTER JOIN PROVINCIA ON cldIdProvincia = PROVINCIA.SIGLAS WHERE cldIdCliente={0} ORDER BY cldIdCliente;" },
@@ -294,7 +294,7 @@ namespace DataAccessLayer.SQL
             { QueryType.QueryReservationRequestSummary, "SELECT NUMERO AS Code, PETICION.SUBLICEN AS CompanyCode, SUBLICEN.NOMBRE as CompanyName, Fecha as Date, DIAS as Days, CATEGO as Group,PETICION.CLIENTE as ClientCode, CLIENTES1.NOMBRE as ClientName, MOPETI as Reason, OBS1 as Notes, USER as CurrentUser, ULTMODI as LastModification FROM PETICION LEFT OUTER JOIN SUBLICEN COMPANY ON COMPANY.CODIGO=PETICION.SUBLICEN LEFT OUTER JOIN CLIENTES1 ON CLIENTES1.NUMERO_CLI=PETICION.CLIENTE;" },
             {QueryType.QueryReservationRequestReason, "SELECT * FROM MOPETI WHERE CODIGO='{0}'" },
             {QueryType.QueryFares, "SELECT * FROM NTARI WHERE CODIGO='{0}'" },
-
+            {QueryType.QueryBrokerVisit, "SELECT visIdVisita as VisitId,visIdCliente as VisitClientId,visIdContacto as ContactId,visFecha as VisitDate,visIdVendedor as ResellerId, visIdVisitaTipo as VisitTypeId, TV.NOMBRE_VIS as VisitTypeName, PV.nom_contacto AS ContactName, PEDIDO as VisitOrder, VE.NOMBRE as ResellerName FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON  PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE= '{0}' ORDER BY CC.visFECHA" },
              { QueryType.QueryMulti, ""}
             /*
             { QueryType.QueryVehicleMaintenance,  "select CODIGO_MAN as MaintananceCode, NOMBRE_MAN as MaintananceName, ULT_FEC_MV as LastMaintenenceDate, ULT_KM_MV as  LastMaintananceKMs, PROX_FEC_MV as NextMaintenenceDate, PROX_KM_MV as  NextMaintananceKMs, OBSERVACIONES_MAN as Observation from MANTENIMIENTO_VEHICULO LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)" }*/
@@ -342,7 +342,14 @@ namespace DataAccessLayer.SQL
                 if (!string.IsNullOrEmpty(valueofQuery))
                 {
                     var value = string.Empty;
-                    value = string.IsNullOrEmpty(codeList[i]) ? valueofQuery : string.Format(valueofQuery, codeList[i]);
+
+                    try
+                    {
+                        value = string.IsNullOrEmpty(codeList[i]) ? valueofQuery : string.Format(valueofQuery, codeList[i]);
+                    } catch (System.Exception ex)
+                    {
+                        var v = ex;
+                    }
                     i++;
                     currentList.Add(value);
                 }
@@ -519,6 +526,7 @@ namespace DataAccessLayer.SQL
             var qs = new QueryStore();
             return qs;
         }
+      
 
         /// <summary>
         /// Add parameters to the query set in the working memory
@@ -641,18 +649,22 @@ namespace DataAccessLayer.SQL
             orderByBuilder.Append(" ORDER BY ");
             foreach (var pair in sortChain)
             {
-                orderByBuilder.Append(pair.Key.ToUpper());
+                orderByBuilder.Append(pair.Key);
                 var key = sortChain[pair.Key];
                 if (key == ListSortDirection.Ascending)
                 {
-                    orderByBuilder.Append(" ASC ");
+                    orderByBuilder.Append(" ASC, ");
                 }
                 else
                 {
-                    orderByBuilder.Append(" DESC ");
+                    orderByBuilder.Append(" DESC, ");
                 }
             }
-            var orderQuery = orderByBuilder.ToString();
+            var orderQuery = orderByBuilder.ToString().Trim();
+            if (orderQuery[orderQuery.Count()-1] == ',')
+            {
+               orderQuery = orderQuery.Substring(0, orderQuery.Count() - 1);
+            }
             _memoryStore.Add(queryTemplate, orderQuery);
             return this;
         }

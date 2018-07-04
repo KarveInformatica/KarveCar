@@ -12,6 +12,13 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class VisitsDto : BaseDto
     {
+        public VisitsDto()
+        {
+            VisitType = new VisitTypeDto();
+            ContactsSource = new ContactsDto();
+            SellerSource = new ResellerDto();
+            ClientSource = new ClientDto();
+        }
         /// <summary>
         ///  Identifier for the visit.
         /// </summary>

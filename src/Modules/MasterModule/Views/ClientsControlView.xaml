@@ -76,7 +76,7 @@
                                AutoGenerateColumns="False">
 
             <i:Interaction.Behaviors>
-                <gridBehavior:GridFilterBehavior></gridBehavior:GridFilterBehavior>
+                <gridBehavior:GridFilterBehavior Command="{Binding SortCommand}"></gridBehavior:GridFilterBehavior>
             </i:Interaction.Behaviors>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

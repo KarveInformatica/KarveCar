@@ -2803,4 +2803,10 @@
   <data name="imagefile" xml:space="preserve">
     <value>Bild</value>
   </data>
+  <data name="webPassword" xml:space="preserve">
+    <value>Web-Passwort</value>
+  </data>
+  <data name="lcodigosociety" xml:space="preserve">
+    <value>Coporate-Code</value>
+  </data>
 </root>

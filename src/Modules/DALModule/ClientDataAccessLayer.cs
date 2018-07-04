@@ -119,7 +119,10 @@ namespace DataAccessLayer
         public IClientData GetNewDo(string code)
         {
             IClientData varClientData = new Client();
-            varClientData.Value = new ClientDto { NUMERO_CLI = code };
+            varClientData.Value = new ClientDto { NUMERO_CLI = code, Numero = code, Code = code };
+            varClientData.Valid = true;
+            varClientData.Value.IsValid = true;
+            varClientData.Value.IsNew = true;
             return varClientData;
         }
         /// <summary>

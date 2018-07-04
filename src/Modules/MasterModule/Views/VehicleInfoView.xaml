@@ -385,16 +385,18 @@
                                        kc:KarveTabItemExt.CloseButtonVisibility="Hidden"
                                        Header="{Binding CompraVenta,Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <vehicleViews:VehicleBuying Grid.Row="0"  HorizontalAlignment="Left"/>
+                        <i:Grid.RowDefinitions>
+                            <i:RowDefinition Height="55*"/>
+                            <i:RowDefinition Height="548*"/>
+                        </i:Grid.RowDefinitions>
+
+                        <vehicleViews:VehicleBuying i:Grid.RowSpan="2"  />
+
+                        <!---                        
                         <vehicleViews:VehicleSell  Grid.Row="1" HorizontalAlignment="Left"/>
                         <vehicleViews:VehicleLeasing Grid.Row="2" HorizontalAlignment="Left"/>
                         <vehicleViews:RoadTaxes  Grid.Row="3" HorizontalAlignment="Left"></vehicleViews:RoadTaxes>
+                        -->
                         <!--          <kctb:TripleButton SaveCommand="{i:Binding SaveList}"
                                ResetCommand="{i:Binding ResetCommand}"
                                DeleteCommand="{i:Binding DeleteCommand}"/>
@@ -509,7 +511,7 @@
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <vehicleViews:Revision MaxWidth="900"></vehicleViews:Revision>
                 </syncfusion:TabItemExt>
-               
+
                 <syncfusion:TabItemExt x:Name="Photo" Header="{Binding Foto, Source={StaticResource ResourceLanguage}}">
 
                     <Grid>
@@ -517,7 +519,7 @@
                             <ColumnDefinition Width="45*"></ColumnDefinition>
                             <ColumnDefinition Width="40*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        
+
                         <photoFrame:PhotoFrame  
                             Grid.Column="0"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -527,7 +529,7 @@
                         <photoFrame:PhotoFrame Grid.Column="1" Height="215" Width="380" VerticalAlignment="Top" HorizontalAlignment="Left"></photoFrame:PhotoFrame>
                     </Grid>
                 </syncfusion:TabItemExt>
-                               <!--
+                <!--
                 <syncfusion:TabItemExt x:Name="ActualState" Header="{Binding EstadoActual, Source={StaticResource ResourceLanguage}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" 
                            VerticalAlignment="Stretch" VerticalContentAlignment="Stretch">
                     <Grid>

@@ -45,7 +45,8 @@
                                               LabelText="{Binding lemail, Source={StaticResource ResourceLanguage}}"
                                               LabelTextWidth="124"
                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                              DataSourcePath="km" 
+                                              TextContent="{Binding DataObject.Value.MAIL_PEDI, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                                              DataSourcePath="MAIL_PEDI" 
                                               ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                               TextContentWidth="200"
                                               Height="35"/>

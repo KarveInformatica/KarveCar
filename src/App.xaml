@@ -38,6 +38,12 @@
 
                         </Setter>
                     </Style>
+
+                    <Style TargetType="syncfusion:VirtualizingCellsControl" x:Key="KarveAlternatingRowStyle">
+                        <Setter Property="Background" Value="#EEF0F0"/>
+                    </Style>
+                   
+                    
                     <ControlTemplate x:Key="upErrorTemp">
                         <StackPanel>
                             <AdornedElementPlaceholder Name="MyAdorned">
@@ -92,7 +98,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <!--Converters-->
+            <!--
             <converter:MultiCommandParameterConverter x:Key="multiCommandParameterConverter"/>
             <converter:NullByteConverter     x:Key="nullByteConverter"/>
             <converter:NullDateConverter     x:Key="nullDateConverter"/>
@@ -103,7 +109,7 @@
             <converter:NullShortConverter    x:Key="nullShortConverter"/>
             <converter:SqlInjectionCodigoConverter    x:Key="sqlInjectionCodigoConverter"/>
             <converter:SqlInjectionConverter x:Key="sqlInjectionConverter"/>
-
+            -->
             
             <!--
             <ObjectDataProvider x:Key="ResourceLanguage" 

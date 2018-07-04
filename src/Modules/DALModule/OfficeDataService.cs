@@ -135,7 +135,8 @@ namespace DataAccessLayer
 
             var data = new OfficeDtos
             {
-                Codigo = code
+                Codigo = code,
+                IsNew = true
                 
             };
            
@@ -266,6 +267,12 @@ namespace DataAccessLayer
         public async Task<IOfficeData> GetAsyncOfficeDo(string clientIndentifier)
         {
             return await GetDoAsync(clientIndentifier).ConfigureAwait(false);
+        }
+
+        public async Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates)
+        {
+
+            await _saver.SaveHolidaysAsync(dto, holidaysDates).ConfigureAwait(false);
         }
     }
 }

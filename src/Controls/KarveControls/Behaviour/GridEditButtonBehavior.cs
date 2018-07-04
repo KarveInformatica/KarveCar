@@ -91,18 +91,7 @@ namespace KarveControls.Behaviour
             {
                 Button currentButton = sender as Button;
                 ICommand command = Command;
-                /*
-                if (command == null)
-                {
-                    // we look up to the visual tree.
-                    var item = new VisualTreeAdapter(this.AssociatedObject);
-                    var frameworkElement = item.Parent;
-                    while ((frameworkElement.Parent!=null) && (frameworkElement.Parent.GetType() != typeof(UserControl)))
-                    {
-                        frameworkElement = frameworkElement.Parent;
-                    }
-                } */
-
+              
                 if (currentButton == null)
                 {
                     return;

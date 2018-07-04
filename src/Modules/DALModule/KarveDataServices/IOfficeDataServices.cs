@@ -57,6 +57,12 @@ namespace KarveDataServices
         /// <param name="companyId">Identifier of the company</param>
         /// <returns></returns>
         Task<IEnumerable<DailyTime>> GetTimeTableAsync(string officeId, string companyId);
-     
+        /// <summary>
+        ///  This method save the holidays dates for a given office
+        /// </summary>
+        /// <param name="holidaysDates">Holidays dates.</param>
+        /// <returns></returns>
+        Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates);
+        
     }
 }

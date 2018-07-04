@@ -299,7 +299,12 @@ namespace KarveCommon.Generic
             {
                 return view;
             }
-            string viewName = navigationContext.Parameters[DefaultViewName] as string;
+            string viewName = string.Empty;
+            if (navigationContext.Parameters.Count() > 0)
+            {
+                viewName = navigationContext.Parameters[DefaultViewName] as string;
+            }
+
             view = this.CreateNewRegionItem(candidateTargetContract);
             
             if (!string.IsNullOrEmpty(viewName))
@@ -402,12 +407,16 @@ namespace KarveCommon.Generic
             {
                 newRegionItem = this.serviceLocator.GetInstance<object>(candidateTargetContract);
             }
-           
+        
             catch (ActivationException e)
             {
                 throw new InvalidOperationException(
                     string.Format(CultureInfo.CurrentCulture, "Cannot create navigation target", candidateTargetContract),
                     e);
+            }
+            catch (Exception ex)
+            {
+                var e = ex;
             }
 
             return newRegionItem;

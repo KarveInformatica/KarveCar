@@ -53,6 +53,7 @@ namespace MasterModule.ViewModels
         {
             _canDeleteRegion = false;
             DeleteEventHandler += DeleteElementHandler;
+            DefaultPageSize = 100;
         }
 
         protected abstract void LoadMoreItems(uint count, int baseIndex);

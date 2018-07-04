@@ -113,5 +113,7 @@ namespace KarveCommon.Generic
         public static long BrokerTypeGrid = 0x109;
 
         public static long ActivitySector = 0x110;
+
+        public static long RequestReasonGrid = 0x111;
     }
 }

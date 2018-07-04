@@ -2935,4 +2935,13 @@
   <data name="Pequeña" xml:space="preserve">
     <value>Pequeña</value>
   </data>
+  <data name="webPassword" xml:space="preserve">
+    <value>Contraseña Web</value>
+  </data>
+  <data name="lcodigosociety" xml:space="preserve">
+    <value>Cod.Sociedad</value>
+  </data>
+  <data name="lclientorigin" xml:space="preserve">
+    <value>Origen Clientes</value>
+  </data>
 </root>

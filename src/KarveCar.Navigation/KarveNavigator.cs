@@ -32,8 +32,8 @@ namespace KarveCar.Navigation
             var clientDataService = _dataServices.GetClientDataServices();
             var numberCode = clientDataService.GetNewId();
             var payload = clientDataService.GetNewDo(numberCode);
-            var viewName = payload.Value.NOMBRE + "." + numberCode;
-            Navigate(_regionManager, numberCode, viewName, typeof(MasterModule.ViewModels.ClientsInfoViewModel).FullName);
+            var viewName = numberCode +"."+KarveLocale.Properties.Resources.ClientsControlViewModel_NewItem_NuevoCliente ;
+            Navigate(_regionManager, numberCode, viewName, typeof(MasterModule.Views.ClientsInfoView).FullName);
             var factory = DataPayloadFactory.GetInstance();
             var dataPayload = factory.BuildInsertPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
             _eventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
@@ -43,13 +43,11 @@ namespace KarveCar.Navigation
             var dataServices = _dataServices.GetVehicleDataServices();
             var numberCode = dataServices.NewId();
             var payload = dataServices.GetNewDo(numberCode);
-            var viewName = "Nuevo Vehiculo" + "." + numberCode;
-            Navigate(_regionManager, numberCode, viewName, typeof(MasterModule.ViewModels.VehicleInfoViewModel).FullName);
+            var viewName = KarveCar.Navigation.Properties.Resources.KarveNavigator_NewVehicleView_NuevoVehiculo + "." + numberCode;
+            Navigate(_regionManager, numberCode, viewName, typeof(MasterModule.Views.VehicleInfoView).FullName);
             var factory = DataPayloadFactory.GetInstance();
-            var dataPayload = factory.BuildInsertPayLoadDo<IVehicleData>(viewName, payload, DataSubSystem.VehicleSubsystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
-            
-            // challange here we do not expose the view models outside the module.
-            _eventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
+            var dataPayload = factory.BuildInsertPayLoadDo<IVehicleData>(viewName, payload, DataSubSystem.VehicleSubsystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);            
+            _eventManager.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, dataPayload);
 
         }
         public void NewFareView(Uri viewModelUri)
@@ -57,7 +55,7 @@ namespace KarveCar.Navigation
             _dialogService?.ShowErrorMessage("Fare not yet implemented");
         }
 
-        public void NewHelperView<Entity, Dto>(string name, Uri viewModelUri, Entity e, string viewModelName) where Dto: BaseDto where Entity:class
+        public void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto: BaseDto where Entity:class
         {
             var helperDataService = _dataServices.GetHelperDataServices();
             var id = string.Empty;
@@ -75,13 +73,12 @@ namespace KarveCar.Navigation
                     }
                 }
             });
-            var payload = Activator.CreateInstance<Dto>();
-            payload.Code = id;
-            var viewName = name + "." + id;
+           // var payload = Activator.CreateInstance<Dto>();
+          //  payload.Code = id;
             var factory = DataPayloadFactory.GetInstance();
-            var dataPayload = factory.BuildInsertPayLoadDo<Dto>(viewName, payload, DataSubSystem.HelperSubsytsem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
-            Navigate(_regionManager, id, viewName, viewModelName);
-            _eventManager.NotifyObserverSubsystem(EventSubsystem.HelperSubsystem, dataPayload);
+//            var dataPayload = factory.BuildInsertPayLoadDo<Dto>(tabName, payload, DataSubSystem.HelperSubsytsem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
+               Navigate(_regionManager, string.Empty, string.Empty, viewName);
+  //          _eventManager.NotifyObserverSubsystem(EventSubsystem.HelperSubsystem, dataPayload);
         }
        
         /// <summary>
@@ -121,16 +118,31 @@ namespace KarveCar.Navigation
             _eventManager.NotifyObserverSubsystem(EventSubsystem.HelperSubsystem, dataPayload);
             */
         }
-        private void Navigate(IRegionManager manager, string code, string viewName, string viewModelName)
+        /// <summary>
+        /// Navigate to the requested view in a view first approach.
+        /// </summary>
+        /// <param name="manager">Region Manager used to navigate</param>
+        /// <param name="code">New domain item code</param>
+        /// <param name="tabName">Name of the tab</param>
+        /// <param name="viewName">Name of the view to be used</param>
+        private void Navigate(IRegionManager manager, string code, string tabName, string viewName)
         {
             var navigationParameters = new NavigationParameters
             {
                 {"id", code},
-                {ScopedRegionNavigationContentLoader.DefaultViewName, viewName}
+                {ScopedRegionNavigationContentLoader.DefaultViewName, tabName}
             };
-            var uri = new Uri(viewModelName + navigationParameters, UriKind.Relative);
-            manager.
-                RequestNavigate("TabRegion", uri);
+            string navigationUri = string.Empty;
+            if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(tabName))
+            {
+                navigationUri = viewName;
+            }
+            else
+            {
+                navigationUri = viewName + navigationParameters;
+            }
+            var uri = new Uri(navigationUri, UriKind.Relative);  
+            manager.RequestNavigate(RegionNames.TabRegion, uri);
         }
 
     }

@@ -13,6 +13,7 @@ using System.Linq;
 using KarveCommonInterfaces;
 using ToolBarModule.ViewModel;
 using System.Windows.Controls;
+using KarveDataServices.DataTransferObject;
 
 namespace ToolBarModule
 {
@@ -314,11 +315,32 @@ namespace ToolBarModule
 
         private bool CheckValidation(AbstractCommand command, DataPayLoad payLoad)
         {
-            /* TODO: unit test this because it fails with helpers.
-            if (!command.CanExecute(payLoad))
+
+            var dto = payLoad.DataObject;
+            BaseDto payloadDto;
+            // it might be happen to have two cases. 
+            // The data transfer object is the Value parameter or not.
+            if (payLoad.DataObject is BaseDto baseDto)
             {
+                payloadDto = baseDto;
+
+            }
+            else
+            {
+                payloadDto = KarveCommon.ComponentUtils.GetPropValue(dto, "Value") as BaseDto;
+
+            }
+            if (!command.CanExecute(payloadDto))
+            {
+               
+                var error = payloadDto.GetErrors(string.Empty) as  List<string>;
+                if (error != null)
+                {
+                    var errorName = error.FirstOrDefault();
+                    DialogService?.ShowErrorMessage(errorName);
+                }
                 return false;
-            }*/
+            }
             _careKeeper.Do(new CommandWrapper(command));
             _states = ToolbarStates.None;
             return true;
@@ -348,7 +370,9 @@ namespace ToolBarModule
                 var validated = CheckValidation(insertDataCommand, payLoad);
                 if (!validated)
                 {
-                    _dialogService?.ShowErrorMessage("Data invalid. Please check the form!");
+                    this.CurrentSaveImagePath = currentSaveImageModified;
+                    _careKeeper.DeleteItems(payLoad.ObjectPath);
+                    return;
 
                 }
             }

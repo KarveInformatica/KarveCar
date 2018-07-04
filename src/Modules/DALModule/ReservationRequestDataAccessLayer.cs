@@ -62,6 +62,7 @@ namespace DataAccessLayer
             {
                 var auxQueryStore = QueryStoreFactory.GetQueryStore();
                 auxQueryStore.AddParamCount(QueryType.QueryReservationRequestReason, result.Value.MOPETI);
+                auxQueryStore.AddParamCount(QueryType.QueryOffice, result.Value.OFICINA);
                 auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExtById, result.Value.CLIENTE);
                 auxQueryStore.AddParamCount(QueryType.QueryReseller, result.Value.VENDEDOR);
                 auxQueryStore.AddParamCount(QueryType.QueryFares, result.Value.TARIFA);
@@ -69,7 +70,7 @@ namespace DataAccessLayer
                 auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, result.Value.CATEGO);
                 auxQueryStore.AddParamCount(QueryType.QueryOrigin, SelectionHelpers.ValueString(result.Value.ORIGEN));
                 auxQueryStore.AddParamCount(QueryType.QueryVehicleSummaryById, result.Value.OTRO_VEHI);
-                auxQueryStore.AddParamCount(QueryType.QueryOffice, result.Value.OFICINA);
+               
 
                 var query = auxQueryStore.BuildQuery();
                 using (var connection = SqlExecutor.OpenNewDbConnection())
@@ -97,6 +98,7 @@ namespace DataAccessLayer
             try
             {
                 request.ResquestReasonDto = SelectionHelpers.WrappedSelectedDto<MOPETI, RequestReasonDto>(request.Value.MOPETI, _mapper, reader);
+                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA, _mapper, reader);
                 request.ClientDto = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(request.Value.CLIENTE, _mapper, reader);
                 request.ResellerDto = SelectionHelpers.WrappedSelectedDto<VENDEDOR, ResellerDto>(request.Value.VENDEDOR, _mapper, reader);
                 request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA, _mapper, reader);
@@ -104,7 +106,7 @@ namespace DataAccessLayer
                 request.GroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupDto>(request.Value.CATEGO, _mapper, reader);
                 request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OrigenDto>(request.Value.ORIGEN, _mapper, reader);
                 request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryDto, VehicleSummaryDto>(request.Value.OTRO_VEHI, _mapper, reader);
-                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA, _mapper, reader);
+               
                
 #pragma warning disable CS0168 // Variable is declared but never used
             }

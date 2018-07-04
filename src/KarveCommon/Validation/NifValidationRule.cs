@@ -7,20 +7,24 @@ namespace KarveCommon.Validation
 {
     public class NifValidationRule : ValidationRule
     {
-        private string regExp = "^([A-Z]{6}[A-Z2-9][A-NP-Z1-9])(X{3}|[A-WY-Z0-9][A-Z0-9]{2})?$";
-
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+       public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string swiftInputString = value as string;
-            if (swiftInputString != null)
+
+            var NIF = value as string;
+            if (NIF != null)
             {
-                bool validRes = Regex.IsMatch(swiftInputString, regExp);
-                if (validRes)
+                string patron = "[A-HJ-NP-SUVW][0-9]{7}[0-9A-J]|\\d{8}[TRWAGMYFPDXBNJZSQVHLCKE]|[X]\\d{7}[TRWAGMYFPDXBNJZSQVHLCKE]|[X]\\d{8}[TRWAGMYFPDXBNJZSQVHLCKE]|[YZ]\\d{0,7}[TRWAGMYFPDXBNJZSQVHLCKE]";
+                string sRemp = "";
+                bool ret = false;
+                System.Text.RegularExpressions.Regex rgx = new System.Text.RegularExpressions.Regex(patron);
+                sRemp = rgx.Replace(NIF.ToString(), "OK");
+                if (sRemp == "OK") ret = true;
+                if (ret)
                 {
                     return new ValidationResult(true, null);
                 }
             }
-        return new ValidationResult(false, null);
+            return new ValidationResult(false, null);
         }
     }
 }

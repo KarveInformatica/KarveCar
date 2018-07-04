@@ -168,6 +168,10 @@
                                     LiveDataUpdateMode="AllowDataShaping"                                 
                                     SelectionMode="Extended"
                                     SelectionUnit="Row"
+                                    CellStyle="{StaticResource KarveGridCell}"
+                                    AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                                    AlternationCount="2"
+                                    HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                     AllowDraggingColumns="True"
                                     AllowDeleting="True"
                                     AllowFiltering="True"
@@ -206,10 +210,7 @@
                 </i:Interaction.Triggers>
                 <syncfusion:SfDataGrid.Resources>
                     <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/InvoiceModule;component/Style/Style.xaml" />
-                           
-                        </ResourceDictionary.MergedDictionaries>
+                        
                             <Style TargetType="{x:Type syncfusion:AddNewRowControl}">
                             <Setter Property="FontSize" Value="12" />
                             <Setter Property="Foreground" Value="#FF808080" />

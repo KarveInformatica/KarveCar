@@ -11,6 +11,7 @@ using System.Windows.Input;
 using KarveCar.Navigation;
 using DataAccessLayer.DataObjects;
 using Prism.Regions;
+using HelperModule;
 
 namespace BookingModule.ViewModels
 {
@@ -47,6 +48,7 @@ namespace BookingModule.ViewModels
             CreateNewReseller = new DelegateCommand(NewReseller);
             CreateNewFare = new DelegateCommand(NewFare);
             CreateNewVehicle = new DelegateCommand(NewVehicle);
+            CreateNewOrigen = new DelegateCommand(NewOrigin);
             SubSystem = DataSubSystem.BookingSubsystem;
 
             ViewModelUri = new Uri("karve://booking/request/viewmodel?id=" + Guid.ToString());
@@ -62,6 +64,12 @@ namespace BookingModule.ViewModels
 
 
         }
+
+        private void NewOrigin()
+        {
+            _navigator.NewHelperView<ORIGEN, OrigenDto>(new ORIGEN(), "ClientLocation");
+        }
+        
         #region Cross reference
         private void NewVehicle()
         {
@@ -73,17 +81,17 @@ namespace BookingModule.ViewModels
         }
         private void NewReseller()
         {
-            // entity shall be separated.
-            _navigator.NewHelperView<VENDEDOR, ResellerDto>("NuevoVendedor", ViewModelUri, new VENDEDOR(), ViewModelNames.ResellerViewModelName);
+            _navigator.NewHelperView<VENDEDOR, ResellerDto>(new VENDEDOR(), "Resellers");
             
         }
         private void NewRequestReason()
         {
-            _navigator.NewHelperView<MOPETI, RequestReasonDto>("NuevoMotivoPeticion", ViewModelUri, new MOPETI(), ViewModelNames.RequestReasonViewModelName);
+            _navigator.NewHelperView<MOPETI, RequestReasonDto>(new MOPETI(), typeof(HelperModule.Views.RequestReason).FullName);
         }
         private void NewGroup()
         {
-            _navigator.NewHelperView<GRUPOS, VehicleGroupDto>("NuevoGrupo", ViewModelUri, new GRUPOS(), ViewModelNames.GroupViewModelName);
+            DialogService?.ShowErrorMessage("Not implemented");
+            //  _navigator.NewHelperView<GRUPOS, VehicleGroupDto>(new GRUPOS(), typeof(HelperModule.Views.VehicleGroup).FullName);
 
         }
 
@@ -155,6 +163,16 @@ namespace BookingModule.ViewModels
                         OriginDto = (IEnumerable<OrigenDto>)collectionValue;
                         break;
                     }
+                case "COMPANY_ASSIST":
+                    {
+                        CompanyDto = (IEnumerable<CompanyDto>)collectionValue;
+                        break;
+                    }
+                case "OFFICE_ASSIST":
+                    {
+                        OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        break;
+                    }
                 case "VEHICLE_ASSIST":
                     {
                         VehicleSummaryDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
@@ -192,16 +210,29 @@ namespace BookingModule.ViewModels
             return deleted;
         }
 
-        public bool CreateRegionManagerScope => false;
+        public bool CreateRegionManagerScope => true;
 
 
         public void IncomingPayload(DataPayLoad dataPayLoad)
         {
+            // is it null?
             if (dataPayLoad == null) return;
+           // is it sent by myself?
             if ((dataPayLoad.Sender != null) && (dataPayLoad.Sender.Equals(ViewModelUri)))
             {
                 return;
             }
+            // is it for me?
+            if (PrimaryKeyValue.Length > 0)
+            {
+
+                var request = dataPayLoad.DataObject as IReservationRequest;
+                var dto = request.Value;
+                // check if the message if for me.
+                 if ((dto!=null) && (dto.NUMERO != PrimaryKeyValue))
+                     return;
+            }
+
             var interpeter = new PayloadInterpeter<DataType>();
             var currentId = _dataReservationService.NewId();
             interpeter.Init = Init;

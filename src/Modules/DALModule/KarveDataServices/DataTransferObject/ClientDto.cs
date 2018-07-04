@@ -30,6 +30,17 @@ namespace KarveDataServices.DataTransferObject
         private bool IsInvalid()
         {
             bool isInvalid = false;
+            
+            if (IsNew)
+            {
+              
+                return false;
+            }
+            if (NUMERO_CLI == "0")
+            {
+                ErrorList.Add(ConstantDataError.CodeNotValid);
+                isInvalid = true;
+            }
             if ((Nombre == null))
             {
                 ErrorList.Add(ConstantDataError.NameIsEmpty);

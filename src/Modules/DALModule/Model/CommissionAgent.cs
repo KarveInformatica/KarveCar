@@ -235,6 +235,9 @@ namespace DataAccessLayer.Model
                                        "LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO " +
                                        "LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE= '{0}' ORDER BY CC.visFECHA";
 
+
+       
+
         private bool isChanged = false;
         private bool _valid = false;
         private CommissionAgentTypeData _commissionAgentType;
@@ -253,6 +256,7 @@ namespace DataAccessLayer.Model
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
+        private QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
         #region Properties
         /// <summary>
         ///  Province Dto.
@@ -591,6 +595,8 @@ namespace DataAccessLayer.Model
             // now between the two
 
             // TODO: all this is pretty slow. Just use query store and load it.
+            IQueryStore store = _queryStoreFactory.GetQueryStore();
+
             if (isOpen)
             {
                 try
@@ -610,10 +616,6 @@ namespace DataAccessLayer.Model
                             _provinces = await _dbConnection.QueryAsync<PROVINCIA>(provinceQuery).ConfigureAwait(false);
                             ProvinceDto = _mapper.Map<IEnumerable<PROVINCIA>, IEnumerable<ProvinciaDto>>(_provinces);
                         }
-                        QueryStore store = QueryStore.GetInstance();
-
-                       
-
                             store.AddParam(QueryType.QueryBrokerContacts, _currentComisio.NUM_COMI);
                         var queryContactos = store.BuildQuery();
                         _contactos = await _dbConnection
@@ -642,7 +644,7 @@ namespace DataAccessLayer.Model
                             }, splitOn: "SIGLAS");
                         BranchesDto = _mapper.Map<IEnumerable<ComiDelegaPoco>, IEnumerable<BranchesDto>>(_delegations);
                         store.Clear();
-                        store.AddParam(QueryType.QueryClientVisits, _currentComisio.NUM_COMI);
+                        store.AddParam(QueryType.QueryBrokerVisit, _currentComisio.NUM_COMI);
                         var visitas = store.BuildQuery();
                         _visitasComis = await _dbConnection.QueryAsync<VisitasComiPoco>(visitas);
                         VisitsDto = _mapper.Map<IEnumerable<VisitasComiPoco>, IEnumerable<VisitsDto>>(_visitasComis);

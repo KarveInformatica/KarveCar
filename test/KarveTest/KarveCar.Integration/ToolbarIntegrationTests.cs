@@ -22,6 +22,7 @@ using NUnit.Framework.Interfaces;
 using Prism.Regions;
 using ToolBarModule;
 using BookingModule.ViewModels;
+using Prism.Commands;
 
 namespace KarveCar.Integration
 {
@@ -453,11 +454,29 @@ namespace KarveCar.Integration
                 _dialogService.Object,
                 _dataServices,
                 _regionManager.Object);
+            var command = new DelegateCommand<object>(async x =>
+            {
+
+                if (x is ICompanyData company)
+                {
+                    var dto = company.Value;
+                    dto.NOMBRE = "Giorgio";
+                    var value = await companyDataServices.SaveAsync(company);
+                    Assert.AreEqual(value, true);
+                    var savedCompany = await companyDataServices.GetAsyncCompanyDo(company.Value.CODIGO).ConfigureAwait(true);
+                    Assert.AreEqual(company.Value.NOMBRE, dto.NOMBRE);
+                    Assert.AreEqual(company.Value.CODIGO, dto.CODIGO);
+                }
+            });
+
 
             DataPayLoad registrationPayload = new DataPayLoad
             {
                 PayloadType = DataPayLoad.Type.RegistrationPayload,
-                Subsystem = DataSubSystem.CompanySubsystem
+                Subsystem = DataSubSystem.CompanySubsystem,
+                HasNewCommand = true,
+                NewCommand= command
+
             };
             _carveBarViewModel.IncomingPayload(registrationPayload);
             _carveBarViewModel.NewCommand.Execute(null);
@@ -1206,12 +1225,7 @@ namespace KarveCar.Integration
             }
 
         }
-        [Test]
-        public async Task WhenIntegratedShould_Update_ReservationRequest()
-        {
-            // 1. Register the view in the payload.
-
-        }
+       
 
 
     }

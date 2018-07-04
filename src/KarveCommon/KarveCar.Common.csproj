@@ -185,6 +185,7 @@
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\GridIdentifiers.cs" />
     <Compile Include="Generic\GridOperationHandler.cs" />
+    <Compile Include="Generic\GridSorter.cs" />
     <Compile Include="Generic\IncrementalListWrapper.cs" />
     <Compile Include="Generic\KarveControlViewModel.cs" />
     <Compile Include="Generic\KarveGridParameters.cs" />

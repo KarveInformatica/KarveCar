@@ -678,6 +678,12 @@ namespace KarveDataServices.DataTransferObject
           
         private bool IsInvalid()
         {
+            
+            if (IsNew)
+            {
+                return false;
+            }
+            
             var valid = true;
             if (!string.IsNullOrEmpty(EMAIL_OFI))
             {
@@ -715,6 +721,7 @@ namespace KarveDataServices.DataTransferObject
                     return true;
                 }
             }
+           
             if (string.IsNullOrEmpty(Codigo))
             {
                 return true;
@@ -729,7 +736,9 @@ namespace KarveDataServices.DataTransferObject
                 ErrorList.Add(ConstantDataError.NameTooLong);
                 return true;
             }
-            return !valid;
+            
+            
+            return false;
         }
         public override bool HasErrors { get => base.HasErrors = IsInvalid(); set => base.HasErrors = value; }
         public IEnumerable<CityDto> City

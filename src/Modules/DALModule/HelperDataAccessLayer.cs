@@ -11,12 +11,12 @@ using DataAccessLayer.Exception;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using Syncfusion.UI.Xaml.Grid;
+using System.Text;
 
 namespace DataAccessLayer
 {
     /// <summary>
     ///  This class has some helper methods that retrives values needed. The so called auxiliares.
-
     /// </summary>  
     internal class HelperDataAccessLayer : AbstractDataAccessLayer,IHelperDataServices
     {
@@ -278,6 +278,35 @@ namespace DataAccessLayer
             }
             return result;
         }
+
+
+        public async Task<IEnumerable<DtoTransfer>> GetPagedAsyncHelper<DtoTransfer, T>(string query, int startIndex, int pageSize) where DtoTransfer: class where T:class
+        {
+            IEnumerable<DtoTransfer> result = new List<DtoTransfer>();
+            var splittedQuery = query.Trim().Split(' ');
+            var outstring = "SELECT TOP {0} START AT {1} ";
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(outstring);
+            for (int i = 1; i < splittedQuery.Length; ++i)
+            {
+                stringBuilder.Append(query[i]);
+                stringBuilder.Append(" ");
+            }
+            outstring = string.Format(stringBuilder.ToString(), startIndex, pageSize);
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                try
+                {
+                    var values = await dbConnection.QueryAsync<T>(query).ConfigureAwait(false);
+                    result = _mapper.Map<IEnumerable<DtoTransfer>>(values);
+                }
+                catch (System.Exception e)
+                {
+                    throw new DataLayerException("Error during mapping an entity", e);
+                }
+            }
+            return result;
+        }
         /// <summary>
         ///  Get the data transfer entity and checks for the 
         /// </summary>
@@ -298,12 +327,12 @@ namespace DataAccessLayer
 
             try
             {
-                var values = await connection.QueryAsync<T>(query);
+                var values = await connection.QueryAsync<T>(query).ConfigureAwait(false);
                 result = _mapper.Map<IEnumerable<DtoTransfer>>(values);
             }
             catch (System.Exception e)
             {
-                throw new DataLayerException("MappedEntity", e);
+                throw new DataLayerException("Error during mapping an entity", e);
             }
             finally
             {
@@ -618,6 +647,8 @@ namespace DataAccessLayer
             }
             return 0;
         }
+
+      
     }
     
 }

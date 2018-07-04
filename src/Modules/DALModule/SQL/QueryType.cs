@@ -118,6 +118,9 @@ namespace DataAccessLayer.SQL
         QueryDeliveringFrom,
         QueryDivisa,
         QueryCurrencyValue,
-        QueryDeptContable
+        QueryDeptContable,
+        QueryOfficePaged,
+        QueryBrokerVisit,
+        QueryBrokerContactsPaged
     };
 }

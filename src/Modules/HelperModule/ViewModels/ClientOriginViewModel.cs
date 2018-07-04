@@ -32,7 +32,15 @@ namespace HelperModule.ViewModels
             }
             return payLoad;
         }
+        public override void DisposeEvents()
+        {
+            base.DisposeEvents();
+            var value = HelperDto as OrigenDto;
+            value.ClearErrors();
+            HelperDto = value;
+            value = null;
+        }
 
-       
+
     }
 }

@@ -8,12 +8,15 @@
              xmlns:local="clr-namespace:KarveControls.HeaderedWindow"
              xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
     <Grid>
 
-        <Grid>
+        <syncfusion:TabControlExt TabStripPlacement="Left">
+            
+                <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="25*"></RowDefinition>
@@ -26,5 +29,7 @@
             <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}">
             </ContentControl>
         </Grid>
+            
+        </syncfusion:TabControlExt>
     </Grid>
 </UserControl>

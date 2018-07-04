@@ -50,11 +50,20 @@ namespace KarveControls
 
         public static void SetIsDaySelected(UIElement element, Boolean value)
         {
+            if (element == null)
+            {
+                return;
+            }
             element.SetValue(IsDaySelectedProperty, value);
         }
         public static Boolean GetIsDaySelected(UIElement element)
         {
-            return (Boolean)element.GetValue(IsDaySelectedProperty);
+            if (element == null)
+            {
+                return false;
+            }
+            var value = (Boolean) element.GetValue(IsDaySelectedProperty);
+            return (Boolean)value;
         }
 
 
@@ -65,10 +74,18 @@ typeof(SelectedDay), new FrameworkPropertyMetadata(1));
 
         public static void SetDayIndex(UIElement element, int value)
         {
-            element.SetValue(DayIndexProperty, value);
+            if (element != null)
+            {
+                element.SetValue(DayIndexProperty, value);
+
+            }
         }
         public static int GetDayIndex(UIElement element)
         {
+            if (element == null)
+            {
+                return -1;
+            }
             return (int)element.GetValue(DayIndexProperty);
         }
 

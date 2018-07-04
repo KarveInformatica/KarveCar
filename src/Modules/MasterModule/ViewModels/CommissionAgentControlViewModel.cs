@@ -272,7 +272,7 @@ namespace MasterModule.ViewModels
             navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, viewNameValue);
 
             var uri = new Uri(typeof(CommissionAgentInfoView).FullName + navigationParameters, UriKind.Relative);
-            RegionManager.RequestNavigate("TabRegion", uri);
+            RegionManager.RequestNavigate(RegionNames.TabRegion, uri);
             var currentPayload = BuildShowPayLoadDo(viewNameValue);
             currentPayload.Subsystem = DataSubSystem.CommissionAgentSubystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;

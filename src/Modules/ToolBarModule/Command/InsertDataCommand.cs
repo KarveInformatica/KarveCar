@@ -50,12 +50,13 @@ namespace ToolBarModule
         /// </summary>
         /// <param name="parameter">It is a parameter as data payload</param>
         /// <returns></returns>
-        public override bool CanExecute(object parameter)
+      /*  public override bool CanExecute(object parameter)
         {
-            DataPayLoad param = (DataPayLoad) parameter;
-            bool validate = _sqlValidationRule.Validate(param);
+           // DataPayLoad param = (DataPayLoad) parameter;
+           // bool validate = _sqlValidationRule.Validate(param);
             return validate;
         }
+        */
         private void Handler_OnErrorExecuting(string errorType)
         {
             // change this for a better solution with a separation.

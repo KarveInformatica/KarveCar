@@ -27,6 +27,7 @@ namespace KarveDataServices.DataTransferObject
         public BaseDto()
         {
             ErrorsChanged += BaseDto_ErrorsChanged;
+            HasErrors = false;
         }
 
         private void BaseDto_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
@@ -118,8 +119,9 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public void Dispose()
         {
-            HasErrors = false;
             ErrorList.Clear();
+            HasErrors = false;
+           
             ErrorsChanged -= BaseDto_ErrorsChanged;
             
         }
@@ -129,5 +131,11 @@ namespace KarveDataServices.DataTransferObject
         ///  ShowCommand. 
         /// </summary>
         public ICommand ShowCommand { get; set; }
+        public bool IsSelected { get; set; }
+
+        public virtual void ClearErrors()
+        {
+            Dispose();
+        }
     }
 }

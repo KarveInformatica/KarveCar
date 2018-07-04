@@ -28,7 +28,7 @@ namespace KarveCar.Navigation
         /// <param name="name">Name to provide to the user</param>
         /// <param name="viewModelUri">Uri of the view model</param>
         /// <param name="e">Entity value</param>
-        void NewHelperView<Entity, Dto>(string name, Uri viewModelUri, Entity e, string viewModelName) where Dto : BaseDto where Entity : class;
+        void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto : BaseDto where Entity : class;
 
     }
 }

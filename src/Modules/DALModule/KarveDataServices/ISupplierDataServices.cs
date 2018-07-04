@@ -11,7 +11,7 @@ namespace KarveDataServices
     /// <summary>
     /// Public interface for the supplier usage
     /// </summary>
-    public interface ISupplierDataServices: IPageCounter
+    public interface ISupplierDataServices: IPageCounter, ISorterData<SupplierSummaryDto>
     {
 
         #region Asynchronous methods

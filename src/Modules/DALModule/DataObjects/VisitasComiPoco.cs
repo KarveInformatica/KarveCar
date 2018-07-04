@@ -43,11 +43,14 @@ public class VisitasComiPoco
         public string VisitTypeLastModification { get; set; }
 
         /// </summary>
-        public string VisitOrder { get; set; }
+        public byte VisitOrder { get; set; }
         /// <summary>
         /// Reference of the contact.
         /// </summary>
         public string ContactId { get; set; }
+
+
+        public string Email { get; set; }
         /// <summary>
         ///  Code visit.
         /// </summary>

@@ -53,6 +53,7 @@ namespace MasterModule.ViewModels
         private Stopwatch _timing = new Stopwatch();
         private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
         private static long _uniqueIdentifier = 0;
+        private GridSorter<SupplierSummaryDto> _gridSorter;
 
        
         private string _mailBoxName;
@@ -76,9 +77,42 @@ namespace MasterModule.ViewModels
             _mailBoxName = PROVIDER_SUMMARY_VM;
             _supplierTaskEvent += OnNotifyIncrementalList<SupplierSummaryDto>;
             _supplierDataServices = DataServices.GetSupplierDataServices();
-            PagingEvent += OnPagedEvent;
+            _gridSorter = new GridSorter<SupplierSummaryDto>(service, _supplierDataServices, DefaultPageSize);
+            _gridSorter.OnInitPage += _gridSorter_OnInitPage;
+            _gridSorter.OnNewPage += _gridSorter_OnNewPage;
+            DefaultPageSize = 100;
+            SortCommand = new DelegateCommand<object>(OnSortCommand);
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
+        }
+
+        private void _gridSorter_OnNewPage(IEnumerable<SupplierSummaryDto> page)
+        {
+            if (SummaryView is IncrementalList<SupplierSummaryDto> list)
+            {
+                list.LoadItems(page);
+                SummaryView = list;
+            }
+        }
+
+        private void _gridSorter_OnInitPage(IEnumerable<SupplierSummaryDto> page)
+        {
+
+            PageCount = (_supplierDataServices.NumberPage == 0) ? 1 : _supplierDataServices.NumberPage;
+            var maxItems = _supplierDataServices.NumberItems;
+            if (page.Count() > 0)
+            {
+                var list = new IncrementalList<SupplierSummaryDto>(_gridSorter.Loader) { MaxItemCount = (int)maxItems };
+                list.LoadItems(page);
+                SummaryView = list;
+            }
+        }
+        protected override void OnSortCommand(object eventDictionary)
+        {
+            if (eventDictionary is Dictionary<string, ListSortDirection> description)
+            {
+                _gridSorter.SortCommand(eventDictionary);
+            }
         }
         /// <summary>
         ///  Property that return the summary of Suppliers.
@@ -136,6 +170,13 @@ namespace MasterModule.ViewModels
             var routedName = ProviderModuleRoutePrefix + name;
             return routedName;
 
+        }
+        public override void DisposeEvents()
+        {
+            base.DisposeEvents();
+            DeleteMailBox(_mailBoxName);
+            _gridSorter.OnInitPage -= _gridSorter_OnInitPage;
+            _gridSorter.OnNewPage -= _gridSorter_OnNewPage;
         }
         /// <summary>
         /// This method creates a new item using prsim scope navigation.
@@ -204,9 +245,31 @@ namespace MasterModule.ViewModels
             MessageHandlerMailBox += MessageHandler;
             _mailBoxName = ProvidersControlViewModel.PROVIDER_SUMMARY_VM;
             EventManager.RegisterMailBox(_mailBoxName, MessageHandlerMailBox);
+
             var supplierDataServices = DataServices.GetSupplierDataServices();
-            _supplierTaskNotify = NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(supplierDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), _supplierTaskEvent);
-           
+
+            _supplierTaskNotify = NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(
+               supplierDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev) =>
+               {
+                   if (task is INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>> suppliers)
+                   {
+                       if (suppliers.IsSuccessfullyCompleted)
+                       {
+                           var collection = suppliers.Result;
+                           var maxItems = supplierDataServices.NumberItems;
+                           PageCount = supplierDataServices.NumberPage;
+                           var summaryList = new IncrementalList<SupplierSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                           summaryList.LoadItems(collection);
+                           SummaryView = summaryList;
+                           
+                       }
+                       else
+                       {
+                           DialogService?.ShowErrorMessage("No puedo cargar datos de proveedores : " + suppliers.ErrorMessage);
+                       }
+                   }
+               });
+
         }
      
         public override async Task<bool> DeleteAsync(string supplierId, DataPayLoad payLoad)
@@ -215,44 +278,33 @@ namespace MasterModule.ViewModels
             var retValue = await _supplierDataServices.DeleteAsyncSupplierDo(provider).ConfigureAwait(false);
             return retValue;
         }
-        public override void DisposeEvents()
-        {
-           base.DisposeEvents();
-           DeleteMailBox(_mailBoxName);
-        }
-        protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
-        {
-            var listCompletion =
-                sender as INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>>;
-            if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
-            {
-
-                if (SummaryView is IncrementalList<SupplierSummaryDto> summary)
-                {
-                    summary.LoadItems(listCompletion.Result);
-                    SummaryView = summary;
-                }
-            }
-
-            if ((listCompletion != null) && (listCompletion.IsFaulted))
-            {
-                DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
-            }
-        }
- 
+       
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
             Logger.Debug("Base" + baseIndex.ToString());
             NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(
-                _supplierDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
+                _supplierDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (sender,ev)=> {
+                    var listCompletion =
+                sender as INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>>;
+                    if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
+                    {
+
+                        if (SummaryView is IncrementalList<SupplierSummaryDto> summary)
+                        {
+                            summary.LoadItems(listCompletion.Result);
+                            SummaryView = summary;
+                        }
+                    }
+
+                    if ((listCompletion != null) && (listCompletion.IsFaulted))
+                    {
+                        DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
+                    }
+                });
 
         }
         protected override void SetResult<T>(IEnumerable<T> result)
         {
-            var reSummaryDtos = result as IEnumerable<SupplierSummaryDto>;
-            var maxItems = _supplierDataServices.NumberItems;
-            PageCount = _supplierDataServices.NumberPage;
-            SummaryView = new IncrementalList<SupplierSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
         }
     }
 }

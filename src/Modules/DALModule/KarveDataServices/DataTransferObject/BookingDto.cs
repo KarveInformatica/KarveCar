@@ -2009,6 +2009,23 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the MOTIVO_NOCONFIRM_RES2 property.
         /// </summary>
         public string MOTIVO_NOCONFIRM_RES2 { get; set; }
-        
+
+
+        private bool IsInvalid()
+        {
+            if (string.IsNullOrEmpty(NUMERO_RES))
+            {
+                ErrorList.Add(ConstantDataError.CodeNotValid);
+                return true;
+            }
+            if (!string.IsNullOrEmpty(EMAIL_RES1))
+            {
+                EMAIL_RES1 = EMAIL_RES1.Trim();
+                ErrorList.Add(ConstantDataError.InvalidEmail);
+                return !IsValidEmailField(EMAIL_RES1);
+            }
+            return false;
+        }
+        public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
     }
 }

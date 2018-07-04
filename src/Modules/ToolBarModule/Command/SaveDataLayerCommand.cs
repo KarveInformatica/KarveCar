@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Windows;
 using KarveCommonInterfaces;
 using Prism.Commands;
+using KarveDataServices.DataTransferObject;
 
 namespace ToolBarModule.Command
 {
@@ -57,7 +58,7 @@ namespace ToolBarModule.Command
         /// <param name="careKeeperService"></param>
         /// <param name="eventManager"></param>
         /// <param name="configurationService"></param>
-        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IEventManager eventManager, IConfigurationService configurationService) : 
+        public SaveDataCommand(IDataServices dataServices, ICareKeeperService careKeeperService, IEventManager eventManager, IConfigurationService configurationService) :
             this(dataServices, careKeeperService, configurationService)
         {
             _eventManager = eventManager;
@@ -99,7 +100,7 @@ namespace ToolBarModule.Command
             }
             return filterPayload;
         }
-        
+       
         /// <summary>
         ///  This executes a payload that it is coming from the toolbar.
         /// </summary>
@@ -107,7 +108,7 @@ namespace ToolBarModule.Command
         public override void Execute(object parameter)
         {
             if (!(parameter is DataPayLoad)) return;
-            var payLoad = (DataPayLoad) parameter;
+            var payLoad = (DataPayLoad)parameter;
             if (PayLoadHandlers.ContainsKey(payLoad.Subsystem))
             {
                 var handler = PayLoadHandlers[payLoad.Subsystem];
@@ -115,7 +116,7 @@ namespace ToolBarModule.Command
             }
             else
             {
-               // MessageBox.Show("Error unknwon subsystem");
+                // MessageBox.Show("Error unknwon subsystem");
                 throw new ToolbarException("Payload invalid. Unsupported subsystem:" + payLoad.Subsystem);
             }
         }

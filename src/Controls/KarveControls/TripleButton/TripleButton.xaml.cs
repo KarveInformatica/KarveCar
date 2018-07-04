@@ -48,6 +48,59 @@ namespace KarveControls.KarveTripleButton
                 typeof(ICommand),
                 typeof(TripleButton));
 
+
+        public static DependencyProperty SaveVisibilityProperty
+         = DependencyProperty.Register(
+             "SaveVisible",
+             typeof(bool),
+             typeof(TripleButton), new PropertyMetadata(true));
+
+        public bool SaveVisible
+        {
+            set
+            {
+                SetValue(SaveVisibilityProperty, value);
+            }
+            get
+            {
+                return (bool)GetValue(SaveVisibilityProperty);
+            }
+        }
+        public static DependencyProperty DeleteVisibilityProperty
+         = DependencyProperty.Register(
+             "DeleteVisible",
+             typeof(bool),
+             typeof(TripleButton), new PropertyMetadata(true));
+        public bool DeleteVisible
+        {
+            set
+            {
+                SetValue(DeleteVisibilityProperty, value);
+            }
+            get
+            {
+                return (bool)GetValue(DeleteVisibilityProperty);
+            }
+        }
+
+
+        public static DependencyProperty ResetVisibilityProperty
+         = DependencyProperty.Register(
+            "ResetVisible",
+              typeof(bool),
+              typeof(TripleButton), new PropertyMetadata(true));
+        public bool ResetVisible
+        {
+            set
+            {
+                SetValue(ResetVisibilityProperty, value);
+            }
+            get
+            {
+                return (bool)GetValue(ResetVisibilityProperty);
+            }
+        }
+
         /// <summary>
         /// Localization.
         /// </summary>

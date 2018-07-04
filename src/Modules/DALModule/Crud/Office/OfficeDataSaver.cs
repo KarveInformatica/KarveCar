@@ -20,6 +20,26 @@ using Z.Dapper.Plus;
 
 namespace DataAccessLayer.Crud.Office
 {
+    class FestivoOficinaComparer : IEqualityComparer<FESTIVOS_OFICINA>
+    {
+        public bool Equals(FESTIVOS_OFICINA x, FESTIVOS_OFICINA y)
+        {
+            return ((x.FESTIVO == y.FESTIVO) &&
+                (x.OFICINA == y.OFICINA));
+        }
+
+        public int GetHashCode(FESTIVOS_OFICINA obj)
+        {
+            //Get hash code for the Name field if it is not null. 
+            int hashFestivo = obj.FESTIVO == null ? 0 : obj.FESTIVO.GetHashCode();
+
+            //Get hash code for the Code field. 
+            int hashOfficina = obj.OFICINA.GetHashCode();
+
+            //Calculate the hash code for the product. 
+            return hashFestivo ^ hashOfficina;
+        }
+    }
     /// <summary>
     ///  This is an office data saver. It saves the data for the office table.
     /// </summary>
@@ -48,17 +68,44 @@ namespace DataAccessLayer.Crud.Office
             set { _validationChain = value; }
             get { return _validationChain; }
         }
+        public async Task SaveHolidaysAsync(OfficeDtos office, IEnumerable<HolidayDto> holidayDto)
+        {
+            var currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(office);
+            using (var dbConnection = _executor.OpenNewDbConnection())
+            {
+                await SaveHolidayOfficeAsync(dbConnection, currentPoco, holidayDto).ConfigureAwait(false);
+            }
+        }
+        private Tuple<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<FESTIVOS_OFICINA>> DistintSelect(IEnumerable<FESTIVOS_OFICINA> presentHoliday, IEnumerable<FESTIVOS_OFICINA> toBeInserted)
+        {
+            var compare = new FestivoOficinaComparer();
+            var toBeUpdated = presentHoliday.Intersect(toBeInserted, compare).ToList();
+
+            var newHolidays = toBeInserted.Except(toBeUpdated, compare).ToList();
+           
+            Tuple<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<FESTIVOS_OFICINA>> selection = new Tuple<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<FESTIVOS_OFICINA>>(toBeUpdated, newHolidays);
+            return selection;
+        }
         /// <summary>
         ///  This saves the holiday in the office.
         /// </summary>
         /// <param name="currentOffice">Current office to be saved.</param>
         /// <param name="holidayDto">List of vacation for the current office.</param>
         /// <returns>return a task for saving the holidays</returns>
-        private async Task SaveHolidayOfficeAsync(IDbConnection connection, OFICINAS currentOffice, IEnumerable<HolidayDto> holidayDto)
+        private async Task<bool> SaveHolidayOfficeAsync(IDbConnection connection, OFICINAS currentOffice, IEnumerable<HolidayDto> holidayDto)
         {
             Contract.Requires(connection != null, "Connection is not null");
             Contract.Requires(currentOffice != null, "Current office is not null");
             Contract.Requires(holidayDto != null, "HolidayDto is not null");
+            if (currentOffice.CODIGO == null)
+            {
+                throw new ArgumentNullException("Office code is null");
+            }
+
+            if (holidayDto.Count() == 0)
+            {
+                return true;
+            }
 
             IEnumerable<FESTIVOS_OFICINA> holidayOffice = _mapper.Map<IEnumerable<HolidayDto>, IEnumerable<FESTIVOS_OFICINA>>(holidayDto);
             IQueryStore store = _queryStoreFactory.GetQueryStore();
@@ -78,18 +125,19 @@ namespace DataAccessLayer.Crud.Office
                 }
                 else
                 {
-                    if (!isAlreadyPresent(festivosOficinas, currentHolidays))
+                    // divide what to be inserted from what we should update.
+                    var holidayValues = DistintSelect(currentHolidays, holidayOffice);
+                    var value = holidayValues.Item2.ToList();
+                    if (holidayValues.Item2.Any())
                     {
-                        saved = await connection.InsertAsync(holidayOffice).ConfigureAwait(false) > 0;
+                        
+                        saved = await connection.InsertAsync(holidayValues.Item2).ConfigureAwait(false) > 0;
                     }
-                    else
+                    if (holidayValues.Item1.Any())
                     {
-                        saved = await connection.UpdateAsync(holidayOffice).ConfigureAwait(false);
-
-
+                        saved = saved && await connection.UpdateAsync(holidayValues.Item1).ConfigureAwait(false);
                     }
-                }
-                
+                }   
             }
             catch (System.Exception e)
             {
@@ -97,11 +145,15 @@ namespace DataAccessLayer.Crud.Office
                 connection.Dispose();
                 throw new DataLayerException(e.Message, e);
             }
-            Contract.Ensures(saved);
+            return saved;
         }
-        bool isAlreadyPresent(IEnumerable<FESTIVOS_OFICINA> oldValues, IEnumerable<FESTIVOS_OFICINA> toBeInserted)
+
+        bool IsAlreadyPresent(IEnumerable<FESTIVOS_OFICINA> oldValues, IEnumerable<FESTIVOS_OFICINA> toBeInserted)
         {
-            return oldValues.Intersect(toBeInserted).Count() > 0;
+
+            FestivoOficinaComparer comp = new FestivoOficinaComparer();
+            var values = oldValues.Except(toBeInserted, comp);
+            return (values.Count() != 0);
         }
         /// <summary>
         ///  Save the asynchronous client
@@ -139,7 +191,7 @@ namespace DataAccessLayer.Crud.Office
 
                             if (retValue)
                             {
-                               await SaveHolidayOfficeAsync(connection, currentPoco, office.HolidayDates).ConfigureAwait(false);
+                               retValue = await SaveHolidayOfficeAsync(connection, currentPoco, office.HolidayDates).ConfigureAwait(false);
                             }
                             scope.Complete();
                         } catch (System.Exception e )
