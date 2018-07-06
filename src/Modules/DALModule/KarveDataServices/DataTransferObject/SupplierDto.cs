@@ -1248,8 +1248,12 @@ namespace KarveDataServices.DataTransferObject
             /// </summary>
             public string CLAVEHAC_PRO { get; set; }
 
+        public string WEB_DEVO { get; set; }
+        public string WEB_PAGO { get; set; }
+        public string WEB_RECLAMA { get; set; }
 
-             public override bool HasErrors
+
+        public override bool HasErrors
              {
                 get
                  {
@@ -1266,6 +1270,10 @@ namespace KarveDataServices.DataTransferObject
                         try
                         {
                             var bic = Iban.CreateInstance(IBAN);
+                        }
+                        catch(IbanFormatException ibanException)
+                        {
+                            return true;
                         }
                         catch (BicFormatException ex)
                         {

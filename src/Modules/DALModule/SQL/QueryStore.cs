@@ -50,6 +50,7 @@ namespace DataAccessLayer.SQL
             {  QueryType.QueryVehicleOwner, new Tuple<string,string>("PROPIE", "NUM_PROPIE") },
             {  QueryType.QueryCurrencyValue, new Tuple<string,string>("CURRENCIES", "CODIGO_CUR") },
             {  QueryType.HolidaysByOffice, new Tuple<string,string>("FESTIVOS_OFICINA", "OFICINA") },
+            { QueryType.QueryContractsByClient, new Tuple<string, string>("CONTRATOS1", "NUMERO")},
             { QueryType.QueryDeptContable, new Tuple<string, string>("DELEGA", "NUM_DELEGA") },
             {  QueryType.QueryDeliveringFrom, new Tuple<string, string>("FORMA_PEDENT", "CODIGO")  }
 
@@ -284,6 +285,7 @@ namespace DataAccessLayer.SQL
             { QueryType.QueryBookingItem, @"select * from LIRESER WHERE CLAVE_LR='{0}';" },
             { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO='{0}'" },
             { QueryType.QueryActiveFare,@"SELECT TOP {0} START AT {1} DISTINCT(XX.TARIFA) AS Fare, XX.NOMBRE as Name, XX.ACTIVA as IsActive from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
+            
             { QueryType.QueryContractsByClient, "select NUMERO as Contract, D.NOMBRE as Driver, DIAS_CON1 as Days, FPREV_CON1 as ForeCastDeparture, FECHA_CON1 as DepartureDate, FRETOR_CON1 as ReturnData, V.MATRICULA as Matricula, V.MARCA as Brand, V.MODELO as Model, TARIFA_CON1 as Fare,F.NUMERO_FAC as InvoiceNumber, F.BRUTO_FAC as GrossInvoice from CONTRATOS1 LEFT OUTER JOIN VEHICULO1 V ON V.CODIINT=VCACT_CON1 LEFT OUTER JOIN CLIENTES1 D ON D.NUMERO_CLI=CONDUCTOR_CON1 LEFT OUTER JOIN FACTURAS F ON F.CLIENTE_FAC=CLIENTE_CON1 WHERE CLIENTE_CON1='{0}';" },
             { QueryType.QueryCountActiveFare,@"SELECT COUNT(DISTINCT(XX.TARIFA)) from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
             { QueryType.QueryBudgetKey, "select * from CLAVEPTO WHERE COD_CLAVE='{0}'"},
@@ -690,5 +692,14 @@ namespace DataAccessLayer.SQL
             return AddParamCount(query, code, string.Empty);
         }
 
+        public IQueryStore AddParamCount(QueryType type, byte? code)
+        {
+            if (code.HasValue)
+            {
+                var value = code.ToString();
+                AddParamCount(type,value);
+            }
+            return this;
+        }
     }
 }

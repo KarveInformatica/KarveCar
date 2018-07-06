@@ -546,15 +546,24 @@ namespace KarveControls
                     ev.FieldData = _editorText.Text;
                     ComponentFiller filler = new ComponentFiller();
 
+                    var dataObject = ControlExt.GetDataSource(this);
+                    if (dataObject == null)
+                    {
+                        dataObject = DataSource;
+                    }
 
                     if (!string.IsNullOrEmpty(DataSourcePath))
                     {
-                        var dataObject = DataSource;
-
-                        filler.FillDataObject(_editorText.Text, DataSourcePath, ref dataObject);
+                       
+                        var path = DataSourcePath;
+                        if (string.IsNullOrEmpty(DataSourcePath))
+                        {
+                            path = ControlExt.GetDataSourcePath(this);
+                        }
+                        filler.FillDataObject(_editorText.Text, path, ref dataObject);
                         DataSource = dataObject;
 
-                        IDictionary<string, object> valueDictionary = CreateDictionary(DataSource, _editorText.Text, _previousDataArea);
+                        IDictionary<string, object> valueDictionary = CreateDictionary(dataObject, _editorText.Text, _previousDataArea);
                  
                         ev.ChangedValuesObjects = valueDictionary;
 
@@ -571,7 +580,7 @@ namespace KarveControls
                     }
                     else
                     {
-                        IDictionary<string, object> valueDictionary = CreateDictionary(DataSource, _editorText.Text, _previousDataArea);
+                        IDictionary<string, object> valueDictionary = CreateDictionary(dataObject, _editorText.Text, _previousDataArea);
                         if (ItemChangedCommand != null)
                         {
                             ICommand ex = ItemChangedCommand;

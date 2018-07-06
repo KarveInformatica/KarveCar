@@ -22,19 +22,15 @@ namespace KarveDataServices.DataTransferObject
         protected const int NameSize = 35;
         protected const int SecondNameSize = 50;
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public BaseDto()
         {
-            ErrorsChanged += BaseDto_ErrorsChanged;
+            
             HasErrors = false;
         }
 
-        private void BaseDto_ErrorsChanged(object sender, DataErrorsChangedEventArgs e)
-        {
-           
-        }
-
+        
         public virtual string Name { set; get; }
 
         public string KeyId { set; get; }
@@ -43,6 +39,15 @@ namespace KarveDataServices.DataTransferObject
         {
            
             return EmailValidator.Validate(data);
+        }
+        protected bool IsValidPhoneField(string data)
+        {
+            System.Text.RegularExpressions.Regex regexp = new System.Text.RegularExpressions.Regex("[\\+\\-0-9]");
+            if (regexp.IsMatch(data))
+            {
+                return true;
+            }
+            return false;
         }
         /// <summary>
         ///  it is an alias for code
@@ -121,8 +126,6 @@ namespace KarveDataServices.DataTransferObject
         {
             ErrorList.Clear();
             HasErrors = false;
-           
-            ErrorsChanged -= BaseDto_ErrorsChanged;
             
         }
         public bool IsDeleted { get; set; }

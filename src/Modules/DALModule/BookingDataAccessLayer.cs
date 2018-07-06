@@ -14,6 +14,11 @@ using KarveDataServices.DataTransferObject;
 using System.ComponentModel;
 using System;
 using DataAccessLayer.Exception;
+using AutoMapper;
+using DataAccessLayer.Crud;
+using System.Text;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer
 {
@@ -28,6 +33,7 @@ namespace DataAccessLayer
         private readonly IDataLoader<ReservationRequestDto> dataLoaderRequest;
         private readonly IDataSaver<ReservationRequestDto> _dataSaverRequest;
         private readonly IDataDeleter<ReservationRequestDto> _dataDeleterRequest;
+        private IMapper _mapper;
 
         private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
 
@@ -38,10 +44,10 @@ namespace DataAccessLayer
         /// <param name="executor">Executor handle database connection.</param>
         public BookingDataAccessLayer(ISqlExecutor executor): base(executor)
         {
-            var mapper = MapperField.GetMapper();
-            _dataLoader = new BookingDataLoader(SqlExecutor, mapper);
-            _dataDeleter = new BookingDataDeleter(SqlExecutor, mapper);
-            _dataSaver = new BookingDataSaver(SqlExecutor, mapper);
+            _mapper = MapperField.GetMapper();
+            _dataLoader = new BookingDataLoader(SqlExecutor, _mapper);
+            _dataDeleter = new BookingDataDeleter(SqlExecutor, _mapper);
+            _dataSaver = new BookingDataSaver(SqlExecutor, _mapper);
             TableName = "RESERVAS1";
         }
         /// <summary>
@@ -74,7 +80,7 @@ namespace DataAccessLayer
         public IBookingData GetNewDo(string code)
         {
             var bookingValue = new RESERVAS1();
-            var bookingData = new Reservation();
+            var bookingData = new Reservation() { IsValid = true };
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 var reservations = string.Empty;
@@ -195,9 +201,43 @@ namespace DataAccessLayer
                 var qs = _queryStoreFactory.GetQueryStore();
                 qs.AddParam(QueryType.QueryBookingSummaryExt);
                 var query = qs.BuildQuery();
-                bookingList = await dbConnection.QueryAsync<BookingSummaryDto>(query);
+                bookingList = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
             }
             return bookingList;
+        }
+
+       
+        public void Validate(BookingDto dto)
+        {
+            System.ComponentModel.DataAnnotations.ValidationContext context = new System.ComponentModel.DataAnnotations.ValidationContext(dto, null, null);
+
+            List<ValidationResult> results = new List<ValidationResult>();
+            bool valid = Validator.TryValidateObject(dto, context, results, true);
+            if (!valid)
+            {
+                throw new DataAccessLayerException("Booking is not valid");
+            }
+            if (dto == null)
+            {
+                throw new DataAccessLayerException("Booking is null");
+            }
+            if (dto.Items == null)
+            {
+                throw new DataAccessLayerException("Items are null");
+            }
+            if (string.IsNullOrEmpty(dto.CLIENTE_RES1))
+            {
+                throw new DataAccessLayerException("Client should be not empty");
+            }
+            if (string.IsNullOrEmpty(dto.CONDUCTOR_RES1))
+            {
+                throw new DataAccessLayerException("Conductor should be not empty");
+            }
+            if (string.IsNullOrEmpty(dto.NUMERO_RES))
+            {
+                throw new DataAccessLayerException("Reservation number should be not empty");
+            }
+
         }
         /// <summary>
         ///  Get Data Object asynchronous
@@ -217,25 +257,46 @@ namespace DataAccessLayer
             {
 
                 var queryStore = _queryStoreFactory.GetQueryStore();
-                queryStore.AddParam(QueryType.QueryContractsByClient, data.Value.CLIENTE_RES1);
-                queryStore.AddParam(QueryType.QueryClientById, data.Value.CONDUCTOR_RES1);
-                queryStore.AddParam(QueryType.QueryClientById, data.Value.CLIENTE_RES1);
+                Validate(data.Value);
+                queryStore.AddParamCount(QueryType.QueryClientSummaryExtById, data.Value.CONDUCTOR_RES1);
+                queryStore.AddParamCount(QueryType.QueryContractsByClient, data.Value.CLIENTE_RES1);
+                var builder = new StringBuilder();
+               var queryStore2 = _queryStoreFactory.GetQueryStore();
+                queryStore2.AddParamCount(QueryType.QueryClientSummaryExtById, data.Value.CLIENTE_RES1);
+                builder.Append(queryStore.BuildQuery());
+                builder.Append(queryStore2.BuildQuery());
+                var executableQuery = builder.ToString();
+
                 using (var connection = SqlExecutor.OpenNewDbConnection())
                 {
                     if (connection != null)
                     {
-                        var query = queryStore.BuildQuery();
 
-                        var multipleQuery = await connection.QueryMultipleAsync(query);
+                        var multipleQuery = await connection.QueryMultipleAsync(executableQuery);
                         data.IsValid = ParseResult(data, multipleQuery);
                     }
                 }
             }
             return data;
         }
-
-        private bool ParseResult(IBookingData data, SqlMapper.GridReader multi)
+        /// <summary>
+        /// Parse the result from a multiple query.
+        /// </summary>
+        /// <param name="data">Booking data to be used</param>
+        /// <param name="reader">GridReader to be used</param>
+        /// <returns>True always except whem there is an exception.</returns>
+        private bool ParseResult(IBookingData data, SqlMapper.GridReader reader)
         {
+            try
+            {
+                data.Drivers = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.Value.CONDUCTOR_RES1, _mapper, reader);
+               data.Contracts = SelectionHelpers.WrappedSelectedDto<ContractSummaryDto, ContractSummaryDto>(data.Value.CLIENTE_RES1, _mapper, reader);
+
+                data.Clients = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.Value.CLIENTE_RES1, _mapper, reader);
+            } catch (System.Exception ex)
+            { 
+                return false;
+            }
             return true;
         }
 

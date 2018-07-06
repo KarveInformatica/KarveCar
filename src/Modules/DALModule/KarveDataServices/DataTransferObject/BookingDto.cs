@@ -14,6 +14,8 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class BookingDto: LineBaseDto<BookingItemsDto>
     {
+       
+
         [PrimaryKey]
         [Required]
         public string NUMERO_RES { get; set; }
@@ -155,6 +157,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the NOMBRE_RES1 property.
         /// </summary>
 
+        [StringLength(30, ErrorMessage = "Name Should be a maximum of 100 characters")]
         public string NOMBRE_RES1 { get; set; }
 
         /// <summary>
@@ -2027,5 +2030,7 @@ namespace KarveDataServices.DataTransferObject
             return false;
         }
         public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
+
+        
     }
 }

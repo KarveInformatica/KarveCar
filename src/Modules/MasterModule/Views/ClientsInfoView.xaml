@@ -83,9 +83,18 @@
                             <TextBlock  Grid.Row="0" Grid.Column="0" Text="Expiry date" FontSize="10"></TextBlock>
                             <TextBlock  Grid.Row="0" Grid.Column="1" Text="Security Code" FontSize="10"></TextBlock>
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                                <TextBox Height="25" Margin="10,5,10,5" Width="25"  Text="{Binding Path=DataObject.CreditCardExpiryMonth, Mode=TwoWay}"></TextBox>
+                                <TextBox Height="25" Margin="10,5,10,5" Width="25"  
+                                           Text="{Binding ExpireMonth, Mode=TwoWay}"
+                                           karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           karveControls:ControlExt.DataSourcePath="TARCADU"
+                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                                 <TextBlock Text="/" Height="25"></TextBlock>
-                                <TextBox Height="25" Margin="10,5,10,5" Width="50"  Text="{Binding Path=DataObject.CreditCardExpiryYear, Mode=TwoWay}"></TextBox>
+                                <TextBox Height="25" Margin="10,5,10,5" Width="50"  
+                                         Text="{Binding ExpireYear, Mode=TwoWay}"
+                                         karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                           karveControls:ControlExt.DataSourcePath="TARCADU"
+                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         ></TextBox>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
                                 <TextBox Text="{Binding Path=DataObject.TARCODI, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Height="25" Width="60"></TextBox>
@@ -273,29 +282,47 @@
                                                         <ColumnDefinition></ColumnDefinition>
 
                                                     </Grid.ColumnDefinitions>
-                                                    <karveControls:DataFieldCheckBox Grid.Column="0" x:Name="Defaulting"  
-                                                                                     Content="Moroso"
-                                                                                     karveControls:ControlExt.DataSourcePath="MOROSO"
-                                                                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
+                                                  
+						    <karveControls:DataFieldCheckBox Grid.Column="0" Content="{Binding lmoroso, Source={StaticResource ResourceLanguage}}" 
+                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                         karveControls:ControlExt.DataSourcePath="MOROSO">
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                        <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </karveControls:DataFieldCheckBox>
 
                                                     <karveControls:DataFieldCheckBox Grid.Column="1" x:Name="Blocked" 
-                                                                                        karveControls:ControlExt.DataSourcePath="BLOQUEADO_CLI"
-                                                                                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                              karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"/>
-
-                                                    <karveControls:DataFieldCheckBox Grid.Column="2" Content="Nif Extranjero"
-                                                                                         
-                                                              karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                                                     Content="Cliente Bloqueado"
+                                                                                     karveControls:ControlExt.DataSourcePath="BLOQUEADO_CLI"
                                                                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                                                                     karveControls:ControlExt.DataSourcePath="NIF_EXTRANJERO"/>
+                                                              >
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+
+                                                    </karveControls:DataFieldCheckBox>
+
+                                                    <karveControls:DataFieldCheckBox Grid.Column="2" Content="Nif Extranjero"                                                                                         
+                                                                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                                     karveControls:ControlExt.DataSourcePath="NIF_EXTRANJERO">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                                                <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </karveControls:DataFieldCheckBox>
                                                     <karveControls:DataField Grid.Column="3"
                                                         LabelText="Codigo Externo"
                                                         TextContentWidth="200"
                                                         TextContent="{Binding DataObject.CODIGOEXTERNO, 
                                                         Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                                         DataObject="{Binding DataObject, Mode=TwoWay}">
-
                                                     </karveControls:DataField>
 
                                                 </Grid>
@@ -356,7 +383,37 @@
                                         <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <ContentControl x:Name="Drivers" Content="{Binding}"  ContentTemplate="{StaticResource Drivers}"  Grid.Row="0" Visibility="{Binding SelectedDrivers, Converter={StaticResource BooleanToVisibility}}"></ContentControl>
-                                    <ContentControl x:Name="CompanyDrivers" Content="{Binding}"  ContentTemplate="{StaticResource CompanyDrivers}"  Grid.Row="0" Visibility="{Binding SelectedDrivers, Converter={StaticResource InvertedBooleanToVisibility}}"></ContentControl>
+                                    <Grid Grid.Row="0" Visibility="{Binding SelectedDrivers, Converter={StaticResource InvertedBooleanToVisibility}}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Button Grid.Row="0" Command="{Binding ContentAreaCommand, Mode=OneWay}" HorizontalAlignment="Left" Margin="0,0,-1,0" Width="301">
+                                            <StackPanel>
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding ListaConductores, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                                <Image HorizontalAlignment="Center" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="243"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <karveControls:DataArea 
+                                    Grid.Row="1"
+                            DataAreaWidth="400"
+                            DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
+                            LabelVisible="False"
+                            Height="120"
+                            Width="500"
+                            HorizontalAlignment="Left"
+                            karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            karveControls:ControlExt.DataSourcePath="CONTACTO"
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                        </karveControls:DataArea>
+
+
+                                    
+
+
+
+                                    </Grid>
+                                    
                                    
                                     <GroupBox  Grid.Row="2" Header="{Binding TarjetaDeCredito, Source={StaticResource ResourceLanguage}}" Margin="5,5,-83,5" HorizontalAlignment="Left" Width="507">
                                         <ContentControl x:Name="CreditCardForm" Content="{Binding}" ContentTemplate="{StaticResource CreditCardFormat}"></ContentControl>

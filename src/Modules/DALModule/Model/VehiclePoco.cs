@@ -1905,7 +1905,7 @@ namespace Model
         ///  Set or get the FRAVEN property.
         /// </summary>
 
-      //  public string FRAVEN { get; set; }
+        public string FRAVEN { get; set; }
 
         /// <summary>
         ///  Set or get the COMPRAFRA_BASE property.

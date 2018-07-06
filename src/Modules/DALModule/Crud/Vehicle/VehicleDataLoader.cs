@@ -57,7 +57,7 @@ namespace DataAccessLayer.Crud.Vehicle
                     }
                     /// here in value i pass directly the dto for performance reasons. 3 conversions are too much.
                     vehicle.Value = resultQuery;
-                   // vehicle.Value = _mapper.Map<VehiclePoco, VehicleDto>(resultQuery);
+                    // vehicle.Value = _mapper.Map<VehiclePoco, VehicleDto>(resultQuery);
                     // ok here we have a valid way to do the query now. I need a new query store.
 
                     var auxQueryStore = queryStoreFactory.GetQueryStore();
@@ -70,7 +70,7 @@ namespace DataAccessLayer.Crud.Vehicle
                     auxQueryStore.AddParam(QueryType.QueryVehicleMaintenance, resultQuery.CODIINT);
                     auxQueryStore.AddParamCount(QueryType.QueryVehicleColor, resultQuery.COLOR);
                     auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, resultQuery.GRUPO);
-                    auxQueryStore.AddParamCount(QueryType.QueryPaymentForm, SelectionHelpers.ValueString(resultQuery.FORPAGOCO));
+                    auxQueryStore.AddParamCount(QueryType.QueryPaymentForm, resultQuery.FORPAGOCO);
                     auxQueryStore.AddParamCount(QueryType.QuerySupplierSummaryById, resultQuery.PROVEEDOR);
                     auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExtById, resultQuery.COMPRADOR);
                     auxQueryStore.AddParamCount(QueryType.QueryReseller, resultQuery.VENDEDOR_VTA);
@@ -141,7 +141,10 @@ namespace DataAccessLayer.Crud.Vehicle
                 vehicle.MaintenanceHistory = SelectionHelpers.WrappedSelectedDto<MaintainanceDto, MaintainanceDto>(vehicle.Value, _mapper, reader);
                 vehicle.ColorDtos = SelectionHelpers.WrappedSelectedDto<COLORFL, ColorDto>(vehicle.Value.COLOR, _mapper, reader);
                 vehicle.VehicleGroupDtos = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupDto>(vehicle.Value.GRUPO, _mapper, reader);
-                vehicle.PaymentForm = SelectionHelpers.WrappedSelectedDto<FORMAS, PaymentFormDto>(vehicle.Value.FORPAGOCO, _mapper, reader);
+                if (vehicle.Value.FORPAGOCO.HasValue)
+                {
+                    vehicle.PaymentForm = SelectionHelpers.WrappedSelectedDto<FORMAS, PaymentFormDto>(vehicle.Value.FORPAGOCO, _mapper, reader);
+                }
                 vehicle.Supplier1 = SelectionHelpers.WrappedSelectedDto<SupplierSummaryDto,SupplierSummaryDto>(vehicle.Value.PROVEEDOR, _mapper, reader);
                 vehicle.ClientDto = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(vehicle.Value.COMPRADOR, _mapper, reader);
                 vehicle.ResellerDto = SelectionHelpers.WrappedSelectedDto<VENDEDOR, ResellerDto>(vehicle.Value.VENDEDOR_VTA, _mapper, reader);

@@ -33,6 +33,7 @@ namespace BookingModule.ViewModels
         private BookingDto _bookingDtoValue;
         private IBookingDataService _bookingDataService;
         private IEnumerable<BookingItemsDto> _dataSource;
+        private IBookingData _reservationData;
         private readonly IUnityContainer _container;
         private readonly IRegionManager _regionManager;
         private IAssistDataService _assistDataService;
@@ -139,7 +140,6 @@ namespace BookingModule.ViewModels
             ShowSingleDriver = new DelegateCommand<object>(ShowBookingDriver);
             ShowClient = new DelegateCommand<object>(ShowCurrentClient);
             CreateClient = new DelegateCommand<object>(CreateNewClient);
-            DataHelper = new BookingDataHelper();
             ShowFares = new DelegateCommand<object>(ShowClientFares);
             CreateVehicleCommand = new DelegateCommand<object>(CreateVehicle);
 
@@ -190,7 +190,7 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Create new client.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="client"></param>
         private void CreateNewClient(object obj)
         {
             var clientDataService = DataServices.GetClientDataServices();
@@ -205,10 +205,10 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Show current client.
         /// </summary>
-        /// <param name="obj"></param>
-        private async void ShowCurrentClient(object obj)
+        /// <param name="clientNumber">Client Number</param>
+        private async void ShowCurrentClient(object clientNumber)
         {
-            if (obj is string numberCode)
+            if (clientNumber is string numberCode)
             {
                 var clientDataSevice = DataServices.GetClientDataServices();
                 var payload = await clientDataSevice.GetDoAsync(numberCode);
@@ -229,10 +229,10 @@ namespace BookingModule.ViewModels
                                               {
                                                   if (selectedItem != null)
                                                   {
-                                                      DataHelper.DriverDto.Union(new List<ClientSummaryExtended>() { selectedItem });
+                                                     DriverDto = DriverDto.Union(new List<ClientSummaryExtended>() { selectedItem });
                                                     
 
-                                                      RaisePropertyChanged("DataHelper");
+                                                      
                                                   }
                                               });
 
@@ -267,11 +267,11 @@ namespace BookingModule.ViewModels
             {
                 if (selectedItem!=null)
                 {
-                    if (DataHelper.ContractByClientDto == null)
+                    if (ContractByClientDto == null)
                     {
-                        DataHelper.ContractByClientDto = new List<ContractByClientDto>();
+                        ContractByClientDto = new List<ContractByClientDto>();
                     }
-                    DataHelper.ContractByClientDto.Union<ContractByClientDto>(new List<ContractByClientDto>() { selectedItem });
+                    ContractByClientDto.Union<ContractByClientDto>(new List<ContractByClientDto>() { selectedItem });
                     RaisePropertyChanged("DataHelper");
                 }
             });
@@ -291,12 +291,12 @@ namespace BookingModule.ViewModels
                                                {
                                                    if (selectedItem != null)
                                                    {
-                                                       if (DataHelper.ClientDto == null)
+                                                       if (ClientDto == null)
                                                        {
-                                                           DataHelper.ClientDto = new List<ClientSummaryExtended>();
+                                                           ClientDto = new List<ClientSummaryExtended>();
                                                        }
-                                                       DataHelper.ClientDto.Union<ClientSummaryExtended>(new List<ClientSummaryExtended>() { selectedItem });
-                                                       RaisePropertyChanged("DataHelper");
+                                                       ClientDto.Union<ClientSummaryExtended>(new List<ClientSummaryExtended>() { selectedItem });
+                                                      
                                                    }
                                                });
         }
@@ -362,39 +362,39 @@ namespace BookingModule.ViewModels
             {
                 case "CITY_ASSIST":
                     {
-                        DataHelper.CityDto = (IEnumerable<CityDto>)collectionValue;
+                        CityDto = (IEnumerable<CityDto>)collectionValue;
                         break;
                     }
                 case "CLIENT_ASSIST":
                     {
 
-                        DataHelper.ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
+                        ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
                 case "VEHICLE_ASSIST":
                     {
-                        DataHelper.VehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
+                        VehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
                         break;
                     }
                 case "BROKER_ASSIST":
                     {
 
-                        DataHelper.BrokerDto = collectionValue as IEnumerable<CommissionAgentSummaryDto>;
+                        BrokerDto = collectionValue as IEnumerable<CommissionAgentSummaryDto>;
                         break;
                     }
                 case "VEHICLE_GROUP_ASSIST":
                     {
-                        DataHelper.VehicleGroupDto = collectionValue as IEnumerable<VehicleGroupDto>;
+                        VehicleGroupDto = collectionValue as IEnumerable<VehicleGroupDto>;
                         break;
                     }
                 case "ACTIVE_FARE_ASSIST":
                     {
-                        DataHelper.ActiveFareDto = collectionValue as IEnumerable<ActiveFareDto>;
+                        ActiveFareDto = collectionValue as IEnumerable<ActiveFareDto>;
                         break;
                     }
                 case "CONTRACT_CLIENT_ASSIST":
                     {
-                        DataHelper.ContractByClientDto = collectionValue as IEnumerable<ContractByClientDto>;
+                        ContractByClientDto = collectionValue as IEnumerable<ContractByClientDto>;
                         break;
                     }
             
@@ -404,7 +404,6 @@ namespace BookingModule.ViewModels
                     }
 
             }
-            RaisePropertyChanged("DataHelper");
 
             return true;
         }
@@ -427,24 +426,6 @@ namespace BookingModule.ViewModels
         protected override string GetRouteName(string name)
         {
             return ViewModelUri.ToString();
-        }
-
-        /// <summary>
-        ///  This is the data helper that is used for the cross reference.
-        ///  Theoretically we shall use just the dto but it is handy to have this.
-        /// </summary>
-        public BookingDataHelper DataHelper
-        {
-
-            set
-            {
-                _dataHelper = value;
-                RaisePropertyChanged("DataHelper");
-            }
-            get
-            {
-                return _dataHelper;
-            }
         }
 
         public DelegateCommand<object> ShowFares { get; private set; }
@@ -584,12 +565,139 @@ namespace BookingModule.ViewModels
         private string _gridDriverColumnsKey;
         private BookingDataHelper _dataHelper;
         private IBookingData _bookingData;
+        private IEnumerable<ClientSummaryExtended> _clientDto;
+        private IEnumerable<CityDto> _cityDto;
+        private IEnumerable<VehicleSummaryDto> _vehicle;
+        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<VehicleGroupDto> _vehicleGroup;
+        private IEnumerable<ActiveFareDto> _activeFareDto;
+        private IEnumerable<ContractByClientDto> _contractClientDto;
+        private IEnumerable<ClientSummaryExtended> _drivers;
+
         public ICommand OpenItemCommand { get; set; }
-     
         public ICommand ShowDrivers { get; set; }
         public DelegateCommand<object> ShowClients { get; private set; }
         public ICommand ShowClientOrDrivers { get; set; }
         public DelegateCommand<object> ShowSingleDriver { get; private set; }
         public ICommand OtherDataShowCommand { get; set; }
+        /*
+         *  Helpers.
+         */
+        /// <summary>
+        ///  Set or Get the ClientDto.
+        /// </summary>
+        public IEnumerable<ClientSummaryExtended> ClientDto
+        {
+            get { return _clientDto;  }
+            set
+            {
+                _clientDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get the CityDto.
+        /// </summary>
+        public IEnumerable<CityDto> CityDto
+        {
+            get
+            {
+              return _cityDto;
+            }
+            set
+            {
+                _cityDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get the VehicleDto.
+        /// </summary>
+        public IEnumerable<VehicleSummaryDto> VehicleDto
+        {
+            get
+            {
+                return _vehicle;
+            }
+            set
+            {
+                _vehicle = value;
+            }
+        }
+        /// <summary>
+        ///  Set or Get the BrokerDto.
+        /// </summary>
+        public IEnumerable<CommissionAgentSummaryDto> BrokerDto
+        {
+            get
+            {
+                return _brokers;
+            }
+            set
+            {
+                _brokers = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get the VehicleGroupDto
+        /// </summary>
+        public IEnumerable<VehicleGroupDto> VehicleGroupDto
+        {
+            get
+            {
+                return _vehicleGroup;
+            }
+            set
+            {
+                _vehicleGroup = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get the ActiveFareDto
+        /// </summary>
+        public IEnumerable<ActiveFareDto> ActiveFareDto
+        {
+            get
+            {
+                return _activeFareDto;
+            }
+            set
+            {
+                _activeFareDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Get or Set the Client dto.
+        /// </summary>
+        public IEnumerable<ContractByClientDto> ContractByClientDto
+        {
+            get
+            {
+                return _contractClientDto;
+            }
+           set
+            {
+                _contractClientDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Get or Set the driver dto.
+        /// </summary>
+        public IEnumerable<ClientSummaryExtended> DriverDto
+        {
+            get
+            {
+                return _drivers;
+            }
+            set
+            {
+                _drivers = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

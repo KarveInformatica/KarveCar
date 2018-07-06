@@ -9,11 +9,29 @@
              xmlns:common="clr-namespace:MasterModule.Common"
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="1000"
+             d:DesignHeight="400" d:DesignWidth="1-00"
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehicleAssuranceMockViewModel, IsDesignTimeCreatable=True}">
     <Grid>
-        <WrapPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
         <kc:DualFieldSearchBox 
+            Grid.Column="0"
+            Grid.Row="0"
             LabelText="{Binding StringConstants.AssuranceCompany}"
             LabelTextWidth="100"
             TextContentFirstWidth="50"
@@ -30,9 +48,11 @@
             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
             Height="25" />
-            <kc:DualFieldSearchBox                                               
+        <kc:DualFieldSearchBox                                               
             LabelText="{Binding StringConstants.Agent}"
             LabelTextWidth="100"
+            Grid.Row="0"
+            Grid.Column="1"
             AssistDataFieldFirst="NUM_AG"
             AssistDataFieldSecond="NOMBRE"
             DataFieldFirst="AGENTE"
@@ -47,16 +67,20 @@
             MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
             ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
-            
-            <kc:DataArea                                               
-            DataAreaTitle="{Binding ltiposeguro, Source={StaticResource ResourceLanguage}}"
-            DataAreaWidth="200"
-            kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            kc:ControlExt.DataSourcePath="Value.TIPOSEGU"
-            ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                          
-        
+
+        <kc:DataArea Grid.Column="0" Grid.Row="1" DataAreaTitle="{Binding ltiposeguro, Source={StaticResource ResourceLanguage}}" 
+                         DataAreaWidth="400"
+                         Width="Auto"    
+                     Grid.RowSpan="6"
+                      HorizontalAlignment="Left"    
+                     Height="200"
+                         kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         kc:ControlExt.DataSourcePath="Value.TIPOSEGU"
+                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,3.999,10,14.181"                          
             />
-            <kc:DataField 
+        <!--
+            <kc:DataField Grid.Column="0"
+                          Grid.Row="2"
                 LabelText="{Binding lcartaverde, Source={StaticResource ResourceLanguage}}"
                 LabelTextWidth="100" 
                 TextContentWidth="150"
@@ -64,33 +88,56 @@
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                          
                 DataSourcePath="CARTAVERDE"
                 DataFieldHeight="25"/>
-            <kc:DataArea                                               
-            DataAreaTitle="{Binding lobservacionseguro, Source={StaticResource ResourceLanguage}}"
-            DataAreaWidth="200"
+        -->
+        <kc:DataArea                                               
+            Grid.Column="1"
+                Grid.Row="1"
+                Grid.RowSpan="6"
+            
+                DataAreaTitle="{Binding lobservacionseguro, Source={StaticResource ResourceLanguage}}"
+            DataAreaWidth="400"
+                         Width="Auto"
+             Height="200"
+            HorizontalAlignment="Left"
             kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             kc:ControlExt.DataSourcePath="Value.OBS_SEGURO"
             ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             />
-            <kc:DataFieldCheckBox Content="{Binding ltodoriesgo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
+        <Grid Grid.Row="7" Grid.ColumnSpan="2">
+            <WrapPanel HorizontalAlignment="Center">
+                <kc:DataFieldCheckBox Content="{Binding ltodoriesgo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.SEGU_TODORIESGO"></kc:DataFieldCheckBox>
-            <kc:DataFieldCheckBox Content="{Binding lsegurointernacional, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
+                <kc:DataFieldCheckBox Content="{Binding lsegurointernacional, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.SEGU_INTERNACIONAL"></kc:DataFieldCheckBox>
 
-            <kc:DataFieldCheckBox Content="{Binding lrecibo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
+                <kc:DataFieldCheckBox Content="{Binding lrecibo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.RECIBO_V1"></kc:DataFieldCheckBox>
-            <kc:DataFieldCheckBox Content="{Binding lenelvehiculo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
+                <kc:DataFieldCheckBox Content="{Binding lenelvehiculo, Source={StaticResource ResourceLanguage}}" Margin="0,0,0,5"
                                   kc:ControlExt.DataSource="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   kc:ControlExt.DataSourcePath="Value.SEGURO_EN_VEHI"></kc:DataFieldCheckBox>
 
-            <GroupBox Header="{Binding lpoliza, Source={StaticResource ResourceLanguage}}">
-            <WrapPanel>
+            </WrapPanel>
+        </Grid>
+       <!--
+            <GroupBox Header="{Binding lpoliza, Source={StaticResource ResourceLanguage}}" Grid.Row="8" Grid.ColumnSpan="2" Grid.RowSpan="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                     <kc:DataField x:Name="Poliza" 
                                   DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"        
                                   DataSourcePath="TIPOREV"                  
@@ -99,10 +146,12 @@
                                   LabelTextWidth="100"
                                   LabelVisible="True"
                                   TextContentWidth="100"
-                                  DataFieldHeight="25"
+                                  Height="30"
+                                  Grid.Column="0"
                                   />
                     <kc:DataDatePicker DataDatePickerHeight="25" 
-                                                  x:Name="FechaAlta" 
+                                                  x:Name="FechaAlta"
+                                       Grid.Column="1"
                                                   kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   kc:ControlExt.DataSourcePath="Value.ALTASEGU"
@@ -110,21 +159,32 @@
                     <kc:DataDatePicker 
                         DataDatePickerHeight="25"
                         x:Name="FechaBaja"
+                        Grid.Column="2"
                         kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.DataSourcePath="Value.FBAJA_Segu"
 
                        LabelText="{Binding lfechabaja, Source={StaticResource ResourceLanguage}}"/>
-                    <kc:DataDatePicker
+                </Grid>
+                <Grid Grid.Row="11" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                        <kc:DataDatePicker
                         DataDatePickerHeight="25"
-                        x:Name="Vencimiento" 
+                        x:Name="Vencimiento"
+                            Grid.Column="0"
                         kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.DataSourcePath="Value.VTO_Segu"
                         LabelText="{Binding StringConstants.ExpirationDate}"/>
-                
-                    <kc:DataField DataFieldHeight="25"
+
+                    <kc:DataField DataFieldHeight="30"
                                              LabelTextWidth="80"
+                                  Grid.Column="1"
                                              LabelText="{Binding lfranquicia, Source={StaticResource ResourceLanguage}}"
                                              DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              DataSourcePath="franquicia"
@@ -132,19 +192,20 @@
                                              TextContentWidth="150"
                                              LabelVisible="True"
                                      />
-                <kc:DataField 
+                    <kc:DataField 
                       DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              
+              Grid.Column="2"
                     DataSourcePath="PRIMA"
                   
-                    DataFieldHeight="25" 
+                    Height="30" 
                     LabelTextWidth="100"
                     LabelText="{Binding StringConstants.Prima}"
                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
                     TextContentWidth="100"
                     />
                     <kc:DataField 
-                    DataFieldHeight="25" 
+                    Height="30"
+                        Grid.Column="3"
                     LabelTextWidth="80"
                     LabelText="{Binding lextorno, Source={StaticResource ResourceLanguage}}"
                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -153,7 +214,7 @@
                     TextContentWidth="150"
                     />
                     <kc:DataField 
-                    DataFieldHeight="25" 
+                    Height="30" 
                     LabelTextWidth="100"
                     LabelText="{Binding lfechabaja, Source={StaticResource ResourceLanguage}}"
                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -161,9 +222,10 @@
                     ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                 
                     TextContentWidth="200"
                     />
-                </WrapPanel>
+                </Grid>
+            </Grid>
 
-            </GroupBox>
-          </WrapPanel>
+        </GroupBox>
+-->
     </Grid>
 </UserControl>

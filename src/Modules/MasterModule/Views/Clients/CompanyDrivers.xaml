@@ -17,11 +17,14 @@
                 <Image HorizontalAlignment="Center" Source="/MasterModule;component/Images/companyDrivers.jpg" Height="80" Width="243"/>
             </StackPanel>
         </Button>
-        
-            <KarveControls:DataArea  Grid.Row="1" x:Name="ContentArea"
-                                            DataAreaWidth="230"
-                                                                      
-                TextContent="{Binding DataObject.ListaContactos, 
+
+
+        <KarveControls:DataArea Grid.Row="1" 
+                            DataAreaWidth="400"
+                            KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            KarveControls:ControlExt.DataSourcePath="CONTACTO"
+                            KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextContent="{Binding DataObject.Value.CONTACTO, 
                                       Mode=TwoWay, 
                                       ValidatesOnDataErrors=True, 
                                       ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
@@ -31,7 +34,10 @@
                                       Width="Auto" 
                                         />
 
-
+       
         
+
+
+
     </Grid>
 </UserControl>

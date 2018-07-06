@@ -19,6 +19,7 @@ namespace KarveDataServices
         private const string _emailValidate = "Email no validas";
         private const string _invalidRange = "Intervalo no valido";
         private const string _codeNotValid = "Codigo no valido";
+        private const string _invalidPhone = "Telefono no valido";
         public static string NameTooLong { get { return _nameTooLong; } }
         public static string SwiftInvalid { get { return _swiftinvalid; } }
         public static string AgentNamePresent { get { return _agentNamePresent; } }
@@ -33,5 +34,7 @@ namespace KarveDataServices
         public static string InvalidRange { get { return _invalidRange; } }
 
         public static string CodeNotValid { get { return _codeNotValid; } }
+
+        public static string InvalidPhone { get { return _invalidPhone; } }
     }
 }

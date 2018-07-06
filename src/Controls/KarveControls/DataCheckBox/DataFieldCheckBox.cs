@@ -137,9 +137,14 @@ namespace KarveControls
             
                 // ok we can raise the event.
                 var path = ControlExt.GetDataSourcePath(this);
+            var dataObject = DataObject;
+                if (dataObject == null)
+            {
+                dataObject = ControlExt.GetDataSource(this);
+            }
                 var current = (IsChecked == true) ? 1 : 0;
                 IDictionary<string, object> values = new Dictionary<string, object>();
-                values.Add("DataObject", DataObject);
+                values.Add("DataObject", dataObject);
                 values.Add("ChangedValue", current);
                 values.Add("PreviousValue", _previous);
                 values.Add("Field", path);

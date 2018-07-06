@@ -60,7 +60,8 @@ namespace ToolBarModule
         private void Handler_OnErrorExecuting(string errorType)
         {
             // change this for a better solution with a separation.
-            MessageBox.Show(errorType, "Error during insert", MessageBoxButtons.OK);
+            var msg = "Error during insert " + errorType;
+            MessageBox.Show(errorType,msg, MessageBoxButtons.OK);
         }
 
         void InitHandlers()

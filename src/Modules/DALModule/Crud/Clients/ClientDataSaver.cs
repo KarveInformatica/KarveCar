@@ -57,8 +57,12 @@ namespace DataAccessLayer.Crud.Clients
                     throw new DataLayerInvalidClientException(ValidationChain.Errors);
                 }
             }
-        
+
             CLIENTES1 client1 = _mapper.Map<ClientDto, CLIENTES1>(save);
+            if (!string.IsNullOrEmpty(save.CreditCardExpiryMonth) && !string.IsNullOrEmpty(save.CreditCardExpiryYear))
+            {
+                client1.TARCADU = string.Format("{0}/{1}", save.CreditCardExpiryMonth, save.CreditCardExpiryYear);
+            }
             CLIENTES2 client2 = _mapper.Map<ClientDto, CLIENTES2>(save);
             var retValue = false;
             if ((client1 == null) || (client2 == null))

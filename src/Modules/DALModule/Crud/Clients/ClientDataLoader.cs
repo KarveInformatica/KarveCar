@@ -59,7 +59,7 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         private const string DefaultDelegation =
             "cldIdCliente, cldDelegacion, cldDireccion1, cldDireccion2, cldCP, cldPoblacion, cldIdProvincia,cldTelefono1, cldTelefono2, cldFax, cldEMail, cldMovil";
-        private IEnumerable<BranchesDto> branchesDto;
+        
         /// <summary>
         /// This load a client using a valid executro.
         /// </summary>
@@ -170,10 +170,10 @@ namespace DataAccessLayer.Crud.Clients
                             {
                                 try
                                 {
-                                    _currentPoco.Helper.ClientPaymentForm = WrappedSelectedDto<FORMAS, PaymentFormDto>(_currentPoco.FPAGO, _mapper, reader);
+                                    
                                     _currentPoco.Helper.CityDto = WrappedSelectedDto<POBLACIONES, CityDto>(_currentPoco.CP,_mapper, reader);
                                     _currentPoco.Helper.ProvinciaDto = WrappedSelectedDto<PROVINCIA,ProvinciaDto>(_currentPoco.PROVINCIA,_mapper, reader);
-                                    _currentPoco.Helper.CountryDto = WrappedSelectedDto<Country,CountryDto>(_currentPoco.PAIS,_mapper, reader);
+                                    _currentPoco.Helper.CountryDto = WrappedSelectedDto<Country,CountryDto>(_currentPoco.NACIODOMI,_mapper, reader);
                                     _currentPoco.Helper.ClientTypeDto = WrappedSelectedDto<TIPOCLI, ClientTypeDto>(_currentPoco.TIPOCLI, _mapper, reader);
                                     _currentPoco.Helper.ClientMarketDto = WrappedSelectedDto<MERCADO, MercadoDto>(_currentPoco.MERCADO, _mapper, reader);
                                     _currentPoco.Helper.ZoneDto = WrappedSelectedDto<ZONAS, ClientZoneDto>(_currentPoco.ZONA, _mapper, reader);
@@ -182,7 +182,7 @@ namespace DataAccessLayer.Crud.Clients
                                     _currentPoco.Helper.ChannelDto = WrappedSelectedDto<CANAL, ChannelDto>(_currentPoco.CANAL, _mapper, reader);
                                     _currentPoco.Helper.CompanyDto = WrappedSelectedDto<SUBLICEN, CompanyDto>(_currentPoco.SUBLICEN,_mapper, reader);
                                     _currentPoco.Helper.OfficeDto = WrappedSelectedDto<OFICINAS, OfficeDtos>(_currentPoco.OFICINA, _mapper,reader);
-                                    _currentPoco.Helper.RentUsageDto = WrappedSelectedDto<USO_ALQUILER, RentingUseDto>(_currentPoco.USO_ALQUILER, _mapper, reader);
+                                    _currentPoco.Helper.ClientPaymentForm = WrappedSelectedDto<FORMAS, PaymentFormDto>(_currentPoco.FPAGO, _mapper, reader);
                                     _currentPoco.Helper.ResellerDto = WrappedSelectedDto<VENDEDOR, ResellerDto>(_currentPoco.VENDEDOR, _mapper, reader);
                                     _currentPoco.Helper.ActivityDto = WrappedSelectedDto<ACTIVI,ActividadDto>(_currentPoco.SECTOR, _mapper, reader);
                                     _currentPoco.Helper.OrigenDto = WrappedSelectedDto<ORIGEN, OrigenDto>(_currentPoco.ORIGEN, _mapper, reader);
@@ -193,7 +193,7 @@ namespace DataAccessLayer.Crud.Clients
                                     _currentPoco.Helper.BrokerDto = WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(_currentPoco.COMISIO, _mapper, reader);
                                     _currentPoco.ContactsDto = WrappedSelectedDto<CliContactsPoco, ContactsDto>(_currentPoco.NUMERO_CLI,_mapper, reader);
                                     _currentPoco.BranchesDto = WrappedSelectedDto<CliContactsPoco, BranchesDto>(_currentPoco.NUMERO_CLI, _mapper, reader);
-
+                                _currentPoco.Helper.RentUsageDto = WrappedSelectedDto<USO_ALQUILER, RentingUseDto>(_currentPoco.USO_ALQUILER, _mapper, reader);
 
 
                             }
@@ -281,10 +281,10 @@ namespace DataAccessLayer.Crud.Clients
         private IQueryStore CreateQueryStore(ClientDto clientPoco)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
-            store.AddParamCount(QueryType.QueryPaymentForm, "FORMAS", "CODIGO", ValueToString(clientPoco.FPAGO));
+            
             store.AddParamCount(QueryType.QueryCity, "POBLACIONES", "CP", clientPoco.CP);
             store.AddParamCount(QueryType.QueryProvince, "PROVINCIA", "SIGLAS", clientPoco.PROVINCIA);
-            store.AddParamCount(QueryType.QueryCountry, "PAIS", "SIGLAS", clientPoco.PAIS);
+            store.AddParamCount(QueryType.QueryCountry, "PAIS", "SIGLAS", clientPoco.NACIODOMI);
             store.AddParamCount(QueryType.QueryClientType, "TIPOCLI", "NUM_TICLI", clientPoco.TIPOCLI);
             store.AddParamCount(QueryType.QueryMarket, "MERCADO", "CODIGO", clientPoco.MERCADO);
             store.AddParamCount(QueryType.QueryZone, "ZONAS", "NUM_ZONA", clientPoco.ZONA);
@@ -293,7 +293,8 @@ namespace DataAccessLayer.Crud.Clients
             store.AddParamCount(QueryType.QueryChannel, "CANAL", "CODIGO", clientPoco.CANAL);
             store.AddParamCount(QueryType.QueryCompany, "SUBLICEN", "CODIGO", clientPoco.SUBLICEN);
             store.AddParamCount(QueryType.QueryOffice, "OFICINAS", "CODIGO", clientPoco.OFICINA);
-            store.AddParamCount(QueryType.QueryRentingUse, "USO_ALQUILER", "CODIGO", ValueToString(clientPoco.USO_ALQUILER));
+            
+            store.AddParamCount(QueryType.QueryPaymentForm, "FORMAS", "CODIGO", ValueToString(clientPoco.FPAGO));
             store.AddParamCount(QueryType.QuerySeller, "VENDEDOR", "NUM_VENDE", clientPoco.VENDEDOR);
             store.AddParamCount(QueryType.QueryActivity, "ACTIVI", "NUM_ACTIVI", clientPoco.SECTOR);
             store.AddParamCount(QueryType.QueryOrigin, "ORIGEN", "NUM_ORIGEN", ValueToString(clientPoco.ORIGEN));
@@ -304,6 +305,7 @@ namespace DataAccessLayer.Crud.Clients
             store.AddParamCount(QueryType.QueryCommissionAgentSummaryById, "COMISIO", "NUM_COMI", clientPoco.COMISIO);
             store.AddParamCount(QueryType.QueryClientDelegations, "CliDelega", "cldIdCliente", clientPoco.NUMERO_CLI);
             store.AddParamCount(QueryType.QueryClientContacts, "CliContactos", "ccoIdCliente", clientPoco.NUMERO_CLI);
+            store.AddParamCount(QueryType.QueryRentingUse, "USO_ALQUILER", "CODIGO", ValueToString(clientPoco.USO_ALQUILER));
             return store;
         }
         /// <summary>
@@ -361,6 +363,7 @@ namespace DataAccessLayer.Crud.Clients
                     }
                 }
             }
+         
             return outClient;
         }
         private byte NumberToString(byte? b)

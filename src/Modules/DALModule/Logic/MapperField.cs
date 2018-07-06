@@ -2972,6 +2972,31 @@ namespace DataAccessLayer.Logic
             PROVEE1 supplier = new PROVEE1();
             supplier.NUM_PROVEE = source.NUM_PROVEE;
             Supplier.SetProperties(source, supplier);
+            if (supplier.MAIL_DEVO!=null)
+            {
+                supplier.MAIL_DEVO.Replace("@", "#");
+
+            }
+            if (supplier.MAIL_PAGO != null)
+            {
+                supplier.MAIL_PAGO.Replace("@", "#");
+
+            }
+            if (supplier.MAIL_PEDI != null)
+            {
+                supplier.MAIL_PEDI.Replace("@", "#");
+
+            }
+            if (supplier.MAIL_DEVO != null)
+            {
+                supplier.MAIL_DEVO.Replace("@", "#");
+
+            }
+            if (supplier.EMAIL!= null)
+            {
+                supplier.EMAIL.Replace("@", "#");
+
+            }
             return supplier;
         }
     }

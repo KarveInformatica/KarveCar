@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
+using System.Collections.ObjectModel;
 
 namespace DataAccessLayer.Model
 {
@@ -18,12 +19,18 @@ namespace DataAccessLayer.Model
         private bool _isValid;
         private IHelperBase _base;
         private IEnumerable<BookingItemsDto> _bookingItems;
+        private IEnumerable<ContractSummaryDto> _contracts;
+        private IEnumerable<ClientSummaryExtended> _clients;
+        private IEnumerable<ClientSummaryExtended> _drivers;
         public NullReservation()
         {
             _bookingDto = new BookingDto();
             _isValid = false;
             _bookingItems = new List<BookingItemsDto>();
             _base = new HelperBase();
+            _contracts = new ObservableCollection<ContractSummaryDto>();
+            _clients = new ObservableCollection<ClientSummaryExtended>();
+            _drivers = new ObservableCollection<ClientSummaryExtended>();
         }
         /// <summary>
         ///  Set or Get the Value.
@@ -41,5 +48,17 @@ namespace DataAccessLayer.Model
         ///  Set or Get the items dto.
         /// </summary>
         public IEnumerable<BookingItemsDto> ItemsDtos { get => _bookingItems; set => _bookingItems = value; }
+        /// <summary>
+        ///  Set or Get Contracts
+        /// </summary>
+        public IEnumerable<ContractSummaryDto> Contracts { get => _contracts; set => _contracts = value; }
+        /// <summary>
+        ///  Set or Get Clients.
+        /// </summary>
+        public IEnumerable<ClientSummaryExtended> Clients { get => _clients; set => _clients =value; }
+        /// <summary>
+        ///  Ser or Get Drivers.
+        /// </summary>
+        public IEnumerable<ClientSummaryExtended> Drivers { get => _drivers; set => _drivers = value; }
     }
 }

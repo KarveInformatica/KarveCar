@@ -76,6 +76,9 @@
         <Field type="DataAccessLayer.SQL.Field">
           <Name>mesvaca</Name>
         </Field>
+	<Field type="DataAccessLayer.SQL.Field">
+          <Name>MAIL_PEDI</Name>
+        </Field>
         <Field type="DataAccessLayer.SQL.Field">
           <Name>mesvaca2</Name>
         </Field>

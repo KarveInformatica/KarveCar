@@ -639,10 +639,13 @@ namespace KarveControls
         }
         private void LaunchWebBrowser(object value)
         {
-            var tmp = Web;
-            if (tmp?.Length > 0)
+            var tmp = value as string;
+            if (tmp != null)
             {
-                System.Diagnostics.Process.Start(tmp);
+                if (tmp?.Length > 0)
+                {
+                    System.Diagnostics.Process.Start(tmp);
+                }
             }
         }
         public ProvinciaDto ProvinceDto
@@ -739,13 +742,13 @@ namespace KarveControls
         private void WebTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
            ChangedValue(Web, _webTextBox.Text);
-            Web = _webTextBox.Text;
+          //  Web = _webTextBox.Text;
         }
 
         private void WebTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             textChanged = true;
-            Web = _webTextBox.Text;
+          //  Web = _webTextBox.Text;
             RaiseEvent(e);
         }
         private void ChangedValue(string path, string value)
@@ -756,7 +759,8 @@ namespace KarveControls
                 IDictionary<string, object> valueDictionary = new Dictionary<string, object>
                 {
                     [DATAOBJECT] = DataObject,
-                    [CHANGED_VALUE] = value
+                    [CHANGED_VALUE] = value,
+                    ["Field"] = path
                 };
                 if (ItemChangedCommand != null)
                 {

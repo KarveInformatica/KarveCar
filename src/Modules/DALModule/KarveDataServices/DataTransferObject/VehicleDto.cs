@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 namespace KarveDataServices.DataTransferObject
 {
 
-    public class VehicleDto
+    public class VehicleDto: BaseDto
     {
+        private bool _errors;
+
         /// <summary>
         ///  Set or get the CODIINT property.
         /// </summary>
@@ -1909,7 +1911,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the FRAVEN property.
         /// </summary>
 
-        //  public string FRAVEN { get; set; }
+        public string FRAVEN { get; set; }
 
         /// <summary>
         ///  Set or get the COMPRAFRA_BASE property.
@@ -3999,6 +4001,12 @@ namespace KarveDataServices.DataTransferObject
 
         public DateTime? CANCELA_LEASING { get; set; }
         // This maps vehicle1 and vehicle2 entities in an unique data transfer object
+        private bool Validate()
+        {
+            return false;
+        }
+        public override bool HasErrors { set { _errors = Validate(); RaisePropertyChanged(); } get { return _errors; } }
+        
     }
      
 }

@@ -30,6 +30,10 @@ namespace DataAccessLayer.Logic
             var emailMaintenaince = entity.EMAIL_MANT.Replace("@", "#");
             entity.EMAIL_MANT = emailMaintenaince;
 
+            var month = source.CreditCardExpiryMonth;
+            var year = source.CreditCardExpiryYear;
+            entity.TARCADU = month + "/" + year;
+
             return entity;
         }
     }

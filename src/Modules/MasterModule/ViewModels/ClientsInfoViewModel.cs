@@ -275,10 +275,16 @@ namespace MasterModule.ViewModels
         /// <param name="eventDictionary"></param>
         private void OnChangedField(IDictionary<string, object> eventDictionary)
         {
+            object dataObject = DataObject;
             DataPayLoad payLoad = BuildDataPayload(eventDictionary);
 
             ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,
                 DataSubSystem.ClientSubsystem);
+            var fixedValue = DataObject;
+
+            FixCreditCardInfo(ref fixedValue, ExpireMonth, ExpireYear);
+            DataObject = fixedValue;
+
             if (string.IsNullOrEmpty(payLoad.PrimaryKeyValue))
             {
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
@@ -598,23 +604,28 @@ namespace MasterModule.ViewModels
         private IEnumerable<RentingUseDto> _rentusage;
         private IEnumerable<ClientZoneDto> _zone;
 
-        public string ExpiryMonth {
+        public string ExpireMonth {
             get { return _expirationMonth; }
             set
             {
                 _expirationMonth = value;
+                var data = DataObject;
+                data.CreditCardExpiryMonth = value;
+                DataObject = data;
+                RaisePropertyChanged();
             }
         }
         // expiration year for the credit card
-        public string ExpiryYear
+        public string ExpireYear
         {
             get { return _expirationYear; }
             set
             {
                 _expirationYear = value;
-               
-                DataObject.TARCADU = string.Format("{0}/{1}", ExpiryMonth, ExpiryYear);
-                RaisePropertyChanged("DataObject");
+                var data = DataObject;
+                data.CreditCardExpiryYear = _expirationYear;
+                DataObject = data;
+                RaisePropertyChanged();
             }
         }
 
@@ -888,11 +899,13 @@ namespace MasterModule.ViewModels
                 {
                     _clientData = clientData;
                     
-                   
+                    
                     DataObject = clientData.Value;
+
                     // in this way we trigger just one time the raiseproperty changed.
                     if (clientData.Value != null)
                     {
+                        
                         var clientHelper = clientData.Value.Helper;
                         ClientTypeDto = clientData.Value.Helper.ClientTypeDto;
                         ClientHelper = clientHelper as HelperBase;
@@ -916,6 +929,9 @@ namespace MasterModule.ViewModels
                         DriversDto = clientHelper.DriversDto;
                         RentUsageDto = clientHelper.RentUsageDto;
                         ZoneDto = clientHelper.ZoneDto;
+                        ExpireMonth = clientData.Value.CreditCardExpiryMonth;
+                        ExpireYear = clientData.Value.CreditCardExpiryYear;
+                      //   UpdateCreditCardInfo(clientData.Value.TARCADU);
                         _initialized = true;
                         
                         Logger.Info(
@@ -926,6 +942,60 @@ namespace MasterModule.ViewModels
                     }
 
                    
+                }
+            }
+        }
+        public bool FixCreditCardInfo(ref ClientDto creditInfo, string month, string year)
+        {
+            var resultValue = 0;
+            var retValue = int.TryParse(month, out resultValue);
+            if ((retValue) && ((resultValue > 12) || (resultValue <1)))
+            {
+                return false;
+            }
+            if ((!string.IsNullOrEmpty(month)) && (!string.IsNullOrEmpty(year)))
+            {
+                creditInfo.TARCADU = string.Format("{0}/{1}", month, year);
+                creditInfo.CreditCardExpiryMonth = month;
+                creditInfo.CreditCardExpiryYear = year;
+                return true;
+            }
+            return false;
+        }
+        private bool ParseDataValue(string monthValue, out string parsedValue, int begin, int end)
+        {
+            var resultValue = 0;
+            
+            var retValue = int.TryParse(monthValue, out resultValue);
+            parsedValue = string.Empty;
+            if (retValue && ((resultValue > begin) && (resultValue < end)))
+            {
+                parsedValue = string.Format("{0}", resultValue);
+                if (resultValue < 10)
+                {
+                    parsedValue = "0" + parsedValue;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private void UpdateCreditCardInfo(string tarcadu)
+        {
+            string month = string.Empty;
+            if (!string.IsNullOrEmpty(tarcadu))
+            {
+                var yearmonth = tarcadu.Split('/');
+                if (yearmonth.Length == 2)
+                {
+                    ParseDataValue(yearmonth[0], out month, 1, 13);
+                    ExpireMonth = month;
+                    var year = yearmonth[1];
+                    // avoidin millenum bug.
+                    if ((year.Length == 2) || (year.Length == 4))
+                    {
+                        ExpireYear = year;
+                    }
                 }
             }
         }

@@ -984,5 +984,11 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public string NIF { get; set; }
+        // WEB DEVO
+        public string WEB_DEVO { get; set; }
+        // WEB PAGO
+        public string WEB_PAGO { set; get; }
+        // WEB RECLAMA
+        public string WEB_RECLAMA { set; get; }
 	}
 }

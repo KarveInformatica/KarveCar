@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
               xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+               xmlns:map="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"
@@ -429,12 +430,24 @@
 
                                 </karveControls:DualFieldSearchBox>
                             </StackPanel>
-                            <StackPanel Grid.Column="1">
-
-                                <karveControls:DataArea 
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                    <!--
+                                    <map:Map 
+                                      CredentialsProvider="AkU3CEVw9g_drP3e8Adjek2AeVzcm-YG9xXs4I10pd3SFbDZvyQQNnizU_aW0TSb" 
+               Mode="Road"
+               Center="{Binding CoordGPS}"                                             
+               ZoomLevel="15.000" AnimationLevel="None"
+               x:Name="KarveMap" />
+                                    -->
+                                <karveControls:DataArea Grid.Row="0" 
                             DataAreaWidth="400"
                             DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
-                            Margin="138,0,348.5,0"
+                            Margin="10,0,348.5,0"
                             LabelVisible="False"
                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="NOTAS"
@@ -442,16 +455,17 @@
 
                                 </karveControls:DataArea>
                                 <karveControls:DataArea 
+                                    Grid.Row="1"
                             DataAreaWidth="400"
                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
-                            Margin="138,5,351.75,0"
+                            Margin="10,5,351.75,0"
                             LabelVisible="False"
                             karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="OBSERVA"
                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="145">
                                 </karveControls:DataArea>
 
-                            </StackPanel>
+                            </Grid>
 
                         </Grid>
                     </Syncfusion:TabItemExt>

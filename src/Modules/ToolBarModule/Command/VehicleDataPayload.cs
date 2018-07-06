@@ -33,7 +33,7 @@ namespace ToolBarModule.Command
         protected override async Task<DataPayLoad> HandleSaveOrUpdate(DataPayLoad payLoad)
         {
             bool result = false;
-            bool isInsert = false;
+            bool isInsert = payLoad.PayloadType == DataPayLoad.Type.Insert;
             IVehicleData vehicleData = (IVehicleData)payLoad.DataObject;
             // pre: DataServices and vehicle shall be present.
             if (DataServices == null)
@@ -54,7 +54,6 @@ namespace ToolBarModule.Command
                 case DataPayLoad.Type.Update:
                 case DataPayLoad.Type.Insert:
                 {
-                    isInsert = true;
                     result = await _vehicleDataServices.SaveAsync(vehicleData).ConfigureAwait(false);
                     break;
                 }

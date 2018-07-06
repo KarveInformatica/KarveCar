@@ -28,7 +28,7 @@ namespace DataAccessLayer
         {
             _helperDataServices = services.GetHelperDataServices();
             _dataServices = services;
-            DefaultPage = 50;
+            DefaultPage = 30;
             ConfigureAssist();
         }
         /// <summary>

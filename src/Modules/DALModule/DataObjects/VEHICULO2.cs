@@ -285,7 +285,7 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the FRAVEN property.
     /// </summary>
     
-	///	public string FRAVEN { get; set; }
+		public string FRAVEN { get; set; }
  
 	/// <summary>
     ///  Set or get the FSEGUBA property.

@@ -146,7 +146,7 @@ namespace KarveControls.Behaviour
         protected override void OnCleanup()
         {
             this.AssociatedObject.DataSearchTextBoxChanged -= AssociatedObject_DataSearchTextBoxChanged;
-            
+            this.AssociatedObject.SearchBoxResolvedEventHandler -= AssociatedObject_SearchBoxResolvedEventHandler;
         }
 
         private void SetValues(string provinceValue, string provField, string proveExt, object newDataObject)

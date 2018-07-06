@@ -33,8 +33,12 @@ namespace DataAccessLayer.Crud.Vehicle
         public async Task<bool> SavePictures(IVehicleData data, IDbConnection connection)
         {
             var pictures = data.PicturesDtos;
+            if (!pictures.Any())
+            {
+                return true;
+            }
             var retValue = true;
-            var currentPictures = _dataMapper.Map<IEnumerable<PictureDto>, IEnumerable<PICTURES>>(data.PicturesDtos); 
+            var currentPictures = _dataMapper.Map<IEnumerable<PictureDto>, IEnumerable<PICTURES>>(pictures); 
             foreach (var entity in currentPictures)
             {
                 if (connection.IsPresent<PICTURES>(entity))

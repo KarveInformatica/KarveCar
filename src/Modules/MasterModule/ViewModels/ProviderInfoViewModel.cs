@@ -25,6 +25,7 @@ using KarveDataServices.Assist;
 using KarveCommonInterfaces;
 using KarveControls.Generic;
 using System.Threading;
+using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {
@@ -782,6 +783,7 @@ namespace MasterModule.ViewModels
         public ICommand LoadOtherData { set; get; }
         private void StartBackGroundRefresh(ISupplierData supplierData)
         {
+            
             ProvinceDto1 = supplierData.ProvinciaDtos;
             CountryDto1 = supplierData.CountryDtos;
             ProvinceDto2 = supplierData.ProvinciaDtos;
@@ -989,10 +991,73 @@ namespace MasterModule.ViewModels
 
         }
 
+        public void ClearList()
+        {
+            /*
+            if (this.DataObject.ProvinciaDtos is IList<ProvinciaDto> dto)
+            {
+                dto?.Clear();
+                ProvinceDto1 = dto;
+            }
+            if (this.DataObject.CountryDtos is IList<CountryDto> cdto)
+            {
+                cdto?.Clear();
+                CountryDtos = cdto;
+                CountryDto1 = cdto;
+                CountryDto3 = cdto;
+            }
+            
+            if (this.DataObject.CityDtos is IList<CityDto> cdto1)
+            {
+                cdto1?.Clear();
+
+                CityDto1 = cdto1;
+                CityDto2 = cdto1;
+                CityDto3 = cdto1;
+            }
+            if (this.DataObject.AccountDtos is IList<AccountDto> dtoAccount)
+            {
+                var account1 = _account1Dto as IList<AccountDto>;
+                var account2 = _account2Dto as IList<AccountDto>;
+                var account3 = _account3Dto as IList<AccountDto>;
+                var account4 = _account4Dto as IList<AccountDto>;
+                var account5 = _account5Dto as IList<AccountDto>;
+                var account6 = _account6Dto as IList<AccountDto>;
+                var account7 = _account7Dto as IList<AccountDto>;
+                var account8 = _account8Dto as IList<AccountDto>;
+                
+                account1?.Clear();
+                account2?.Clear();
+                account3?.Clear();
+                account4?.Clear();
+                account5?.Clear();
+                account6?.Clear();
+                account7?.Clear();
+                account8?.Clear();
+
+                dtoAccount?.Clear();
+                Account1Dtos = dtoAccount;
+                Account2Dtos = dtoAccount;
+                Account3Dtos = dtoAccount;
+                Account4Dtos = dtoAccount;
+                Account5Dtos = dtoAccount;
+                Account6Dtos = dtoAccount;
+                Account7Dtos = dtoAccount;
+                Account8Dtos = dtoAccount;
+               
+            }
+            var cityDto = _cityDto1 as List<CityDto>;
+            cityDto?.Clear();
+            */
+             GC.Collect();
+        }
         public override void DisposeEvents()
         {
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
+            ClearList();
+            var value = new Supplier();
+            DataObject = value;
             DataPayLoad payload = new DataPayLoad();
             payload.ObjectPath = ViewModelUri;
             payload.PayloadType = DataPayLoad.Type.Dispose;

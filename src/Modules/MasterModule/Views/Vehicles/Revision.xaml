@@ -5,35 +5,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:mockvm="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
-             x:Class="MasterModule.Views.Vehicles.Revision"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    x:Class="MasterModule.Views.Vehicles.Revision"
              mc:Ignorable="d" 
     
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid d:DataContext="{d:DesignInstance Type=mockvm:RevisionMaintenanceMockViewModel, IsDesignTimeCreatable=True}">
+    <Grid>
         <GroupBox Header="{Binding lrevisiones, Source={StaticResource ResourceLanguage}}">
         <ListBox ItemsSource="{Binding RevisionObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                      <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding LabelSource}" Width="120"></TextBlock>
-                        <karveControls:DataDatePicker Height="30" 
+                        <Grid>
+                            <Grid Height="Auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding LabelSource}" Width="120" Grid.Column="0"></TextBlock>
+                        <karveControls:DataDatePicker Grid.Column="1"
+                                                      Height="30" 
                                                       Margin="5,0,0,5"
                                                       karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       karveControls:ControlExt.DataSource="{Binding  DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       karveControls:ControlExt.DataSourcePath="{Binding DataSourcePath1, Mode=OneWay}"/>
-                        <karveControls:DataDatePicker Height="35"
+                        <karveControls:DataDatePicker Grid.Column="2"
+                                                      Height="35"
                                                       Margin="5,0,0,5"
                                                       karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       karveControls:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                       karveControls:ControlExt.DataSourcePath="{Binding DataSourcePath2, Mode=OneWay}"/>
-                        <karveControls:DataArea       Height="25"
-                                                      Margin="5,0,0,5"
-                                                      LabelTextWidth="200"
-                                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      karveControls:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      karveControls:ControlExt.DataSourcePath="{Binding DataSourcePath3, Mode=OneWay}"/>
-                      </StackPanel>
+                                <syncfusion:SfTextBoxExt>
+                                    
+                                </syncfusion:SfTextBoxExt>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

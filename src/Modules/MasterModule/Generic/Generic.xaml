@@ -77,12 +77,18 @@
                                     TextContentSecondWidth="150"
                                     SourceView="{Binding ClientHelper.DriversDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <CheckBox Content="Sin Permiso de conducir"
-                                                         Margin="10,0,0,0"
-                                                          Height="30" 
-                                                         Grid.Row="1"  
-                                                         KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
-                                                         KarveControls:ControlExt.DataSourcePath="SINPERMISODECONDUCIR" VerticalAlignment="Bottom"/>
+                    <KarveControls:DataFieldCheckBox Content="Sin Permiso de conducir"
+                                                     Margin="10,0,0,0"
+                                                     Height="30" 
+                                                     Grid.Row="1"      
+                                                     KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                     KarveControls:ControlExt.DataSourcePath="SINPERMISODECONDUCIR" VerticalAlignment="Bottom">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <mvvm1:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                    </KarveControls:DataFieldCheckBox>
 
 
                     <StackPanel x:Name="DrivingLicenseLayout" Grid.Row="2">
@@ -132,7 +138,8 @@
                                 </Grid.RowDefinitions>
                                 <KarveControls:DataDatePicker Grid.Column="0" Grid.Row="0" LabelText="Fecha Exp. NIF" 
                                                               Height="35" MinWidth="100"
-                                                          LabelTextWidth="100"
+                                                              LabelTextWidth="100"
+                                                              KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, UpdateSourceTrigger=PropertyChanged}"
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               KarveControls:ControlExt.DataSourcePath="FEDNI" Margin="10,8,4,8" Width="Auto" />
                                 <KarveControls:DataField Grid.Column="1" Grid.Row="0"  DataSourcePath="LUDNI" 
@@ -149,6 +156,7 @@
                                                           LabelText="{Binding BirthDate, Source={StaticResource ResourceLanguage}}"
                                                   LabelTextWidth="150"
                                                               Height="35" 
+                                                               KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, UpdateSourceTrigger=PropertyChanged}"
                                                               KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               KarveControls:ControlExt.DataSourcePath="FENAC" Margin="10,47,1,3" Width="Auto" Grid.RowSpan="2" />
 
@@ -167,7 +175,7 @@
                                 <KarveControls:DataDatePicker Grid.Column="0" Grid.Row="1" LabelText="Fecha Exp. Permiso" 
                                                               Height="35" MinWidth="250"
                                                             LabelTextWidth="150"
-                                                    
+                                                            KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, UpdateSourceTrigger=PropertyChanged}"                                                    
                                                           KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               KarveControls:ControlExt.DataSourcePath="FEEXPE" Margin="10,5,0,9" Width="Auto" />
                                 <KarveControls:DataField Grid.Column="1" Grid.Row="2"  
@@ -186,7 +194,9 @@
                                 DockPanel.Dock ="Left" LabelText="Fecha Cad. Permiso"
                                 LabelTextWidth="150"
                                                               Height="35" MinWidth="250"
-                                                              KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                                                                                  KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, UpdateSourceTrigger=PropertyChanged}"
+                           
+                                    KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                               KarveControls:ControlExt.DataSourcePath="FECAU" Margin="10,11,14,13" Width="Auto" />
                                 <KarveControls:DataField  Grid.Column="1" Grid.Row="3"  
                                                      DataSourcePath="NRC" 
@@ -194,6 +204,7 @@
                                                   LabelText="NRC"
                                                   LabelTextWidth="30"
                                                   Height="30"
+                                                          
                                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                   TextContentWidth="250"
                                                   IsReadOnly="False" Margin="21,14,-1,14"/>
@@ -224,15 +235,9 @@
                                         DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
                                         HorizontalAlignment="Left"
                                         LabelVisible="False"
-                                        TextContent="{Binding ListaDeContactos, Mode=TwoWay, 
-                                            ValidatesOnDataErrors=True, 
-                                            ValidatesOnNotifyDataErrors=True, 
-                                            ValidatesOnExceptions=True, 
-                                            UpdateSourceTrigger=PropertyChanged}"
-                                        KarveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                     
-                                        KarveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="120"
-                                    Width="500"
+                                        ItemChangedCommand="{Binding ItemChangedCommand}"
+                                        DataSourcePath="CONTACTO"
+                                        DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="120" Width="500"
                                         />
 
 
@@ -351,6 +356,11 @@
                                                   MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
                                                   AssistProperties="Codigo,Nombre,Marca,NomeMarca,Variante,Categoria,Chassis,Referencia"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
+                            <i:Interaction.Behaviors>        
+                    <behaviour:VehicleModelChangeBehavior RelatedBrandObject="{Binding ElementName=Marca}" RelatedVariantObject="{Binding ElementName=Variante}">
+                                
+                            </behaviour:VehicleModelChangeBehavior>
+                            </i:Interaction.Behaviors>
                         </KarveControls:DualFieldSearchBox>
                         <KarveControls:DataField x:Name="Variante" 
                                          DataFieldHeight="30"

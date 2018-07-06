@@ -437,8 +437,8 @@ namespace ToolBarModule
                     ExecuteCommand(currentItem);
                 }
             }
-
             DoSaveHimself();
+
             this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
             this.IsSaveEnabled = false;
         }

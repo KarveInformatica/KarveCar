@@ -24,5 +24,6 @@ namespace MasterModule.Views.Vehicles
         {
             InitializeComponent();
         }
+
     }
 }

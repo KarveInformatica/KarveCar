@@ -262,6 +262,7 @@
     <Compile Include="Services\ICareKeeperService.cs" />
     <Compile Include="Services\IConfigurationService.cs" />
     <Compile Include="Validation\SwiftValidationRule.cs" />
+    <Compile Include="Validation\ValidationHelpers.cs" />
     <Compile Include="Validation\WebAddressValidationRule.cs" />
     <Compile Include="Validation\ZipValidationRule.cs" />
     <Compile Include="ViewModels\GridDetailsViewModel.cs" />

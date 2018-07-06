@@ -33,6 +33,7 @@ namespace MasterModule.ViewModels
     {
         private bool _canDelete = true;
         private IEnumerable<VisitTypeDto> _visitTypeDto = new ObservableCollection<VisitTypeDto>();
+        private string _coordgps;
 
         /// <summary>
         /// The MasterInfoViewModuleBase is a view model that overrides no requested operation in the InfoViewModels.
@@ -527,6 +528,49 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
             }
         }
         protected IDictionary<string, string> ViewModelQueries { get; set; }
+        /*
+protected async Task<string> FetchLocationByAddress(string address, string city, string country)
+        {   
+           
+            string url = "http://maps.google.com/maps/api/geocode/xml?address=" + address + "&sensor=false";
+            WebRequest request = WebRequest.Create(url);
+
+            using (WebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+                {
+                    DataSet dsResult = new DataSet();
+                    dsResult.ReadXml(reader);
+                    DataTable dtCoordinates = new DataTable();
+                    dtCoordinates.Columns.AddRange(new DataColumn[4] { new DataColumn("Id", typeof(int)),
+                    new DataColumn("Address", typeof(string)),
+                    new DataColumn("Latitude",typeof(string)),
+                    new DataColumn("Longitude",typeof(string)) });
+                    foreach (DataRow row in dsResult.Tables["result"].Rows)
+                    {
+                        string geometry_id = dsResult.Tables["geometry"].Select("result_id = " + row["result_id"].ToString())[0]["geometry_id"].ToString();
+                        DataRow location = dsResult.Tables["location"].Select("geometry_id = " + geometry_id)[0];
+                        dtCoordinates.Rows.Add(row["result_id"], row["formatted_address"], location["lat"], location["lng"]);
+                    }
+                }
+                return dtCoordinates;
+            }
+
+
+        } */
+
+        protected string CoordGPS
+        {
+            get
+            {
+                return _coordgps;
+            }
+            set
+            {
+                _coordgps = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 
 }

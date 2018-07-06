@@ -1238,5 +1238,10 @@ namespace DataAccessLayer.Model
 
         public string CLAVEHAC_PRO { get; set; }
 
+        public string WEB_DEVO { get; set; }
+
+        public string WEB_PAGO { get; set; }
+
+        public string WEB_RECLAMA { get; set; }
     }
 }

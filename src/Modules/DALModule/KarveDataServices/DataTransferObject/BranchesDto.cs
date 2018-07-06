@@ -85,11 +85,7 @@ namespace KarveDataServices.DataTransferObject
         {
             get
             {
-                if ((Branch != null) && (Branch.Length > 45))
-                {
-                    ErrorList.Add(ConstantDataError.NameTooLong);
-                    return true;
-                }
+               
                 return false;
             }
         }

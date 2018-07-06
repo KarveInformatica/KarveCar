@@ -17,13 +17,13 @@ namespace KarveControls
     /// Custom control for the date picker that support item changed command.
     /// </summary>
     [TemplatePart(Name = "PART_LabelText", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "PART_DatePicker", Type = typeof(DateTimeEdit))]
+    [TemplatePart(Name = "PART_DatePicker", Type = typeof(DatePicker))]
 
     public class DataDatePicker : DatePicker
     {
         private DateTime? previousDate = DateTime.Now;
         private TextBlock _labelText = null;
-        private DateTimeEdit _datePicker = null;
+        private DatePicker _datePicker = null;
 
         /// <summary>
         /// ItemCommand changed event
@@ -141,35 +141,36 @@ namespace KarveControls
         {
             base.OnApplyTemplate();
             _labelText = GetTemplateChild("PART_LabelText") as TextBlock;
-            _datePicker = GetTemplateChild("PART_DatePicker") as DateTimeEdit;
+            _datePicker = GetTemplateChild("PART_DatePicker") as DatePicker;
             if (_labelText != null)
             {
                 _labelText.Visibility = Visibility.Visible;
             }
             if (_datePicker != null)
             {
-                _datePicker.DateTimeChanged += _datePicker_SelectedDateChanged;
+                _datePicker.SelectedDateChanged += _datePicker_SelectedDateChanged;
             }
 
         }
 
+     
         private void SetValueDo(object dataObject, string value)
         {
-            ComponentUtils.SetPropValue(dataObject, value, _datePicker.DateTime);
+            ComponentUtils.SetPropValue(dataObject, value, _datePicker.SelectedDate);
         }
 
-        private void _datePicker_SelectedDateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private void _datePicker_SelectedDateChanged(object dependencyObject, SelectionChangedEventArgs e)
         {
             if (_datePicker == null)
                 return;
             var value = ControlExt.GetDataSourcePath(this);
             var dataObject = ControlExt.GetDataSource(this);
-            if (_datePicker.DateTime != null && previousDate == (DateTime)_datePicker.DateTime)
+            if (_datePicker.SelectedDate != null && previousDate == (DateTime)_datePicker.SelectedDate)
             {
                 return;
             }
 
-            if (_datePicker.DateTime != null)
+            if (_datePicker.SelectedDate != null)
             {
                 // If we have a data source path we do the binding manually.
                 if ((!string.IsNullOrEmpty(value) && (dataObject != null)))
@@ -178,21 +179,21 @@ namespace KarveControls
                     DataObject = dataObject;
                 }
 
-                if (_datePicker.DateTime != null)
+                if (_datePicker.SelectedDate != null)
                 {
                     DataDatePickerEventArgs ev = new DataDatePickerEventArgs(DataDatePickerChangedEvent)
                     {
                     
-                        FieldData = _datePicker.DateTime.Value
+                        FieldData = _datePicker.SelectedDate.Value
                     };
                     IDictionary<string, object> valueDictionary = new Dictionary<string, object>
                     {
                         ["Field"] = value,
                         ["DataObject"] = DataObject,
-                        ["ChangedValue"] = (DateTime) _datePicker.DateTime,
+                        ["ChangedValue"] = (DateTime) _datePicker.SelectedDate,
                         ["PreviousValue"] = previousDate
                     };
-                    previousDate = (DateTime) _datePicker.DateTime;
+                    previousDate = (DateTime) _datePicker.SelectedDate;
                     ev.ChangedValuesObjects = valueDictionary;
                     RaiseEvent(ev);
                     HandleCommandItemChanged(valueDictionary);

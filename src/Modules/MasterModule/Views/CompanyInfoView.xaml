@@ -225,7 +225,7 @@
                                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                     SelectedDate="{Binding Path=DataObject.FEC_BAJA, Mode=TwoWay, ValidatesOnDataErrors=True, 
                         ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" SelectedDateFormat="Short" 
-                                                    DisplayDateStart="{x:Static sys:DateTime.Now}" Height="30" x:Name="fEC_ALTA" />
+                                                    Height="30" x:Name="fEC_ALTA" />
                     <karveControls:DataDatePicker   LabelText="{Binding StringConstants_FechaDeBaja, 
                         Source={StaticResource ResourceLanguage}}"
                                                     DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

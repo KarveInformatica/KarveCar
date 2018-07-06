@@ -52,13 +52,13 @@ namespace DataAccessLayer
         {
             Contract.Requires(executor != null, "AbstractQuery query executor is null");
             SqlExecutor = executor;
-           
+
         }
-       /// <summary>
-       /// Load the database datafields directly from the xml to generate a query, 
-       /// this is more far efficient than loading the visual tree.
-       /// </summary>
-       /// <param name="pathFile">Path file to be used</param>
+        /// <summary>
+        /// Load the database datafields directly from the xml to generate a query, 
+        /// this is more far efficient than loading the visual tree.
+        /// </summary>
+        /// <param name="pathFile">Path file to be used</param>
         protected void InitData(string pathFile)
         {
             Contract.Requires(!string.IsNullOrEmpty(pathFile), "Path name is not valied");
@@ -87,7 +87,7 @@ namespace DataAccessLayer
             }
             // now instance a map
             Mapper = MapperField.GetMapper();
-           
+
         }
         /// <summary>
         ///  Set or Get the pages number
@@ -111,10 +111,11 @@ namespace DataAccessLayer
             {
                 throw new ArgumentException();
             }
-            var pageInfo = await pager.GetPageCount(pageSize, TableName);
+            var pageInfo = await pager.GetPageCount(pageSize, TableName).ConfigureAwait(false);
             NumberItems = pageInfo.Item1;
             var pageCount = pageInfo.Item2;
             return pageCount;
-        } 
+        }
+       
     }
 }
