@@ -2834,4 +2834,7 @@
   <data name="lcodigosociety" xml:space="preserve">
     <value>Codice Società</value>
   </data>
+  <data name="lvehiclebuying" xml:space="preserve">
+    <value>Acquisto Veicolo</value>
+  </data>
 </root>

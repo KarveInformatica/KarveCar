@@ -77,17 +77,21 @@
                     <TextBlock Width="80" Text="{Binding limporte, Source={StaticResource ResourceLanguage}}"></TextBlock>
                         <TextBox   Height="30" VerticalAlignment="Top"
                                    Width="120"
+                                   Text="{Binding DataObject.Value.IMP_CIRC_V1,Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="Value.IMP_CIRC_V1"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                            
                         </TextBox>
-                    <kc:DataFieldCheckBox Content="{Binding lfacturar, Source={StaticResource ResourceLanguage}}"
-                                       
-                                        kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        kc:ControlExt.DataSourcePath="Value.ImpCircuCliente"
-                                      />
+
+                    <kc:DataFieldCheckBox  Content="{Binding lfacturar, Source={StaticResource ResourceLanguage}}"
+                                                          Height="30"
+                                                          kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, 
+                                                            UpdateSourceTrigger=PropertyChanged}"
+                                                           kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, UpdateSourceTrigger=PropertyChanged}"
+                                                          kc:ControlExt.DataSourcePath="Value.ImpCircuCliente">
+                    </kc:DataFieldCheckBox>
+
 
                 </StackPanel>
 
@@ -101,7 +105,7 @@
                         Grid.Column="1" d:IsLocked="True">
                     <StackPanel Orientation="Horizontal" d:IsLocked="True">
                         <TextBlock Text="{Binding lcopiavehiculo, Source={StaticResource ResourceLanguage}}" d:IsLocked="True"></TextBlock>
-                        <Image Source="/MasterModule;component/Images/copycool.png"></Image>
+                        <Image Source="/MasterModule;component/Images/copycool.png" MinWidth="200"></Image>
                     </StackPanel>
                 </Button>
             </Grid>

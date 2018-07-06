@@ -268,14 +268,14 @@
                         </Grid.ColumnDefinitions>
                     <TextBlock  Grid.Column="0" x:Name="PART_LabelText" Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelText}" Visibility="Hidden"
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=LabelTextWidth}"/>
-                        <Syncfusion:DateTimeEdit x:Name="PART_DatePicker"
+                        <DatePicker x:Name="PART_DatePicker"
                                                   Grid.Column="1"
-                                                  IsEmptyDateEnabled="True"
+                                                  
                                 Margin="20,0,0,0"
                                 Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=PickerWidth}"
-                                DateTime="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
+                                SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DateContent}">
                        
-                        </Syncfusion:DateTimeEdit>
+                        </DatePicker>
                       
                 
                 </Grid>
@@ -702,10 +702,6 @@
                                                                        AllowGrouping="True"                                             
                                                                        ShowGroupDropArea="True"
                                                                        NavigationMode="Row"
-                                                                        CellStyle="{StaticResource KarveGridCell}"
-                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
-                               AlternationCount="2"
-                                HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                                                        FilterRowPosition="FixedTop"
                                                                        Height="800"
                                                                        MaxWidth="1100"

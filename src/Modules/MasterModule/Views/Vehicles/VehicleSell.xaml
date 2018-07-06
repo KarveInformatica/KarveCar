@@ -60,25 +60,25 @@
                         <kc:DataField TextContentWidth="150" 
                               x:Name="Price"
                                        Grid.Column="1"
-                                      LabelTextWidth="50"
+                                      LabelTextWidth="90"
                               LabelText="{Binding StringConstants.Price}"
                               LabelVisible="True"
-                              Margin="5,0,0,0"
-                              DataSourcePath="precio"
+                              Margin="5,1,36,2"
+                              DataSourcePath="PRECIO"
+                              TextContent="{Binding DataObject.Value.PRECIO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               Height="30"/>
                         <kc:DataField LabelText="{Binding StringConstants.StretPrice}"
                               x:Name="StreetPrice"
-                                       Grid.Column="2"
-                                      TextContentWidth="150" 
+                              Grid.Column="1"
+                              TextContentWidth="150" 
                               LabelTextWidth="120"
                               DataSourcePath="PVP"
-                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                 
+                              ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"   
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               Height="30"
-                              Margin="10,0,0,0"/>
+                              Margin="279,2,0,2" Grid.ColumnSpan="2"/>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
@@ -90,9 +90,10 @@
                         <kc:DataField LabelText="{Binding StringConstants.BillNumber}" 
                                x:Name="BillNumber"
                                       Grid.Column="0"
-                              TextContentWidth="100"
-                              LabelTextWidth="110"
+                              TextContentWidth="165"
+                              LabelTextWidth="115"
                               DataSourcePath="FRAVEN"
+                              TextContent="{Binding DataObject.Value.FRAVEN, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               Height="30"
@@ -114,23 +115,20 @@
                     LabelText="{Binding StringConstants.Reseller}" 
                     LabelTextWidth="80"
                     TextContentFirstWidth="50"
-                    TextContentSecondWidth="150"
+                    TextContentSecondWidth="200"
                     IsReadOnlySecond="True"
                     DataFieldFirst="VENDEDOR_VTA"
-                            Grid.Column="2"
+                    Grid.Column="2"
                     ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"             
                     DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    AssistTableName="VENDEDOR"
+                    AssistTableName="RESELLER_ASSIST"
                     MagnifierCommand="{Binding AssistCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SourceView="{Binding  ResellerDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    AssistQuery="{Binding SellerAssistQuery, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    AssistDataFieldFirst="num_vende"
-                    AssistDataFieldSecond="nombre"
                     AssistProperties="Code,Name,Direction,City.Poblacion,City, Phone, Email"
                     ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}" Height="25"/>
                     </Grid>
                 </Grid>
-                <GroupBox Grid.Row="1">
+                <Expander Grid.Row="1" Header="Baja y entrega">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
@@ -146,7 +144,8 @@
                                            x:Name="TrafficRenounce"
                                            LabelText="{Binding StringConstants.TrafficRenounce}"
                                            LabelVisible="True"
-                                           Width="250"
+                                           Width="Auto"
+                                           LabelTextWidth="100"
                                    
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -158,32 +157,33 @@
                                            Grid.Column="1"
                                            x:Name="AssuranceRenounce"
                                            LabelVisible="True"
+                                           LabelTextWidth="100"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           kc:ControlExt.DataSourcePath="" Margin="94,5,88,5"/>
+                                           kc:ControlExt.DataSourcePath="FSEGUBA"/>
                         <kc:DataDatePicker LabelText="{Binding StringConstants.BankTransfer}" DataDatePickerHeight="25"
                                            LabelVisible="True"
                                            x:Name="BankTransfer"
                                            Height="40"
                                            Width="Auto"
+                                           LabelTextWidth="100"
                                            Grid.Row="1"
                                            Grid.Column="0"
-                                   
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           kc:ControlExt.DataSourcePath="FTRANS" Margin="88,6,94,5"/>
+                                           kc:ControlExt.DataSourcePath="FTRANS"/>
                         <kc:DataDatePicker LabelText="{Binding StringConstants.DeliveringDate}" DataDatePickerHeight="25"  
                                            LabelVisible="True"
                                            Height="40"
                                            Grid.Row="1"
                                            Grid.Column="1"
-                                   
+                                           LabelTextWidth="100"
                                            x:Name="DeliveringDate"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           kc:ControlExt.DataSourcePath="FENTREGA_VEHI" Margin="93,6,88,5" Width="Auto"/>
+                                           kc:ControlExt.DataSourcePath="FENTREGA_VEHI" Width="Auto"/>
                     </Grid>
-                </GroupBox>
+                </Expander>
 
             </Grid>
         </GroupBox>

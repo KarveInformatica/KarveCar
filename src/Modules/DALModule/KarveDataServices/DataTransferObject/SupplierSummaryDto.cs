@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,22 +9,43 @@ namespace KarveDataServices.DataTransferObject
 {
     public class SupplierSummaryDto: BaseDto
     {
-        public string Codigo { get; set; }
+        private string _code;
+        private string _name;
+        private string _nif;
 
-        /// <summary>
-        ///  Set or get the NOMBRE property.
-        /// </summary>
+        [Display(Name = "Codigo Provveedor")]
+        public string Codigo {
+            get { return _code;  }
+            set { _code = value; RaisePropertyChanged(); }
+        }
+        [Display(Name = "Nombre Provveedor")]
+        public string Nombre
+        {
+            get { return _name;  }
+            set { _name = value; RaisePropertyChanged(); }
+        }
+        [Display(Name = "Nif")]
 
-        public string Nombre { get; set; }
-        public string Nif { get; set; }
-
+        public string Nif {
+            get
+            {
+                return _nif;
+            }
+            set {
+                _nif = value;
+                RaisePropertyChanged();
+            }
+        }
+        [Display(Name = "Proveedor")]
         public string Proveedor { get; set; }
 
+        [Display(Name = "Comercial")]
         public string Comercial { get; set; }
 
         ///  Set or get the TELEFONO property.
 
-
+        [Display(Name = "Telefono")]
+ 
         public string Telefono { get; set; }
         /// <summary>
         ///  Set or get the DIRECCION property.

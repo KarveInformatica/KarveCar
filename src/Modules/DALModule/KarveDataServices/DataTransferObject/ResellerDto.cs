@@ -16,13 +16,13 @@ namespace KarveDataServices.DataTransferObject
         ///  Reseller code.
         /// </summary>
         [Display(Name = "Codigo ")]
-        public string Code { get; set; }
+        public override string Code { get; set; }
 
         /// <summary>
         ///  Reseller Name.
         /// </summary>
         [Display(Name = "Nombre")]
-        public string Name { get; set; }
+        public override string Name { get; set; }
         /// <summary>
         ///  Reseller direciton.
         /// </summary>

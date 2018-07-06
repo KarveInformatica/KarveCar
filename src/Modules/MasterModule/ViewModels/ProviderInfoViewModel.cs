@@ -25,6 +25,7 @@ using KarveDataServices.Assist;
 using KarveCommonInterfaces;
 using KarveControls.Generic;
 using System.Threading;
+using DataAccessLayer.Model;
 
 namespace MasterModule.ViewModels
 {
@@ -989,10 +990,74 @@ namespace MasterModule.ViewModels
 
         }
 
+        public void ClearList()
+        {
+            if (this.DataObject.ProvinciaDtos is IList<ProvinciaDto> dto)
+            {
+                dto.Clear();
+                ProvinceDto1 = dto;
+            }
+            if (this.DataObject.CountryDtos is IList<CountryDto> cdto)
+            {
+                cdto.Clear();
+                CountryDtos = cdto;
+                CountryDto1 = cdto;
+                CountryDto3 = cdto;
+            }
+            
+            if (this.DataObject.CityDtos is IList<CityDto> cdto1)
+            {
+                cdto1.Clear();
+                CityDto1 = cdto1;
+                CityDto2 = cdto1;
+                CityDto3 = cdto1;
+            }
+            if (this.DataObject.AccountDtos is IList<AccountDto> dtoAccount)
+            {
+                dtoAccount.Clear();
+                Account1Dtos = dtoAccount;
+                Account2Dtos = dtoAccount;
+                Account3Dtos = dtoAccount;
+                Account4Dtos = dtoAccount;
+                Account5Dtos = dtoAccount;
+                Account6Dtos = dtoAccount;
+                Account7Dtos = dtoAccount;
+                Account8Dtos = dtoAccount;
+            }
+            /*
+            CountryDto1 = supplierData.CountryDtos;
+            ProvinceDto2 = supplierData.ProvinciaDtos;
+            CountryDto2 = supplierData.CountryDtos;
+            ProvinceDto3 = supplierData.ProvinciaDtos;
+            CountryDto3 = supplierData.CountryDtos;
+            CountryDto1 = supplierData.CountryDtos;
+            CityDto3 = supplierData.CityDtos;
+            CityDto1 = supplierData.CityDtos;
+            CityDto2 = supplierData.CityDtos;
+            PaymentDtos = supplierData.PaymentDtos;
+            MonthsDtos = supplierData.MonthsDtos;
+            MonthsDtos2 = supplierData.MonthsDtos;
+            BanksDtos = supplierData.BanksDtos;
+            LanguageDtos = supplierData.LanguageDtos;
+            CurrencyDtos = supplierData.CurrencyDtos;
+            Account1Dtos = supplierData.AccountDtos;
+            Account2Dtos = supplierData.AccountDtos;
+            Account3Dtos = supplierData.AccountDtos;
+            Account4Dtos = supplierData.AccountDtos;
+            Account5Dtos = supplierData.AccountDtos;
+            Account6Dtos = supplierData.AccountDtos;
+            Account7Dtos = supplierData.AccountDtos;
+            Account8Dtos = supplierData.AccountDtos;
+            */
+
+        }
         public override void DisposeEvents()
         {
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
+            ClearList();
+            var value = new Supplier();
+            DataObject = value;
             DataPayLoad payload = new DataPayLoad();
             payload.ObjectPath = ViewModelUri;
             payload.PayloadType = DataPayLoad.Type.Dispose;

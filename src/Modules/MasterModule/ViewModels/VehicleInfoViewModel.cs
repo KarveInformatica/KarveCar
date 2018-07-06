@@ -18,6 +18,7 @@ using DataAccessLayer.SQL;
 using KarveCommon;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace MasterModule.ViewModels
 {
@@ -87,6 +88,8 @@ namespace MasterModule.ViewModels
         private ICollection<string> _dataFieldCollection;
         private IAssistDataService _assistDataService;
         private IEnumerable<ResellerDto> _resellerDto;
+        private ICommand _saveCommand;
+        private IEnumerable<SupplierSummaryDto> _buyerSupplier = new List<SupplierSummaryDto>();
 
         // This returns the list of activity when asked.
         public IEnumerable<ActividadDto> ActivityDtos
@@ -375,12 +378,25 @@ namespace MasterModule.ViewModels
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.VehiclesSystemName, this);
             AssistCommand = new DelegateCommand<object>(AssistCommandHelper);
             _queryStoreFactory = new QueryStoreFactory();
-             var gid = Guid.NewGuid();
+            _saveCommand = new DelegateCommand<object>(OnSaveCommand);
+            var gid = Guid.NewGuid();
              ViewModelUri = new Uri("karve://vehicle/viewmodel?id=" + gid.ToString());
 
             ActiveSubSystem();
         }
-      
+
+        private async void OnSaveCommand(object obj)
+        {
+            var data = DataObject as IVehicleData;
+            var dataService = DataServices.GetVehicleDataServices();
+            var task = dataService.SaveAsync(data).ConfigureAwait(false);
+            var result = await task;
+            if (!result)
+            {
+                DialogService?.ShowErrorMessage("Error during saving the object");
+            }
+        }
+
         private async Task<IEnumerable<ElementDto>> InitElements()
         {
             IEnumerable<ElementDto> value = await DataServices.GetHelperDataServices().GetAsyncHelper<ElementDto>(GenericSql.ElementsSummaryQuery);
@@ -453,7 +469,7 @@ namespace MasterModule.ViewModels
                     }
                     case "PROVEE1":
                     {
-                        ProveeDto = resultMap as IEnumerable<SupplierSummaryDto>;
+                        BuyerSupplierDto = resultMap as IEnumerable<SupplierSummaryDto>;
                         break;
                     }
                     case "PROVEE2":
@@ -559,7 +575,7 @@ namespace MasterModule.ViewModels
                         RoadTaxesOfficeZoneDto =resultMap as IEnumerable<ZonaOfiDto>;
                         break;
                     }
-                    case "VENDEDOR":
+                    case "RESELLER_ASSIST":
                     {
                         ResellerDto = resultMap as IEnumerable<ResellerDto>;
                         break;
@@ -622,7 +638,12 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-       
+
+        public IEnumerable<SupplierSummaryDto> BuyerSupplierDto
+        {
+            get { return _buyerSupplier; }
+            set { _buyerSupplier = value; RaisePropertyChanged(); }
+        }
         public IEnumerable<SupplierSummaryDto> ProveeDto
         {
             get { return _supplier; }
@@ -800,6 +821,8 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.VehicleSubsystem;
+            payLoad.HasSaveCommand = true;
+            payLoad.SaveCommand = _saveCommand;
         }
 
         /// <summary>
@@ -886,7 +909,7 @@ namespace MasterModule.ViewModels
             }
             if (_vehicleDo?.Supplier1 != null)
             {
-                this.ProveeDto = new ObservableCollection<SupplierSummaryDto>(_vehicleDo.Supplier1);
+                this.BuyerSupplierDto = _vehicleDo.Supplier1;
             }
             if (_vehicleDo?.PaymentForm != null)
             {

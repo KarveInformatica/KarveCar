@@ -2467,4 +2467,10 @@
   <data name="lcodigosociety" xml:space="preserve">
     <value>Corporate Code</value>
   </data>
+  <data name="lvehiclebuying" xml:space="preserve">
+    <value>Vehicle Buying</value>
+  </data>
+  <data name="lfechamatriculant" xml:space="preserve">
+    <value>Previous Registration Date</value>
+  </data>
 </root>

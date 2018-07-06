@@ -690,5 +690,14 @@ namespace DataAccessLayer.SQL
             return AddParamCount(query, code, string.Empty);
         }
 
+        public IQueryStore AddParamCount(QueryType type, byte? code)
+        {
+            if (code.HasValue)
+            {
+                var value = code.ToString();
+                AddParamCount(type,value);
+            }
+            return this;
+        }
     }
 }

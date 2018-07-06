@@ -2809,4 +2809,7 @@
   <data name="lcodigosociety" xml:space="preserve">
     <value>Coporate-Code</value>
   </data>
+  <data name="lvehiclebuying" xml:space="preserve">
+    <value>Fahrzeug kaufen</value>
+  </data>
 </root>

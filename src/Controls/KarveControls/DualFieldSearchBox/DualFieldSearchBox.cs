@@ -39,7 +39,7 @@ namespace KarveControls
     [TemplatePart(Name = "PART_PopUp", Type = typeof(Popup))]
     [TemplatePart(Name = "PART_PopUpButtonImage", Type = typeof(Image))]
 
-    public partial class DualFieldSearchBox : TextBox
+    public partial class DualFieldSearchBox : TextBox, IDisposable
     {
 
         // private SfDataGrid MagnifierGrid = new SfDataGrid();
@@ -837,6 +837,7 @@ namespace KarveControls
 
         public DelegateCommand PopUpCloseCommand { get; set; }
 
+      
 
         public override void OnApplyTemplate()
         {
@@ -1864,6 +1865,39 @@ namespace KarveControls
             }
         }
 
+        
 
+        public void Dispose()
+        {
+            if (SourceView is IList list)
+            {
+                list.Clear();
+                SourceView = null;
+            }
+            SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as SfTextBoxExt;
+            SearchTextSecond = GetTemplateChild("PART_SearchTextSecond") as SfTextBoxExt;
+            if (SearchTextFirst != null)
+            {
+                SearchTextFirst.TextChanged -= SearchText_TextChanged;
+                SearchTextFirst.LostFocus -= SearchTextFirst_LostFocus;
+
+            }
+            if (SearchTextSecond != null)
+            {
+                SearchTextSecond.TextChanged -= SearchText_TextChanged;
+            }
+            Popup = GetTemplateChild("PART_PopUp") as Popup;
+
+            this.PreviewKeyDown -= DualFieldSearchBox_PreviewKeyDown;
+            this.LostFocus -= DualFieldSearchBox_LostFocus;
+            Popup = GetTemplateChild("PART_PopUp") as Popup;
+            _dataSource = null;
+            PopUpButtonImage = GetTemplateChild("PART_PopUpButtonImage") as Image;
+            SearchLabel = GetTemplateChild("PART_SearchLabel") as TextBlock;
+            MagnifierGrid = GetTemplateChild("PART_MagnifierGrid") as SfDataGrid;
+            MagnifierGrid.SelectionChanged -= MagnifierGrid_OnSelectionRowChanged;
+            MagnifierGrid.MouseDoubleClick -= MagnifierGrid_MouseDoubleClick;
+
+        }
     }
 }

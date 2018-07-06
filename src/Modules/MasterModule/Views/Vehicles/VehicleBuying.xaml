@@ -10,28 +10,20 @@
              xmlns:kcdp="clr-namespace:KarveControls.ItemsControl;assembly=KarveControls"
              xmlns:mockViewModels="clr-namespace:MasterModule.Views.Vehicles.MockViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="1000"
+             d:DesignHeight="300" d:DesignWidth="1000"
              d:DataContext="{d:DesignInstance Type=mockViewModels:VehiculeSellingBuyingVm, IsDesignTimeCreatable=True}">
 
 
-    <GroupBox  Header="Compra Veichulo">
+    <GroupBox  Header="{Binding lvehiclebuying,Source={StaticResource ResourceLanguage}}">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-
-                </Grid.ColumnDefinitions>
-                <kc:DualFieldSearchBox LabelText="Proveedor" 
-                                           Grid.Column="0"
-                                   LabelTextWidth="100"
+            <StackPanel Grid.Column="0">
+                <kc:DualFieldSearchBox LabelText="{Binding lproveedor, Source={StaticResource ResourceLanguage}}" 
+                                       LabelTextWidth="150"
                                    TextContentFirstWidth="100"
                                    TextContentSecondWidth="200"
                                    IsReadOnlySecond="True"
@@ -42,14 +34,14 @@
                                    AssistDataFieldSecond="NOMBRE"
                                    ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                    MagnifierCommand="{Binding AssistCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                   Margin="5,0,0,5"
+                                   Margin="5,0,0,0"
                                    Height="30"
-                                   SourceView="{Binding ProveeDto, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                                   SourceView="{Binding BuyerSupplierDto, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
                                    AssistProperties="Codigo,Nombre,Direccion,Poblacion,Provincia,Pais,Telefono,Email"
                                    ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
-                <kc:DualFieldSearchBox LabelText="Forma de Pago" 
-                                       Grid.Column="1"
-                                       LabelTextWidth="100"
+
+                <kc:DualFieldSearchBox LabelText="{Binding lformadepago, Source={StaticResource ResourceLanguage}}" 
+                                       LabelTextWidth="150"
                                        TextContentFirstWidth="100"
                                        TextContentSecondWidth="200"
                                        IsReadOnlySecond="True"
@@ -63,82 +55,75 @@
                                        AssistDataFieldSecond="NOMBRE"
                                        Margin="5,0,0,0"
                                        Height="30"
-                                       TableName="formas"
                                        AssistProperties="Codigo,Nombre,Cuenta"
                                        ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"/>
 
                 <kc:DataDatePicker DataDatePickerHeight="30"
-                                   LabelText="Fecha Compra"
-                                   LabelTextWidth="100"
+                                   LabelText="{Binding StringConstants_FechaCompra, Source={StaticResource ResourceLanguage}}"
+                                   LabelTextWidth="150"
                                    LabelVisible="True"
-                                   Grid.Column="2"
+                                   Margin="5,0,0,0"
+                                   
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FECCOMPRA" Margin="15.333,4,64.667,0" Width="Auto" Height="Auto"
+                                   kc:ControlExt.DataSourcePath="FECCOMPRA" Width="Auto" Height="35"
                 />
 
-
-            </Grid>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
                 <kc:DataField TextContentWidth="150" 
-                              LabelTextWidth="115"
-                              LabelText="Matricula Anterior"
+                              LabelTextWidth="165"
+                              LabelText="{Binding lmatricula, Source={StaticResource ResourceLanguage}}"
                               LabelVisible="True"
-                              Margin="5,0,0,0"
-                              Height="30"
-                                  Grid.Column="0"
+                              Height="35"
                               DataSourcePath="MATRI2"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                              DataFieldHeight="30"/>
+                              Grid.RowSpan="2"/>
                 <kc:DataDatePicker DataDatePickerHeight="25"
-                                   LabelText="Fecha Matricula Anterior"
+                                   LabelText="{Binding lfechamatriculant, Source={StaticResource ResourceLanguage}}"
                                    LabelVisible="True"
                                    LabelTextWidth="150"
-                                   Height="Auto"
-                                   Grid.Column="1"
+                                   Height="30"
+                                   Margin="5,0,0,0"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="FMATRI" Width="Auto"></kc:DataDatePicker>
-            </Grid>
+                                   kc:ControlExt.DataSourcePath="FMATRI" Width="Auto" />
+            </StackPanel>
 
 
 
             <!-- item control-->
+            <Grid Grid.Column="1">
 
-            <ItemsControl  Grid.Row="2" x:Name="TextBoxCollection" ItemsSource="{Binding DataFieldCollection}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                         TextContentWidth="100"
+                <ItemsControl  x:Name="TextBoxCollection" ItemsSource="{Binding DataFieldCollection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel HorizontalAlignment="Stretch" Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <kc:DataField LabelText="{Binding Path=LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                         TextContentWidth="300"
                                          LabelTextWidth="130"
                                          LabelVisible="True"
                                          IsReadOnly="False"
-                                         DataFieldHeight="30"
-                                         Margin="0,5,0,0"
+                                         Height="35"
+                                         Margin="5,5,0,0"
                                          DataSourcePath="{Binding Path=DataSourcePath, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                          DataObject="{Binding Path=DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                          >
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="DataFieldChanged">
-                                    <prism:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </kc:DataField>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="DataFieldChanged">
+                                        <prism:InvokeCommandAction Command="{Binding ChangedItem}" TriggerParameterPath="ChangedValuesObjects"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </kc:DataField>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-            </ItemsControl>
+                </ItemsControl>
 
+            </Grid>
         </Grid>
     </GroupBox>
 

@@ -351,6 +351,11 @@
                                                   MagnifierCommand="{Binding  AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"                                                  
                                                   AssistProperties="Codigo,Nombre,Marca,NomeMarca,Variante,Categoria,Chassis,Referencia"
                                                   ButtonImage="/MasterModule;component/Images/search.png">
+                            <i:Interaction.Behaviors>        
+                    <behaviour:VehicleModelChangeBehavior RelatedBrandObject="{Binding ElementName=Marca}" RelatedVariantObject="{Binding ElementName=Variante}">
+                                
+                            </behaviour:VehicleModelChangeBehavior>
+                            </i:Interaction.Behaviors>
                         </KarveControls:DualFieldSearchBox>
                         <KarveControls:DataField x:Name="Variante" 
                                          DataFieldHeight="30"

@@ -126,12 +126,12 @@
                         <Image Grid.Column="0" Source="/MasterModule;component/Images/openshop.png" Height="50"></Image>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock Text="Abre" Height="30"></TextBlock>
-                            <TextBox Width="150" Height="40" 
+                            <materialDesign:TimePicker Width="150" Height="40" 
                                             karveControls:ControlExt.ItemChangedCommand="{Binding Path=DataContext.ItemChangedCommand,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                             karveControls:ControlExt.DataSource="{Binding Path=DataContext.DataObject,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                            Text="{Binding Morning.Open, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, UpdateSourceTrigger=PropertyChanged,  ValidatesOnNotifyDataErrors=True}">
+                                            SelectedTime="{Binding Morning.Open, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, UpdateSourceTrigger=PropertyChanged,  ValidatesOnNotifyDataErrors=True}">
 
-                            </TextBox>
+                            </materialDesign:TimePicker>
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Column="1">
@@ -142,12 +142,12 @@
                         <Image Grid.Column="0" Source="/MasterModule;component/Images/closeshop.jpg" Height="50"></Image>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock Text="Cierra" Height="30"></TextBlock>
-                            <TextBox Width="150" Height="40" 
+                            <materialDesign:TimePicker Width="150" Height="40" 
                                                        karveControls:ControlExt.ItemChangedCommand="{Binding Path=DataContext.ItemChangedCommand,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                             karveControls:ControlExt.DataSource="{Binding Path=DataContext.DataObject,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                     Text="{Binding Morning.Close, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, ValidatesOnNotifyDataErrors=True}">
+                                     SelectedTime="{Binding Morning.Close, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, ValidatesOnNotifyDataErrors=True}">
 
-                            </TextBox>
+                            </materialDesign:TimePicker>
                         </StackPanel>
                     </Grid>
 
@@ -169,12 +169,12 @@
                         <Image Grid.Column="0" Source="/MasterModule;component/Images/openshop.png" Height="50"></Image>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock Text="Abre" Height="30"></TextBlock>
-                            <TextBox Width="150" Height="40" 
+                            <materialDesign:TimePicker Width="150" Height="40" 
                                                        karveControls:ControlExt.ItemChangedCommand="{Binding Path=DataContext.ItemChangedCommand,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                             karveControls:ControlExt.DataSource="{Binding Path=DataContext.DataObject,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                     Text="{Binding Afternoon.Open, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, ValidatesOnNotifyDataErrors=True}">
+                                     SelectedTime="{Binding Afternoon.Open, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, ValidatesOnNotifyDataErrors=True}">
 
-                            </TextBox>
+                            </materialDesign:TimePicker>
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Column="1">
@@ -185,12 +185,12 @@
                         <Image Grid.Column="0" Source="/MasterModule;component/Images/closeshop.jpg" Height="50"></Image>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
                             <TextBlock Text="Cierra" Height="30"></TextBlock>
-                            <TextBox Width="150" Height="40" 
+                            <materialDesign:TimePicker Width="150" Height="40" 
                                                       karveControls:ControlExt.ItemChangedCommand="{Binding Path=DataContext.ItemChangedCommand,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                             karveControls:ControlExt.DataSource="{Binding Path=DataContext.DataObject,Mode=TwoWay,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                     Text="{Binding Afternoon.Close, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, ValidatesOnNotifyDataErrors=True}">
+                                     SelectedTime="{Binding Afternoon.Close, Mode=TwoWay, Converter={StaticResource DateTimeToTimeSpanConverter}, ValidatesOnNotifyDataErrors=True}">
 
-                            </TextBox>
+                            </materialDesign:TimePicker>
                         </StackPanel>
                     </Grid>
 
@@ -1222,21 +1222,18 @@
                                         <DockPanel Grid.Column="1"  Width="170">
                                             <TextBlock Text="Horario Desde" Width="120" DockPanel.Dock="Left" VerticalAlignment="Center"></TextBlock>
                                            
-                                            <karveControls:DataTimePicker DockPanel.Dock="Right" x:Name="DataTimePicker"
+                                            <materialDesign:TimePicker DockPanel.Dock="Right" x:Name="DataTimePicker"
                                                                           Height="30"
-                                                                          DropDownHeight="28"
-                                                                          SpinHeight="13"
-                                                                          Value="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                         Width="50"  HorizontalAlignment="Left"/>
+                                                                          SelectedTime="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                          HorizontalAlignment="Left"/>
                                         </DockPanel>
                                         <DockPanel Grid.Column="2" Width="170">
                                             <TextBlock Text="Hasta" Width="120"   DockPanel.Dock="Left" VerticalAlignment="Center"></TextBlock>
-                                            <karveControls:DataTimePicker DockPanel.Dock="Right" x:Name="DataTimePicker2"
+                                            <materialDesign:TimePicker DockPanel.Dock="Right" x:Name="DataTimePicker2"
                                                                           Height="30"
-                                                                          DropDownHeight="28"
-                                                                          SpinHeight="13"
-                                                                          Value="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                         Width="50"  HorizontalAlignment="Left"/>
+                                                                          
+                                                                          SelectedTime="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                         HorizontalAlignment="Left"/>
                                             
                                             
                                         </DockPanel>

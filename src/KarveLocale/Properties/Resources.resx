@@ -2944,4 +2944,10 @@
   <data name="lclientorigin" xml:space="preserve">
     <value>Origen Clientes</value>
   </data>
+  <data name="lvehiclebuying" xml:space="preserve">
+    <value>Compra Vehiculo</value>
+  </data>
+  <data name="lfechamatriculant" xml:space="preserve">
+    <value>Fecha Matricula Anterior</value>
+  </data>
 </root>

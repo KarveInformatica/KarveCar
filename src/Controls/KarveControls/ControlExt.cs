@@ -294,6 +294,10 @@ namespace KarveControls
                 picker.ValueChanged += Picker_ValueChanged;
               
             }
+            if (dependencyObject is DatePicker datePicker)
+            {
+                datePicker.SelectedDateChanged += SelectedDate_Changed;
+            }
             if (dependencyObject is DataDatePicker)
             {
                 DataDatePicker dataDatePicker = dependencyObject as DataDatePicker;
@@ -336,7 +340,7 @@ namespace KarveControls
                 }
                  //checkBox.Checked += CheckBox_DataChecked;
                  // checkBox.Unchecked += CheckBox_DataUnChecked;
-                 //  checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
+                 checkBox.DataFieldCheckBoxChanged += CheckBox_DataFieldCheckBoxChanged;
                 return;
             }
             if (dependencyObject is CheckBox checkBox1)
@@ -352,6 +356,8 @@ namespace KarveControls
                 comboBox.SelectionChanged += ComboBox_SelectionChanged;
             }
         }
+
+       
 
         private static void CurrentDataGrid_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -863,10 +869,32 @@ namespace KarveControls
             }
         }
 
-        
+        private static void SelectedDate_Changed(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            DatePicker picker = sender as DatePicker;
+            if (picker != null)
+            {
+                ICommand changedCommand = picker.GetValue(ItemChangedCommandProperty) as ICommand;
+                if (changedCommand != null)
+                {
+                    if (picker.SelectedDate != null)
+                    {
+                        IDictionary<string, object> valueDictionary = new Dictionary<string, object>
+                        {
+                            ["Field"] = ControlExt.GetDataSourcePath(picker),
+                            ["DataObject"] = ControlExt.GetDataSource(picker),
+                            ["ChangedValue"] = (DateTime)picker.SelectedDate,
+                        };
+                        changedCommand.Execute(picker);
+                    }
+                }
+            }
+        }
+
+
         #endregion
 
-        
+
         #region DataSource        
         /// <summary>
         ///  DataSource: data table or data object associaed with this control.

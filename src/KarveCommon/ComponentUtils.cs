@@ -241,9 +241,16 @@ namespace KarveCommon
                 if ((info != null) && (i == nameParts.Length))
                 {
                     var type1 = info.GetType();
+                    
                     if (info.PropertyType.FullName != null && info.PropertyType.FullName.Contains("Byte"))
                     {
-                        currentValue = Convert.ToByte(currentValue);
+                        try
+                        {
+                            currentValue = Convert.ToByte(currentValue);
+                        } catch (Exception ex)
+                        {
+                            currentValue = 0;
+                        }
                     }
                     if (info.PropertyType.FullName != null && info.PropertyType.FullName.Contains("String"))
                     {

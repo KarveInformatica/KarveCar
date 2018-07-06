@@ -90,6 +90,16 @@ namespace KarveDataServices.DataTransferObject
                     ErrorList.Add(ConstantDataError.NameTooLong);
                     return true;
                 }
+                if ((Email != null) && (!IsValidEmailField(Email)))
+                {
+                    ErrorList.Add(ConstantDataError.InvalidEmail);
+                    return true;
+                }
+                if ((CellPhone != null) && (!IsValidPhoneField(CellPhone)))
+                {
+                    ErrorList.Add(ConstantDataError.InvalidPhone);
+                    return true;
+                }
                 return false;
             }
         }

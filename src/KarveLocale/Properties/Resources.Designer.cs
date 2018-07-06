@@ -1780,6 +1780,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fecha Matricula Anterior.
+        /// </summary>
+        public static string lfechamatriculant {
+            get {
+                return ResourceManager.GetString("lfechamatriculant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fecha Evaluacion.
         /// </summary>
         public static string lfevaluacion {
@@ -6339,6 +6348,15 @@ namespace KarveLocale.Properties {
         public static string lvariante {
             get {
                 return ResourceManager.GetString("lvariante", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compra Vehiculo.
+        /// </summary>
+        public static string lvehiclebuying {
+            get {
+                return ResourceManager.GetString("lvehiclebuying", resourceCulture);
             }
         }
         

@@ -139,9 +139,17 @@ namespace KarveControls
         private void SetTextContent(object dataObject, string path)
         {
             object value = ComponentUtils.GetPropValue(_dataObject, path);
+            string objectValue = string.Empty;
             if (value != null)
             {
-                string objectValue = value.ToString();
+                if (value is Decimal currentValue)
+                {
+                    objectValue = currentValue.ToString("0.00");
+                }
+                else
+                {
+                    objectValue = value.ToString();
+                }
                 if (DataAllowed == KarveCommon.Generic.DataType.Email)
                 {
                     objectValue = objectValue.Replace("#", "@");

@@ -37,6 +37,7 @@
 
                     <kc:DualFieldSearchBox AssistTableName="PROVEE2" 
                           Grid.Column="0"
+                                           Height="30"
                         AssistProperties="Codigo,Nombre,Commercial,Direccion,Poblacion, Provincia, Pais"
                                        DataFieldFirst="CIALEAS"
                                        LabelText="Proveedor"
@@ -52,7 +53,7 @@
                                     
                                        MagnifierCommand="{Binding AssistCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}" Height="25">
+                                       ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}">
 
                     </kc:DualFieldSearchBox>
                     <kc:DataDatePicker LabelText="Inicio"
@@ -60,11 +61,11 @@
                                    LabelVisible="True"
                                    DataDatePickerHeight="25"
                                    Grid.Column="1"
-                                   Margin="5,0,0,0"
+                                   Margin="51,0,25,1"
                                    DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   kc:ControlExt.DataSourcePath="Value.INILEAS">
+                                   kc:ControlExt.DataSourcePath="Value.INILEAS" Width="Auto">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataFieldChanged">
                                 <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
@@ -77,12 +78,12 @@
                                    LabelText="Final"
                                    LabelTextWidth="40"
                                    LabelVisible="True"
-                                   Margin="5,0,0,0"
+                                   Margin="51,1,31,1"
                     Grid.Column="2"
                                    kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    kc:ControlExt.DataSourcePath="Value.VTOLEAS"
-                                   DataDatePickerHeight="25">
+                                   DataDatePickerHeight="25" Width="Auto">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataFieldChanged">
                                 <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
@@ -91,19 +92,19 @@
                         </i:Interaction.Triggers>
                     </kc:DataDatePicker>
                 </Grid>
+
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <kc:DataField LabelText="Numero Contracto"
                                   DataSourcePath="CONTLEAS"
-                                  DataFieldHeight="30"
+                                  Height="30"
                                   LabelTextWidth="144"
                                   LabelVisible="True"
                                   Grid.Column="0"
-                                  Margin="0,5,0,0"
                                   ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   TextContentWidth="150"
                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -112,8 +113,8 @@
                     </kc:DataField>
                     <kc:DataField LabelText="Interes"
                                   DataSourcePath="INTERES"
-                                  LabelTextWidth="120"
-                                  DataFieldHeight="30"
+                                  LabelTextWidth="150"
+                                  Height="30"
                                   LabelVisible="True"
                                   Margin="0,5,0,0"
                                   Grid.Column="1"
@@ -128,14 +129,15 @@
 
                     </kc:DataField>
                     <kc:DataField LabelText="Valor Residuo"
-                                  DataSourcePath="VALORES1"
-                                  DataFieldHeight="25"
-                                  LabelTextWidth="80"
+                                  DataSourcePath="VALORRES1"
+                                  Height="30"
+                                  LabelTextWidth="120"
                                   LabelVisible="True"
                                   TextContentWidth="150"
-                                  Margin="0,6,0,0"
+                                  Margin="0,5,0,0"
                                   Grid.Column="2"
-                                  DataObject="{Binding DataObject}" HorizontalAlignment="Right" Width="296" Grid.ColumnSpan="2">
+                                  TextContent="{Binding DataObject.Value.VALORRES1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="DataFieldChanged">
                                 <mvvm:InvokeCommandAction Command="{Binding ItemChangedCommand}" 
@@ -159,7 +161,7 @@
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               LabelTextWidth="144"
                               TextContentWidth="150"
-                              DataFieldHeight="30"
+                              Height="30"
                               Margin="0,5,0,0"
                               LabelVisible="True">
                         <i:Interaction.Triggers>
@@ -169,20 +171,20 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </kc:DataField>
-                    <kc:DataField DataFieldHeight="30"
+                    <kc:DataField Height="30"
                               Grid.Column="1"
                               LabelText="Comisión Otorgamiento"
-                              LabelTextWidth="130"
+                              LabelTextWidth="150"
                               TextContentWidth="150"
                               DataSourcePath="COMI_OTOR"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
 
-                    <kc:DataField DataFieldHeight="30"
+                    <kc:DataField Height="30"
                               Grid.Column="2"
                               LabelText="Día de Pago"
-                              LabelTextWidth="80"
+                              LabelTextWidth="120"
                               TextContentWidth="150"
                               DataSourcePath="DIA_PAGO"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -194,7 +196,7 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <kc:DataField DataFieldHeight="30"
+                    <kc:DataField Height="30"
                               LabelText="Imp.Financiado"
                               LabelTextWidth="144"
                               TextContentWidth="150"
@@ -203,23 +205,23 @@
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
-                    <kc:DataField DataFieldHeight="30"
+                    <kc:DataField Height="30"
                               LabelText="Cuota Km. Excedente"
                               Grid.Column="1"
-                              LabelTextWidth="130"
+                              LabelTextWidth="150"
                               TextContentWidth="150"
                               DataSourcePath="CUOTA_KM"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
-                    <kc:DataField DataFieldHeight="30"
+                    <kc:DataField Height="30"
                                   Grid.Column="2"
                                   LabelText="Interés Mor."
-                                  LabelTextWidth="80"
+                                  LabelTextWidth="120"
                                   TextContentWidth="150"
                                   DataSourcePath="PORC_MORATORIO"
                                   DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                  ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                  ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                     />
 
                 </Grid>
@@ -230,7 +232,7 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <kc:DataField DataFieldHeight="25"
+                    <kc:DataField Height="30"
                               LabelText="Pena Cancelación"
                               LabelTextWidth="145"
                               TextContentWidth="150"
@@ -239,25 +241,27 @@
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
-                    <kc:DataField DataFieldHeight="25"
+                    <kc:DataField Height="30"
                               LabelText="IVA"
                               LabelTextWidth="130"
-                              TextContentWidth="50"
+                              TextContentWidth="150"
                               Grid.Column="1"
-                              DataSourcePath="IVA"
+                              TextContent="{Binding DataObject.Value.IVAALQ, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                              DataSourcePath="IVAALQ"
                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                               />
                     <kc:DataDatePicker 
-                    LabelText="Data Canc.Leasing"
+                    LabelText="Leasing"
                     LabelVisible="True"
                     LabelTextWidth="100"
-                    Margin="7,0,28,2"
+                    Margin="7,0,18,3"
                     Grid.Column="2"
+                    Height="30"
                     kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     kc:ControlExt.DataSourcePath="Value.CANCELA_LEASING"
-                    DataDatePickerHeight="30" Width="Auto" Height="Auto"/>
+                    DataDatePickerHeight="30" Width="Auto"/>
                 </Grid>
                 <!--
                 <Grid Grid.Row="5" Grid.ColumnSpan="3">

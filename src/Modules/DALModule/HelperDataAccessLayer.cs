@@ -208,7 +208,8 @@ namespace DataAccessLayer
                     catch (System.Exception e)
                     {
                         scope.Dispose();
-                        throw new DataLayerExecutionException("Error during insert", e);
+                        var msg = "HelperDataAccessLayer. Error: " + e.Message; 
+                        throw new DataLayerExecutionException(msg, e);
                     }
                 }
             }

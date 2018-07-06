@@ -10,7 +10,8 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:common="clr-namespace:MasterModule.Common"
-             x:Class="MasterModule.Views.Vehicles.Mantainence"
+    xmlns:gridbehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
+    x:Class="MasterModule.Views.Vehicles.Mantainence"
              mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="1000"
             >
     
@@ -32,25 +33,39 @@
             </ResourceDictionary>
         </Grid.Resources>
         <StackPanel Orientation="Vertical">
-            <WrapPanel Orientation="Horizontal">
-                <kc:DataDatePicker LabelText="{Binding lfingarantia, Source={StaticResource ResourceLanguage}}" Height="35"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <kc:DataDatePicker Grid.Column="0"
+                                   LabelText="{Binding lfingarantia, Source={StaticResource ResourceLanguage}}" Height="35"
                                               kc:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               kc:ControlExt.DataSourcePath="Value.FinGaran"
-                                              kc:ControlExt.ItemChangedCommand="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="{Binding lcalcolamantenimiento, Source={StaticResource ResourceLanguage}}" Height="25" Width="330.437"/>
-                <kc:DataField LabelText="{Binding lkmactuales, Source={StaticResource ResourceLanguage}}"
+                                              kc:ControlExt.ItemChangedCommand="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="253"/>
+                <Button 
+                    Grid.Column="1"
+                    Content="{Binding lcalcolamantenimiento, Source={StaticResource ResourceLanguage}}" Height="40" Width="330.437"/>
+                <kc:DataField 
+                    Grid.Column="2"
+                    LabelText="{Binding lkmactuales, Source={StaticResource ResourceLanguage}}"
                                          LabelTextWidth="80"
                                          TextContentWidth="200"
-                                         Height="25"
+                                         Height="40"
                                          TextContent="3839">
                 </kc:DataField>
-            </WrapPanel>
+            </Grid>
            
                         <syncfusion:SfDataGrid x:Name="sfGrid"
                                                ColumnSizer="AutoLastColumnFill"
                                                AllowDraggingColumns="True"
                                                AllowEditing="True"
                                                AllowFiltering="True"
+                                               CellStyle="{StaticResource KarveGridCell}"
+                                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                                               AlternationCount="2"
+                                               HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                                AllowResizingColumns="True"
                                                AllowSorting="True"
                                                AllowGrouping="True"
@@ -62,9 +77,10 @@
                                                ItemsSource="{Binding MaintenanceCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                AutoGenerateColumns="False"
                                               >
-                           
 
-                    <syncfusion:SfDataGrid.Resources>
+               
+
+                <syncfusion:SfDataGrid.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
                                 <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
@@ -231,6 +247,7 @@
                             </syncfusion:SfDataGrid.Columns>
                 <i:Interaction.Behaviors>
                     <common:MaintenanceValidationBehavior />
+                    <gridbehavior:GridDefaultBehavior/>
                 </i:Interaction.Behaviors>
             </syncfusion:SfDataGrid>
             <!--

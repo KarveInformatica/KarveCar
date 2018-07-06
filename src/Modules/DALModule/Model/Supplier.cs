@@ -86,7 +86,7 @@ namespace DataAccessLayer.Model
 
 
     }
-    public class Supplier : BindableBase, ISupplierData
+    public class Supplier : BindableBase, ISupplierData, IDisposable
     {
         // FIXME: This queries shall go to the query store.
 
@@ -146,8 +146,22 @@ namespace DataAccessLayer.Model
         private IEnumerable<DeliveringFormDto> _deliveringFormDto;
         private IEnumerable<SupplierTypeDto> _supplierTypeDto = new ObservableCollection<SupplierTypeDto>();
 
+
         public Supplier() : this(null, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
+        }
+        public void Clear<T>(IEnumerable<T> list)
+        {
+            if (list is ObservableCollection<T> dto)
+            {
+                dto.Clear();
+            }
+        }
+        public void Clear()
+        {
+            Clear<SupplierTypeDto>(_type);
+            Clear<AccountDto>(_accounts);
+            Clear<ProvinciaDto>(_provinciaDto);
         }
         public Supplier(ISqlExecutor executor) : this(executor, MapperField.GetMapper(), new SupplierPoco(), new SupplierDto())
         {
@@ -639,6 +653,11 @@ namespace DataAccessLayer.Model
                 await connection.QueryAsync<T1>(queryToExec);
 
             return type;
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         public SupplierDto Value

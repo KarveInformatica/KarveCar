@@ -31,6 +31,7 @@
                              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.9' }" 
                              xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
                              xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+                             
                          Background="White"
                              Title="{Binding Title, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
 >
@@ -196,7 +197,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <syncfusion:Ribbon Grid.Row="0" x:Name="rbInicio" Grid.ColumnSpan="3">
+                <syncfusion:Ribbon Grid.Row="0" x:Name="rbInicio" Grid.ColumnSpan="3" RibbonState="Hide">
 
                     <!--Tab Maestros-->
                     <syncfusion:RibbonTab x:Name="rbtbMaestros"

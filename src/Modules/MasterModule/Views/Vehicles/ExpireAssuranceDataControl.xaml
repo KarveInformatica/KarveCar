@@ -18,31 +18,38 @@
         <ListBox x:Name="AssuranceDataListBox" ItemsSource="{Binding MetaDataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal" VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
                         <kc:DataDatePicker kc:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.DataSourcePath="{Binding DataSourcePath1, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                            kc:ControlExt.ItemChangedCommand="{Binding ItemCommandChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                           DataDatePickerHeight="25"
+                                           DataDatePickerHeight="35"
+                                           Grid.Column="0"
                                        LabelText="{Binding StringConstants.ExpirationDate, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        LabelTextWidth="100"
                                        LabelVisible="True">
                         </kc:DataDatePicker>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding limporte, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0"></TextBlock>
-                            <TextBox Width="100" Height="25"
+                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <TextBlock Text="{Binding limporte, Source={StaticResource ResourceLanguage}}" Width="50" Margin="5,5,5,0" Height="30"></TextBlock>
+                            <TextBox Width="100" Height="30"
                                      kc:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      kc:ControlExt.DataSourcePath="{Binding DataSourcePath2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                      kc:ControlExt.ItemChangedCommand="{Binding ItemCommandChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                             </TextBox>
                         </StackPanel>
-                        <TextBlock Text="{Binding lpagado, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                        <kc:DataFieldCheckBox 
+                        <TextBlock Text="{Binding lpagado, Source={StaticResource ResourceLanguage}}" Grid.Column="2" Height="30"></TextBlock>
+                        <kc:DataFieldCheckBox Grid.Column="3"
                         kc:ControlExt.DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.DataSourcePath="{Binding DataSourcePath3, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                         kc:ControlExt.ItemChangedCommand="{Binding ItemCommandChanged, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         </kc:DataFieldCheckBox>
-                    </VirtualizingStackPanel>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

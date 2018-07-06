@@ -128,6 +128,7 @@ namespace DataAccessLayer.SQL
         /// <param name="primaryKey"></param>
         /// <param name="code"></param>
         /// <returns></returns>
+        IQueryStore AddParamCount(QueryType type, byte? code);
         IQueryStore AddParamCount(QueryType type, string code);
         IQueryStore AddParamCount(QueryType type, string code, string refCode="");
         IQueryStore AddParamCount(QueryType type, string table, string primaryKey, string code, string refCode = "");

@@ -64,24 +64,33 @@
         <Field type="DataAccessLayer.SQL.Field">
           <Name>NUMPUERTAS</Name>
         </Field>
+        <Field type="DataAccessLayer.SQL.Field">
+          <Name>VENDEDOR_VTA</Name>
+        </Field>
       </DataFields>
     </Table>
     <Table type="DataAccessLayer.SQL.Table">
       <Name>VEHICULO2</Name>
       <DataFields>
         <Field type="DataAccessLayer.SQL.Field">
-          <Name>gastos</Name>
+          <Name>GASTOS</Name>
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
-          <Name>km</Name>
+          <Name>KM</Name>
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
-          <Name>saldo</Name>
+          <Name>SALDO</Name>
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
-          <Name>proximante</Name>
+          <Name>FRAVEN</Name>
         </Field>
-        <Field type="DataAccessLayer.SQL.Field">
+          <Field type="DataAccessLayer.SQL.Field">
+          <Name>PROXIMANTE</Name>
+        </Field>
+         <Field type="DataAccessLayer.SQL.Field">
+          <Name>PRECIO</Name>
+        </Field>
+          <Field type="DataAccessLayer.SQL.Field">
           <Name>kmmax</Name>
         </Field>
         <Field type="DataAccessLayer.SQL.Field">
