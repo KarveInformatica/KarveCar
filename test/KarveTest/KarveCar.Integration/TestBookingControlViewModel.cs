@@ -16,6 +16,11 @@ namespace KarveCar.Integration
         {
 
         }
+        [Test]
+        public void WhenIntegratedShouldAnswerCommand()
+        {
+
+        }
 
     }
 }

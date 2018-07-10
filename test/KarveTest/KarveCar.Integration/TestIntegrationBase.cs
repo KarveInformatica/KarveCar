@@ -23,6 +23,8 @@ namespace KarveCar.Integration
         protected readonly Mock<IDialogService> _dialogServices = new Mock<IDialogService>();
         protected readonly Mock<IRegionManager> _regionManager = new Mock<IRegionManager>();
         protected readonly Mock<IInteractionRequestController> _controller = new Mock<IInteractionRequestController>();
+        protected readonly Mock<IConfigurationService> _configuration = new Mock<IConfigurationService>();
+
 
         protected IDataServices SetupDataServices()
         {

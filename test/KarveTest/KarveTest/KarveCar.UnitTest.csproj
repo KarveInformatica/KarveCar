@@ -205,6 +205,7 @@
     <Compile Include="Services\TestDtoFactory.cs" />
     <Compile Include="Services\TestInteractionService.cs" />
     <Compile Include="TestBootStrapper.cs" />
+    <Compile Include="ViewModels\TestBookingInfoViewModel.cs" />
     <Compile Include="ViewModels\TestReservationRequestsViewModel.cs" />
     <Compile Include="ViewModels\TestToolBarViewModel.cs" />
     <Compile Include="UI\UiObjectSerializationTests.cs" />

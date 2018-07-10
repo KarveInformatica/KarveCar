@@ -9,6 +9,7 @@ using KarveDataServices.DataTransferObject;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using DataAccessLayer.Model;
+using DataAccessLayer.Exception;
 
 namespace KarveTest.DAL
 {
@@ -35,15 +36,13 @@ namespace KarveTest.DAL
             }
             return item;
         }
-
-
         [Test]
         public async Task Should_Load_AValidReservation()
         {
             var codigo = string.Empty;
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                var connection = await dbConnection.GetPagedAsync<RESERVAS1>(10, 20).ConfigureAwait(false);
+                var connection = await dbConnection.GetPagedAsync<RESERVAS1>(1, 2).ConfigureAwait(false);
                 var item = connection.FirstOrDefault<RESERVAS1>();
                 codigo = item.NUMERO_RES;
             }
@@ -52,8 +51,10 @@ namespace KarveTest.DAL
             Assert.NotNull(booking.ItemsDtos);
             Assert.NotNull(booking.Value);
             var count = booking.ItemsDtos.Count();
-            //Assert.GreaterOrEqual(0,count());
             Assert.AreEqual(booking.Value.NUMERO_RES, codigo);
+            Assert.Greater(booking.Drivers.Count(), 0);
+            Assert.Greater(booking.Clients.Count(), 0);
+
         }
         [Test]
         public async Task Should_Save_AValidReservation()
@@ -85,17 +86,16 @@ namespace KarveTest.DAL
             var code = value.NUMERO_RES;
             var booking = await _bookingDataServices.GetDoAsync(code).ConfigureAwait(false);
             booking.Value.NUMERO_RES = string.Empty;
-            Assert.ThrowsAsync<DataLayerException>(async () => await _bookingDataServices.SaveAsync(booking));
+            Assert.ThrowsAsync<DataAccessLayerException>(async () => await _bookingDataServices.SaveAsync(booking));
 
         }
         [Test]
         public async Task Should_Throw_WhenInvalidLinesPresent()
         {
             var value = await FetchValidBooking().ConfigureAwait(false);
-            var list = CreateABookingList(-1, value.NUMERO_RES);
             var bookingNow = await _bookingDataServices.GetDoAsync(value.NUMERO_RES);
-            bookingNow.ItemsDtos = bookingNow.ItemsDtos.Union(list);
-            Assert.ThrowsAsync<DataLayerException>(async () => await _bookingDataServices.SaveAsync(bookingNow));
+            bookingNow.Value.Items = null;
+            Assert.ThrowsAsync<System.ArgumentNullException > (async () => await _bookingDataServices.SaveAsync(bookingNow));
         }
         [Test]
         public async Task Should_Load_PagedReservationSummary()
@@ -144,6 +144,25 @@ namespace KarveTest.DAL
             foreach (var book in booking)
             {
                 Assert.IsNotEmpty(book.BookingNumber);
+            }
+        }
+        [Test]
+        public async Task Should_Insert_ANewReservation()
+        {   var code = _bookingDataServices.NewId();
+            var bookingData = _bookingDataServices.GetNewDo(code);
+            var booking = await _bookingDataServices.GetPagedSummaryDoAsync(1, 2);
+            var item = booking.FirstOrDefault();
+            Assert.NotNull(item);
+            Assert.NotNull(bookingData.Value);
+            if (item != null)
+            {
+                var asyncValue = await _bookingDataServices.GetDoAsync(item.BookingNumber);
+                var dto = bookingData.Value;
+                bookingData.Value = asyncValue.Value;
+                bookingData.Value.NUMERO_RES = dto.NUMERO_RES;
+                bookingData.Value.Items = new List<BookingItemsDto>();
+                var outValue = await _bookingDataServices.SaveAsync(bookingData);
+                Assert.IsTrue(outValue);
             }
         }
         [Test]
@@ -211,29 +230,7 @@ namespace KarveTest.DAL
             };
             return currentList;
         }
-        [Test]
-        public async Task Should_Throw_When_IsInvaldReservation()
-        {
-            var booking = await _bookingDataServices.GetPagedSummaryDoAsync(1,10);
-            var item = booking.FirstOrDefault();
-            var bookingKey = string.Empty;
-            Assert.NotNull(item);
-            Assert.NotNull(item.BookingNumber);
-            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
-            {
-                var linRes = new LIRESER();
-                bookingKey = dbConnection.UniqueId(linRes);
-            }
-            var bKey = Convert.ToUInt32(bookingKey);
-            var reservationNumber = item.BookingNumber;
-            var bookingNow = await _bookingDataServices.GetDoAsync(reservationNumber);
-            bookingNow.Value.APELLIDO1 = "GiorgioZoppi";
-            var currentList = CreateABookingList(bKey, reservationNumber);
-            bookingNow.ItemsDtos = bookingNow.ItemsDtos.Union(currentList);
-            var result = await _bookingDataServices.SaveAsync(bookingNow);
-            var changed = await _bookingDataServices.GetDoAsync(reservationNumber);
-            Assert.AreEqual(result, true);
-            Assert.IsInstanceOf<NullReservation>(changed);
-        }
+      
+
     }
 }

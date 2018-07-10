@@ -1017,6 +1017,7 @@ namespace KarveCar.Integration
             {
                 PayloadType = DataPayLoad.Type.RegistrationPayload,
                 Subsystem = DataSubSystem.BookingSubsystem
+                
             };
             _carveBarViewModel.IncomingPayload(registrationPayLoad);
         }
