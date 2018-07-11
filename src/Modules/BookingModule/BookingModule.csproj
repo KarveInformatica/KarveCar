@@ -123,6 +123,8 @@
     <Compile Include="ViewModels\BookingControlViewModel.cs" />
     <Compile Include="ViewModels\BookingDataHelper.cs" />
     <Compile Include="ViewModels\BookingInfoViewModel.cs" />
+    <Compile Include="ViewModels\ViewDeleter.cs" />
+    <Compile Include="ViewModels\ViewFactory.cs" />
     <Compile Include="ViewModels\ReservationRequestControlViewModel.cs" />
     <Compile Include="ViewModels\ReservationRequestsViewModel.cs" />
     <Compile Include="Views\BookingControlView.xaml.cs">
@@ -234,6 +236,9 @@
   <ItemGroup>
     <PackageReference Include="CommonServiceLocator">
       <Version>1.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignThemes">
+      <Version>2.4.0.1044</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity" Version="6.3.0" />
     <PackageReference Include="Prism.Wpf">

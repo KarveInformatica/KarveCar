@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookingModule.Views"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:prism="http://prismlibrary.com/"
@@ -42,13 +43,28 @@
             <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="Auto" MinHeight="51"></RowDefinition>
+                        <RowDefinition/>
+
+                        <RowDefinition Height="Auto" MinHeight="51"></RowDefinition>
                         <RowDefinition/>
                         <RowDefinition></RowDefinition>
-
+                        
                     </Grid.RowDefinitions>
-            <TextBlock Text="Numero Reserva:" Grid.Row="0" Margin="0,0,0,5" FontWeight="Bold"/>
-            <Syncfusion:SfTextBoxExt  
+                    <Grid Grid.Row="0" Grid.RowSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"></ColumnDefinition>
+                            <ColumnDefinition Width="30*"></ColumnDefinition>
+                            <ColumnDefinition Width="10*"></ColumnDefinition>
+
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition>
+                            </RowDefinition>
+                        </Grid.RowDefinitions>
+                            <TextBlock Text="Numero Reserva:" Grid.Row="0" Grid.Column="0"  Margin="0,0,0,5" FontWeight="Bold"/>
+                        <Syncfusion:SfTextBoxExt 
+                            Grid.Column="0"
                 Grid.Row="1"
                 Text="{Binding Path=DataObject.Value.NUMERO_RES, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
                 FontWeight="Light" 
@@ -58,7 +74,73 @@
                 karveControls:ControlExt.DataSource="{Binding DataObject}"
                 karveControls:ControlExt.DataSourcePath="NUMERO_RES"
                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}" />
+                        <TextBlock Text="Factor de Riesgo:" Grid.Row="0" Grid.Column="1"  Margin="0,0,0,5" FontWeight="Bold"/>
+                        <TextBlock Text="Posible No Show" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="Red" Grid.Row="1" Grid.Column="1"  Margin="0,0,0,5" FontWeight="Bold" FontSize="30"/>
+                        <StackPanel Grid.Column="3" Grid.Row="0" Grid.RowSpan="2" 
+                                     VerticalAlignment="Top" Height="Auto">
+                            <Button Command="{Binding ShowBooking}" Height="70">
+                                <StackPanel>
+                                    <TextBlock Text="Ver Reserva"></TextBlock>
+                                    <Image Source="/KarveControls;component/Images/pdf.png" Height="40"></Image>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
                     <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Label Content="Empresa Reserva"  Width="Auto" />
+                            <Syncfusion:SfTextBoxExt Width="Auto" Text="{Binding Path=DataObject.Value.SUBLICEN_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                         Grid.Column="3" Height="30" x:Name="sUBLICEN_RES1"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="SUBLICEN_RES1"
+                                 AutoCompleteSource="{Binding CompanyDto}"
+                                 SearchItemPath="Code"
+                                 Style="{StaticResource SfFieldErrorStyle}"
+                                 Watermark="{Binding lempresa, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Label Content="Oficina Creacion"  />
+                            <Syncfusion:SfTextBoxExt Text="{Binding Path=DataObject.Value.OFICINA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" 
+                                 Height="30" x:Name="oFICINA_RES1" Width="Auto" 
+                                 AutoCompleteSource="{Binding OfficeDto}"
+                                 SearchItemPath="Codigo"
+                                 Style="{StaticResource SfFieldErrorStyle}"
+                                 Watermark="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="OFICINA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                              />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <Label Content="RSC"/>
+                            <Syncfusion:SfTextBoxExt  Text="{Binding Path=DataObject.Value.RENTAL1_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="RENTAL_RES1"
+                                  Style="{StaticResource SfFieldErrorStyle}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Height="30" x:Name="rENTAL1_RES1" Width="Auto" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="3">
+                            <Label Content="Dia Facturacion" />
+                            <Syncfusion:UpDown Width="Auto" Value="{Binding Path=DataObject.Value.DIAFAC_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIAFAC_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 MinValue="0"
+                                 FocusedBackground="Pink" 
+                                 EnableFocusedColors="True"              
+                                 Height="30" x:Name="dIAFAC_RES1"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -90,7 +172,7 @@
                         
 
                     </Grid>
-                    <Grid Grid.Row="3">
+                    <Grid Grid.Row="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -101,13 +183,17 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Column="0" Grid.Row="0">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">                                <Image Source="/KarveControls;component/Images/calendar1.png" Height="30"></Image>
-                            <Syncfusion:SfDatePicker  Width="150"  
+                            <DatePicker  Width="150"  
                                     karveControls:ControlExt.DataSource="{Binding DataObject}"
                                     karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                    DateTime="{Binding Path=DataObject.Value.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
-                            <Syncfusion:SfTimePicker Grid.Row="150"></Syncfusion:SfTimePicker>
-                            </StackPanel>
+                                    SelectedDate="{Binding Path=DataObject.Value.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
+                                <materialDesign:TimePicker DockPanel.Dock="Right" x:Name="DataTimePicker"
+                                                                          Height="30"
+                                                                          SelectedTime="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                          HorizontalAlignment="Left"/>
+                                
+                                                            </StackPanel>
 
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="1">
@@ -117,24 +203,61 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Oficina"></TextBlock>
-                                    <Syncfusion:SfTextBoxExt Watermark="Oficina de Salida" Height="30"></Syncfusion:SfTextBoxExt>
+                                    <TextBlock Text="{Binding loficina, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                    <Syncfusion:SfTextBoxExt Watermark="{Binding ldepartureworkshop, Source={StaticResource ResourceLanguage}}" 
+                                                             Height="30" 
+                                                             karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                                             karveControls:ControlExt.DataSourcePath="OFISALIDA_RES1"
+                                                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                             Text="{Binding Path=DataObject.Value.OFISALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                                             Grid.Column="5" 
+                                                             Style="{StaticResource SfFieldErrorStyle}"
+                                                             x:Name="OFISALIDA_RES1"
+                                                             SearchItemPath="Codigo"
+                                                             AutoCompleteSource="{Binding ReservationOffice, Mode=OneTime}" 
+                                                             AutoCompleteMode="Suggest">
+                                        <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+
+                                            <DataTemplate>
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <Image Source="/KarveControls;component/Images/office.png" 
+                                                           Margin="2" 
+                                                           Stretch="Uniform" 
+                                                           Width="12"/>
+
+                                                    <TextBlock Text="{Binding Codigo}" Margin="5 2"/>
+                                                    <TextBlock Text="{Binding Nombre}" Margin="5 2"/>
+
+                                                </StackPanel>
+
+                                            </DataTemplate>
+
+                                        </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+
+
+                                    </Syncfusion:SfTextBoxExt>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1">
                                     <TextBlock Text="Lugar"></TextBlock>
-                                    <Syncfusion:SfTextBoxExt Watermark="Lugar de Salida" Height="30"></Syncfusion:SfTextBoxExt>
+                                    <Syncfusion:SfTextBoxExt 
+                                        Style="{StaticResource SfFieldErrorStyle}"        
+                                        Watermark="{Binding ldepartureplace, Source={StaticResource ResourceLanguage}}" Height="30">
+                                        
+                                    </Syncfusion:SfTextBoxExt>
                                 </StackPanel>
                             </Grid>
                         </Grid>
                         <Grid Grid.Column="1" Grid.Row="0">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Image Source="/KarveControls;component/Images/calendar1.png" Height="30"></Image>
-                                <Syncfusion:SfDatePicker Width="150"  
+                                <DatePicker Width="150"  
                                     karveControls:ControlExt.DataSource="{Binding DataObject}"
                                     karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                    DateTime="{Binding Path=DataObject.Value.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30"  />
-                                <Syncfusion:SfTimePicker Grid.Row="150"></Syncfusion:SfTimePicker>
+                                    SelectedDate="{Binding Path=DataObject.Value.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30"  />
+                                <materialDesign:TimePicker></materialDesign:TimePicker>
                             </StackPanel>
 
                         </Grid>
@@ -145,12 +268,48 @@
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0">
-                                    <TextBlock Text="Oficina"></TextBlock>
-                                    <Syncfusion:SfTextBoxExt Watermark="Oficina de Llegada" Height="30"></Syncfusion:SfTextBoxExt>
+                                    <TextBlock Text="{Binding loficina, Source={StaticResource ResourceLanguage}}"></TextBlock>
+                                    <Syncfusion:SfTextBoxExt Watermark="Oficina de Retorno" 
+                                                             Height="30" 
+                                                             karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                                             karveControls:ControlExt.DataSourcePath="OFIRETORNO_RES1"
+                                                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                             Text="{Binding Path=DataObject.Value.OFIRETORNO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                                             Grid.Column="5" 
+                                                             Style="{StaticResource SfFieldErrorStyle}"
+                                                             x:Name="OFIRETORNO_RES1"
+                                                             SearchItemPath="Codigo"
+                                                             AutoCompleteSource="{Binding ReservationOffice, Mode=OneTime}" 
+                                                             AutoCompleteMode="Suggest">
+                                        <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+
+                                            <DataTemplate>
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <Image Source="/KarveControls;component/Images/office.png" 
+                                                           Margin="2" 
+                                                           Stretch="Uniform" 
+                                                           Width="12"/>
+
+                                                    <TextBlock Text="{Binding Codigo}" Margin="5 2"/>
+                                                    <TextBlock Text="{Binding Nombre}" Margin="5 2"/>
+
+                                                </StackPanel>
+
+                                            </DataTemplate>
+
+                                        </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+
+
+                                    </Syncfusion:SfTextBoxExt>
                                 </StackPanel>
                                 <StackPanel Grid.Column="1">
                                     <TextBlock Text="Lugar"></TextBlock>
-                                    <Syncfusion:SfTextBoxExt Watermark="Lugar de Llegada" Height="30"></Syncfusion:SfTextBoxExt>
+                                    <Syncfusion:SfTextBoxExt 
+                                        Watermark="Lugar de Retorno" 
+                                        Style="{StaticResource SfFieldErrorStyle}"     
+                                        Height="30"></Syncfusion:SfTextBoxExt>
                                 </StackPanel>
                             </Grid>
                         </Grid>

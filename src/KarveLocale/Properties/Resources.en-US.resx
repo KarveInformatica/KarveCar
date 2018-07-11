@@ -2479,4 +2479,16 @@
   <data name="lfechamatriculant" xml:space="preserve">
     <value>Previous Registration Date</value>
   </data>
+  <data name="lshowing" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="lof" xml:space="preserve">
+    <value>Of</value>
+  </data>
+  <data name="ldepartureworkshop" xml:space="preserve">
+    <value>Departure Workshop</value>
+  </data>
+  <data name="ldepartureplace" xml:space="preserve">
+    <value>Departure Place</value>
+  </data>
 </root>

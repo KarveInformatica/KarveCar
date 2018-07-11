@@ -198,6 +198,14 @@ namespace KarveCommon.Services
 
                 }
             }
+            if (_observers.Contains(obs))
+            {
+                _observers.Remove(obs);
+            }
+            if (_notificationDisabled.TryGetValue(id, out IList<IEventObserver> valueNotify))
+            {
+                valueNotify.Remove(obs);
+            }
         }
 
         public void DisableNotify(string id, IEventObserver obs)

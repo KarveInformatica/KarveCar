@@ -2021,6 +2021,41 @@ namespace KarveDataServices.DataTransferObject
                 ErrorList.Add(ConstantDataError.CodeNotValid);
                 return true;
             }
+            if (string.IsNullOrEmpty(OFICINA_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if (string.IsNullOrEmpty(this.SUBLICEN_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if (string.IsNullOrEmpty(this.SUBLICEN_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if (string.IsNullOrEmpty(OFISALIDA_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if (string.IsNullOrEmpty(OFIRETORNO_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if (string.IsNullOrEmpty(LUDEVO_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
+            if (string.IsNullOrEmpty(LUENTRE_RES1))
+            {
+                ErrorList.Add(ConstantDataError.NameIsEmpty);
+                return true;
+            }
             if (!string.IsNullOrEmpty(EMAIL_RES1))
             {
                 EMAIL_RES1 = EMAIL_RES1.Trim();

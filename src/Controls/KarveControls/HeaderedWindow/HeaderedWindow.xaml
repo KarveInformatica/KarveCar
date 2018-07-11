@@ -14,7 +14,7 @@
     
     <Grid>
 
-        <syncfusion:TabControlExt TabStripPlacement="Left">
+      
             
                 <Grid>
             <Grid.RowDefinitions>
@@ -30,6 +30,6 @@
             </ContentControl>
         </Grid>
             
-        </syncfusion:TabControlExt>
+      
     </Grid>
 </UserControl>

@@ -2840,4 +2840,16 @@
   <data name="lmoroso" xml:space="preserve">
     <value>Moroso</value>
   </data>
+  <data name="lshowing" xml:space="preserve">
+    <value>Mostrando</value>
+  </data>
+  <data name="lof" xml:space="preserve">
+    <value>di</value>
+  </data>
+  <data name="ldepartureworkshop" xml:space="preserve">
+    <value>Officina di Uscita</value>
+  </data>
+  <data name="ldepartureplace" xml:space="preserve">
+    <value>Luogo di Partenza</value>
+  </data>
 </root>

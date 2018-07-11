@@ -17,6 +17,7 @@ using KarveDataServices.DataObjects;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 
 namespace BookingModule.ViewModels
 {
@@ -35,10 +36,17 @@ namespace BookingModule.ViewModels
         private IRegionManager _detailsRegionManager;
 
         private PropertyChangedEventHandler _bookingLoadEventHandler;
+
+        public DelegateCommand<object> NavigateClient { get; set; }
+
         private PayloadInterpeter<BookingSummaryDto> _payloadInterpeterReload;
         private PayloadInterpeter<IBookingData> _payloadInterpeter;
+        private string _itemsCounts;
+        private int _counterInterval;
 
-      //  public DataPayLoad.Type OperationalState { get; private set; }
+        public ICommand CancelBook { get; set; }
+
+        //  public DataPayLoad.Type OperationalState { get; private set; }
 
         /// <summary>
         ///  The region shall be scoped.
@@ -51,12 +59,18 @@ namespace BookingModule.ViewModels
             _bookingDataService = DataServices.GetBookingDataService();
             _regionManager = regionManager;
             _container = container;
-         
             // set the name to the listing grid.
             ItemName = "Reservas";
             DefaultPageSize = 50;
+            _counterInterval = 0;
+            CancelBook = new DelegateCommand<object>(OnCancelBook);
             ViewModelUri = new Uri("karve://booking/viewmodel?id=" + UniqueId);
             InitViewModel();
+        }
+
+        private void OnCancelBook(object obj)
+        {
+            DialogService?.ShowErrorMessage("Cannot cancel this booking");
         }
 
         private void InitViewModel()
@@ -69,6 +83,8 @@ namespace BookingModule.ViewModels
             _bookingLoadEventHandler += OnNotifyIncrementalList<BookingSummaryDto>;
             SummaryView = new IncrementalList<BookingSummaryDto>(LoadMoreItems);
             OpenCommand = new DelegateCommand<object>(OpenCurrentItem);
+            NavigateClient = new DelegateCommand<object>(OnNavigateClient);
+
             _payloadInterpeterReload = new PayloadInterpeter<BookingSummaryDto>();
             _payloadInterpeterReload.Init = (value, packet, insertion) =>
               {
@@ -87,8 +103,13 @@ namespace BookingModule.ViewModels
             InitPayLoadInterpeter(_payloadInterpeter);
             RegisterToolBar();
             StartAndNotify();
-
         }
+
+        private void OnNavigateClient(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
         private PayloadInterpeter<IBookingData> InitPayLoadInterpeter(PayloadInterpeter<IBookingData> payloadInterpeter)
         {
             payloadInterpeter.Init = (value, packet, insertion) =>
@@ -101,17 +122,17 @@ namespace BookingModule.ViewModels
                 }
                 else
                 {
+                    if (packet.Sender == ViewModelUri.ToString())
+                    {
+                        return;
+                    }
                     switch (packet.PayloadType)
                     {
                         case DataPayLoad.Type.UpdateView:
                             {
-                                // here i need an updateview for loading the data.
-                                new Thread(() =>
-                                {
-                                    Thread.CurrentThread.IsBackground = true;
-                                    StartRefresh();
-                                }).Start();
-                            
+
+                                StartRefresh();
+                                
 
                             }
                             break;
@@ -178,6 +199,7 @@ namespace BookingModule.ViewModels
             
             _bookingSummaryCompletion = NotifyTaskCompletion.Create<IEnumerable<BookingSummaryDto>>(
                 _bookingDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), _bookingLoadEventHandler);
+           
 
         }
        
@@ -202,6 +224,8 @@ namespace BookingModule.ViewModels
             currentPayload.PrimaryKeyValue = id;
             ActiveSubSystem();
             currentPayload.Sender = base.MailboxName;
+          //  currentPayload.HasNewCommand = true;
+          
           //  Navigate(id, tabName);
             EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
         }
@@ -296,8 +320,10 @@ namespace BookingModule.ViewModels
                 case IEnumerable<BookingSummaryDto> booking:
                     var maxItems = _bookingDataService.NumberItems;
                     PageCount = _bookingDataService.NumberPage;
+                    ItemCounts = maxItems.ToString();
                     var bookingList = new IncrementalList<BookingSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
                     bookingList.LoadItems(booking);
+                    
                     SummaryView = bookingList;
                     break;
             }
@@ -341,6 +367,19 @@ namespace BookingModule.ViewModels
             var newId = string.Empty;
             OperationalState = _payloadInterpeter.CheckOperationalType(payload);
             _payloadInterpeterReload.ActionOnPayload(payload, payload.PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
+        }
+        public string ItemCounts
+        {
+            set
+            {
+                _itemsCounts = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _itemsCounts;
+            }
+                
         }
 
         /// <summary>

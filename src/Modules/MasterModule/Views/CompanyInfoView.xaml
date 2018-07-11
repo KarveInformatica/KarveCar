@@ -14,6 +14,7 @@
              xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              mc:Ignorable="d" 
                xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+             xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
              d:DesignHeight="900" d:DesignWidth="1150">
 
 
@@ -261,14 +262,22 @@
                             </Grid.ColumnDefinitions>
                         
                         <Label Grid.Column="0" Content="{Binding webPassword, Source={StaticResource ResourceLanguage}}" Width="100" Height="28"></Label>
-                        <PasswordBox Height="28" x:Name="pWDWEB_EMP" Grid.Column="1"
+                            <StackPanel  Orientation="Horizontal" Grid.Column="1">
+                                <materialDesign:PackIcon
+                        		Margin="0,0,8,0"
+		                        HorizontalAlignment="Right"
+	                        	Foreground="{Binding ElementName=PasswordBox, Path=BorderBrush}" Kind="Key" />
+
+                                <PasswordBox Height="28" x:Name="PasswordBox"
+		materialDesign:HintAssist.Hint="Password" 
                                      Width="120"
                                      karveControls:ControlExt.Attach="True"
                                      karveControls:ControlExt.DataSource="{Binding DataObject}"
                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                      karveControls:ControlExt.Password="{Binding Path=DataObject.PWDWEB_EMP, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Margin="1,0,0,0">
-                            
-                        </PasswordBox>
+
+                                </PasswordBox>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </GroupBox>

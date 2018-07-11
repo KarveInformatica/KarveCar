@@ -68,23 +68,10 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Mostrando " Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-                <TextBlock Text=" 1-20 " Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-                <TextBlock Text="di " Grid.Column="2" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-                <TextBlock Text="1000" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-            </Grid>
-            <Grid Grid.Column="3" HorizontalAlignment="Right" Margin="200,0,0,0">
-                <GroupBox Header="Suggerencia">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="F4  Abre" Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15" Margin="10,0,0,0"></TextBlock>
-                        <TextBlock Text="Del Borra" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15" Margin="10,0,0,0"></TextBlock>
-                    </Grid>
-                </GroupBox>
+                <TextBlock Text="{Binding lshowing, Source={StaticResource ResourceLanguage}}" Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text="{Binding CounterInterval}" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text="{Binding lof, Source={StaticResource ResourceLanguage}}" Grid.Column="2" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text="{Binding ItemsCounts,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
             </Grid>
         </Grid>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -109,6 +96,7 @@
                                AllowSorting="True"
                                AllowGrouping="True"
                                ShowGroupDropArea="True"
+                               RowHeight="40"
                                NavigationMode="Row"
                                SelectionMode="Single"
                                FilterRowPosition="FixedTop"
@@ -154,7 +142,7 @@
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
 
-                                            <Image Grid.Column ="0" Source="/KarveControls;component/Images/cancel2.png"></Image>
+                                            <Image Grid.Column ="0" Source="/KarveControls;component/Images/cancel2.png" Width="20"></Image>
                                         </Grid>
                                     </Button.Content>
                                 </Button>
@@ -212,7 +200,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding DriverName}" Width="200"></TextBlock>
-                                <Button Grid.Column ="1" Command="{Binding NavigateClient}" CommandParameter="{Binding DriverCode}" Background="Transparent">
+                                <Button Grid.Column ="1" Command="{Binding Path=DataContext.NavigateClient,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding DriverCode}" Background="Transparent">
                                     <Button.Content>
                                         <Grid>
                                             <Image  Margin="10,0,0,0" Source="/KarveControls;component/Images/driver2.png"></Image>
@@ -238,7 +226,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding ClientName}" Width="200"></TextBlock>
-                                <Button Grid.Column ="1" Command="{Binding NavigateClient}" CommandParameter="{Binding ClientCode}" Background="Transparent">
+                                <Button Grid.Column ="1" Command="{Binding Path=DataContext.NavigateClient,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding ClientCode}" Background="Transparent">
                                     <Button.Content>
                                         <Grid>
                                             

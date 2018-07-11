@@ -15,11 +15,12 @@ namespace KarveDataServices
         private const string _channelnameTooLong = "Nombre canal demasiado largo";
         private const string _accountValueTooLong = "Valore cuenta no valido";
         private const string _branchNameTooLong= "Nombre delegacion demasiado largo";
-        private const string _nameIsEmpty = "Nombre es vacio. Rellena el nombre";
         private const string _emailValidate = "Email no validas";
         private const string _invalidRange = "Intervalo no valido";
         private const string _codeNotValid = "Codigo no valido";
         private const string _invalidPhone = "Telefono no valido";
+        private const string _nameIsEmpty = "Pon un valore valido y no vacio, por favor";
+
         public static string NameTooLong { get { return _nameTooLong; } }
         public static string SwiftInvalid { get { return _swiftinvalid; } }
         public static string AgentNamePresent { get { return _agentNamePresent; } }

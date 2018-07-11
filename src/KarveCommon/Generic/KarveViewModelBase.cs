@@ -93,7 +93,8 @@ namespace KarveCommon.Generic
         /// DataServices about grid parameters.
         /// </summary>
         protected IDataServices DataServices;
-       
+
+        public bool IsChanged { set; get; }
         public bool Faulted { set; get; }
         /// <summary>
         ///  Disable/Enable any popup from the dialog service.
@@ -432,6 +433,8 @@ namespace KarveCommon.Generic
         {
             return;
         }
+
+        
 
         /// <summary>
         /// TODO: Handle errors in NotifierOnSettingsChanged.

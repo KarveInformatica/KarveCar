@@ -10,7 +10,7 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  Data transfer object for the booking.
     /// </summary>
-    public class BookingSummaryDto
+    public class BookingSummaryDto: BaseDto
     {
         /// <summary>
         ///  Set or Get the booking number

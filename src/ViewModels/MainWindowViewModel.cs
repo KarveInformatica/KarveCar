@@ -187,14 +187,10 @@ namespace KarveCar.ViewModels
             //here's how you can cancel stuff:
             //args.Cancel(); 
         }
-
+        // to remove.
         public IInterTabClient CustomInterTabClient
         {
-            get
-            {
-                IInterTabClient tabClient = new KarveInterTabClient();
-                return tabClient;
-            }
+            get; set;
         }
 
         void RemoveItemFromRegion(object item, IRegion region)

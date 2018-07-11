@@ -41,23 +41,18 @@
 
             <DataTemplate x:Key="NavigateBookingUnit">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                     </Grid.ColumnDefinitions>
-
-                    <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
+                    
+                    <syncfusion:ComboBoxAdv DefaultText="..Eliges.." 
+                                            Width="Auto"
                                             ItemsSource="{Binding Path=Value.Source}" SelectedIndex="{Binding Path=Value.Index}">
                     </syncfusion:ComboBoxAdv>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="BillToBookin">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-
+                   
                     <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
-                                            SelectedIndex="{Binding Path=Value}">
+                                            SelectedIndex="{Binding Path=Value}" Width="Auto">
                         <syncfusion:ComboBoxItemAdv Width="200">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/KarveControls;component/Images/driver.png" Height="30"/>
@@ -181,6 +176,7 @@
                                     SelectionForegroundBrush="Black"
                                     NavigationMode="Cell"
                                     AddNewRowPosition="Bottom"
+                                    RowHeight="40"
                                     karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"

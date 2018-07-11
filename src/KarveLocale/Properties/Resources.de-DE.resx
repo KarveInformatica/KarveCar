@@ -2816,4 +2816,16 @@
     <value>Säumiger Zahler
 </value>
   </data>
+  <data name="lshowing" xml:space="preserve">
+    <value>Zeige</value>
+  </data>
+  <data name="lof" xml:space="preserve">
+    <value>von</value>
+  </data>
+  <data name="ldepartureworkshop" xml:space="preserve">
+    <value>Abreise-Workshop</value>
+  </data>
+  <data name="ldepartureplace" xml:space="preserve">
+    <value>Abfahrtsort</value>
+  </data>
 </root>

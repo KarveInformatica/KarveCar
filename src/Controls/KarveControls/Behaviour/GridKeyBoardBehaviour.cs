@@ -45,7 +45,7 @@ namespace KarveControls.Behaviour
         private void AssociatedObject_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
 
-            if (e.Key == Key.F4)
+           /* if (e.Key == Key.F4)
             {
                 if (OpenCommand != null)
                 {
@@ -58,6 +58,7 @@ namespace KarveControls.Behaviour
                     }
                 }
             }
+            */
             if (e.Key == Key.Delete)
             {
                 if (DeleteCommand != null)

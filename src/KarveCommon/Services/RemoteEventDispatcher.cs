@@ -1,5 +1,4 @@
 ﻿using System;
-using DevExpress.Xpo;
 
 namespace KarveCommon.Services
 {
