@@ -11,25 +11,27 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid>
 
-      
-            
-                <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="25*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.HeaderRegion}">
-            </ContentControl>
-            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}">
-            </ContentControl>
-            <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}">
-            </ContentControl>
+    <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+        <Grid>
+
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="25*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.HeaderRegion}">
+                </ContentControl>
+                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}">
+                </ContentControl>
+                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}">
+                </ContentControl>
+            </Grid>
+
+
         </Grid>
-            
-      
-    </Grid>
+    </ScrollViewer>
 </UserControl>

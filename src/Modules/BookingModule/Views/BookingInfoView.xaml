@@ -13,7 +13,10 @@
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
              d:DesignHeight="900" d:DesignWidth="1124">
+
+
     <Grid>
+
         <Grid.Resources>
             <ResourceDictionary>
                 <DataTemplate x:Name="Bonus" x:Key="Bonus">
@@ -75,9 +78,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                          
+
 
                         </Grid.RowDefinitions>
                         <Button Grid.Column="0" Grid.Row="0" Command="{Binding NewClient}" Background="#e6e6fa">
@@ -126,30 +127,21 @@
                                  Width="100">
 
                         </Syncfusion:SfTextBoxExt>
-                        <Label Grid.Column="0" Grid.Row="3" Content="{Binding lconcepto, Source={StaticResource ResourceLanguage}}" 
-                               Background="#e6e6fa" Foreground="Black">
-                            
-                        </Label>
                         
                         
-                        <Syncfusion:ComboBoxAdv DefaultText="..Elige Datos.." Grid.Row="4" Grid.Column="1">
-                           
-                        </Syncfusion:ComboBoxAdv>
-
-
-
-                        <Label Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Content="{Binding lobservacion, Source={StaticResource ResourceLanguage}}"></Label>
+                        <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="{Binding lobservacion, Source={StaticResource ResourceLanguage}}"></Label>
 
                         <Syncfusion:SfTextBoxExt Grid.Column="0" 
-                                                 Grid.Row="5" 
+                                                 Grid.Row="4" 
                                                  Grid.ColumnSpan="3" 
                                                  Height="100"
                                                  Text="{Binding DataObject.OBS1_RTF_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
-                       
+
                     </Grid>
                 </DataTemplate>
             </ResourceDictionary>
         </Grid.Resources>
+
         <i:Interaction.Triggers>
 
             <i:EventTrigger EventName="Loaded">
@@ -176,7 +168,9 @@
         </DockPanel>
 
         <TabControl Grid.Row="1" Grid.ColumnSpan="2" >
+
             <TabItem Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+
                 <Grid Grid.Row="1" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -382,7 +376,7 @@
                                     SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
                                 <materialDesign:TimePicker  x:Name="DataTimePicker"
                                                                           Height="30"
-                                                                          SelectedTime="{Binding DataObject.Value.HSALIDA_RES1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                          SelectedTime="{Binding DataObject.HSALIDA_RES1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                           HorizontalAlignment="Left"/>
 
                             </StackPanel>
@@ -737,7 +731,7 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         
-                        <KarveControls:DualFieldSearchBox Grid.Column="1" Grid.Row="1"
+                        <KarveControls:DualFieldSearchBox Grid.Column="0" Grid.Row="1"
                                             x:Name="ConceptSearchBox"
                                             DataFieldFirst="CONDUCTOR_RES1"
                                             AssistTableName="CLIENT_DRIVER"
@@ -750,9 +744,11 @@
                                             DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         </KarveControls:DualFieldSearchBox>
+                        
 
                     </Grid>
                 </Grid>
+
             </TabItem>
             <TabItem Header="Conductores">
                 <local:BookingDrivers></local:BookingDrivers>

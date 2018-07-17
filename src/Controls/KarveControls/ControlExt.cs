@@ -14,7 +14,6 @@ using KarveCommon;
 using KarveCommon.Generic;
 using Syncfusion.Windows.Shared;
 using Syncfusion.Windows.Controls.Input;
-
 namespace KarveControls
 {
    
@@ -169,9 +168,6 @@ namespace KarveControls
         {
             dp.SetValue(IsUpdatingProperty, value);
         }
-
-       
-
         private static void Attach(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {

@@ -107,7 +107,6 @@ new FrameworkPropertyMetadata(0));
         {
             ds.SetValue(IsChangedDependencyProperty, item);
         }
-        /// </summary>
         public static DependencyProperty DataSourceProperty
             = DependencyProperty.RegisterAttached(
                 "DataSource",
