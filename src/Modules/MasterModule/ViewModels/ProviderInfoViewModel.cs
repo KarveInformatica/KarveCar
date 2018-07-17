@@ -854,7 +854,7 @@ namespace MasterModule.ViewModels
         // <summary>
         /// This is the start notify.
         /// </summary>
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             Logger.Log(LogLevel.Debug, "Started and notified.");
             _initializationTable =

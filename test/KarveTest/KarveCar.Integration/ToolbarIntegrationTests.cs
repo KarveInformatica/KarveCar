@@ -1057,7 +1057,7 @@ namespace KarveCar.Integration
             var clientDs = _dataServices.GetClientDataServices();
             var singleClient = await GetAClientCode();
             bookingValue.Value.CLIENTE_RES1 = singleClient;
-            Assert.AreEqual(bookingValue.IsValid, true);
+            Assert.AreEqual(bookingValue.Valid, true);
             var payload = new DataPayLoad()
             {
                 PayloadType = DataPayLoad.Type.Delete,
@@ -1074,7 +1074,7 @@ namespace KarveCar.Integration
             _carveBarViewModel.SaveCommand.Execute();
             // assert
             var savedItem = await bookingDs.GetDoAsync(bookingNumber).ConfigureAwait(false);
-            Assert.AreEqual(savedItem.IsValid, true);
+            Assert.AreEqual(savedItem.Valid, true);
             Assert.AreEqual(savedItem.Value.CLIENTE_RES1, singleClient);
         }
 
@@ -1143,7 +1143,7 @@ namespace KarveCar.Integration
                 bookingItem
             };
 
-            singleBook.ItemsDtos = singleBook.ItemsDtos.Union<BookingItemsDto>(bookingItemList);
+            singleBook.Value.Items = singleBook.Value.Items.Union<BookingItemsDto>(bookingItemList);
 
             var payload = new DataPayLoad()
             {
@@ -1160,8 +1160,8 @@ namespace KarveCar.Integration
             _carveBarViewModel.SaveCommand.Execute();
             // assert
             var toBeSavedItem = await bookingDs.GetDoAsync(singleBook.Value.NUMERO_RES).ConfigureAwait(false);
-            Assert.AreEqual(toBeSavedItem.IsValid, true);
-            var lines = toBeSavedItem.ItemsDtos.Where(x => x.KeyId == maxCountItems.ToString());
+            Assert.AreEqual(toBeSavedItem.Valid, true);
+            var lines = toBeSavedItem.Value.Items.Where(x => x.KeyId == maxCountItems.ToString());
             Assert.Equals(1, lines.Count());
             var value = lines.FirstOrDefault();
             Assert.AreEqual(bookingItem.Number, value.Number);

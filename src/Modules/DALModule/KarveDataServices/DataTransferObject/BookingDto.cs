@@ -2065,7 +2065,23 @@ namespace KarveDataServices.DataTransferObject
             return false;
         }
         public override bool HasErrors { get => IsInvalid(); set => base.HasErrors = value; }
-
-        
+        public void ClearCollections()
+        {
+            if (Drivers is IList<ClientSummaryExtended> drivers)
+            {
+                drivers.Clear();
+            }
+            if (Contracts is IList<ContractSummaryDto> contracts)
+            {
+                contracts.Clear();
+            }
+            if (Clients is IList<ClientSummaryExtended> clients)
+            {
+                clients.Clear();
+            }
+        }
+        public IEnumerable<ClientSummaryExtended> Drivers { get; set; }
+        public IEnumerable<ContractSummaryDto> Contracts { get; set; }
+        public IEnumerable<ClientSummaryExtended> Clients { get; set; }
     }
 }

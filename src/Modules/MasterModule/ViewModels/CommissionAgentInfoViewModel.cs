@@ -753,7 +753,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// This is the start and notify.
         /// </summary>
-        public override void StartAndNotify()
+        public  void StartAndNotify()
         {
             IsVisible = Visibility.Visible;
             _initializationTable =

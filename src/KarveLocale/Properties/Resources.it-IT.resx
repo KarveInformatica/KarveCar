@@ -2852,4 +2852,55 @@
   <data name="ldepartureplace" xml:space="preserve">
     <value>Luogo di Partenza</value>
   </data>
+  <data name="lvuelo" xml:space="preserve">
+    <value>Volo</value>
+  </data>
+  <data name="llookupflight" xml:space="preserve">
+    <value>Cerca Volo</value>
+  </data>
+  <data name="lbookingbudget" xml:space="preserve">
+    <value>Preventivo Riserva</value>
+  </data>
+  <data name="lbookingref" xml:space="preserve">
+    <value>Riferimento Riserva</value>
+  </data>
+  <data name="lyourbooking" xml:space="preserve">
+    <value>LA TUA PRENOTAZIONE</value>
+  </data>
+  <data name="lbookingcompany" xml:space="preserve">
+    <value>Compangia Prenotazione</value>
+  </data>
+  <data name="loficinacreation" xml:space="preserve">
+    <value>Ufficio Creazione</value>
+  </data>
+  <data name="llocaliza" xml:space="preserve">
+    <value>Localizza</value>
+  </data>
+  <data name="lfechamatriculant" xml:space="preserve">
+    <value>Data Matricola</value>
+  </data>
+  <data name="lbudget" xml:space="preserve">
+    <value>Preventivo</value>
+  </data>
+  <data name="lexistbonus" xml:space="preserve">
+    <value>Esiste Bonus</value>
+  </data>
+  <data name="lselfbonus" xml:space="preserve">
+    <value>Self Bonus</value>
+  </data>
+  <data name="lbonusnumber" xml:space="preserve">
+    <value>Numero Bonus</value>
+  </data>
+  <data name="lfuturebooking" xml:space="preserve">
+    <value>Prenotazioni Future</value>
+  </data>
+  <data name="lnuevogrupo" xml:space="preserve">
+    <value>Nuovo Gruppo</value>
+  </data>
+  <data name="lconcepto" xml:space="preserve">
+    <value>Concetto</value>
+  </data>
+  <data name="lkilometroincluido" xml:space="preserve">
+    <value>Kilometro Incluso</value>
+  </data>
 </root>

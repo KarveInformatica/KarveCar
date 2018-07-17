@@ -12,7 +12,6 @@ using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using Prism.Regions;
 using Prism.Commands;
-using Prism.Unity;
 using System.Windows;
 using System.Windows.Controls;
 using DataAccessLayer.DataObjects;
@@ -180,10 +179,6 @@ namespace MasterModule.ViewModels
             RegionManager.RequestNavigate("ContentRegion",typeof(DriversControlView).FullName);
         }
 
-        public override void StartAndNotify()
-        {
-
-        }
        
         /// <summary>
         ///  Initialize view model.
@@ -545,7 +540,7 @@ namespace MasterModule.ViewModels
                     // in this case load the item after a navigate.
                     case DataPayLoad.Type.ShowNavigate:
                     {
-                        StartAndNotify();
+                        //StartAndNotify();
                         break;
                     }
                     

@@ -459,8 +459,6 @@
             </i:Interaction.Triggers>
 
             <i:Interaction.Behaviors>
-                <behaviors:GridKeyboardBehavior OpenCommand="{Binding OpenCommand}" DeleteCommand="{Binding DeleteCommand}">
-                </behaviors:GridKeyboardBehavior>
             </i:Interaction.Behaviors>
             
             <Syncfusion:SfDataGrid.Resources>

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Crud.Booking;
@@ -15,9 +14,6 @@ using System.ComponentModel;
 using System;
 using DataAccessLayer.Exception;
 using AutoMapper;
-using DataAccessLayer.Crud;
-using System.Text;
-using System.Linq;
 using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLayer
@@ -30,11 +26,7 @@ namespace DataAccessLayer
         private readonly IDataLoader<BookingDto> _dataLoader;
         private readonly IDataSaver<BookingDto> _dataSaver;
         private readonly IDataDeleter<BookingDto> _dataDeleter;
-        private readonly IDataLoader<ReservationRequestDto> dataLoaderRequest;
-        private readonly IDataSaver<ReservationRequestDto> _dataSaverRequest;
-        private readonly IDataDeleter<ReservationRequestDto> _dataDeleterRequest;
         private IMapper _mapper;
-
         private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
 
 
@@ -80,7 +72,7 @@ namespace DataAccessLayer
         public IBookingData GetNewDo(string code)
         {
             var bookingValue = new RESERVAS1();
-            var bookingData = new Reservation() { IsValid = true };
+            var bookingData = new Reservation() { Valid = true };
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 var reservations = string.Empty;
@@ -115,7 +107,7 @@ namespace DataAccessLayer
         /// <returns>Value of the data</returns>
         public async Task<bool> SaveAsync(IBookingData data)
         {
-            if ((data == null) || (!data.IsValid))
+            if ((data == null) || (!data.Valid))
             {
                 return false;
             }
@@ -139,10 +131,11 @@ namespace DataAccessLayer
             if (reservas != null)
             {
                 reservation.Value = reservas;
-                reservation.IsValid = true;
+                reservation.Valid = true;
+                return reservation;
             }
-            reservation.Value = reservas;
-            reservation.IsValid = false;
+            reservation.Value = new BookingDto();
+            reservation.Valid = false;
             return reservation;
         }
 
@@ -206,7 +199,10 @@ namespace DataAccessLayer
             return bookingList;
         }
 
-       
+       /// <summary>
+       ///  This validate the booking dto.
+       /// </summary>
+       /// <param name="dto">Booking data object to be validated.</param>
         public void Validate(BookingDto dto)
         {
             System.ComponentModel.DataAnnotations.ValidationContext context = new System.ComponentModel.DataAnnotations.ValidationContext(dto, null, null);
@@ -242,63 +238,28 @@ namespace DataAccessLayer
         /// <summary>
         ///  Get Data Object asynchronous
         /// </summary>
-        /// <param name="code">Code</param>
+        /// <param name="code">Primary Key</param>
         /// <returns>Returns  booking data.</returns>
         public async Task<IBookingData> GetDoAsync(string code)
         {
-            var bookingData = await _dataLoader.LoadValueAsync(code);
+           var bookingData = await _dataLoader.LoadValueAsync(code).ConfigureAwait(false);
            
             IBookingData data = new NullReservation();
+            
             if ((bookingData != null) && (bookingData.IsValid))
             {
-                data = new Reservation { Value = bookingData, IsValid = bookingData.IsValid, ItemsDtos = bookingData.Items };
+                data = new Reservation { Value = bookingData, Valid = bookingData.IsValid};
             }
-            if (data.IsValid)
+            if ((data.Value != null) && (data.Valid))
             {
-
-                var queryStore = _queryStoreFactory.GetQueryStore();
-                Validate(data.Value);
-                queryStore.AddParamCount(QueryType.QueryClientSummaryExtById, data.Value.CONDUCTOR_RES1);
-                queryStore.AddParamCount(QueryType.QueryContractsByClient, data.Value.CLIENTE_RES1);
-                var builder = new StringBuilder();
-               var queryStore2 = _queryStoreFactory.GetQueryStore();
-                queryStore2.AddParamCount(QueryType.QueryClientSummaryExtById, data.Value.CLIENTE_RES1);
-                builder.Append(queryStore.BuildQuery());
-                builder.Append(queryStore2.BuildQuery());
-                var executableQuery = builder.ToString();
-
-                using (var connection = SqlExecutor.OpenNewDbConnection())
-                {
-                    if (connection != null)
-                    {
-
-                        var multipleQuery = await connection.QueryMultipleAsync(executableQuery);
-                        data.IsValid = ParseResult(data, multipleQuery);
-                    }
-                }
+                data.Clients = data.Value.Clients;
+                data.Drivers = data.Value.Drivers;
+                data.Contracts = data.Value.Contracts;
+            
             }
             return data;
         }
-        /// <summary>
-        /// Parse the result from a multiple query.
-        /// </summary>
-        /// <param name="data">Booking data to be used</param>
-        /// <param name="reader">GridReader to be used</param>
-        /// <returns>True always except whem there is an exception.</returns>
-        private bool ParseResult(IBookingData data, SqlMapper.GridReader reader)
-        {
-            try
-            {
-                data.Drivers = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.Value.CONDUCTOR_RES1, _mapper, reader);
-               data.Contracts = SelectionHelpers.WrappedSelectedDto<ContractSummaryDto, ContractSummaryDto>(data.Value.CLIENTE_RES1, _mapper, reader);
-
-                data.Clients = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.Value.CLIENTE_RES1, _mapper, reader);
-            } catch (System.Exception ex)
-            { 
-                return false;
-            }
-            return true;
-        }
+       
 
         /// <summary>
         ///  Generate a new identifier.
@@ -318,7 +279,7 @@ namespace DataAccessLayer
         ///  Deleta an asynchronous data
         /// </summary>
         /// <param name="booking"></param>
-        /// <returns></returns>
+        /// <returns>True or False in case no deleting</returns>
         public async Task<bool> DeleteAsync(IBookingData booking)
         {
             var book = booking.Value;

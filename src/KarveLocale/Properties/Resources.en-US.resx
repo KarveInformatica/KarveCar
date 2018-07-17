@@ -2491,4 +2491,55 @@
   <data name="ldepartureplace" xml:space="preserve">
     <value>Departure Place</value>
   </data>
+  <data name="llocaliza" xml:space="preserve">
+    <value>Locate</value>
+  </data>
+  <data name="lvuelo" xml:space="preserve">
+    <value>Flight</value>
+  </data>
+  <data name="llookupflight" xml:space="preserve">
+    <value>Search Flight</value>
+  </data>
+  <data name="lbookingbudget" xml:space="preserve">
+    <value>Booking Budget</value>
+  </data>
+  <data name="lbookingref" xml:space="preserve">
+    <value>Booking Reference</value>
+  </data>
+  <data name="lyourbooking" xml:space="preserve">
+    <value>YOUR BOOKING</value>
+  </data>
+  <data name="lbookingcompany" xml:space="preserve">
+    <value>Booking Company</value>
+  </data>
+  <data name="loficinacreation" xml:space="preserve">
+    <value>Creation Office</value>
+  </data>
+  <data name="lbudget" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="lexistbonus" xml:space="preserve">
+    <value>Exists Bonus</value>
+  </data>
+  <data name="lselfbonus" xml:space="preserve">
+    <value>Self Bonus</value>
+  </data>
+  <data name="lbonusnumber" xml:space="preserve">
+    <value>Bonus Number</value>
+  </data>
+  <data name="lfuturebooking" xml:space="preserve">
+    <value>Future Booking</value>
+  </data>
+  <data name="lnuevogrupo" xml:space="preserve">
+    <value>New Group</value>
+  </data>
+  <data name="lconcepto" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="lkilometro" xml:space="preserve">
+    <value>Kilometers</value>
+  </data>
+  <data name="lkilometroincluido" xml:space="preserve">
+    <value>Included Kilometers</value>
+  </data>
 </root>

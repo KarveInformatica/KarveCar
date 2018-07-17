@@ -23,8 +23,8 @@ namespace DataAccessLayer.SQL
         private Dictionary<QueryType, Tuple<string, string>> _paramDictionary = new Dictionary<QueryType, Tuple<string, string>>
         {
              {  QueryType.QueryCity, new Tuple<string,string>("POBLACIONES", "CP") },
-            {  QueryType.QueryBrandByVehicle, new Tuple<string,string>("MARCAS", "CODIGO") },
-            {  QueryType.QueryAgentByVehicle, new Tuple<string,string>("AGENTES", "NUM_AG") },
+             {  QueryType.QueryBrandByVehicle, new Tuple<string,string>("MARCAS", "CODIGO") },
+             {  QueryType.QueryAgentByVehicle, new Tuple<string,string>("AGENTES", "NUM_AG") },
 
             {  QueryType.QueryPaymentForm, new Tuple<string,string>("FORMAS", "CODIGO") },
             {  QueryType.QueryReseller, new Tuple<string,string>("VENDEDOR", "NUM_VENDE") },
@@ -46,14 +46,16 @@ namespace DataAccessLayer.SQL
             {  QueryType.QueryVehicleColor, new Tuple<string,string>("COLORFL", "CODIGO") },
             {  QueryType.QueryVehicleGroup, new Tuple<string,string>("GRUPOS", "CODIGO") },
             {  QueryType.QueryVehicleSummaryById, new Tuple<string,string>("VEHICULO1", "CODIINT") },
+            {  QueryType.QueryCompanyOffices, new Tuple<string,string>("OFICINAS", "CODIGO") },
             {  QueryType.QueryVehicleActivity, new Tuple<string,string>("ACTIVEHI", "NUM_ACTIVEHI") },
             {  QueryType.QueryVehicleOwner, new Tuple<string,string>("PROPIE", "NUM_PROPIE") },
             {  QueryType.QueryCurrencyValue, new Tuple<string,string>("CURRENCIES", "CODIGO_CUR") },
             {  QueryType.HolidaysByOffice, new Tuple<string,string>("FESTIVOS_OFICINA", "OFICINA") },
-            { QueryType.QueryContractsByClient, new Tuple<string, string>("CONTRATOS1", "NUMERO")},
-            { QueryType.QueryDeptContable, new Tuple<string, string>("DELEGA", "NUM_DELEGA") },
-            {  QueryType.QueryDeliveringFrom, new Tuple<string, string>("FORMA_PEDENT", "CODIGO")  }
-
+            {  QueryType.QueryContractsByClient, new Tuple<string, string>("CONTRATOS1", "NUMERO")},
+            {  QueryType.QueryDeptContable, new Tuple<string, string>("DELEGA", "NUM_DELEGA") },
+            {  QueryType.QueryDeliveringFrom, new Tuple<string, string>("FORMA_PEDENT", "CODIGO")  },
+            {  QueryType.QueryBudgetSummaryPaged, new Tuple<string, string>("PRESUP1","NUMERO_PRE") },
+            {  QueryType.QueryBudgetSummary, new Tuple<string, string>("PRESUP1", "NUMERO_PRE") }
         };
         [XmlElement("StaticQueries")]
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
@@ -188,8 +190,8 @@ namespace DataAccessLayer.SQL
             { QueryType.QueryClientDelegations, "SELECT cldIdDelega,cldIdCliente, cldDelegacion, cldDireccion1, cldDireccion2, cldCP, cldPoblacion, cldIdProvincia,cldTelefono1, cldTelefono2, cldFax, cldEMail, cldMovil,PV.PROV AS NOM_PROV, PV.SIGLAS FROM cliDelega CC LEFT OUTER JOIN PROVINCIA PV ON PV.SIGLAS = CC.cldIdProvincia WHERE cldIdCliente='{0}' ORDER BY CC.cldIdDelega;"},
             { QueryType.QuerySupplierSummary, @"SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as LastModification, PROVEE1.USUARIO as CurrentUser FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE" },
              { QueryType.QuerySupplierSummaryById, @"SELECT PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as LastModification, PROVEE1.USUARIO as CurrentUser FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE WHERE PROVEE2.NUM_PROVEE='{0}'" },
-
             { QueryType.QuerySupplierSummaryPaged, "SELECT TOP {0} START AT {1} PROVEE1.NUM_PROVEE AS Codigo, PROVEE1.NOMBRE AS Nombre, NIF as Nif, TIPOPROVE.NOMBRE as Proveedor, COMERCIAL as Comercial,TELEFONO as Telefono, DIRECCION as Direccion, PROVEE1.CP as CP, POBLACION as Poblacion,PROVINCIA.PROV as Provincia, F_AEAT as AEAT, PROVEE2.CONTABLE as Contable,  CUGASTO as CuentaGasto, PROVEE1.ULTMODI as LastModification, PROVEE1.USUARIO as CurrentUser FROM PROVEE1 LEFT OUTER JOIN TIPOPROVE ON TIPOPROVE.NUM_TIPROVE=PROVEE1.TIPO LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = PROVEE1.PROV INNER JOIN PROVEE2 ON PROVEE2.NUM_PROVEE = PROVEE1.NUM_PROVEE" },
+            { QueryType.QueryFareConcept,"SELECT * FROM CONCEP_FACTUR WHERE CODIGO='{0}'"},
             { QueryType.QueryOfficeByCompany, @"SELECT * FROM OFICINAS WHERE CODIGO='{0}' AND SUBLICEN='{1}'"},
             { QueryType.QueryVehicleSummary, @"SELECT vehiculo1.codiint As Code, matricula as Matricula, 
                 MARCAS.NOMBRE as Marca, modelo as Model, grupo as Group, oficina as Office, NUMPLAZAS as Places, ACTIVIDAD as Activity, Color as Color, METROS_CUB as CubeMeters, PROPIE as Owner, CIASEGU as AssuranceCompany, CIALES as LeasingCompany, FSEGB as LeavingDate, FSEGA as StartingDate, CLIENTE1.NUMERO_CLI as ClientNumber, CLIENTE1.NOMBRE as Client, TIPOREV as Policy, VEHICULO2.KM as Kilometers, COMPRAFRA as PurchaseInvoice, BASTIDOR as Frame,  NUM_MOTOR as MotorNumber, ANOMODELO as ModelYear, REF as Referencia, KeyCode as LLAVE, LLAVE2 as StorageKey  FROM VEHICULO1 LEFT OUTER JOIN CLIENTES1 ON VEHICULO1.CLIENTE = CLIENTES1.NUMERO_CLI LEFT OUTER JOIN MARCAS ON VEHICULO1.MARCA = MARCA.NOMBRE INNER JOIN VEHICULO2 ON VEHICULO1.CODIINT = VEHICULO2.CODIINT"},
@@ -273,7 +275,7 @@ namespace DataAccessLayer.SQL
                                         "reservas1.NUMERO_RESERVA = reservas2.NUMERO_RESERVA where NUMERO_RESERVA={0}"
             },
             {
-                 QueryType.QueryBooking, "SELECT * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES WHERE RESERVAS2.NUMERO_RES='{0}'; SELECT * FROM LIRESER WHERE NUMERO='{0}'"
+                 QueryType.QueryBooking, "SELECT * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES WHERE RESERVAS2.NUMERO_RES='{0}';SELECT * FROM LIRESER WHERE NUMERO='{0}'"
             },
             {
                  QueryType.QueryBookedPaged, "SELECT TOP {0} START AT {1} * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES"
@@ -286,7 +288,7 @@ namespace DataAccessLayer.SQL
             { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO='{0}'" },
             { QueryType.QueryActiveFare,@"SELECT TOP {0} START AT {1} DISTINCT(XX.TARIFA) AS Fare, XX.NOMBRE as Name, XX.ACTIVA as IsActive from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
             
-            { QueryType.QueryContractsByClient, "select NUMERO as Contract, D.NOMBRE as Driver, DIAS_CON1 as Days, FPREV_CON1 as ForeCastDeparture, FECHA_CON1 as DepartureDate, FRETOR_CON1 as ReturnData, V.MATRICULA as Matricula, V.MARCA as Brand, V.MODELO as Model, TARIFA_CON1 as Fare,F.NUMERO_FAC as InvoiceNumber, F.BRUTO_FAC as GrossInvoice from CONTRATOS1 LEFT OUTER JOIN VEHICULO1 V ON V.CODIINT=VCACT_CON1 LEFT OUTER JOIN CLIENTES1 D ON D.NUMERO_CLI=CONDUCTOR_CON1 LEFT OUTER JOIN FACTURAS F ON F.CLIENTE_FAC=CLIENTE_CON1 WHERE CLIENTE_CON1='{0}';" },
+            { QueryType.QueryContractsByClient, @"SELECT NUMERO as Contract, CLIENTE_CON1 as ClientCode, D.NOMBRE as Driver, DIAS_CON1 as Days, FPREV_CON1 as ForeCastDeparture, FECHA_CON1 as DepartureDate, FRETOR_CON1 as ReturnData, V.MATRICULA as Matricula, V.MARCA as Brand, V.MODELO as Model, TARIFA_CON1 as Fare,F.NUMERO_FAC as InvoiceNumber, F.BRUTO_FAC as GrossInvoice from CONTRATOS1 LEFT OUTER JOIN VEHICULO1 V ON V.CODIINT=VCACT_CON1 LEFT OUTER JOIN CLIENTES1 D ON D.NUMERO_CLI=CONDUCTOR_CON1 LEFT OUTER JOIN FACTURAS F ON F.CLIENTE_FAC=CLIENTE_CON1 WHERE CLIENTE_CON1='{0}';" },
             { QueryType.QueryCountActiveFare,@"SELECT COUNT(DISTINCT(XX.TARIFA)) from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
             { QueryType.QueryBudgetKey, "select * from CLAVEPTO WHERE COD_CLAVE='{0}'"},
             { QueryType.QueryVehicleBrand, "select * from marcas where codigo='{0}'"},
@@ -312,6 +314,7 @@ namespace DataAccessLayer.SQL
         /// </summary>
         private MultiDictionary<QueryType, string> _memoryStore = new MultiDictionary<QueryType, string>();
         private StringBuilder _multiQuery = new StringBuilder();
+       
         /// <summary>
         ///  Get the list of the available queries in the system.
         /// </summary>

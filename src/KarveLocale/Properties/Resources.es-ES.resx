@@ -2532,4 +2532,58 @@
   <data name="ldepartureplace" xml:space="preserve">
     <value>Lugar de Salida</value>
   </data>
+  <data name="llocaliza" xml:space="preserve">
+    <value>Localiza</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="lvuelo" xml:space="preserve">
+    <value>Vuelo</value>
+  </data>
+  <data name="llookupflight" xml:space="preserve">
+    <value>Busca Vuelo</value>
+  </data>
+  <data name="lbookingbudget" xml:space="preserve">
+    <value>Presuppuesto Reserva</value>
+  </data>
+  <data name="lbookingref" xml:space="preserve">
+    <value>Referencia Reserva</value>
+  </data>
+  <data name="lyourbooking" xml:space="preserve">
+    <value>VUESTRA RESERVA</value>
+  </data>
+  <data name="lbookingcompany" xml:space="preserve">
+    <value>Empresa Reserva</value>
+  </data>
+  <data name="loficinacreation" xml:space="preserve">
+    <value>Oficina Creación</value>
+  </data>
+  <data name="lof" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="lbudget" xml:space="preserve">
+    <value>Presuppuesto</value>
+  </data>
+  <data name="lexistbonus" xml:space="preserve">
+    <value>Existe Bono</value>
+  </data>
+  <data name="lselfbonus" xml:space="preserve">
+    <value>Bono Propio</value>
+  </data>
+  <data name="lbonusnumber" xml:space="preserve">
+    <value>Numero Bono</value>
+  </data>
+  <data name="lfuturebooking" xml:space="preserve">
+    <value>Reservas Futuras</value>
+  </data>
+  <data name="lnuevogrupo" xml:space="preserve">
+    <value>New Group</value>
+  </data>
+  <data name="lconcepto" xml:space="preserve">
+    <value>Concepto</value>
+  </data>
+  <data name="lkilometroincluido" xml:space="preserve">
+    <value>Klilometros Incluidos</value>
+  </data>
 </root>

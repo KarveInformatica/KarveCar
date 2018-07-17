@@ -5,75 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookingModule.Views"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="1024">
     <Grid>
-        <Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="85"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Label Content="Importe" Width="60" />
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="60"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding Path=DataObject.Value.BASEI_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Width="100" Height="30" x:Name="bASEI_RES2"/>
-                    <Label Content="Iva" Grid.Column="1" Width="60" />
-                    <TextBox Text="{Binding Path=DataObject.Value.IVA_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Width="100" Height="30" x:Name="iVA_RES2" />
-                    <Label Content="Totale" Grid.Column="5" Width="60" />
-                    <TextBox Text="{Binding Path=DataObject.Value.TOLON_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="6" Width="60" Height="30" x:Name="tOLON_RES2" />
-                    <Label Content="Descuento" Grid.Column="3" Width="100" />
-                    <TextBox Text="{Binding Path=DataObject.Value.DTO_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="4" Width="100" Height="30" x:Name="dTO_RES2" />
-                    <Grid Grid.Column="7">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <syncfusion:ButtonAdv Label="Cobros" SmallIcon="/KarveControls;component/Images/paymentTypes.png" Command="{Binding AddPayment}"></syncfusion:ButtonAdv>
-                        <syncfusion:ButtonAdv Label="Ver Reserva" Grid.Column="1" SmallIcon="/KarveControls;component/Images/pdf.png" Command="{Binding ShowBooking}"></syncfusion:ButtonAdv>
-                      <!--  <syncfusion:ButtonAdv Label="Recalcular" Grid.Column="2" SmallIcon="/KarveControls;component/Images/recompute.png" Command="{Binding ReComputeBooking}"></syncfusion:ButtonAdv> -->
-                    </Grid>
-                </Grid>
-                <Label Content="Franq. Reduc." Grid.Row="1" Width="120" />
-                <Grid Grid.Column="1" Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding Path=DataObject.Value.FRANQUICIA_REDUCIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Width="100" Height="30" x:Name="fRANQUICIA_REDUCIDA_RES1" />
-                    <Label Grid.Column="1" Width="40">
-                        <Label.Content>
-                            <Image Source="/KarveControls;component/Images/km.png" Height="30" ToolTip="Kilometros Incluidos"></Image>
-                        </Label.Content>
-                    </Label>
-                    <TextBox Text="{Binding Path=DataObject.Value.KMINCL_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Width="100" Height="30" x:Name="kMINCL_RES1" />
-                    <Label Grid.Column="3" Width="40">
-                        <Label.Content>
-                            <Image Source="/KarveControls;component/Images/km.png" Height="30" ToolTip="Kilometros"></Image>    
-                        </Label.Content>
-                    </Label>
-                    <TextBox Text="{Binding Path=DataObject.Value.KILOMETROS, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="4" Width="100" Height="30" x:Name="kILOMETROS"  />
-                </Grid>
-              
-            </Grid>
-        </Grid>
     </Grid>
 </UserControl>

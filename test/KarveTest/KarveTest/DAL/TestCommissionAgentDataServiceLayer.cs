@@ -109,23 +109,7 @@ namespace KarveTest.DAL
             Assert.NotNull(createdAgent);
 
         }
-        /// <summary>
-        ///  This load the commission agent using xml.
-        /// </summary>
-        /// <returns></returns>
-        [Test]
-        public async Task Should_Load_CommissionAgent_UsingXml()
-        {
-            string numComi = "0000002";
-            ICommissionAgentDataServices commisionAgentDataServices = _dataServices.GetCommissionAgentDataServices();
-            ICommissionAgent agent = await commisionAgentDataServices.GetCommissionAgentDo(numComi);
-            Assert.NotNull(agent);
-            ComisioDto comisio = (ComisioDto) agent.Value;
-            Assert.AreEqual(comisio.NUM_COMI, numComi);
-            var data = agent.CommisionTypeDto.FirstOrDefault(c => c.Codigo == comisio.NUM_COMI);
-            Assert.NotNull(data);
-        }
-
+      
         /// <summary>
         ///  This create a commission agent in loop.
         /// </summary>

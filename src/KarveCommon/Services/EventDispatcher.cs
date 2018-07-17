@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
-using KarveCommon.Services;
 
 namespace KarveCommon.Services
 {
@@ -21,6 +18,18 @@ namespace KarveCommon.Services
         IList<IEventObserver> _toolBar = new List<IEventObserver>();
         // This are direct events, each view module has a mailbox for receiving messages.
         private IDictionary<string, MailBoxMessageHandler> _mailBox = new ConcurrentDictionary<string, MailBoxMessageHandler>();
+        /// <summary>
+        ///  Get the current notified state.
+        /// </summary>
+        public bool IsNotified
+        {
+            private set; get;
+        }
+
+        public EventDispatcher()
+        {
+            IsNotified = false;
+        }
         /// <summary>
         ///  Send a message from a view module to another view module.
         /// </summary>
@@ -57,7 +66,8 @@ namespace KarveCommon.Services
         }
         private void NotifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
         {
-          
+
+            IsNotified = true;
             for (int i = 0; i < eoList.Count; ++i)
             {
                 IEventObserver eo = eoList[i];

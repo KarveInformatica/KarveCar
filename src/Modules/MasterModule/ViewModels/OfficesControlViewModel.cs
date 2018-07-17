@@ -130,7 +130,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This initalize the view model.
         /// </summary>
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             IOfficeDataServices officeDataService = DataServices.GetOfficeDataServices();
             InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(officeDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), 
@@ -308,11 +308,7 @@ namespace MasterModule.ViewModels
             
         }
        
-        // TODO eliminate this.
-        protected override void SetTable(DataTable table)
-        {
-            
-        }
+        
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {

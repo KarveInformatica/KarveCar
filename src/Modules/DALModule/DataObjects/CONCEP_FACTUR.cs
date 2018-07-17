@@ -1,18 +1,21 @@
 using System;
- 
+using KarveDapper;
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a CONCEP_FACTUR.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class CONCEP_FACTUR 
+    /// <summary>
+    /// Represents a CONCEP_FACTUR.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("CONCEP_FACTUR")]
+    public class CONCEP_FACTUR 
 	{
 	
-	/// <summary>
-    ///  Set or get the CODIGO property.
-    /// </summary>
-    
+	    /// <summary>
+        ///  Set or get the CODIGO property.
+        /// </summary>
+        [Key]
 		public Int32 CODIGO { get; set; }
  
 	/// <summary>

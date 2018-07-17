@@ -118,13 +118,7 @@ namespace DataAccessLayer
             });
             return currentList as IncrementalList<DtoType>;
         }
-        /*
-        private async Task<object> CreateActiveFares(string code)
-        {
-
-        }
-        */
-
+     
        // do just a single funcion with generics.
 
         private async Task<object> CreateSupplierHelper()
@@ -237,7 +231,30 @@ namespace DataAccessLayer
 
             });
         }
-
+        /// <summary>
+        /// Create a generic helper for summary domain object, i.e ClientSummaryExtended, BookingSummaryExtended
+        /// </summary>
+        /// <typeparam name="Entity">Entity to be used.</typeparam>
+        /// <typeparam name="Domain">Domain to be used.</typeparam>
+        /// <typeparam name="SummaryDto">Summary object to be used.</typeparam>
+        /// <param name="dataProvider">Data service provider for loading data</param>
+        /// <param name="loadMoreItemFunc">Function to be used for loading more items.</param>
+        /// <returns> An incremental list of items loaded up to DefaultPage</returns>
+        private async Task<object> CreateComplexHelper<Entity,Domain,SummaryDto>(IDataProvider<Domain, SummaryDto> dataProvider, Action<uint, int> loadMoreItemsFunc)
+        {
+            var page = await dataProvider.GetPagedSummaryDoAsync(1, DefaultPage).ConfigureAwait(false);
+            var count = await _helperDataServices.GetItemsCount<Entity>().ConfigureAwait(false);
+            currentHelper = new IncrementalList<SummaryDto>(LoadMoreClients) { MaxItemCount = count };
+            if (currentHelper is IncrementalList<SummaryDto> summary)
+            {
+                summary.LoadItems(page);
+            }
+            return currentHelper;
+        }
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <returns>An incremental list of items loaded up to defaultPage</returns>
         private async Task<object> CreateClientHelper()
         {
             var clientDataService = _dataServices.GetClientDataServices();
@@ -401,6 +418,15 @@ namespace DataAccessLayer
             {
 
                 currentHelper = await CreateBrokerHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
+            _assistMapper.Configure("FARE_CONCEPT_ASSIST", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<FareConceptDto, CONCEP_FACTUR>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<FareConceptDto, CONCEP_FACTUR>(_dataServices, LoadMoreBanks).ConfigureAwait(false);
+                }
                 return currentHelper;
             });
             _assistMapper.Configure("BUSINESS_ASSIST", async (query) =>
@@ -1010,6 +1036,21 @@ namespace DataAccessLayer
                 currentHelper = await CreateClientHelper().ConfigureAwait(false); 
                 return currentHelper;
             });
+            _assistMapper.Configure("DRIVER_ASSIST_1", async (query) =>
+            {
+                currentHelper = await CreateClientHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
+            _assistMapper.Configure("DRIVER_ASSIST_2", async (query) =>
+            {
+                currentHelper = await CreateClientHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
+            _assistMapper.Configure("DRIVER_ASSIST_3", async (query) =>
+            {
+                currentHelper = await CreateClientHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
             _assistMapper.Configure("CLIENTES1", async (query) =>
             {
                 currentHelper = await CreateClientHelper().ConfigureAwait(false);
@@ -1227,6 +1268,11 @@ namespace DataAccessLayer
                 }
                 return currentHelper;
             });
+            _assistMapper.Configure("BUDGET", async (query)=>
+            {
+                currentHelper = await CreateBudgetHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
             _assistMapper.Configure("PROVEE2", async (query) =>
             {
                 var supplierHelper = await CreateSupplierHelper().ConfigureAwait(false);
@@ -1234,6 +1280,13 @@ namespace DataAccessLayer
                 return currentHelper;
             });
            
+        }
+        private async Task<object> CreateBudgetHelper()
+        {
+            var dataServices = _dataServices.GetBudgetDataServices();
+            //var complexHelper = 
+            //await CreateComplexHelper<PRESUP1, IBudgetData, IBudgetKey>(dataProvider, Action<uint, int> loadMoreItemsFunc)
+            throw new NotImplementedException();
         }
 
         private void LoadMoreContableDelega(uint arg1, int index)

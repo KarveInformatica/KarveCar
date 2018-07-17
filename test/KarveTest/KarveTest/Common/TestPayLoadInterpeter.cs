@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using DataAccessLayer.DataObjects;
-using KarveCommon.Services;
-using KarveDapper.Extensions;
-using KarveDataServices;
+﻿using KarveCommon.Services;
 using NUnit.Framework;
 using KarveDataServices.DataTransferObject;
 using KarveTest.DAL;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
-using Dapper;
 using DataAccessLayer.DataObjects;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
@@ -103,9 +101,9 @@ namespace DataAccessLayer.Crud.Booking
                     {
                         returnValue = await UpdateOrInsertAsyncEntity<RESERVAS1>(dbConnection,bookedTableValue1);
                         returnValue = returnValue && await UpdateOrInsertAsyncEntity<RESERVAS2>(dbConnection, bookedTableValue2);
-                        returnValue = returnValue && await DoCrudAction(toUpdateLires, async (lires) => { return await dbConnection.UpdateAsync<IEnumerable<LIRESER>>(lires); });
-                        returnValue = returnValue &&  await DoCrudAction(toInsertLires, async (lires) => { return await dbConnection.InsertAsync<IEnumerable<LIRESER>>(lires) > 0; });
-                        returnValue = returnValue &&  await DoCrudAction(toDeleteLires, async (lires) => { return await dbConnection.DeleteCollectionAsync(lires); });
+                        returnValue = returnValue && await DoCrudAction(toUpdateLires, async (lires) => { return await dbConnection.UpdateAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false); });
+                        returnValue = returnValue &&  await DoCrudAction(toInsertLires, async (lires) => { return await dbConnection.InsertAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false) > 0; });
+                        returnValue = returnValue &&  await DoCrudAction(toDeleteLires, async (lires) => { return await dbConnection.DeleteCollectionAsync(lires).ConfigureAwait(false); });
                         if (!returnValue)
                         {
                             scope.Dispose();

@@ -12,7 +12,6 @@ using KarveDataServices;
 using Prism.Regions;
 using MasterModule.Views;
 using System.Linq;
-using NLog;
 using System.Reflection;
 using KarveCommonInterfaces;
 using KarveControls;
@@ -22,12 +21,7 @@ using Prism.Commands;
 using System.Diagnostics.Contracts;
 using System.Windows;
 using  RegionMan = Prism.Regions.RegionManager;
-using Syncfusion.UI.Xaml.Grid;
-using KarveControls.Generic;
-using KarveControls.Interactivity;
-using Prism.Unity;
 using System.Collections;
-using KarveCommon;
 
 namespace MasterModule.Common
 {
@@ -464,11 +458,16 @@ namespace MasterModule.Common
                     if (CanDeleteRegion)
                     {
                         DeleteRegion(KeyDeleted);
-                        StartAndNotify();
+                        UpdateAndNotify();
                     }
                 }
             
            
+        }
+
+        public virtual void UpdateAndNotify()
+        {
+
         }
 
         protected void Union<T>(ref IEnumerable<T> dtoList, T dto)
@@ -667,7 +666,7 @@ namespace MasterModule.Common
             if (payLoad.PayloadType == DataPayLoad.Type.UpdateView)
             {
                 
-                StartAndNotify();
+                UpdateAndNotify();
 
                 EventManager.NotifyObserverSubsystem(payLoad.SubsystemName, payLoad);
             }
@@ -720,7 +719,13 @@ namespace MasterModule.Common
                     var commissionAgent = activeRegion as OfficeInfoView;
                     RegionManager.Regions[RegionName].Remove(commissionAgent);
                 }
-               if (activeRegion is FrameworkElement)
+                /*
+                if (activeRegion is Booking)
+                {
+                    var commissionAgent = activeRegion as OfficeInfoView;
+                    RegionManager.Regions[RegionName].Remove(commissionAgent);
+                }*/
+                if (activeRegion is FrameworkElement)
                 {
                     var framework = activeRegion as FrameworkElement;
                     /*
@@ -755,15 +760,10 @@ namespace MasterModule.Common
 
             if (value)
             {
-                StartAndNotify();
+                UpdateAndNotify();
             }
         }
-        /// <summary>
-        ///  This is shall be used by the different view model to set the value of the table initialzed;
-        /// </summary>
-        /// <param name="table"></param>
-        protected abstract void SetTable(DataTable table);
-
+        
 
       
         /// <summary>
@@ -840,41 +840,7 @@ namespace MasterModule.Common
 
             
             Contract.Ensures(SummaryView != null, "The summary is not null");
-        }
-
-
-        
-
-        /// <summary>
-        /// This initializatin notifier for the data object
-        /// </summary>
-        /// <param name="sender">The sender is</param>
-        /// <param name="propertyChangedEventArgs"></param>
-        protected void InitializationNotifierOnPropertyChanged(object sender,
-            PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-
-            var propertyName = propertyChangedEventArgs.PropertyName;
-
-            if (propertyName.Equals("Status"))
-            {
-                if (InitializationNotifier.IsSuccessfullyCompleted)
-                {
-                    SetTable(InitializationNotifier.Task.Result.Tables[0]);
-                    /* ok the first load has been successfully i can do the second one while the UI Thread is refreshing*/
-                    lock (NotifyStateObject)
-                    {
-                        NotifyState = 0;
-                    }
-                }
-
-
-            }
-        }
-
-       
-        
-        
+        }        
         /// <summary>
         /// SetDataObject. The idea is to provide a common inteface to trigger in a base class the raise propery changed.
         /// </summary>

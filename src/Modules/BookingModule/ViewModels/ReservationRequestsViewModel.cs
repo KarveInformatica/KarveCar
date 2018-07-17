@@ -54,7 +54,7 @@ namespace BookingModule.ViewModels
             ViewModelUri = new Uri("karve://booking/request/viewmodel?id=" + Guid.ToString());
             _navigator = navigation;
             _userSettings = configurationService.GetUserSettings();
-       //     _deleteCommand = new DelegateCommand<object>(DeleteView);
+            // _deleteCommand = new DelegateCommand(DeleteView);
             _saveCommand = new DelegateCommand(SaveView);
             _dataReservationService = services.GetReservationRequestDataService();
             _assistDataService = services.GetAssistDataServices();

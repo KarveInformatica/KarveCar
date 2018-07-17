@@ -10,7 +10,8 @@ namespace KarveCommon.Services
     /// </summary>
     public class RemoteEventDispatcher : IEventManager
     {
-   
+        public bool IsNotified => throw new NotImplementedException();
+
         public void DeleteMailBoxSubscription(string id)
         {
             throw new NotImplementedException();

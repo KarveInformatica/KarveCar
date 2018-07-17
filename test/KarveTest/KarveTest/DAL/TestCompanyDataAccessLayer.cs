@@ -58,10 +58,6 @@ namespace KarveTest.DAL
             // arrange
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                var companies = await connection.GetAsyncAll<SUBLICEN>();
-                SUBLICEN sublicen = companies.FirstOrDefault();
-                if (sublicen!=null)
-                {
                     var code = "00";
                     var company = await _companyDataService.GetAsyncCompanyDo(code);
                     Assert.NotNull(company);
@@ -70,7 +66,6 @@ namespace KarveTest.DAL
                     Assert.NotNull(company.Value.Province);
                     Assert.NotNull(company.Value.City);
                     Assert.Greater(company.Value.Offices.Count(), 0);
-                }
             }
         }
         [Test]

@@ -2828,4 +2828,46 @@
   <data name="ldepartureplace" xml:space="preserve">
     <value>Abfahrtsort</value>
   </data>
+  <data name="lvuelo" xml:space="preserve">
+    <value>Flug</value>
+  </data>
+  <data name="llookupflight" xml:space="preserve">
+    <value>Suchen Flug</value>
+  </data>
+  <data name="lbookingbudget" xml:space="preserve">
+    <value>Buchungsbudget</value>
+  </data>
+  <data name="lbookingref" xml:space="preserve">
+    <value>Ref.Buchnung</value>
+  </data>
+  <data name="lyourbooking" xml:space="preserve">
+    <value>DEINE BUCHNUNG</value>
+  </data>
+  <data name="lbookingcompany" xml:space="preserve">
+    <value>Buchungsunternehmen</value>
+  </data>
+  <data name="loficinacreation" xml:space="preserve">
+    <value>Kreationsbüro</value>
+  </data>
+  <data name="lexistbonus" xml:space="preserve">
+    <value>Existiert Bonus</value>
+  </data>
+  <data name="lselfbonus" xml:space="preserve">
+    <value>Selbstbonus</value>
+  </data>
+  <data name="lbonusnumber" xml:space="preserve">
+    <value>Bonus Nummer</value>
+  </data>
+  <data name="lfuturebooking" xml:space="preserve">
+    <value>zukünftige Buchung</value>
+  </data>
+  <data name="lnuevogrupo" xml:space="preserve">
+    <value>Neue Gruppe</value>
+  </data>
+  <data name="lconcepto" xml:space="preserve">
+    <value>Konzept</value>
+  </data>
+  <data name="lkilometroincluido" xml:space="preserve">
+    <value>Kilometer enthalten</value>
+  </data>
 </root>

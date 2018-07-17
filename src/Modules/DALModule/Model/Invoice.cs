@@ -6,7 +6,7 @@ using KarveDataServices.DataTransferObject;
 namespace DataAccessLayer.Model
 {
     /// <summary>
-    /// This is an object for the invoice.
+    /// Invoice domain object that wrapup the Invoiceto.
     /// </summary>
     public class Invoice : DomainObject, IInvoiceData, InvoiceComponent
     {

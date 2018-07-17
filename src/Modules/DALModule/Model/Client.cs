@@ -16,17 +16,17 @@ namespace DataAccessLayer.Model
         /// <returns></returns>
         static IClientData CreateClient(ClientDto dto)
         {
-           var value = new Client();
-           value.Value = dto;
+           var value = new Client(dto);
            return value;
         }
     }
     /// <summary>
     ///  Wrapper of the domain object for the client.
-    ///  It is useful for detecting changes and working with client related tables. 
+    ///  It contains the ClientDto in the Value.
     /// </summary>
     public class Client : DomainObject, IClientData
     {
+        private ClientDto _dto; 
         protected Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
@@ -56,11 +56,21 @@ namespace DataAccessLayer.Model
         public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
         public IEnumerable<ContactsDto> ContactsDto { get; set; }
         public IEnumerable<InvoiceFareDto> InvoiceFare { get; set; }
+        public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
         /// <summary>
         ///  Value of the client data trasnfer object.
         /// </summary>
         public ClientDto Value { get; set; }
-        
-        public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
+        /// <summary>
+        /// Constructor of the client
+        /// </summary>
+        /// <param name="dto">Data object of the client</param>
+        public Client(ClientDto dto)
+        {
+            _dto = dto;
+            Code = dto.NUMERO_CLI;
+            Valid = true;
+        }
+       
     }
 }

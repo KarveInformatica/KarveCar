@@ -154,7 +154,7 @@ namespace KarveCommon.Generic
             Header = "DefaultTab";
             SubSystem = DataSubSystem.None;
             DefaultPageSize = 100;
-
+            
         }
 
         public KarveViewModelBase(IDataServices services)
@@ -201,9 +201,9 @@ namespace KarveCommon.Generic
         private void InitViewModelState()
         {
             Guid = Guid.NewGuid();
+            OperationalState = DataPayLoad.Type.Raw;
             //GridIdentifier = ""
             PagingEvent += OnPagedEvent;
-
             GridResizeCommand = new DelegateCommand<object>(OnGridResize);
             GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
         }
@@ -504,6 +504,7 @@ namespace KarveCommon.Generic
         public virtual void DisposeEvents()
         {
             PagingEvent -= OnPagedEvent;
+            OperationalState = DataPayLoad.Type.Raw;
         }
 
         // TODO expose as generic.

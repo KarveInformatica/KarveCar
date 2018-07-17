@@ -100,6 +100,7 @@
     <Compile Include="ConstantDataError.cs" />
     <Compile Include="DataHelperBase.cs" />
     <Compile Include="DataObjects\IBookingData.cs" />
+    <Compile Include="DataObjects\IBudgetData.cs" />
     <Compile Include="DataObjects\IHelperMasterCommon.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
     <Compile Include="DataObjects\IReservationRequest.cs" />
@@ -110,6 +111,8 @@
     <Compile Include="DataTransferObject\BookingItemsDto.cs" />
     <Compile Include="DataTransferObject\BookingSummaryDto.cs" />
     <Compile Include="DataTransferObject\BrokerDto.cs" />
+    <Compile Include="DataTransferObject\BudgetDto.cs" />
+    <Compile Include="DataTransferObject\BudgetSummaryDto.cs" />
     <Compile Include="DataTransferObject\ClientSummaryExtended.cs" />
     <Compile Include="DataTransferObject\ConfigurationSettingsDto.cs" />
     <Compile Include="DataTransferObject\ContractByClientDto.cs" />
@@ -230,6 +233,7 @@
     <Compile Include="IAssistDataService.cs" />
     <Compile Include="IAssistMapper.cs" />
     <Compile Include="IBookingDataService.cs" />
+    <Compile Include="IBudgetDataService.cs" />
     <Compile Include="IClientDataServices.cs" />
     <Compile Include="ICompanyDataService.cs" />
     <Compile Include="IConnectionOpener.cs" />

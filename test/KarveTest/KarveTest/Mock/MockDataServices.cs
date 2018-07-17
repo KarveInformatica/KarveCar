@@ -131,5 +131,10 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public IBudgetDataService GetBudgetDataServices()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

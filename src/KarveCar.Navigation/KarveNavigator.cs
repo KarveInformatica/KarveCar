@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.DataObjects;
-using KarveCommon.Generic;
+﻿using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
@@ -12,13 +11,23 @@ using System;
 namespace KarveCar.Navigation
 {
 
-
+    /// <summary>
+    ///  Implementation of the navigation between two view models. 
+    ///  A view model A could use a KarveNavigator object for opening a new view first.
+    /// </summary>
     public class KarveNavigator: IKarveNavigator
     {
-        private IDataServices _dataServices;
-        private IRegionManager _regionManager;
-        private IEventManager _eventManager;
-        private IDialogService _dialogService;
+        private readonly IDataServices _dataServices;
+        private readonly IRegionManager _regionManager;
+        private readonly IEventManager _eventManager;
+        private readonly IDialogService _dialogService;
+        /// <summary>
+        /// KarveNavigator constructor
+        /// </summary>
+        /// <param name="dataServices">DataServices to be used for navigation</param>
+        /// <param name="regionManager">RegionManager to be used for instantiating a videw</param>
+        /// <param name="eventManager">EventManager to be used for communicating between view models</param>
+        /// <param name="dialogService">DialogServicing to be used for spotting errors.</param>
         public KarveNavigator(IDataServices dataServices, IRegionManager regionManager, IEventManager eventManager, IDialogService dialogService)
         {
             _dataServices = dataServices;
@@ -26,9 +35,12 @@ namespace KarveCar.Navigation
             _eventManager = eventManager;
             _dialogService = dialogService;
         }
+        /// <summary>
+        /// Create a new client view for insertion.
+        /// </summary>
+        /// <param name="viewModelUri">Uri assigned to the new client view</param>
         public void NewClientView(Uri viewModelUri)
-        {
-
+        { 
             var clientDataService = _dataServices.GetClientDataServices();
             var numberCode = clientDataService.GetNewId();
             var payload = clientDataService.GetNewDo(numberCode);
@@ -38,6 +50,26 @@ namespace KarveCar.Navigation
             var dataPayload = factory.BuildInsertPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
             _eventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
         }
+        /// <summary>
+        /// Create a new broker view.
+        /// </summary>
+        /// <param name="viewModelUri">A new broker uri</param>
+        public void NewBrokerView(Uri viewModelUri)
+        {
+            var broker = _dataServices.GetCommissionAgentDataServices();
+            var numberCode = broker.NewId();
+            var viewName = numberCode + "." + "Nuevo Commision Agent";
+            var payload = broker.GetNewDo(numberCode);
+            Navigate(_regionManager, numberCode, viewName, typeof(MasterModule.Views.CommissionAgentInfoView).FullName);
+            var factory = DataPayloadFactory.GetInstance();
+            var dataPayload = factory.BuildInsertPayLoadDo<ICommissionAgent>(viewName, payload, DataSubSystem.CommissionAgentSubystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
+            _eventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, dataPayload);
+        }
+
+        /// <summary>
+        ///  Create a new vehicle view for insertion
+        /// </summary>
+        /// <param name="viewModelUri">Uri to be assigned to the new vehicle view</param>
         public void NewVehicleView(Uri viewModelUri)
         {
             var dataServices = _dataServices.GetVehicleDataServices();
@@ -54,7 +86,7 @@ namespace KarveCar.Navigation
         {
             _dialogService?.ShowErrorMessage("Fare not yet implemented");
         }
-
+        
         public void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto: BaseDto where Entity:class
         {
             var helperDataService = _dataServices.GetHelperDataServices();
@@ -73,12 +105,8 @@ namespace KarveCar.Navigation
                     }
                 }
             });
-           // var payload = Activator.CreateInstance<Dto>();
-          //  payload.Code = id;
             var factory = DataPayloadFactory.GetInstance();
-//            var dataPayload = factory.BuildInsertPayLoadDo<Dto>(tabName, payload, DataSubSystem.HelperSubsytsem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
                Navigate(_regionManager, string.Empty, string.Empty, viewName);
-  //          _eventManager.NotifyObserverSubsystem(EventSubsystem.HelperSubsystem, dataPayload);
         }
        
         /// <summary>
@@ -145,6 +173,7 @@ namespace KarveCar.Navigation
             manager.RequestNavigate(RegionNames.TabRegion, uri);
         }
 
+       
     }
     
 }

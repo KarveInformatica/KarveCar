@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using KarveDapper;
-using KarveDapper.Extensions;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
@@ -10,19 +8,22 @@ using DataAccessLayer.SQL;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
 using System.Linq;
+using System.Text;
+using NLog;
 
 namespace DataAccessLayer.Crud.Booking
 {
     /// <summary>
     ///  BookingDataLoader. This loads the boooking.
     /// </summary>
-    internal class BookingDataLoader: IDataLoader<BookingDto>
+    internal class BookingDataLoader : IDataLoader<BookingDto>
     {
 
         private readonly ISqlExecutor _sqlExecutor;
         private readonly IMapper _mapper;
         private readonly QueryStoreFactory _queryStoreFactory;
         private int _currentPos;
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         ///  Constructor for the booking data loader.
@@ -39,7 +40,7 @@ namespace DataAccessLayer.Crud.Booking
         /// <summary>
         ///  Load the asynchronous async load.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of booking</returns>
         public async Task<IEnumerable<BookingDto>> LoadAsyncAll()
         {
             var store = _queryStoreFactory.GetQueryStore();
@@ -49,14 +50,13 @@ namespace DataAccessLayer.Crud.Booking
             {
                 if (dbConnection != null)
                 {
+                    _logger.Log(LogLevel.Debug, query);
                     var reservation = await dbConnection.QueryAsync<BookingDto>(query);
                     return reservation;
                 }
             }
             return new List<BookingDto>();
         }
-
-
         /// <summary>
         ///  Load a single value.
         /// </summary>
@@ -72,31 +72,72 @@ namespace DataAccessLayer.Crud.Booking
             }
             using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
             {
-                var queryStore = _queryStoreFactory.GetQueryStore();
-               
-                var query = queryStore.AddParam(QueryType.QueryBooking, code).BuildQuery();
-                using (var multi = await dbConnection.QueryMultipleAsync(query))
-                {
-                    var reservation = multi.Read<BookingPoco>().FirstOrDefault();
-                    if (reservation != null)
-                    {
-                        reservationDto = _mapper.Map<BookingPoco, BookingDto>(reservation);
-                    }
-                    else
-                    {
-                        return reservationDto;
-                    }
 
-                    var reservationItems = multi.Read<LIRESER>().ToList();
-                    if (reservationItems != null)
-                    {
-                        reservationDto.Items = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsDto>>(reservationItems);
-                    }
-                    reservationDto.IsValid = true;
+                var queryStore = _queryStoreFactory.GetQueryStore();
+
+                var query = queryStore.AddParam(QueryType.QueryBooking, code).BuildQuery();
+                _logger.Log(LogLevel.Debug, query);
+                var multi = await dbConnection.QueryMultipleAsync(query).ConfigureAwait(false);
+                var reservation = multi.Read<BookingPoco>().FirstOrDefault();
+                var reservationItems = multi.Read<LIRESER>();
+                if (reservation != null)
+                {
+                    reservationDto = _mapper.Map<BookingPoco, BookingDto>(reservation);
                 }
+                else
+                {
+                    return reservationDto;
+                }
+
+                if (reservationItems != null)
+                {
+                    
+                    reservationDto.Items = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsDto>>(reservationItems);
+                   
+                }
+                if (reservationDto != null)
+                {
+                     string auxQuery = CreateAuxQuery(reservationDto);
+                    _logger.Log(LogLevel.Debug, auxQuery);
+                    var auxData = await dbConnection.QueryMultipleAsync(auxQuery).ConfigureAwait(false);
+                    ParseAuxData(ref reservationDto, auxData);
+                    
+                }
+                reservationDto.IsValid = true;
+                
             }
             return reservationDto;
         }
+        /// <summary>
+        ///  Parse the data from the auxiliar 
+        /// </summary>
+        /// <param name="data">Booking object to be used.</param>
+        /// <param name="reader">Reader to be used.</param>
+        private void ParseAuxData(ref BookingDto data, SqlMapper.GridReader reader)
+        {
+            data.Drivers = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.CONDUCTOR_RES1, _mapper, reader);
+            data.Clients = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.CLIENTE_RES1, _mapper, reader);
+        }
+
+        /// <summary>
+        ///  Create a single query.
+        /// </summary>
+        /// <param name="data">Data to be used in a reservation.</param>
+        /// <returns>Returns a query.</returns>
+        private string CreateAuxQuery(BookingDto data)
+        {
+            var queryStore = _queryStoreFactory.GetQueryStore();
+            queryStore.AddParamCount(QueryType.QueryClientSummaryExtById, data.CONDUCTOR_RES1);
+            var builder = new StringBuilder();
+            var queryStore2 = _queryStoreFactory.GetQueryStore();
+            queryStore2.AddParamCount(QueryType.QueryClientSummaryExtById, data.CLIENTE_RES1);
+            builder.Append(queryStore.BuildQuery());
+            builder.Append(queryStore2.BuildQuery());
+            var executableQuery = builder.ToString();
+            builder.Clear();
+            return executableQuery;
+        }
+
         /// <summary>
         ///  Load at most m reservation.
         /// </summary>
@@ -115,10 +156,11 @@ namespace DataAccessLayer.Crud.Booking
                 }
                 var queryStore = _queryStoreFactory.GetQueryStore();
                 var query = queryStore.AddParamRange(QueryType.QueryBookedPaged, _currentPos, n).BuildQuery();
-                var result = await dbConnection.QueryAsync(query);
-
+                var result = await dbConnection.QueryAsync<BookingPoco>(query);
+                var dtoList = _mapper.Map<IEnumerable<BookingPoco>, IEnumerable<BookingDto>>(result);
+                reservationDto = dtoList.ToList<BookingDto>();
             }
-           return reservationDto;
+            return reservationDto;
         }
     }
 }

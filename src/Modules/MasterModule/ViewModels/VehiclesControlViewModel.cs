@@ -133,7 +133,7 @@ namespace MasterModule.ViewModels
             set => OpenItemCommand = value;
         }
         
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             _vehicleDataServices = DataServices.GetVehicleDataServices();
             _vehicleTaskNotify = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev)=> {
@@ -220,14 +220,7 @@ namespace MasterModule.ViewModels
         public override void IncomingPayload(DataPayLoad payload)
         {
         }
-        /// <summary>
-        ///  Set the summary as datatable.
-        /// </summary>
-        /// <param name="table"></param>
-        protected override void SetTable(DataTable table)
-        {
-            SummaryView = table;
-        }
+       
         public override async Task<bool> DeleteAsync(string vehiculeId, DataPayLoad payLoad)
         {
             var vehicleData = await _vehicleDataServices.GetDoAsync(vehiculeId).ConfigureAwait(false);

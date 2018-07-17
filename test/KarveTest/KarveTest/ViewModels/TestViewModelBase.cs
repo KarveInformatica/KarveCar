@@ -5,6 +5,7 @@ using KarveDataServices;
 using Prism.Regions;
 using Microsoft.Practices.Unity;
 using KarveTest.DAL;
+using KarveCar.Navigation;
 
 namespace KarveTest.ViewModels
 {
@@ -25,6 +26,7 @@ namespace KarveTest.ViewModels
         protected Mock<IRegionManager> _mockRegionManager = new Mock<IRegionManager>();
         protected Mock<IDialogService> _mockDialogService = new Mock<IDialogService>();
         protected Mock<UnityContainer> _mockUnityContainer = new Mock<UnityContainer>();
+        protected Mock<IKarveNavigator> _mockKarveNavigator = new Mock<IKarveNavigator>();
         protected Mock<IInteractionRequestController> _mockRequestController = new Mock<IInteractionRequestController>();
 
         public TestViewModelBase()

@@ -139,7 +139,7 @@ namespace BookingModule.ViewModels
                     }
                 });
         }
-        public override void StartAndNotify()
+        public  void StartAndNotify()
         {
 
             _reservationCompletion = NotifyTaskCompletion.Create<IEnumerable<ReservationRequestSummary>>(

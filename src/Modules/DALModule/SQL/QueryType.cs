@@ -105,6 +105,8 @@ namespace DataAccessLayer.SQL
         QueryClientVisits,
         QueryInvoiceBlocks,
         QueryBudgetKey,
+        QueryBudgetSummaryPaged,
+        QueryBudgetSummary,
         QueryVehicleModelWithCount,
         QuerySupplierSummaryById,
         QueryClientSummaryById,
@@ -121,6 +123,7 @@ namespace DataAccessLayer.SQL
         QueryDeptContable,
         QueryOfficePaged,
         QueryBrokerVisit,
-        QueryBrokerContactsPaged
+        QueryBrokerContactsPaged,
+        QueryFareConcept
     };
 }

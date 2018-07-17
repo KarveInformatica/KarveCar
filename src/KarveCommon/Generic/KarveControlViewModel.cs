@@ -51,7 +51,7 @@ namespace KarveCommon.Generic
         /// 4.2. If the result is not correct we show a dialog service.
         /// 5. Get load incremenentally the data.
         /// </summary>
-        public abstract void StartAndNotify();
+        /// public abstract void StartAndNotify();
         /// <summary>
         /// Get the route name has been left to the abstract.
         /// </summary>

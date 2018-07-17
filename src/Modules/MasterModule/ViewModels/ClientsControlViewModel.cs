@@ -144,7 +144,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Start and Notify the load of the control view model table.
         /// </summary>
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             
             MessageHandlerMailBox += MessageHandler;
@@ -241,14 +241,7 @@ namespace MasterModule.ViewModels
                 }
             }
         }
-        /// <summary>
-        ///  Set the table to be views. It get called from the master. TODO: see if it possible unify this.
-        /// </summary>
-        /// <param name="table">Table to be set</param>
-        protected override void SetTable(DataTable table)
-        {
-            SummaryView = table;  
-        }
+       
         public override void DisposeEvents()
         {
             EventManager.DeleteMailBoxSubscription(EventSubsystem.ClientSummaryVm);

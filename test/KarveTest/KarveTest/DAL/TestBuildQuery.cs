@@ -7,7 +7,6 @@ using KarveDapper;
 using KarveDapper.Extensions;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
-using KarveDapper.Extensions;
 using DataAccessLayer.DataObjects;
 using System.Text;
 
@@ -21,7 +20,6 @@ namespace KarveTest.DAL
     {
         private QueryStoreFactory _storeFactory = new QueryStoreFactory();
         private IQueryStore _store;
-
         private const string CityLanguageQuery =
             @"SELECT * FROM POBLACIONES WHERE CP = '0001';SELECT * FROM IDIOMAS WHERE CODIGO='0001';";
         private const string Query2 = @"SELECT * FROM POBLACIONES WHERE CP = '1892829';SELECT * FROM OFICINAS WHERE SUBLICEN='282998';";
@@ -154,25 +152,7 @@ namespace KarveTest.DAL
 
 
         }
-        [Test]
-        public async Task Should_Execute_AQueryWithFilters()
-        {
-            var store = _storeFactory.GetQueryStore();
-            var testBase = new TestBase();
-            var sqlExecutor = testBase.SetupSqlQueryExecutor();
-            var compositeQueryFilter = new QueryCompositeFilter();
-            var queryFilter1 = new QueryFilter("NOMBRE", "CIAL.*", Syncfusion.Data.PredicateType.And);
-            var queryFilter2 = new QueryFilter("POBLACION", "MAL.*", Syncfusion.Data.PredicateType.And);
-            compositeQueryFilter.Add(queryFilter1);
-            compositeQueryFilter.Add(queryFilter2);
-            store.AddParamFilter(QueryType.QueryClientPagedSummary,compositeQueryFilter);
-            var query = store.BuildQuery();
-            using (var dbConnection = sqlExecutor.OpenNewDbConnection())
-            {
-                var value = await dbConnection.QueryAsync<ClientSummaryExtended>(query);
-                Assert.NotNull(value);
-            }
-        }
+       
         
     }
 }

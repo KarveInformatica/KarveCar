@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using BookingModule.Views;
-using Prism.Mvvm;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
@@ -15,8 +14,6 @@ using Microsoft.Practices.Unity;
 using Syncfusion.Windows.Shared;
 using KarveDataServices.DataObjects;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 
 namespace BookingModule.ViewModels
@@ -101,8 +98,8 @@ namespace BookingModule.ViewModels
              };
             _payloadInterpeter = new PayloadInterpeter<IBookingData>();
             InitPayLoadInterpeter(_payloadInterpeter);
-            RegisterToolBar();
-            StartAndNotify();
+             RegisterToolBar();
+             StartAndNotify();
         }
 
         private void OnNavigateClient(object obj)
@@ -172,10 +169,11 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///     This is if it is navigated from.
         /// </summary>
-        /// <param name="navigationContext"></param>
+        /// <param name="navigationContext">Navigation context</param>
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+
 
         public void StartRefresh()
         {
@@ -194,13 +192,31 @@ namespace BookingModule.ViewModels
 
         }
 
-        public override void StartAndNotify()
+        /// <summary>
+        ///  StartAndNotify.
+        /// </summary>
+        public void StartAndNotify()
         {
             
             _bookingSummaryCompletion = NotifyTaskCompletion.Create<IEnumerable<BookingSummaryDto>>(
-                _bookingDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), _bookingLoadEventHandler);
-           
-
+                _bookingDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), (sender, ev)=> 
+                {
+                    if (sender is INotifyTaskCompletion<IEnumerable<BookingSummaryDto>> bookingSummary)
+                    {
+                        if (bookingSummary.IsFaulted)
+                        {
+                            DialogService?.ShowErrorMessage("Cannot load booking summary");
+                            return;
+                        }
+                        var booking = bookingSummary.Result;
+                        var maxItems = _bookingDataService.NumberItems;
+                        PageCount = _bookingDataService.NumberPage;
+                        ItemCounts = maxItems.ToString();
+                        var bookingList = new IncrementalList<BookingSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                        bookingList.LoadItems(booking);
+                        SummaryView = bookingList;
+                    }
+                });
         }
        
         /// <summary>
@@ -212,21 +228,21 @@ namespace BookingModule.ViewModels
         private async void OpenCurrentItem(object value)
         {
             if (!(value is BookingSummaryDto reservation)) return;
+            if (string.IsNullOrEmpty(reservation.ClientCode))
+            {
+                return;
+            }
             var name = reservation.ClientCode;
             var id = reservation.BookingNumber;
-            var tabName = id + "." + name;
+            var tabName =  "Reserva."+id;           
             CreateNewItem(tabName);
-            var provider = await _bookingDataService.GetDoAsync(id);
-            
+            var provider = await _bookingDataService.GetDoAsync(id).ConfigureAwait(false);         
             var currentPayload = BuildShowPayLoadDo(tabName, provider);
             currentPayload.DataObject = provider;
             currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
             currentPayload.PrimaryKeyValue = id;
-            ActiveSubSystem();
-            currentPayload.Sender = base.MailboxName;
-          //  currentPayload.HasNewCommand = true;
-          
-          //  Navigate(id, tabName);
+            //ActiveSubSystem();
+            currentPayload.Sender = ViewModelUri.ToString();
             EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
         }
 

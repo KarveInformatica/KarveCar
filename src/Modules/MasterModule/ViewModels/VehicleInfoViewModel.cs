@@ -674,7 +674,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// This is the start notify.
         /// </summary>
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             _initializationTable =
                 NotifyTaskCompletion.Create<IVehicleData>(LoadDataValue(PrimaryKeyValue, IsInsertion), InitializationDataObjectOnPropertyChanged);

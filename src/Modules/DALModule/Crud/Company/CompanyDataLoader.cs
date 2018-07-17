@@ -26,8 +26,6 @@ namespace DataAccessLayer.Crud.Company
         private long _currentPos;
         private QueryStoreFactory _queryStoreFactory;
       
-        private EntityMapper _entityMapper = new EntityMapper();
-
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -73,38 +71,17 @@ namespace DataAccessLayer.Crud.Company
                 }
                 companyDto = _mapper.Map<SUBLICEN, CompanyDto>(value);
                 
-                SqlMapper.GridReader reader = null;
                 var store = CreateQueryStore(companyDto);
                 var multipleQuery = store.BuildQuery();
+                var reader = await connection.QueryMultipleAsync(multipleQuery);
 
-                IList<object> entities = new List<object>()
-                {
-                    new POBLACIONES(),
-                    new PROVINCIA(),
-                    new OFICINAS()
-                };
-                IList<object> dto = new List<object>()
-                {
-                    new CityDto(),
-                    new ProvinciaDto(),
-                    new OfficeDtos()
-                };
-                  
-             /*  var deserializer = new EntityDeserializer(entities, dto);
-                reader = await connection.QueryMultipleAsync(multipleQuery);
-                // var v = _entityMapper.Map(reader, deserializer);
-                //companyDto.City = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(companyDto.CP, _mapper, reader).FirstOrDefault();
-               // companyDto.Province = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(companyDto.CP, _mapper, reader).FirstOrDefault();
+                var city = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(value.POBLACION, _mapper, reader);
 
-                //companyDto.Province = deserializer.SelectDto<PROVINCIA, ProvinciaDto>(_mapper,v).FirstOrDefault();
-                var selectedDto = deserializer.SelectDto<OFICINAS, OfficeDtos>(_mapper,v);
-                var offices = new ObservableCollection<OfficeDtos>();
-                foreach (var selected in selectedDto)
-                {
-                    offices.Add(selected);
-                }
-                companyDto.Offices = offices;
-                */
+                var province = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(value.PROVINCIA, _mapper, reader);
+                companyDto.Offices = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(value.CODIGO, _mapper, reader);
+                companyDto.City = city.FirstOrDefault();
+                companyDto.Province = province.FirstOrDefault();
+
             }
             return companyDto;
         }
@@ -177,9 +154,9 @@ namespace DataAccessLayer.Crud.Company
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             store.Clear();
-            store.AddParam(QueryType.QueryCity, company.CP);
-            store.AddParam(QueryType.QueryProvince, company.PROVINCIA);
-            store.AddParam(QueryType.QueryCompanyOffices, company.Code);
+            store.AddParamCount(QueryType.QueryCity, company.CP);
+            store.AddParamCount(QueryType.QueryProvince, company.PROVINCIA);
+            store.AddParamCount(QueryType.QueryCompanyOffices, company.Code);
             return store;
         }
         /// <summary>

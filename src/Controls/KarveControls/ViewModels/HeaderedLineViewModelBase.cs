@@ -196,7 +196,12 @@ namespace KarveControls.ViewModels
         protected void OnChangedCommand(DtoType dataObject, 
             IDictionary<string, object> eventDictionary, DataSubSystem subSystem, string subsystemName,string objectPath)
         {
-
+            /// preconditions
+            /// 
+            if (OperationalState == DataPayLoad.Type.Raw)
+            {
+                return;
+            }
             var evDictionary = eventDictionary as IDictionary<string, object>;
             var changedDataObject = evDictionary["DataObject"] as DtoType;
             var payLoad = BuildDataPayload(eventDictionary);

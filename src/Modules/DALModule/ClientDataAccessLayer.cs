@@ -89,8 +89,7 @@ namespace DataAccessLayer
                 throw new ArgumentException("Empty value during client");
             }
             var entity = await _dataLoader.LoadValueAsync(clientIndentifier).ConfigureAwait(false);
-            IClientData client = new Client();
-            client.Value = entity;
+            IClientData client = new Client(entity);
             return client;
         }
         /// <summary>
@@ -118,8 +117,8 @@ namespace DataAccessLayer
         }
         public IClientData GetNewDo(string code)
         {
-            IClientData varClientData = new Client();
-            varClientData.Value = new ClientDto { NUMERO_CLI = code, Numero = code, Code = code };
+            var value = new ClientDto { NUMERO_CLI = code, Numero = code, Code = code };
+            IClientData varClientData = new Client(value);
             varClientData.Valid = true;
             varClientData.Value.IsValid = true;
             varClientData.Value.IsNew = true;

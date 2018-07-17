@@ -10,21 +10,13 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  This is an interface for booking the data
     /// </summary>
-    public interface IBookingData
+    public interface IBookingData : IValidDomainObject
     {
         /// <summary>
         ///  Data object to be binded outside.
         /// </summary>
         BookingDto Value { get; set; }
-       
-        /// <summary>
-        ///  Returns the profile, if it is valid.
-        /// </summary>
-        bool IsValid { get; set; }
-        /// <summary>
-        /// Get the items that are in a booking place.
-        /// </summary>
-        IEnumerable<BookingItemsDto> ItemsDtos { get; set; }
+        // Helpers.
         /// <summary>
         ///  Set or Get the Summary of contracts.
         /// </summary>

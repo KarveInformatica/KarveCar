@@ -34,7 +34,7 @@
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       SourceView="{Binding DriverDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      ButtonImage="/KarveControls;component/Images/driver.png"
+                                                      ButtonImage="/KarveControls;component/Images/driver3.png"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Row="1">
 

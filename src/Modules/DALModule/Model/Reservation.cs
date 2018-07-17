@@ -7,15 +7,14 @@ using Prism.Mvvm;
 namespace DataAccessLayer.Model
 {
     /// <summary>
-    ///  This models the reservation data.
+    ///  Wrapper that allows us to deliver  its dto and a set of related things for the searchboxes.
     /// </summary>
     public class Reservation: BindableBase, IBookingData
     {
-
         public Reservation()
         {
             Value = new BookingDto();
-            IsValid = false;
+            Valid = true;
           
             _contracts = new List<ContractSummaryDto>();
             _clients = new List<ClientSummaryExtended>();
@@ -28,15 +27,22 @@ namespace DataAccessLayer.Model
         public BookingDto Value { get; set; }
    
         /// <summary>
-        ///  Get or Set if the value is valid.
+        ///  Contract summary
         /// </summary>
-        public bool IsValid { get; set; }
-
         private IEnumerable<ContractSummaryDto> _contracts;
+        /// <summary>
+        ///  Client summary
+        /// </summary>
         private IEnumerable<ClientSummaryExtended> _clients;
+        /// <summary>
+        ///  Drivers summary
+        /// </summary>
         private IEnumerable<ClientSummaryExtended> _drivers;
+        /// <summary>
+        ///  Valid summary.
+        /// </summary>
+        private bool _valid;
 
-        
         /// <summary>
         ///  List of Contracts.
         /// </summary>
@@ -82,6 +88,18 @@ namespace DataAccessLayer.Model
           }
                 
         }
-        public IEnumerable<BookingItemsDto> ItemsDtos { get ; set; }
+        /// <summary>
+        ///  Set the validity of the domain object. In case of any error this gets false
+        /// </summary>
+        public bool Valid {
+            get
+            {
+                return _valid;
+            }
+            set
+            {
+                _valid = true;
+            }
+        }
     }
 }

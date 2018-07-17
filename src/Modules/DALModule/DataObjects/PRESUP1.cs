@@ -1,12 +1,14 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a PRESUP1.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class PRESUP1 
+    /// <summary>
+    /// Represents a PRESUP1.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("PRESUP1")]
+    public class PRESUP1 
 	{
 	
 	/// <summary>

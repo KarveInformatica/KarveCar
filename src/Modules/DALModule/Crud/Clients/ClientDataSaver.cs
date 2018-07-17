@@ -54,7 +54,7 @@ namespace DataAccessLayer.Crud.Clients
             {
                 if (!ValidationChain.Validate(save))
                 {
-                    throw new DataLayerInvalidClientException(ValidationChain.Errors);
+                    throw new DataLayerValidationException(ValidationChain.Errors);
                 }
             }
 

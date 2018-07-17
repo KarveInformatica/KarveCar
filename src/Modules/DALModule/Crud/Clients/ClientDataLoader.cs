@@ -25,7 +25,6 @@ namespace DataAccessLayer.Crud.Clients
         private readonly ISqlExecutor _sqlExecutor;
         private readonly IMapper _mapper;
         private readonly QueryStoreFactory _queryStoreFactory;
-        private readonly EntityMapper _entityMapper = new EntityMapper();
         private IHelperData _helper = new HelperBase();
         /// <summary>
         /// in some case i log even if it is an antipattern.

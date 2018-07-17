@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1224">
 
-    <ScrollViewer>
+   
         <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -21,16 +21,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
 
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Background="DarkSlateBlue" Grid.ColumnSpan="2">
-            <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
-                   Source="/KarveControls;component/Images/driver.png" Height="48" />
-            <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" Text="Conductores" FontSize="24"
-                       Foreground="White" />
-        </DockPanel>
-        <GroupBox Header="Direccion Habitual Multa" Grid.Row="1">
+        <GroupBox Header="Direccion Habitual Multa" Grid.Row="0">
             <karveControls:DriverUserControl />
         </GroupBox>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <Grid Grid.Row="0" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -44,14 +38,11 @@
             </GroupBox>
             <GroupBox Header="Segundo Conductor Addicional" Grid.Row="1">
                 <StackPanel>
-                    <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
-
-
-                </StackPanel>
+                        <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
+                    </StackPanel>
             </GroupBox>
             <TripleButton:TripleButton Grid.Row="2" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
         </Grid>
     </Grid>
-    </ScrollViewer>
 
 </UserControl>

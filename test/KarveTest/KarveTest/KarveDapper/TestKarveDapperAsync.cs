@@ -9,7 +9,7 @@ using NUnit.Framework;
 using KarveDataServices;
 using System.Data;
 using DataAccessLayer.DataObjects;
-
+using System.Diagnostics.Contracts;
 
 namespace KarveTest.KarveDapper
 {
@@ -155,6 +155,7 @@ namespace KarveTest.KarveDapper
         /// <returns>True or false in case of deleting entities</returns>
         private async Task<bool> DeleteEntities(IEnumerable<CLIENTES1> entities)
         {
+            Contract.Requires(entities != null, "Null entities");
             bool state = false;
             using (IDbConnection conn = _sqlExecutor.OpenNewDbConnection())
             {

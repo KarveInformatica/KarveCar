@@ -46,19 +46,14 @@ namespace MasterModule.ViewModels
             get => _sourceView;
             set { _sourceView = value; RaisePropertyChanged(); }
         }
-        public override void StartAndNotify()
-        {
-
-        }
+        
 
         protected override void NewItem()
         {
         }
 
 
-        protected override void SetTable(DataTable table)
-        {
-        }
+        
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {

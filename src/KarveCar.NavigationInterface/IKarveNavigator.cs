@@ -2,6 +2,9 @@
 using System;
 namespace KarveCar.Navigation
 {
+    /// <summary>
+    ///  This interface allows to navigate from a view to another view.
+    /// </summary>
     public interface IKarveNavigator
     {
         /// <summary>
@@ -29,6 +32,6 @@ namespace KarveCar.Navigation
         /// <param name="viewModelUri">Uri of the view model</param>
         /// <param name="e">Entity value</param>
         void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto : BaseDto where Entity : class;
-
+        void NewBrokerView(Uri viewModelUri);
     }
 }

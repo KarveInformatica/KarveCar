@@ -154,6 +154,7 @@
     <Compile Include="DAL\Crud\Client\TestClientCrud.cs" />
     <Compile Include="DAL\Crud\Office\TestOfficeCrud.cs" />
     <Compile Include="DAL\TestBookingDataService.cs" />
+    <Compile Include="DAL\TestBudgetAccessLayer.cs" />
     <Compile Include="DAL\TestBuildQuery.cs" />
     <Compile Include="DAL\TestClientDataLoader.cs" />
     <Compile Include="DAL\TestClientsDataAccessLayer.cs" />

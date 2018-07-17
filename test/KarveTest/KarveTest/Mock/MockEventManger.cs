@@ -13,6 +13,8 @@ namespace KarveTest.Mock
     /// </summary>
     class MockEventManger: IEventManager
     {
+        public bool IsNotified => throw new NotImplementedException();
+
         /// <summary>
         ///  Register an observer
         /// </summary>

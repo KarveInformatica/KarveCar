@@ -225,7 +225,7 @@ namespace MasterModule.ViewModels
         }
 
        
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             var commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
             _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(commissionAgentDataServices.GetPagedSummaryDoAsync(1,DefaultPageSize), _commissionAgentEventTask);
@@ -284,12 +284,7 @@ namespace MasterModule.ViewModels
         }
 
         
-        protected override void SetTable(DataTable table)
-        {
-            SummaryView = table;
-           
-        }
-
+        
         /// <summary>
         /// Set the registation payload for the event manager and the toolbar module.
         /// </summary>

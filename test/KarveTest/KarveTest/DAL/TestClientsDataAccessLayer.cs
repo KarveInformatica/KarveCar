@@ -61,41 +61,7 @@ namespace KarveTest.DAL
                 Assert.AreEqual(data.Value.NUMERO_CLI, singleValue.NUMERO_CLI);
             }
         }
-        /// <summary>
-        ///  This test shall fail with an empty value
-        /// </summary>
-        [Test]
-        public async Task Should_Throws_With_An_EmptyValue()
-        {
-            // prepare.
-           
-                var singleValue = string.Empty;
-                // Act.
-                IClientData data = await _clientDataServices.GetDoAsync(singleValue);
-                // Assert
-                Assert.AreEqual(data.Valid, false);
-            
-        }
-        /// <summary>
-        ///  This test shall fail with a bad value for the client entity
-        /// </summary>
-        [Test]
-        public async Task Should_Fail_ClientRetrieveWithABadValue()
-        {
-            // prepare.
-            using (IDbConnection dbConnection = SqlExecutor.OpenNewDbConnection())
-            {
-                // Arrange value
-                IEnumerable<CLIENTES1> value = await dbConnection.GetPagedAsync<CLIENTES1>(1, 10);
-                var singleValue = value.FirstOrDefault();
-                Assert.NotNull(singleValue);
-                singleValue.NUMERO_CLI = "-1";
-                // Act.
-                Assert.ThrowsAsync<ArgumentException>(async () => await _clientDataServices.GetDoAsync(singleValue.NUMERO_CLI));
-
-            }
-        }
-        
+       
         /// <summary>
         ///  This test shall save a value for the client entity.
         /// </summary>

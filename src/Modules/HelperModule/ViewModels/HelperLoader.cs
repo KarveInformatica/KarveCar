@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveDataServices;
 using Syncfusion.UI.Xaml.Grid;
-using KarveCommonInterfaces;
 using AutoMapper;
 using DataAccessLayer.Logic;
-using KarveDataServices.DataTransferObject;
 
 namespace HelperModule.ViewModels
 {
@@ -212,7 +207,7 @@ namespace HelperModule.ViewModels
         private async Task<IEnumerable<Dto>> LoadDto(string query) 
         {
             // we want to make in a way that we will not show more 
-            var loaded = await _helperDataServices.GetPagedQueryDoAsync<Entity>(query, 1,PageSize);
+            var loaded = await _helperDataServices.GetPagedQueryDoAsync<Entity>(query, 1,PageSize).ConfigureAwait(false);
             var dtoLoaded = _mapper.Map<IEnumerable<Entity>, IEnumerable<Dto>>(loaded); 
             var countItem = await _helperDataServices.GetItemsCount<Entity>();
             var currentList = new IncrementalList<Dto>(LoadMoreItems) { MaxItemCount = countItem };

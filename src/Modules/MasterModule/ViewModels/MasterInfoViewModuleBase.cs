@@ -80,13 +80,7 @@ namespace MasterModule.ViewModels
         protected override void NewItem()
         {
         }
-        /// <summary>
-        ///  Abstract the start and notify. Nothing happens in case of *InfoViewModels.
-        /// </summary>
-        public override void StartAndNotify()
-        {
-
-        }
+       
         /// <summary>
         ///  Abstact the set result after start and notify. Nothing happens in case of *InfoViewModels.
         /// </summary>
@@ -463,14 +457,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         protected override void SetDataObject(object result)
         {
         }
-        /// <summary>
-        ///  We override the SetTable to provide a default.
-        ///  The use of data table are not 
-        /// </summary>
-        /// <param name="table">Table to be used.</param>
-        protected override void SetTable(DataTable table)
-        {
-        }
+        
         /// <summary>
         ///  
         /// This configure the show command in case of a province inside the branch/delegations view.

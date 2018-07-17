@@ -60,5 +60,6 @@ namespace DataAccessLayer.Model
         ///  Ser or Get Drivers.
         /// </summary>
         public IEnumerable<ClientSummaryExtended> Drivers { get => _drivers; set => _drivers = value; }
+        public bool Valid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

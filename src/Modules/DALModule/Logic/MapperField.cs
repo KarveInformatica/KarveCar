@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Common.CommandTrees;
 using System.Linq;
+using System.Reflection;
+using KarveDataServices.DataTransferObject;
+using KarveDataServices.DataObjects;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
-using System.Reflection;
-using KarveDataServices.DataObjects;
 using DataAccessLayer.Model;
 using Model;
 using System.IO;
@@ -23,8 +22,6 @@ namespace DataAccessLayer.Logic
         {
             ProvinciaDto prov = new ProvinciaDto();
             prov.Code = source.SIGLAS;
-
-
             prov.Name = source.PROV;
             prov.Capital = source.CAPITAL;
             prov.Prefix = source.PREFIJO;
@@ -1013,6 +1010,8 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<SupplierPoco, SupplierDto>().ConvertUsing(new SupplierPocoConverter());
                 cfg.CreateMap<ComisioDto, COMISIO>();
                 cfg.CreateMap<COMISIO, ComisioDto>();
+                cfg.CreateMap<CONCEP_FACTUR, FareConceptDto>();
+                cfg.CreateMap<FareConceptDto, CONCEP_FACTUR>();
                 cfg.CreateMap<ClientDto, ClientSummaryExtended>().ConvertUsing(src =>
                 {
                     var ce = new ClientSummaryExtended();
@@ -1029,8 +1028,6 @@ namespace DataAccessLayer.Logic
                     ce.Nombre = src.Name;
                     return ce;
                 });
-
-
                 cfg.CreateMap<PETICION, ReservationRequestDto>();
                 cfg.CreateMap<ReservationRequestDto, PETICION>();
                 cfg.CreateMap<CountryRegionDto, CCAA>().ConvertUsing(src =>
@@ -1160,7 +1157,6 @@ namespace DataAccessLayer.Logic
                     return generic;
                 });
                 cfg.CreateMap<BookingPoco, BookingDto>();
-
                 cfg.CreateMap<CONTRATOS1, ContractDto>().ConvertUsing(src =>
                 {
                     var generic = new ContractDto()

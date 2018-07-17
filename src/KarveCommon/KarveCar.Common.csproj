@@ -533,6 +533,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Constant\" />
     <Folder Include="Style\" />
   </ItemGroup>
   <ItemGroup>

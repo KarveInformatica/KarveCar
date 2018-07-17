@@ -240,6 +240,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AmountControl\AmountControl.cs" />
     <Compile Include="Behaviour\ButtonBehavior.cs" />
     <Compile Include="Behaviour\ChangeRuleBehavior.cs" />
     <Compile Include="Behaviour\ComboAdvChangeBehavior.cs" />
@@ -530,6 +531,11 @@
     <Resource Include="Images\checkin.png" />
     <Resource Include="Images\checkout.png" />
     <Resource Include="Images\office.png" />
+    <Resource Include="Images\flight2.png" />
+    <Resource Include="Images\driver3.png" />
+    <Resource Include="Images\euro.png" />
+    <Resource Include="Images\cagent.png" />
+    <Resource Include="Images\bonus.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />

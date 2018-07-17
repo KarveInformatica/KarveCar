@@ -47,10 +47,9 @@ namespace KarveTest.DAL
                 codigo = item.NUMERO_RES;
             }
             var booking = await _bookingDataServices.GetDoAsync(codigo).ConfigureAwait(false);
-            Assert.IsTrue(booking.IsValid);
-            Assert.NotNull(booking.ItemsDtos);
+            Assert.IsTrue(booking.Valid);
             Assert.NotNull(booking.Value);
-            var count = booking.ItemsDtos.Count();
+            var count = booking.Value.Items.Count();
             Assert.AreEqual(booking.Value.NUMERO_RES, codigo);
             Assert.Greater(booking.Drivers.Count(), 0);
             Assert.Greater(booking.Clients.Count(), 0);
@@ -194,12 +193,12 @@ namespace KarveTest.DAL
                   }
                    
             };
-            bookingNow.ItemsDtos = bookingNow.ItemsDtos.Union(currentList);
+            bookingNow.Value.Items = bookingNow.Value.Items.Union(currentList);
             var result = await _bookingDataServices.SaveAsync(bookingNow);
             var changed = await _bookingDataServices.GetDoAsync(reservationNumber);
             Assert.AreEqual(result, true);
             Assert.AreEqual(changed.Value.APELLIDO1, bookingNow.Value.APELLIDO1);
-            var listOfValues = changed.ItemsDtos;
+            var listOfValues = changed.Value.Items;
             var bookedItem = listOfValues.Where(x => x.BookingKey == Convert.ToUInt32(bookingKey));
             var bItem = bookedItem.FirstOrDefault();
             if (bItem != null)

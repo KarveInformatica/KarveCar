@@ -65,8 +65,15 @@ namespace DataAccessLayer
         ///  Data services for managing the fares.
         /// </summary>
         private IFareDataServices _fareDataService;
-
+        /// <summary>
+        /// Reservation request data service.
+        /// </summary>
         private IReservationRequestDataService _reservationRequestDataService;
+
+        /// <summary>
+        ///  Budget rqesut data service.
+        /// </summary>
+        private IBudgetDataService _budgetDataService;
 
         /// <summary>
         /// DataService Implementation
@@ -139,6 +146,8 @@ namespace DataAccessLayer
             _bookingDataService = new BookingDataAccessLayer(sqlExecutor);
             _fareDataService = new FareDataServices(sqlExecutor);
             _reservationRequestDataService = new ReservationRequestDataAccessLayer(sqlExecutor);
+            _budgetDataService = new BudgetDataAccessLayer(sqlExecutor);
+
 
         }
         /// <summary>
@@ -260,15 +269,30 @@ namespace DataAccessLayer
         {
             return _bookingDataService;
         }
-
+        /// <summary>
+        ///  It returns the fare data service 
+        /// </summary>
+        /// <returns></returns>
         public IFareDataServices GetFareDataServices()
         {
             return _fareDataService;
         }
+        /// <summary>
+        ///  It returns the reservation request data service
+        /// </summary>
+        /// <returns></returns>
         public IReservationRequestDataService GetReservationRequestDataService()
 
         {
             return _reservationRequestDataService;
+        }
+        /// <summary>
+        ///  It returns the budget data service.
+        /// </summary>
+        /// <returns></returns>
+        public IBudgetDataService GetBudgetDataServices()
+        {
+            return _budgetDataService;
         }
     }
 }

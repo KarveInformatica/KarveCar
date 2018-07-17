@@ -4,6 +4,8 @@ namespace KarveCommon.Services
 {
     /// <summary>
     ///  Delegate to be triggered for a new message in the mailbox.
+    ///  Each view model can configure a mailbox to receive a message.
+    ///  The message is a direct message from another view model.
     /// </summary>
     /// <param name="payLoad">Data present in the mailbox</param>
     public delegate void MailBoxMessageHandler(DataPayLoad payLoad);
@@ -52,13 +54,14 @@ namespace KarveCommon.Services
         ///  Inovice control view model.
         /// </summary>
         public static string InvoiceSubsystemVm = "InvoiceSubsystem";
-
+        /// <summary>
+        ///  BookingSubsystem view model.
+        /// </summary>
         public static string BookingSubsystemVm = "BookingSubsystemViewModel";
 
     }
     /// <summary>
     /// Interface for communication between view models. 
-    /// TODO: This shall be moved to the KarveCommonInterfaces. and datapayload shall be abstracted to IDataPayload. 
     /// </summary>
     public interface IEventManager
     {
@@ -116,7 +119,7 @@ namespace KarveCommon.Services
         /// Register a view model to a mailbox to receive message (direct messaging)
         /// </summary>
         /// <param name="id">Identifier of the view model.</param>
-        /// <param name="messageHandler">Message handler</param>
+        /// <param name="messageHandler">Message handler delegate</param>
         void RegisterMailBox(string id, MailBoxMessageHandler messageHandler);
         /// <summary>
         /// Delete a mailbox subscription for a view model.
@@ -142,5 +145,10 @@ namespace KarveCommon.Services
         /// <param name="payLoad">payload identifier</param>
         /// <returns>True if a mailbox is available.</returns>
         bool IsRegisteredMailbox(string id, DataPayLoad payLoad);
+        /// <summary>
+        ///  Returns if the event manager has been notified. 
+        ///  A notification happens when a DataPayload has been received.
+        /// </summary>
+        bool IsNotified {  get; }
     }
 }

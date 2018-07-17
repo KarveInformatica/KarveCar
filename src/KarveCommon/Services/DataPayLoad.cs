@@ -44,8 +44,14 @@ namespace KarveCommon.Services
 
         public enum Type
         {
-            Insert = 0, Delete = 1, Update = 2,
-            RegistrationPayload = 3, Show = 4, UpdateView = 5,
+            Raw = -2,
+            Initialized = -1,
+            Insert = 0,
+            Delete = 1,
+            Update = 2,
+            RegistrationPayload = 3,
+            Show = 4,
+            UpdateView = 5,
             UpdateData = 6,
             Any = 7,
             CultureChange = 8,

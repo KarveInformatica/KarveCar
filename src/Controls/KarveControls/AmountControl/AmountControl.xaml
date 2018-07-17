@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="KarveControls.AmountControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Border BorderBrush="Blue">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Vuestra Reserva" FontWeight="Bold" Background="BlueViolet" Foreground="White"/>
+                <TextBlock Text="Importe" FontSize="8" Grid.Column="0" Grid.Row="1"/>
+                <TextBlock Text="192029" Grid.Column="1"  FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Foreground="Gray"></TextBlock>
+                <TextBlock Text="192029" Grid.Column="2"  FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Foreground="Gray"></TextBlock>
+
+                <TextBlock Text="IVA" FontSize="8" Grid.Column="0" Grid.Row="2" />
+                <TextBlock Text="21%" FontSize="10" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Foreground="Gray"></TextBlock>
+                <TextBlock Text="21%" FontSize="10" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Foreground="Gray"></TextBlock>
+
+
+                <Line Grid.Row="3"
+                      Grid.ColumnSpan="3"
+                    X1="0" Y1="0"
+                    X2="200" Y2="0"
+                    Stroke="Blue"
+                    StrokeThickness="2" />
+
+                <TextBlock Grid.Row="3" Text="Total:" FontFamily="Arial" FontSize="15" Margin="25,14.44,10,0"></TextBlock>
+
+                <Grid Grid.Row="4" VerticalAlignment="Top" Margin="0,10,0,0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/KarveControls;component/Images/euro.png" Grid.Column="0" Height="25" VerticalAlignment="Center"></Image>
+                    <TextBox Grid.Column="1" Text="100" FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="Bold" Margin=",0,0,0"></TextBox>
+                </Grid>
+                <TextBlock Foreground="LightGray" Grid.Column="2" Grid.Row="4"  FontSize="20" Text="128" HorizontalAlignment="Right" FontWeight="Bold" VerticalAlignment="Center" Margin="0,14.44,0,16.6" Height="25">
+
+                </TextBlock>
+            </Grid>
+
+        </Border>
+    </Grid>
+</UserControl>

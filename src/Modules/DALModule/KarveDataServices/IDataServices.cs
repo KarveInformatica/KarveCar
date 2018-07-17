@@ -95,6 +95,11 @@ namespace KarveDataServices
         /// </summary>
         /// <returns></returns>
         IReservationRequestDataService GetReservationRequestDataService();
+        /// <summary>
+        ///  Get the budget request data service
+        /// </summary>
+        /// <returns></returns>
+        IBudgetDataService GetBudgetDataServices();
     }
 
 }

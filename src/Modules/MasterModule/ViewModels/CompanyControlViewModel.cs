@@ -146,10 +146,7 @@ namespace MasterModule.ViewModels
             RegionManager.
                 RequestNavigate("TabRegion", uri);
         }
-        // since company we dont use anymore data tables for performance issues.
-        protected override void SetTable(DataTable table)
-        {
-        }
+        
         public override void DisposeEvents()
         {
             base.DisposeEvents();
@@ -271,7 +268,7 @@ namespace MasterModule.ViewModels
                 _companyDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
         }
 
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (sender, ev) =>
             {

@@ -144,11 +144,7 @@ namespace MasterModule.ViewModels
             set { OpenItemCommand = value; }
         }
 
-        protected override void SetTable(DataTable table)
-        {
-            SummaryView = table;
-           
-        }
+       
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
@@ -240,7 +236,7 @@ namespace MasterModule.ViewModels
 
         }
 
-        public override void StartAndNotify()
+        public void StartAndNotify()
         {
             MessageHandlerMailBox += MessageHandler;
             _mailBoxName = ProvidersControlViewModel.PROVIDER_SUMMARY_VM;

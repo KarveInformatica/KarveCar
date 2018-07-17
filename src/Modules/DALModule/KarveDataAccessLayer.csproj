@@ -143,6 +143,7 @@
     <Compile Include="Assist\AssistResponse.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="BookingDataAccessLayer.cs" />
+    <Compile Include="BudgetDataAccessLayer.cs" />
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
     <Compile Include="CompanyDataService.cs" />
@@ -151,14 +152,17 @@
     <Compile Include="Crud\Booking\BookingDataDeleter.cs" />
     <Compile Include="Crud\Booking\BookingDataLoader.cs" />
     <Compile Include="Crud\Booking\BookingDataSaver.cs" />
+    <Compile Include="Crud\Budget\BudgetDataDeleter.cs" />
+    <Compile Include="Crud\Budget\BudgetDataLoader.cs" />
+    <Compile Include="Crud\Budget\BudgetDataSaver.cs" />
+    <Compile Include="Crud\DataLayerValidationException.cs" />
     <Compile Include="Crud\Clients\ClientDataLoader.cs" />
     <Compile Include="Crud\Clients\ClientDataLoaderEx.cs" />
     <Compile Include="Crud\Clients\ClientDataSaver.cs" />
     <Compile Include="Crud\Clients\ClientDeleter.cs" />
+    <Compile Include="Crud\DeleteHelper.cs" />
     <Compile Include="Crud\EntityLoader.cs" />
-    <Compile Include="Crud\EntityMapper.cs" />
     <Compile Include="Crud\HelperBase.cs" />
-    <Compile Include="Crud\Clients\DataLayerInvalidClientException.cs" />
     <Compile Include="Crud\Company\CompanyDataDeleter.cs" />
     <Compile Include="Crud\Company\CompanyDataLoader.cs" />
     <Compile Include="Crud\Company\CompanyDataSaver.cs" />
@@ -538,6 +542,7 @@
     <Compile Include="DataObjects\FAC_SERIES.cs" />
     <Compile Include="DataObjects\FAMCOCIN.cs" />
     <Compile Include="DataObjects\FAMIP.cs" />
+    <Compile Include="DataObjects\FareConceptDto.cs" />
     <Compile Include="DataObjects\FCOBRO_EXPEDIENTE.cs" />
     <Compile Include="DataObjects\FESTIVOS.cs" />
     <Compile Include="DataObjects\FESTIVOS_CHOFER.cs" />
@@ -1166,6 +1171,8 @@
     <Compile Include="Logic\ClientDtoToClientes2.cs" />
     <Compile Include="Logic\ContactsComiToDto.cs" />
     <Compile Include="Logic\SupplierPocoConverter.cs" />
+    <Compile Include="Model\Budget.cs" />
+    <Compile Include="Model\BudgetPoco.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\CommissionAgent.cs" />
     <Compile Include="Model\Company.cs" />
@@ -1175,6 +1182,7 @@
     <Compile Include="Model\InvoiceFareDto.cs" />
     <Compile Include="Model\MagnifierColumns.cs" />
     <Compile Include="Model\MagnifierSettings.cs" />
+    <Compile Include="Model\NullBudget.cs" />
     <Compile Include="Model\NullClient.cs" />
     <Compile Include="Model\NullCommissionAgentTypeData.cs" />
     <Compile Include="Model\NullInvoice.cs" />
