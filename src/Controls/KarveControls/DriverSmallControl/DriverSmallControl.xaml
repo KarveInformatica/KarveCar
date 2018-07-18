@@ -61,14 +61,12 @@
                     </Binding>
                 </syncfusion:SfTextBoxExt.Text>
             </syncfusion:SfTextBoxExt>
-            <syncfusion:DateTimeEdit Grid.Column="2" NullValue="{x:Null}" 
-                                     IsEmptyDateEnabled="True"
+            <DatePicker Grid.Column="2"  
                                      local:ControlExt.DataSource="{Binding DataObject}"
                                      local:ControlExt.DataSourcePath="{Binding DateSourcePath}"
                                      local:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                     DateTime="{Binding CurrentDateTime}"
-                                     NoneDateText="{Binding lnodateselected, Source={StaticResource ResourceLanguage}}">
-            </syncfusion:DateTimeEdit>
+                                     SelectedDate="{Binding CurrentDateTime}">
+            </DatePicker>
         </Grid>
         <Grid Grid.Row="2">
             <StackPanel  Orientation="Horizontal" Margin="16,5,0,0"  Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSecondEnabled}">

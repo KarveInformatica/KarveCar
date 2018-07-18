@@ -536,6 +536,7 @@
     <Resource Include="Images\euro.png" />
     <Resource Include="Images\cagent.png" />
     <Resource Include="Images\bonus.png" />
+    <Resource Include="Images\payment.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />

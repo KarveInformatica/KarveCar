@@ -52,8 +52,6 @@
     <Reference Include="CreditCardValidator, Version=1.4.1.178, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\CreditCardValidator.1.4.1\lib\net40\CreditCardValidator.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EmailValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\EmailValidation.1.0.3\lib\net45\EmailValidation.dll</HintPath>
     </Reference>
@@ -94,9 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractSqlExecutor.cs" />
+    <Compile Include="Assist\AssistTag.cs" />
     <Compile Include="Assist\IAssist.cs" />
     <Compile Include="Assist\IAssistHandler.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
+    <Compile Include="Assist\NullAssist.cs" />
     <Compile Include="ConstantDataError.cs" />
     <Compile Include="DataHelperBase.cs" />
     <Compile Include="DataObjects\IBookingData.cs" />

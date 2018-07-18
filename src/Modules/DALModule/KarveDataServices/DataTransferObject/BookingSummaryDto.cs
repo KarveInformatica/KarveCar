@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -216,9 +213,13 @@ namespace KarveDataServices.DataTransferObject
         ///  Matricola
         /// </summary>
         [Display(Name = "Matricula", Description = "Matricula")]
-
-        public string RegistrationNumber { set; get; }  
-        
+        public string RegistrationNumber { set; get; }
+       
+        /// <summary>
+        /// Anula reserva.
+        /// </summary>
+        [Display(Name = "Anula Reserva", Description = "Anula")]      
+        public ICommand CancelBook { set; get; }
 
     }
 }

@@ -366,7 +366,7 @@ namespace MasterModule.ViewModels
 
            var mapper = _assistDataService.Mapper;
            var res = await mapper.ExecuteAssistGeneric(mappedName, assistQuery);
-            if (res is DataAccessLayer.NullAssist)
+            if (res is NullAssist)
             {
                 return;
             }

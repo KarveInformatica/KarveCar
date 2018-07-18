@@ -10,8 +10,8 @@
              d:DesignHeight="900" d:DesignWidth="1000">
     <Grid>
         <Grid.Resources>
-                
-          
+
+
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <karveControls:DualFieldSearchBox DataFieldFirst="CONDUCTOR_CON1"
                                                       Grid.Row="0"
-                                                      AssistTableName="CONDUCTOR_ASSIST"
+                                                      AssistTableName="DRIVER_ASSIST_2"
                                                       AssistProperties="Code,Name"
                                                       LabelText="Conductor"
                                                       LabelTextWidth="86"   
@@ -32,9 +32,9 @@
                                                       TextContentSecondWidth="200"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding DataHelper.Driver1Dto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding DriverDto2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <karveControls:DataField LabelText="Nombre" TextContent="{Binding DataObject.VALUE.NOMBRE_RES, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" TextContentWidth="250" Grid.Row="1" Margin="0,0,0,2"/>
+        <karveControls:DataField LabelText="Nombre" TextContent="{Binding DataObject.NOMBRE_RES, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" TextContentWidth="250" Grid.Row="1" Margin="0,0,0,2"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -53,7 +53,7 @@
                                                       TextContentSecondWidth="80"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding DataHelper.CountryDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding CountryDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <karveControls:DirectionInfo Grid.Row="3"></karveControls:DirectionInfo>
@@ -72,7 +72,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Content="Fecha caducidad NIF" Grid.Row="0" Width="125" HorizontalAlignment="Left" />
-            <Syncfusion:DateTimeEdit HorizontalAlignment="Left" DateTime="{Binding Path=DataObject.FCADUNIFCOND_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" x:Name="fCADUNIFCOND_RES2" Width="119" />
+            <DatePicker HorizontalAlignment="Left" SelectedDate="{Binding Path=DataObject.FCADUNIFCOND_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" x:Name="fCADUNIFCOND_RES2" Width="119" />
             <Label Content="Lugar de Nascimiento" Grid.Row="1" Width="125" HorizontalAlignment="Left" />
             <Grid Grid.Column="1" Grid.Row="1" Margin="0,0,-4,0">
                 <Grid.ColumnDefinitions>
@@ -105,7 +105,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Syncfusion:DateTimeEdit DateTime="{Binding Path=DataObject.FEEXPE_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Width="120" Height="30" x:Name="fEEXPE_RES2" />
+                <DatePicker SelectedDate="{Binding Path=DataObject.FEEXPE_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Width="120" Height="30" x:Name="fEEXPE_RES2" />
                 <Label Content="Lugar Expedition" Grid.Column="1" Width="100" />
                 <TextBox Text="{Binding Path=DataObject.LUEXPE_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="2" Width="120" Height="30" x:Name="lUEXPE_RES2" Margin="31,0,-29,0" />
             </Grid>
@@ -119,13 +119,18 @@
             </Grid>
             <Grid Grid.Row="4" Grid.Column="1" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="42"></ColumnDefinition>
+                    <ColumnDefinition Width="51"/>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="{Binding lhoteldirection, Source={StaticResource ResourceLanguage}}" Height="30" />
-                <TextBox Grid.Column="1" Width="200" Height="30" Text="{Binding Path=DataObject.DIRHOTELCOND_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Grid.Row="6" x:Name="dIRHOTELCOND_RES2" />
-                <Syncfusion:ButtonAdv Grid.Column="2" Label="Busca Mapa" SmallIcon="/KarveControls;component/Images/maps.png" Command="{Binding ShowMap}"></Syncfusion:ButtonAdv>
+                <Label Grid.Column="0" Content="{Binding lhoteldirection, Source={StaticResource ResourceLanguage}}" Height="30" Grid.ColumnSpan="2" />
+                <TextBox Grid.Column="2" Width="200" Height="30" Text="{Binding Path=DataObject.DIRHOTELCOND_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="dIRHOTELCOND_RES2" Margin="1,0,0,0" />
+                <Syncfusion:ButtonAdv Grid.Column="3" Label="{Binding lfindmap, Source={StaticResource ResourceLanguage}}" 
+                                      SmallIcon="/KarveControls;component/Images/maps.png" 
+                                      Command="{Binding ShowCommandMap, Mode=OneWay}">
+
+                </Syncfusion:ButtonAdv>
             </Grid>
         </Grid>
     </Grid>

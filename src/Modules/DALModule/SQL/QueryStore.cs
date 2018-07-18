@@ -69,15 +69,31 @@ namespace DataAccessLayer.SQL
             "PROVINCIA.PROV as Provincia, PAIS.PAIS as Pais FROM COMISIO " +
             " LEFT JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS " +
             " LEFT JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;"},
-             {QueryType.QueryBusiness, @"SELECT * FROM NEGOCIO WHERE CODIGO='{0}'"},
-
+             {QueryType.QueryBusiness,@"SELECT * FROM NEGOCIO WHERE CODIGO='{0}'"},
+            { QueryType.QueryBudget,@"SELECT * FROM PRESUP1 INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE WHERE NUMERO_PRE='{0}'" },
+             {QueryType.QueryBudgetSummaryPaged, @"SELECT TOP {0} START AT {1} PRESUP1.NUMERO_PRE as BudgetNumber,
+                                                   OFICINA_PRE1 as BugdgetOffice,
+                                                   CLIENTES1.NOMBRE as ClientName,
+                                                   FECHA_PRE1 as BudgetCreationDate,
+                                                   FSALIDA_PRE1 as DepartureDate,
+                                                   GRUPO_PRE1 as GroupCode,
+                                                   RESERVA_PRE1 as BookingNumber,
+                                                   COMISIO.NOMBRE as BrokerName,
+                                                   PRESUP2.BONONUM_PRE2 as BonusNumber,
+                                                   ORIGEN.NOMBRE as Origin,
+                                                   NOTAS_PRE1 as Notes
+                                                   FROM PRESUP1
+                                                   INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE
+                                                   LEFT OUTER JOIN CLIENTES1 ON NUMERO_CLI = CLIENTE_PRE1
+                                                   LEFT OUTER JOIN ORIGEN ON NUM_ORIGEN = PRESUP2.ORIGEN_PRE2
+                                                   LEFT OUTER JOIN COMISIO ON NUM_COMI = PRESUP2.COMISIO_PRE2;"},
             { QueryType.QueryPagedClient, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI, * FROM CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES1.NUMERO_CLI = CLIENTES2.NUMERO_CLI ORDER BY CLIENTES1.NUMERO_CLI" },
             {QueryType.QueryClient1, @"SELECT * FROM CLIENTES1 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryClient2, @"SELECT * FROM CLIENTES2 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryCity, @"SELECT * FROM POBLACIONES WHERE CP = '{0}'" },
             {QueryType.QueryClientType, @"SELECT * FROM TIPOCLI WHERE NUM_TICLI = '{0}'" },
             {QueryType.QueryCompany, @"SELECT * FROM SUBLICEN WHERE CODIGO='{0}'"},
-           {QueryType.QueryCreditCard, @"SELECT * FROM TARCREDI WHERE CODIGO='{0}'"},
+            {QueryType.QueryCreditCard, @"SELECT * FROM TARCREDI WHERE CODIGO='{0}'"},
 
             { QueryType.QueryMarket, @"SELECT * FROM MERCADO WHERE CODIGO = '{0}'"},
             {QueryType.QueryLanguage, @"SELECT * FROM IDIOMAS WHERE CODIGO='{0}'"},

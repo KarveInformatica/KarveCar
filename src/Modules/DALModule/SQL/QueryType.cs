@@ -124,6 +124,7 @@ namespace DataAccessLayer.SQL
         QueryOfficePaged,
         QueryBrokerVisit,
         QueryBrokerContactsPaged,
-        QueryFareConcept
+        QueryFareConcept,
+        QueryBudget
     };
 }

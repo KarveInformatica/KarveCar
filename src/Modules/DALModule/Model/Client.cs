@@ -57,10 +57,23 @@ namespace DataAccessLayer.Model
         public IEnumerable<ContactsDto> ContactsDto { get; set; }
         public IEnumerable<InvoiceFareDto> InvoiceFare { get; set; }
         public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
+
         /// <summary>
         ///  Value of the client data trasnfer object.
         /// </summary>
-        public ClientDto Value { get; set; }
+
+        public ClientDto Value
+        {
+            get
+            {
+                return _dto;
+            }
+            set
+            {
+                _dto = value;
+                RaisePropertyChanged();
+            }
+        }
         /// <summary>
         /// Constructor of the client
         /// </summary>

@@ -2509,7 +2509,7 @@
     <value>Fine Garantia</value>
   </data>
   <data name="VehiclesControlViewModel_NewItem_NuevoVehiculos" xml:space="preserve">
-    <value>NuevoVehiculos</value>
+    <value>Nuevo Vehiculo</value>
   </data>
   <data name="ProvidersControlViewModel_NewItem_NuevoProveedor" xml:space="preserve">
     <value>NuevoProveedor</value>
@@ -3015,5 +3015,47 @@
   </data>
   <data name="lkilometroincluido" xml:space="preserve">
     <value>Kilometro Includos</value>
+  </data>
+  <data name="lunity" xml:space="preserve">
+    <value>Unidad</value>
+  </data>
+  <data name="lquantity" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="laggregate" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="lprepaidamount" xml:space="preserve">
+    <value>Importe Prepagado</value>
+  </data>
+  <data name="lrsc" xml:space="preserve">
+    <value>RSC</value>
+  </data>
+  <data name="lfindmap" xml:space="preserve">
+    <value>Busca Mapa</value>
+  </data>
+  <data name="ldrivers" xml:space="preserve">
+    <value>Conductores</value>
+  </data>
+  <data name="lvehicle" xml:space="preserve">
+    <value>Vehiculo</value>
+  </data>
+  <data name="lnewbroker" xml:space="preserve">
+    <value>Nuevo Comisionista</value>
+  </data>
+  <data name="lplace" xml:space="preserve">
+    <value>Lugar</value>
+  </data>
+  <data name="linvoiceday" xml:space="preserve">
+    <value>Dia Facturacion</value>
+  </data>
+  <data name="lfaredirection" xml:space="preserve">
+    <value>Direccion Habitual Multa</value>
+  </data>
+  <data name="ladditionaldriver" xml:space="preserve">
+    <value>Conductor Addicional</value>
+  </data>
+  <data name="lsndadditionaldriver" xml:space="preserve">
+    <value>Secundo Conductor Addicional</value>
   </data>
 </root>

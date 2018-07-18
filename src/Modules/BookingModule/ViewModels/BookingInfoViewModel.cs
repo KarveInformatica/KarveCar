@@ -24,6 +24,8 @@ using KarveControls.Behaviour.Grid;
 using KarveControls.ViewModels;
 using KarveCar.Navigation;
 using SkyScanner.Services;
+using System.Windows;
+using KarveDataServices.Assist;
 
 namespace BookingModule.ViewModels
 {
@@ -55,6 +57,10 @@ namespace BookingModule.ViewModels
             _container = container;
             _regionManager = regionManager;
             DefaultPageSize = 200;
+            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
+            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
+            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
+             BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
             _bookingClientsIncrementalList = new IncrementalList<ClientSummaryExtended>(LoadMoreClients);
             _clientHandler += LoadClientEvent;
             IsChanged = false;
@@ -76,6 +82,28 @@ namespace BookingModule.ViewModels
         ///  Set or Get command for creating a new client.
         /// </summary>
         public ICommand CreateClient { set; get; }
+
+        /// <summary>
+        /// Create a new fare.
+        /// </summary>
+        public ICommand CreateNewFare { get; set; }
+        /// <summary>
+        /// Create a new vehicle.
+        /// </summary>
+        public ICommand CreateNewVehicle { get; set; }
+        /// <summary>
+        ///  Create a new broker.
+        /// </summary>
+        public ICommand CreateNewBroker { set; get; }
+
+        /// <summary>
+        ///  Create a new group.
+        /// </summary>
+        public ICommand CreateNewGroup { set; get; }
+        /// <summary>
+        ///  Create a new driver
+        /// </summary>
+        public ICommand CreateNewDriver { get; set; }
         /// <summary>
         ///  Command for opening a new item
         /// </summary>
@@ -101,23 +129,57 @@ namespace BookingModule.ViewModels
         /// </summary>
         public ICommand OtherDataShowCommand { get; set; }
         /// <summary>
-        /// Create a new fare.
+        ///  Create an amount command
         /// </summary>
-        public ICommand  CreateNewFare { get; set; }
+        public ICommand AmountCommand { get; set; }
         /// <summary>
-        /// Create a new vehicle.
+        ///  Create a recompute import.
         /// </summary>
-        public ICommand CreateNewVehicle { get; set; }
-        
-        /// <summary>
-        ///  Create a new broker.
-        /// </summary>
-        public ICommand  CreateNewBroker { set; get; }
-        
+        public ICommand RecomputeImport { get; set; }
         /// <summary>
         ///  Set or Get the command for looking up a flight
         /// </summary>
         public ICommand LookupFlightCommand { set; get; }
+        /// <summary>
+        ///  Set or Get the grid columns.
+        /// </summary>
+        public string VehicleGridColumns { set; get; }
+        /// <summary>
+        ///  Set or Get the grid columns.
+        /// </summary>
+        public string ClientsConductor { get; set; }
+        public string BookingInfoCols { get; private set; }
+
+        /// <summary>
+        /// Set or Get the reservation office departure.
+        /// </summary>
+        public IEnumerable<OfficeDtos> ReservationOfficeDeparture
+        {
+            set
+            {
+                _reservationOfficeDeparture = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _reservationOfficeDeparture;
+            }
+        }
+        /// <summary>
+        /// Set or Get the reservation office departure.
+        /// </summary>
+        public IEnumerable<OfficeDtos> ReservationOfficeArrival
+        {
+            set
+            {
+                _reservationOfficeArrival = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _reservationOfficeArrival;
+            }
+        }
         /// <summary>
         ///  Set or get the templates list to configure dynamically the grid.
         /// </summary>
@@ -175,6 +237,33 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
+        ///  Set or Get the OfficeDto
+        /// </summary>
+        public IEnumerable<OfficeDtos> OfficeDto
+        {
+            get { return _officeDto; }
+            set
+            {
+                _officeDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or get the budget dto.
+        /// </summary>
+        public IEnumerable<BudgetSummaryDto> BudgetDto {
+            get
+            {
+                return _budgetDto;
+            }
+            set
+            {
+                _budgetDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
         ///  Set or Get the CityDto.
         /// </summary>
         public IEnumerable<CityDto> CityDto
@@ -201,6 +290,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _vehicle = value;
+                RaisePropertyChanged();
             }
         }
         /// <summary>
@@ -230,6 +320,36 @@ namespace BookingModule.ViewModels
             set
             {
                 _vehicleGroup = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        /// Set or Get ExpireCardYear
+        /// </summary>
+        public string ExpireCardYear
+        {
+            get
+            {
+                return _driverCreditCardExpireYear;
+            }
+            set
+            {
+                _driverCreditCardExpireYear = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get ExpireCardMonth
+        /// </summary>
+        public string ExpireCardMonth
+        {
+            get
+            {
+                return _driverCreditCardExpireMonth;
+            }
+            set
+            {
+                _driverCreditCardExpireMonth = value;
                 RaisePropertyChanged();
             }
         }
@@ -292,6 +412,29 @@ namespace BookingModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        public ICommand ShowBookingConcept
+        {
+            get => _bookingConcept;
+            set
+            {
+                _bookingConcept = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public ICommand AddNewBookingCommand
+        {
+            get
+            {
+                return _newBookingCommand;
+            }
+            set
+            {
+                _newBookingCommand = value;
+                RaisePropertyChanged();
+            }
+        }
+
         /// <summary>
         ///  The driver.
         /// </summary>
@@ -320,6 +463,22 @@ namespace BookingModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        /// Set or get a new fare. 
+        /// </summary>
+        public IEnumerable<FareDto> FareDto
+        {
+            get
+            {
+                return _fare;
+            }
+            set
+            {
+                _fare = value;
+                RaisePropertyChanged();
+            }
+        } 
+
         #endregion
 
         /// <summary>
@@ -473,6 +632,25 @@ namespace BookingModule.ViewModels
             CreateNewFare = new DelegateCommand<object>(OnCreateNewFare);
             CreateNewVehicle = new DelegateCommand<object>(OnCreateNewVehicle);
             CreateNewBroker = new DelegateCommand<object>(OnCreateNewBroker);
+            CreateNewGroup = new DelegateCommand<object>(OnCreateNewGroup);
+            CreateNewDriver = new DelegateCommand<object>(CreateNewClient);
+            AmountCommand = new DelegateCommand<object>(OnAmountCommand);
+            RecomputeImport = new DelegateCommand(OnRecomputeImport);
+         //   ShowBookingConcept = new DelegateCommand
+        }
+
+      
+
+        private void OnCreateNewGroup(object obj)
+        {
+            MessageBox.Show("Cannot open a vehicle group");
+        }
+
+        private void OnRecomputeImport()
+        {
+        }
+        private void OnAmountCommand(object obj)
+        {
         }
         /// <summary>
         ///  Init the view model.
@@ -956,22 +1134,62 @@ namespace BookingModule.ViewModels
         private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
             Contract.Requires(!string.IsNullOrEmpty(assistTableName));
-            var collectionValue = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery);
-            if (collectionValue == null)
+            var collectionValue = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery).ConfigureAwait(false);
+
+            /* In the assist mapper we use the null object pattern provides 
+             * a non-functional object in place of a null reference 
+             * and therefore allows methods to be called on it
+             */
+            if (collectionValue is NullAssist)
+            {
+                DialogService?.ShowErrorMessage("Assist not configured in the system");
+                return false;
+            }
+            if (collectionValue == null) 
             {
                 return false;
             }
             switch (assistTableName)
             {
                 case "CITY_ASSIST":
+                {
+                  CityDto = (IEnumerable<CityDto>)collectionValue;
+                  break;
+                }
+                case "COUNTRY_ASSIST":
+                {
+                        CountryDto = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                }
+                case "OFFICE_ASSIST":
+                {
+                  OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                  break;
+                }
+                case "OFICINA1":
+                {
+                  ReservationOfficeDeparture = (IEnumerable<OfficeDtos>)collectionValue;
+                  break;
+                }
+                case "OFICINA2":
+                {
+                  ReservationOfficeArrival = (IEnumerable<OfficeDtos>)collectionValue;
+                  break;
+                }
+                case "BUDGET_ASSIST":
                     {
-                        CityDto = (IEnumerable<CityDto>)collectionValue;
+                        BudgetDto = (IEnumerable<BudgetSummaryDto>)collectionValue;
                         break;
                     }
                 case "CLIENT_ASSIST":
                     {
 
                         ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
+                        break;
+                    }
+                case "FARE_ASSIST":
+                    {
+                        FareDto = (IEnumerable<FareDto>)collectionValue;
                         break;
                     }
                 case "VEHICLE_ASSIST":
@@ -1003,12 +1221,12 @@ namespace BookingModule.ViewModels
                 case "BROKER_ASSIST":
                     {
 
-                        BrokerDto = collectionValue as IEnumerable<CommissionAgentSummaryDto>;
+                        BrokerDto = (IEnumerable<CommissionAgentSummaryDto>)collectionValue;
                         break;
                     }
                 case "VEHICLE_GROUP_ASSIST":
                     {
-                        VehicleGroupDto = collectionValue as IEnumerable<VehicleGroupDto>;
+                        VehicleGroupDto = (IEnumerable<VehicleGroupDto>)collectionValue;
                         break;
                     }
                 case "ACTIVE_FARE_ASSIST":
@@ -1098,6 +1316,10 @@ namespace BookingModule.ViewModels
         private readonly IRegionManager _regionManager;
         private IAssistDataService _assistDataService;
         private PropertyChangedEventHandler _clientHandler;
+
+        public string BrokerGridColumns { get; private set; }
+        public IEnumerable<CountryDto> CountryDto { get; private set; }
+
         private IncrementalList<ClientSummaryExtended> _bookingClientsIncrementalList;
         private ICommand _newCommand;
         private DelegateCommand<object> _saveCommand;
@@ -1109,5 +1331,14 @@ namespace BookingModule.ViewModels
         private IEnumerable<ClientSummaryExtended> _drivers3;
         private IKarveNavigator _karveNavigator;
         private IEnumerable<FareConceptDto> _concepts;
+        private IEnumerable<FareDto> _fare;
+        private ICommand  _bookingConcept;
+        private ICommand _newBookingCommand;
+        private IEnumerable<BudgetSummaryDto> _budgetDto;
+        private IEnumerable<OfficeDtos> _officeDto;
+        private IEnumerable<OfficeDtos> _reservationOfficeDeparture;
+        private IEnumerable<OfficeDtos> _reservationOfficeArrival;
+        private string _driverCreditCardExpireYear;
+        private string _driverCreditCardExpireMonth;
     }
 }

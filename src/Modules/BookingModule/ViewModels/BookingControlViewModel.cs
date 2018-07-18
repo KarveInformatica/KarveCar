@@ -41,9 +41,8 @@ namespace BookingModule.ViewModels
         private string _itemsCounts;
         private int _counterInterval;
 
-        public ICommand CancelBook { get; set; }
-
-        //  public DataPayLoad.Type OperationalState { get; private set; }
+      
+       
 
         /// <summary>
         ///  The region shall be scoped.
@@ -367,7 +366,10 @@ namespace BookingModule.ViewModels
             payLoad.HasRelatedObject = false;
             payLoad.Sender = ViewModelUri.ToString();
         }
-      
+        /// <summary>
+        ///  Handle the communication from another view model.
+        /// </summary>
+        /// <param name="payload">Payload</param>
         public override void IncomingPayload(DataPayLoad payload)
         {
             var newId = _bookingDataService.NewId();
@@ -378,12 +380,19 @@ namespace BookingModule.ViewModels
            OperationalState = _payloadInterpeter.CheckOperationalType(payload);
             _payloadInterpeter.ActionOnPayload(payload, payload.PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
+       /// <summary>
+       ///  Data payload
+       /// </summary>
+       /// <param name="payload">Payload to be used.</param>
         private void OnMailBoxHandler(DataPayLoad payload)
         {
             var newId = string.Empty;
             OperationalState = _payloadInterpeter.CheckOperationalType(payload);
             _payloadInterpeterReload.ActionOnPayload(payload, payload.PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
+        /// <summary>
+        /// Get or the number of reservation.
+        /// </summary>
         public string ItemCounts
         {
             set
@@ -403,7 +412,7 @@ namespace BookingModule.ViewModels
         /// </summary>
         /// <param name="clientIndentifier">PrimaryKey of the view model.</param>
         /// <param name="payLoad">Payload that comes from the event manager to get a value.</param>
-        /// <returns></returns>
+        /// <returns> true or false in case of deletion/no deletion</returns>
         public async Task<bool> DeleteAsync(string clientIndentifier, DataPayLoad payLoad)
         {
             var returnValue = true;
@@ -430,6 +439,18 @@ namespace BookingModule.ViewModels
         {
 
         }
-        
+        /// <summary>
+        ///  Set or Get the CounterInterval
+        /// </summary>
+        public int CounterInterval
+        {
+            get { return _counterInterval; }
+            set { _counterInterval = value; RaisePropertyChanged(); }
+        }
+        /// <summary>
+        ///  Set or Get cancel book.
+        /// </summary>
+        public ICommand CancelBook { get; set; }
+
     }
 }

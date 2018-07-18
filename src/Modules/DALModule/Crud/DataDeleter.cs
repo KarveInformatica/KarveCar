@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Data;
 using System.Threading.Tasks;
 using AutoMapper;
-using DataAccessLayer;
 using DataAccessLayer.Logic;
 using KarveDapper.Extensions;
 using KarveDataServices;
@@ -14,7 +9,7 @@ using System.Transactions;
 namespace DataAccessLayer.Crud
 {
         /// <summary>
-        /// Generic data deleter for entities.
+        /// Generic data deleter for entitities.
         /// </summary>
         /// <typeparam name="T">Type of the entity</typeparam>
         /// <typeparam name="Dto">Data Transfer object</typeparam>

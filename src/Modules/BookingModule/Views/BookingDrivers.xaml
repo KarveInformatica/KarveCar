@@ -10,8 +10,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1224">
 
-   
-        <Grid>
+
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
 
         </Grid.RowDefinitions>
-        <GroupBox Header="Direccion Habitual Multa" Grid.Row="0">
+        <GroupBox Header="{Binding lfaredirection, Source={StaticResource ResourceLanguage}}" Grid.Row="0">
             <karveControls:DriverUserControl />
         </GroupBox>
         <Grid Grid.Row="0" Grid.Column="1">
@@ -30,19 +30,17 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <GroupBox Header="Conductor Addicional" Grid.Row="0">
+            <GroupBox Header="{Binding ladditionaldriver, Source={StaticResource ResourceLanguage}}" Grid.Row="0">
                 <StackPanel>
                     <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
-
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Segundo Conductor Addicional" Grid.Row="1">
+            <GroupBox Header="{Binding lsndadditionaldriver, Source={StaticResource ResourceLanguage}}" Grid.Row="1">
                 <StackPanel>
-                        <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
-                    </StackPanel>
+                    <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
+                </StackPanel>
             </GroupBox>
             <TripleButton:TripleButton Grid.Row="2" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
         </Grid>
     </Grid>
-
 </UserControl>
