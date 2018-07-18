@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer
+﻿namespace KarveDataServices.Assist
 {
     public class NullAssist
     {

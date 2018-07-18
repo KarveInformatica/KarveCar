@@ -71,7 +71,7 @@
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
-                                FilterRowPosition="FixedTop"    
+                               FilterRowPosition="FixedTop"    
                                ItemsSource="{Binding SummaryView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False">
 

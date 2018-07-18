@@ -1208,7 +1208,6 @@
     <Compile Include="MongoDB\MongoSettingsDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoSupplierDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoVehicleDataAccessLayer.cs" />
-    <Compile Include="NullAssist.cs" />
     <Compile Include="ReservationRequestDataAccessLayer.cs" />
     <Compile Include="SQL\IQueryStore.cs" />
     <Compile Include="LocaleDataService.cs" />

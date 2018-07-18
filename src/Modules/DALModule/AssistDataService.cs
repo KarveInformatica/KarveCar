@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using System.Globalization;
+using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer
 {
@@ -297,6 +298,16 @@ namespace DataAccessLayer
                 extended.LoadItems(page);
             }
         }
+        private async void LoadMoreBudget(uint arg1, int index)
+        {
+            var budgetDataService = _dataServices.GetBudgetDataServices();
+            if (currentHelper is IncrementalList<BudgetSummaryDto> extended)
+            {
+                var page = await  budgetDataService.GetPagedSummaryDoAsync(index, DefaultPage).ConfigureAwait(false);
+                extended.LoadItems(page);
+            }
+
+        }
 
 
         private async Task<object> CreateAssistByQuery<Dto, Entity>(string query) where Dto: BaseDto, new() where Entity:class
@@ -334,6 +345,7 @@ namespace DataAccessLayer
         /// </summary>
         private void ConfigureAssist()
         {
+
             _assistMapper.Configure("ACCOUNT_ACCUMULATED_REPAYMENT", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<AccountDto, CU1>(query as string).ConfigureAwait(false);
@@ -1268,9 +1280,10 @@ namespace DataAccessLayer
                 }
                 return currentHelper;
             });
-            _assistMapper.Configure("BUDGET", async (query)=>
+            _assistMapper.Configure("BUDGET_ASSIST", async (query)=>
             {
-                currentHelper = await CreateBudgetHelper().ConfigureAwait(false);
+                var budgetHelper = await CreateBudgetHelper().ConfigureAwait(false);
+                currentHelper = budgetHelper;
                 return currentHelper;
             });
             _assistMapper.Configure("PROVEE2", async (query) =>
@@ -1284,9 +1297,14 @@ namespace DataAccessLayer
         private async Task<object> CreateBudgetHelper()
         {
             var dataServices = _dataServices.GetBudgetDataServices();
-            //var complexHelper = 
-            //await CreateComplexHelper<PRESUP1, IBudgetData, IBudgetKey>(dataProvider, Action<uint, int> loadMoreItemsFunc)
-            throw new NotImplementedException();
+            var page = await dataServices.GetPagedSummaryDoAsync(1, DefaultPage).ConfigureAwait(false);
+            var count = await _helperDataServices.GetItemsCount<PRESUP1>().ConfigureAwait(false);
+            currentHelper = new IncrementalList<BudgetSummaryDto>(LoadMoreBudget) { MaxItemCount = count };
+            if (currentHelper is IncrementalList<BudgetSummaryDto> summary)
+            {
+                summary.LoadItems(page);
+            }
+            return currentHelper;   
         }
 
         private void LoadMoreContableDelega(uint arg1, int index)

@@ -257,7 +257,7 @@
                                         Path=Width}" Command="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=Command}" CommandParameter="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=CommandParameter}" Height="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                        Path=Height}">
+                                        Path=Height}" Background="Transparent">
                                     <StackPanel Orientation="Vertical">
                                         <Image x:Name="PART_Image" Source="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=Icon}" Width="25" Height="25"></Image>
@@ -1086,7 +1086,7 @@
                                     Width="272"
                 
                                 />
-                                <Button x:Name="PART_EmailButton" Width="50" Content="Check!" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=EmailCommand}"></Button>
+                                <Button x:Name="PART_EmailButton" Width="100" Content="Check!" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=EmailCommand}"></Button>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
                                 <Image Source="/KarveControls;component/Images/web.png" Margin="0,0,8,0" Height="25"></Image>
@@ -1094,7 +1094,7 @@
                                     x:Name="PART_WebTextBox"
                                     Width="272"
                                 />
-                                <Button x:Name="PART_WebButton" Content="Go!" Width="50"
+                                <Button x:Name="PART_WebButton" Content="Go!" Width="100"
                                         Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=WebCommand}"
                                         CommandParameter="{Binding ElementName=PART_WebTextBox, Path=Text}"></Button>
                             </StackPanel>

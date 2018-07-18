@@ -87,7 +87,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MockRegionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestBookingControlViewModel.cs" />
     <Compile Include="TestClientInfoViewModel.cs" />

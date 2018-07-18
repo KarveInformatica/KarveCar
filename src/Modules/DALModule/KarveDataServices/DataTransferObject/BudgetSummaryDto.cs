@@ -9,6 +9,7 @@ namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
     /// BugdetSummaryDto.
+    /// "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
     /// </summary>
     public class BudgetSummaryDto: BaseDto
     {
@@ -18,20 +19,51 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or Get the booking date 
         /// </summary>
         [Display(Name = "Oficina", Description = "Oficina reserva")]
-        public DateTime BudgetOffice { set; get; }
+        public string BudgetOffice { set; get; }
+        /// <summary>
+        /// Nombre cliente
+        /// </summary>
+        [Display(Name = "Nombre Cliente", Description = "Nombre Cliente")]
+        public string ClientName { set; get; }
+        /// <summary>
+        ///  Fecha creacion.
+        /// </summary>
         [Display(Name = "Fecha Creacion", Description = "CreationDate")]
-        public DateTime CreationDate { set; get; }
+        public DateTime BudgetCreationDate { set; get; }
+        /// <summary>
+        /// Departure Date.
+        /// </summary>
         [Display(Name = "Fecha Salida", Description = "SalidaDate")]
         public DateTime DepartureDate { set; get; }
+        /// <summary>
+        ///  Grupo
+        /// </summary>
         [Display(Name = "Grupo", Description = "Group")]
-        public string Group { set; get; }
-        [Display(Name = "Cliente", Description = "Cliente")]
-        public string Client { set; get; }
-        [Display(Name = "Codigo Cliente", Description = "Codigo Cliente")]
-        public string ClientCode { set; get; }
-        [Display(Name = "Reservation", Description = "Reserva")]
-        public string Reservation { set; get; }
-        [Display(Name = "Comisionista", Description = "Comisionista")]
-        public string Broker { set; get; }
+        public string GroupCode { set; get; }
+        /// <summary>
+        ///  Booking  Number
+        /// </summary>
+        [Display(Name = "Numero Reserva", Description = "Numero Reserva")]
+        public string BookingNumber { set; get; }
+        /// <summary>
+        ///  BrokerName
+        /// </summary>
+        [Display(Name = "Nombre Comisionista", Description = "Nombre Comisionista")]
+        public string BrokerName { set; get; }
+        /// <summary>
+        ///  BonusNumber
+        /// </summary>
+        [Display(Name = "BonusNumber", Description = "Reserva")]
+        public string BonusNumber { set; get; }
+        /// <summary>
+        ///  Origin 
+        /// </summary>
+        [Display(Name = "Origin", Description = "Origin")]
+        public string Origin { set; get; }
+        /// <summary>
+        ///  Notes.
+        /// </summary>
+        [Display(Name = "Notes", Description = "Notes")]
+        public string Notes { set; get; }
     }
 }

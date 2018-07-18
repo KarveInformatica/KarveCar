@@ -60,11 +60,12 @@ namespace DataAccessLayer
         /// Get an asynchronous data object.
         /// </summary>
         /// <param name="code">Code of the data</param>
-        /// <returns></returns>
+        /// <returns>A react loader</returns>
         public async Task<IBudgetData> GetDoAsync(string code)
         {
-
-            throw new NotImplementedException();
+            var result = await _dataLoader.LoadValueAsync(code).ConfigureAwait(false);
+            var data = new Budget(result);
+            return data;
         }
         /// <summary>
         ///  Create a new domain object
@@ -96,8 +97,15 @@ namespace DataAccessLayer
             if (pageStart <= 0)
                 pageStart = 1;
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
-            var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryBudgetSummaryPaged, pageStart, pageSize).ConfigureAwait(false);
-            return datas;
+            IEnumerable<BudgetSummaryDto> data = new List<BudgetSummaryDto>();
+            try
+            { 
+                data = await pager.GetPagedSummaryDoAsync(QueryType.QueryBudgetSummaryPaged, pageStart, pageSize).ConfigureAwait(false);
+            } catch (System.Exception ex)
+            {
+                throw new DataAccessLayerException(ex.Message);
+            }
+            return data;
         }
 
         /// <summary>

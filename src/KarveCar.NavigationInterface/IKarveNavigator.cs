@@ -3,7 +3,8 @@ using System;
 namespace KarveCar.Navigation
 {
     /// <summary>
-    ///  This interface allows to navigate from a view to another view.
+    ///  This interface allows to navigate from a view to another view and crafting a new item of that view.
+    ///  It has been used to create a new item of that view.
     /// </summary>
     public interface IKarveNavigator
     {
@@ -32,6 +33,10 @@ namespace KarveCar.Navigation
         /// <param name="viewModelUri">Uri of the view model</param>
         /// <param name="e">Entity value</param>
         void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto : BaseDto where Entity : class;
+        /// <summary>
+        ///  Navigate and create and empty broker.
+        /// </summary>
+        /// <param name="viewModelUri">Sender view model used for communicating with the toolbar</param>
         void NewBrokerView(Uri viewModelUri);
     }
 }

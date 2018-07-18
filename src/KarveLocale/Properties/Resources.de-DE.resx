@@ -2870,4 +2870,40 @@
   <data name="lkilometroincluido" xml:space="preserve">
     <value>Kilometer enthalten</value>
   </data>
+  <data name="lunity" xml:space="preserve">
+    <value>Einheit</value>
+  </data>
+  <data name="lquantity" xml:space="preserve">
+    <value>Menge</value>
+  </data>
+  <data name="laggregate" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="lprepaidamount" xml:space="preserve">
+    <value>Vorausbezahlte Steuern</value>
+  </data>
+  <data name="lrsc" xml:space="preserve">
+    <value>RSC</value>
+  </data>
+  <data name="lfindmap" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="ldrivers" xml:space="preserve">
+    <value>Fahrer</value>
+  </data>
+  <data name="lvehicle" xml:space="preserve">
+    <value>Fahrzeuge</value>
+  </data>
+  <data name="lplace" xml:space="preserve">
+    <value>Platz</value>
+  </data>
+  <data name="lfaredirection" xml:space="preserve">
+    <value>Regelmäßige feine Richtung</value>
+  </data>
+  <data name="ladditionaldriver" xml:space="preserve">
+    <value>Zusätzlicher Fahrer</value>
+  </data>
+  <data name="lsndadditionaldriver" xml:space="preserve">
+    <value>Zweiter zusätzlicher Treiber</value>
+  </data>
 </root>

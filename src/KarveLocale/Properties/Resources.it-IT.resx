@@ -2903,4 +2903,40 @@
   <data name="lkilometroincluido" xml:space="preserve">
     <value>Kilometro Incluso</value>
   </data>
+  <data name="lunity" xml:space="preserve">
+    <value>Unita</value>
+  </data>
+  <data name="lquantity" xml:space="preserve">
+    <value>Quantità</value>
+  </data>
+  <data name="laggregate" xml:space="preserve">
+    <value>Insertar</value>
+  </data>
+  <data name="lprepaidamount" xml:space="preserve">
+    <value>Importe Prepagato</value>
+  </data>
+  <data name="lrsc" xml:space="preserve">
+    <value>RSC</value>
+  </data>
+  <data name="lfindmap" xml:space="preserve">
+    <value>Cerca..</value>
+  </data>
+  <data name="ldrivers" xml:space="preserve">
+    <value>Autisti</value>
+  </data>
+  <data name="lvehicle" xml:space="preserve">
+    <value>Veicolo</value>
+  </data>
+  <data name="lplace" xml:space="preserve">
+    <value>Luogo</value>
+  </data>
+  <data name="linvoiceday" xml:space="preserve">
+    <value>Giorno di Fatturazione</value>
+  </data>
+  <data name="ladditionaldriver" xml:space="preserve">
+    <value>Primo Conduttore</value>
+  </data>
+  <data name="lsndadditionaldriver" xml:space="preserve">
+    <value>Secondo Conducente</value>
+  </data>
 </root>

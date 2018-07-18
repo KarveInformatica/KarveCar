@@ -2539,4 +2539,46 @@
   <data name="lkilometroincluido" xml:space="preserve">
     <value>Included Kilometers</value>
   </data>
+  <data name="lunity" xml:space="preserve">
+    <value>Unity</value>
+  </data>
+  <data name="lquantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="laggregate" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="lprepaidamount" xml:space="preserve">
+    <value>Prepaid Amount</value>
+  </data>
+  <data name="lrsc" xml:space="preserve">
+    <value>RSC</value>
+  </data>
+  <data name="lfindmap" xml:space="preserve">
+    <value>Search Map</value>
+  </data>
+  <data name="ldrivers" xml:space="preserve">
+    <value>Drivers</value>
+  </data>
+  <data name="lvehicle" xml:space="preserve">
+    <value>Vehicle</value>
+  </data>
+  <data name="lnewbroker" xml:space="preserve">
+    <value>New Broker</value>
+  </data>
+  <data name="lplace" xml:space="preserve">
+    <value>Place</value>
+  </data>
+  <data name="linvoiceday" xml:space="preserve">
+    <value>Payment Day</value>
+  </data>
+  <data name="lfaredirection" xml:space="preserve">
+    <value>Fare Direction</value>
+  </data>
+  <data name="ladditionaldriver" xml:space="preserve">
+    <value>Additional Driver</value>
+  </data>
+  <data name="lsndadditionaldriver" xml:space="preserve">
+    <value>Second Additional Driver</value>
+  </data>
 </root>
