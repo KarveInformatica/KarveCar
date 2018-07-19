@@ -10,7 +10,6 @@
                              xmlns:local="clr-namespace:KarveCar.Views"
                              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
-                             xmlns:behavior="clr-namespace:KarveCar.Behaviour"
                              xmlns:prism="http://prismlibrary.com/"
                              prism:ViewModelLocator.AutoWireViewModel="True"
                              xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
