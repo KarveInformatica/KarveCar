@@ -1273,10 +1273,12 @@ namespace KarveDataServices.DataTransferObject
                         }
                         catch(IbanFormatException ibanException)
                         {
+                            ErrorList.Add(ibanException.Message);
                             return true;
                         }
                         catch (BicFormatException ex)
                         {
+                            ErrorList.Add(ex.Message);
                             return true;
                         }
                 }

@@ -32,9 +32,9 @@ namespace KarveDataServices.DataTransferObject
         }
        
         [Display(Name = "Numero")]
-        public  string  Code { set; get; }
+        public new string  Code { set; get; }
         [Display(Name = "Nombre Cliente")]
-        public  string Name { set; get; }
+        public new string Name { set; get; }
         [Display(Name = "Nif")]
         public string Nif { set; get; }
         [DataType(DataType.PhoneNumber)]

@@ -13,15 +13,15 @@ namespace KarveDataServices.DataTransferObject
     class ExtendedInvoiceDto: BaseDto
     {
         [Display(Name = "Factura", Description = "Factura")]
-        string Bill { set; get; }
+        public string Bill { set; get; }
         [Display(Name = "Referencia", Description = "Referencia")]
-        string Reference { set; get; }
+        public  string Reference { set; get; }
         [Display(Name = "Cliente", Description = "Cliente")]
-        string Client { set; get; }
+        public string Client { set; get; }
         [Display(Name = "Nombre", Description = "Nombre")]
-        string Name { set; get; }
+        public new string  Name { set; get; }
         [Display(Name = "Contracto", Description = "Contracto")]
-        string Contract { set; get; }
+        public string Contract { set; get; }
 
         
     }

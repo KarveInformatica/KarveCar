@@ -421,8 +421,10 @@ namespace KarveDapper.Extensions
                 value = BitConverter.ToUInt64(byteArray, 0);
 
             }
+#pragma warning disable 0168
             catch (Exception e)
             {
+#pragma warning restore 0168
                 value = ulong.MaxValue;
             }
             return value;
@@ -499,8 +501,10 @@ namespace KarveDapper.Extensions
                     var item = number.FirstOrDefault();
                     id = item.ToString();
                 }
+#pragma warning disable 0168
                 catch (Exception e)
                 {
+#pragma warning restore 0168
                     collection = new List<T>();
                 }
             }

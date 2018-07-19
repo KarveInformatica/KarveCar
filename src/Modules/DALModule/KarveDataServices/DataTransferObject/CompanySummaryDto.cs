@@ -8,11 +8,11 @@ namespace KarveDataServices.DataTransferObject
 {
     public class CompanySummaryDto : BaseDto
     {
-        public string Code { get; set; }
+        public new string Code { get; set; }
         /// <summary>
         ///  Set or get the NOMBRE property.
         /// </summary>
-        public string Name { get; set; }
+        public new string Name { get; set; }
         /// <summary>
         /// Nif.
         /// </summary>

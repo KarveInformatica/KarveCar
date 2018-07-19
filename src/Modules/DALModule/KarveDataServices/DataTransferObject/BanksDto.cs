@@ -66,7 +66,7 @@ namespace KarveDataServices.DataTransferObject
                         var bic = Bic.CreateInstance(Swift);
                     } catch (BicFormatException ex)
                     {
-                        ErrorList.Add(ConstantDataError.SwiftInvalid);
+                        ErrorList.Add(ex.Message);
                         return true;
                     }
                 }

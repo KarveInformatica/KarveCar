@@ -17,7 +17,7 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         [Required]
         [Display(Name ="Codigo")]
-        public string Code { get; set; }
+        public new string Code { get; set; }
         /// <summary>
         ///  Country
         /// </summary>

@@ -28,7 +28,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Code of the card.
         /// </summary>
-        public string Code {
+        public new string Code {
             set
             {
                 _code = value;
@@ -47,7 +47,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Name of the card.
         /// </summary>
-        public string Name
+        public new string Name
         {
             set { _name = value; }
             get { return _name; }

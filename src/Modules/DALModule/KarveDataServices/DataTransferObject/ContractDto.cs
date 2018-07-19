@@ -12,7 +12,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Codigo 
         /// </summary>
         [Display(Name = "Numero")]
-        public string Code { get; set; }
+        public new string Code { get; set; }
         [Display(Name = "Desde")]
         public DateTime? StartingFrom { get; set; }
         [Display(Name = "Fecha de Salida")]
@@ -23,7 +23,7 @@ namespace KarveDataServices.DataTransferObject
         public string Days { set; get; }
         [Display(Name = "Data Entrega")]
         public string DeliveringPlace { get; set; }
-        public string Name { get; set; }
+        public new string Name { get; set; }
         public string ClientCode { get; set; }
         public string DriverCode { get; set; }
         public string VehicleCode { get; set; }

@@ -1,7 +1,5 @@
 ﻿using MasterModule.Common;
 using System;
-using System.Collections;
-using System.Data;
 using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveCommon.Services;
@@ -9,14 +7,12 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
-using NLog;
 using Prism.Commands;
 using Prism.Regions;
 using System.ComponentModel;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Generic;
 using Syncfusion.UI.Xaml.Grid;
-using System.Linq;
 
 namespace MasterModule.ViewModels
 {
@@ -33,7 +29,9 @@ namespace MasterModule.ViewModels
         ///  Region manager to the region
         /// </summary>
         private IRegionManager _regionManager;
-
+        /// <summary>
+        ///  Container for unity,
+        /// </summary>
         private IUnityContainer _container;
         /// <summary>
         ///  Mailbox for this cleint view model.
@@ -53,6 +51,9 @@ namespace MasterModule.ViewModels
         ///  This contains the client load summary.
         /// </summary>
         private IEnumerable<ClientSummaryExtended> _clientSummaryDtos;
+        /// <summary>
+        ///  Action to be triggered when loaded the data.
+        /// </summary>
         private Action<object, PropertyChangedEventArgs> _clientDataLoaded;
         
 
@@ -77,12 +78,15 @@ namespace MasterModule.ViewModels
             InitViewModel();
         }
 
-        protected override void OnSortCommand(object obj)
+        /// <summary>
+        ///  OnSortCommand 
+        /// </summary>
+        /// <param name="eventObject">Event Object to be used.</param>
+        protected override void OnSortCommand(object eventObject)
         {
-            var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
+            var sortedDictionary = eventObject as Dictionary<string, ListSortDirection>;
             _clientTaskNotify = NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _clientEventTask);
         }
-
         private void InitViewModel()
         {
             // each grid needs an unique identifier for setting the grid change in the database.
@@ -91,9 +95,12 @@ namespace MasterModule.ViewModels
             _clientDataLoaded += OnClientDataLoaded;
             SummaryView = new IncrementalList<ClientSummaryExtended>(LoadMoreItems);
             StartAndNotify();
-            
         }
-
+        /// <summary>
+        /// OnPagedEvent allows us to send a paged event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
         {
             var listCompletion = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>>;
@@ -112,7 +119,11 @@ namespace MasterModule.ViewModels
                 DialogService?.ShowErrorMessage("Error Loading data " + listCompletion.ErrorMessage);
             }
         }
-
+        /// <summary>
+        /// Event that it has been triggered when we load the data.
+        /// </summary>
+        /// <param name="sender">Sender of the event.</param>
+        /// <param name="e">Parameters to be used.</param>
         private void OnClientDataLoaded(object sender, PropertyChangedEventArgs e)
         {
             if (sender is INotifyTaskCompletion<IClientData> notification && notification.IsSuccessfullyCompleted)
@@ -140,7 +151,6 @@ namespace MasterModule.ViewModels
             }
         }
 
-        
         /// <summary>
         ///  Start and Notify the load of the control view model table.
         /// </summary>
@@ -267,16 +277,11 @@ namespace MasterModule.ViewModels
             var routedName =  "ClientModule:" + name;
             return routedName;
         }
-
-        
         protected override  void LoadMoreItems(uint count, int baseIndex)
         {
             NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(
                 _clientDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
-
-         
         }
-
         protected override void SetResult<T>(IEnumerable<T> result)
         {
             _clientSummaryDtos = result as IEnumerable<ClientSummaryExtended>;

@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup>
-      <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -274,7 +274,6 @@
     <Compile Include="ViewModels\ProvidersControlViewModel.cs" />
     <Compile Include="ViewModels\UpperBarCompanyViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewModel.cs" />
-    <Compile Include="ViewModels\UpperBarViewSupplierViewModel.cs" />
     <Compile Include="ViewModels\UpperBarViewVehicleViewModel.cs" />
     <Compile Include="ViewModels\VehicleInfoViewModelUi.cs" />
     <Compile Include="ViewModels\VehiclesControlViewModel.cs" />

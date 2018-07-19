@@ -16,6 +16,6 @@ $theCurrentPath=(Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\Cur
 4. Update the path with the command: $theUpdatedPath=$theCurrentPath+’;C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin’
 5. Set the path to the updated path.
 Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH –Value $theUpdatedPath
-6. To compile you it enough:
+6. To compile you it is enough:
    dotnet restore KarveCar.sln
    msbuild KarveCar.sln /m
