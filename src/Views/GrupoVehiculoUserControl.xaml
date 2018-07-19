@@ -4,8 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:local="clr-namespace:KarveCar.View"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -181,6 +179,7 @@
             </StackPanel>
             <StackPanel x:Name="stkPrecioPorDefecto" Height="375" Width="475" Orientation="Vertical" Margin="25,15">
                 <GroupBox x:Name="grbPreciosPorDefecto" Header="Precios por defecto" BorderBrush="Black" BorderThickness="1,1,1,1" Visibility="Hidden" Height="350">
+                 <!--
                     <extendedGridControl:ExtendedDataGrid x:Name="gridPreciosPorDefecto" 
                                                           ItemsSource="{Binding PrecioPorDefectoDataTable}" 
                                                           RowHeaderWidth="12"  
@@ -209,6 +208,7 @@
                             </DataTemplate>
                         </extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
                     </extendedGridControl:ExtendedDataGrid>
+                    -->
                 </GroupBox>
             </StackPanel>
         </WrapPanel>

@@ -43,10 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Navigation", "Karv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.NavigationInterface", "KarveCar.NavigationInterface\KarveCar.NavigationInterface.csproj", "{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveWeb", "..\KarveWeb\KarveWeb.csproj", "{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FCE17CCE-4A95-489C-B69A-582F77DC9182}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -285,30 +281,6 @@ Global
 		{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}.Release|x64.Build.0 = Release|Any CPU
 		{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}.Release|x86.ActiveCfg = Release|Any CPU
 		{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}.Release|x86.Build.0 = Release|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Debug|x64.Build.0 = Debug|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Debug|x86.Build.0 = Debug|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Release|x64.ActiveCfg = Release|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Release|x64.Build.0 = Release|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Release|x86.ActiveCfg = Release|Any CPU
-		{E18145E4-62D1-4BAC-B376-5E0AA8E9BD29}.Release|x86.Build.0 = Release|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Debug|x64.Build.0 = Debug|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Debug|x86.Build.0 = Debug|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Release|x64.ActiveCfg = Release|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Release|x64.Build.0 = Release|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Release|x86.ActiveCfg = Release|Any CPU
-		{FCE17CCE-4A95-489C-B69A-582F77DC9182}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -323,9 +295,9 @@ Global
 		{140C1044-4F56-4855-AF52-A2F91B369460} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
-		RESX_NeutralResourcesLanguage = es-ES
-		RESX_DuplicateKeyHandling = Fail
 		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
+		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

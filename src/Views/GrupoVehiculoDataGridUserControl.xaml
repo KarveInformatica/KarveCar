@@ -11,6 +11,7 @@
 
     <Grid>
         <!--<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" CanContentScroll="True">-->
+      <!--
         <extendedGridControl:ExtendedDataGrid x:Name="dtgrGruposVehiculos"                                                   
                                               ItemsSource="{Binding GrupoVehiculoDataTable}" 
                                               SelectedValue="False"
@@ -50,6 +51,7 @@
                 </DataTemplate>
             </extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
         </extendedGridControl:ExtendedDataGrid>
+        -->
         <!--</ScrollViewer>-->
     </Grid>
 </UserControl>

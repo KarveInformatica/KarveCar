@@ -4,49 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:extendedGridControl="clr-namespace:ExtendedGrid.ExtendedGridControl;assembly=ExtendedGrid"
-             xmlns:extendedColumn="clr-namespace:ExtendedGrid.ExtendedColumn;assembly=ExtendedGrid"
              xmlns:local="clr-namespace:KarveCar.View"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" >
 
     <Grid>
-        <extendedGridControl:ExtendedDataGrid x:Name="dtgrProveedorMarca"                                                   
-                                              ItemsSource="{Binding ProveedorMarcaDataTable}" 
-                                              SelectedValue="False"
-                                              RowHeaderWidth="12"  
-                                              AutoFilterFontSize="12"
-                                              GroupByControlVisibility="Visible"
-                                              SearchAutoFilterVisibility="Visible"
-                                              AutoGenerateColumns="False" 
-                                              HideColumnChooser="True" 
-                                              IsSynchronizedWithCurrentItem="False" 
-                                              SelectionMode="Single" 
-                                              SelectionUnit="FullRow"
-                                              IsReadOnly="True"
-                                              Theme="Office2007Silver">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding ProveedorMarcaSelectionChanged}" 
-                                           CommandParameter="{Binding ElementName=dtgrProveedorMarca, Path=SelectedValue}">
-                    </i:InvokeCommandAction>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-
-            <DataGrid.Columns>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding NUM_PROVEE}" AllowAutoFilter="True" CanUserSort="True"/>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding NOMBRE}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
-                <!--<extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Code}" AllowAutoFilter="True" CanUserSort="True"/>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Name}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>-->
-            </DataGrid.Columns>
-            <extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Cantidad: " FontWeight="Bold"/>
-                        <TextBlock Margin="3,0,0,0" Text="{Binding ElementName=dtgrProveedorMarca, Path=Items.Count}"></TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-        </extendedGridControl:ExtendedDataGrid>
+       
     </Grid>
 </UserControl>

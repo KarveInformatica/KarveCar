@@ -11,42 +11,5 @@
              mc:Ignorable="d" >
 
     <Grid>
-        <extendedGridControl:ExtendedDataGrid x:Name="dtgrMarcaDataGrid"
-                                              ItemsSource="{Binding MarcaDataTable, Mode=TwoWay}" 
-                                              SelectedValue="False"
-                                              RowHeaderWidth="12"  
-                                              AutoFilterFontSize="12"
-                                              GroupByControlVisibility="Visible"
-                                              SearchAutoFilterVisibility="Visible"
-                                              AutoGenerateColumns="False" 
-                                              HideColumnChooser="True" 
-                                              IsSynchronizedWithCurrentItem="False" 
-                                              SelectionMode="Single" 
-                                              SelectionUnit="FullRow"
-                                              IsReadOnly="True"
-                                              Theme="Office2007Silver">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding MarcaSelectionChanged}" 
-                                           CommandParameter="{Binding ElementName=dtgrMarcaDataGrid, Path=SelectedValue}">
-                    </i:InvokeCommandAction>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-
-            <DataGrid.Columns>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding CODIGO}"     AllowAutoFilter="True" CanUserSort="True"/>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding NOMBRE}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>
-                <!--<extendedColumn:ExtendedDataGridTextColumn Header="Código"      Binding="{Binding Codigo}"     AllowAutoFilter="True" CanUserSort="True"/>
-                <extendedColumn:ExtendedDataGridTextColumn Header="Descripción" Binding="{Binding Definicion}" AllowAutoFilter="True" CanUserSort="True" Width="*"/>-->
-            </DataGrid.Columns>
-            <extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Cantidad: " FontWeight="Bold"/>
-                        <TextBlock Margin="3,0,0,0" Text="{Binding ElementName=dtgrMarcaDataGrid, Path=Items.Count}"></TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </extendedGridControl:ExtendedDataGrid.FooterDataTemplate>
-        </extendedGridControl:ExtendedDataGrid>
     </Grid>
 </UserControl>

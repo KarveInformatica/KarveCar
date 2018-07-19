@@ -1,11 +1,5 @@
 Data Access Layer Module.
+________________________________________
 This module has the responsability to abstract the database entities in data transfer object and in domain objects where it is needed.
-RoadMap.
-1. Supplier
-2. Brokers (Commission Agents)
-3. Clients
-4. Helpers
+It uses the stairaway pattern for separating interfaces from implementation.
 
-TODO:
-- define a dsl for queries (linqtosql) using dapper. A DataContext.
-- extract the queries in a dsl.
