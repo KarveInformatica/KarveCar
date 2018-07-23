@@ -85,7 +85,7 @@
                                                  kc:ControlExt.DataSourcePath="DANOS"
                                                  kc:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                                  DataAreaWidth="400"
-                                                
+                                                 Height="Auto"
                                                  Width="Auto" i:Grid.ColumnSpan="2"/>
 
                                     <kc:DataArea Grid.Row="1" DataAreaTitle="{Binding lextras, Source={StaticResource ResourceLanguage}}" DataAreaWidth="400" 

@@ -325,6 +325,14 @@ namespace MasterModule.ViewModels
                 _officeDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
 
         }
+
+        public override void Dispose()
+        {
+            if (SummaryView is IncrementalList<OfficeSummaryDto> dto)
+            {
+                dto.Clear();
+            }
+        }
         #region Private Fields
 
         private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> InitializationNotifierOffice;

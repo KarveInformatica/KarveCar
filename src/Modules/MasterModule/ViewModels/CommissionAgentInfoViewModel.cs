@@ -1172,6 +1172,9 @@ namespace MasterModule.ViewModels
             RaisePropertyChanged("DataObject.VisitDto");
         }
 
-      
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

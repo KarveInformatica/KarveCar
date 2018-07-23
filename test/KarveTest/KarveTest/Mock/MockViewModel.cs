@@ -120,6 +120,10 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
-       
+
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

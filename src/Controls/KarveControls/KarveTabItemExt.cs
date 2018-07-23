@@ -9,6 +9,7 @@ namespace KarveControls
 {
     public class KarveTabItemExt
     {
+        
         public static Visibility GetCloseButtonVisibility(DependencyObject obj)
         {
             return (Visibility)obj.GetValue(CloseButtonVisibilityProperty);
@@ -19,9 +20,11 @@ namespace KarveControls
             obj.SetValue(CloseButtonVisibilityProperty, value);
         }
 
+        
         // Using a DependencyProperty as the backing store for IsSpecialTab.  This enables animation, styling, binding, etc...
 
         public static readonly DependencyProperty CloseButtonVisibilityProperty =
         DependencyProperty.RegisterAttached("CloseButtonVisibility", typeof(Visibility), typeof(KarveTabItemExt), new PropertyMetadata(Visibility.Hidden));
+
     }
 }

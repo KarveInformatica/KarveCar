@@ -163,8 +163,10 @@
                                     </Grid.RowDefinitions>
                                 </Grid>
                                 <karveControls:DataField  DataSourcePath="NOMBRE" Grid.Row="0"
+                                                          
                                                       DataObject="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                                       LabelText="{Binding lnombre, Source={StaticResource ResourceLanguage}}"
+                                                      Watermark="{Binding lnombre, Source={StaticResource ResourceLanguage}}"
                                                       LabelTextWidth="150"
                                                       TextContentWidth="400"
                                                       Margin="0,5,0,0"
@@ -451,7 +453,7 @@
                             LabelVisible="False"
                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="NOTAS"
-                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="139">
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto">
 
                                 </karveControls:DataArea>
                                 <karveControls:DataArea 

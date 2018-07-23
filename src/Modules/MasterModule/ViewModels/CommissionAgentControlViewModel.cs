@@ -355,9 +355,9 @@ namespace MasterModule.ViewModels
             SummaryView = _commissionAgentSummaryDto;
         }
 
-     
-
-       
-
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

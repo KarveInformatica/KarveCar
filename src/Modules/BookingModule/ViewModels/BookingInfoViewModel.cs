@@ -32,7 +32,7 @@ namespace BookingModule.ViewModels
     /// <summary>
     ///  BookingInfoViewModel. Single resposability to manage the BookingInfoView in a view first approach.
     /// </summary>
-    internal class BookingInfoViewModel : HeaderedLineViewModelBase<IBookingData, BookingDto, BookingItemsDto>
+    internal partial class BookingInfoViewModel : HeaderedLineViewModelBase<IBookingData, BookingDto, BookingItemsDto>
     {
         /// <summary>
         /// BookingInfoViewModel
@@ -57,13 +57,19 @@ namespace BookingModule.ViewModels
             _container = container;
             _regionManager = regionManager;
             DefaultPageSize = 200;
+
+            // this shall be at the configuration service
             BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
             VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
             ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
-             BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
+            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
             _bookingClientsIncrementalList = new IncrementalList<ClientSummaryExtended>(LoadMoreClients);
             _clientHandler += LoadClientEvent;
             IsChanged = false;
+            LineVisible = true;
+            FooterVisible = false;
+            _selectedIndex = 0;
+          
         }
         #region CommonProperties
         /// <summary>
@@ -148,6 +154,9 @@ namespace BookingModule.ViewModels
         ///  Set or Get the grid columns.
         /// </summary>
         public string ClientsConductor { get; set; }
+        /// <summary>
+        /// Set or Get the columns
+        /// </summary>
         public string BookingInfoCols { get; private set; }
 
         /// <summary>
@@ -477,9 +486,33 @@ namespace BookingModule.ViewModels
                 _fare = value;
                 RaisePropertyChanged();
             }
-        } 
+        }
 
         #endregion
+
+
+        public int SelectedIndex
+        {
+            set
+            {
+                _selectedIndex = value;
+                if (_selectedIndex > 0)
+                {
+                    LineVisible = false;
+                    FooterVisible = false;
+                }
+                else
+                {
+                    LineVisible = true;
+                    FooterVisible = true;
+                }
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _selectedIndex;
+            }
+        }
 
         /// <summary>
         ///  Compute the totals of the grid.
@@ -619,15 +652,12 @@ namespace BookingModule.ViewModels
         {
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
-            //OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
-            ShowDrivers = new DelegateCommand<object>(OnShowDrivers);
             ShowClients = new DelegateCommand<object>(ShowBookingClients);
             ShowSingleDriver = new DelegateCommand<object>(ShowBookingDriver);
             ShowClient = new DelegateCommand<object>(ShowCurrentClient);
             CreateClient = new DelegateCommand<object>(CreateNewClient);
             ShowFares = new DelegateCommand<object>(ShowClientFares);
             CreateVehicleCommand = new DelegateCommand<object>(CreateVehicle);
-            OtherDataShowCommand = new DelegateCommand<object>(OtherDataShow);
             LookupFlightCommand = new DelegateCommand<object>(OnLookupFlight);
             CreateNewFare = new DelegateCommand<object>(OnCreateNewFare);
             CreateNewVehicle = new DelegateCommand<object>(OnCreateNewVehicle);
@@ -636,11 +666,97 @@ namespace BookingModule.ViewModels
             CreateNewDriver = new DelegateCommand<object>(CreateNewClient);
             AmountCommand = new DelegateCommand<object>(OnAmountCommand);
             RecomputeImport = new DelegateCommand(OnRecomputeImport);
-         //   ShowBookingConcept = new DelegateCommand
+            //   ShowBookingConcept = new DelegateCommand
+        }
+        /// <summary>
+        ///  Set or Get the credit card.
+        /// </summary>
+        public IEnumerable<CreditCardDto> CreditCardView
+        {
+            get
+            {
+                return _creditCardView;
+            }
+            set {
+                _creditCardView = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get the country
+        /// </summary>
+        public IEnumerable<CountryDto> CountryDto {
+            get
+            {
+                return _country;
+            }
+            set
+            {
+                _country = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        /// Set or Get thje country
+        /// </summary>
+        public IEnumerable<CountryDto> Country2Dto
+        {
+            get
+            {
+                return _country2;
+            }
+            set
+            {
+                _country2 = value;
+                RaisePropertyChanged();
+            }
         }
 
-      
-
+        /// <summary>
+        ///  Set or Get the city
+        /// </summary>
+        public IEnumerable<CityDto> CityDto3
+        {
+            get
+            {
+                return _city;
+            }
+            set
+            {
+                _city = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or Get the country dto.
+        /// </summary>
+        public IEnumerable<CountryDto> CountryDto3
+        {
+            get
+            {
+                return _countryDto;
+            }
+            set
+            {
+                _countryDto = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or get the province.
+        /// </summary>
+        public IEnumerable<ProvinciaDto> ProvinceDto3
+        {
+            get
+            {
+                return _provinceDto;
+            }
+            set
+            {
+                _provinceDto = value;
+                RaisePropertyChanged();
+            }
+        }
         private void OnCreateNewGroup(object obj)
         {
             MessageBox.Show("Cannot open a vehicle group");
@@ -652,6 +768,8 @@ namespace BookingModule.ViewModels
         private void OnAmountCommand(object obj)
         {
         }
+        public ICommand CreateCommand { set; get; }
+
         /// <summary>
         ///  Init the view model.
         /// </summary>
@@ -660,7 +778,10 @@ namespace BookingModule.ViewModels
             InitCommunication();
             InitCommands();
             _bookingDataService = DataServices.GetBookingDataService();
-        
+            GeneralInfoCollection = CreateCollectionForOtherData();
+
+            // Create the right collection for othe data.
+
             /* The columns names are coupled with data object properties.
              * The idea here is to get a subset of properties.
              */
@@ -668,6 +789,9 @@ namespace BookingModule.ViewModels
             {
                 "Desccon","Bill", "Included", "Quantity", "Price", "Subtotal", "Extra", "Iva","Days", "Unity"
             };
+            /*
+             *  This goes to a data template to configure directly the grid with its mapping.
+             */
             var presenter = new ObservableCollection<CellPresenterItem>()
             {
                 new NavigationAwareItem() { DataTemplateName="NavigateBookingConcept", MappingName="Desccon", RegionName=RegionNames.LineRegion},
@@ -707,7 +831,6 @@ namespace BookingModule.ViewModels
         {
             System.Diagnostics.Process.Start("http://www.skyscanner.es");
         }
-
         /// <summary>
         ///  This function fetch all the offices to be used in the collection.
         /// </summary>
@@ -732,7 +855,7 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Save data from the view.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">Save data from the view command.</param>
         private void SaveViewCommand(object obj)
         {
 
@@ -961,26 +1084,8 @@ namespace BookingModule.ViewModels
             _bookingClientsIncrementalList.Clear();
 
         }
-        private void OtherDataShow(object obj)
-        {
-            var otherDataView = _container.Resolve<BookingDataView>();
-            var detailsRegion = _regionManager.Regions[RegionNames.TabRegion];
-            otherDataView.Header = "OtherData";
-            _otherDataRegionManager = detailsRegion.Add(otherDataView, null, true);
-            otherDataView.DataContext = this;
-            otherDataView.Focus();
-        }
-        private void OnShowDrivers(object obj)
-        {
 
-            var driverView = _container.Resolve<BookingDrivers>();
-            var detailsRegion = _regionManager.Regions[RegionNames.TabRegion];
-            driverView.Header = "Conductores";
-            _showDriversRegionManager = detailsRegion.Add(driverView, null, true);
-            driverView.DataContext = this;
-            driverView.Focus();
-        }
-
+        
         /// <summary>
         ///  Get the name of the route.
         /// </summary>
@@ -1123,9 +1228,9 @@ namespace BookingModule.ViewModels
 
         /// <summary>
         /// Request Handler for any searchbox available in the view. Each view can configure what 
-        /// listen or now. The idea is to use the AssistDataDservice which will expose an AssistMapper.
+        /// listen or now. The idea is to use the AssistDataservice which will expose an AssistMapper.
         /// The AssistMapper has the resposability to multiplex/demultiplex requests. A request
-        /// might have a query but has a assistTableName. The assistTableName is just an identifier for 
+        /// might have a query but has an AssistTableName. The AssistTableName is just an identifier for 
         /// the searchbox query.
         /// </summary>
         /// <param name="assistTableName">Identifier for the searchbox query</param>
@@ -1137,7 +1242,7 @@ namespace BookingModule.ViewModels
             var collectionValue = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery).ConfigureAwait(false);
 
             /* In the assist mapper we use the null object pattern provides 
-             * a non-functional object in place of a null reference 
+             * a no-functional object in place of a null reference 
              * and therefore allows methods to be called on it
              */
             if (collectionValue is NullAssist)
@@ -1158,8 +1263,29 @@ namespace BookingModule.ViewModels
                 }
                 case "COUNTRY_ASSIST":
                 {
-                        CountryDto = (IEnumerable<CountryDto>)collectionValue;
-                        break;
+                   CountryDto = (IEnumerable<CountryDto>)collectionValue;
+                   break;
+                }
+                case "COUNTRY2_ASSIST":
+                {
+                    Country2Dto = (IEnumerable<CountryDto>)collectionValue;
+                    break;
+                }
+                case "DRIVER_PROV":
+                {
+
+                    ProvinceDto3 = (IEnumerable<ProvinciaDto>)collectionValue;
+                    break;
+                }
+                case "CREDIT_CARD_ASSIST":
+                {
+                    CreditCardView = (IEnumerable<CreditCardDto>)collectionValue;
+                    break;
+                }
+                case "DRIVER_COUNTRY":
+                {
+                    CountryDto3 = (IEnumerable<CountryDto>) collectionValue;
+                    break;
                 }
                 case "OFFICE_ASSIST":
                 {
@@ -1212,6 +1338,11 @@ namespace BookingModule.ViewModels
                         DriverDto3 = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                   
+                    }
+                case "DRIVER_CITY":
+                    {
+                        CityDto3 = (IEnumerable<CityDto>)collectionValue;
+                        break;
                     }
                 case "FARE_CONCEPT_ASSIST":
                     {
@@ -1303,13 +1434,6 @@ namespace BookingModule.ViewModels
         private string _gridColumnsKey;
         private string _gridDriverColumnsKey;
         private IBookingData _bookingData;
-        private IEnumerable<ClientSummaryExtended> _clientDto;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<CommissionAgentSummaryDto> _brokers;
-        private IEnumerable<VehicleGroupDto> _vehicleGroup;
-        private IEnumerable<ActiveFareDto> _activeFareDto;
-        private IEnumerable<ContractByClientDto> _contractClientDto;
-        private IEnumerable<ClientSummaryExtended> _drivers;
         private BookingDto _bookingDtoValue;
         private IBookingDataService _bookingDataService;
         private readonly IUnityContainer _container;
@@ -1317,28 +1441,44 @@ namespace BookingModule.ViewModels
         private IAssistDataService _assistDataService;
         private PropertyChangedEventHandler _clientHandler;
 
+        private string _driverCreditCardExpireYear;
+        private string _driverCreditCardExpireMonth;
+
         public string BrokerGridColumns { get; private set; }
-        public IEnumerable<CountryDto> CountryDto { get; private set; }
 
         private IncrementalList<ClientSummaryExtended> _bookingClientsIncrementalList;
         private ICommand _newCommand;
         private DelegateCommand<object> _saveCommand;
         private DelegateCommand<object> _deleteCommand;
         private ViewDeleter<IBookingData, BookingDto> _viewDeleter;
-        private ObservableCollection<OfficeDtos> _reservationOffice;
-        private IEnumerable<VehicleSummaryDto> _vehicle;
-        private IEnumerable<ClientSummaryExtended> _drivers2;
-        private IEnumerable<ClientSummaryExtended> _drivers3;
         private IKarveNavigator _karveNavigator;
-        private IEnumerable<FareConceptDto> _concepts;
-        private IEnumerable<FareDto> _fare;
         private ICommand  _bookingConcept;
         private ICommand _newBookingCommand;
+        
+        private ObservableCollection<OfficeDtos> _reservationOffice;
+
         private IEnumerable<BudgetSummaryDto> _budgetDto;
+        private IEnumerable<FareConceptDto> _concepts;
+        private IEnumerable<FareDto> _fare;
+        private IEnumerable<VehicleSummaryDto> _vehicle;
+        private IEnumerable<CityDto> _cityDto;
+        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<VehicleGroupDto> _vehicleGroup;
+        private IEnumerable<ActiveFareDto> _activeFareDto;
+        private IEnumerable<ContractByClientDto> _contractClientDto;
+        private IEnumerable<ClientSummaryExtended> _clientDto;
+        private IEnumerable<ClientSummaryExtended> _drivers;
+        private IEnumerable<ClientSummaryExtended> _drivers2;
+        private IEnumerable<ClientSummaryExtended> _drivers3;
         private IEnumerable<OfficeDtos> _officeDto;
         private IEnumerable<OfficeDtos> _reservationOfficeDeparture;
         private IEnumerable<OfficeDtos> _reservationOfficeArrival;
-        private string _driverCreditCardExpireYear;
-        private string _driverCreditCardExpireMonth;
+        private IEnumerable<CountryDto> _country;
+        private IEnumerable<CityDto> _city;
+        private IEnumerable<CountryDto> _countryDto;
+        private IEnumerable<ProvinciaDto> _provinceDto;
+        private IEnumerable<CountryDto> _country2;
+        private IEnumerable<CreditCardDto> _creditCardView;
+        private int _selectedIndex;
     }
 }

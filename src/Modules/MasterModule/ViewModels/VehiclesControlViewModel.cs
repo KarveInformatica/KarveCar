@@ -249,5 +249,8 @@ namespace MasterModule.ViewModels
                 _vehicleDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
             
         }
+        public override void Dispose()
+        {
+        }
     }
 }

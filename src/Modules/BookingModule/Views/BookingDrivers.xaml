@@ -13,11 +13,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="50*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
 
         </Grid.RowDefinitions>
@@ -29,18 +29,153 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <GroupBox Header="{Binding ladditionaldriver, Source={StaticResource ResourceLanguage}}" Grid.Row="0">
-                <StackPanel>
-                    <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <karveControls:DualFieldSearchBox
+                                x:Name="OtherDriver"
+                                Grid.Row="0"
+                                Margin="45,0,0,0"
+                                LabelVisible="False"
+                                AssistProperties="Codigo,Nombre"
+                                AssistTableName="DRIVER_ASSIST_2"
+                                TextContentFirstWidth="50"
+                                TextContentSecondWidth="200"
+                                SourceView="{Binding DriverDto2, Mode=OneWay}"
+                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                MagnifierCommand="{Binding AssistCommand}"
+                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataFieldFirst="OTROCOND_RES2"
+                                ButtonImage="/KarveControls;component/Images/driver2.png"
+                                Height="30">
+                    </karveControls:DualFieldSearchBox>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <karveControls:DataField
+                            x:Name="DrivingLicense1"
+                            LabelText="{Binding lnumpermiso, Source={StaticResource ResourceLanguage}}"
+                            LabelTextWidth="50"
+                            Height="35"
+                            TextContentWidth="150"
+                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                            TextContent="{Binding DataObject.OTROPER_RES2, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, Mode=TwoWay}"
+                            DataObject="{Binding DataObject, Mode=TwoWay}" Margin="0,4" />
+                        <karveControls:DataDatePicker  LabelVisible="False" Width="176"
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           karveControls:ControlExt.DataSourcePath="OTROFEXPE_RES2">
+                        </karveControls:DataDatePicker>
+                        <karveControls:DataDatePicker Width="176"
+                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           karveControls:ControlExt.DataSourcePath="OTROFVTO_RES2">
+                        </karveControls:DataDatePicker>
+                    </StackPanel>
+                </Grid>
             </GroupBox>
             <GroupBox Header="{Binding lsndadditionaldriver, Source={StaticResource ResourceLanguage}}" Grid.Row="1">
-                <StackPanel>
-                    <karveControls:DriverSmallControl></karveControls:DriverSmallControl>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <karveControls:DualFieldSearchBox 
+                                x:Name="AdditionalDriver"
+                                AssistProperties="Codigo,Nombre"
+                                AssistTableName="DRIVER_ASSIST_3"
+                                LabelVisible="False"
+                                Margin="45,0,0,0"
+                                TextContentFirstWidth="60"
+                                TextContentSecondWidth="200"
+                                SourceView="{Binding DriverDto3, Mode=OneWay}"
+                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                MagnifierCommand="{Binding AssistCommand}"
+                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataFieldFirst="OTRO2COND_RES2"
+                                ButtonImage="/KarveControls;component/Images/driver2.png"
+                                Height="30">
+                    </karveControls:DualFieldSearchBox>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <karveControls:DataField
+                            x:Name="DrivingLicense2"
+                            LabelText="{Binding lnumpermiso, Source={StaticResource ResourceLanguage}}"
+                            LabelTextWidth="50"
+                            Height="35"
+                            TextContentWidth="150"
+                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                            TextContent="{Binding DataObject.OTRO2PER_RES2, Mode=TwoWay}"
+                            DataObject="{Binding DataObject, Mode=TwoWay}" Margin="0,4" />
+                        <karveControls:DataDatePicker  LabelVisible="False" Width="176"
+                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           karveControls:ControlExt.DataSourcePath="OTRO2FEXPE_RES2"
+                                                       >
+
+                        </karveControls:DataDatePicker>
+                        <karveControls:DataDatePicker Width="176"
+                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           karveControls:ControlExt.DataSourcePath="OTRO2FVTO_RES2">
+
+                        </karveControls:DataDatePicker>
+                    </StackPanel>
+
+                </Grid>
             </GroupBox>
-            <TripleButton:TripleButton Grid.Row="2" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
+            <GroupBox Header="{Binding lrdadditionaldriver, Source={StaticResource ResourceLanguage}}" Grid.Row="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <karveControls:DualFieldSearchBox 
+                                x:Name="ThirdAdditionalDriver"
+                                LabelVisible="False"
+                                AssistProperties="Codigo,Nombre"
+                                AssistTableName="DRIVER_ASSIST_3"
+                                TextContentFirstWidth="50"
+                                TextContentSecondWidth="160"
+                                Margin="45,0,0,0"
+                                SourceView="{Binding DriverDto3, Mode=OneWay}"
+                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                MagnifierCommand="{Binding AssistCommand}"
+                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataFieldFirst="OTRO3COND_RES2"
+                                ButtonImage="/KarveControls;component/Images/driver2.png"
+                                Height="30">
+                    </karveControls:DualFieldSearchBox>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <karveControls:DataField
+                            x:Name="DrivingLicense3"
+                            LabelText="{Binding lnumpermiso, Source={StaticResource ResourceLanguage}}"
+                            LabelTextWidth="50"
+                            Height="35"
+                            TextContentWidth="150"
+                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                            TextContent="{Binding DataObject.OTRO3PER_RES2, Mode=TwoWay}"
+                            DataObject="{Binding DataObject, Mode=TwoWay}" Margin="0,4" />
+                        <karveControls:DataDatePicker  LabelVisible="False" Width="176"
+                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           karveControls:ControlExt.DataSourcePath="OTRO2FEXPE_RES2">
+                        </karveControls:DataDatePicker>
+                        <karveControls:DataDatePicker Width="176"
+                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                           karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                           karveControls:ControlExt.DataSourcePath="OTRO3FVTO_RES2">
+                        </karveControls:DataDatePicker>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="{Binding lsnddriver, Source={StaticResource ResourceLanguage}}" Grid.Row="3">
+                <karveControls:DriverSmallControl ></karveControls:DriverSmallControl>
+            </GroupBox>
+            <TripleButton:TripleButton Grid.Row="4" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
         </Grid>
     </Grid>
 </UserControl>

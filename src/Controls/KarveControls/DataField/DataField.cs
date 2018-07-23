@@ -8,6 +8,7 @@ using KarveCommon;
 using KarveCommon.Generic;
 using KarveDataServices.DataTransferObject;
 using System.ComponentModel.DataAnnotations;
+using Syncfusion.Windows.Controls.Input;
 
 namespace KarveControls
 {
@@ -17,7 +18,7 @@ namespace KarveControls
     /// </summary>
     [TemplatePart(Name = "PART_DataFieldContent", Type = typeof(StackPanel))]
     [TemplatePart(Name = "PART_LabelField", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "PART_TextField", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_TextField", Type = typeof(SfTextBoxExt))]
     public partial class DataField : TextBox
     {
         /// <summary>
@@ -31,6 +32,8 @@ namespace KarveControls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DataField), new FrameworkPropertyMetadata(typeof(DataField)));
           
         }
+
+        
         /// <summary>
         /// Routed Event fired when any change in data field happen.
         /// </summary>
@@ -406,6 +409,25 @@ namespace KarveControls
 
         #endregion
 
+        #region Watermark Property
+        public static readonly DependencyProperty WatermarkProperty =
+            DependencyProperty.Register(
+                "Watermark",
+                typeof(string),
+                typeof(DataField),
+                new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// TextContent. This is the content of the text.
+        /// </summary>
+        public string Watermark
+        {
+            get { return (string)GetValue(WatermarkProperty); }
+            set { SetValue(WatermarkProperty, value); }
+        }
+
+        #endregion Watermark Property
+
         #region TextContent Property
         public static readonly DependencyProperty TextContentDependencyProperty =
             DependencyProperty.Register(
@@ -426,7 +448,7 @@ namespace KarveControls
 
         private static void OnTextContentChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataField control = d as DataField;
+            var control = d as DataField;
             if (control != null)
             {
                 control.OnTextContentPropertyChanged(e);
@@ -440,7 +462,7 @@ namespace KarveControls
             {
                 return;
             }
-            TextBox textField = GetTemplateChild("PART_TextField") as TextBox;
+            var textField = GetTemplateChild("PART_TextField") as TextBox;
             if (textField != null)
             {
                 string tmpValue = value;
@@ -474,7 +496,7 @@ namespace KarveControls
 
         private static void OnLabelVisibleChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataField control = d as DataField;
+            var control = d as DataField;
             if (control != null)
             {
                 control.OnLabelVisibleChanged(e);

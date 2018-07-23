@@ -20,7 +20,7 @@ namespace KarveCommon.Generic
     ///  A view model first approach is when the view model is composed and than associated to a view. 
     ///  The second is used for headered view (cabecera-linea) mainly since it enables the reuse. 
     /// </summary>
-    public abstract class KarveControlViewModel : KarveRoutingBaseViewModel, INavigationAware, IEventObserver, IDisposeEvents
+    public abstract class KarveControlViewModel : KarveRoutingBaseViewModel, INavigationAware, IEventObserver, IDisposeEvents, IDisposable
     {
         
         /// <summary>
@@ -110,5 +110,9 @@ namespace KarveCommon.Generic
         {
 
         }
+        /// <summary>
+        ///  disposable interface.
+        /// </summary>
+        public abstract void Dispose();
     }
 }

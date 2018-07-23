@@ -17,10 +17,12 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  ContactsKeyId
         /// </summary>
+        [Display(Name = "Cod.Cliente")]
         public string ContactsKeyId { set; get; }
         /// <summary>
         ///  ContactName
         /// </summary>
+        [Display(Name = "Nombre")]
         public string ContactName
         {
             get; set;
@@ -28,10 +30,12 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Nif
         /// </summary>
+        [Display(Name = "Nif")]
         public string Nif { set; get; }
         /// <summary>
         ///  Responsability
         /// </summary>
+        [Display(Name = "Responsability")]
         public string Responsability {
             get
             {
@@ -56,13 +60,13 @@ namespace KarveDataServices.DataTransferObject
             {
                 _personalPositionDto = value;
                 RaisePropertyChanged("ResponsabilitySource");
-                RaisePropertyChanged("ResponsabilitySource");
 
             }
         }
         /// <summary>
         ///  Telefono
         /// </summary>
+        [Display(Name = "Telefono")]
         public string Telefono { get; set; }
         /// <summary>
         ///  Movil
@@ -78,10 +82,17 @@ namespace KarveDataServices.DataTransferObject
         [Display(Name = "Email")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
-     
+
+        [Display(Name = "ClientName")]
+        public string ClientName { set; get; }
+
+        [Display(Name = "Num.Delegación")]
+
+        public string BranchId { set; get; }
         /// <summary>
         ///  Current delegation.
         /// </summary>
+        [Display(Name = "Delegation")]
         public string CurrentDelegation { get; set; }
         [PrimaryKey]
         public string ContactId {

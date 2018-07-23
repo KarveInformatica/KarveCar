@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KarveControls.Generic;
-using System.Text.RegularExpressions;
 using KarveCommon;
+using Xceed.Wpf.Toolkit;
 
 namespace KarveControls
 {
     [TemplatePart(Name = "PART_AreaTitle", Type = typeof(GroupBox))]
-    [TemplatePart(Name = "PART_SearchTerm", Type = typeof(TextBox))]
-    [TemplatePart(Name = "PART_TextField", Type = typeof(TextBox))]
-    [TemplatePart(Name = "PART_SearchButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_DataAreaText", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "PART_EditorText", Type = typeof(TextBox))]
-    [TemplatePart(Name = "PART_SearchTextBlock", Type = typeof(TextBlock))]
+    [TemplatePart(Name = "PART_EditorText", Type = typeof(MultiLineTextEditor))]
 
     public class DataArea: TextBox
     {
@@ -28,9 +20,8 @@ namespace KarveControls
         private bool _dataAreaChanged = false;
         private string _currentDataArea = string.Empty;
         private string _previousDataArea = string.Empty;
-        private TextBox _editorText;
-        private Button _searchButton;
-        private TextBlock _searchTextBlock;
+        private MultiLineTextEditor _editorText;
+      
 
         static DataArea()
         {
@@ -120,55 +111,21 @@ namespace KarveControls
         /// </summary>
         public DataArea(): base()
         {
-            /// default height
-            Height = 300;
-            
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            _editorText = GetTemplateChild("PART_EditorText") as TextBox;
+            _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor ;
             if (_editorText != null)
             {
+               
                 _editorText.LostFocus += EditorTextOnLostFocus;
                 _editorText.GotFocus += EditorTextOnGotFocus;
-            }
-           /* _searchButton = GetTemplateChild("PART_SearchButton") as Button;
-            if (_searchButton != null)
-            {
-               _searchButton.Click += OnSearchTerm;
-            }
-            _searchTextBlock = GetTemplateChild("PART_SearchTextBlock") as TextBlock;
-            */
+            } 
         }
 
-
-        private void OnSearchTerm(object sender, RoutedEventArgs routedEventArgs)
-        {
-            /*
-            MultiLineTextEditor editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
-            if (editorText != null)
-            {
-
-                var termToFind = GetValue(SearchTermDependencyProperty) as string;
-                if (termToFind != null)
-                {
-                    Match match = Regex.Match(editorText.Text, termToFind);
-                    if (match.Success)
-                    {
-                        if (_searchTextBlock != null)
-                        {
-                            _searchTextBlock.Visibility = Visibility.Visible;
-                            _searchTextBlock.Text = editorText.Text.Substring(match.Index);
-                        }
-                    }
-                }
-
-            }
-            */
-        }
 
         /// <summary>
         ///  Event triggered when a data field changes.
@@ -492,7 +449,7 @@ namespace KarveControls
         private void OnTextContentPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             string value = e.NewValue as string;
-            _editorText = GetTemplateChild("PART_EditorText") as TextBox;
+            _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
             if (_editorText != null)
             {
                 _editorText.Text = value;
@@ -528,7 +485,7 @@ namespace KarveControls
                 return;
             if (_editorText == null)
             {
-                _editorText = GetTemplateChild("PART_EditorText") as TextBox;
+                _editorText = GetTemplateChild("PART_EditorText") as MultiLineTextEditor;
             }
             if (_editorText == null)
                 return;
@@ -614,6 +571,6 @@ namespace KarveControls
             }
         }
 
-        public TextBlock SearchTextBlock { get; private set; }
+       
     }
 }

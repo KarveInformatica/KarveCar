@@ -2584,4 +2584,28 @@
   <data name="lsndadditionaldriver" xml:space="preserve">
     <value>Second Additional Driver</value>
   </data>
+  <data name="lbirthday" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="lnumpermiso" xml:space="preserve">
+    <value>Driving License Number</value>
+  </data>
+  <data name="lrdadditionaldriver" xml:space="preserve">
+    <value>Third Additional Driver</value>
+  </data>
+  <data name="lsnddriver" xml:space="preserve">
+    <value>Second Driver</value>
+  </data>
+  <data name="lmiss" xml:space="preserve">
+    <value>Miss</value>
+  </data>
+  <data name="lmrs" xml:space="preserve">
+    <value>Mrs.</value>
+  </data>
+  <data name="ldr" xml:space="preserve">
+    <value>Dr.</value>
+  </data>
+  <data name="lmr" xml:space="preserve">
+    <value>Mr.</value>
+  </data>
 </root>

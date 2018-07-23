@@ -27,7 +27,8 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// CompanyControlBViewModel.
     /// </summary>
-    public sealed class CompanyControlViewModel : MasterControlViewModuleBase
+    /// TODO: this shall be just internal
+    public class CompanyControlViewModel : MasterControlViewModuleBase
     {
 
 
@@ -279,7 +280,15 @@ namespace MasterModule.ViewModels
             ActiveSubSystem();
         }
 
-        
+        public override void Dispose()
+        {
+            if (SummaryView is IncrementalList<CompanySummaryDto> dto)
+            {
+                dto.Clear();
+            }
+        }
+
+
 
 
         #region Private Fields

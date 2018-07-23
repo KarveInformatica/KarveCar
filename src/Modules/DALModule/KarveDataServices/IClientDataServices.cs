@@ -56,7 +56,14 @@ namespace KarveDataServices
         /// <param name="pageSize">Page size of the client</param>
         /// <returns>Return the client extended summary</returns>
         Task<IEnumerable<ClientSummaryExtended>> GetPagedSummaryDoAsync(long pageIndex, int pageSize);
-       
+        /// <summary>
+        /// Get the number of contacts paged by client.
+        /// </summary>
+        /// <param name="clientCode">Client Code to be used</param>
+        /// <param name="baseIndex">Base Index to be used.</param>
+        /// <param name="defaultPage">Page size to be used.</param>
+        /// <returns>A list of contacts to be used.</returns>
+        Task<IEnumerable<ContactsDto>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage);
     }
 
 }

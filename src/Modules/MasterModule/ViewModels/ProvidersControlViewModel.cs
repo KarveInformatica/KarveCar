@@ -38,8 +38,6 @@ namespace MasterModule.ViewModels
     /// </summary>
     internal sealed class ProvidersControlViewModel : MasterControlViewModuleBase, IProvidersViewModel
     {
-        private const string ProviderNameColumn = "Nombre";
-        private const string ProviderColumnCode = "Codigo";
         private const string ProviderModuleRoutePrefix = "ProviderModule:";
        
         /// <summary>
@@ -149,6 +147,8 @@ namespace MasterModule.ViewModels
         {
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+            payLoad.ObjectPath = ViewModelUri;
+            payLoad.Sender = ViewModelUri.ToString();
         }
         
 
@@ -170,9 +170,18 @@ namespace MasterModule.ViewModels
         public override void DisposeEvents()
         {
             base.DisposeEvents();
+            if (SummaryView is IncrementalList<SupplierSummaryDto> summary)
+            {
+                summary.Clear();
+                SummaryView = null;
+            }
             DeleteMailBox(_mailBoxName);
             _gridSorter.OnInitPage -= _gridSorter_OnInitPage;
             _gridSorter.OnNewPage -= _gridSorter_OnNewPage;
+        }
+        public override void Dispose()
+        {
+            EventManager.DeleteObserver(this);
         }
         /// <summary>
         /// This method creates a new item using prsim scope navigation.
@@ -204,15 +213,6 @@ namespace MasterModule.ViewModels
             var name = string.Empty;
             var supplierId = string.Empty;
             var tabName = string.Empty;
-
-            if (currentItem is DataRowView rowView)
-            {
-                DataRow row = rowView.Row;
-                 name = row[ProviderNameColumn] as string;
-                supplierId = row[ProviderColumnCode] as string;
-                tabName = supplierId + "." + name;
-                
-            }
             if (currentItem is SupplierSummaryDto item)
             {
                 name = item.Nombre;

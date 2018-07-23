@@ -228,6 +228,11 @@ namespace MasterModule.ViewModels
           
         }
 
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
         // fields for the expiration control.
         private ObservableCollection<UiComposedObject> expirationAssurance =
             new ObservableCollection<UiComposedObject>()

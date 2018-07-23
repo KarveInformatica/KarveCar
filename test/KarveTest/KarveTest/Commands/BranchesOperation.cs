@@ -11,7 +11,6 @@ using Prism.Regions;
 using MasterModule.ViewModels;
 using Moq;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace KarveTest.Commands
 {
@@ -23,9 +22,12 @@ namespace KarveTest.Commands
         public TestInfoViewModel(IEventManager eventManager, IConfigurationService configurationService, IDataServices dataServices, IDialogService dialogService, IRegionManager manager, IInteractionRequestController controller) : base(eventManager, configurationService, dataServices, dialogService, manager, controller)
         {
         }
-        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
+
+        public override void Dispose()
         {
-           
+        }
+        protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
+        {  
         }
 
         internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)

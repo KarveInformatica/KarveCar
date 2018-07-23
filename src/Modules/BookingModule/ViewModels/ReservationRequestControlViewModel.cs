@@ -199,15 +199,11 @@ namespace BookingModule.ViewModels
             currentPayload.Sender = ViewModelUri.ToString();
             EventManager.NotifyObserverSubsystem("ReservationRequests", currentPayload);
         }
-
-
         protected override void NewItem()
         {
             var id = _reservationRequestDataService.NewId();
             var data = _reservationRequestDataService.GetNewDo(id);
             var name = "Peticion ";
-
-
             string viewNameValue = name + "." + id;
             // here shall be added to the region
             var navigationParameters = new NavigationParameters();
@@ -258,10 +254,20 @@ namespace BookingModule.ViewModels
         }
         public override void DisposeEvents()
         {
+            if (SummaryView is IncrementalList<ReservationRequestSummary> summary)
+            {
+                summary.Clear();
+                SummaryView = null;
+            }
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
             EventManager.DeleteObserverSubSystem(EventSubsystem.BookingSubsystemVm, this);
-           EventManager.DeleteObserverSubSystem("ReservationRequests", this);
+            EventManager.DeleteObserverSubSystem("ReservationRequests", this);
+        }
+
+        public override void Dispose()
+        {
+            
         }
     }
 }

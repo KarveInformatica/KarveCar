@@ -247,7 +247,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Commands\Generic\RelayCommand.cs" />
     <Compile Include="Commands\Generic\CloseWindowCommand.cs" />
     <Compile Include="Commands\Generic\SetLanguagesCommand.cs" />
     <Compile Include="DebugTraceListener.cs" />
@@ -280,8 +279,6 @@
     <Compile Include="Utility\ManageDataTable.cs" />
     <Compile Include="Utility\ManageGenericObject.cs" />
     <Compile Include="Utility\RibbonGroupDragDrop.cs" />
-    <Compile Include="Utility\TabControlAndTabItemUtil.cs" />
-    <Compile Include="Utility\ValidateData.cs" />
     <Compile Include="ViewModels\CloseWindowViewModel.cs" />
     <Compile Include="ViewModels\ConfigurationSettingsViewModel.cs" />
     <Compile Include="ViewModels\CultureSwitcher.cs" />
@@ -418,16 +415,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logic\Comercial\" />
-    <Folder Include="Logic\Configuracion\" />
-    <Folder Include="Logic\Contratos\" />
-    <Folder Include="Logic\Maestros\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <Resource Include="rentcaricon.ico" />
     <None Include="app.config">
       <SubType>Designer</SubType>
@@ -483,6 +476,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Commands\Generic\README.md" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -15,7 +15,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup>
-      <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -307,9 +307,7 @@
     <Compile Include="DataTimePicker\DataTimePicker.cs" />
     <Compile Include="DirectionInfo\DirectionInfo.cs" />
     <Compile Include="DirectionInfo\DirectionInfoViewModelMock.cs" />
-    <Compile Include="DriverSmallControl\DriverSmallControl.xaml.cs">
-      <DependentUpon>DriverSmallControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="DriverSmallControl\DriverSmallControl.cs" />
     <Compile Include="DriverUserControl\DriverUserControl.xaml.cs">
       <DependentUpon>DriverUserControl.xaml</DependentUpon>
     </Compile>
@@ -417,10 +415,6 @@
     <Page Include="DataFieldItemsControl\DataFieldItemsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="DriverSmallControl\DriverSmallControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DriverUserControl\DriverUserControl.xaml">
       <SubType>Designer</SubType>
@@ -541,6 +535,13 @@
     <Resource Include="Images\cagent.png" />
     <Resource Include="Images\bonus.png" />
     <Resource Include="Images\payment.png" />
+    <Resource Include="Images\largeprint.png" />
+    <Resource Include="Images\bookingrejected.png" />
+    <Resource Include="Images\bookingconfirmed.png" />
+    <Resource Include="Images\booking.png" />
+    <Resource Include="Images\ball_green.png" />
+    <Resource Include="Images\ball_red.png" />
+    <Resource Include="Images\incident.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />
@@ -551,6 +552,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
@@ -572,6 +574,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HeaderedWindow\Interactions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>3.4.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

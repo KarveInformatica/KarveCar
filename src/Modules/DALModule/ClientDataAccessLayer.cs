@@ -194,5 +194,23 @@ namespace DataAccessLayer
             var datas = await dataPager.GetPagedSummaryDoSortedAsync(QueryType.QueryClientPagedSummary, sortChain, pageIndex, pageSize);
             return datas;
         }
+
+        /// <summary>
+        /// Paged contact by client.
+        /// </summary>
+        /// <param name="clientCode">Client code</param>
+        /// <param name="baseIndex">Base index </param>
+        /// <param name="defaultPage">Page size</param>
+        /// <returns>A list of contacts for a given client</returns>
+        public async Task<IEnumerable<ContactsDto>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage)
+        {
+
+            var dataPager = new DataPager<ContactsDto>(SqlExecutor);
+            var pageStart = baseIndex;
+            if (pageStart == 0)
+                pageStart = 1;
+            var data = await dataPager.GetPagedSummaryDoAsync(QueryType.QueryClientContacts, baseIndex, defaultPage).ConfigureAwait(false);
+            return data;
+        }
     }
 }

@@ -21,6 +21,8 @@ namespace DataAccessLayer
         private IDataServices _dataServices;
         private object currentHelper;
         private string _clientFareCode = "0";
+        private string _clientCode;
+
         /// <summary>
         ///  Assist Data Service.
         /// </summary>
@@ -386,16 +388,6 @@ namespace DataAccessLayer
                 return currentHelper;
 
             });
-            _assistMapper.Configure("CONTABLE_DELEGA_ASSIST", async (query) =>
-            {
-
-                currentHelper = await CreateAssistByQuery<DelegaContableDto, DELEGA>(query as string).ConfigureAwait(false);
-                if(currentHelper == null)
-                {
-                    currentHelper = await CreateAssistThroughHelper<DelegaContableDto, DELEGA>(_dataServices, LoadMoreContableDelega).ConfigureAwait(false);
-                }
-                return currentHelper;
-            });
             _assistMapper.Configure("ACTIVITY_ASSIST", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<ActividadDto, ACTIVI>(query as string).ConfigureAwait(false);
@@ -403,21 +395,9 @@ namespace DataAccessLayer
                 {
                     currentHelper = await CreateAssistThroughHelper<ActividadDto, ACTIVI>(_dataServices, LoadMoreActivities).ConfigureAwait(false);
                 }
-               return currentHelper;
-            });
-
-            //
-            _assistMapper.Configure("CLIENT_ASSIST_COMI", async (query) =>
-            {
-                currentHelper = await CreateAssistByQuery<ClientDto, CLIENTES1>(query as string).ConfigureAwait(false);
-                if (currentHelper == null)
-                {
-                    currentHelper = await CreateAssistThroughHelper<ClientDto, CLIENTES1>(_dataServices, LoadMoreActivities).ConfigureAwait(false);
-                }
                 return currentHelper;
             });
-
-            _assistMapper.Configure("BANCO", async (query)=>
+            _assistMapper.Configure("BANCO", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<BanksDto, BANCO>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
@@ -430,15 +410,6 @@ namespace DataAccessLayer
             {
 
                 currentHelper = await CreateBrokerHelper().ConfigureAwait(false);
-                return currentHelper;
-            });
-            _assistMapper.Configure("FARE_CONCEPT_ASSIST", async (query) =>
-            {
-                currentHelper = await CreateAssistByQuery<FareConceptDto, CONCEP_FACTUR>(query as string).ConfigureAwait(false);
-                if (currentHelper == null)
-                {
-                    currentHelper = await CreateAssistThroughHelper<FareConceptDto, CONCEP_FACTUR>(_dataServices, LoadMoreBanks).ConfigureAwait(false);
-                }
                 return currentHelper;
             });
             _assistMapper.Configure("BUSINESS_ASSIST", async (query) =>
@@ -461,22 +432,42 @@ namespace DataAccessLayer
 
             });
 
+            _assistMapper.Configure("CLIENT_ASSIST_COMI", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<ClientDto, CLIENTES1>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<ClientDto, CLIENTES1>(_dataServices, LoadMoreActivities).ConfigureAwait(false);
+                }
+                return currentHelper;
+            });
             _assistMapper.Configure("CLIENT_TYPE_ASSIST", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<ClientTypeDto, TIPOCLI>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
                     currentHelper = await CreateAssistThroughHelper<ClientTypeDto, TIPOCLI>(_dataServices, LoadMoreClientType).ConfigureAwait(false);
-                   
+
                 }
                 return currentHelper;
             });
-            _assistMapper.Configure("CLIENT_TYPE_UPPER", async (query)=>
+            _assistMapper.Configure("CLIENT_TYPE_UPPER", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<ClientTypeDto, TIPOCLI>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
                     currentHelper = await CreateAssistThroughHelper<ClientTypeDto, TIPOCLI>(_dataServices, LoadMoreClientType).ConfigureAwait(false);
+                }
+                return currentHelper;
+            });
+
+            _assistMapper.Configure("CONTABLE_DELEGA_ASSIST", async (query) =>
+            {
+
+                currentHelper = await CreateAssistByQuery<DelegaContableDto, DELEGA>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<DelegaContableDto, DELEGA>(_dataServices, LoadMoreContableDelega).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -486,18 +477,82 @@ namespace DataAccessLayer
                 if (currentHelper == null)
                 {
                     currentHelper = await CreateAssistThroughHelper<CompanyDto, SUBLICEN>(_dataServices, LoadMoreCompanies).ConfigureAwait(false);
-                    
+
                 }
                 return currentHelper;
             });
             _assistMapper.Configure("COUNTRY_ASSIST", async (query) =>
             {
-                currentHelper = await CreateAssistByQuery<CountryDto,Country>(query as string).ConfigureAwait(false);
+                currentHelper = await CreateAssistByQuery<CountryDto, Country>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
 
                     currentHelper = await CreateAssistThroughHelper<CountryDto, Country>(_dataServices, LoadMoreCountries).ConfigureAwait(false);
-                    
+
+                }
+                return currentHelper;
+            });
+            _assistMapper.Configure("COUNTRY2_ASSIST", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<CountryDto, Country>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+
+                    currentHelper = await CreateAssistThroughHelper<CountryDto, Country>(_dataServices, LoadMoreCountries).ConfigureAwait(false);
+
+                }
+                return currentHelper;
+            });
+            _assistMapper.Configure("COUNTRY3_ASSIST", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<CountryDto, Country>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+
+                    currentHelper = await CreateAssistThroughHelper<CountryDto, Country>(_dataServices, LoadMoreCountries).ConfigureAwait(false);
+
+                }
+                return currentHelper;
+            });
+            _assistMapper.Configure("COUNTRY4_ASSIST", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<CountryDto, Country>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+
+                    currentHelper = await CreateAssistThroughHelper<CountryDto, Country>(_dataServices, LoadMoreCountries).ConfigureAwait(false);
+
+                }
+                return currentHelper;
+            });
+            _assistMapper.Configure("FARE_CONCEPT_ASSIST", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<FareConceptDto, CONCEP_FACTUR>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<FareConceptDto, CONCEP_FACTUR>(_dataServices, LoadMoreBanks).ConfigureAwait(false);
+                }
+                return currentHelper;
+            });
+
+            _assistMapper.Configure("DRIVER_CITY", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<CityDto, POBLACIONES>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<CityDto, POBLACIONES>(_dataServices, LoadMoreCities).ConfigureAwait(false);
+                }
+                return currentHelper;
+
+            });
+            _assistMapper.Configure("DRIVER_COUNTRY", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<CountryDto, Country>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+
+                    currentHelper = await CreateAssistThroughHelper<CountryDto, Country>(_dataServices, LoadMoreCountries).ConfigureAwait(false);
+
                 }
                 return currentHelper;
             });
@@ -668,7 +723,16 @@ namespace DataAccessLayer
                 } 
                 return currentHelper;
             });
+            _assistMapper.Configure("DRIVER_PROV", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<ProvinciaDto, PROVINCIA>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
 
+                    currentHelper = await CreateAssistThroughHelper<ProvinciaDto, PROVINCIA>(_dataServices, LoadProvincia);
+                }
+                return currentHelper;
+            });
             _assistMapper.Configure("PROVINCE_BRANCHES", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<ProvinciaDto, PROVINCIA>(query as string).ConfigureAwait(false);
@@ -881,6 +945,12 @@ namespace DataAccessLayer
                 }
                 return currentHelper;
             });
+            _assistMapper.Configure("BOOKING_CONTACTO_ASSIST", async (query)=>
+            {
+                currentHelper = await CreateBookingContactsHelperAsync(query).ConfigureAwait(false);
+                return currentHelper;
+
+            });
             _assistMapper.Configure("RESELLER_ASSIST", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<ResellerDto, VENDEDOR>(query as string).ConfigureAwait(false);
@@ -1028,6 +1098,12 @@ namespace DataAccessLayer
                 return currentHelper;
             });
             _assistMapper.Configure("CREDIT_CARD", async (query) =>
+            {
+                // in the world there are not more than 10 credi card.
+                currentHelper = await _helperDataServices.GetPagedSummaryDoAsync<CreditCardDto, TARCREDI>(1, DefaultPage).ConfigureAwait(false);
+                return currentHelper;
+            });
+            _assistMapper.Configure("CREDIT_CARD_ASSIST", async (query) =>
             {
                 // in the world there are not more than 10 credi card.
                 currentHelper = await _helperDataServices.GetPagedSummaryDoAsync<CreditCardDto, TARCREDI>(1, DefaultPage).ConfigureAwait(false);
@@ -1293,6 +1369,47 @@ namespace DataAccessLayer
                 return currentHelper;
             });
            
+        }
+
+        private async Task<object> CreateBookingContactsHelperAsync(object query)
+        {
+            if (query is Dictionary<string, object> context)
+            {
+                if (context.ContainsKey("clientCode"))
+                {
+                    _clientCode  = context["clientCode"] as string;
+                    var dataServices = _dataServices.GetClientDataServices();
+                    IEnumerable<ContactsDto> contactsByClient = await dataServices.GetPagedContactsByClient(_clientCode, 1, DefaultPage).ConfigureAwait(false);
+                    var count = await _helperDataServices.GetItemsCount<CliContactos>().ConfigureAwait(false);
+                
+                    currentHelper = new IncrementalList<ContactsDto>(LoadMoreContactsByClients) { MaxItemCount = count };
+                    if (currentHelper is IncrementalList<ContactsDto> summary)
+                    {
+                        summary.LoadItems(contactsByClient);
+                    }
+                    return currentHelper;
+                }
+            }
+            return currentHelper;
+        }
+
+        private void LoadMoreContactsByClients(uint arg1, int arg2)
+        {
+            var helper = _dataServices.GetHelperDataServices();
+            var dataServices = _dataServices.GetClientDataServices();
+            var creation = NotifyTaskCompletion.Create<IEnumerable<ContactsDto>>(dataServices.GetPagedContactsByClient(_clientCode, 1, DefaultPage), (sender, ev) => {
+                if (sender is INotifyTaskCompletion<IEnumerable<VehicleGroupDto>> task)
+                {
+                    if (task.IsSuccessfullyCompleted)
+                    {
+                        if (currentHelper is IncrementalList<VehicleGroupDto> list)
+                        {
+                            list.LoadItems(task.Result);
+                            currentHelper = list;
+                        }
+                    }
+                }
+            });
         }
         private async Task<object> CreateBudgetHelper()
         {

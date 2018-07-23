@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using AutoMapper;
-using DataAccessLayer.Assist;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveCommon.Generic;
@@ -92,7 +91,7 @@ namespace MasterModule.ViewModels
 
         private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
         private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
-     //   private IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
+        //private IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
 
     public IEnumerable<CountryDto> CountryDto
         {
@@ -809,6 +808,13 @@ namespace MasterModule.ViewModels
             Account7Dtos = supplierData.AccountDtos;
             Account8Dtos = supplierData.AccountDtos;
         }
+        private void ClearAll()
+        {
+            CleanupHelper<ProvinciaDto>.CleanList(_supplierData.ProvinciaDtos);
+            CleanupHelper<OfficeDtos>.CleanList(_supplierData.OfficeDtos);
+          //  CleanupHelper<CountryDto>.CleanList(CountryDto);
+
+        }
         private void StartRefresh(ISupplierData supplierData)
         {
             SupplierTypeDto1 = supplierData.Type;
@@ -831,14 +837,14 @@ namespace MasterModule.ViewModels
             if (payload.HasDataObject)
             {
                 Logger.Info("ProviderInfoViewModel has received payload type " + payload.PayloadType.ToString());
-                var supplierData = payload.DataObject as ISupplierData;
-                DataObject = supplierData;
+                _supplierData = payload.DataObject as ISupplierData;
+                DataObject = _supplierData;
 
-                if (supplierData != null)
+                if (_supplierData != null)
                 {
 
-                    StartRefresh(supplierData);
-                    StartBackGroundRefresh(supplierData);
+                    StartRefresh(_supplierData);
+                    StartBackGroundRefresh(_supplierData);
 
 
                 }
@@ -993,27 +999,19 @@ namespace MasterModule.ViewModels
 
         public void ClearList()
         {
-            /*
+           
             if (this.DataObject.ProvinciaDtos is IList<ProvinciaDto> dto)
             {
-                dto?.Clear();
-                ProvinceDto1 = dto;
+                dto.Clear();
             }
             if (this.DataObject.CountryDtos is IList<CountryDto> cdto)
             {
                 cdto?.Clear();
-                CountryDtos = cdto;
-                CountryDto1 = cdto;
-                CountryDto3 = cdto;
             }
             
             if (this.DataObject.CityDtos is IList<CityDto> cdto1)
             {
                 cdto1?.Clear();
-
-                CityDto1 = cdto1;
-                CityDto2 = cdto1;
-                CityDto3 = cdto1;
             }
             if (this.DataObject.AccountDtos is IList<AccountDto> dtoAccount)
             {
@@ -1026,33 +1024,24 @@ namespace MasterModule.ViewModels
                 var account7 = _account7Dto as IList<AccountDto>;
                 var account8 = _account8Dto as IList<AccountDto>;
                 
-                account1?.Clear();
-                account2?.Clear();
-                account3?.Clear();
-                account4?.Clear();
-                account5?.Clear();
-                account6?.Clear();
-                account7?.Clear();
-                account8?.Clear();
+                account1.Clear();
+                account2.Clear();
+                account3.Clear();
+                account4.Clear();
+                account5.Clear();
+                account6.Clear();
+                account7.Clear();
+                account8.Clear();
 
-                dtoAccount?.Clear();
-                Account1Dtos = dtoAccount;
-                Account2Dtos = dtoAccount;
-                Account3Dtos = dtoAccount;
-                Account4Dtos = dtoAccount;
-                Account5Dtos = dtoAccount;
-                Account6Dtos = dtoAccount;
-                Account7Dtos = dtoAccount;
-                Account8Dtos = dtoAccount;
-               
+
             }
             var cityDto = _cityDto1 as List<CityDto>;
             cityDto?.Clear();
-            */
-             GC.Collect();
         }
         public override void DisposeEvents()
         {
+            base.DisposeEvents();
+
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
             DeleteMailBox(_mailBoxName);
             ClearList();
@@ -1093,10 +1082,12 @@ namespace MasterModule.ViewModels
         }
 
         internal override async Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+
         {
+            //set the id to the current visit.
+            visitsDto.ClientId = PrimaryKeyValue;
             var currentObject = DataObject as ISupplierData;
             var ev = CreateGridEvent<ContactsDto, VisitsDto>(p, visitsDto, currentObject.VisitsDto, this.ContactMagnifierCommand);
-            visitsDto.ClientId = PrimaryKeyValue;
             var newList = new List<VisitsDto>();
             newList.Add(visitsDto);
             var exitDto = currentObject.VisitsDto;
@@ -1127,6 +1118,10 @@ namespace MasterModule.ViewModels
         internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
         {
             throw new NotImplementedException();
+        }
+
+        public override void Dispose()
+        {
         }
     }
 }

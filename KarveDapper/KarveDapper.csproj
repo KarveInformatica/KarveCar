@@ -6,12 +6,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{082CB8C5-29D4-4D51-BE0A-06DEB8D7F871}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KarveDapper</RootNamespace>
     <AssemblyName>KarveDapper</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup>
       <RuntimeIdentifiers>win</RuntimeIdentifiers>

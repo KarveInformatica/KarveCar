@@ -12,7 +12,7 @@
          xmlns:karveGridBehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         mc:Ignorable="d"
-        Title="TestWindow" Height="300" Width="500">
+        Title="TestWindow" Height="1000" Width="500">
     <Grid>
         <TabControl>
             <TabItem Header="TextControls">
@@ -144,9 +144,35 @@
                 </Grid>
             </TabItem>
             <TabItem Header="TestPhotoFrame">
-                <karvePhoto:PhotoFrame ImageLabel="TestImage" ImageBinarySource="{Binding ImageSource}">
+                <karvePhoto:PhotoFrame ImageLabel="TestImage" 
+                                       ImageBinarySource="{Binding ImageSource}">
 
                 </karvePhoto:PhotoFrame>
+            </TabItem>
+            <TabItem Header="TestSmallDriverControl">
+                <karveControls:DriverSmallControl 
+                    DataObject="{Binding DriverInfo}"
+                    AssistNameCity="CITY_ASSIT"
+                    AssistNameCountry="COUNTRY_ASSIST"
+                    AssistNameProvince="PROVINCE_ASSIST"
+                    AssistCommand="{Binding AssistCommand, Mode=OneWay}"
+                    ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
+                    CitySourceView="{Binding }"
+                    CountrySourceView="{Binding}"
+                    ProvinceSourceView="{Binding}"
+                    DriverFirstName="Juan"
+                    DriverSecondName="Mendoz"
+                    SalutationIndex="0"
+                    Direction="Calle Paris 637"
+                    Phone="+3448201921212"
+                    Email="gio@betrunken.de"
+                    ProvincePath="Province"
+                    CountryPath="Country"
+                    CityPath="City">
+                </karveControls:DriverSmallControl>
+            </TabItem>
+            <TabItem Header="TestMapControl">
+                        
             </TabItem>
         </TabControl>
     </Grid>

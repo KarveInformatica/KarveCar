@@ -2904,6 +2904,27 @@
     <value>Zusätzlicher Fahrer</value>
   </data>
   <data name="lsndadditionaldriver" xml:space="preserve">
-    <value>Zweiter zusätzlicher Treiber</value>
+    <value>Zweiter Fahrer</value>
+  </data>
+  <data name="lbirthday" xml:space="preserve">
+    <value>Geburstag</value>
+  </data>
+  <data name="lrdadditionaldriver" xml:space="preserve">
+    <value>Dritter Fahrer</value>
+  </data>
+  <data name="lsnddriver" xml:space="preserve">
+    <value>Zweiter Fahrer</value>
+  </data>
+  <data name="lmiss" xml:space="preserve">
+    <value>Fraul.</value>
+  </data>
+  <data name="lmrs" xml:space="preserve">
+    <value>Frau.</value>
+  </data>
+  <data name="ldr" xml:space="preserve">
+    <value>Dr.</value>
+  </data>
+  <data name="lmr" xml:space="preserve">
+    <value>Herr</value>
   </data>
 </root>

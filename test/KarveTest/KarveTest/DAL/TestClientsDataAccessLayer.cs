@@ -94,7 +94,7 @@ namespace KarveTest.DAL
         {
             using (IDbConnection dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                IEnumerable<CLIENTES1> value = await dbConnection.GetAllAsync<CLIENTES1>();
+                IEnumerable<CLIENTES1> value = await dbConnection.GetPagedAsync<CLIENTES1>(1,10);
                 var singleValue = value.FirstOrDefault();
                 IClientData data = await _clientDataServices.GetDoAsync(singleValue.NUMERO_CLI);
                 ClientDto dtoClient = data.Value;
@@ -127,8 +127,23 @@ namespace KarveTest.DAL
             var sortedData = await _clientDataServices.GetSortedCollectionPagedAsync(direction, 1, 25);
             Assert.NotNull(sortedData);
             Assert.GreaterOrEqual(25, sortedData.Count());
-           
-          
+                
+        }
+        /// <summary>
+        ///   Return a list of contacts for a given client.
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task Should_Return_AListOfContactsForAClient()
+        {
+            using (var connection = SqlExecutor.OpenNewDbConnection())
+            {
+                IEnumerable<CLIENTES1> value = await connection.GetPagedAsync<CLIENTES1>(1, 10);
+                var singleValue = value.FirstOrDefault();
+                var cliData = await _clientDataServices.GetPagedContactsByClient(singleValue.NUMERO_CLI, 1, 10).ConfigureAwait(false);
+                Assert.Greater(cliData.Count(), 0);
+            }
+
         }
     }
 }

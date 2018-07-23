@@ -150,5 +150,7 @@ namespace KarveCommon.Services
         ///  A notification happens when a DataPayload has been received.
         /// </summary>
         bool IsNotified {  get; }
+
+        //void Clear(global::MasterModule.ViewModels.ProvidersControlViewModel providersControlViewModel);
     }
 }

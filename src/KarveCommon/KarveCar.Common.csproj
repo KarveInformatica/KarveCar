@@ -15,7 +15,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup>
-      <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -176,6 +176,7 @@
     <Compile Include="Converter\StringToIntegerConverter.cs" />
     <Compile Include="DialogService\KarveDialogService.cs" />
     <Compile Include="Generic\AssistProperties.cs" />
+    <Compile Include="Generic\CleanupHelper.cs" />
     <Compile Include="Generic\CloseTabAction.cs" />
     <Compile Include="Generic\ContactsDtoValidation.cs" />
     <Compile Include="Generic\CrossReferenceValidationRule.cs" />

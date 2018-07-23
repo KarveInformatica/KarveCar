@@ -995,6 +995,7 @@ namespace DataAccessLayer.Logic
         {
             var config = new MapperConfiguration(cfg =>
             {
+
                 cfg.CreateMap<PROPIE, OwnerDto>().ConvertUsing(new PropieToOwnerDtoConverter());
                 cfg.CreateMap<TIPOCOMI, CommissionTypeDto>().ConvertUsing(new TipoCommisionConverter());
                 cfg.CreateMap<CommissionTypeDto, TIPOCOMI>().ConvertUsing(new TipoCommisionBackConverter());
@@ -1012,6 +1013,38 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<COMISIO, ComisioDto>();
                 cfg.CreateMap<CONCEP_FACTUR, FareConceptDto>();
                 cfg.CreateMap<FareConceptDto, CONCEP_FACTUR>();
+                cfg.CreateMap<BookingTypeDto, TIPOS_RESERVAS>().ConvertUsing(src=>{
+                    var booking = new TIPOS_RESERVAS();
+                    booking.CODIGO = src.Code;
+                    booking.NOMBRE = src.Name;
+                    return booking;
+                });
+                cfg.CreateMap<TIPOS_RESERVAS, BookingTypeDto>().ConvertUsing(src=>
+                {
+
+                    var bookingType = new BookingTypeDto();
+                    bookingType.Code = src.CODIGO;
+                    bookingType.Name = src.NOMBRE;
+                    return bookingType;
+                });
+                cfg.CreateMap<EAGE, AgencyEmployeeDto>().ConstructUsing(src =>
+                {
+                    var genericConverter = new GenericConverter<EAGE, AgencyEmployeeDto>();
+                    var agencyEmployee = genericConverter.Convert(src, null, null);
+                    agencyEmployee.Code = src.NUM_EAGE;
+                    agencyEmployee.Name = src.NOMBRE;
+                    agencyEmployee.LastModification = src.ULTMODI;
+                    agencyEmployee.CurrentUser = src.USUARIO;
+                    return agencyEmployee;
+                });
+                cfg.CreateMap<AgencyEmployeeDto,EAGE>().ConstructUsing(src =>
+                {
+                    var genericConverter = new GenericConverter<AgencyEmployeeDto, EAGE>();
+                    var agencyEmployee = genericConverter.Convert(src, null, null);
+                    agencyEmployee.ULTMODI = src.LastModification;
+                    agencyEmployee.USUARIO = src.User;
+                    return agencyEmployee;
+                });
                 cfg.CreateMap<ClientDto, ClientSummaryExtended>().ConvertUsing(src =>
                 {
                     var ce = new ClientSummaryExtended();

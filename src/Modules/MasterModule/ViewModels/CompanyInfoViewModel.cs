@@ -428,6 +428,11 @@ namespace MasterModule.ViewModels
             throw new System.NotImplementedException();
         }
 
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
 
         #endregion
 

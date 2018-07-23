@@ -26,10 +26,6 @@
     </entity-names>
     <entity-ids>
       <counter>
-        <item-type type-id="" type="AbstractElementGroup" />
-        <value>173</value>
-      </counter>
-      <counter>
         <item-type type-id="actor" type="UmlActor" />
         <value>3</value>
       </counter>
@@ -57,6 +53,10 @@
         <item-type type-id="comment-connector" type="UmlCommentConnector" />
         <value>6</value>
       </counter>
+      <counter>
+        <item-type type-id="" type="AbstractElementGroup" />
+        <value>7</value>
+      </counter>
     </entity-ids>
     <diagrams>
       <counter>
@@ -68,6 +68,7 @@
   </counters>
   <alias-groups />
   <management uid="md-55c161335ec34c0faed3468541c105cd" name="" task-id-sequence="0">
+    <working-schedule uid="ws-baaf98c3e4a44b5c9c3f56631f4e0d89" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
     <persons>
       <person id="P6368ef38cfa842b7b88cd9269967fe0a">
         <first-name />
@@ -77,6 +78,7 @@
         <phone-number />
         <description />
         <color>#00000000</color>
+        <working-schedule uid="ws-74258f8c211248aab43daf4aa44918dc" hours="8" monday="8" tuesday="8" wednesday="8" thursday="8" friday="8" saturday="0" sunday="0" />
       </person>
     </persons>
     <teams />
@@ -447,7 +449,7 @@ ItemChangedCommand
           </item>
         </layer>
       </diagram>
-      <diagram type="uml-sequence" id="p39173b512e4642faa823e8e57fd582ad_531643703" name="SequenceDiagram2" order-index="2" overview-order-index="0" uid="" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false" view-location="30,0">
+      <diagram type="uml-sequence" id="p39173b512e4642faa823e8e57fd582ad_531643703" name="SequenceDiagram2" order-index="2" overview-order-index="0" uid="" show-id="false" show-name="true" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false" view-location="0,-54">
         <style>
           <background-color index="1" color="#FFFFFFFF" />
           <background-color index="2" color="#FFFFFFFF" />
@@ -459,7 +461,7 @@ ItemChangedCommand
           </authors>
           <description />
           <creation-date>12/29/2017 10:45:10</creation-date>
-          <change-date>12/29/2017 10:57:41</change-date>
+          <change-date>07/20/2018 12:32:57</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
@@ -512,10 +514,6 @@ ItemChangedCommand
             <style class="default" />
             <activation-bar lifeline-ref="di366358795279364620" />
           </item>
-          <item id="di183758078680527241" cid="LL008" type="lifeline" name="UpperBarViewModel" style-class="" visibility="package" change-tracking-state="added" creator="P6368ef38cfa842b7b88cd9269967fe0a" creation-date="12/29/2017 10:48:13">
-            <style class="default" />
-            <lifeline classifier-name="" is-active="false" is-multi-object="false" />
-          </item>
           <item id="di594202748759134966" cid="LL009" type="lifeline" name="EventManager" style-class="" visibility="package" change-tracking-state="added" creator="P6368ef38cfa842b7b88cd9269967fe0a" creation-date="12/29/2017 10:48:27">
             <style class="default" />
             <lifeline classifier-name="" is-active="false" is-multi-object="false" />
@@ -557,16 +555,6 @@ ItemChangedCommand
           <item id="di760860602780157345" cid="AB023" type="activation-bar" name="ExecutionOccurrence23" style-class="" owner="di344145406192701788" visibility="package" change-tracking-state="added" creator="P6368ef38cfa842b7b88cd9269967fe0a" creation-date="12/29/2017 10:55:54">
             <style class="default" />
             <activation-bar lifeline-ref="di344145406192701788" />
-          </item>
-          <item id="di915260153958148719" cid="SM022" type="sequence-action" name="Message22" style-class="" visibility="package" change-tracking-state="added" creator="P6368ef38cfa842b7b88cd9269967fe0a" creation-date="12/29/2017 10:56:13">
-            <style class="default" />
-            <sequence-action type="send" message="Send" is-asynchronous="false" from="di800459284531862649" to="di885147823116766823" return-value="" assign-to-variable="">
-              <parameters />
-            </sequence-action>
-          </item>
-          <item id="di800459284531862649" cid="AB024" type="activation-bar" name="ExecutionOccurrence24" style-class="" owner="di366358795279364620" visibility="package" change-tracking-state="added" creator="P6368ef38cfa842b7b88cd9269967fe0a" creation-date="12/29/2017 10:56:19">
-            <style class="default" />
-            <activation-bar lifeline-ref="di366358795279364620" />
           </item>
           <item id="di885147823116766823" cid="AB025" type="activation-bar" name="ExecutionOccurrence25" style-class="" owner="di183758078680527241" visibility="package" change-tracking-state="added" creator="P6368ef38cfa842b7b88cd9269967fe0a" creation-date="12/29/2017 10:56:19">
             <style class="default" />
@@ -610,9 +598,6 @@ ItemChangedCommand
           <item id="di918118173980716645" iid="b397e6c7da1f4f649e592705fe02b962" container="di366358795279364620" container-iid="c761f1ba4e724d3b84331990830dd145" creation-date="12/29/2017 10:47:15" order-index="10" type="entity">
             <layout ax="638.5" ay="250" awidth="20" aheight="40" x="638.5" y="250" width="20" height="40" />
           </item>
-          <item id="di183758078680527241" iid="33ef64a5c6cf48b187260ba150ae3c31" creation-date="12/29/2017 10:48:13" order-index="11" type="lifeline">
-            <layout ax="1288" ay="50" awidth="173" aheight="500" x="1288" y="50" width="173" height="500" container-layout="simple" />
-          </item>
           <item id="di594202748759134966" iid="9172bc5267cc47d686baad55172582e4" creation-date="12/29/2017 10:48:27" order-index="12" type="lifeline">
             <layout ax="946" ay="50" awidth="140" aheight="500" x="946" y="50" width="140" height="500" container-layout="simple" />
           </item>
@@ -642,16 +627,6 @@ ItemChangedCommand
           </item>
           <item id="di760860602780157345" iid="c09381eed22f452da3c47751e615642c" container="di344145406192701788" container-iid="3c6d63383a624749a011406de86d7df3" creation-date="12/29/2017 10:55:54" order-index="20" type="entity">
             <layout ax="1177" ay="342" awidth="20" aheight="40" x="1177" y="342" width="20" height="40" />
-          </item>
-          <item id="di915260153958148719" iid="6a4a8995b52c48d69c378a26f54da87e" creation-date="12/29/2017 10:56:13" order-index="21" type="sequence-action">
-            <layout x1="658" y1="458" x2="1364" y2="458" ax="658" ay="443" awidth="706" aheight="20" x="658" y="443" width="706" height="20" message-x="0" message-y="-10" />
-            <sequence-action from="di800459284531862649" to="di885147823116766823" show-sequence-number="false" />
-          </item>
-          <item id="di800459284531862649" iid="f44487a81c6c4cf99e3b5505c25afec9" container="di366358795279364620" container-iid="c761f1ba4e724d3b84331990830dd145" creation-date="12/29/2017 10:56:19" order-index="22" type="entity">
-            <layout ax="638.5" ay="458" awidth="20" aheight="40" x="638.5" y="458" width="20" height="40" />
-          </item>
-          <item id="di885147823116766823" iid="b5598ecec2d44919a85939fe7ce1e5c0" container="di183758078680527241" container-iid="33ef64a5c6cf48b187260ba150ae3c31" creation-date="12/29/2017 10:56:19" order-index="23" type="entity">
-            <layout ax="1364.5" ay="458" awidth="20" aheight="40" x="1364.5" y="458" width="20" height="40" />
           </item>
           <item id="di830205943299259808" iid="5ec663183758479d86caa3f63d2ceff8" creation-date="12/29/2017 10:56:42" order-index="24" type="entity">
             <layout ax="886" ay="591" awidth="282" aheight="150" x="886" y="591" width="282" height="150" />

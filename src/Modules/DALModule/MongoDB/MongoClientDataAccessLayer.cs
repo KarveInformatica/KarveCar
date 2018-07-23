@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
@@ -65,6 +64,11 @@ namespace DataAccessLayer.MongoDB
         }
 
         public Task<IEnumerable<ClientSummaryExtended>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ContactsDto>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage)
         {
             throw new NotImplementedException();
         }

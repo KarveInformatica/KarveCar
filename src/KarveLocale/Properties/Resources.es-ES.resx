@@ -2628,4 +2628,34 @@
   <data name="lsndadditionaldriver" xml:space="preserve">
     <value>Secundo Condutor Addicional</value>
   </data>
+  <data name="lcountrynif" xml:space="preserve">
+    <value>Pais NIF</value>
+  </data>
+  <data name="lbirthday" xml:space="preserve">
+    <value>Fecha de Nascimiento</value>
+  </data>
+  <data name="lnumpermiso" xml:space="preserve">
+    <value>Numero Permiso</value>
+  </data>
+  <data name="lrdadditionaldriver" xml:space="preserve">
+    <value>Tercer conductor adicional</value>
+  </data>
+  <data name="lsnddriver" xml:space="preserve">
+    <value>Secundo Conductor</value>
+  </data>
+  <data name="lmiss" xml:space="preserve">
+    <value>Seño.ta</value>
+  </data>
+  <data name="lmrs" xml:space="preserve">
+    <value>Señ.ra</value>
+  </data>
+  <data name="ldr" xml:space="preserve">
+    <value>Dr.</value>
+  </data>
+  <data name="lmr" xml:space="preserve">
+    <value>Señor</value>
+  </data>
+  <data name="lauthpending" xml:space="preserve">
+    <value>Pendiente de Autorizar</value>
+  </data>
 </root>

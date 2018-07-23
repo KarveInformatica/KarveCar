@@ -6,6 +6,7 @@
   xmlns:local="clr-namespace:KarveControls"
   xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
   xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+  xmlns:ExtendedWpf="http://schemas.xceed.com/wpf/xaml/toolkit"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:interactivity="http://prismlibrary.com/"
   xmlns:calendar="clr-namespace:KarveControls.Calendar"
@@ -166,6 +167,206 @@
         </Setter>
     </Style>
 
+
+        
+      <Style TargetType="{x:Type local:DriverSmallControl}">
+        <Style.Resources>
+            <ObjectDataProvider x:Key="ResourceLanguage" 
+                                ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
+                                MethodName="GetResourceLanguage">
+            </ObjectDataProvider>
+        </Style.Resources>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:DriverSmallControl}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Width="100" Margin="10,5,0,0" Content="{Binding lname, Source={StaticResource ResourceLanguage}}" Grid.Column="0"></Label>
+                            <ComboBox x:Name="PART_DriverSalutation" Grid.Column="1"
+                      SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=SalutationItem, Mode=TwoWay}"
+                      SelectedIndex="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SalutationIndex}"
+                      Width="80" HorizontalAlignment="Left" Margin="5,0,0,10">
+                                <ComboBoxItem IsSelected="True" x:Name="PART_FirstSalutationItem">
+                                    <TextBlock Text="{Binding lmr, Source={StaticResource ResourceLanguage}}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem x:Name="PART_SecondSalutationItem">
+                                    <TextBlock Text="{Binding lmiss, Source={StaticResource ResourceLanguage}}"  />
+                                </ComboBoxItem>
+                                <ComboBoxItem x:Name="PART_ThirdSalutationItem">
+                                    <TextBlock Text="{Binding lmrs, Source={StaticResource ResourceLanguage}}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem x:Name="PART_ForthSalutationItem">
+                                    <TextBlock Text="{Binding ldr, Source={StaticResource ResourceLanguage}}" />
+                                </ComboBoxItem>
+                                <ComboBoxItem>
+                                    <TextBox  Width="50" />
+                                </ComboBoxItem>
+                            </ComboBox>
+                            <Syncfusion:SfTextBoxExt x:Name="PART_DriverFirstName" Grid.Column="2" 
+                                     Margin="0,0,0,10"
+                                     Width="150"
+                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DriverFirstName, Mode=TwoWay,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"/>
+                            <Syncfusion:SfTextBoxExt x:Name="PART_DriverSecondName" Grid.Column="3" 
+                                     Margin="0,0,0,10"
+                                     Width="150"
+                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DriverSecondName, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"/>
+                        </Grid>
+                        
+                        <Grid Grid.Row="1">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding ldriverlicensenumber, Source={StaticResource ResourceLanguage}}" Width="100" Margin="10,5,0,0">
+                                
+                            </TextBlock>
+
+                            <Syncfusion:SfTextBoxExt
+                            x:Name="PART_DriverLicenseNumber"
+                                Grid.Column="1"
+                            Width="200"
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DrivingLicenseNumber, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                            VerticalAlignment="Center"
+                            Watermark="{Binding ldriverlicensenumber, Source={StaticResource ResourceLanguage}}" Height="30" Margin="0,0,50,0">
+                            </Syncfusion:SfTextBoxExt>
+                            <DatePicker Grid.Column="2"  x:Name="PART_DateExpireLicense"  Width="100"
+                                        SelectedDate="{Binding  RelativeSource={RelativeSource TemplatedParent},  Path=DrivingLicenseExpireDate, 
+                                Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}">
+                            </DatePicker>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <StackPanel  Orientation="Horizontal" Margin="16,5,0,0"  Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSecondEnabled}">
+                                <TextBlock Text="{Binding Path=ldireccion, Source={StaticResource ResourceLanguage}}"/>
+                                <Image Source="/KarveControls;component/Images/direction.png" Margin="0,0,8,0" Height="25"></Image>
+                                <Syncfusion:SfTextBoxExt x:Name="PART_Direction"
+                                    Width="200"                     
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent},  
+                                    Path=Direction, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                    Watermark="{Binding lstreetwm, Source={StaticResource ResourceLanguage}}" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <local:DualFieldSearchBox 
+                                x:Name="PART_CitySearchBox"
+                                DataFieldFirst="{Binding RelativeSource={RelativeSource TemplatedParent},Path=CityPath}"
+                                AssistTableName="{Binding RelativeSource={RelativeSource TemplatedParent},Path=AssistNameCity}"
+                                AssistProperties="Code,Poblacion"
+                                LabelVisible="False"
+                                LabelText="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
+                                Margin="0,5,0,0"
+                                LabelTextWidth="30"
+                                MagnifierCommand="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=AssistCommand}"
+                                IsReadOnlySecond="True"
+                                TextContentFirstWidth="50"
+                                TextContentSecondWidth="200"
+                                ItemChangedCommand="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ItemChangedCommand}"
+                                ButtonImage="/KarveControls;component/Images/search.png"
+                                SourceView="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CitySourceView}"
+                                DataSource="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=DataObject}">
+
+                                <i:Interaction.Behaviors>
+                                    <behaviors:ChangeRuleBehavior
+                                               DataObject="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               RelatedObject="{Binding ElementName=PART_ProvinceSearchBox}"
+                                               Path="{Binding RelativeSource={RelativeSource TemplatedParent},Path=City}"
+                                               RelatedPath="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Province}">
+
+                                    </behaviors:ChangeRuleBehavior>
+                                </i:Interaction.Behaviors>
+                            </local:DualFieldSearchBox>
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <local:DualFieldSearchBox 
+                                x:Name="PART_ProvinceSearchBox"
+                                DataFieldFirst="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ProvincePath}"
+                                AssistTableName="{Binding RelativeSource={RelativeSource TemplatedParent},Path=AssistNameProvince}"
+                                AssistDataFieldFirst="SIGLAS"
+                                AssistDataFieldSecond="PROV"
+                                AssistProperties="Code,Name"
+                                LabelVisible="False"
+                                LabelText="{Binding lprovincia, Source={StaticResource ResourceLanguage}}"
+                                Margin="0,5,0,0"
+                                LabelTextWidth="30"
+                                MagnifierCommand="{ Binding RelativeSource={RelativeSource TemplatedParent}, Path=AssistCommand}"
+                                IsReadOnlySecond="True"
+                                TextContentFirstWidth="50"
+                                TextContentSecondWidth="200"
+                                ItemChangedCommand="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ItemChangedCommand}"
+                                ButtonImage="/KarveControls;component/Images/search.png"
+                                SourceView="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ProvinceSourceView}"
+                                DataSource="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=DataObject}">
+                            </local:DualFieldSearchBox>
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <local:DualFieldSearchBox 
+                                x:Name="PART_CountrySearchBox"
+                                DataFieldFirst="{Binding RelativeSource={RelativeSource TemplatedParent},Path=CountryPath}"
+                                AssistTableName="{Binding RelativeSource={RelativeSource TemplatedParent},Path=AssistNameCountry}"
+                                AssistDataFieldFirst="SIGLAS"
+                                AssistDataFieldSecond="PAIS"
+                                AssistProperties="Code,CountryName"
+                                LabelVisible="False"
+                                LabelText="{Binding lpais, Source={StaticResource ResourceLanguage}}"
+                                Margin="0,5,0,0"
+                                LabelTextWidth="30"
+                                MagnifierCommand="{ Binding RelativeSource={RelativeSource TemplatedParent}, Path=AssistCommand}"
+                                IsReadOnlySecond="True"
+                                TextContentFirstWidth="50"
+                                TextContentSecondWidth="200"
+                                ItemChangedCommand="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ItemChangedCommand}"
+                                ButtonImage="/KarveControls;component/Images/search.png"
+                                SourceView="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CountrySourceView}"
+                                DataSource="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=DataObject}">
+                            </local:DualFieldSearchBox>
+                        </Grid>
+                        <Grid Grid.Row="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="45"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto" MinWidth="355"></ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Right" Source="/KarveControls;component/Images/phone.png" Margin="0,2,8,1" Grid.Column="0" Width="25"/>
+                            <Syncfusion:SfTextBoxExt Watermark="{Binding ltelefono, Source={StaticResource ResourceLanguage}}"
+                                    x:Name="PART_DriverPhoneTextBox"
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Phone, Mode=TwoWay}"
+                                    Grid.Column="1" Margin="58,1,73,1"/>
+                        </Grid>
+                        <Grid Grid.Row="7">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="45"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto" MinWidth="355"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Right" Source="/KarveControls;component/Images/email.png" Margin="0,2,8,1" Grid.Column="0" Width="25"/>
+                            <Syncfusion:SfTextBoxExt Watermark="{Binding lemail, Source={StaticResource ResourceLanguage}}"
+                                    x:Name="PART_DriverEmailTextBox"
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Email, Mode=TwoWay}"
+                                    Grid.Column="1" Margin="58,1,73,1"       
+                                />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style TargetType="{x:Type local:AmountControl}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Width" Value="40"/>
@@ -301,6 +502,8 @@
                             Style="{StaticResource TextBoxErrorStyle}"
                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=TextContentWidth}"
+                           Watermark="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                        Path=Watermark}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContent, Mode=TwoWay}"
                            IsReadOnly="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IsReadOnly}">
                                        
@@ -414,49 +617,23 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
-                                    
+                                    <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <!--
-                                <StackPanel Orientation="Horizontal"  
-                                            Background="White"
-                                            Grid.Row="0">
-                                    
-                                    <TextBox x:Name="PART_SearchTerm" 
-                                             Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchTerm}" 
-                                             VerticalAlignment="Center" 
-                                             VerticalContentAlignment="Center"
-                                             Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxWidth}"
-                                             Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxHeight}"
-                                             Margin="5"/>
-                                    <Button x:Name="PART_SearchButton"
-                                            Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchCommand}"
-                                            Margin="5"
-                                            Width="60"
-                                            VerticalAlignment="Center">
-                                        <Image Source="/KarveControls;component/Images/searchImage.png"></Image>
-                                    </Button>
-                                    <TextBlock x:Name="PART_SearchTextBlock"
-                                               Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=SearchBoxHeight}"
-                                               Visibility="Collapsed"></TextBlock>
-                                </StackPanel>
--->
                               
-                                <StackPanel  Grid.Row="0" Orientation="Horizontal">
-
                                 <TextBlock HorizontalAlignment="Left" x:Name="PART_DataAreaText"
+                                           Grid.Row="0"
                                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaLabel}"
                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Width}"
                                            Visibility="Collapsed"
                                            Height="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Height}"/>
 
-                                    <TextBox
+                                
+                                <ExtendedWpf:MultiLineTextEditor
+                                        Grid.Row="1"
                                          x:Name="PART_EditorText"
                                         TextAlignment="Left"
                                         VerticalAlignment="Top"
-                                        AcceptsReturn="True"
-                                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                        ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                        ScrollViewer.CanContentScroll="True"
+                                        Content="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}"
                                         Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=TextContent, Mode=TwoWay}"
                                                               HorizontalContentAlignment="Left" 
                                                               VerticalContentAlignment="Top"
@@ -464,10 +641,8 @@
                                                               Width="{Binding RelativeSource={RelativeSource TemplatedParent},Path=DataAreaWidth, Mode=TwoWay}"
                                                               >
                                         
-                                    </TextBox>
-
-                                       
-                                </StackPanel>
+                                    </ExtendedWpf:MultiLineTextEditor>
+                                 
                             </Grid>
                             </GroupBox>
 
@@ -631,7 +806,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-        <Style TargetType="{x:Type local:DualFieldSearchBox}">
+    <Style TargetType="{x:Type local:DualFieldSearchBox}">
+        
+      
         <Style.Resources>
             <ObjectDataProvider x:Key="ResourceLanguage" 
                                 ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
@@ -659,6 +836,10 @@
                 </Style.Triggers>
             </Style>
         </Style.Resources>
+        
+        <Setter Property="LabelTextWidth" Value="100"/>
+        <Setter Property="Height" Value="30"/>
+        
         <Setter Property="Template">
                 <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DualFieldSearchBox}">
@@ -971,6 +1152,7 @@
                                         MethodName="GetResourceLanguage">
             </ObjectDataProvider>
         </Style.Resources>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DirectionInfo}">

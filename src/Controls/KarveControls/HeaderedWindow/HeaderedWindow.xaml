@@ -25,9 +25,9 @@
                 </Grid.RowDefinitions>
                 <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.HeaderRegion}">
                 </ContentControl>
-                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}">
+                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}">
                 </ContentControl>
-                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}">
+                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}" Visibility="{Binding FooterVisible, Converter={StaticResource BooleanToVisibility}}">
                 </ContentControl>
             </Grid>
 

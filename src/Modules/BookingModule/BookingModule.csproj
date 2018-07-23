@@ -16,7 +16,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup>
-      <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -128,7 +128,10 @@
     <Compile Include="ViewModels\BookingControlViewModel.cs" />
     <Compile Include="ViewModels\BookingDataHelper.cs" />
     <Compile Include="ViewModels\BookingInfoViewModel.cs" />
+    <Compile Include="ViewModels\BookingInfoViewModelOtherData.cs" />
     <Compile Include="ViewModels\FlightLookupViewModel.cs" />
+    <Compile Include="ViewModels\GeneralInfoCollection.cs" />
+    <Compile Include="ViewModels\MockOtherDataViewModel.cs" />
     <Compile Include="ViewModels\ViewDeleter.cs" />
     <Compile Include="ViewModels\ViewFactory.cs" />
     <Compile Include="ViewModels\ReservationRequestControlViewModel.cs" />
@@ -154,10 +157,14 @@
     <Compile Include="Views\BookingInfoView.xaml.cs">
       <DependentUpon>BookingInfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BookingStateConverter.cs" />
     <Compile Include="Views\FlightLookup.xaml.cs">
       <DependentUpon>FlightLookup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GridColumnsConstants.cs" />
+    <Compile Include="Views\OtherDataView.xaml.cs">
+      <DependentUpon>OtherDataView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReservationRequestControl.xaml.cs">
       <DependentUpon>ReservationRequestControl.xaml</DependentUpon>
     </Compile>
@@ -245,6 +252,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\OtherDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ReservationRequestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -263,6 +274,9 @@
     </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
       <Version>2.4.0.1044</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignThemes.MahApps">
+      <Version>0.0.11</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity" Version="6.3.0" />
     <PackageReference Include="Prism.Wpf">

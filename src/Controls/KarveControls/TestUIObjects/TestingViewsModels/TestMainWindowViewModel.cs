@@ -3,23 +3,25 @@ using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Mvvm;
 using Syncfusion.UI.Xaml.Grid;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using KarveDataServices;
-using KarveDataAccessLayer;
 using KarveDataServices.DataTransferObject;
 using KarveCommonInterfaces;
 using DataAccessLayer.FilterService;
 using System.Windows;
 using KarveCommon.Generic;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace TestUIComponents.TestingViewsModels
 {
+    class DriverInfo
+    {
+        public string City { set; get; }
+        public string Country { set; get; }
+
+    };
     /// <summary>
     ///  Test the main windows model.
     /// </summary>
@@ -36,6 +38,9 @@ namespace TestUIComponents.TestingViewsModels
         private INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> notifyTaskCompletion;
         private PropertyChangedEventHandler evSummaryCompleted;
         private object _sourceView;
+        private DriverInfo _driverInfo = new DriverInfo();
+        private ObservableCollection<CityDto> cities = new ObservableCollection<CityDto>();
+        private ObservableCollection<CountryDto> countries = new ObservableCollection<CountryDto>();
         /// <summary>
         ///  Unity 
         /// </summary>
@@ -124,7 +129,51 @@ namespace TestUIComponents.TestingViewsModels
                 return _sourceView;
             }
         }
-
+        /// <summary>
+        ///  This returns the cities.
+        /// </summary>
+        public ObservableCollection<CityDto> Cities
+        {
+            set
+            {
+                cities = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return cities;
+            }
+        }
+        /// <summary>
+        ///  This will return the countries.
+        /// </summary>
+        public ObservableCollection<CountryDto> Countries
+        {
+            set
+            {
+                countries = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return countries;
+            }
+        }
+        /// <summary>
+        ///  Set or Get the driver information.
+        /// </summary>
+        public DriverInfo DriverInfo
+        {
+            set
+            {
+                _driverInfo = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _driverInfo;
+            }
+        }
         // Set or Get IsVisible
         public bool IsVisible { set; get; }
         // Set or Get AssistProperties.

@@ -21,7 +21,7 @@ namespace BookingModule.ViewModels
     /// <summary>
     ///  View model to control the flow of a booking.
     /// </summary>
-    public class BookingControlViewModel : KarveControlViewModel, ICreateRegionManagerScope
+    internal sealed class BookingControlViewModel : KarveControlViewModel, ICreateRegionManagerScope
     {
         private INotifyTaskCompletion<IEnumerable<BookingSummaryDto>> _bookingSummaryCompletion;
         private readonly IBookingDataService _bookingDataService;
@@ -48,7 +48,15 @@ namespace BookingModule.ViewModels
         ///  The region shall be scoped.
         /// </summary>
         public bool CreateRegionManagerScope =>  true;
-
+        /// <summary>
+        /// Booking Control View Model. It is a view model that lauch other tabs through Prism.
+        /// </summary>
+        /// <param name="regionManager">Region manager for handling the new view navigation.</param>
+        /// <param name="services">Data layer services for accessing to the data layer.</param>
+        /// <param name="container">Container for resolving the view models.</param>
+        /// <param name="requestController">Controller for opening dialogs.</param>
+        /// <param name="dialogService">Dialog service for opening error dialogs.</param>
+        /// <param name="eventManager">Communication to every view models.</param>
         public BookingControlViewModel(IRegionManager regionManager, IDataServices services, IUnityContainer container, IInteractionRequestController requestController, IDialogService dialogService, IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
         {
 
@@ -273,7 +281,11 @@ namespace BookingModule.ViewModels
             footerRegion.Add(footerView, null, true);
             headeredWindow.Focus();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code">Primary Key</param>
+        /// <param name="viewName">Name of the view to navigate</param>
         private void Navigate(string code, string viewName)
         {
             Navigate<BookingInfoView>(_regionManager, code, viewName);
@@ -303,7 +315,7 @@ namespace BookingModule.ViewModels
             var routedName = new Uri(route).AbsoluteUri;
             return routedName;
         }
-        protected void LoadMoreItems(uint count, int baseIndex)
+        private void LoadMoreItems(uint count, int baseIndex)
         {
             NotifyTaskCompletion.Create<IEnumerable<BookingSummaryDto>>(
                 _bookingDataService.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
@@ -350,6 +362,10 @@ namespace BookingModule.ViewModels
             _bookingLoadEventHandler -= OnNotifyIncrementalList<BookingSummaryDto>;
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
+            if (SummaryView is IncrementalList<BookingSummaryDto> dto)
+            {
+                dto.Clear();
+            }
             EventManager.DeleteObserverSubSystem(BookingModule.BookingSubSystem, this);
 
         }
@@ -438,6 +454,14 @@ namespace BookingModule.ViewModels
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
 
+        }
+
+        public override void Dispose()
+        {
+            if (SummaryView is IncrementalList<BookingSummaryDto> dto)
+            {
+                dto.Clear();
+            }
         }
         /// <summary>
         ///  Set or Get the CounterInterval

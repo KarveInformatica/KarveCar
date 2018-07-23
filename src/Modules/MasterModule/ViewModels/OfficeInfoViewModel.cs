@@ -712,6 +712,11 @@ namespace MasterModule.ViewModels
             var t = Task.FromResult(0);
             return t;
         }
+
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
 

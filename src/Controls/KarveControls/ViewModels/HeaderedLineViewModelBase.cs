@@ -38,9 +38,9 @@ namespace KarveControls.ViewModels
         protected IncrementalList<InnerDtoType> SourceItems;
         private List<string> _gridView;
         private object _sourceView;
+        private bool _linevisible;
+        private bool _footervisible;
 
-       
-        
         protected HeaderedLineViewModelBase(IDataServices dataServices,
             IDialogService dialogServices,
             IEventManager manager,
@@ -51,6 +51,8 @@ namespace KarveControls.ViewModels
             RegionManager = regionManager;
             IdentifierGenerator = identifier;
             AssistDataService = DataServices.GetAssistDataServices();
+            LineVisible = true;
+            FooterVisible = true;
         }
 
         protected override string GetRouteName(string name)
@@ -61,6 +63,32 @@ namespace KarveControls.ViewModels
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
           
+        }
+
+        /// <summary>
+        /// LineVisible
+        /// </summary>
+        public bool LineVisible
+        {
+            set
+            {
+                _linevisible = value;
+                RaisePropertyChanged();
+            }
+            get => _linevisible;
+        }
+
+        /// <summary>
+        /// LineVisible
+        /// </summary>
+        public bool FooterVisible
+        {
+            set
+            {
+                _footervisible = value;
+                RaisePropertyChanged();
+            }
+            get => _footervisible;
         }
         public List<string> GridColumns
         {

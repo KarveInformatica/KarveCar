@@ -291,5 +291,10 @@ namespace MasterModule.ViewModels
             summaryList.LoadItems(_clientSummaryDtos);
             SummaryView = summaryList;
         }
+
+        public override void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

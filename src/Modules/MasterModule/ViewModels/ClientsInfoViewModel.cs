@@ -28,7 +28,7 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// This class is responsible for allowing the client info view to communicate with the other levels.
     /// </summary>
-    public sealed class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
+    public class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
     {
         #region Private Fields
         private IClientData _clientData;
@@ -331,7 +331,9 @@ namespace MasterModule.ViewModels
 
             ClientHelper.CityDto = list; 
         }
-            private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
+
+
+        private async Task<bool> AssistQueryRequestHandler(string assistTableName, string assistQuery)
         {
            
 
@@ -926,7 +928,6 @@ namespace MasterModule.ViewModels
                         ZoneDto = clientHelper.ZoneDto;
                         ExpireMonth = clientData.Value.CreditCardExpiryMonth;
                         ExpireYear = clientData.Value.CreditCardExpiryYear;
-                      //   UpdateCreditCardInfo(clientData.Value.TARCADU);
                         _initialized = true;
                         
                         Logger.Info(
@@ -1021,6 +1022,10 @@ namespace MasterModule.ViewModels
         protected override void SetResult<T>(IEnumerable<T> result)
         {
             throw new NotImplementedException();
+        }
+        public override void Dispose()
+        {
+            
         }
     }
 }

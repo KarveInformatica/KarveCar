@@ -68,6 +68,11 @@ namespace MasterModule.ViewModels
             throw new System.NotImplementedException();
         }
 
+        public override void Dispose()
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         ///  Data object to be forwarded to the view.
         /// </summary>

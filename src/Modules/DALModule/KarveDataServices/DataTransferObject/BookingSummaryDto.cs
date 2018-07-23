@@ -14,7 +14,6 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         [Display(Name = "Numero", Description = "Numero reserva")]
         public string BookingNumber { set; get; }
-        
         /// <summary>
         ///  Set or Get the booking date 
         /// </summary>

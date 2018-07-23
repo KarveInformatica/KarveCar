@@ -106,10 +106,13 @@
     <Compile Include="DataObjects\IReservationRequest.cs" />
     <Compile Include="DataObjects\IValidDomainObject.cs" />
     <Compile Include="DataTransferObject\ActiveFareDto.cs" />
+    <Compile Include="DataTransferObject\AgencyEmployee.cs" />
     <Compile Include="DataTransferObject\BaseDtoDefaultName.cs" />
     <Compile Include="DataTransferObject\BookingDto.cs" />
     <Compile Include="DataTransferObject\BookingItemsDto.cs" />
+    <Compile Include="DataTransferObject\BookingMedia.cs" />
     <Compile Include="DataTransferObject\BookingSummaryDto.cs" />
+    <Compile Include="DataTransferObject\BookingTypeDto.cs" />
     <Compile Include="DataTransferObject\BrokerDto.cs" />
     <Compile Include="DataTransferObject\BudgetDto.cs" />
     <Compile Include="DataTransferObject\BudgetSummaryDto.cs" />
@@ -206,6 +209,7 @@
     <Compile Include="DataTransferObject\PictureDto.cs" />
     <Compile Include="DataTransferObject\PriceConditionDto.cs" />
     <Compile Include="DataTransferObject\PrimaryKeyAttribute.cs" />
+    <Compile Include="DataTransferObject\PrintingTypeDto.cs" />
     <Compile Include="DataTransferObject\ProductsDto.cs" />
     <Compile Include="DataTransferObject\ProvinciaDto.cs" />
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />
