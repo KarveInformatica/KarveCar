@@ -41,13 +41,15 @@
                     <karveControls:DualFieldSearchBox
                                 x:Name="OtherDriver"
                                 Grid.Row="0"
-                                Margin="45,0,0,0"
-                                LabelVisible="False"
-                                AssistProperties="Codigo,Nombre"
-                                AssistTableName="DRIVER_ASSIST_2"
+                                Margin="0,0,0,0"
+                                LabelVisible="True"
+                                AssistProperties="{Binding ClientsConductor, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                                AssistTableName="DRIVER_ASSIST_3"
                                 TextContentFirstWidth="50"
-                                TextContentSecondWidth="200"
-                                SourceView="{Binding DriverDto2, Mode=OneWay}"
+                                TextContentSecondWidth="250"
+                                LabelText="Conductor"
+                                LabelTextWidth="86"
+                                SourceView="{Binding DriverDto3, Mode=OneWay}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
                                 DataSource="{Binding DataObject, Mode=TwoWay}"
@@ -59,7 +61,7 @@
                         <karveControls:DataField
                             x:Name="DrivingLicense1"
                             LabelText="{Binding lnumpermiso, Source={StaticResource ResourceLanguage}}"
-                            LabelTextWidth="50"
+                            LabelTextWidth="100"
                             Height="35"
                             TextContentWidth="150"
                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
@@ -86,13 +88,14 @@
                     </Grid.RowDefinitions>
                     <karveControls:DualFieldSearchBox 
                                 x:Name="AdditionalDriver"
-                                AssistProperties="Codigo,Nombre"
-                                AssistTableName="DRIVER_ASSIST_3"
-                                LabelVisible="False"
-                                Margin="45,0,0,0"
-                                TextContentFirstWidth="60"
-                                TextContentSecondWidth="200"
-                                SourceView="{Binding DriverDto3, Mode=OneWay}"
+                                AssistProperties="{Binding ClientsConductor, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                                AssistTableName="DRIVER_ASSIST_4"
+                                LabelText="Conductor"
+                                LabelTextWidth="86"
+                         TextContentFirstWidth="50"
+                                TextContentSecondWidth="250"
+                                
+                                SourceView="{Binding DriverDto4, Mode=OneWay}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
                                 DataSource="{Binding DataObject, Mode=TwoWay}"
@@ -135,13 +138,13 @@
                     </Grid.RowDefinitions>
                     <karveControls:DualFieldSearchBox 
                                 x:Name="ThirdAdditionalDriver"
-                                LabelVisible="False"
-                                AssistProperties="Codigo,Nombre"
-                                AssistTableName="DRIVER_ASSIST_3"
+                                LabelText="Conductor"
+                                LabelTextWidth="86"
+                                AssistProperties="{Binding ClientsConductor, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                                AssistTableName="DRIVER_ASSIST_5"
                                 TextContentFirstWidth="50"
-                                TextContentSecondWidth="160"
-                                Margin="45,0,0,0"
-                                SourceView="{Binding DriverDto3, Mode=OneWay}"
+                                TextContentSecondWidth="250"
+                                SourceView="{Binding DriverDto5, Mode=OneWay}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
                                 DataSource="{Binding DataObject, Mode=TwoWay}"
@@ -173,9 +176,20 @@
                 </Grid>
             </GroupBox>
             <GroupBox Header="{Binding lsnddriver, Source={StaticResource ResourceLanguage}}" Grid.Row="3">
-                <karveControls:DriverSmallControl ></karveControls:DriverSmallControl>
+                <karveControls:DriverSmallControl AssistNameCity="CITY_ASSIST_2"
+                                                  AssistNameCountry="COUNTRY_ASSIST_3" 
+                                                  AssistNameProvince="PROVINCE_ASSIST_2"
+                                                  DataObject="{Binding DataObject}"
+                                                  AssistCommand="{Binding AssistCommand}"
+                                                  CitySourceView="{Binding SecondDriverCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                              
+                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                  CountrySourceView="{Binding SecondDriverCountryDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  ProvinceSourceView="{Binding SecondDriverProvinceDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                </karveControls:DriverSmallControl>
             </GroupBox>
-            <TripleButton:TripleButton Grid.Row="4" SaveCommand="{Binding SaveToClient}" ResetCommand="{Binding ResetForm}" DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
+            <TripleButton:TripleButton Grid.Row="4" SaveCommand="{Binding SaveToClient}" 
+                                       ResetCommand="{Binding ResetForm}" 
+                                       DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
         </Grid>
     </Grid>
 </UserControl>

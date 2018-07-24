@@ -1164,7 +1164,6 @@
     <Compile Include="FilterService\AbstractDataFilterService.cs" />
     <Compile Include="FilterService\DataFilterService.cs" />
     <Compile Include="FilterService\DataFilterSummaryService.cs" />
-    <Compile Include="GruposDAL.cs" />
     <Compile Include="InvoiceDataServices.cs" />
     <Compile Include="Logic\ClientDtoToClientes1.cs" />
     <Compile Include="Logic\ClientDtoToClientes2.cs" />

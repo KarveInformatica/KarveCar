@@ -35,7 +35,7 @@ namespace BookingModule.ViewModels
         private IEnumerable<VehicleSummaryDto> _vehicleSummary;
         private IEnumerable<OrigenDto> _origenSummary;
         private IUserSettings _userSettings;
-       
+        private IHelperViewFactory _helperViewFactory;
        
 
         public ReservationRequestsViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IKarveNavigator navigation, IConfigurationService configurationService, IRegionManager regionManager) : base(services, controller, dialogService, eventManager, regionManager)
@@ -53,6 +53,7 @@ namespace BookingModule.ViewModels
 
             ViewModelUri = new Uri("karve://booking/request/viewmodel?id=" + Guid.ToString());
             _navigator = navigation;
+            _helperViewFactory = _navigator.GetHelperViewFactory();
             _userSettings = configurationService.GetUserSettings();
             // _deleteCommand = new DelegateCommand(DeleteView);
             _saveCommand = new DelegateCommand(SaveView);
@@ -67,7 +68,8 @@ namespace BookingModule.ViewModels
 
         private void NewOrigin()
         {
-            _navigator.NewHelperView<ORIGEN, OrigenDto>(new ORIGEN(), "ClientLocation");
+            var uri = "karve://booking/request/origin/";
+            _helperViewFactory.NewOriginView(new Uri(uri));
         }
         
         #region Cross reference
@@ -81,12 +83,13 @@ namespace BookingModule.ViewModels
         }
         private void NewReseller()
         {
-            _navigator.NewHelperView<VENDEDOR, ResellerDto>(new VENDEDOR(), "Resellers");
-            
+            var uri = "karve://booking/request/reseller/";
+            _helperViewFactory.NewReseller(new Uri(uri));           
         }
         private void NewRequestReason()
         {
-            _navigator.NewHelperView<MOPETI, RequestReasonDto>(new MOPETI(), typeof(HelperModule.Views.RequestReason).FullName);
+            var uri = "karve://booking/request/reason/";
+            _helperViewFactory.NewBookingRequestReason(new Uri(uri));
         }
         private void NewGroup()
         {

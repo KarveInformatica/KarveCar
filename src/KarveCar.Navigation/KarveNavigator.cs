@@ -7,6 +7,8 @@ using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
 using Prism.Regions;
 using System;
+using AutoMapper;
+using DataAccessLayer.Logic;
 
 namespace KarveCar.Navigation
 {
@@ -21,6 +23,7 @@ namespace KarveCar.Navigation
         private readonly IRegionManager _regionManager;
         private readonly IEventManager _eventManager;
         private readonly IDialogService _dialogService;
+        private readonly IMapper _mapper;
         /// <summary>
         /// KarveNavigator constructor
         /// </summary>
@@ -34,6 +37,7 @@ namespace KarveCar.Navigation
             _regionManager = regionManager;
             _eventManager = eventManager;
             _dialogService = dialogService;
+            _mapper = MapperField.GetMapper();
         }
         /// <summary>
         /// Create a new client view for insertion.
@@ -86,7 +90,7 @@ namespace KarveCar.Navigation
         {
             _dialogService?.ShowErrorMessage("Fare not yet implemented");
         }
-        
+      
         public void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto: BaseDto where Entity:class
         {
             var helperDataService = _dataServices.GetHelperDataServices();
@@ -153,7 +157,7 @@ namespace KarveCar.Navigation
         /// <param name="code">New domain item code</param>
         /// <param name="tabName">Name of the tab</param>
         /// <param name="viewName">Name of the view to be used</param>
-        private void Navigate(IRegionManager manager, string code, string tabName, string viewName)
+        public void Navigate(IRegionManager manager, string code, string tabName, string viewName)
         {
             var navigationParameters = new NavigationParameters
             {
@@ -171,9 +175,18 @@ namespace KarveCar.Navigation
             }
             var uri = new Uri(navigationUri, UriKind.Relative);  
             manager.RequestNavigate(RegionNames.TabRegion, uri);
+
         }
 
-       
+        public void NewBookingView(Uri viewModelUri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IHelperViewFactory GetHelperViewFactory()
+        {
+            return new HelperNavigatorFactory(_dataServices, _regionManager, _dialogService);
+        }
     }
     
 }

@@ -43,11 +43,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Background="Blue">
+                <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
+                   Source="/KarveControls;component/Images/cars.png" Height="48" />
+                <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" Text="{Binding lvehicles, Source={StaticResource ResourceLanguage}}" FontSize="24"
+                       Foreground="White" />
+            </DockPanel>
+            <ContentControl Grid.Row="1" Content="{Binding}" ContentTemplate="{StaticResource VehicleUpperView}"></ContentControl>
 
-            <ContentControl Grid.Row="0" Content="{Binding}" ContentTemplate="{StaticResource VehicleUpperView}"></ContentControl>
-
-            <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible" 
+            <syncfusion:TabControlExt Grid.Row="2" TabStripPlacement="Left" BorderThickness="0" Visibility="Visible" 
                                       syncfusion:SkinStorage.VisualStyle="Metro"
                                       CloseButtonType="Hide">
 

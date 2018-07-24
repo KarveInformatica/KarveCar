@@ -22,21 +22,20 @@ namespace KarveCar.Navigation
         ///  Navigate to a fare
         /// </summary>
         /// <param name="viewModelFare">Sender view model used for communicating with the toolbar</param>
-       void NewFareView(Uri viewModelFare);
-        /// <summary>
-        ///  Navigate to an helper.
-        /// </summary>
-        /// <typeparam name="Entity">Helper entity</typeparam>
-        /// <typeparam name="Dto">Helper dto</typeparam>
-        /// <typeparam name="ViewModelType">Type of the view modle</typeparam>
-        /// <param name="name">Name to provide to the user</param>
-        /// <param name="viewModelUri">Uri of the view model</param>
-        /// <param name="e">Entity value</param>
-        void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto : BaseDto where Entity : class;
+        void NewFareView(Uri viewModelFare);
         /// <summary>
         ///  Navigate and create and empty broker.
         /// </summary>
         /// <param name="viewModelUri">Sender view model used for communicating with the toolbar</param>
         void NewBrokerView(Uri viewModelUri);
+        /// <summary>
+        ///  Navigate a create an empty booking view.
+        /// </summary>
+        /// <param name="viewModelUri"></param>
+        void NewBookingView(Uri viewModelUri);
+
+        // Factory foreach generic view.
+        IHelperViewFactory GetHelperViewFactory();
+
     }
 }

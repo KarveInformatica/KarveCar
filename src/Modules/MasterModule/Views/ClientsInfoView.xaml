@@ -355,13 +355,14 @@
                                             ValidatesOnNotifyDataErrors=True, 
                                             ValidatesOnExceptions=True, 
                                             UpdateSourceTrigger=PropertyChanged}"
-                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="587" Height="148"
+                                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="587" Height="Auto"
                                         >
 
                                         </karveControls:DataArea>
                                         <karveControls:DataArea 
                                             x:Name="ClientObservation"
                                             DataAreaWidth="500"
+                                            Height="Auto"
                                             TextContent="{Binding DataObject.OBSERVA, 
                                                           Mode=TwoWay, 
                                                           ValidatesOnDataErrors=True, 
@@ -399,7 +400,7 @@
                             DataAreaWidth="400"
                             DataAreaTitle="{Binding ListaDeContactos, Source={StaticResource ResourceLanguage}}"
                             LabelVisible="False"
-                            Height="120"
+                            Height="Auto"
                             Width="500"
                             HorizontalAlignment="Left"
                             karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

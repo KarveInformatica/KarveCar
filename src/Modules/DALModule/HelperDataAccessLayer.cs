@@ -21,10 +21,10 @@ namespace DataAccessLayer
     internal class HelperDataAccessLayer : AbstractDataAccessLayer,IHelperDataServices
     {
         private IMapper _mapper;
-        private const int pageSize = 500;
+        private const int pageSize = 50;
      
         /// <summary>
-        /// It needs the data accessr
+        /// Constructor for the data access layer helper.
         /// </summary>
         /// <param name="executor">SQL executor</param>
         public HelperDataAccessLayer(ISqlExecutor executor): base(executor)
@@ -474,20 +474,35 @@ namespace DataAccessLayer
                                                                                         where DtoTransfer : class, new()
         {
 
+            if (string.IsNullOrEmpty(code))
+            {
+                throw new ArgumentNullException("Null or empty entity code");
+            }
+
             var result = new DtoTransfer();
             using (var connection = SqlExecutor.OpenNewDbConnection())
             {
-                var value = await connection.GetAsync<T>(code);
 
-                if (value != null)
+                if (connection != null)
                 {
-                    try
+                    var value = await connection.GetAsync<T>(code).ConfigureAwait(false);
+                    if (value != null)
                     {
-                        result = _mapper.Map<DtoTransfer>(value);
-                    } catch (System.Exception ex)
-                    {
-                        result = new DtoTransfer();
+                        try
+                        {
+                            result = _mapper.Map<DtoTransfer>(value);
+                        }
+                        catch(System.Exception ex)
+                        {
+                            throw new DataAccessLayerException("GetSingleMappedAsyncLayer: Mapping Error", ex);
+                        }
                     }
+
+
+                }
+                else
+                {
+                    throw new DataAccessLayerException("GetSingleMappedAsyncHelper: Cannot work on an invalid connection.");
                 }
             }
             return result;

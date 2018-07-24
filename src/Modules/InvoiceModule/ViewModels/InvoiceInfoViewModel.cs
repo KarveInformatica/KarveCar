@@ -463,6 +463,7 @@ namespace InvoiceModule.ViewModels
                 await OnVehicleSummaryAsync("Vehiculos", query, async delegate (VehicleSummaryDto vsdto)
                 {
                     var dto = vsdto as VehicleSummaryDto;
+                    await Task.Delay(1);
                     box.VehicleCode = vsdto.Code;
 
                 }).ConfigureAwait(false);

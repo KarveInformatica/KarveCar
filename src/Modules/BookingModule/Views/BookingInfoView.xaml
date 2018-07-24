@@ -586,7 +586,7 @@
                                                   Height="30"
                                                   AssistTableName="BUDGET_ASSIST"
                                                   LabelVisible="False"
-                                                  AssistProperties="{Binding BookingInfoCols}"
+                                                  AssistProperties="BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,BookingNumber"
                                                   MagnifierCommand="{Binding AssistCommand}"
                                                   ItemChangedCommand="{Binding ItemChangedCommand}"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -796,7 +796,7 @@
                 <local:BookingDrivers></local:BookingDrivers>
             </TabItem>
             <TabItem Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}">
-                <local:OtherDataView></local:OtherDataView>
+                <local:BookingOtherDataView></local:BookingOtherDataView>
             </TabItem>
         </TabControl>
 

@@ -1,5 +1,4 @@
 ﻿using KarveControls.Generic;
-using System;
 using System.Windows;
 
 namespace DualFieldSearchBox

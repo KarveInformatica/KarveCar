@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.Logic;
 
-namespace DataAccessLayer
+namespace BookingModule.ViewModels
 {
-    public class GruposDAL: GenericDAL      
+    class MockOtherDataViewModel
     {
-
     }
 }

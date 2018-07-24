@@ -242,7 +242,7 @@
                             LabelVisible="False"
                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="OBS1"
-                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="139">
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="Auto">
                 </karveControls:DataArea>
                
 

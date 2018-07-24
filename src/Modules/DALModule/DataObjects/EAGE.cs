@@ -1,6 +1,4 @@
-using System;
 using KarveDapper.Extensions;
-
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
@@ -14,7 +12,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the NUM_EAGE property.
     /// </summary>
-    
+        [Key]
 		public string NUM_EAGE { get; set; }
  
 	/// <summary>

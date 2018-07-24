@@ -1,17 +1,17 @@
 ﻿using KarveCommon.Generic;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace KarveControls.HeaderedWindow
 {
     /// <summary>
-    ///  HeaderedWindowFactory. Creates a window factory
+    ///  HeaderedWindowFactory. Creates a window factory. A headered window is a view with a header, several lines in a grid
+    ///  and footer. The line region (composed of a grid with several lines) can be hidden as well the footer, resulting in just
+    ///  one window with a single header. Basically:
+    ///  1. Header View / User Control
+    ///  2. One Central User Controls that contains a grid
+    ///  3. One footer.
     /// </summary>
     /// <typeparam name="Header">Type of the header.</typeparam>
     /// <typeparam name="Footer">Type of the footer.</typeparam>
@@ -24,17 +24,27 @@ namespace KarveControls.HeaderedWindow
             _regionManager = manager;
             _container = container;
         }
-
+        /// <summary>
+        ///  Retrieve the factory.
+        /// </summary>
+        /// <param name="manager">The manager to be used.</param>
+        /// <param name="container">The container to be used for resolving the views.</param>
+        /// <returns></returns>
         public static HeaderedWindowFactory<Header,Footer> GetFactory(IRegionManager manager, IUnityContainer container) 
         {
             return new HeaderedWindowFactory<Header,Footer>(manager, container);
         }
-        public IRegionManager DetailsRegionManager { set; get; }
         /// <summary>
-        ///  This returns an item from an headered window.
+        ///  Set or Get the region manager.
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        public IRegionManager DetailsRegionManager { set; get; }
+    
+        /// <summary>
+        /// Create a new composite view headered window.
+        /// </summary>
+        /// <param name="name">The title of the window</param>
+        /// <param name="viewModel">The view model to be used in the view as DataContext</param>
+        /// <returns>A new headered window</returns>
         public HeaderedWindow CreateNewItem(string name, KarveViewModelBase viewModel)
         {
             // The composite.

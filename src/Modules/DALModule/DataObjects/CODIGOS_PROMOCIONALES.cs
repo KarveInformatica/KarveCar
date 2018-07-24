@@ -1,4 +1,6 @@
 using System;
+using KarveDapper.Extensions;
+
  
 namespace DataAccessLayer.DataObjects
 {
@@ -6,13 +8,14 @@ namespace DataAccessLayer.DataObjects
 	/// Represents a CODIGOS_PROMOCIONALES.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("CODIGOS_PROMOCIONALES")]
 	public class CODIGOS_PROMOCIONALES 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO_PROMO property.
     /// </summary>
-    
+        [Key]
 		public string CODIGO_PROMO { get; set; }
  
 	/// <summary>

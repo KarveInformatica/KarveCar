@@ -129,9 +129,9 @@
     <Compile Include="ViewModels\BookingDataHelper.cs" />
     <Compile Include="ViewModels\BookingInfoViewModel.cs" />
     <Compile Include="ViewModels\BookingInfoViewModelOtherData.cs" />
-    <Compile Include="ViewModels\FlightLookupViewModel.cs" />
     <Compile Include="ViewModels\GeneralInfoCollection.cs" />
     <Compile Include="ViewModels\MockOtherDataViewModel.cs" />
+    <Compile Include="ViewModels\BookingOtherDataViewModel.cs" />
     <Compile Include="ViewModels\ViewDeleter.cs" />
     <Compile Include="ViewModels\ViewFactory.cs" />
     <Compile Include="ViewModels\ReservationRequestControlViewModel.cs" />
@@ -162,8 +162,8 @@
       <DependentUpon>FlightLookup.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GridColumnsConstants.cs" />
-    <Compile Include="Views\OtherDataView.xaml.cs">
-      <DependentUpon>OtherDataView.xaml</DependentUpon>
+    <Compile Include="Views\BookingOtherDataView.xaml.cs">
+      <DependentUpon>BookingOtherDataView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReservationRequestControl.xaml.cs">
       <DependentUpon>ReservationRequestControl.xaml</DependentUpon>
@@ -252,7 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\OtherDataView.xaml">
+    <Page Include="Views\BookingOtherDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

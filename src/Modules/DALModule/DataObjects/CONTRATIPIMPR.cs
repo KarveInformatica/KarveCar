@@ -1,18 +1,18 @@
-using System;
- 
+using KarveDapper.Extensions;
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a CONTRATIPIMPR.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("CONTRATIPIMPR")]
 	public class CONTRATIPIMPR 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]    
 		public byte CODIGO { get; set; }
  
 	/// <summary>

@@ -73,7 +73,7 @@ namespace DataAccessLayer.SQL
              {QueryType.QueryBusiness,@"SELECT * FROM NEGOCIO WHERE CODIGO='{0}'"},
             { QueryType.QueryBudget,@"SELECT * FROM PRESUP1 INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE WHERE NUMERO_PRE='{0}'" },
              {QueryType.QueryBudgetSummaryPaged, @"SELECT TOP {0} START AT {1} PRESUP1.NUMERO_PRE as BudgetNumber,
-                                                   OFICINA_PRE1 as BugdgetOffice,
+                                                   OFICINA_PRE1 as BudgetOffice,
                                                    CLIENTES1.NOMBRE as ClientName,
                                                    FECHA_PRE1 as BudgetCreationDate,
                                                    FSALIDA_PRE1 as DepartureDate,

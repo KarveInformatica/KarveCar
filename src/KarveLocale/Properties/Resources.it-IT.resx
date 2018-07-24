@@ -2963,4 +2963,10 @@
   <data name="lmr" xml:space="preserve">
     <value>Sig.</value>
   </data>
+  <data name="lbookingmedia" xml:space="preserve">
+    <value>Mezzo di Reserva</value>
+  </data>
+  <data name="lbookingtype" xml:space="preserve">
+    <value>Tipo Reserva</value>
+  </data>
 </root>

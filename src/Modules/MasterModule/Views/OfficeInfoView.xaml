@@ -242,12 +242,19 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Background="DarkMagenta">
+                        <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
+                            Source="/KarveControls;component/Images/office.png" Height="48" />
+                        <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" 
+                                   Text="{Binding loffice, Source={StaticResource ResourceLanguage}}" FontSize="24"
+                       Foreground="White" />
+                    </DockPanel>
+                    <ContentControl  Grid.Row="1"  Content="{Binding}" ContentTemplate="{StaticResource UpperBarViewOffice}"></ContentControl>
 
-                    <ContentControl  Grid.Row="0"  Content="{Binding}" ContentTemplate="{StaticResource UpperBarViewOffice}"></ContentControl>
-
-                    <syncfusion:TabControlExt Grid.Row="1" TabStripPlacement="Left" CloseButtonType="Hide">
+                    <syncfusion:TabControlExt Grid.Row="2" TabStripPlacement="Left" CloseButtonType="Hide">
                         <syncfusion:TabItemExt Name="General"  
                                                karveControls:KarveTabItemExt.CloseButtonVisibility="Hidden" 
                                                Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}" 

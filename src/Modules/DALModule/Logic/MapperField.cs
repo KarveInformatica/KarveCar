@@ -109,7 +109,6 @@ namespace DataAccessLayer.Logic
         {
             PersonalPositionDto position = new PersonalPositionDto();
             position.Code = source.CODIGO.ToString();
-
             position.Name = source.NOMBRE;
             position.LastModification = source.ULTMODI;
             position.User = source.USUARIO;
@@ -123,7 +122,6 @@ namespace DataAccessLayer.Logic
         {
             PERCARGOS percargos = new PERCARGOS();
             percargos.CODIGO = int.Parse(source.Code);
-
             percargos.NOMBRE = source.Name;
             percargos.ULTMODI = source.LastModification;
             percargos.USUARIO = source.User;
@@ -141,7 +139,6 @@ namespace DataAccessLayer.Logic
         {
             ContactsDto contactsDto = new ContactsDto();
             contactsDto.Code = source.CONTACTO.ToString();
-
             contactsDto.ContactsKeyId = source.COMISIO;
             contactsDto.ContactId = source.CONTACTO.ToString();
             contactsDto.ContactName = source.NOM_CONTACTO;
@@ -1009,6 +1006,24 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<HolidayDto, FESTIVOS_OFICINA>().ConvertUsing(new HolidayConverterBack());
                 cfg.CreateMap<FESTIVOS_OFICINA, HolidayDto>().ConvertUsing(new HolidayConverter());
                 cfg.CreateMap<SupplierPoco, SupplierDto>().ConvertUsing(new SupplierPocoConverter());
+                cfg.CreateMap<MEDIO_RES, BookingMediaDto>().ConstructUsing(src =>
+                {
+                    var bookingMediaDto = new BookingMediaDto();
+                    bookingMediaDto.Code = src.CODIGO;
+                    bookingMediaDto.Name = src.NOMBRE;
+                    bookingMediaDto.CurrentUser = src.USUARIO;
+                    bookingMediaDto.LastModification = src.ULTMODI;
+                    return bookingMediaDto;
+                });
+                cfg.CreateMap<BookingMediaDto, MEDIO_RES>().ConstructUsing(src=>
+                {
+                    var bookingMedia = new MEDIO_RES();
+                    bookingMedia.CODIGO = src.Code;
+                    bookingMedia.NOMBRE = src.Name;
+                    bookingMedia.ULTMODI = src.LastModification;
+                    bookingMedia.USUARIO = src.CurrentUser;
+                    return bookingMedia;
+                });
                 cfg.CreateMap<ComisioDto, COMISIO>();
                 cfg.CreateMap<COMISIO, ComisioDto>();
                 cfg.CreateMap<CONCEP_FACTUR, FareConceptDto>();
@@ -1050,6 +1065,8 @@ namespace DataAccessLayer.Logic
                     var ce = new ClientSummaryExtended();
                     ce.Code = src.NUMERO_CLI;
                     ce.Name = src.NOMBRE;
+                    ce.LastModification = src.LastModification;
+                    ce.CurrentUser = src.CurrentUser;
                     return ce;
                 });
                 cfg.CreateMap<ClientSummaryExtended, ClientDto>().ConvertUsing(src =>
@@ -1074,20 +1091,52 @@ namespace DataAccessLayer.Logic
                 {
                     var newca = new CountryRegionDto();
                     newca.Code = src.CODIGO_CCAA;
-
                     newca.Name = src.NOMBRE_CCAA;
                     return newca;
                 });
+                cfg.CreateMap<CODIGOS_PROMOCIONALES, PromotionCodesDto>().ConvertUsing(src=>
+                {
+                    var promotion = new PromotionCodesDto();
+                    promotion.Code = src.CODIGO_PROMO;
+                    promotion.Name = src.NOMBRE_PROMO;
+                    promotion.LastModification = src.ULTMODI_PROMO;
+                    promotion.CurrentUser = src.USUARIO_PROMO;
+                    promotion.ConceptPromo = src.CONCEPTO_PROMO;
+                    promotion.Discount = src.DTO_PROMO;
+                    promotion.EndDatePromo = src.FBAJA_PROMO;
+                    promotion.StartDatePromo = src.FALTA_PROMO;
+                    promotion.NotesPromo = src.OBS_PROMO;
+                    promotion.IsRentingPromo = src.ES_ALQUILER_PROMO;
+                    promotion.IsAssurancePromo = src.ES_SEGURO_PROMO;
+                    return promotion;
+
+                });
+                cfg.CreateMap<PromotionCodesDto, CODIGOS_PROMOCIONALES>().ConvertUsing(src =>
+                {
+                    var promotion = new CODIGOS_PROMOCIONALES();
+                    promotion.CODIGO_PROMO = src.Code;
+                    promotion.NOMBRE_PROMO = src.Name;
+                    promotion.ULTMODI_PROMO = src.LastModification;
+                    promotion.USUARIO_PROMO = src.CurrentUser;
+                    promotion.CONCEPTO_PROMO= src.ConceptPromo;
+                    promotion.DTO_PROMO = src.Discount;
+                    promotion.FBAJA_PROMO = src.EndDatePromo;
+                    promotion.FALTA_PROMO = src.StartDatePromo;
+                    promotion.OBS_PROMO = src.NotesPromo;
+                    promotion.ES_ALQUILER_PROMO = src.IsRentingPromo;
+                    promotion.ES_SEGURO_PROMO = src.IsAssurancePromo;
+                    return promotion;
+                });
 
                 cfg.CreateMap<RequestReasonDto, MOPETI>().ConvertUsing(src =>
-            {
+                {
                 var newmo = new MOPETI();
                 newmo.CODIGO = src.Code;
                 newmo.NOMBRE = src.Name;
                 newmo.ULTMODI = src.LastModification;
                 newmo.USUARIO = src.CurrentUser;
                 return newmo;
-            });
+                });
                 cfg.CreateMap<MOPETI, RequestReasonDto>().ConvertUsing(src =>
                 {
                     var newmo = new RequestReasonDto();
@@ -2718,6 +2767,7 @@ namespace DataAccessLayer.Logic
             holiday.HORA_HASTA = source.HORA_HASTA;
             holiday.OFICINA = source.OFICINA;
             holiday.PARTE_DIA = source.PARTE_DIA;
+           
             /* if (holiday.ULTMODI == null)
              {
                  holiday.ULTMODI = DateTime.Now.ToString("yyyyMMddhhmmss");

@@ -211,6 +211,7 @@
     <Compile Include="DataTransferObject\PrimaryKeyAttribute.cs" />
     <Compile Include="DataTransferObject\PrintingTypeDto.cs" />
     <Compile Include="DataTransferObject\ProductsDto.cs" />
+    <Compile Include="DataTransferObject\PromotionCodesDto.cs" />
     <Compile Include="DataTransferObject\ProvinciaDto.cs" />
     <Compile Include="DataTransferObject\CommissionTypeDto.cs" />
     <Compile Include="DataTransferObject\RentingUseDto.cs" />

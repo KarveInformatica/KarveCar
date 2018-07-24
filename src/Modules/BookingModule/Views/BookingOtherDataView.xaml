@@ -1,0 +1,604 @@
+﻿<UserControl x:Class="BookingModule.Views.BookingOtherDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookingModule.Views"
+             xmlns:ExtendedWpf="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:photoframe="clr-namespace:KarveControls.PhotoFrame;assembly=KarveControls"  
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:Prism="http://www.codeplex.com/prism"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1100">
+    <UserControl.Resources>
+        <local:BookingStateConverter x:Key="BookingStateConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Informacion Generales">
+            <ItemsControl x:Name="leftPart" HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch" 
+                                      ItemsSource="{Binding GeneralInfoCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical"
+                                                            VirtualizingStackPanel.VirtualizationMode="Recycling" />
+
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Syncfusion:ButtonAdv  Grid.Column="0"   
+                                                   Background="Transparent" 
+                                                   Height="30" Width="30" ToolTip="Nuevo"
+                                                   SmallIcon="/KarveControls;component/Images/create.png" 
+                                                   Command="{Binding CreateNew}" 
+                                                   CommandParameter="{Binding CreateTag}">
+
+                            </Syncfusion:ButtonAdv>
+                            <karveControls:DualFieldSearchBox Grid.Column="1"
+                                             LabelText ="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                             LabelTextWidth="100"
+                                             DataFieldFirst="{Binding DataField}"
+                                             AssistTableName="{Binding AssistTableName}"
+                                             AssistProperties="{Binding AssistProperties}"
+                                             TextContentFirstWidth="100"
+                                             TextContentSecondWidth="200"
+                                             MagnifierCommand="{Binding AssistCommand, Mode=Default}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
+                                             DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+
+                            </karveControls:DualFieldSearchBox>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+        <GroupBox Header="Rotulo" Grid.Row="1" Margin="0,5,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <photoframe:PhotoFrame Height="250" Grid.Row="0"  Grid.ColumnSpan="2" Grid.RowSpan="2">
+                </photoframe:PhotoFrame>
+
+                <karveControls:DataField Grid.Row="3"
+                                         LabelText="1.Linea"
+                                         LabelTextWidth="60"
+                                         Grid.Column="0"></karveControls:DataField>
+                <karveControls:DataField Grid.Row="4" 
+                                         LabelText="2.Linea"
+                                         LabelTextWidth="60"
+                                         Grid.Column="0"></karveControls:DataField>
+                <karveControls:DataField Grid.Row="5"
+                                         LabelText="3.Linea"
+                                         LabelTextWidth="60"
+                                         Grid.Column="0"></karveControls:DataField>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Impresion" Grid.Row="2" Height="Auto" Margin="0,0,0,32">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Syncfusion:ButtonAdv Grid.Column="3" Grid.RowSpan="2" 
+                                      Command="{Binding PrintCommand, Mode=TwoWay}"
+                                      SmallIcon="/KarveControls;component/Images/largeprint.png"
+                                      Label="Imprimir"></Syncfusion:ButtonAdv>
+                <karveControls:DataFieldCheckBox Content="Para Destino" Grid.Column="0"
+                                                 Grid.Row="0"
+                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 karveControls:ControlExt.DataSourcePath="Value.AUTO_ONEWAY">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                            <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                </karveControls:DataFieldCheckBox>
+                <karveControls:DualFieldSearchBox 
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    LabelText="Idioma" 
+                                                                LabelTextWidth="50" 
+                                                                DataFieldFirst="NACIOPER" 
+                                                                AssistDataFieldFirst="SIGLAS"
+                                                                AssistDataFieldSecond="PAIS" 
+                                                                AssistTableName="PAIS"
+                                                                AssistProperties="Code,CountryName"
+                                                                TextContentFirstWidth="50"
+                                                                TextContentSecondWidth="120"
+                                                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                MagnifierCommand="{Binding AssistCommand}"
+                                                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
+                                                                ButtonImage="{Binding MagnifierButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                </karveControls:DualFieldSearchBox>
+
+                <karveControls:DataFieldCheckBox Content="Para Cliente" Grid.Column="0"
+                                                 Grid.Row="1"
+                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 karveControls:ControlExt.DataSourcePath="Value.AUTO_ONEWAY">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                            <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                </karveControls:DataFieldCheckBox>
+                <karveControls:DualFieldSearchBox 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    LabelText="Texto" 
+                                                                LabelTextWidth="50" 
+                                                                DataFieldFirst="NACIOPER" 
+                                                                AssistDataFieldFirst="SIGLAS"
+                                                                AssistDataFieldSecond="PAIS" 
+                                                                AssistTableName="PAIS"
+                                                                AssistProperties="Code,CountryName"
+                                                                TextContentFirstWidth="50"
+                                                                TextContentSecondWidth="120"
+                                                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                                MagnifierCommand="{Binding AssistCommand}"
+                                                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
+                                                                ButtonImage="{Binding MagnifierButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                </karveControls:DualFieldSearchBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Margin="0,218,0,0" Grid.RowSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Salida Reserva" Grid.Column="0"></Label>
+                <DatePicker Grid.Column="1"
+                            Height="Auto"
+                            karveControls:ControlExt.DataSourcePath="FECHAESPLAZASAL_RES1"
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"></DatePicker>
+                <materialDesign:TimePicker Width="150" Height="40" 
+                                           Grid.Column="2" 
+                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                           karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                           karveControls:ControlExt.DataSourcePath="HORAESPLAZASAL_RES1"
+                                           SelectedTime="{Binding DataObject.HORAESPLAZASAL_RES1}"/>
+
+                <Label Content="Reserva Prevista" Grid.Column="0" Grid.Row="1"></Label>
+                <DatePicker Grid.Column="1" Grid.Row="1"
+                            karveControls:ControlExt.DataSourcePath="FECHAESPLAZA_RES1"
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
+                            ></DatePicker>
+                <materialDesign:TimePicker Width="150" Height="40" 
+                                           Grid.Column="2"
+                                           Grid.Row="1"
+                                           karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                           karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                           karveControls:ControlExt.DataSourcePath="HORAESPLAZA_RES1"
+                                           SelectedTime="{Binding DataObject.HORAESPLAZA_RES1}"/>
+
+                <Button Grid.Column="3" Grid.RowSpan="3" Command="{Binding IncidentLookup}"
+                        CommandParameter="{Binding DataObject}">
+                    <StackPanel>
+                        <TextBlock Text="Incidencias" FontSize="14"></TextBlock>
+                        <Image Source="/KarveControls;component/Images/incident.png"></Image>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.RowSpan="4" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <karveControls:DataArea  
+                                Height="Auto"
+                                Width="Auto"
+                                DataAreaWidth="400"
+                                Margin="5,0,0,0"
+                                DataAreaTitle="Notas Internas" 
+                                LabelVisible="False"
+                                TextContent="{Binding DataObject.NOTAS_INTERNAS, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                karveControls:ControlExt.DataSourcePath="NOTAS_INTERNAS"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                Grid.Row="0">
+
+            </karveControls:DataArea>
+            <karveControls:DataArea  
+                                 Height="Auto"
+                                
+                                DataAreaWidth="400"
+                                DataAreaTitle="Referencia Facturacion" 
+                                LabelVisible="False"
+                                TextContent="{Binding DataObject.REFERE_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                karveControls:ControlExt.DataSourcePath="REFERE_RES1"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                Width="Auto" Grid.Row="1">
+
+            </karveControls:DataArea>
+            <karveControls:DataArea  
+                                Height="Auto" 
+                                DataAreaTitle="Recorrido" 
+                                DataAreaWidth="400"
+                                LabelVisible="False"
+                                TextContent="{Binding DataObject.RECORRIDO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                karveControls:ControlExt.DataSourcePath="NOTAS_INTERNAS"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                Width="Auto" Grid.Row="2">
+
+            </karveControls:DataArea>
+            <GroupBox Header="Codigo Promocion" Grid.Row="3">
+                <DockPanel Grid.Row="0" Grid.Column="0">
+                    <Syncfusion:ButtonAdv  DockPanel.Dock="Left"  Background="Transparent" 
+                                  Height="30" Width="30" ToolTip="Nuevo Codigo"
+                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewCode}"></Syncfusion:ButtonAdv>
+                    <karveControls:DualFieldSearchBox 
+                        DockPanel.Dock="Left"
+                                             LabelVisible="False"
+                                             LabelText="Promociones"
+                                             DataFieldFirst="CODPROMO_RES1"
+                                             AssistTableName="PROMOTION_ASSIST"
+                                             AssistProperties="Code,Name,Discount,StartDatePromo,EndDatePromo"
+                                             TextContentFirstWidth="100"
+                                             TextContentSecondWidth="200"
+                                             MagnifierCommand="{Binding AssistCommand, Mode=Default}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
+                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             SourceView="{Binding PromotionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    </karveControls:DualFieldSearchBox>
+                </DockPanel>
+            </GroupBox>
+            <GroupBox Header="Liquidación Rental Creación" Grid.Row="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15*"></ColumnDefinition>
+                        <ColumnDefinition Width="20*"></ColumnDefinition>
+                        <ColumnDefinition Width="10*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Label Content="Fecha"></Label>
+                        <DatePicker  Margin="20,0,0,0" SelectedDate="{Binding DataObject.FLIQCREARES_RES1, Mode=TwoWay}"
+                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    karveControls:ControlExt.DataSourcePath="FLIQCREARES_RES1">
+
+
+                        </DatePicker>
+
+                    </StackPanel>
+                    <karveControls:DataField Grid.Column="1"
+                                         LabelText="Liquid.Comi."
+                                         LabelTextWidth="80"
+                                         Height="30"
+                                         DataSourcePath="LIQCREARES_RES1"
+                                         DataObject="{Binding DataObject, Mode=TwoWay}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                                         TextContent="{Binding DataObject.LIQCREARES_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                         Watermark="Comision.."
+                                         >
+
+                    </karveControls:DataField>
+                    <karveControls:DataFieldCheckBox Grid.Column="3" 
+                        Margin="10,0,0,0"
+                        Content="No comision" 
+                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        karveControls:ControlExt.DataSourcePath="NOCOMI_LIQCREARES_RES1">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </karveControls:DataFieldCheckBox>
+
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Otros" Grid.Row="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <WrapPanel Grid.Row="0" Grid.RowSpan="2">
+                        <karveControls:DataFieldCheckBox 
+                        Margin="10,0,0,0"
+                        Content="{Binding lauthpending, Source={StaticResource ResourceLanguage}}" 
+                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        karveControls:ControlExt.DataSourcePath="PEND_AUTORIZAR">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </karveControls:DataFieldCheckBox>
+                        <karveControls:DataFieldCheckBox  
+                        Margin="10,0,0,0"
+                        Content="Revisada" 
+                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        karveControls:ControlExt.DataSourcePath="REVISADA_RES2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </karveControls:DataFieldCheckBox>
+                        <karveControls:DataFieldCheckBox  
+                        Margin="10,0,0,0"
+                        Content="Con Opción a Compra" 
+                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        karveControls:ControlExt.DataSourcePath="OPCION_COMPRA_RES1">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </karveControls:DataFieldCheckBox>
+                        <karveControls:DataFieldCheckBox  
+                        Margin="10,0,0,0"
+                        Content="Precontrato" 
+                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        karveControls:ControlExt.DataSourcePath="PRECONTRA_RES2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </karveControls:DataFieldCheckBox>
+                        <karveControls:DataFieldCheckBox  
+                        Margin="10,0,0,0"
+                        Content="C.R.M." 
+                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        karveControls:ControlExt.DataSourcePath="CRM_RES2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                    <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </karveControls:DataFieldCheckBox>
+                    </WrapPanel>
+
+                    <karveControls:DualFieldSearchBox 
+                                             Grid.Row="2"
+                                             LabelText="Proveedor CRM"
+                                             LabelTextWidth="100"
+                                             DataFieldFirst="PROVECRM_RES1"
+                                             AssistTableName="CRM_PROVIDER_ASSIST"
+                                             AssistProperties="Code,Name"
+                                             TextContentFirstWidth="100"
+                                             TextContentSecondWidth="200"
+                                             MagnifierCommand="{Binding AssistCommand, Mode=Default}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
+                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             SourceView="{Binding CrmSupplierDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    </karveControls:DualFieldSearchBox>
+
+                    <karveControls:DataField Grid.Row="3"
+                                         LabelText="PVP+IVA"
+                                         LabelTextWidth="110"
+                                         Height="30"
+                                         Margin="5,0,0,0"
+                                         DataSourcePath="VALORVEHI_RES1"
+                                         DataObject="{Binding DataObject, Mode=TwoWay}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                                         TextContent="{Binding DataObject.VALORVEHI_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                         Watermark="Valor Vehiculo.."
+                                         />
+
+                    <karveControls:DataField Grid.Row="4"
+                                         LabelText="Cesion de Uso"
+                                         LabelTextWidth="110"
+                                         Height="30"
+                                         Margin="5,0,0,0"
+                                         DataSourcePath="REDUCCION_RES1"
+                                         DataObject="{Binding DataObject, Mode=TwoWay}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand, Mode=TwoWay}"
+                                         TextContent="{Binding DataObject.REDUCCION_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                         Watermark="Cesion de Uso..."
+                                         >
+                    </karveControls:DataField>
+                    <karveControls:DualFieldSearchBox 
+                                             x:Name="TerritorialScope"
+                                             Grid.Row="5"
+                                             LabelText="Ámbito Territorial:"
+                                             LabelTextWidth="100"
+                                             DataFieldFirst="AMBITO_RES2"
+                                             AssistTableName="COUNTRY_ASSIST_4"
+                                             AssistProperties="Code,CountryName"
+                                             TextContentFirstWidth="100"
+                                             TextContentSecondWidth="200"
+                                             MagnifierCommand="{Binding AssistCommand, Mode=Default}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
+                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             SourceView="{Binding CountryDto4, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    </karveControls:DualFieldSearchBox>
+                    <karveControls:DataField LabelTextWidth="110" 
+                                             Margin="5,0,0,0"
+                                             DataSourcePath="ABONOKM"
+                                             DataObject="{Binding DataObject, Mode=TwoWay}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay}"
+                                             TextContent="{Binding DataObject.ABONOKM, Mode=TwoWay}"
+                                             LabelText="Abono:"
+                                             Watermark="Abono por Km. no recorrido"
+                                             Grid.Row="6">
+                        
+                    </karveControls:DataField>
+                    <karveControls:DataField  
+                         Margin="5,0,0,0"
+                         LabelText="Cargo/Km: "
+                        Watermark="Cargo por Km. excedido"
+                        DataSourcePath="CARGOKM"
+                        DataObject="{Binding DataObject, Mode=TwoWay}"
+                        TextContent="{Binding DataObject.CARGOKM, Mode=TwoWay}"
+                        ItemChangedCommand="{Binding ItemChangedCommand,Mode=TwoWay}"
+                        LabelTextWidth="110" Grid.Row="7"></karveControls:DataField>
+
+
+
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="6" Header="Estado Reserva" Margin="0,135,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Text="Estado Reserva"/>
+                    <TextBlock Grid.Column="1" Text="Fecha"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="Motivo"></TextBlock>
+                    <TextBlock Grid.Column="3" Text="Usuario"></TextBlock>
+                    <Syncfusion:ComboBoxAdv Grid.Row="1" Grid.Column="0">
+                        <Syncfusion:ComboBoxAdv.SelectedItem>
+                            <MultiBinding Converter="{StaticResource BookingStateConverter}">
+                                <Binding Path="DataObject.RECHAZADA_RES1" />
+                                <Binding Path="DataObject.CONFIRMADA_RES2" />
+                            </MultiBinding>
+                        </Syncfusion:ComboBoxAdv.SelectedItem>
+                        <Syncfusion:ComboBoxItemAdv>
+                            <DataTemplate>
+                                <WrapPanel  Orientation="Horizontal">
+                                    <Image Source="/KarveControls;component/Images/bookingconfirmed.png"></Image>
+                                    <TextBlock Text="Confirmada"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </Syncfusion:ComboBoxItemAdv>
+                        <Syncfusion:ComboBoxItemAdv>
+                            <DataTemplate>
+                                <WrapPanel  Orientation="Horizontal">
+                                    <Image Source="/KarveControls;component/Images/bookingrejected.png"></Image>
+                                    <TextBlock Text="Rechazada"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </Syncfusion:ComboBoxItemAdv>
+                        <Syncfusion:ComboBoxItemAdv Content="No Reserva">
+                        </Syncfusion:ComboBoxItemAdv>
+                    </Syncfusion:ComboBoxAdv>
+                    <DatePicker Grid.Row="1" Grid.Column="1"/>
+                    <karveControls:DualFieldSearchBox 
+                                             x:Name="BookingReason"
+                                             Grid.Column="2"
+                                            Grid.Row="1"
+                                            LabelVisible="False"
+                                             DataFieldFirst="AMBITO_RES2"
+                                             AssistTableName="TERRITORIALSCOPE_ASSIST"
+                                             AssistProperties="Code,Name"
+                                             TextContentFirstWidth="50"
+                                             TextContentSecondWidth="150"
+                                             MagnifierCommand="{Binding AssistCommand, Mode=Default}"
+                                             ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
+                                             DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             SourceView="{Binding PromotionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                    </karveControls:DualFieldSearchBox>
+
+                    <Syncfusion:SfTextBoxExt Grid.Column="3" Grid.Row="1" Width="80"></Syncfusion:SfTextBoxExt>
+                    <WrapPanel Grid.Row="2" Grid.ColumnSpan="4">
+                        <Syncfusion:ButtonAdv Label="Rechazar" 
+                                              Command="{Binding RejectBooking}"
+                                              CommandParameter="{Binding DataObject.NUMERO_RES}"
+                                              SmallIcon="/KarveControls;component/Images/ball_red.png"></Syncfusion:ButtonAdv>
+                        <Syncfusion:ButtonAdv Label="Desrechazar"
+                                              SmallIcon="/KarveControls;component/Images/ball_green.png"
+                                              Command="{Binding RejectBooking}"
+                                              CommandParameter="{Binding DataObject.NUMERO_RES}"
+                                              ></Syncfusion:ButtonAdv>
+                        <Syncfusion:ButtonAdv Label="Confirmar"   
+                                               Command="{Binding ConfirmBooking}"
+                                              CommandParameter="{Binding DataObject.NUMERO_RES}"
+                                              SmallIcon="/KarveControls;component/Images/bt_apply.png">
+                        </Syncfusion:ButtonAdv>
+                        <Syncfusion:ButtonAdv Label="Mail Officina"
+                                               Command="{Binding MailOffice}"
+                                              SmallIcon="/KarveControls;component/Images/email.png"
+                                              CommandParameter="{Binding DataObject.NUMERO_RES}"
+                                              ></Syncfusion:ButtonAdv>
+                        <Syncfusion:ButtonAdv Label="Mail Client"                                               
+                                              Command="{Binding MailClient}"
+                                              SmallIcon="/KarveControls;component/Images/email.png"
+                                              CommandParameter="{Binding DataObject.NUMERO_RES}"
+ ></Syncfusion:ButtonAdv>
+                        <Syncfusion:ButtonAdv Label="Proforma"                                               
+                                              Command="{Binding MailProforma}"
+                                              SmallIcon="/KarveControls;component/Images/email.png"
+                                              CommandParameter="{Binding DataObject.NUMERO_RES}"
+ ></Syncfusion:ButtonAdv>
+                    </WrapPanel>
+                    <karveControls:DataArea Grid.Row="3" 
+                                            DataAreaWidth="400"
+                                            Height="Auto"
+                                            DataAreaTitle="Observaciones"
+                                            Grid.Column="0" Grid.ColumnSpan="4" 
+                                            HorizontalAlignment="Left" Margin="4,4,-1,4" Width="537"></karveControls:DataArea>
+                </Grid>
+
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>

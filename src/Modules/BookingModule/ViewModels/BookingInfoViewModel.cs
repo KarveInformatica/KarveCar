@@ -56,7 +56,7 @@ namespace BookingModule.ViewModels
             _karveNavigator = karveNavigator;
             _container = container;
             _regionManager = regionManager;
-            DefaultPageSize = 200;
+            DefaultPageSize = 100;
 
             // this shall be at the configuration service
             BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
@@ -69,7 +69,7 @@ namespace BookingModule.ViewModels
             LineVisible = true;
             FooterVisible = false;
             _selectedIndex = 0;
-          
+
         }
         #region CommonProperties
         /// <summary>
@@ -260,7 +260,8 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or get the budget dto.
         /// </summary>
-        public IEnumerable<BudgetSummaryDto> BudgetDto {
+        public IEnumerable<BudgetSummaryDto> BudgetDto
+        {
             get
             {
                 return _budgetDto;
@@ -410,7 +411,8 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  The second driver.
         /// </summary>
-        public IEnumerable<ClientSummaryExtended> DriverDto2 {
+        public IEnumerable<ClientSummaryExtended> DriverDto2
+        {
             get
             {
                 return _drivers2;
@@ -421,6 +423,51 @@ namespace BookingModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        ///  The second driver.
+        /// </summary>
+        public IEnumerable<ClientSummaryExtended> DriverDto3
+        {
+            get
+            {
+                return _drivers3;
+            }
+            set
+            {
+                _drivers3 = value;
+                RaisePropertyChanged();
+            }
+        }
+        // the third driver
+        public IEnumerable<ClientSummaryExtended> DriverDto4
+        {
+            get
+            {
+                return _drivers4;
+            }
+            set
+            {
+                _drivers4 = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  the forth driver.
+        /// </summary>
+        public IEnumerable<ClientSummaryExtended> DriverDto5
+        {
+            get
+            {
+                return _drivers5;
+            }
+            set
+            {
+                _drivers5 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public ICommand ShowBookingConcept
         {
             get => _bookingConcept;
@@ -444,24 +491,12 @@ namespace BookingModule.ViewModels
             }
         }
 
-        /// <summary>
-        ///  The driver.
-        /// </summary>
-        public IEnumerable<ClientSummaryExtended> DriverDto3 {
-            get
-            {
-                return _drivers3;
-            }
-            set
-            {
-                _drivers3 = value;
-                RaisePropertyChanged();
-            }
-        }
+
         /// <summary>
         ///  ConceptDto. 
         /// </summary>
-        public IEnumerable<FareConceptDto> ConceptDto {
+        public IEnumerable<FareConceptDto> ConceptDto
+        {
             get
             {
                 return _concepts;
@@ -595,6 +630,8 @@ namespace BookingModule.ViewModels
             }
 
         }
+
+
         /// <summary>
         ///  This loads more client
         /// </summary>
@@ -677,7 +714,8 @@ namespace BookingModule.ViewModels
             {
                 return _creditCardView;
             }
-            set {
+            set
+            {
                 _creditCardView = value;
                 RaisePropertyChanged();
             }
@@ -685,7 +723,8 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or Get the country
         /// </summary>
-        public IEnumerable<CountryDto> CountryDto {
+        public IEnumerable<CountryDto> CountryDto
+        {
             get
             {
                 return _country;
@@ -810,7 +849,7 @@ namespace BookingModule.ViewModels
             ReservationOffice = FetchOffices();
         }
 
-       
+
 
         private void OnCreateNewBroker(object obj)
         {
@@ -1085,7 +1124,7 @@ namespace BookingModule.ViewModels
 
         }
 
-        
+
         /// <summary>
         ///  Get the name of the route.
         /// </summary>
@@ -1130,6 +1169,11 @@ namespace BookingModule.ViewModels
             Contract.Requires(payload != null);
             Contract.Requires(payload.DataObject != null, "Null Data Object");
             if (!payload.HasDataObject) return;
+            // already initialized.
+            if (_bookingData != null)
+            {
+                return;
+            }
             if (payload.DataObject is IBookingData data)
             {
                 _bookingData = data;
@@ -1144,16 +1188,18 @@ namespace BookingModule.ViewModels
                         {
                             var dataObject = data.Value;
                             PrimaryKeyValue = dataObject.NUMERO_RES;
-                            SourceView = new IncrementalList<BookingItemsDto>((uint x, int y)=> { }) { MaxItemCount = dataObject.Items.Count() };
+                            SourceView = new IncrementalList<BookingItemsDto>((uint x, int y) => { }) { MaxItemCount = dataObject.Items.Count() };
                             SourceView.LoadItems(dataObject.Items);
                             break;
                         }
 
                 }
+                GeneralInfoCollection = SetDataObject(data.Value, _generalInfoCollection);
                 DataObject = data.Value;
                 // register the view model.
                 ActiveSubSystem();
                 OperationalState = payload.PayloadType;
+                GeneralInfoCollection = _generalInfoCollection;
             }
         }
         private void LoadMoreItems(uint arg1, int arg2)
@@ -1211,6 +1257,12 @@ namespace BookingModule.ViewModels
             {
                 string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
                 string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
+                //special case of booking contacts.
+                if ((assistTableName == "BOOKING_CONTACTO_ASSIST") && (DataObject != null))
+                {
+                    // ok in this cse we use the client.
+                    assistQuery = DataObject.CLIENTE_RES1;
+                }
                 this.AssistNotifierInitialized = NotifyTaskCompletion.Create<bool>(AssistQueryRequestHandler(assistTableName, assistQuery), (sender, ev) =>
                 {
                     if (sender is INotifyTaskCompletion<bool> task)
@@ -1218,7 +1270,7 @@ namespace BookingModule.ViewModels
                         notified = true;
                         if (task.IsFaulted)
                         {
-                            DialogService?.ShowErrorMessage("Assist Failed");
+                            DialogService?.ShowErrorMessage("Assist Failed for the following reason :" + task.ErrorMessage);
                         }
                     }
                 });
@@ -1250,61 +1302,70 @@ namespace BookingModule.ViewModels
                 DialogService?.ShowErrorMessage("Assist not configured in the system");
                 return false;
             }
-            if (collectionValue == null) 
+            if (collectionValue == null)
             {
                 return false;
             }
             switch (assistTableName)
             {
-                case "CITY_ASSIST":
-                {
-                  CityDto = (IEnumerable<CityDto>)collectionValue;
-                  break;
-                }
-                case "COUNTRY_ASSIST":
-                {
-                   CountryDto = (IEnumerable<CountryDto>)collectionValue;
-                   break;
-                }
-                case "COUNTRY2_ASSIST":
-                {
-                    Country2Dto = (IEnumerable<CountryDto>)collectionValue;
-                    break;
-                }
-                case "DRIVER_PROV":
-                {
-
-                    ProvinceDto3 = (IEnumerable<ProvinciaDto>)collectionValue;
-                    break;
-                }
-                case "CREDIT_CARD_ASSIST":
-                {
-                    CreditCardView = (IEnumerable<CreditCardDto>)collectionValue;
-                    break;
-                }
-                case "DRIVER_COUNTRY":
-                {
-                    CountryDto3 = (IEnumerable<CountryDto>) collectionValue;
-                    break;
-                }
-                case "OFFICE_ASSIST":
-                {
-                  OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
-                  break;
-                }
-                case "OFICINA1":
-                {
-                  ReservationOfficeDeparture = (IEnumerable<OfficeDtos>)collectionValue;
-                  break;
-                }
-                case "OFICINA2":
-                {
-                  ReservationOfficeArrival = (IEnumerable<OfficeDtos>)collectionValue;
-                  break;
-                }
+                case "ACTIVE_FARE_ASSIST":
+                    {
+                        ActiveFareDto = collectionValue as IEnumerable<ActiveFareDto>;
+                        break;
+                    }
+                case "BOOKING_FCOBRO_ASSIST":
+                    {
+                        BookingPaymentFormDto = collectionValue as IEnumerable<PaymentFormDto>;
+                        break;
+                    }
+                case "BOOKING_CONTRATIPIMPR_ASSIST":
+                    {
+                        PrintingTypeDto = collectionValue as IEnumerable<PrintingTypeDto>;
+                        break;
+                    }
+                case "BOOKING_ACTIVEHI_RES1_ASSIST":
+                    {
+                        BookingVehicleActivity = collectionValue as IEnumerable<VehicleActivitiesDto>;
+                        break;
+                    }
+                case "BROKER_ASSIST":
+                    {
+                        BrokerDto = (IEnumerable<CommissionAgentSummaryDto>)collectionValue;
+                        break;
+                    }
+                case "BOOKING_CONTACTO_ASSIST":
+                    {
+                        BookingContacts = collectionValue as IEnumerable<ContactsDto>;
+                        break;
+                    }
+                case "BOOKING_ORIGIN_ASSIST":
+                    {
+                        BookingOrigen = collectionValue as IEnumerable<OrigenDto>;
+                        break;
+                    }
+                case "BOOKING_MEDIO_ASSIST":
+                    {
+                        BookingMedia = collectionValue as IEnumerable<BookingMediaDto>;
+                        break;
+                    }
+                case "BOOKING_TYPE_ASSIST":
+                    {
+                        BookingType = collectionValue as IEnumerable<BookingTypeDto>;
+                        break;
+                    }
                 case "BUDGET_ASSIST":
                     {
                         BudgetDto = (IEnumerable<BudgetSummaryDto>)collectionValue;
+                        break;
+                    }
+                case "CITY_ASSIST":
+                    {
+                        CityDto = (IEnumerable<CityDto>)collectionValue;
+                        break;
+                    }
+                case "CITY_ASSIST_2":
+                    {
+                        SecondDriverCityDto = (IEnumerable<CityDto>)collectionValue;
                         break;
                     }
                 case "CLIENT_ASSIST":
@@ -1313,14 +1374,50 @@ namespace BookingModule.ViewModels
                         ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
-                case "FARE_ASSIST":
+                case "CONTRACT_CLIENT_ASSIST":
                     {
-                        FareDto = (IEnumerable<FareDto>)collectionValue;
+                        ContractByClientDto = collectionValue as IEnumerable<ContractByClientDto>;
                         break;
                     }
-                case "VEHICLE_ASSIST":
+                case "COUNTRY_ASSIST":
                     {
-                        VehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
+                        CountryDto = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                    }
+                case "COUNTRY_ASSIST_2":
+                    {
+                        Country2Dto = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                    }
+                case "COUNTRY_ASSIST_3":
+                    {
+                        SecondDriverCountryDto = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                    }
+                case "COUNTRY_ASSIST_4":
+                    {
+                        CountryDto4 = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                    }
+                case "PAIS":
+                    {
+                        Country = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                    }
+                case "CREDIT_CARD_ASSIST":
+                    {
+                        CreditCardView = (IEnumerable<CreditCardDto>)collectionValue;
+                        break;
+                    }
+                case "CRM_PROVIDER_ASSIST":
+                    {
+                        CrmSupplierDto = (IEnumerable<SupplierSummaryDto>)collectionValue;
+                        break;
+                    }
+                case "DRIVER_PROV":
+                    {
+
+                        ProvinceDto3 = (IEnumerable<ProvinciaDto>)collectionValue;
                         break;
                     }
                 case "DRIVER_ASSIST_1":
@@ -1337,11 +1434,30 @@ namespace BookingModule.ViewModels
                     {
                         DriverDto3 = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
-                  
+                    }
+                case "DRIVER_ASSIST_4":
+                    {
+                        DriverDto4 = (IEnumerable<ClientSummaryExtended>)collectionValue;
+                        break;
+                    }
+                case "DRIVER_ASSIST_5":
+                    {
+                        DriverDto5 = (IEnumerable<ClientSummaryExtended>)collectionValue;
+                        break;
                     }
                 case "DRIVER_CITY":
                     {
                         CityDto3 = (IEnumerable<CityDto>)collectionValue;
+                        break;
+                    }
+                case "DRIVER_COUNTRY":
+                    {
+                        CountryDto3 = (IEnumerable<CountryDto>)collectionValue;
+                        break;
+                    }
+                case "FARE_ASSIST":
+                    {
+                        FareDto = (IEnumerable<FareDto>)collectionValue;
                         break;
                     }
                 case "FARE_CONCEPT_ASSIST":
@@ -1349,10 +1465,34 @@ namespace BookingModule.ViewModels
                         ConceptDto = (IEnumerable<FareConceptDto>)collectionValue;
                         break;
                     }
-                case "BROKER_ASSIST":
+                case "EMPLEAGE_ASSIST":
                     {
-
-                        BrokerDto = (IEnumerable<CommissionAgentSummaryDto>)collectionValue;
+                        BookingAgencyEmployee = collectionValue as IEnumerable<AgencyEmployeeDto>;
+                        break;
+                    }
+                case "OFICINA1":
+                    {
+                        ReservationOfficeDeparture = (IEnumerable<OfficeDtos>)collectionValue;
+                        break;
+                    }
+                case "OFICINA2":
+                    {
+                        ReservationOfficeArrival = (IEnumerable<OfficeDtos>)collectionValue;
+                        break;
+                    }
+                case "OFFICE_ASSIST":
+                    {
+                        OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        break;
+                    }
+                case "PROMOTION_ASSIST":
+                    {
+                        PromotionDto = (IEnumerable<PromotionCodesDto>)collectionValue;
+                        break;
+                    }
+                case "PROVINCE_ASSIST_2":
+                    {
+                        SecondDriverProvinceDto = (IEnumerable<ProvinciaDto>)collectionValue;
                         break;
                     }
                 case "VEHICLE_GROUP_ASSIST":
@@ -1360,21 +1500,15 @@ namespace BookingModule.ViewModels
                         VehicleGroupDto = (IEnumerable<VehicleGroupDto>)collectionValue;
                         break;
                     }
-                case "ACTIVE_FARE_ASSIST":
+                case "VEHICLE_ASSIST":
                     {
-                        ActiveFareDto = collectionValue as IEnumerable<ActiveFareDto>;
-                        break;
-                    }
-                case "CONTRACT_CLIENT_ASSIST":
-                    {
-                        ContractByClientDto = collectionValue as IEnumerable<ContractByClientDto>;
+                        VehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
                         break;
                     }
                 default:
                     {
-                        throw new ArgumentException("In the assist you neeed simply a valid tag");
+                        throw new ArgumentException("In the assist you need simply a valid tag");
                     }
-
             }
             return true;
         }
@@ -1421,30 +1555,86 @@ namespace BookingModule.ViewModels
             Contract.Ensures(BrokerDto.Count() == 0);
             Contract.Ensures(VehicleGroupDto.Count() == 0);
             Contract.Ensures(ActiveFareDto.Count() == 0);
-
         }
         #endregion
 
-        private IEnumerable<BookingItemsDto> _dataItems;
-        private ObservableCollection<CellPresenterItem> _cellGridPresentation;
-        private IRegionManager _otherDataRegionManager;
-        private IRegionManager _showDriversRegionManager;
-        private IConfigurationService _configurationService;
-        private IUserSettings _userSettings;
-        private string _gridColumnsKey;
-        private string _gridDriverColumnsKey;
-        private IBookingData _bookingData;
-        private BookingDto _bookingDtoValue;
-        private IBookingDataService _bookingDataService;
-        private readonly IUnityContainer _container;
-        private readonly IRegionManager _regionManager;
-        private IAssistDataService _assistDataService;
-        private PropertyChangedEventHandler _clientHandler;
-
-        private string _driverCreditCardExpireYear;
-        private string _driverCreditCardExpireMonth;
-
         public string BrokerGridColumns { get; private set; }
+
+        /// <summary>
+        ///  Second driver city
+        /// </summary>
+        public IEnumerable<CityDto> SecondDriverCityDto
+        {
+            get { return _secondCityDriver; }
+            set
+            {
+                _secondCityDriver = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<ProvinciaDto> SecondDriverProvinceDto
+        {
+            get { return _secondProvinceDriver; }
+            set
+            {
+                _secondProvinceDriver = value;
+                RaisePropertyChanged();
+            }
+        }
+        public IEnumerable<CountryDto> SecondDriverCountryDto
+        {
+            get
+            {
+                return _secondDriverCountry;
+            }
+            set
+            {
+                _secondDriverCountry = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<SupplierSummaryDto> CrmSupplierDto {
+            get
+            {
+                return _crmSupplierDto;
+            }
+            set
+            {
+                _crmSupplierDto = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<CountryDto> CountryDto4
+        {
+          get
+          {
+                return _countryDto4;
+          }
+          set
+          {
+                _countryDto4 = value;
+                RaisePropertyChanged();
+          }
+        }
+
+        public IEnumerable<PromotionCodesDto> PromotionDto
+        {
+            get { return _promotionDto;  }
+            set { _promotionDto = value; RaisePropertyChanged(); }
+
+        }
+
+        public IEnumerable<CountryDto> Country
+        {
+            get {
+                return _countryDto6;
+            }
+            set { _countryDto6 = value; RaisePropertyChanged();
+            }
+        }
 
         private IncrementalList<ClientSummaryExtended> _bookingClientsIncrementalList;
         private ICommand _newCommand;
@@ -1452,11 +1642,9 @@ namespace BookingModule.ViewModels
         private DelegateCommand<object> _deleteCommand;
         private ViewDeleter<IBookingData, BookingDto> _viewDeleter;
         private IKarveNavigator _karveNavigator;
-        private ICommand  _bookingConcept;
+        private ICommand _bookingConcept;
         private ICommand _newBookingCommand;
-        
         private ObservableCollection<OfficeDtos> _reservationOffice;
-
         private IEnumerable<BudgetSummaryDto> _budgetDto;
         private IEnumerable<FareConceptDto> _concepts;
         private IEnumerable<FareDto> _fare;
@@ -1480,5 +1668,31 @@ namespace BookingModule.ViewModels
         private IEnumerable<CountryDto> _country2;
         private IEnumerable<CreditCardDto> _creditCardView;
         private int _selectedIndex;
+        private IEnumerable<ClientSummaryExtended> _drivers4;
+        private IEnumerable<ClientSummaryExtended> _drivers5;
+        private IEnumerable<CityDto> _secondCityDriver;
+        private IEnumerable<ProvinciaDto> _secondProvinceDriver;
+        private IEnumerable<CountryDto> _secondDriverCountry;
+        private IEnumerable<BookingItemsDto> _dataItems;
+        private ObservableCollection<CellPresenterItem> _cellGridPresentation;
+        private IRegionManager _otherDataRegionManager;
+        private IRegionManager _showDriversRegionManager;
+        private IConfigurationService _configurationService;
+        private IUserSettings _userSettings;
+        private string _gridColumnsKey;
+        private string _gridDriverColumnsKey;
+        private IBookingData _bookingData;
+        private BookingDto _bookingDtoValue;
+        private IBookingDataService _bookingDataService;
+        private readonly IUnityContainer _container;
+        private readonly IRegionManager _regionManager;
+        private IAssistDataService _assistDataService;
+        private PropertyChangedEventHandler _clientHandler;
+        private string _driverCreditCardExpireYear;
+        private string _driverCreditCardExpireMonth;
+        private IEnumerable<SupplierSummaryDto> _crmSupplierDto;
+        private IEnumerable<CountryDto> _countryDto4;
+        private IEnumerable<PromotionCodesDto> _promotionDto;
+        private IEnumerable<CountryDto> _countryDto6;
     }
 }

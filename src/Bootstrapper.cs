@@ -206,8 +206,14 @@ namespace KarveCar.Boot
                 //  Container.Resolve<ClientsInfoView>();
                 //  Container.Resolve<VehicleInfoView>();
                 //  Container.Resolve<DriverLicenseView>();
-               //   Container.Resolve<BookingModule.Views.BookingInfoView>();
-
+                   Container.Resolve<BookingModule.Views.BookingInfoView>();
+                   Container.Resolve<KarveControls.HeaderedWindow.LineGridView>();
+                   Container.Resolve<BookingModule.Views.BookingFooterView>();
+                /* 
+                 * Resolve the view model. Kind of view model first approach. We can use a LineGridView 
+                 * for every kind of subject and for the specific.
+                 *  This allows the reuse better than view.
+                 */
                 IMapper mapper = MapperField.GetMapper();
             } catch (Exception e)
             {

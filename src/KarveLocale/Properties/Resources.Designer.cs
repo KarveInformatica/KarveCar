@@ -727,6 +727,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Empleado Ag..
+        /// </summary>
+        public static string lagencyemployee {
+            get {
+                return ResourceManager.GetString("lagencyemployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Agente Vehiculo.
         /// </summary>
         public static string lagentevehiculo {
@@ -889,6 +898,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Medio.
+        /// </summary>
+        public static string lbookingmedia {
+            get {
+                return ResourceManager.GetString("lbookingmedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Numero Reserva.
         /// </summary>
         public static string lbookingnumber {
@@ -912,6 +930,15 @@ namespace KarveLocale.Properties {
         public static string lbookingRequests {
             get {
                 return ResourceManager.GetString("lbookingRequests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo Reserva.
+        /// </summary>
+        public static string lbookingtype {
+            get {
+                return ResourceManager.GetString("lbookingtype", resourceCulture);
             }
         }
         
@@ -2563,7 +2590,7 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mr..
+        ///   Looks up a localized string similar to Señor.
         /// </summary>
         public static string lmr {
             get {
@@ -3090,6 +3117,15 @@ namespace KarveLocale.Properties {
         public static string lprimerdiaenflota {
             get {
                 return ResourceManager.GetString("lprimerdiaenflota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tipo de Impreso.
+        /// </summary>
+        public static string lprintingtype {
+            get {
+                return ResourceManager.GetString("lprintingtype", resourceCulture);
             }
         }
         
@@ -6753,6 +6789,15 @@ namespace KarveLocale.Properties {
         public static string lvehiclebuying {
             get {
                 return ResourceManager.GetString("lvehiclebuying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehiculos.
+        /// </summary>
+        public static string lvehicles {
+            get {
+                return ResourceManager.GetString("lvehicles", resourceCulture);
             }
         }
         

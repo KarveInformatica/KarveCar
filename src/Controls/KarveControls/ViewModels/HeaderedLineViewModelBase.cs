@@ -230,12 +230,19 @@ namespace KarveControls.ViewModels
             {
                 return;
             }
+            if (dataObject == null)
+            {
+                return;
+            }
             var evDictionary = eventDictionary as IDictionary<string, object>;
             var changedDataObject = evDictionary["DataObject"] as DtoType;
+
+
             var payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = subSystem;
             payLoad.SubsystemName = subsystemName;
             var data = dataObject;
+
             /*
              * when we change one line.
              * 1. Update the object

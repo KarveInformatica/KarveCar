@@ -2605,4 +2605,10 @@
   <data name="lmr" xml:space="preserve">
     <value>Mr.</value>
   </data>
+  <data name="lbookingmedia" xml:space="preserve">
+    <value>Booking Media</value>
+  </data>
+  <data name="lbookingtype" xml:space="preserve">
+    <value>Booking Type</value>
+  </data>
 </root>

@@ -2658,4 +2658,16 @@
   <data name="lauthpending" xml:space="preserve">
     <value>Pendiente de Autorizar</value>
   </data>
+  <data name="lbookingmedia" xml:space="preserve">
+    <value>Medio</value>
+  </data>
+  <data name="lbookingtype" xml:space="preserve">
+    <value>Tipo de Reserva</value>
+  </data>
+  <data name="lagencyemployee" xml:space="preserve">
+    <value>Empleado Ag.</value>
+  </data>
+  <data name="lvehicles" xml:space="preserve">
+    <value>Vehiculos</value>
+  </data>
 </root>
