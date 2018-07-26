@@ -26,9 +26,9 @@ namespace KarveDataServices
         /// <summary>
         /// Save or update an invoice
         /// </summary>
-        /// <param name="bookingData">Data to book</param>
+        /// <param name="data">Data to book</param>
         /// <returns></returns>
-        Task<bool> SaveAsync(DomainType bookingData);
+        Task<bool> SaveAsync(DomainType data);
         /// <summary>
         /// Generate a new domain type given an unique identifier.
         /// </summary>
@@ -40,7 +40,7 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="booking">Booking data</param>
         /// <returns>Delete the booking values</returns>
-        Task<bool> DeleteAsync(DomainType booking);
+        Task<bool> DeleteAsync(DomainType data);
         /// <summary>
         /// Load the paged summary asynchronously.
         /// </summary>

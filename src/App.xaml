@@ -114,7 +114,7 @@
                 <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
-
+    
             <!--
             <converter:MultiCommandParameterConverter x:Key="multiCommandParameterConverter"/>
             <converter:NullByteConverter     x:Key="nullByteConverter"/>

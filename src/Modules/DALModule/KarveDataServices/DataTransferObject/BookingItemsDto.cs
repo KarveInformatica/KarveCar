@@ -29,13 +29,14 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the CONCEPTO property.
         /// </summary>
-       
+        [Display(Name = "Concepto")]
+
         public Int32 Concept { get; set; }
         ///  [Display(Name = "Contracto", Description = "Codigo de Contracto")]
         /// <summary>
         ///  Set or get the DESCCON property.
         /// </summary>
-        [Display(Name = "Concepto")]
+        [Display(Name = "Descuento")]
         public string Desccon{ get; set; }
 
 

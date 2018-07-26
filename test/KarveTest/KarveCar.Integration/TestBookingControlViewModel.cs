@@ -13,9 +13,9 @@ namespace KarveCar.Integration
 
        [Test]
        public void WhenIntegratedShouldRegisterSubSystem()
-        {
+       {
 
-        }
+       }
         [Test]
         public void WhenIntegratedShouldAnswerCommand()
         {

@@ -32,7 +32,7 @@ class BaseGenerator(object):
 
 class DalGenerator(BaseGenerator):
     """
-     Data access layer generator that allows us to write the code for a given entity to be loaded 
+     Data access layer generator that allows us to write the code for a given entity to be loaded
       and its helpers tables that are needed for working correctly.
     """
     def __init__(self, domainName, tablename, summaryQueryName, auxQueries, auxResultQueries):
@@ -52,16 +52,16 @@ class DalGenerator(BaseGenerator):
         self.__auxQueries = auxQueries
         self.__auxResultQueries = auxResultQueries
 
-    def render(self):
+    def render(self, output='output'):
         """
            Resolve the input variables and create a DataAccessLayer csharp file for doing load/store.
         """
         template = Template(super().contentValue)
         dalgeneration = DalData(self.__domainName, self.__tableName, self.__summaryQueryName, self.__auxQueries, self.__auxResultQueries)
         outstring= template.render(data = dalgeneration)
-        currentOutput = os.path.join(os.getcwd(), 'output')
+        currentOutput = os.path.join(os.getcwd(), output)
         if ( not os.path.exists(currentOutput)):
-                os.makedirs(os.path.join(os.getcwd(), 'output'))
+                os.makedirs(os.path.join(os.getcwd(), output))
         # here we are sure that the dir exists
         self.writeFile(currentOutput, self.__domainName, "DataAccessLayer.cs", outstring)
 
@@ -93,10 +93,10 @@ class SummaryViewGenerator(BaseGenerator):
         if ( not os.path.exists(currentOutput)):
                 os.makedirs(os.path.join(os.getcwd(), 'output'))
         self.writeFile(currentOutput, self.data.name, "ControlViewModel.cs", outstring)
- 
+
 class InfoViewGenerator(SummaryViewGenerator):
        """
-          Generate a InfoViewModel for a given domain element. 
+          Generate a InfoViewModel for a given domain element.
        """
        def render(self):
         template = Template(super().contentValue)
@@ -105,9 +105,9 @@ class InfoViewGenerator(SummaryViewGenerator):
         if ( not os.path.exists(currentOutput)):
                 os.makedirs(os.path.join(os.getcwd(), 'output'))
         self.writeFile(currentOutput, self.data.name, "InfoViewModel.cs", outstring)
-   
+
 class SummaryDtoGenerator(BaseGenerator):
-    """ 
+    """
     SummaryDtoGenerator. It creates the transfer object for the summary info view model.
     """
     def __init():
@@ -136,9 +136,9 @@ class SummaryDtoGenerator(BaseGenerator):
         # here we are sure that the dir exists
 
         self.writeFile(currentOutput, self.data.name, "SummaryDto.cs", outstring)
- 
+
 class ControlViewGenerator(BaseGenerator):
-    """ 
+    """
     ControlViewGenerator. It creates the control view.
     """
     def __init():
@@ -166,4 +166,3 @@ class ControlViewGenerator(BaseGenerator):
                 os.makedirs(os.path.join(os.getcwd(), 'output'))
         # here we are sure that the dir exists
         self.writeFile(currentOutput, self.data.name, "ControlView.xml", outstring)
-  

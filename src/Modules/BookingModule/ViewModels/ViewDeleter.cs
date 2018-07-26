@@ -62,19 +62,16 @@ namespace BookingModule.ViewModels
             NotifyTaskCompletion.Create(DeleteAsync(payLoad),
                 (sender, args) =>
                 {
-
                     if (sender is INotifyTaskCompletion<bool> taskCompletion)
                     {
                         if (taskCompletion.IsFaulted)
                         {
-                            _dialogService?.ShowErrorMessage("Error during aving: " + taskCompletion.ErrorMessage);
                             isDeleted = false;
-                        }
-
+                            _dialogService?.ShowErrorMessage(taskCompletion.ErrorMessage);
+                        }    
                         if (taskCompletion.IsSuccessfullyCompleted)
                         {
-                            _dialogService?.ShowMessage("View deletion","View deleted with success");
-                            isDeleted = true;
+                            isDeleted = taskCompletion.Result;
                         }
                     }
                 });

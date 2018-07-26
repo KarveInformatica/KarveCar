@@ -159,6 +159,21 @@ namespace ToolBarModule
             _uniqueId = ObserverName + Guid.NewGuid();
         }
 
+        private bool IsCommandBaseOnly(ref Uri viewModelUri)
+        {
+            var activeView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+            if (activeView is UserControl control)
+            {
+                if (control.DataContext is KarveViewModelBase baseViewModel)
+                {
+                    viewModelUri = baseViewModel.ViewModelUri;
+                    return baseViewModel.CompositeCommandOnly;
+                }
+
+            }
+            return false;
+        }
+
         private void DoDeleteCommand(object key)
         {
             var value = key as string;
@@ -189,10 +204,23 @@ namespace ToolBarModule
                     {
                         baseViewModel.DeleteView(value);
                         // he destroy himself and communicate the stuff.
-                        // no more work is needed. I love suicide. It feeds the rich while it buries the poor.
+                        // no more work is needed.
                         return;
                     }
+
+
                 }
+            }
+            /* 
+             * let's see if i am command base and i can still suicide me:
+             * 1. If it is me.
+             * 2. If my primary key is ok.
+             */
+            Uri uri = null;
+            if (IsCommandBaseOnly(ref uri))
+            {
+                DoDeleteHimSelf(value, uri);
+                return;
             }
             /* I am not lucky. Nobody destroys himself.
             *  On the top of the tsack it should be the last ctrated let's try to send a delete message to him.
@@ -209,6 +237,20 @@ namespace ToolBarModule
             // The baby to kill is the active window for sure we have a controller or himself.
             DeliverIncomingNotify(_activeSubSystem, payLoad);
 
+        }
+
+        private bool DoDeleteHimSelf(string value, Uri uri)
+        {
+            Tuple<string, Uri> deleteInfo = new Tuple<string, Uri>( value, uri );
+            if (_compositeDeleteCommand.RegisteredCommands.Count() > 0)
+            {
+                if (_compositeDeleteCommand.CanExecute(deleteInfo))
+                {
+                    _compositeDeleteCommand.Execute(deleteInfo);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void AddValidationChain()
@@ -250,11 +292,16 @@ namespace ToolBarModule
                 }
             }
             // one user that uses the command registration shall not use any new notification. 
-            DoNewAll();
-
+            Uri uri = null;
+            if (IsCommandBaseOnly(ref uri))
+            {
+                DoNewAll(uri);
+            }
+            else
+            {
+                DeliverIncomingNotify(_activeSubSystem, payLoad);
+            }
             _states = ToolbarStates.Insert;
-
-            DeliverIncomingNotify(_activeSubSystem, payLoad);
 
         }
         /// <summary>
@@ -346,11 +393,11 @@ namespace ToolBarModule
             return true;
 
         }
-        private void ExecuteCommand(DataPayLoad payLoad)
+        private bool ExecuteCommand(DataPayLoad payLoad)
         {
             if (payLoad == null)
             {
-                return;
+                return false;
             }
 
             var insertDataCommand = new InsertDataCommand(this._dataServices,
@@ -372,7 +419,7 @@ namespace ToolBarModule
                 {
                     this.CurrentSaveImagePath = currentSaveImageModified;
                     _careKeeper.DeleteItems(payLoad.ObjectPath);
-                    return;
+                    return false;
 
                 }
             }
@@ -398,49 +445,73 @@ namespace ToolBarModule
                 // we deliver directly to the controller of the subsystem
                 DeliverIncomingNotify(payLoad.Subsystem, payLoad);
             }
+            return true;
         }
-        private void DoNewAll()
+        /// <summary>
+        ///  i create if it is my me
+        /// </summary>
+        /// <param name="uri">Active view uri</param>
+        private void DoNewAll(Uri uri)
         {
             if (_compositeNewCommand.RegisteredCommands.Count() > 0)
             {
                 if (_compositeNewCommand.CanExecute(null))
                 {
-                    _compositeNewCommand.Execute(null);
+                    _compositeNewCommand.Execute(uri);
                 }
             }
         }
-        private bool DoSaveHimself()
+        private bool DoSaveHimself(DataPayLoad payload = null)
         {
             // ok then 
             if (_compositeSaveCommand.RegisteredCommands.Count() > 0)
             {
-                if (_compositeSaveCommand.CanExecute(null))
+                if (_compositeSaveCommand.CanExecute(payload))
                 {
-                    _compositeSaveCommand.Execute(null);
+                    _compositeSaveCommand.Execute(payload);
                 }
                 return true;
             }
             return false;
         }
-        private void DoSaveCommand()
+        private bool SaveAll(Func<DataPayLoad, bool> saveFunc)
         {
-            if (!this.IsSaveEnabled)
-            {
-                return;
-            }
             var payLoad = _careKeeper.GetScheduledPayload();
+            var retValue = true;
             if (payLoad != null)
             {
                 while (payLoad.Count > 0)
                 {
                     var currentItem = payLoad.Peek();
-                    ExecuteCommand(currentItem);
+                    retValue &= saveFunc(currentItem);
                 }
             }
-            DoSaveHimself();
+            return retValue;
+        }
+     
+        private void DoSaveCommand()
+        {
+            bool retValue = false;
 
-            this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
-            this.IsSaveEnabled = false;
+            if (!this.IsSaveEnabled)
+            {
+                return;
+            }
+            Uri uri = null;
+            if (IsCommandBaseOnly(ref uri))
+            {
+                //i know which is my state.
+                retValue = DoSaveHimself();
+            }
+            else
+            {
+                retValue = SaveAll(ExecuteCommand);
+            }
+            if (retValue)
+            {
+                this.CurrentSaveImagePath = KarveToolBarViewModel.currentSaveImage;
+                this.IsSaveEnabled = false;
+            }
         }
 
 

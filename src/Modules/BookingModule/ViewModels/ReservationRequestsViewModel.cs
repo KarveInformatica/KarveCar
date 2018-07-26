@@ -36,7 +36,7 @@ namespace BookingModule.ViewModels
         private IEnumerable<OrigenDto> _origenSummary;
         private IUserSettings _userSettings;
         private IHelperViewFactory _helperViewFactory;
-       
+        private ICommand _newCommand;
 
         public ReservationRequestsViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IKarveNavigator navigation, IConfigurationService configurationService, IRegionManager regionManager) : base(services, controller, dialogService, eventManager, regionManager)
         {
@@ -55,11 +55,13 @@ namespace BookingModule.ViewModels
             _navigator = navigation;
             _helperViewFactory = _navigator.GetHelperViewFactory();
             _userSettings = configurationService.GetUserSettings();
-            // _deleteCommand = new DelegateCommand(DeleteView);
-            _saveCommand = new DelegateCommand(SaveView);
+         //   _deleteCommand = new DelegateCommand<object>(DeleteView);
+
+         //   _saveCommand = new DelegateCommand<object>(SaveView);
             _dataReservationService = services.GetReservationRequestDataService();
             _assistDataService = services.GetAssistDataServices();
             AssistMapper = _assistDataService.Mapper;
+            CompositeCommandOnly = true;
             VehicleGridColumns = _userSettings.FindSetting<string>(UserSettingConstants.VehicleSummaryGridColumnsKey);
             EventManager.RegisterObserverSubsystem("ReservationRequests", this);
 
@@ -311,7 +313,7 @@ namespace BookingModule.ViewModels
             DeleteItem(payload);
             return true;
         }
-        public override void SaveView()
+        public void SaveView(object key)
         {
             bool isSaved = false;
             _reservationRequest.Value = DataObject;
@@ -321,7 +323,7 @@ namespace BookingModule.ViewModels
                 {
                     if (taskCompletion.IsFaulted)
                     {
-                        DialogService?.ShowErrorMessage("Error during deletion: " + taskCompletion.ErrorMessage);
+                        DialogService?.ShowErrorMessage("Error during saving: " + taskCompletion.ErrorMessage);
                     }
                     if (taskCompletion.IsSuccessfullyCompleted)
                     {
@@ -408,7 +410,25 @@ namespace BookingModule.ViewModels
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
+            if (payLoad == null)
+            {
+                payLoad = new DataPayLoad();
+            }
+
             payLoad.Subsystem = DataSubSystem.BookingSubsystem;
+            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
+            payLoad.HasDataObject = false;
+            payLoad.HasRelatedObject = false;
+            payLoad.HasNewCommand = true;
+            payLoad.NewCommand = _newCommand;
+            payLoad.HasSaveCommand = true;
+            payLoad.SaveCommand = _saveCommand;
+            payLoad.DeleteCommand = _deleteCommand;
+            payLoad.HasDeleteCommand = true;
+            payLoad.ObjectPath = ViewModelUri;
+            payLoad.Sender = ViewModelUri.ToString();
+            payLoad.Subsystem = DataSubSystem.BookingSubsystem;
+           
             
         }
 

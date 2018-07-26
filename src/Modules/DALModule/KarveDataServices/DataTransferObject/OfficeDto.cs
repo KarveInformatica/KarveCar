@@ -684,6 +684,7 @@ namespace KarveDataServices.DataTransferObject
                 return false;
             }
             
+            /*
             var valid = true;
             if (!string.IsNullOrEmpty(EMAIL_OFI))
             {
@@ -737,7 +738,7 @@ namespace KarveDataServices.DataTransferObject
                 return true;
             }
             
-            
+            */
             return false;
         }
         public override bool HasErrors { get => base.HasErrors = IsInvalid(); set => base.HasErrors = value; }

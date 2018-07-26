@@ -57,6 +57,115 @@ namespace DataAccessLayer.Crud.Booking
             }
             return new List<BookingDto>();
         }
+
+        /*
+           if (result.Valid)
+            {
+                var auxQueryStore = QueryStoreFactory.GetQueryStore();
+                // foreach querytype and entity
+                
+                auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFICINA_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFISALIDA_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFIRETORNO_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryBudget, dto.PRESUPUESTO_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryFares, dto.TARIFA_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryGroup, dto.GRUPO_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryBroker, dto.COMISIO_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryVehicleSummary, dto.VCACT_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.OTROCOND_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.OTRO2COND_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.OTRO3COND_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.CONDUCTOR_CON1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryCity, dto.POCOND_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryCountry, dto.PAISNIFCOND_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryCounty, dto.PAISCOND_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryProvince, dto.PROVCOND_RES2);
+                
+                var query = auxQueryStore.BuildQuery();
+                using (var connection = SqlExecutor.OpenNewDbConnection())
+                {
+                    if (connection != null)
+                    {
+                        var multipleResult = await connection.QueryMultipleAsync(query).ConfigureAwait(false);
+                        result.Valid = ParseResult(result, multipleResult);
+                    }
+                }
+            }
+            return result;
+        }
+        private bool ParseResult(IBookingData request, SqlMapper.GridReader reader)
+        {
+
+         if ((request == null) || (reader==null))
+         {
+                return false;
+         }
+         if (request.Value == null)
+            {
+                return false;
+            }
+            try
+            {
+              
+                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<CODIGO, OfficeDto>(request.Value.OFICINA_RES1, _mapper, reader);
+              
+                request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<CODIGO, OfficeDto>(request.Value.OFISALIDA_RES1, _mapper, reader);
+              
+                request.ReservationOfficeArrival = SelectionHelpers.WrappedSelectedDto<CODIGO, OfficeDto>(request.Value.OFIRETORNO_RES1, _mapper, reader);
+              
+                request.BudgetDto = SelectionHelpers.WrappedSelectedDto<NUMERO_PRE, BudgetDto>(request.Value.PRESUPUESTO_RES1, _mapper, reader);
+              
+                request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA_RES1, _mapper, reader);
+              
+                request.VehicleGroupDto = SelectionHelpers.WrappedSelectedDto<CODIGO, VehicleGroupDto>(request.Value.GRUPO_RES1, _mapper, reader);
+              
+                request.BrokerDto = SelectionHelpers.WrappedSelectedDto<NUM_COMI, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
+              
+                request.VehicleDto = SelectionHelpers.WrappedSelectedDto<CODIINT, VehicleSummaryDto>(request.Value.VCACT_RES1, _mapper, reader);
+              
+                request.DriverDto3 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.OTROCOND_RES2, _mapper, reader);
+              
+                request.DriverDto4 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.OTRO2COND_RES2, _mapper, reader);
+              
+                request.DriverDto5 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.OTRO3COND_RES2, _mapper, reader);
+              
+                request.DriverDto2 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.CONDUCTOR_CON1, _mapper, reader);
+              
+                request.CityDto3 = SelectionHelpers.WrappedSelectedDto<CP, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
+              
+                request.Country2Dto = SelectionHelpers.WrappedSelectedDto<SIGLAS, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
+              
+                request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Value.CODIGO, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
+              
+                request.ProvinceDto3 = SelectionHelpers.WrappedSelectedDto<Value.CODIGO, ProvinciaDto>(request.Value.PROVCOND_RES2, _mapper, reader);
+              
+
+#pragma warning disable CS0168 // Variable is declared but never used
+            }
+            catch (System.Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
+            {
+                return false;
+            }
+            return true;
+        }
+
+             */
         /// <summary>
         ///  Load a single value.
         /// </summary>
@@ -95,15 +204,7 @@ namespace DataAccessLayer.Crud.Booking
                     reservationDto.Items = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsDto>>(reservationItems);
                    
                 }
-                if (reservationDto != null)
-                {
-                     string auxQuery = CreateAuxQuery(reservationDto);
-                    _logger.Log(LogLevel.Debug, auxQuery);
-                    var auxData = await dbConnection.QueryMultipleAsync(auxQuery).ConfigureAwait(false);
-                    ParseAuxData(ref reservationDto, auxData);
-                    
-                }
-                reservationDto.IsValid = true;
+                 reservationDto.IsValid = true;
                 
             }
             return reservationDto;

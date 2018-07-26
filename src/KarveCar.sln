@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Navigation", "Karv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.NavigationInterface", "KarveCar.NavigationInterface\KarveCar.NavigationInterface.csproj", "{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KarveWeb", "KarveWeb\KarveWeb.csproj", "{089875C0-430F-475D-BA0B-A3040B05E350}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -281,6 +283,18 @@ Global
 		{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}.Release|x64.Build.0 = Release|Any CPU
 		{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}.Release|x86.ActiveCfg = Release|Any CPU
 		{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}.Release|x86.Build.0 = Release|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Debug|x64.Build.0 = Debug|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Debug|x86.Build.0 = Debug|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Release|Any CPU.Build.0 = Release|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Release|x64.ActiveCfg = Release|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Release|x64.Build.0 = Release|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Release|x86.ActiveCfg = Release|Any CPU
+		{089875C0-430F-475D-BA0B-A3040B05E350}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,9 +309,9 @@ Global
 		{140C1044-4F56-4855-AF52-A2F91B369460} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
-		RESX_DuplicateKeyHandling = Fail
-		RESX_NeutralResourcesLanguage = es-ES
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
+		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
 	EndGlobalSection
 EndGlobal

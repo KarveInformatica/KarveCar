@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace KarveCommon.Services
 {
     /// <summary>
-    ///  Dispatcher of messages between different parts of the application.
+    /// Dispatcher of messages between different parts of the application.
     /// This makes the application and communication between view models loosely coupled.
     /// </summary>
     public class EventDispatcher : IEventManager
@@ -72,7 +72,7 @@ namespace KarveCommon.Services
             {
                 IEventObserver eo = eoList[i];
                 eo.IncomingPayload(payload);
-                
+             
             }
         }
         /// <summary>

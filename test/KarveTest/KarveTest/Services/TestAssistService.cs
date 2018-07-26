@@ -48,6 +48,7 @@ namespace KarveTest.Services
         /// <summary>
         ///  This test should trigger the assist service
         /// </summary>
+        /*
         [Test, Apartment(ApartmentState.STA)]
         public async Task Should_AssistService_TriggerNotification()
         {
@@ -62,6 +63,8 @@ namespace KarveTest.Services
             var kvm = new KarveViewModelBase(_dataServicesMock.Object, controller);
             await kvm.OnAssistAsync<ProvinciaDto, PROVINCIA>("ListaProvincia", "Code,Name", action);
             Assert.AreEqual(1,receivedResult.Count);
-        }    
+        }
+        */
+        
     }
 }

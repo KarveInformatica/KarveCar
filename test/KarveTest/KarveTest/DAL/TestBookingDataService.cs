@@ -53,6 +53,7 @@ namespace KarveTest.DAL
             Assert.AreEqual(booking.Value.NUMERO_RES, codigo);
             Assert.Greater(booking.Drivers.Count(), 0);
             Assert.Greater(booking.Clients.Count(), 0);
+          
 
         }
         [Test]

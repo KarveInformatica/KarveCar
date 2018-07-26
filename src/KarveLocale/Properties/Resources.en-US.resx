@@ -2614,4 +2614,19 @@
   <data name="lbookingtype" xml:space="preserve">
     <value>Booking Type</value>
   </data>
+  <data name="lbooking" xml:space="preserve">
+    <value>Booking</value>
+  </data>
+  <data name="ldepositnotes" xml:space="preserve">
+    <value>Deposit Notes</value>
+  </data>
+  <data name="ldeposit" xml:space="preserve">
+    <value>Deposti</value>
+  </data>
+  <data name="lsaveclients" xml:space="preserve">
+    <value>Save data to clients.</value>
+  </data>
+  <data name="lcreditcardholder" xml:space="preserve">
+    <value>Credit Card Holder</value>
+  </data>
 </root>

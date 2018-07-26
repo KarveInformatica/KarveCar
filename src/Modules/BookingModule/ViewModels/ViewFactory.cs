@@ -53,7 +53,7 @@ namespace BookingModule.ViewModels
             _dataIdentifier = dataIdentifier;
         }
         
-        private void CreateNewItem(string name)
+        private void CreateNewItem(string name, Uri uri)
         {
             // The composite.
             var detailsRegion = _regionManager.Regions[RegionNames.TabRegion];
@@ -68,9 +68,8 @@ namespace BookingModule.ViewModels
              *  This allows the reuse better than view.
              */
             var vm = _container.Resolve<BookingInfoViewModel>();
-            infoView.DataContext = vm;
-            lineview.DataContext = vm;
-            footerView.DataContext = vm;
+            vm.ViewModelUri = uri;
+            // datacontext has inheritance.
             headeredWindow.DataContext = vm;
             _detailsRegionManager = detailsRegion.Add(headeredWindow, null, true);
             var headerRegion = _detailsRegionManager.Regions[RegionNames.HeaderRegion];
@@ -106,6 +105,8 @@ namespace BookingModule.ViewModels
             currentPayload.Registration = routedName;
             currentPayload.HasDataObject = true;
             currentPayload.DataObject = Object;
+          
+           
             return currentPayload;
         }
      /// <summary>
@@ -115,19 +116,23 @@ namespace BookingModule.ViewModels
      /// <param name="subsystem">The subsystem to be used.</param>
      /// <param name="viewModuleName">The name of the view model.</param>
      /// <param name="routedName">The routed name.</param>
-        public void NewItem(string subname, DataSubSystem subsystem, string eventManagerName)
+        public void NewItem(string subname, string baseUri, DataSubSystem subsystem, string eventManagerName)
         {
             var id = _dataIdentifier.NewId();
             var newDo = _dataProvider.GetNewDo(id);
-            var viewName = "Nueva " + "." + id;
-            CreateNewItem(id);
-            Uri viewModelUri = new Uri("karve://"+subname+"/id/"+id);
-            var currentPayload = BuildShowPayLoadDo(viewModelUri.ToString(), newDo);
+            var tmp = subname;
+            var upperFirst = tmp.ToUpper();
+            tmp = upperFirst[0] + subname.Substring(1);
+            var viewName =  KarveLocale.Properties.Resources.lnew+ " "+  tmp + "." + id;
+            var uri = new Uri(baseUri + Guid.NewGuid().ToString());
+            var currentPayload = BuildShowPayLoadDo(uri.ToString(), newDo);
             currentPayload.Subsystem = subsystem;
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = id;
-            currentPayload.Sender = viewModelUri.ToString();
-            _eventManager.NotifyObserverSubsystem(eventManagerName, currentPayload);
+            currentPayload.Sender = "karve://viewfactory";
+            currentPayload.Destination =uri;
+            CreateNewItem(viewName, uri);
+             _eventManager.NotifyObserverSubsystem(eventManagerName, currentPayload);
         }
     }
 }

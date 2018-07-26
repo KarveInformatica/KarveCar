@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
+      
         <karveControls:DualFieldSearchBox DataFieldFirst="CONDUCTOR_CON1"
                                                       Grid.Row="0"
                                                      x:Name="Driver"
@@ -29,8 +30,8 @@
                                                       LabelTextWidth="86"   
                                                       Margin="0,5,0,0"
                                                       IsReadOnlySecond="True"
-                                                      TextContentFirstWidth="50"
-                                                      TextContentSecondWidth="200"
+                                                      TextContentFirstWidth="100"
+                                                      TextContentSecondWidth="220"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       SourceView="{Binding DriverDto2, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -41,11 +42,11 @@
                                  LabelTextWidth="95"
                                  DataObject="{Binding DataObject, Mode=TwoWay}"
                                  DataSourcePath="NOMBRE_RES"
-                                 ItemChangedCommand="{Binding ItemChangeCommand}"
+                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                  Watermark="{Binding lnombre, Source={StaticResource ResourceLanguage}}"
-                                 TextContent="{Binding DataObject.NOMBRE_RES, ValidatesOnDataErrors=True, 
+                                 TextContent="{Binding DataObject.NOMBRE_RES1, ValidatesOnDataErrors=True, 
                                                 ValidatesOnExceptions=True}" 
-                                 TextContentWidth="250" Grid.Row="1" Margin="4,0,0,2"/>
+                                 TextContentWidth="350" Grid.Row="1" Margin="4,0,0,2"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -59,7 +60,7 @@
                                      DataObject="{Binding DataObject}"
                                      ItemChangedCommand="{Binding ItemChangedCommand}"
                                      TextContent="{Binding DataObject.DNICOND_RES2, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
-                                     TextContentWidth="50" Margin="4,3,0,3">
+                                     TextContentWidth="100" Margin="4,3,0,3">
             </karveControls:DataField>
             <karveControls:DualFieldSearchBox DataFieldFirst="PAISNIFCOND_RES2"
                                                       Grid.Column="1"
@@ -71,7 +72,7 @@
                                                       Margin="0,5,0,0"
                                                       IsReadOnlySecond="True"
                                                       TextContentFirstWidth="50"
-                                                      TextContentSecondWidth="80"
+                                                      TextContentSecondWidth="100"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       SourceView="{Binding Country2Dto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -154,6 +155,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Syncfusion:SfTextBoxExt 
+                       Watermark="{Binding lpermiso, Source={StaticResource ResourceLanguage}}"
                        karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                        karveControls:ControlExt.DataSourcePath="PERMISO_RES2"
                        karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -176,6 +178,7 @@
                 <DatePicker SelectedDate="{Binding Path=DataObject.FEEXPE_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="0" Height="30" x:Name="fEEXPE_RES2" Margin="-160,-1,9,1" />
                 <Label Content="Lugar Expedition" Grid.Column="1" Width="100" />
                 <Syncfusion:SfTextBoxExt 
+                    Watermark="{Binding lpoblacion, Source={StaticResource ResourceLanguage}}"
                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                     karveControls:ControlExt.DataSourcePath="CLASE_RES2"
                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
@@ -191,7 +194,7 @@
                                                         CreditCardView="{Binding CreditCardView}"
                                                         CardNumber="{Binding DataObject.TARNUM_RES2}"
                                                         ExpiryYear="{Binding ExpireCardYear}" 
-                                                        ExpiryMonth="{Binding ExpiryMonth}" 
+                                                        ExpiryMonth="{Binding ExpireMonth}"
                                                         CardHolder="{Binding DataObject.NOMBRE_RES1}">
                     </karveControls:CreditCardControlExt>
                 </GroupBox>
@@ -205,15 +208,18 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="{Binding lhoteldirection, Source={StaticResource ResourceLanguage}}" Grid.ColumnSpan="3" Margin="0,0,192,0" />
                 <Syncfusion:SfTextBoxExt Grid.Column="2"
+                                         Grid.ColumnSpan="2"
                                          Watermark="{Binding lstreetwm, Source={StaticResource ResourceLanguage}}"
                                          Text="{Binding Path=DataObject.DIRHOTELCOND_RES2, Mode=TwoWay, 
                     ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
                          x:Name="dIRHOTELCOND_RES2" />
-                <Syncfusion:ButtonAdv Grid.Column="3" Label="{Binding lfindmap, Source={StaticResource ResourceLanguage}}" 
+                <!--
+                    <Syncfusion:ButtonAdv Grid.Column="3" Label="{Binding lfindmap, Source={StaticResource ResourceLanguage}}" 
                                       SmallIcon="/KarveControls;component/Images/maps.png" 
                                       Command="{Binding ShowCommandMap, Mode=OneWay}"  CommandParameter="{Binding }" Margin="7,0,0,0">
 
                 </Syncfusion:ButtonAdv>
+                -->
             </Grid>
         </Grid>
     </Grid>

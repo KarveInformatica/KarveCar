@@ -31,7 +31,7 @@
                     HorizontalAlignment="Left"
                     IsEnabled="{Binding IsNewEnabled}" >
                 <StackPanel>
-                    <Image Source="/KarveControls;component/Images/new.png" Stretch="Fill" Height="20" />
+                    <Image Source="/KarveControls;component/Images/bt_add.png" Stretch="Fill" Height="20" />
                 </StackPanel>
                 <Button.ToolTip>
                     <StackPanel Orientation="Horizontal">

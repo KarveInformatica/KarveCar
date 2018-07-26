@@ -60,6 +60,22 @@ namespace DataAccessLayer.Model
         ///  Ser or Get Drivers.
         /// </summary>
         public IEnumerable<ClientSummaryExtended> Drivers { get => _drivers; set => _drivers = value; }
-        public bool Valid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool Valid { get; set; } = false;
+        public IEnumerable<OfficeDtos> ReservationOfficeDeparture { get; set; } = new List<OfficeDtos>();
+        public IEnumerable<OfficeDtos> ReservationOfficeArrival { get ; set ; } = new List<OfficeDtos>();
+        public IEnumerable<BudgetDto> BudgetDto { get; set; } = new List<BudgetDto>();
+        public IEnumerable<FareDto> FareDto { get; set; } = new List<FareDto>();
+        public IEnumerable<VehicleGroupDto> VehicleGroupDto { get; set; } = new List<VehicleGroupDto>();
+        public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; } = new List<CommissionAgentSummaryDto>();
+        public IEnumerable<OfficeDtos> OfficeDto { get; set; } = new List<OfficeDtos>();
+        public IEnumerable<VehicleSummaryDto> VehicleDto { get;set;} = new List<VehicleSummaryDto>();
+        public IEnumerable<ClientSummaryExtended> DriverDto3 { get; set; } = new List<ClientSummaryExtended>();
+        public IEnumerable<ClientSummaryExtended> DriverDto4 { get; set; } = new List<ClientSummaryExtended>();
+        public IEnumerable<ClientSummaryExtended> DriverDto5 { get; set; } = new List<ClientSummaryExtended>();
+        public IEnumerable<ClientSummaryExtended> DriverDto2 { get; set; } = new List<ClientSummaryExtended>();
+        public IEnumerable<CityDto> CityDto3 { get; set; } = new List<CityDto>();
+        public IEnumerable<CountryDto> Country2Dto { get; set; } = new List<CountryDto>();
+        public IEnumerable<CountryDto> CountryDto3 { get; set; } = new List<CountryDto>();
+        public IEnumerable<ProvinciaDto> ProvinceDto3 { get; set; } = new List<ProvinciaDto>();
     }
 }

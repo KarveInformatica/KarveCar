@@ -10,6 +10,7 @@
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:behaviors="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -32,11 +33,10 @@
                         <x:Type TypeName="Syncfusion:FilterMode" />
                     </ObjectDataProvider.MethodParameters>
                 </ObjectDataProvider>
-
-
                 <Style x:Key="GenericCodeStyle" TargetType="Syncfusion:GridFilterControl">
                     <Setter Property="FilterMode" Value="Both" />
                 </Style>
+                <converter:NullBooleanToBooleanConverter x:Key="NullBooleanToBooleanConverter"/>
             </ResourceDictionary>
         </Grid.Resources>
         <Grid Grid.Row="1" HorizontalAlignment="Center">
@@ -52,8 +52,8 @@
 						   PageSize="20" 
                            Grid.Column="0"
 						   Source="{Binding SummaryView}" />
-            <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="200,0,0,0">
-                <Syncfusion:ComboBoxAdv DefaultText="20" Width="40" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,0">
+            <StackPanel x:Name="FirstLinePanel" Orientation="Horizontal" Grid.Column="1" Margin="200,0,0,0">
+                <Syncfusion:ComboBoxAdv x:Name="PagerSizeCombo"  DefaultText="20" Width="40" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,0">
                     <Syncfusion:ComboBoxItemAdv>
                         20
                     </Syncfusion:ComboBoxItemAdv>
@@ -71,7 +71,7 @@
                 <TextBlock Text="{Binding lshowing, Source={StaticResource ResourceLanguage}}" Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
                 <TextBlock Text="{Binding CounterInterval}" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
                 <TextBlock Text="{Binding lof, Source={StaticResource ResourceLanguage}}" Grid.Column="2" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-                <TextBlock Text="{Binding ItemsCounts,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text="{Binding ItemCounts,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
             </Grid>
         </Grid>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -110,8 +110,11 @@
              {Binding lnumerorserve, Source={StaticResource ResourceLanguage}}"
             -->
             <Syncfusion:SfDataGrid.Columns>
-                <Syncfusion:GridCheckBoxColumn HeaderText="Seleciona" MappingName="IsSelected" 
-                                               TextAlignment="Left" AllowEditing="True">
+                <Syncfusion:GridCheckBoxColumn x:Name="SelectCheck" 
+                                               HeaderText="{Binding lselectItem, Source={StaticResource ResourceLanguage}}" 
+                                               MappingName="IsSelected" 
+                                               TextAlignment="Left" 
+                                               AllowEditing="True">
                     
                 </Syncfusion:GridCheckBoxColumn>
                     <Syncfusion:GridTextColumn
@@ -151,6 +154,7 @@
                     </Syncfusion:GridTemplateColumn.CellTemplate>
                 </Syncfusion:GridTemplateColumn>
                 <Syncfusion:GridCheckBoxColumn HeaderText="{Binding lcancelled, Source={StaticResource ResourceLanguage}}"
+                                               DisplayBinding="{Binding Path=Confirmed, Converter={StaticResource NullBooleanToBooleanConverter}}" 
                                                MappingName="Confirmed"
                                                TextAlignment="Left"
                                                AllowFiltering="True"
@@ -160,7 +164,7 @@
 
                 </Syncfusion:GridCheckBoxColumn>
 
-                <Syncfusion:GridTextColumn HeaderText="{Binding localizador, Source={StaticResource ResourceLanguage}}"
+                <Syncfusion:GridTextColumn HeaderText="{Binding llocator, Source={StaticResource ResourceLanguage}}"
                                            MappingName="Locator"
                                            TextAlignment="Left"
                                            AllowFiltering="True"
@@ -453,7 +457,7 @@
             </Syncfusion:SfDataGrid.Columns>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding OpenCommand}"
+                    <i:InvokeCommandAction x:Name="OpenCommandTrigger" Command="{Binding OpenCommand}"
                                            CommandParameter="{Binding ElementName=BookingControlSummary, Path=SelectedItem}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>

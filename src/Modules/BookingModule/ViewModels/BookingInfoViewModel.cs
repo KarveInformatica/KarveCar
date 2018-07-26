@@ -51,12 +51,13 @@ namespace BookingModule.ViewModels
             IInteractionRequestController controller) : base(dataServices,
             dialogServices, manager, regionManager, dataServices.GetBookingDataService(), controller)
         {
-            ViewModelUri = new Uri("karve://booking/viewmodel?id=" + Guid.ToString());
+
             InitViewModel();
             _karveNavigator = karveNavigator;
             _container = container;
             _regionManager = regionManager;
             DefaultPageSize = 100;
+            IsReady = false;
 
             // this shall be at the configuration service
             BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
@@ -69,7 +70,12 @@ namespace BookingModule.ViewModels
             LineVisible = true;
             FooterVisible = false;
             _selectedIndex = 0;
-
+            /* This instruct the toolbar to skip its is own handlers. Avoiding complexity. 
+             * It will be just the view to save itself with composite command and to alert it subsystem.
+             *  This with the SetRegistrationPayLoad set properly it will permit to save itself.
+             *  Each view will save itself.
+             */
+            CompositeCommandOnly = true;
         }
         #region CommonProperties
         /// <summary>
@@ -451,6 +457,12 @@ namespace BookingModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public void ReconfigureUri(Uri viewModelUri)
+        {
+            EventManager.DeleteMailBoxSubscription(viewModelUri.ToString());
+            ViewModelUri = viewModelUri;
+        }
         /// <summary>
         ///  the forth driver.
         /// </summary>
@@ -524,7 +536,6 @@ namespace BookingModule.ViewModels
         }
 
         #endregion
-
 
         public int SelectedIndex
         {
@@ -679,7 +690,7 @@ namespace BookingModule.ViewModels
         private void InitCommunication()
         {
             EventSubSystemName = EventSubsystem.BookingSubsystemVm;
-            MailBoxHandler += IncomingMailBox;
+            //    MailBoxHandler += IncomingMailBox;
             RegisterMailBox(ViewModelUri.ToString());
             EventManager.RegisterObserverSubsystem(BookingModule.BookingSubSystem, this);
         }
@@ -703,6 +714,9 @@ namespace BookingModule.ViewModels
             CreateNewDriver = new DelegateCommand<object>(CreateNewClient);
             AmountCommand = new DelegateCommand<object>(OnAmountCommand);
             RecomputeImport = new DelegateCommand(OnRecomputeImport);
+            _newCommand = new DelegateCommand<object>(NewViewCommand);
+            _saveCommand = new DelegateCommand<object>(SaveViewCommand);
+            _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
             //   ShowBookingConcept = new DelegateCommand
         }
         /// <summary>
@@ -807,20 +821,48 @@ namespace BookingModule.ViewModels
         private void OnAmountCommand(object obj)
         {
         }
-        public ICommand CreateCommand { set; get; }
 
+
+        public string ExpireMonth
+        {
+            get { return _expirationMonth; }
+            set
+            {
+                _expirationMonth = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        
+        private void InitServices()
+        {
+            // services.
+            _bookingDataService = DataServices.GetBookingDataService();
+            _assistDataService = DataServices.GetAssistDataServices();
+        }
+        private ObservableCollection<CellPresenterItem> InitGridColumns()
+        {
+            var presenter = new ObservableCollection<CellPresenterItem>()
+            {
+                new NavigationAwareItem() { DataTemplateName="NavigateBookingConcept", MappingName="Desccon", RegionName=RegionNames.LineRegion},
+                 new NavigationAwareItem() { DataTemplateName="BookingInclude", MappingName="Included", RegionName=RegionNames.LineRegion},
+                 new NavigationAwareItem() { DataTemplateName="BillToBookin",
+                     MappingName ="Bill", RegionName=RegionNames.LineRegion},
+            };
+            return presenter;
+        }
         /// <summary>
         ///  Init the view model.
         /// </summary>
         private void InitViewModel()
         {
+          
+            ViewModelUri = new Uri("karve://booking/viewmodel?id="+ Guid.ToString());
             InitCommunication();
             InitCommands();
-            _bookingDataService = DataServices.GetBookingDataService();
+            InitServices();
+            CellGridPresentation = InitGridColumns();
             GeneralInfoCollection = CreateCollectionForOtherData();
-
-            // Create the right collection for othe data.
-
             /* The columns names are coupled with data object properties.
              * The idea here is to get a subset of properties.
              */
@@ -831,20 +873,9 @@ namespace BookingModule.ViewModels
             /*
              *  This goes to a data template to configure directly the grid with its mapping.
              */
-            var presenter = new ObservableCollection<CellPresenterItem>()
-            {
-                new NavigationAwareItem() { DataTemplateName="NavigateBookingConcept", MappingName="Desccon", RegionName=RegionNames.LineRegion},
-                new NavigationAwareItem() { DataTemplateName="NavigateBookingUnit", MappingName="Unity", RegionName=RegionNames.LineRegion},
-                 new NavigationAwareItem() { DataTemplateName="BookingInclude", MappingName="Included", RegionName=RegionNames.LineRegion},
-                 new NavigationAwareItem() { DataTemplateName="BillToBookin",
-                     MappingName ="Bill", RegionName=RegionNames.LineRegion},
-            };
-            _assistDataService = DataServices.GetAssistDataServices();
+            
             AssistMapper = _assistDataService.Mapper;
-            CellGridPresentation = presenter;
-            _newCommand = new DelegateCommand<object>(NewViewCommand);
-            _saveCommand = new DelegateCommand<object>(SaveViewCommand);
-            _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
+    
             FetchGridsSettings();
             ReservationOffice = FetchOffices();
         }
@@ -897,7 +928,8 @@ namespace BookingModule.ViewModels
         /// <param name="obj">Save data from the view command.</param>
         private void SaveViewCommand(object obj)
         {
-
+            var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+           
             _bookingData.Value = DataObject;
             NotifyTaskCompletion.Create<bool>(_bookingDataService.SaveAsync(_bookingData), (sender, ev) =>
             {
@@ -907,10 +939,11 @@ namespace BookingModule.ViewModels
                     {
                         DialogService?.ShowErrorMessage("Reservation saved with success!");
                         IsChanged = false;
+                        OperationalState = DataPayLoad.Type.Show;
                     }
                     else
                     {
-                        DialogService?.ShowErrorMessage("Errro during saving reservation");
+                        DialogService?.ShowErrorMessage("Error during saving reservation :" + task.ErrorMessage);
                     }
                 }
             });
@@ -930,11 +963,13 @@ namespace BookingModule.ViewModels
                         /*
                          *  Just to clarify. 
                          */
+                        _bookingData.Value = DataObject;
                         DataPayLoad payLoad = new DataPayLoad()
                         {
-                            DataObject = DataObject,
+                            DataObject = _bookingData,
                             HasDataObject = true,
                             ObjectPath = ViewModelUri,
+                            PrimaryKeyValue = PrimaryKeyValue,
                             Sender = ViewModelUri.ToString(),
                             PayloadType = DataPayLoad.Type.UpdateView
                         };
@@ -970,8 +1005,7 @@ namespace BookingModule.ViewModels
                     // its is me....
                     if (baseViewModel.ViewModelUri == ViewModelUri)
                     {
-                        viewFactory.NewItem("booking", DataSubSystem.BookingSubsystem, EventSubsystem.BookingSubsystemVm);
-
+                        viewFactory.NewItem(KarveLocale.Properties.Resources.lbooking, "karve://booking/viewmodel?id=", DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
                     }
                 }
             }
@@ -1169,11 +1203,8 @@ namespace BookingModule.ViewModels
             Contract.Requires(payload != null);
             Contract.Requires(payload.DataObject != null, "Null Data Object");
             if (!payload.HasDataObject) return;
-            // already initialized.
-            if (_bookingData != null)
-            {
-                return;
-            }
+              
+
             if (payload.DataObject is IBookingData data)
             {
                 _bookingData = data;
@@ -1181,7 +1212,18 @@ namespace BookingModule.ViewModels
                 {
                     case DataPayLoad.Type.Insert:
                         {
+                           if (payload.Destination == null)
+                            {
+                                return;
+                            }
+                           if (payload.Destination != ViewModelUri)
+                            {
+                                return;
+                            }
+                           //it is me.
                             _bookingData.Value.Items = new List<BookingItemsDto>();
+                            PrimaryKeyValue = payload.PrimaryKeyValue;
+                            
                             break;
                         }
                     default:
@@ -1200,6 +1242,7 @@ namespace BookingModule.ViewModels
                 ActiveSubSystem();
                 OperationalState = payload.PayloadType;
                 GeneralInfoCollection = _generalInfoCollection;
+                IsReady = true;
             }
         }
         private void LoadMoreItems(uint arg1, int arg2)
@@ -1214,6 +1257,7 @@ namespace BookingModule.ViewModels
             {
                 payLoad = new DataPayLoad();
             }
+         
             payLoad.Subsystem = DataSubSystem.BookingSubsystem;
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
@@ -1222,6 +1266,8 @@ namespace BookingModule.ViewModels
             payLoad.NewCommand = _newCommand;
             payLoad.HasSaveCommand = true;
             payLoad.SaveCommand = _saveCommand;
+            payLoad.DeleteCommand = _deleteCommand;
+            payLoad.HasDeleteCommand = true;
             payLoad.ObjectPath = ViewModelUri;
             payLoad.Sender = ViewModelUri.ToString();
         }
@@ -1594,6 +1640,7 @@ namespace BookingModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        public ICommand SaveToClient { set; get; }
 
         public IEnumerable<SupplierSummaryDto> CrmSupplierDto {
             get
@@ -1635,16 +1682,33 @@ namespace BookingModule.ViewModels
             set { _countryDto6 = value; RaisePropertyChanged();
             }
         }
+        public IEnumerable<CompanyDto> CompanyDto
+        {
+            get => _company;
+            set => _company = value;
+        }
+
+        public ICommand CreateCommand { set; get; }
+        public ICommand AddNewConceptCommand { set; get; }
+        public ICommand RejectBooking { set; get; }
+        public ICommand ConfirmBooking { set; get; }
+        public ICommand IncidentLookup { set; get; }
+        public ICommand CreateNewPromoCodeView { set; get; }
+        public ICommand MailOffice { set; get; }
+        public ICommand MailProforma { set; get; }
+        public ICommand MailClient { set; get; }
+        private ICommand _newCommand;
+        private ICommand _bookingConcept;
+        private ICommand _newBookingCommand;
+
 
         private IncrementalList<ClientSummaryExtended> _bookingClientsIncrementalList;
-        private ICommand _newCommand;
         private DelegateCommand<object> _saveCommand;
         private DelegateCommand<object> _deleteCommand;
         private ViewDeleter<IBookingData, BookingDto> _viewDeleter;
         private IKarveNavigator _karveNavigator;
-        private ICommand _bookingConcept;
-        private ICommand _newBookingCommand;
         private ObservableCollection<OfficeDtos> _reservationOffice;
+        private IEnumerable<CompanyDto> _company;
         private IEnumerable<BudgetSummaryDto> _budgetDto;
         private IEnumerable<FareConceptDto> _concepts;
         private IEnumerable<FareDto> _fare;
@@ -1694,5 +1758,6 @@ namespace BookingModule.ViewModels
         private IEnumerable<CountryDto> _countryDto4;
         private IEnumerable<PromotionCodesDto> _promotionDto;
         private IEnumerable<CountryDto> _countryDto6;
+        private string _expirationMonth;
     }
 }

@@ -53,8 +53,8 @@ namespace KarveControls
         public static DependencyProperty AmountProperty =
             DependencyProperty.Register(
                 "Amount",
-                typeof(double),
-                typeof(AmountControl), new PropertyMetadata(0d, OnTotalChanged));
+                typeof(decimal?),
+                typeof(AmountControl), new PropertyMetadata(null, OnTotalChanged));
 
       
         /// <summary>
@@ -71,7 +71,7 @@ namespace KarveControls
         public static DependencyProperty ContraTotalProperty =
             DependencyProperty.Register(
                 "ContraTotal",
-                typeof(double),
+                typeof(decimal?),
                 typeof(AmountControl));
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace KarveControls
         public static DependencyProperty VatOnAmountProperty =
             DependencyProperty.Register(
                 "VatOnAmount",
-                typeof(double),
+                typeof(decimal?),
                 typeof(AmountControl));
 
 
@@ -95,7 +95,7 @@ namespace KarveControls
         public static DependencyProperty VatOnContraAmountProperty =
          DependencyProperty.Register(
             "VatOnContraAmount",
-            typeof(double),
+            typeof(decimal?),
             typeof(AmountControl));
 
         public AmountControl() : base()

@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookingModule.Views"
-              xmlns:vm="clr-namespace:BookingModule.ViewModels"
-             xmlns:TripleButton="clr-namespace:KarveControls.KarveTripleButton;assembly=KarveControls"
+             xmlns:vm="clr-namespace:BookingModule.ViewModels"
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1224">
@@ -179,17 +179,24 @@
                 <karveControls:DriverSmallControl AssistNameCity="CITY_ASSIST_2"
                                                   AssistNameCountry="COUNTRY_ASSIST_3" 
                                                   AssistNameProvince="PROVINCE_ASSIST_2"
-                                                  DataObject="{Binding DataObject}"
                                                   AssistCommand="{Binding AssistCommand}"
                                                   CitySourceView="{Binding SecondDriverCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                              
-                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                  CityPath="DRV2_CITY"
+                                                  CountryPath="DRV2_ID_CARD_COU_CODE"
                                                   CountrySourceView="{Binding SecondDriverCountryDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DataObject="{Binding DataObject,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Direction="{Binding DataObject.DRV2_STREET, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                                  ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                  ProvincePath="DRV2_ZIP_CODE"                                                
                                                   ProvinceSourceView="{Binding SecondDriverProvinceDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DriverSmallControl>
             </GroupBox>
-            <TripleButton:TripleButton Grid.Row="4" SaveCommand="{Binding SaveToClient}" 
-                                       ResetCommand="{Binding ResetForm}" 
-                                       DeleteCommand="{Binding DeleteForm}"></TripleButton:TripleButton>
+            <Syncfusion:ButtonAdv Grid.Row="4" SmallIcon="/KarveControls;component/Images/driver2.png"
+                                  Label="{Binding lsaveclients,Source={StaticResource ResourceLanguage}}"
+                                  Width="200"
+                                  HorizontalAlignment="Center"
+                                  Command="{Binding SaveToClient}">
+            </Syncfusion:ButtonAdv>
         </Grid>
     </Grid>
 </UserControl>

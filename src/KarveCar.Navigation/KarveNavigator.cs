@@ -39,6 +39,11 @@ namespace KarveCar.Navigation
             _dialogService = dialogService;
             _mapper = MapperField.GetMapper();
         }
+
+        public void NewView<Type>(Uri viewModelUri, Type t)
+        {
+            
+        }
         /// <summary>
         /// Create a new client view for insertion.
         /// </summary>
@@ -69,7 +74,20 @@ namespace KarveCar.Navigation
             var dataPayload = factory.BuildInsertPayLoadDo<ICommissionAgent>(viewName, payload, DataSubSystem.CommissionAgentSubystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
             _eventManager.NotifyObserverSubsystem(MasterModuleConstants.CommissionAgentSystemName, dataPayload);
         }
-
+        /// <summary>
+        /// Open a new tab for an existing item. You need to provide the DataPayload to be used in the tab.
+        /// </summary>
+        /// <typeparam name="ViewType">Type of the view (i.e. CommissionAgentInfoView) to be created.</typeparam>
+        /// <param name="id">Identifier of the view.</param>
+        /// <param name="viewName">Name of the view.</param>
+        /// <param name="payload">Kind of payload.</param>
+        /// <param name="subsystem">Kind of subsystem.</param>
+        public void Navigate<ViewType>(string id, string viewName,
+            DataPayLoad payload, string subsystem)
+        {
+            Navigate(_regionManager, id, viewName, typeof(ViewType).FullName);
+            _eventManager.NotifyObserverSubsystem(subsystem, payload);
+        }
         /// <summary>
         ///  Create a new vehicle view for insertion
         /// </summary>

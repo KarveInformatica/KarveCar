@@ -827,6 +827,9 @@
     <Resource Include="Images\cagent.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper">
+      <Version>6.2.2</Version>
+    </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
       <Version>3.4.0</Version>
     </PackageReference>

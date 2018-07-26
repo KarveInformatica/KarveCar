@@ -1060,8 +1060,8 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Image Source="/KarveControls;component/Images/creditcards.png" Height="25" Grid.Row="0"></Image>
-                        <StackPanel Grid.Row="1" Orientation="Vertical">
+                        <Image Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardImagePath, Mode=TwoWay}" Height="100" Grid.Row="0"></Image>
+                        <StackPanel Grid.Row="1" Orientation="Vertical" Visibility="Collapsed">
                             <TextBlock Text="Tipo" FontSize="10"></TextBlock>
                             <local:DualFieldSearchBox LabelVisible="False"
                                       DataFieldFirst="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardHolderPath, Mode=TwoWay}"
@@ -1093,7 +1093,7 @@
                                         </Binding>
                                     </TextBox.Text>
                                 </TextBox>
-                                <Image Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardImagePath, Mode=TwoWay}" Width="25"></Image>
+                                <Image Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardImagePath, Mode=TwoWay}" Visibility="Collapsed"></Image>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Row="4" Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=VisibilitySecurity, Mode=TwoWay}">

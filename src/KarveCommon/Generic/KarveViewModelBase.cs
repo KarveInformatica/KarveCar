@@ -94,8 +94,20 @@ namespace KarveCommon.Generic
         /// </summary>
         protected IDataServices DataServices;
 
-        public bool IsChanged { set; get; }
-        public bool Faulted { set; get; }
+        public bool IsChanged { set; get; } = false;
+        /// <summary>
+        ///  A view model is ready when it has been initialized with its data.
+        /// </summary>
+        public bool IsReady { set; get; } = false;
+        /// <summary>
+        ///  
+        /// </summary>
+        public bool Faulted { set; get; } = false;
+        /// <summary>
+        ///  The view mode support composity command only. This means that it will register just composite command inside 
+        ///  the toolbar and doesn't use any data handler of the toolbar.
+        /// </summary>
+        public bool CompositeCommandOnly { set; get; }
         /// <summary>
         ///  Disable/Enable any popup from the dialog service.
         /// </summary>

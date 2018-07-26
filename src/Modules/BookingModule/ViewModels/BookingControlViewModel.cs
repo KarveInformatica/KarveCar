@@ -15,6 +15,10 @@ using Syncfusion.Windows.Shared;
 using KarveDataServices.DataObjects;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
+using KarveCar.Navigation;
+using MasterModule.ViewModels;
+using MasterModule.Common;
 
 namespace BookingModule.ViewModels
 {
@@ -25,6 +29,7 @@ namespace BookingModule.ViewModels
     {
         private INotifyTaskCompletion<IEnumerable<BookingSummaryDto>> _bookingSummaryCompletion;
         private readonly IBookingDataService _bookingDataService;
+        private readonly IKarveNavigator _navigator;
         private readonly IRegionManager _regionManager;
         private readonly IUnityContainer _container;
 
@@ -57,10 +62,17 @@ namespace BookingModule.ViewModels
         /// <param name="requestController">Controller for opening dialogs.</param>
         /// <param name="dialogService">Dialog service for opening error dialogs.</param>
         /// <param name="eventManager">Communication to every view models.</param>
-        public BookingControlViewModel(IRegionManager regionManager, IDataServices services, IUnityContainer container, IInteractionRequestController requestController, IDialogService dialogService, IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
+        public BookingControlViewModel(IRegionManager regionManager, 
+                IDataServices services, 
+                IUnityContainer container, 
+                IInteractionRequestController requestController, 
+                IDialogService dialogService, 
+                IEventManager eventManager, 
+                IKarveNavigator navigator) : base(services, requestController, dialogService, eventManager)
         {
 
             _bookingDataService = DataServices.GetBookingDataService();
+            _navigator = navigator;
             _regionManager = regionManager;
             _container = container;
             // set the name to the listing grid.
@@ -82,7 +94,7 @@ namespace BookingModule.ViewModels
             MailBoxHandler += OnMailBoxHandler;
             MailboxName = ViewModelUri.ToString();
             RegisterMailBox(MailboxName);
-            EventManager.RegisterObserverSubsystem(EventSubsystem.BookingSubsystemVm, this);
+            EventManager.RegisterObserverSubsystem(BookingModule.BookingSubSystem, this);
             EventManager.RegisterMailBox(ViewModelUri.ToString(), MailBoxHandler);
             _bookingLoadEventHandler += OnNotifyIncrementalList<BookingSummaryDto>;
             SummaryView = new IncrementalList<BookingSummaryDto>(LoadMoreItems);
@@ -109,9 +121,19 @@ namespace BookingModule.ViewModels
              StartAndNotify();
         }
 
-        private void OnNavigateClient(object obj)
+        private async void OnNavigateClient(object code)
         {
-            throw new NotImplementedException();
+            var clientCode = code as string;
+            if (clientCode != null)
+            {
+                var clientDataService = DataServices.GetClientDataServices();
+                var clientData = await clientDataService.GetDoAsync(clientCode).ConfigureAwait(false);
+                var uri = new Uri("karve://client/viewmodels?id=" + Guid.NewGuid().ToString());
+                //FIXME unused arguments
+                var viewName = clientData.Value.NUMERO_CLI + "." + clientData.Value.NOMBRE;
+                var payload = DataPayloadFactory.GetInstance().BuildShowPayLoadDo<IClientData>(uri.ToString(), clientData, DataSubSystem.ClientSubsystem, uri.ToString(),uri.ToString(), uri);
+                _navigator.Navigate<ClientsInfoViewModel>(clientData.Value.NUMERO_CLI, viewName, payload, MasterModuleConstants.ClientSubSystemName);
+            }
         }
 
         private PayloadInterpeter<IBookingData> InitPayLoadInterpeter(PayloadInterpeter<IBookingData> payloadInterpeter)
@@ -241,7 +263,8 @@ namespace BookingModule.ViewModels
             }
             var name = reservation.ClientCode;
             var id = reservation.BookingNumber;
-            var tabName =  "Reserva."+id;           
+            var tabName =  "Reserva."+id;
+            MessageBox.Show("Tets");
             CreateNewItem(tabName);
             var provider = await _bookingDataService.GetDoAsync(id).ConfigureAwait(false);         
             var currentPayload = BuildShowPayLoadDo(tabName, provider);
@@ -267,10 +290,10 @@ namespace BookingModule.ViewModels
              * for every kind of subject and for the specific.
              *  This allows the reuse better than view.
              */
-            var vm = _container.Resolve<BookingInfoViewModel>();
-            infoView.DataContext = vm;
-            lineview.DataContext = vm;
-            footerView.DataContext = vm;
+             var vm = _container.Resolve<BookingInfoViewModel>();
+           // infoView.DataContext = vm;
+           // lineview.DataContext = vm;
+           // footerView.DataContext = vm;
             headeredWindow.DataContext = vm;
             _detailsRegionManager = detailsRegion.Add(headeredWindow, null, true);
             var headerRegion = _detailsRegionManager.Regions[RegionNames.HeaderRegion];
@@ -296,18 +319,8 @@ namespace BookingModule.ViewModels
         /// </summary>
         protected override void NewItem()
         {
-            var id = _bookingDataService.NewId();
-            var newDo = _bookingDataService.GetNewDo(id);
-            newDo.Value.NUMERO_RES = id;
-            var viewName = "Nueva " + "." + id;
-            CreateNewItem(id);
-            var currentPayload = BuildShowPayLoadDo(viewName, newDo);
-            currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
-            currentPayload.PayloadType = DataPayLoad.Type.Insert;
-            currentPayload.PrimaryKeyValue = id;
-            currentPayload.Sender = ViewModelUri.ToString();
-            EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
-       
+            ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto> viewFactory = new ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto>(_regionManager, _container, EventManager, _bookingDataService, _bookingDataService);
+            viewFactory.NewItem(KarveLocale.Properties.Resources.lbooking, "karve://booking/viewmodel?id=", DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
         protected override string GetRouteName(string name)
         {
@@ -388,13 +401,23 @@ namespace BookingModule.ViewModels
         /// <param name="payload">Payload</param>
         public override void IncomingPayload(DataPayLoad payload)
         {
-            var newId = _bookingDataService.NewId();
+            // if it null
+            if (payload == null)
+            {
+                return;
+            }
+            // if i sent to broadcast.
             if ((payload.Sender!=null) && (payload.Sender.Equals(ViewModelUri)))
             {
                 return;
             }
+            if (payload.PayloadType == DataPayLoad.Type.Insert)
+            {
+                return;
+            }
+
            OperationalState = _payloadInterpeter.CheckOperationalType(payload);
-            _payloadInterpeter.ActionOnPayload(payload, payload.PrimaryKeyValue, newId, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
+            _payloadInterpeter.ActionOnPayload(payload, payload.PrimaryKeyValue, payload.PrimaryKeyValue, DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
        /// <summary>
        ///  Data payload

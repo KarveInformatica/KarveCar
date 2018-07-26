@@ -111,6 +111,10 @@
       <Project>{d670e5eb-634c-41e4-a7dd-3621e80e5ef7}</Project>
       <Name>KarveCar</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\src\KarveCar.NavigationInterface\KarveCar.NavigationInterface.csproj">
+      <Project>{801EAC52-8DFE-4C96-8550-3BC263D6F8F5}</Project>
+      <Name>KarveCar.NavigationInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\src\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>
       <Name>KarveCar.CommonInterfaces</Name>

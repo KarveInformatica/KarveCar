@@ -158,9 +158,6 @@
       <DependentUpon>BookingInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BookingStateConverter.cs" />
-    <Compile Include="Views\FlightLookup.xaml.cs">
-      <DependentUpon>FlightLookup.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\GridColumnsConstants.cs" />
     <Compile Include="Views\BookingOtherDataView.xaml.cs">
       <DependentUpon>BookingOtherDataView.xaml</DependentUpon>
@@ -245,10 +242,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BookingInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FlightLookup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

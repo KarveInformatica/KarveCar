@@ -1180,7 +1180,7 @@ namespace KarveCar.Integration
         public void WhenIntegratedShould_Insert_ABookinWithLines()
         {
             RegisterABookingPayload();
-            var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object);
+            var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object, null);
             _carveBarViewModel.NewCommand.Execute(null);
             Assert.NotNull(_notifiedPayLoad);
             Assert.AreEqual(_notifiedPayLoad.Subsystem, DataSubSystem.BookingSubsystem);
@@ -1209,7 +1209,7 @@ namespace KarveCar.Integration
             // act
             _carveBarViewModel.DeleteCommand.Execute(bookingCode);
 
-            var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object);
+            var karveViewModel = new BookingControlViewModel(_regionManager.Object, _dataServices, _unityContainer.Object, _interactionRequestController.Object, _dialogService.Object, _eventManager.Object, null);
 
             var currentPayLoadToDelete = _notifiedPayLoad;
 

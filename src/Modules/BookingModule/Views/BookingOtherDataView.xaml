@@ -11,10 +11,12 @@
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:Prism="http://www.codeplex.com/prism"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1100">
     <UserControl.Resources>
-        <local:BookingStateConverter x:Key="BookingStateConverter" />
+                <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
+                <local:BookingStateConverter x:Key="BookingStateConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -146,8 +148,7 @@
                                                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                                                 MagnifierCommand="{Binding AssistCommand}"
                                                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
-                                                                ButtonImage="{Binding MagnifierButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DualFieldSearchBox>
 
                 <karveControls:DataFieldCheckBox Content="Para Cliente" Grid.Column="0"
@@ -178,7 +179,7 @@
                                                                 MagnifierCommand="{Binding AssistCommand}"
                                                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
-                                                                ButtonImage="{Binding MagnifierButtonImage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                                                ButtonImage="/KarveControls;component/Images/search.png">
                 </karveControls:DualFieldSearchBox>
             </Grid>
         </GroupBox>
@@ -207,7 +208,7 @@
                                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            karveControls:ControlExt.DataSource="{Binding DataObject}"
                                            karveControls:ControlExt.DataSourcePath="HORAESPLAZASAL_RES1"
-                                           SelectedTime="{Binding DataObject.HORAESPLAZASAL_RES1}"/>
+                                           SelectedTime="{Binding DataObject.HORAESPLAZASAL_RES1,Mode=TwoWay, Converter={StaticResource TimeSpanConverter}}"/>
 
                 <Label Content="Reserva Prevista" Grid.Column="0" Grid.Row="1"></Label>
                 <DatePicker Grid.Column="1" Grid.Row="1"
@@ -215,13 +216,14 @@
                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
                             ></DatePicker>
+
                 <materialDesign:TimePicker Width="150" Height="40" 
                                            Grid.Column="2"
                                            Grid.Row="1"
                                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            karveControls:ControlExt.DataSource="{Binding DataObject}"
                                            karveControls:ControlExt.DataSourcePath="HORAESPLAZA_RES1"
-                                           SelectedTime="{Binding DataObject.HORAESPLAZA_RES1}"/>
+                                           SelectedTime="{Binding DataObject.HORAESPLAZA_RES1, Mode=TwoWay,Converter={StaticResource TimeSpanConverter}, UpdateSourceTrigger=PropertyChanged,  ValidatesOnNotifyDataErrors=True}"/>
 
                 <Button Grid.Column="3" Grid.RowSpan="3" Command="{Binding IncidentLookup}"
                         CommandParameter="{Binding DataObject}">
@@ -275,7 +277,7 @@
                                 DataAreaTitle="Recorrido" 
                                 DataAreaWidth="400"
                                 LabelVisible="False"
-                                TextContent="{Binding DataObject.RECORRIDO, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                TextContent="{Binding DataObject.RECORRIDO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 karveControls:ControlExt.DataSourcePath="NOTAS_INTERNAS"
                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
@@ -286,7 +288,7 @@
                 <DockPanel Grid.Row="0" Grid.Column="0">
                     <Syncfusion:ButtonAdv  DockPanel.Dock="Left"  Background="Transparent" 
                                   Height="30" Width="30" ToolTip="Nuevo Codigo"
-                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewCode}"></Syncfusion:ButtonAdv>
+                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewPromoCodeView}"></Syncfusion:ButtonAdv>
                     <karveControls:DualFieldSearchBox 
                         DockPanel.Dock="Left"
                                              LabelVisible="False"

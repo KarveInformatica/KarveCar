@@ -33,7 +33,7 @@
                 
                 <ResourceDictionary Source="pack://application:,,,/MasterModule;component/Generic/Generic.xaml" />
                           
-                <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Themes/Generic.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
           
             <DataTemplate x:Key="ProviderUpperBar">

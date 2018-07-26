@@ -880,6 +880,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reserva.
+        /// </summary>
+        public static string lbooking {
+            get {
+                return ResourceManager.GetString("lbooking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Presupuesto Reserva.
         /// </summary>
         public static string lbookingbudget {
@@ -1348,6 +1357,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Titular.
+        /// </summary>
+        public static string lcreditcardholder {
+            get {
+                return ResourceManager.GetString("lcreditcardholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tipo Tarjeta de Credito.
         /// </summary>
         public static string lcreditcardtype {
@@ -1573,6 +1591,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ora de salida.
+        /// </summary>
+        public static string ldeparturehour {
+            get {
+                return ResourceManager.GetString("ldeparturehour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lugar de Salida.
         /// </summary>
         public static string ldepartureplace {
@@ -1587,6 +1614,24 @@ namespace KarveLocale.Properties {
         public static string ldepartureworkshop {
             get {
                 return ResourceManager.GetString("ldepartureworkshop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fianza.
+        /// </summary>
+        public static string ldeposit {
+            get {
+                return ResourceManager.GetString("ldeposit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observaciones Fianza.
+        /// </summary>
+        public static string ldepositnotes {
+            get {
+                return ResourceManager.GetString("ldepositnotes", resourceCulture);
             }
         }
         
@@ -6240,6 +6285,15 @@ namespace KarveLocale.Properties {
         public static string lsave {
             get {
                 return ResourceManager.GetString("lsave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Guardar Datos en Clientes.
+        /// </summary>
+        public static string lsaveclients {
+            get {
+                return ResourceManager.GetString("lsaveclients", resourceCulture);
             }
         }
         

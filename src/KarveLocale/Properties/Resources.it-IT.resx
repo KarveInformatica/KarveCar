@@ -2859,7 +2859,7 @@
     <value>Cerca Volo</value>
   </data>
   <data name="lbookingbudget" xml:space="preserve">
-    <value>Preventivo Riserva</value>
+    <value>Preventivo Prenotazione</value>
   </data>
   <data name="lbookingref" xml:space="preserve">
     <value>Riferimento Riserva</value>
@@ -2968,5 +2968,20 @@
   </data>
   <data name="lbookingtype" xml:space="preserve">
     <value>Tipo Reserva</value>
+  </data>
+  <data name="lbooking" xml:space="preserve">
+    <value>Prenotazione</value>
+  </data>
+  <data name="ldepositnotes" xml:space="preserve">
+    <value>Osservazioni Caparra</value>
+  </data>
+  <data name="ldeposit" xml:space="preserve">
+    <value>Caparra</value>
+  </data>
+  <data name="lsaveclients" xml:space="preserve">
+    <value>Salva dato in Clienti</value>
+  </data>
+  <data name="lcreditcardholder" xml:space="preserve">
+    <value>Titolare</value>
   </data>
 </root>

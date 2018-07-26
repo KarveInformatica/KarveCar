@@ -7,17 +7,23 @@
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              d:DesignHeight="900" d:DesignWidth="1124">
-
-
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid>
-
+        
         <Grid.Resources>
+
             <ResourceDictionary>
                 <DataTemplate x:Name="Bonus" x:Key="Bonus">
                     <Grid>
@@ -37,26 +43,42 @@
                                 </BulletDecorator>
                             </Expander.Header>
                             <Grid>
+                                
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <KarveControls:DataFieldCheckBox 
+                                
+                                <KarveControls:DataFieldCheckBox
+                                    x:Name="ExistBonusCheckBox"
                                     Grid.Row="0"
+                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     karveControls:ControlExt.DataSourcePath="BONOSI_RES2"
                                     Content="{Binding lexistbonus, Source={StaticResource ResourceLanguage}}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                            <prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
                                 </KarveControls:DataFieldCheckBox>
                                 <KarveControls:DataFieldCheckBox 
-                                    Grid.Row="1"
-                                    Content="{Binding lselfbonus, Source={StaticResource ResourceLanguage}}">
+                                     x:Name="ExistSelfBonusCheckBox"
+                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     karveControls:ControlExt.DataSourcePath="BONOAURO_RES2"
+                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
+                                     Grid.Row="1"
+                                     Content="{Binding lselfbonus, Source={StaticResource ResourceLanguage}}">
                                 </KarveControls:DataFieldCheckBox>
+                                
                                 <Grid Grid.Row="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition></ColumnDefinition>
                                         <ColumnDefinition></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Syncfusion:SfTextBoxExt Grid.Column="0" 
-                                                 Grid.Row="4" 
+                                                 Grid.Row="4"
+                                                 x:Name="BonusNumber"
                                                  Grid.ColumnSpan="3" 
                                                  Width="200"
                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -87,8 +109,9 @@
 
 
                         </Grid.RowDefinitions>
-                        <Button Grid.Column="0" Grid.Row="0" Command="{Binding CreateClient}" Background="#e6e6fa">
-                            <Image Source="/KarveControls;component/Images/clients.png"></Image>
+                        <Button  x:Name="CreateClientButton" Grid.Column="0" Grid.Row="0" Command="{Binding CreateClient}" 
+                                 Background="#e6e6fa">
+                            <Image  Source="/KarveControls;component/Images/clients.png"></Image>
                         </Button>
                         <KarveControls:DualFieldSearchBox x:Name="ClientSearchBox" 
                                            Grid.Column="1" Grid.Row="0"
@@ -106,9 +129,15 @@
                                            DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            SourceView="{Binding ClientDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         </KarveControls:DualFieldSearchBox>
-                        <Syncfusion:SfTextBoxExt Watermark="{Binding lnif, Source={StaticResource ResourceLanguage}}" Grid.Column="3" Grid.Row="0"
+                        <Syncfusion:SfTextBoxExt 
+                                 x:Name="NifTextBox"
+                                 Watermark="{Binding lnif, Source={StaticResource ResourceLanguage}}" Grid.Column="3" Grid.Row="0"
                                  Style="{StaticResource SfFieldErrorStyle}"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="Nif"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                  IsReadOnly="True"
+                                 Background="LightCyan"
                                  Text="{Binding ElementName=ClientSearchBox, Path=SelectedObject.Nif, Mode=TwoWay,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
                                  Width="100">
 
@@ -131,7 +160,9 @@
                                               DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SourceView="{Binding DriverDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                         </KarveControls:DualFieldSearchBox>
-                        <Syncfusion:SfTextBoxExt Watermark="{Binding lnif, Source={StaticResource ResourceLanguage}}" Grid.Column="3" Grid.Row="1"
+                        <Syncfusion:SfTextBoxExt 
+                                 x:Name="Nif"
+                                 Watermark="{Binding lnif, Source={StaticResource ResourceLanguage}}" Grid.Column="3" Grid.Row="1"
                                  Text="{Binding ElementName=DriverSearchBox, Path=SelectedObject.Nif, Mode=TwoWay,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
                                  Style="{StaticResource SfFieldErrorStyle}"
                                  IsReadOnly="True"
@@ -144,8 +175,12 @@
 
                         <Syncfusion:SfTextBoxExt Grid.Column="0" 
                                                  Grid.Row="4" 
+                                                 x:Name="ObsRtf"
                                                  Grid.ColumnSpan="3" 
                                                  Height="100"
+                                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                                 karveControls:ControlExt.DataSourcePath="OBS1_RTF_RES2"
+                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                                  Text="{Binding DataObject.OBS1_RTF_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"/>
 
                     </Grid>
@@ -242,9 +277,11 @@
                                         Grid.Column="3" Grid.Row="0"></ContentControl>
 
                         <StackPanel Grid.Column="3" Grid.Row="1">
-                            <Syncfusion:SfTextBoxExt Text="{Binding lprepaidamount, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
+                            <TextBlock
+                                 x:Name="prepaidAmount"
+                                Text="{Binding lprepaidamount, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
                                 
-                            </Syncfusion:SfTextBoxExt>
+                            </TextBlock>
                             <Syncfusion:SfTextBoxExt Watermark="{Binding lprepaidamount, Source={StaticResource ResourceLanguage}}"
                                                  Text="{Binding DataObject.IMPORTE_PREPAGADO_RES2, Mode=TwoWay}"
                                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
@@ -265,9 +302,9 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Label Content="{Binding ldescuento, Mode=OneWay, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="0" Height="30"></Label>
-                        <Label Content="{Binding lkilometro, Mode=OneWay, Source={StaticResource ResourceLanguage}}" Grid.Column="1" Grid.Row="0" Height="30"></Label>
-                        <Label Content="{Binding lkilometroincluido, Mode=OneWay, Source={StaticResource ResourceLanguage}}" Grid.Column="2" Grid.Row="0" Height="30"></Label>
+                        <Label Content="{Binding ldescuento, Mode=OneTime, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="0" Height="30"></Label>
+                        <Label Content="{Binding lkilometro, Mode=OneTime, Source={StaticResource ResourceLanguage}}" Grid.Column="1" Grid.Row="0" Height="30"></Label>
+                        <Label Content="{Binding lkilometroincluido, Mode=OneTime, Source={StaticResource ResourceLanguage}}" Grid.Column="2" Grid.Row="0" Height="30"></Label>
                         <Syncfusion:SfTextBoxExt Grid.Column="0" 
                                                  Grid.Row="1"
                                                  Height="30"
@@ -422,14 +459,17 @@
                                     SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
                                 <materialDesign:TimePicker  x:Name="DataTimePicker"
                                                                           Height="30"
-                                                                          SelectedTime="{Binding DataObject.HSALIDA_RES1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                          SelectedTime="{Binding DataObject.HSALIDA_RES1,
+       
+                                                                                        Mode=TwoWay, 
+                                    Converter={StaticResource TimeSpanConverter},UpdateSourceTrigger=PropertyChanged}"
                                                                           HorizontalAlignment="Left"/>
 
                             </StackPanel>
 
                         </Grid>
                         <Grid Grid.Column="0" Grid.Row="1">
-                            <Expander Header="Checkin">
+                            <Expander Header="Checkin" IsExpanded="True">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition></ColumnDefinition>
@@ -483,12 +523,14 @@
                                     SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30"  />
                                 <materialDesign:TimePicker  x:Name="DataTimePicker2"
                                                                           Height="30"
-                                                                          SelectedTime="{Binding DataObject.HPREV_RES1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                          SelectedTime="{Binding DataObject.HPREV_RES1, Mode=TwoWay,
+                                                                          Converter={StaticResource TimeSpanConverter},
+                                                                            UpdateSourceTrigger=PropertyChanged}"
                                                                           HorizontalAlignment="Left"></materialDesign:TimePicker>
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Column="1" Grid.Row="1">
-                            <Expander Header="CheckOut">
+                            <Expander Header="CheckOut" IsExpanded="True">
 
                                 <Grid Margin="30,0,0,0">
                                 <Grid.ColumnDefinitions>
@@ -764,14 +806,31 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         
-                        <Label Grid.Row="0" Grid.Column="0" Content="Fianza"></Label>
-                        <Label Grid.Row="0" Grid.Column="1" Content="Observaciones Fianza"></Label>
-                        <Syncfusion:SfTextBoxExt Grid.Column="0" Text="" Grid.Row="1">
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding ldeposit, Source={StaticResource ResourceLanguage}}">
+                            
+                        </Label>
+                        <Syncfusion:SfTextBoxExt 
+                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            karveControls:ControlExt.DataSourcePath="FIANZA_DEPOSITO_RES1"
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            Watermark="{Binding ldeposit,Source={StaticResource ResourceLanguage}}"
+                            Text="{Binding DataObject.FIANZA_DEPOSITO_RES1, Mode=TwoWay}">
                             
                         </Syncfusion:SfTextBoxExt>
-                        <Syncfusion:SfTextBoxExt Grid.Column="1" Text="" Grid.Row="1">
-                            
-                        </Syncfusion:SfTextBoxExt>
+                        <karveControls:DataArea  
+                                Height="Auto"
+                                Width="Auto"
+                                Grid.Row="0" Grid.Column="1" 
+                                Grid.RowSpan="2"
+                                DataAreaWidth="200"
+                                Margin="5,0,0,0"
+                                DataAreaTitle="{Binding ldepositnotes,Source={StaticResource ResourceLanguage}}"
+                                LabelVisible="False"
+                                TextContent="{Binding DataObject.OBSFIANZA_RES1, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                karveControls:ControlExt.DataSourcePath="OBSFIANZA_RES1"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                />
                         <Syncfusion:ButtonAdv Grid.Row="2" Grid.Column="2" Width="150" 
                                               Label="Cobro"
                                               Command="{Binding AmountCommand, Mode=OneWay}"

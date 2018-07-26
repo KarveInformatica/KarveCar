@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using CreditCardValidator;
 namespace KarveControls
 {
     public class CreditCardControlExt : Control
     {
         /// <summary>
-        ///  default ctor.
+        ///  .
         /// </summary>
         public static readonly DependencyProperty CardHolderProperty =
           DependencyProperty.Register(
@@ -34,25 +34,26 @@ namespace KarveControls
             const string defaultPath = "/KarveControls;component/Images/creditcard.png";
             var newNumber = e.NewValue as string;
             var cardPath = defaultPath;
-            var value = CreditCardDetector.GetCardType(newNumber);
+            var value = KarveCreditCardDetector.GetCardType(newNumber);
+         
             switch (value)
             {
-                case CardType.MasterCard:
+                case CardIssuer.MasterCard:
                     cardPath = "/KarveControls;component/Images/mastercard.jpeg";
                     break;
-                case CardType.VISA:
+                case CardIssuer.Visa:
                     cardPath = "/KarveControls;component/Images/visa.png";
                     break;
-                case CardType.Amex:
+                case CardIssuer.AmericanExpress:
                     cardPath = "/KarveControls;component/Images/amex.png";
                     break;
-                case CardType.Discover:
+                case CardIssuer.Discover:
                     cardPath = "/KarveControls;component/Images/discover.png";
                     break;
-                case CardType.DinersClub:
+                case CardIssuer.DinersClub:
                     cardPath = "/KarveControls;component/Images/diners.png";
                     break;
-                case CardType.JCB:
+                case CardIssuer.JCB:
                     cardPath = "/KarveControls;component/Images/jcb.png";
                     break;
                 default:
@@ -63,17 +64,7 @@ namespace KarveControls
                 ext.CardImagePath = cardPath;
             }
         }
-        private static bool IsMasterCard(string card)
-        {
-            return ((card.StartsWith("5")) || (card.StartsWith("2")));
-        }
-        public static bool IsAmex(string amex)
-        {
-            // Valid length: 15 digits. 
-            // First digit must be a 3 and second digit must be a 4 or 7.
-           return (amex.StartsWith("34")) || (amex.StartsWith("37"));
-        }   
-
+        
         public string CardNumber
         {
             get { return (string)GetValue(CardNumberProperty); }
@@ -110,7 +101,7 @@ DependencyProperty.Register(
  "VisibilityToken",
  typeof(Visibility),
  typeof(CreditCardControlExt),
- new PropertyMetadata(Visibility.Visible));
+ new PropertyMetadata(Visibility.Collapsed));
         public Visibility VisibilityToken
         {
             get { return (Visibility)GetValue(VisibilityTokenProperty); }

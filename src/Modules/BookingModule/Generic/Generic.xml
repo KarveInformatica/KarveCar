@@ -13,6 +13,7 @@
                      xmlns:gridbehavior="clr-namespace:KarveControls.Behaviour.Grid;assembly=KarveControls"
                      xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls">
   
+   <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
  <DataTemplate x:Key="ReservationRequestUpperBar">
         <Grid>
             <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">

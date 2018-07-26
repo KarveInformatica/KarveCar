@@ -542,6 +542,9 @@
     <Resource Include="Images\ball_green.png" />
     <Resource Include="Images\ball_red.png" />
     <Resource Include="Images\incident.png" />
+    <Resource Include="Images\mastercard.jpeg" />
+    <Resource Include="Images\visa.png" />
+    <Resource Include="Images\sxexpresscard.jpg" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />
@@ -576,6 +579,9 @@
     <Folder Include="HeaderedWindow\Interactions\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CreditCardValidator">
+      <Version>1.4.1</Version>
+    </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
       <Version>3.4.0</Version>
     </PackageReference>

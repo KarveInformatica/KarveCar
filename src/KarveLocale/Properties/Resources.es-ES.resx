@@ -2335,7 +2335,7 @@
     <value>Total</value>
   </data>
   <data name="lnew" xml:space="preserve">
-    <value>Nuevo</value>
+    <value>Nuevo/a</value>
   </data>
   <data name="lsave" xml:space="preserve">
     <value>Guardar</value>
@@ -2669,5 +2669,23 @@
   </data>
   <data name="lvehicles" xml:space="preserve">
     <value>Vehiculos</value>
+  </data>
+  <data name="lbooking" xml:space="preserve">
+    <value>Reserva</value>
+  </data>
+  <data name="ldepositnotes" xml:space="preserve">
+    <value>Observaciones Fianza</value>
+  </data>
+  <data name="ldeposit" xml:space="preserve">
+    <value>Fianza</value>
+  </data>
+  <data name="lsaveclients" xml:space="preserve">
+    <value>Guardar Datos en Clientes</value>
+  </data>
+  <data name="ldeparturehour" xml:space="preserve">
+    <value>Ora de Salida</value>
+  </data>
+  <data name="lcreditcardholder" xml:space="preserve">
+    <value>Titular</value>
   </data>
 </root>

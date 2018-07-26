@@ -13,6 +13,7 @@ using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
 using KarveControls;
 using KarveCommon;
+using Prism.Interactivity.InteractionRequest;
 
 namespace KarveControls.ViewModels
 {
@@ -40,6 +41,8 @@ namespace KarveControls.ViewModels
         private object _sourceView;
         private bool _linevisible;
         private bool _footervisible;
+        private object _selectedItem;
+        private InteractionRequest<INotification> _notificationRequest;
 
         protected HeaderedLineViewModelBase(IDataServices dataServices,
             IDialogService dialogServices,
@@ -65,6 +68,28 @@ namespace KarveControls.ViewModels
           
         }
 
+        public InteractionRequest<INotification> NotificationRequest
+        {
+            get => _notificationRequest;
+            set
+            {
+                _notificationRequest = value;
+                RaisePropertyChanged("NotificationRequest");
+            }
+
+        }
+        public object SelectedItem
+        {
+            set
+            {
+                _selectedItem = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _selectedItem;
+            }
+        }
         /// <summary>
         /// LineVisible
         /// </summary>

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 using System.Windows.Input;
+using KarveDataServices.DataObjects;
 
 namespace KarveCommon.Services
 {
@@ -65,6 +66,7 @@ namespace KarveCommon.Services
         };
 
         private Type _payLoadType = Type.Insert;
+       
         /// <summary>
         ///  It endicate the data object associated
         /// </summary>
@@ -200,6 +202,7 @@ namespace KarveCommon.Services
 
         public ICommand DeleteCommand { get; set; }
         public ICommand NewCommand { get; set; }
+        public Uri Destination { get; set; }
 
         /// <summary>
         ///  Set or Get the the name of the ShallowCopy.

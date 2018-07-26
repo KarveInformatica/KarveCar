@@ -14,7 +14,7 @@
                      xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls">
     
     <converter:ByteToBooleanConverter x:Key="ByteToBooleanConverter"></converter:ByteToBooleanConverter>
-    <converter:NullBoleanToBooleanConverter x:Key="NullableBooleanConverter"></converter:NullBoleanToBooleanConverter>
+    <converter:NullBooleanToBooleanConverter x:Key="NullableBooleanConverter"></converter:NullBooleanToBooleanConverter>
     <converter:IsClientCompanyConverter x:Key="CharToCompanyConverter"></converter:IsClientCompanyConverter>
     <converter:InvertedBooleanToVisibility x:Key="InvertedBooleanToVisibility"></converter:InvertedBooleanToVisibility>
     <converter:BoolToVisiblityConverter x:Key="BooleanToVisibility"></converter:BoolToVisiblityConverter>

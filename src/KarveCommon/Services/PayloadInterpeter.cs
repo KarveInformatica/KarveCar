@@ -28,7 +28,8 @@ namespace KarveCommon.Services
         /// <param name="subsystemName"></param>
             public delegate void Dispose(DataPayLoad payLoad, DataSubSystem subSystem, string subsystemName);
 
-        private enum InterpeterState { Initialized, CleanedUp, None };
+
+            private enum InterpeterState { Initialized, CleanedUp, None };
             /// <summary>
              ///  Initializer of the model. It is has used to call an Init method to be set from the user.
              ///  Currently the user is a view model when it hands a message coming from the EventManager/Mediator.
@@ -72,11 +73,7 @@ namespace KarveCommon.Services
                     throw new Exception("Interpreter not initalized"); 
                 }
             // check on primary key
-            if ((payLoad.PayloadType == DataPayLoad.Type.Insert) &&
-           (primaryKeyValue == payLoad.PrimaryKeyValue))
-            {
-                return;
-            }
+           
             
             switch (payLoad)
                 {

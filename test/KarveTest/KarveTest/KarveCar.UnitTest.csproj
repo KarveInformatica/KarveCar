@@ -52,11 +52,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\..\src\packages\AutoMapper.7.0.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CreditCardValidator, Version=1.4.1.178, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\src\packages\CreditCardValidator.1.4.1\lib\net40\CreditCardValidator.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\src\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
@@ -201,7 +204,6 @@
     <Compile Include="Mock\MockViewModel.cs" />
     <Compile Include="Mock\UI\MockFrameworkElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\TestAssistSelectionNotification.cs" />
     <Compile Include="Services\TestAssistService.cs" />
     <Compile Include="Services\TestCareKeeeper.cs" />
     <Compile Include="Services\TestConfigurationService.cs" />
@@ -247,6 +249,10 @@
     <ProjectReference Include="..\..\..\src\KarveCar.NavigationInterface\KarveCar.NavigationInterface.csproj">
       <Project>{801eac52-8dfe-4c96-8550-3bc263d6f8f5}</Project>
       <Name>KarveCar.NavigationInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\src\KarveCar.Navigation\KarveCar.Navigation.csproj">
+      <Project>{26a533e0-2633-47fe-90db-19d34e4d0e68}</Project>
+      <Name>KarveCar.Navigation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\src\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{e9c77593-b656-45da-bae1-91af97491069}</Project>

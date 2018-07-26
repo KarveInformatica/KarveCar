@@ -47,7 +47,6 @@ namespace KarveTest.Behavior
             dataObject.PROV = "39";
             var changeRule = new ChangeRuleBehavior {DataObject = dataObject};
             changeRule.Execute();
-
             var result = changeRule.DataObject as PROVEE1;
             Assert.AreEqual("08", result.PROV);
         } 

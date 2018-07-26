@@ -122,6 +122,7 @@ namespace KarveTest.ViewModels
             var clientService = _services.GetClientDataServices();
             var helperService = _services.GetHelperDataServices();
             var vehicleService = _services.GetVehicleDataServices();
+
             var clientDto = await clientService.GetPagedSummaryDoAsync(1,1);
             var grupos = await helperService.GetSingleMappedAsyncHelper<VehicleGroupDto, GRUPOS>(dto.CATEGO);
             var origen = await helperService.GetSingleMappedAsyncHelper<OrigenDto, ORIGEN>(dto.ORIGEN.Value.ToString());

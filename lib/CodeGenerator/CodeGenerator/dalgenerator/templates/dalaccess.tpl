@@ -46,7 +46,7 @@ namespace DataAccessLayer
 
         public async Task<I{{data.name}}> GetDoAsync(string code)
         {
-            I{Name} = new Null{{data.name}}();
+            I{{data.name}} result = new Null{{data.name}}();
             try
             {
                 var dto  = await _dataLoader.LoadValueAsync(code).ConfigureAwait(false);

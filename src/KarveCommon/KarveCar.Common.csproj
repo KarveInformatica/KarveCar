@@ -159,6 +159,7 @@
     <Compile Include="BoolToVisibilityConverter.cs" />
     <Compile Include="ChangeFieldHandlerDo.cs" />
     <Compile Include="ComponentUtils.cs" />
+    <Compile Include="Converter\BillToBookConverter.cs" />
     <Compile Include="Converter\BooleanToVisibility.cs" />
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\CardTypeImageConverter.cs" />
@@ -169,11 +170,13 @@
     <Compile Include="Converter\InvertedBooleanToVisibility.cs" />
     <Compile Include="Converter\IsClientCompanyConverter.cs" />
     <Compile Include="Converter\IsClientPersonConverter.cs" />
-    <Compile Include="Converter\NullBoleanToBooleanConverter.cs" />
+    <Compile Include="Converter\KmIncludedToBoolConverter.cs" />
+    <Compile Include="Converter\NullBooleanToBooleanConverter.cs" />
     <Compile Include="Converter\RatioScreenConverter.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
     <Compile Include="Converter\StringToByteConverter.cs" />
     <Compile Include="Converter\StringToIntegerConverter.cs" />
+    <Compile Include="Converter\TimeSpanToDateTimeConverter.cs" />
     <Compile Include="DialogService\KarveDialogService.cs" />
     <Compile Include="Generic\AssistProperties.cs" />
     <Compile Include="Generic\CleanupHelper.cs" />

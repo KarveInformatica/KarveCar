@@ -29,5 +29,21 @@ namespace KarveDataServices.DataObjects
         ///  Set or Get the Summary of drivers.
         /// </summary>
         IEnumerable<ClientSummaryExtended> Drivers { set; get; }
+        IEnumerable<OfficeDtos> ReservationOfficeDeparture { get; set; }
+        IEnumerable<OfficeDtos> ReservationOfficeArrival { get; set; }
+        IEnumerable<BudgetDto> BudgetDto { get; set; }
+        IEnumerable<FareDto> FareDto { get; set; }
+        IEnumerable<VehicleGroupDto> VehicleGroupDto { get; set; }
+        IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
+        IEnumerable<OfficeDtos> OfficeDto { get; set; }
+        IEnumerable<VehicleSummaryDto> VehicleDto { get; set; }
+        IEnumerable<ClientSummaryExtended> DriverDto3 { get; set; }
+        IEnumerable<ClientSummaryExtended> DriverDto4 { get; set; }
+        IEnumerable<ClientSummaryExtended> DriverDto5 { get; set; }
+        IEnumerable<ClientSummaryExtended> DriverDto2 { get; set; }
+        IEnumerable<CityDto> CityDto3 { get; set; }
+        IEnumerable<CountryDto> Country2Dto { get; set; }
+        IEnumerable<CountryDto> CountryDto3 { get; set; }
+        IEnumerable<ProvinciaDto> ProvinceDto3 { get; set; }
     }
 }

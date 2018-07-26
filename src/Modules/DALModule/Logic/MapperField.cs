@@ -1285,7 +1285,16 @@ namespace DataAccessLayer.Logic
                         CurrentUser = src.USUARIO,
                         Days = src.DIAS,
                         Desccon = src.DESCCON,
-                        Discount = src.DTO
+                        Discount = src.DTO,
+                        Iva = src.IVA,
+                        Type = src.TIPO,
+                        Fare = src.TARIFA,
+                        Quantity = src.CANTIDAD,
+                        Group = src.GRUPO,
+                        Included = src.INCLUIDO,
+                        Price = src.PRECIO,
+                        Subtotal = src.SUBTOTAL,
+                        Unity = src.UNIDAD
 
                     };
                     reservaItem.LastModification = src.ULTMODI;
@@ -1301,12 +1310,20 @@ namespace DataAccessLayer.Logic
                         FACTURAR = src.Bill,
                         CONCEPTO = src.Concept,
                         COSTE = src.Cost,
+                        CANTIDAD = src.Quantity,
                         USUARIO = src.CurrentUser,
                         DIAS = src.Days,
                         DESCCON = src.Desccon,
                         DTO = src.Discount,
+                        IVA = src.Iva,
+                        TIPO = src.Type,
+                        TARIFA = src.Fare,
+                        GRUPO = src.Group,
+                        INCLUIDO = src.Included,
+                        UNIDAD= src.Unity,
+                        PRECIO = src.Price,
+                        SUBTOTAL = src.Subtotal,
                         ULTMODI = src.LastModification
-
                     };
                     return lineaReservation;
                 });
@@ -1320,7 +1337,6 @@ namespace DataAccessLayer.Logic
                     }
                     var invoiceItem = new InvoiceSummaryDto
                     {
-
                         Opciones = opciones,
                         AgreementCode = src.CONTRATO_LIF,
                         Number = src.NUMERO_LIF,
@@ -1363,7 +1379,6 @@ namespace DataAccessLayer.Logic
                         CONTRATO_LIF = src.AgreementCode,
                         CONCEPTO_LIF = opciones,
                         ULTMODI_LIF = src.LastModification
-
                     };
                     if (src.KeyId != null)
                     {

@@ -2927,4 +2927,7 @@
   <data name="lmr" xml:space="preserve">
     <value>Herr</value>
   </data>
+  <data name="lbooking" xml:space="preserve">
+    <value>Buchung</value>
+  </data>
 </root>
