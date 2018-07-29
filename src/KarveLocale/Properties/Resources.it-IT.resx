@@ -2984,4 +2984,10 @@
   <data name="lcreditcardholder" xml:space="preserve">
     <value>Titolare</value>
   </data>
+  <data name="lid" xml:space="preserve">
+    <value>CI</value>
+  </data>
+  <data name="ldeparture" xml:space="preserve">
+    <value>Partenza:</value>
+  </data>
 </root>

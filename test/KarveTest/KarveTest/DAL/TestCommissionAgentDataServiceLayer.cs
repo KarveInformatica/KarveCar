@@ -315,13 +315,10 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Create_AgentCorrectly()
         {
-            IDictionary<string, string> fields = new Dictionary<string, string>();
-            fields.Add(CommissionAgent.Comisio, "NUM_COMI,NOMBRE,DIRECCION,PERSONA,NIF,NACIOPER,TIPOCOMI");
-            fields.Add(CommissionAgent.Tipocomi, "NUM_TICOMI, ULTMODI, USUARIO, NOMBRE");
-            fields.Add(CommissionAgent.Visitas, " * ");
-            fields.Add(CommissionAgent.Branches, "* ");
             string numComi = _commissionAgentDataServices.NewId();
-            var commissionAgent = await _commissionAgentDataServices.GetDoAsync(numComi);
+            var commissionAgent = _commissionAgentDataServices.GetNewDo(numComi);
+            var ret = _commissionAgentDataServices.SaveAsync(commissionAgent);
+            commissionAgent = await _commissionAgentDataServices.GetDoAsync(numComi);
             Assert.NotNull(commissionAgent);
             var value = commissionAgent.Value as ComisioDto;
             Assert.NotNull(value);

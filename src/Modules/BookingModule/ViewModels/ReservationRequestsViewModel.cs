@@ -55,9 +55,8 @@ namespace BookingModule.ViewModels
             _navigator = navigation;
             _helperViewFactory = _navigator.GetHelperViewFactory();
             _userSettings = configurationService.GetUserSettings();
-         //   _deleteCommand = new DelegateCommand<object>(DeleteView);
-
-         //   _saveCommand = new DelegateCommand<object>(SaveView);
+              _deleteCommand = new DelegateCommand<object>(this.DeleteViewCommand);
+              _saveCommand = new DelegateCommand<object>(SaveViewCommand);
             _dataReservationService = services.GetReservationRequestDataService();
             _assistDataService = services.GetAssistDataServices();
             AssistMapper = _assistDataService.Mapper;
@@ -227,15 +226,26 @@ namespace BookingModule.ViewModels
             {
                 return;
             }
+            if (dataPayLoad.DataObject == null)
+            {
+                return;
+            }
+            if (PrimaryKeyValue != null)
+            {
+                return;
+            }
             // is it for me?
             if (PrimaryKeyValue.Length > 0)
             {
 
                 var request = dataPayLoad.DataObject as IReservationRequest;
-                var dto = request.Value;
-                // check if the message if for me.
-                 if ((dto!=null) && (dto.NUMERO != PrimaryKeyValue))
-                     return;
+                if (request != null)
+                {
+                    var dto = request.Value;
+                    // check if the message if for me.
+                    if ((dto != null) && (dto.NUMERO != PrimaryKeyValue))
+                        return;
+                }
             }
 
             var interpeter = new PayloadInterpeter<DataType>();
@@ -298,11 +308,7 @@ namespace BookingModule.ViewModels
             RegisterToolBar();
             ActiveSubSystem();
         }
-
-        public override bool IsDeleter { get { return true; } }
-        
-       
-        public override bool DeleteView(object key)
+        public void DeleteViewCommand(object key)
         {
             base.DeleteView(key);
             DataPayLoad payload = new DataPayLoad();
@@ -311,9 +317,8 @@ namespace BookingModule.ViewModels
             payload.HasDataObject = true;
             payload.PrimaryKeyValue = DataObject.NUMERO;
             DeleteItem(payload);
-            return true;
         }
-        public void SaveView(object key)
+        public void SaveViewCommand(object key)
         {
             bool isSaved = false;
             _reservationRequest.Value = DataObject;

@@ -49,12 +49,12 @@ namespace MasterModule.ViewModels
             ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
             _newCommand = new DelegateCommand(OnNewCommand);
             SortCommand = new DelegateCommand<object>(OnSortCommand);
-            InitViewModel();
             _gridSorter = new GridSorter<CompanySummaryDto>(DialogService, _companyDataServices, DefaultPageSize);
             _gridSorter.OnInitPage += _gridSorter_OnInitPage;
             _gridSorter.OnNewPage += _gridSorter_OnNewPage;
             // ItenName is for the title.
             ItemName = "Empresas";
+            InitViewModel();
             ActiveSubSystem();
         }
 

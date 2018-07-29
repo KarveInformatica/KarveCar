@@ -10,7 +10,6 @@ using KarveDataServices.DataObjects;
 using DataAccessLayer.DataObjects;
 using AutoMapper;
 using DataAccessLayer.Logic;
-using DataAccessLayer.Model;
 
 namespace DataAccessLayer.Crud.Vehicle
 {
@@ -30,6 +29,27 @@ namespace DataAccessLayer.Crud.Vehicle
         public Task<IEnumerable<VehicleDto>> LoadAsyncAll()
         {
             throw new NotImplementedException();
+        }
+
+        private IQueryStore AddParams(IQueryStore auxQueryStore, VehicleDto resultQuery)
+        {
+            
+            auxQueryStore.AddParam(QueryType.QueryVehicleModelWithCount, resultQuery.MAR, resultQuery.MO1, resultQuery.MO2);
+            auxQueryStore.AddParamCount(QueryType.QueryBrandByVehicle, resultQuery.MAR, resultQuery.CODIINT);
+            auxQueryStore.AddParam(QueryType.QueryVehiclePhoto, resultQuery.CODIINT);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, resultQuery.ACTIVIDAD);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleOwner, resultQuery.PROPIE);
+            auxQueryStore.AddParamCount(QueryType.QueryAgentByVehicle, resultQuery.AGENTE_VEHI);
+            auxQueryStore.AddParam(QueryType.QueryVehicleMaintenance, resultQuery.CODIINT);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleColor, resultQuery.COLOR);
+            auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, resultQuery.GRUPO);
+            auxQueryStore.AddParamCount(QueryType.QueryPaymentForm, resultQuery.FORPAGOCO);
+            auxQueryStore.AddParamCount(QueryType.QuerySupplierSummaryById, resultQuery.PROVEEDOR);
+            auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExtById, resultQuery.COMPRADOR);
+            auxQueryStore.AddParamCount(QueryType.QueryReseller, resultQuery.VENDEDOR_VTA);
+            auxQueryStore.AddParamCount(QueryType.QueryCity, resultQuery.POBLA_IMP);
+            auxQueryStore.AddParamCount(QueryType.QueryOfficeZone, resultQuery.ZONA_IMP);
+            return auxQueryStore;
         }
         /// <summary>
         ///  Return a vehicle dto.
@@ -60,22 +80,9 @@ namespace DataAccessLayer.Crud.Vehicle
                     // vehicle.Value = _mapper.Map<VehiclePoco, VehicleDto>(resultQuery);
                     // ok here we have a valid way to do the query now. I need a new query store.
 
-                    var auxQueryStore = queryStoreFactory.GetQueryStore();
-                    auxQueryStore.AddParam(QueryType.QueryVehicleModelWithCount, resultQuery.MAR, resultQuery.MO1, resultQuery.MO2);
-                    auxQueryStore.AddParamCount(QueryType.QueryBrandByVehicle, resultQuery.MAR, resultQuery.CODIINT);
-                    auxQueryStore.AddParam(QueryType.QueryVehiclePhoto, resultQuery.CODIINT);
-                    auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, resultQuery.ACTIVIDAD);
-                    auxQueryStore.AddParamCount(QueryType.QueryVehicleOwner, resultQuery.PROPIE);
-                    auxQueryStore.AddParamCount(QueryType.QueryAgentByVehicle, resultQuery.AGENTE_VEHI);
-                    auxQueryStore.AddParam(QueryType.QueryVehicleMaintenance, resultQuery.CODIINT);
-                    auxQueryStore.AddParamCount(QueryType.QueryVehicleColor, resultQuery.COLOR);
-                    auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, resultQuery.GRUPO);
-                    auxQueryStore.AddParamCount(QueryType.QueryPaymentForm, resultQuery.FORPAGOCO);
-                    auxQueryStore.AddParamCount(QueryType.QuerySupplierSummaryById, resultQuery.PROVEEDOR);
-                    auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExtById, resultQuery.COMPRADOR);
-                    auxQueryStore.AddParamCount(QueryType.QueryReseller, resultQuery.VENDEDOR_VTA);
-                    auxQueryStore.AddParamCount(QueryType.QueryCity, resultQuery.POBLA_IMP);
-                    auxQueryStore.AddParamCount(QueryType.QueryOfficeZone, resultQuery.ZONA_IMP);
+                    var auxQueryStore = AddParams(queryStoreFactory.GetQueryStore(),resultQuery);
+
+
                     try
                     {
                         var query = auxQueryStore.BuildQuery();
@@ -135,7 +142,7 @@ namespace DataAccessLayer.Crud.Vehicle
                 vehicle.ModelDtos = SelectionHelpers.WrappedSelectedDto<MODELO, ModelVehicleDto>(vehicle.Value.MODELO, _mapper, reader);
                 vehicle.BrandDtos = SelectionHelpers.WrappedSelectedDto<MARCAS, BrandVehicleDto>(vehicle.Value.MAR, _mapper, reader);
                 vehicle.PicturesDtos = SelectionHelpers.WrappedSelectedDto<PICTURES, PictureDto>(vehicle, _mapper, reader);
-                vehicle.ActivityDtos = SelectionHelpers.WrappedSelectedDto<ACTIVEHI, ActividadDto>(vehicle.Value.ACTIVIDAD, _mapper, reader);
+                vehicle.ActivityDtos = SelectionHelpers.WrappedSelectedDto<ACTIVEHI, VehicleActivitiesDto>(vehicle.Value.ACTIVIDAD, _mapper, reader);
                 vehicle.OwnerDtos = SelectionHelpers.WrappedSelectedDto<OwnerDto, OwnerDto>(vehicle.Value.PROPIE, _mapper, reader);
                 vehicle.AgentsDto = SelectionHelpers.WrappedSelectedDto<AGENTES, AgentDto>(vehicle.Value.AGENTE_VEHI, _mapper, reader);
                 vehicle.MaintenanceHistory = SelectionHelpers.WrappedSelectedDto<MaintainanceDto, MaintainanceDto>(vehicle.Value, _mapper, reader);

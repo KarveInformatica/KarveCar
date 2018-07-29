@@ -10,12 +10,8 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  This is an interface for booking the data
     /// </summary>
-    public interface IBookingData : IValidDomainObject
+    public interface IBookingData : IValidDomainObject, IValueObject<BookingDto>
     {
-        /// <summary>
-        ///  Data object to be binded outside.
-        /// </summary>
-        BookingDto Value { get; set; }
         // Helpers.
         /// <summary>
         ///  Set or Get the Summary of contracts.
@@ -42,8 +38,17 @@ namespace KarveDataServices.DataObjects
         IEnumerable<ClientSummaryExtended> DriverDto5 { get; set; }
         IEnumerable<ClientSummaryExtended> DriverDto2 { get; set; }
         IEnumerable<CityDto> CityDto3 { get; set; }
-        IEnumerable<CountryDto> Country2Dto { get; set; }
+        IEnumerable<CountryDto> DriverCountryList { get; set; }
         IEnumerable<CountryDto> CountryDto3 { get; set; }
         IEnumerable<ProvinciaDto> ProvinceDto3 { get; set; }
+        IEnumerable<OrigenDto> OriginDto { get; set; }
+        IEnumerable<BookingMediaDto> BookingMediaDto { get; set; }
+        IEnumerable<BookingTypeDto> BookingTypeDto { get; set; }
+        IEnumerable<AgencyEmployeeDto> AgencyEmployeeDto { get; set; }
+        IEnumerable<ContactsDto> ContactsDto1 { get; set; }
+        IEnumerable<PaymentFormDto> PaymentFormDto { get; set; }
+        IEnumerable<PrintingTypeDto> PrintingTypeDto { get; set; }
+        IEnumerable<VehicleActivitiesDto> VehicleActivitiesDto { get; set; }
+        IEnumerable<BudgetSummaryDto> BookingBudget { get; set; }
     }
 }

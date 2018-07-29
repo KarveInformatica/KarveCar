@@ -24,7 +24,7 @@ namespace KarveDataServices.DataTransferObject
         private string _invoiceName;
         private string _invoiceSerie;
         private string _invoiceRef;
-        private string _amountTotal;
+       // private string _amountTotal;
 
         /// <summary>
         ///  Set or Get the InvoiceCode.

@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace BookingModule.Views
 {
     /// <summary>
-    /// Interaction logic for BookingInfoView.xaml
+    /// Interaction logic for Booking.xaml
     /// </summary>
-    public partial class BookingInfoView : UserControl
+    public partial class Booking : UserControl
     {
-        public BookingInfoView()
+        public Booking()
         {
             InitializeComponent();
-        }
-
-        private void VehicleFare_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

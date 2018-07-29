@@ -48,6 +48,7 @@ namespace KarveTest.Mock
             OfficeDtos dto = new OfficeDtos();
             data.Value = dto;
             data.Valid = true;
+            await Task.Delay(1);
             if (string.IsNullOrEmpty(clientIndentifier))
             {
                 throw new DataLayerException("Exception");

@@ -570,21 +570,21 @@ namespace ToolBarModule
                                 viewStack.Push(objectPath);
                             }
 
-                            if (payload.HasDeleteCommand)
+                            if ((payload.HasDeleteCommand) && (payload.DeleteCommand!=null))
                             {
                                 if (!_compositeDeleteCommand.RegisteredCommands.Contains(payload.DeleteCommand))
                                 {
                                     _compositeDeleteCommand.RegisterCommand(payload.DeleteCommand);
                                 }
                             }
-                            if (payload.HasSaveCommand)
+                            if ((payload.HasSaveCommand) && (payload.SaveCommand != null))
                             {
                                 if (!_compositeSaveCommand.RegisteredCommands.Contains(payload.SaveCommand))
                                 {
                                     _compositeSaveCommand.RegisterCommand(payload.SaveCommand);
                                 }
                             }
-                            if (payload.HasNewCommand)
+                            if ((payload.HasNewCommand) && (payload.NewCommand != null))
                             {
                                 if (!_compositeNewCommand.RegisteredCommands.Contains(payload.NewCommand))
                                 {

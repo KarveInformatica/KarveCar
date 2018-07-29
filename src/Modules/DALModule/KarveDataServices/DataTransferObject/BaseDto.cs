@@ -14,7 +14,7 @@ namespace KarveDataServices.DataTransferObject
     /// A data transfer object shall have no state.
     /// </summary>
     [Serializable]
-    public class BaseDto : NotificationObject, IValueObject, INotifyDataErrorInfo, IRevertibleChangeTracking, IDisposable 
+    public class BaseDto : NotificationObject, INotifyDataErrorInfo, IRevertibleChangeTracking, IDisposable 
     {
         // the problem is the _email;
         protected string _email;
@@ -30,9 +30,8 @@ namespace KarveDataServices.DataTransferObject
             HasErrors = false;
         }
 
-        
-        public virtual string Name { set; get; }
-
+    
+      
         public string KeyId { set; get; }
 
         protected bool IsValidEmailField(string data)
@@ -50,13 +49,18 @@ namespace KarveDataServices.DataTransferObject
             return false;
         }
         /// <summary>
-        ///  it is an alias for code
+        ///  Set or get the code
         ///  
         /// </summary>
         public virtual string Code
         {
             set; get;
         }
+        /// <summary>
+        ///  Set or Get the name.
+        /// </summary>
+        public virtual string Name { set; get; }
+
         /// <summary>
         ///  LastModification
         /// </summary>

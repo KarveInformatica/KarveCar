@@ -245,11 +245,11 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DockPanel Grid.Row="0" Background="DarkMagenta">
+                    <DockPanel Grid.Row="0" Background="LightCoral">
                         <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
                             Source="/KarveControls;component/Images/office.png" Height="48" />
                         <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" 
-                                   Text="{Binding loffice, Source={StaticResource ResourceLanguage}}" FontSize="24"
+                                   Text="{Binding loficina, Source={StaticResource ResourceLanguage}}" FontSize="24"
                        Foreground="White" />
                     </DockPanel>
                     <ContentControl  Grid.Row="1"  Content="{Binding}" ContentTemplate="{StaticResource UpperBarViewOffice}"></ContentControl>
@@ -1226,19 +1226,20 @@
                                             <TextBlock Text="{Binding CurrentYear, Mode=OneWay}"></TextBlock>
                                         </DockPanel>
                                        
-                                        <DockPanel Grid.Column="1"  Width="170">
+                                        <DockPanel Grid.Column="1"  Width="Auto">
                                             <TextBlock Text="Horario Desde" Width="120" DockPanel.Dock="Left" VerticalAlignment="Center"></TextBlock>
                                            
                                             <materialDesign:TimePicker DockPanel.Dock="Right" x:Name="DataTimePicker"
                                                                           Height="30"
+                                                                          Width="100"
                                                                           SelectedTime="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                           HorizontalAlignment="Left"/>
                                         </DockPanel>
-                                        <DockPanel Grid.Column="2" Width="170">
+                                        <DockPanel Grid.Column="2" Width="Auto">
                                             <TextBlock Text="Hasta" Width="120"   DockPanel.Dock="Left" VerticalAlignment="Center"></TextBlock>
                                             <materialDesign:TimePicker DockPanel.Dock="Right" x:Name="DataTimePicker2"
                                                                           Height="30"
-                                                                          
+                                                                          Width="100"
                                                                           SelectedTime="{Binding HolidayTimeFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                          HorizontalAlignment="Left"/>
                                             

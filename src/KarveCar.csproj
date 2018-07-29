@@ -285,6 +285,9 @@
     <Compile Include="ViewModels\LeftTreeViewModel.cs" />
     <Compile Include="ViewModels\MaestroCommonViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\CodeGeneratorWindow.xaml.cs">
+      <DependentUpon>CodeGeneratorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfigurationSettings.xaml.cs">
       <DependentUpon>ConfigurationSettings.xaml</DependentUpon>
     </Compile>
@@ -318,6 +321,10 @@
     <Compile Include="Views\TipoVehiculoDataGridUserControl.xaml.cs">
       <DependentUpon>TipoVehiculoDataGridUserControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CodeGeneratorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConfigurationSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

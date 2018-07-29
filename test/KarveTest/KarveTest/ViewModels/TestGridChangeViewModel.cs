@@ -45,31 +45,6 @@ namespace KarveTest.ViewModels
             IDictionary<string, object> command = new Dictionary<string, object>();
             return command;
         }
-        /// <summary>
-        /// This test verify that a collection has been added. 
-        /// We suppose that the user send a message through a command, 
-        /// inside the command we set the values to be sent and the operation. 
-        /// </summary>
-        /// <returns></returns>
-        public async Task Should_Add_A_Collection_To_Provider_Delegation_Grid()
-        {
-            
-        }
-        public async Task Should_Add_A_Single_Item_To_Provider_Delegation_Grid()
-        {
-
-        }
-        public async Task Should_Delete_A_Single_Item_To_Provider_Delegation_Grid()
-        {
-
-        }
-        public async Task Should_Delete_Collection_To_A_Provider_Delegation_Grid()
-        {
-
-        }
-        public async Task Should_Delete_Collection_To_A_CommissionAgent_Delegation_Grid()
-        {
-
-        }
+        
     }
 }

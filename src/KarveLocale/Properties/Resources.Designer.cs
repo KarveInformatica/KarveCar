@@ -1582,6 +1582,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Salida.
+        /// </summary>
+        public static string ldeparture {
+            get {
+                return ResourceManager.GetString("ldeparture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fecha de salida.
         /// </summary>
         public static string ldeparturedate {
@@ -2185,6 +2194,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nasconde.
+        /// </summary>
+        public static string lhide {
+            get {
+                return ResourceManager.GetString("lhide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Historial Vehiculo.
         /// </summary>
         public static string lhistorialvehiculo {
@@ -2217,6 +2235,15 @@ namespace KarveLocale.Properties {
         public static string liban {
             get {
                 return ResourceManager.GetString("liban", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DNI.
+        /// </summary>
+        public static string lid {
+            get {
+                return ResourceManager.GetString("lid", resourceCulture);
             }
         }
         
@@ -2739,6 +2766,15 @@ namespace KarveLocale.Properties {
         public static string lnombreempresa {
             get {
                 return ResourceManager.GetString("lnombreempresa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ninguna.
+        /// </summary>
+        public static string lnone {
+            get {
+                return ResourceManager.GetString("lnone", resourceCulture);
             }
         }
         
@@ -6379,6 +6415,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Muestra.
+        /// </summary>
+        public static string lshow {
+            get {
+                return ResourceManager.GetString("lshow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mostrando.
         /// </summary>
         public static string lshowing {
@@ -6915,6 +6960,15 @@ namespace KarveLocale.Properties {
         public static string lwebsite {
             get {
                 return ResourceManager.GetString("lwebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Semana.
+        /// </summary>
+        public static string lweek {
+            get {
+                return ResourceManager.GetString("lweek", resourceCulture);
             }
         }
         

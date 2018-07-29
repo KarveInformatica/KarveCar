@@ -196,7 +196,7 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <syncfusion:Ribbon Grid.Row="0" x:Name="rbInicio" Grid.ColumnSpan="3" RibbonState="Hide">
+                <syncfusion:Ribbon Grid.Row="0" x:Name="rbInicio" Grid.ColumnSpan="3">
 
                     <!--Tab Maestros-->
                     <syncfusion:RibbonTab x:Name="rbtbMaestros"

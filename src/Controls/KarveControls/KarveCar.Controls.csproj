@@ -545,6 +545,7 @@
     <Resource Include="Images\mastercard.jpeg" />
     <Resource Include="Images\visa.png" />
     <Resource Include="Images\sxexpresscard.jpg" />
+    <Resource Include="Images\supplier.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />

@@ -10,6 +10,8 @@ using NUnit.Framework;
 using NUnit.Framework.Internal;
 using DataAccessLayer.Model;
 using DataAccessLayer.Exception;
+using KarveDataServices.DataObjects;
+using System.Diagnostics;
 
 namespace KarveTest.DAL
 {
@@ -36,6 +38,7 @@ namespace KarveTest.DAL
             }
             return item;
         }
+
         [Test]
         public async Task Should_Load_AValidReservation()
         {
@@ -46,15 +49,21 @@ namespace KarveTest.DAL
                 var item = connection.FirstOrDefault<RESERVAS1>();
                 codigo = item.NUMERO_RES;
             }
-            var booking = await _bookingDataServices.GetDoAsync(codigo).ConfigureAwait(false);
+            IBookingData booking = null;
+            Stopwatch start = new Stopwatch();
+            start.Start();
+
+            booking = await _bookingDataServices.GetDoAsync(codigo).ConfigureAwait(false);
+
+            //Assert.DoesNotThrowAsync(async () => booking = await _bookingDataServices.GetDoAsync(codigo).ConfigureAwait(false));
+            var elapse = start.ElapsedMilliseconds;
+            start.Stop();
+            TestContext.Out.WriteLine("Elapsed booking retrieval time " + elapse);
+            Assert.NotNull(booking);
             Assert.IsTrue(booking.Valid);
             Assert.NotNull(booking.Value);
-            var count = booking.Value.Items.Count();
             Assert.AreEqual(booking.Value.NUMERO_RES, codigo);
-            Assert.Greater(booking.Drivers.Count(), 0);
-            Assert.Greater(booking.Clients.Count(), 0);
-          
-
+         
         }
         [Test]
         public async Task Should_Save_AValidReservation()

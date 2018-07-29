@@ -22,7 +22,7 @@ namespace KarveTest.DAL.Mock.MockModel
         public string AssistModelQuery => throw new NotImplementedException();
 
         public IEnumerable<AgentDto> AgentsDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<ActividadDto> ActivityDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<VehicleActivitiesDto> ActivityDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<PictureDto> PicturesDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<SupplierDto> Supplier1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<PaymentFormDto> PaymentForm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

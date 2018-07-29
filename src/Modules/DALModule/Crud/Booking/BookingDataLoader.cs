@@ -148,7 +148,7 @@ namespace DataAccessLayer.Crud.Booking
               
                 request.CityDto3 = SelectionHelpers.WrappedSelectedDto<CP, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
               
-                request.Country2Dto = SelectionHelpers.WrappedSelectedDto<SIGLAS, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
+                request.DriverCountryList = SelectionHelpers.WrappedSelectedDto<SIGLAS, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
               
                 request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Value.CODIGO, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
               

@@ -12,89 +12,22 @@
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:KarveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
-             d:DesignHeight="900" d:DesignWidth="1124">
+             d:DesignHeight="900" d:DesignWidth="1200">
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
-            
+            <converter:ExpanderToStringConverter x:Key="ExpanderToString"></converter:ExpanderToStringConverter>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <Grid>
-        
+
         <Grid.Resources>
 
             <ResourceDictionary>
-                <DataTemplate x:Name="Bonus" x:Key="Bonus">
-                    <Grid>
-                        <Expander MaxWidth="200">
-                            <Expander.Header>
-
-                                <BulletDecorator>
-
-                                    <BulletDecorator.Bullet>
-
-                                        <Image Width="50" Source="/KarveControls;component/Images/bonus.png" Height="30"/>
-
-                                    </BulletDecorator.Bullet>
-
-                                    <TextBlock Margin="20,0,0,0">Bonus</TextBlock>
-
-                                </BulletDecorator>
-                            </Expander.Header>
-                            <Grid>
-                                
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
-                                
-                                <KarveControls:DataFieldCheckBox
-                                    x:Name="ExistBonusCheckBox"
-                                    Grid.Row="0"
-                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     karveControls:ControlExt.DataSourcePath="BONOSI_RES2"
-                                    Content="{Binding lexistbonus, Source={StaticResource ResourceLanguage}}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                                            <prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </KarveControls:DataFieldCheckBox>
-                                <KarveControls:DataFieldCheckBox 
-                                     x:Name="ExistSelfBonusCheckBox"
-                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     karveControls:ControlExt.DataSourcePath="BONOAURO_RES2"
-                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
-                                     Grid.Row="1"
-                                     Content="{Binding lselfbonus, Source={StaticResource ResourceLanguage}}">
-                                </KarveControls:DataFieldCheckBox>
-                                
-                                <Grid Grid.Row="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Syncfusion:SfTextBoxExt Grid.Column="0" 
-                                                 Grid.Row="4"
-                                                 x:Name="BonusNumber"
-                                                 Grid.ColumnSpan="3" 
-                                                 Width="200"
-                                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 karveControls:ControlExt.DataSourcePath="BONONUM_RES2"
-                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
-                                                 Watermark="{Binding lbonusnumber, Source={StaticResource ResourceLanguage}}"
-                                                 Text="{Binding DataObject.BONONUM_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, 
-                                                        ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"/>
-                                </Grid>
-                            </Grid>
-                        </Expander>
-
-                    </Grid>
-                </DataTemplate>
+              
                 <DataTemplate x:Name="DriverOrClient" x:Key="DriverAndClient">
-                    <Grid>
+                    <Grid Grid.RowSpan="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -111,7 +44,7 @@
                         </Grid.RowDefinitions>
                         <Button  x:Name="CreateClientButton" Grid.Column="0" Grid.Row="0" Command="{Binding CreateClient}" 
                                  Background="#e6e6fa">
-                            <Image  Source="/KarveControls;component/Images/clients.png"></Image>
+                            <Image  Source="/KarveControls;component/Images/clients.png" Height="30"></Image>
                         </Button>
                         <KarveControls:DualFieldSearchBox x:Name="ClientSearchBox" 
                                            Grid.Column="1" Grid.Row="0"
@@ -143,7 +76,7 @@
 
                         </Syncfusion:SfTextBoxExt>
                         <Button Grid.Column="0" Grid.Row="1" Command="{Binding CreateNewDriver}" Background="#e6e6fa">
-                            <Image Source="/KarveControls;component/Images/driver3.png"></Image>
+                            <Image Source="/KarveControls;component/Images/driver3.png" Height="30"></Image>
                         </Button>
                         <KarveControls:DualFieldSearchBox Grid.Column="1" Grid.Row="1"
                                               x:Name="DriverSearchBox"
@@ -169,15 +102,15 @@
                                  Width="100">
 
                         </Syncfusion:SfTextBoxExt>
-                        
-                        
-                        <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="{Binding lobservacion, Source={StaticResource ResourceLanguage}}"></Label>
 
+
+ 
                         <Syncfusion:SfTextBoxExt Grid.Column="0" 
                                                  Grid.Row="4" 
                                                  x:Name="ObsRtf"
                                                  Grid.ColumnSpan="3" 
                                                  Height="100"
+                                                 Watermark="Preferencia"
                                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
                                                  karveControls:ControlExt.DataSourcePath="OBS1_RTF_RES2"
                                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
@@ -185,6 +118,698 @@
 
                     </Grid>
                 </DataTemplate>
+
+                <DataTemplate x:Key="BookingUpper">
+                    <Grid>
+                        <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="13*"/>
+                                    <ColumnDefinition Width="25*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="13*"/>
+                                    <ColumnDefinition Width="25*"/>
+                                    <ColumnDefinition Width="30*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+
+                                <karveControls:DataField Grid.Column="0" 
+                                                 IsReadOnly="True"
+                                                                 Grid.Row="0"
+                                         TextContentWidth="100"
+                                                                
+                                    LabelTextWidth="50" 
+                                    LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                TextContent="{Binding Path=DataObject.NUMERO_RES, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                x:Name="nUMERO_RES"
+                                   
+                Watermark="{Binding lbookingnumber, Source={StaticResource ResourceLanguage}}"
+                DataObject="{Binding DataObject}"
+                DataSourcePath="NUMERO_RES"
+                ItemChangedCommand="{Binding ItemChangedCommand}"  />
+
+                                <karveControls:DualFieldSearchBox Grid.Column="1"
+                                 DataSource="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                 DataFieldFirst="SUBLICEN_RES1"
+                                 TextContentFirstWidth="50"
+                                 TextContentSecondWidth="100"
+                                 SourceView="{Binding CompanyDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 AssistTableName="COMPANY_ASSIST"
+                                 AssistProperties="Code,Name"
+                                 MagnifierCommand="{Binding AssistCommand}"
+                                 LabelText="{Binding lempresa, Source={StaticResource ResourceLanguage}}"
+                                 Margin="0,5,0,0"
+                                 LabelTextWidth="50"
+                                 ItemChangedCommand="{Binding ItemChangedCommand}">
+                                </karveControls:DualFieldSearchBox>
+
+                                <karveControls:DualFieldSearchBox Grid.Column="2" 
+                                x:Name="OFICINA_RES1"
+                                LabelText="{Binding loficinacreation, Source={StaticResource ResourceLanguage}}"
+                                LabelTextWidth="100"
+                                 TextContentFirstWidth="50"
+                                 TextContentSecondWidth="100"
+                                
+                                 AssistProperties="Codigo,Nombre"
+                                AssistTableName="OFFICE_ASSIST"
+                                SourceView="{Binding OfficeDto, Mode=OneWay}"
+                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                MagnifierCommand="{Binding AssistCommand}"
+                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataFieldFirst="OFICINA_RES1"
+                                ButtonImage="/KarveControls;component/Images/search.png"
+                                Height="30">
+                                </karveControls:DualFieldSearchBox>
+                                <karveControls:DataField  
+                            Grid.Column="3"
+                            TextContent="{Binding Path=DataObject.RENTAL1_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                DataObject="{Binding DataObject}"
+                                DataSourcePath="RENTAL_RES1"
+                                                              LabelTextWidth="40"
+                                LabelText="{Binding lrsc, Source={StaticResource ResourceLanguage}}"
+                                                              TextContentWidth="50"
+                                                              Watermark="{Binding lrsc, Source={StaticResource ResourceLanguage}}"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                Height="30" x:Name="rENTAL1_RES1" Width="Auto" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2">
+
+                                    <Label Content="{Binding ldays, Source={StaticResource ResourceLanguage}}" 
+                               Grid.Column="6" Width="Auto" Margin="0,0,1,0"/>
+                                    <Syncfusion:SfTextBoxExt  
+                                                             
+                                                 Text="{Binding DataObject.DIAS_RES1, Mode=TwoWay, 
+                                                     ValidatesOnNotifyDataErrors=True, 
+                                                     ValidatesOnDataErrors=True, 
+                                                     ValidatesOnExceptions=True}" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIA_RES1"
+                                 Style="{StaticResource SfFieldErrorStyle}" 
+                                 Width="50"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Height="Auto" x:Name="dIAS_RES1" Grid.Column="7" Margin="1,2,0,3">
+
+                                    </Syncfusion:SfTextBoxExt>
+
+                                    <Label Width="100" 
+                               Content="{Binding linvoiceday, Source={StaticResource ResourceLanguage}}">
+
+                                    </Label>
+                                    <Syncfusion:UpDown Width="Auto" 
+                                 Value="{Binding Path=DataObject.DIAFAC_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIAFAC_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 MinValue="0"
+                                 Grid.Column="4"
+                                 EnableFocusedColors="False"              
+                                 Height="30" x:Name="dIAFAC_RES1"/>
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+                                    <Label Content="{Binding lfecha, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="1" Width="57"/>
+                                    <DatePicker 
+                                            Width="100"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FECHA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                  SelectedDate="{Binding Path=DataObject.FECHA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="Auto" x:Name="fECHA_RES1" Margin="1,2,10,3" />
+                                    <materialDesign:TimePicker  Width="100" 
+                                                                Margin="0,-2,0,0"
+                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HORA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                  Text="{Binding Path=DataObject.Value.HORA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Height="30" x:Name="hORA_RES1" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                                    <Label Content="{Binding lvuelo, Source={StaticResource ResourceLanguage}}"  Width="70" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="30"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Syncfusion:SfTextBoxExt  Grid.Column="0"  Text="{Binding Path=DataObject.VUELO_RES1, Mode=TwoWay, 
+                                         ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="VUELO_RES1"
+                                                                  Width="150"
+                                 Style="{StaticResource SfFieldErrorStyle}"
+                                                                 
+                                 Watermark="{Binding lvuelo, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}" Margin="0,5,0,3"/>
+                                        <Button Grid.Column="1" Command="{Binding LookupFlightCommand}" Background="Transparent"  
+                                            ToolTip="{Binding llookupflight, Source={StaticResource ResourceLanguage}}">
+                                            <Image Source="/KarveControls;component/Images/flight2.png" Width="30" ></Image>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                                <KarveControls:DataField
+                                    x:Name="BookingReference" Grid.Column="2" Grid.Row="1"
+                                    LabelTextWidth="113" 
+                                    LabelText="{Binding lreferencia, Source={StaticResource ResourceLanguage}}" 
+                                        TextContent="{Binding Path=DataObject.REFERENCIA_RES1, Mode=TwoWay, 
+                                    ValidatesOnDataErrors=True, 
+                                    ValidatesOnNotifyDataErrors=True, 
+                                    ValidatesOnExceptions=True}" 
+                                    TextContentWidth="135"
+                                    Height="30"
+                                    Watermark="{Binding lreferencia, Source={StaticResource ResourceLanguage}}"
+                                    DataObject="{Binding DataObject}"
+                                    DataSourcePath="REFERENCIA_RES1"
+                                    ItemChangedCommand="{Binding ItemChangedCommand}" />
+
+                                <KarveControls:DataField
+                                    x:Name="DocumentId" Grid.Column="3" Grid.Row="1"
+                                    LabelTextWidth="113"
+                                    LabelVisible="True"
+                                    LabelText="{Binding lid, Source={StaticResource ResourceLanguage}}" 
+                                    TextContent="{Binding Path=DataObject.N_DOCU, Mode=TwoWay, 
+                                    ValidatesOnDataErrors=True, 
+                                    ValidatesOnNotifyDataErrors=True, 
+                                    ValidatesOnExceptions=True}" 
+                                    TextContentWidth="135"
+                                    Height="30"
+                                    Watermark="{Binding lid, Source={StaticResource ResourceLanguage}}"
+                                    DataObject="{Binding DataObject}"
+                                    DataSourcePath="N_DOCU"
+                                    ItemChangedCommand="{Binding ItemChangedCommand}" />
+                                <StackPanel Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                    <Label Content="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
+                                    <Syncfusion:SfTextBoxExt Width="150" 
+                                                                 
+                                                                 Text="{Binding Path=DataObject.LOCALIZA_RES1, Mode=TwoWay, 
+                                         ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                         Grid.Column="3" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="LOCALIZA_RES1"
+                                 Style="{StaticResource SfFieldErrorStyle}"
+                                 Height="30"
+                                 Watermark="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"/>
+                                </StackPanel>
+
+
+                                <Border Grid.Column="0" BorderBrush="DarkRed" BorderThickness="1,5,0,1" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <Label  Content="{Binding ldeparture, Source={StaticResource ResourceLanguage}}" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+                                        <Grid x:Name="checkInGrid">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" >
+                                                <Label Content="{Binding ldesde, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="1" Width="57"/>
+                                                <WrapPanel Margin="0,0,0,0">
+                                                    <DatePicker 
+                                           
+                                            Width="100"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                    Margin="1,2,10,3"
+                                  SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, 
+                                        ValidatesOnDataErrors=True, 
+                                        ValidatesOnNotifyDataErrors=True, 
+                                        ValidatesOnExceptions=True}"  Height="Auto" x:Name="DepartureDate" />
+                                                    <materialDesign:TimePicker  Width="100" 
+                                  x:Name="DepartureHour"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HSALIDA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Text="{Binding Path=DataObject.HSALIDA_RES1, 
+                                        Mode=TwoWay, 
+                                        ValidatesOnDataErrors=True, 
+                                        ValidatesOnNotifyDataErrors=True, 
+                                        ValidatesOnExceptions=True}"
+                                        Height="30"  
+                                                                                Margin="0,-2,0,0"/>
+                                                </WrapPanel>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" Grid.Row="0">
+                                                <Label Content="{Binding loficina, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="1" Width="57"/>
+
+                                                <karveControls:DualFieldSearchBox 
+                                                x:Name="DepartureOfficeSearchBox"
+                                                LabelVisible="False"
+                                                LabelTextWidth="0"
+                                                AssistTableName="OFICINA1"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="100"
+                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding ReservationOfficeDeparture, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="OFISALIDA_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30">
+                                                </karveControls:DualFieldSearchBox>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="0" Grid.Column="2">
+                                                <Label Content="{Binding lplace, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="1" Width="57"/>
+
+                                                <karveControls:DualFieldSearchBox 
+                                                x:Name="DeparturePlace"
+                                                LabelVisible="False"
+                                                LabelTextWidth="0"
+                                                AssistTableName="DEPARTURE_PLACE"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="100"
+                                                LabelText="{Binding ldeparture, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding DeparturePlaces, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="LUENTRE_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30">
+                                                </karveControls:DualFieldSearchBox>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Grid.Column="3" BorderBrush="DarkRed" BorderThickness="0,5,1,1" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <Label  Content="Llegada" FontWeight="Bold" HorizontalAlignment="Center"></Label>
+                                        <Grid x:Name="checkOutGrid">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" >
+                                                <Label Content="{Binding lhasta, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="1" Width="57"/>
+                                                <WrapPanel Margin="0,-10,0,0">
+                                                    <DatePicker 
+                                           
+                                            Width="100"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FPREV_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                     Margin="1,2,10,3"
+                                  SelectedDate="{Binding Path=DataObject.FPREV_RES1, Mode=TwoWay, 
+                                        ValidatesOnDataErrors=True, 
+                                        ValidatesOnNotifyDataErrors=True, 
+                                        ValidatesOnExceptions=True}"  Height="Auto" x:Name="ArrivalDate" />
+                                                    <materialDesign:TimePicker  Width="100" 
+                                  x:Name="ArrivalHour"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HPREV_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Text="{Binding Path=DataObject.HPREV_RES1, 
+                                        Mode=TwoWay, 
+                                        ValidatesOnDataErrors=True, 
+                                        ValidatesOnNotifyDataErrors=True, 
+                                        ValidatesOnExceptions=True}"
+                                                                                Margin="0,-2,0,0"
+                                        Height="30"  />
+                                                </WrapPanel>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="1" Grid.Row="0">
+                                                <Label Content="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                                       HorizontalAlignment="Center">
+
+
+                                                </Label>
+                                                <karveControls:DualFieldSearchBox 
+                                                x:Name="ArrivalOfficeSearchBox"
+                                                LabelVisible="False"
+                                                LabelTextWidth="0"
+                                                AssistTableName="OFICINA1"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="100"
+                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding ReservationOfficeDeparture, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="OFIRETORNO_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30">
+                                                </karveControls:DualFieldSearchBox>
+                                            </StackPanel>
+                                            <StackPanel Grid.Column="2" Grid.Row="0">
+                                                <Label Content="{Binding lplace, Source={StaticResource ResourceLanguage}}"
+                                                       HorizontalAlignment="Center"
+                                                       >
+
+                                                </Label>
+
+                                                <karveControls:DualFieldSearchBox 
+                                                x:Name="ArrivalPlace"
+                                                LabelVisible="False"
+                                                LabelTextWidth="0"
+                                                AssistTableName="DEPARTURE_PLACE"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="100"
+                                                LabelText="{Binding ldeparture, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding DeparturePlaces, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="LUENTRE_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30">
+                                                </karveControls:DualFieldSearchBox>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+
+                                <!--
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                                    <Label Content="{Binding lid, Source={StaticResource ResourceLanguage}}" 
+                                           Grid.Column="4" Width="Auto" Margin="2,0"/>
+                                    <Syncfusion:SfTextBoxExt
+                                             
+                                 Watermark="{Binding NationalId, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="N_DOCU"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Style="{StaticResource SfFieldErrorStyle}"
+                                 Text="{Binding Path=DataObject.N_DOCU, Mode=TwoWay, 
+                                            ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, 
+                                            ValidatesOnExceptions=True}" Height="Auto" 
+                                            x:Name="n_DOCU" Margin="15,1,24,4" />
+                                </StackPanel>
+                                -->
+                                <!--
+
+
+                                    <Grid Grid.Column="0" Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="5*"/>
+
+                                            <ColumnDefinition Width="30*"/>
+                                            <ColumnDefinition Width="20*"/>
+                                            <ColumnDefinition Width="10*"/>
+
+                                            <ColumnDefinition Width="10*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding ldesde, Source={StaticResource ResourceLanguage}}" 
+                                   Grid.Column="0" Width="50" Margin="-10,0,0,0"/>
+                                        <DatePicker Grid.Column="1"
+                                                    Width="100"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                    karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
+                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                    SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, 
+                                            ValidatesOnExceptions=True}" 
+                                                    Height="30" x:Name="fSALIDA_RES1" />
+
+                                        <Label Content="Hora" 
+                                   Grid.Column="2" Width="50"/>
+                                        <materialDesign:TimePicker Grid.Column="3" Margin="20,0,0,10" 
+                                                                    
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HSALIDA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 SelectedTime="{Binding Path=DataObject.HSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Height="30" x:Name="hSALIDA_RES1" />
+
+
+                                        <karveControls:DualFieldSearchBox 
+                                                Grid.Column="3"
+                                                x:Name="DepartureOfficeSearchBox"
+                                                LabelVisible="True"
+                                                LabelTextWidth="70"
+                                                AssistTableName="OFICINA1"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="160"
+                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding ReservationOfficeDeparture, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="OFISALIDA_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30">
+                                        </karveControls:DualFieldSearchBox>
+
+                                        <karveControls:DataField  
+                                 Grid.Column="5"
+                                 Grid.ColumnSpan="2"
+                                 DataObject="{Binding DataObject}"
+                                 TextContentWidth="200"
+                                 LabelText="{Binding LugarDeEntregas, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.DataSourcePath="LUENTRE_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 TextContent="{Binding Path=DataObject.LUENTRE_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="lUENTRE_RES1" />
+                                        <StackPanel Grid.Column="8" Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                            <Label Content="{Binding lvuelo, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Syncfusion:SfTextBoxExt  Grid.Column="0" 
+                                                                       Width="150"
+                                                                          Height="30"
+                                                                          Text="{Binding Path=DataObject.VUELO_RES1, Mode=TwoWay, 
+                                         ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="VUELO_RES1"
+                                 Style="{StaticResource SfFieldErrorStyle}"
+                                 Watermark="{Binding lvuelo, Source={StaticResource ResourceLanguage}}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}" Margin="0,-1,0,3"/>
+                                                <Button Grid.Column="1" Command="{Binding LookupFlightCommand}"   
+                                            ToolTip="{Binding llookupflight, Source={StaticResource ResourceLanguage}}" 
+                                            Background="#e6e6fa">
+                                                    <Image Source="/KarveControls;component/Images/flight2.png" Width="20"></Image>
+                                                </Button>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Column="0" Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="46"/>
+                                            <ColumnDefinition Width="165"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Hasta" Grid.Column="0" Width="100" Margin="0,0,1,0"/>
+
+                                        <DatePicker Grid.Column="1" 
+                                     karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FPREV_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                     SelectedDate="{Binding Path=DataObject.Value.FPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="fPREV_RES1" Grid.ColumnSpan="2" Margin="1,0,91,0" />
+                                        <materialDesign:TimePicker Width="100"  Grid.Column="2" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HPREV_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 SelectedTime="{Binding Path=DataObject.Value.HPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="hPREV_RES1" Margin="24,0"  />
+
+                                        <karveControls:DualFieldSearchBox 
+                                                Grid.Column="4"
+                                                Grid.ColumnSpan="2" 
+                                                x:Name="ArrivalOfficeSearchBox"
+                                                LabelVisible="True"
+                                                LabelTextWidth="70"
+                                                AssistTableName="OFICINA1"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="160"
+                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding ReservationOfficeArrival, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="OFIRETORNO_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30" Margin="0,2,0,1">
+                                        </karveControls:DualFieldSearchBox>
+                                        <Label Width="104" Grid.Column="6" Content="Lugar Devolucion" Margin="0,0,1,0"/>
+                                        <Syncfusion:SfTextBoxExt Width="210" Grid.Column="7" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="LUDEVO_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Text="{Binding Path=DataObject.LUDEVO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                                 Height="30" x:Name="lUDEVO_RES1" Margin="1,2,0,1" Grid.ColumnSpan="2" />
+
+
+                                    </Grid>
+                                    <Grid Grid.Column="0" Grid.Row="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                    </Grid>
+                           
+                        </GroupBox>
+                    </Grid>
+
+                    <Grid>
+
+                        <GroupBox Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Name="ContextLayout" Orientation="Horizontal" Grid.Row="0">
+
+                                    <KarveControls:DataField
+                                    LabelTextWidth="50" 
+                                    LabelText="{Binding lnumero, Source={StaticResource ResourceLanguage}}" 
+                TextContent="{Binding Path=DataObject.NUMERO_RES, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                x:Name="nUMERO_RES"
+                  TextContentWidth="100"                  
+                Watermark="{Binding lbookingnumber, Source={StaticResource ResourceLanguage}}"
+                DataObject="{Binding DataObject}"
+                DataSourcePath="NUMERO_RES"
+                ItemChangedCommand="{Binding ItemChangedCommand}"  />
+                                    <KarveControls:DualFieldSearchBox 
+                                x:Name="OFICINA_RES1"
+                                LabelText="{Binding loficinacreation, Source={StaticResource ResourceLanguage}}"
+                                LabelTextWidth="100"
+                                AssistProperties="Codigo,Nombre"
+                                AssistTableName="OFFICE_ASSIST"
+                                TextContentFirstWidth="50"
+                                TextContentSecondWidth="80"
+                                SourceView="{Binding OfficeDto, Mode=OneWay}"
+                                ItemChangedCommand="{Binding ItemChangedCommand}"
+                                MagnifierCommand="{Binding AssistCommand}"
+                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataFieldFirst="OFICINA_RES1"
+                                ButtonImage="/KarveControls;component/Images/search.png"
+                                Height="30">
+                                    </KarveControls:DualFieldSearchBox>
+                                    <KarveControls:DataField  TextContent="{Binding Path=DataObject.RENTAL1_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                DataObject="{Binding DataObject}"
+                                DataSourcePath="RENTAL_RES1"
+                                                              LabelTextWidth="40"
+                                LabelText="{Binding lrsc, Source={StaticResource ResourceLanguage}}"
+                                                              TextContentWidth="50"
+                                                              Watermark="{Binding lrsc, Source={StaticResource ResourceLanguage}}"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                Height="30" x:Name="rENTAL1_RES1" Width="Auto" />
+                                    <Label Content="{Binding linvoiceday, Source={StaticResource ResourceLanguage}}" />
+                                    <Syncfusion:UpDown Width="Auto" Value="{Binding Path=DataObject.DIAFAC_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
+                                karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIAFAC_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 MinValue="0"
+                                 FocusedBackground="Pink" 
+                                 EnableFocusedColors="True"              
+                                 Height="30" x:Name="dIAFAC_RES1"/>
+
+                                </StackPanel>
+                                <Grid Grid.Column="0" Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Content="Fecha" Grid.Column="0" Width="55"/>
+                                    <DatePicker Width="100" 
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="FECHA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                    SelectedDate="{Binding Path=DataObject.FECHA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"  Grid.Column="1" Height="30" x:Name="fECHA_RES1" />
+                                 
+                                    <materialDesign:TimePicker  Width="100" 
+                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="HORA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                  Text="{Binding Path=DataObject.Value.HORA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Height="30" x:Name="hORA_RES1" />
+                                    <Label Content="Documento" Grid.Column="2" Width="96"/>
+                                    <TextBox Width="100" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="N_DOCU"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+
+                                 Text="{Binding Path=DataObject.Value.N_DOCU, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="5" Height="30" x:Name="n_DOCU" />
+                                    <Label Content="Dias" Grid.Column="6" Width="32"/>
+                                    <TextBox Width="50" Text="{Binding DataObject.Value.DIAS_RES1, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                 karveControls:ControlExt.DataSourcePath="DIA_RES1"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Height="30" x:Name="dIAS_RES1" Grid.Column="7"  />
+                                </Grid>
+                                
+                                <StackPanel Name="ContextLayoutLower" Orientation="Horizontal" Grid.Row="2">
+                                    <Image Source="/KarveControls;component/Images/calendar1.png" Height="30"></Image>
+                                    <DatePicker  Width="150"  
+                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                    karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
+                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                    SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
+
+                                    <materialDesign:TimePicker  x:Name="DataTimePicker"
+                                                                          Height="35"
+                                                                         
+                                                                          SelectedTime="{Binding DataObject.HSALIDA_RES1,
+       
+                                                                                        Mode=TwoWay, 
+                                    Converter={StaticResource TimeSpanConverter},UpdateSourceTrigger=PropertyChanged}"
+                                                                          HorizontalAlignment="Left" Margin="0,7,0,0" Width="64"/>
+
+                                    <KarveControls:DualFieldSearchBox 
+                                                x:Name="DepartureOfficeSearchBox"
+                                                LabelVisible="True"
+                                                AssistTableName="OFICINA1"
+                                                AssistProperties="Codigo,Nombre"
+                                                TextContentFirstWidth="50"
+                                                TextContentSecondWidth="160"
+                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                                                SourceView="{Binding ReservationOfficeDeparture, Mode=OneWay}"
+                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
+                                                MagnifierCommand="{Binding AssistCommand}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataFieldFirst="OFISALIDA_RES1"
+                                                ButtonImage="/KarveControls;component/Images/search.png"
+                                                Height="30">
+                                    </KarveControls:DualFieldSearchBox>
+                                </StackPanel>
+                          -->
+                            </Grid>
+                        </GroupBox>
+
+
+
+                    </Grid>
+                </DataTemplate>
+
+
             </ResourceDictionary>
         </Grid.Resources>
 
@@ -200,11 +825,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0" Background="DarkRed" Grid.ColumnSpan="2">
             <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
@@ -212,468 +836,71 @@
             <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" Text="Reservas" FontSize="24"
                        Foreground="White" />
         </DockPanel>
+        <ContentControl Grid.Row="1" Content="{Binding}" ContentTemplate="{StaticResource BookingUpper}" Grid.ColumnSpan="2"></ContentControl>
 
-        <TabControl Grid.Row="1" Grid.ColumnSpan="2" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+            <TabControl Grid.Row="2" Grid.ColumnSpan="2"
+             SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"  BorderThickness="0" Margin="0,0,0,16">
 
-            <TabItem Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
-
-                <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Grid.RowSpan="2">
+                <TabItem Header="{Binding lgeneral, Source={StaticResource ResourceLanguage}}">
+                    <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding lbookingnumber, Source={StaticResource ResourceLanguage}}" 
-                                   Grid.Row="0" Grid.Column="0"  Margin="0,0,0,5" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding lreferencia, Source={StaticResource ResourceLanguage}}" 
-                                   Grid.Row="0" Grid.Column="1"  Margin="0,0,0,5" FontWeight="Bold"/>
-
-                        <Syncfusion:SfTextBoxExt 
-                            Grid.Column="0"
-                Text="{Binding Path=DataObject.NUMERO_RES, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                x:Name="nUMERO_RES"
-                Watermark="{Binding lbookingnumber, Source={StaticResource ResourceLanguage}}"
-                karveControls:ControlExt.DataSource="{Binding DataObject}"
-                karveControls:ControlExt.DataSourcePath="NUMERO_RES"
-                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}" Margin="0,28,0,1" />
-                        <Syncfusion:SfTextBoxExt 
-                Grid.Column="1"
-                Text="{Binding Path=DataObject.REFERENCIA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                x:Name="Referencia"
-                karveControls:ControlExt.DataSource="{Binding DataObject}"
-                karveControls:ControlExt.DataSourcePath="REFERENCIA_RES1"
-                Style="{StaticResource SfFieldErrorStyle}"
-                Watermark="{Binding lreferencia,Source={StaticResource ResourceLanguage}}"
-                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}" Margin="0,27,0,0" />
-
-
-                        <KarveControls:AmountControl Grid.Column="2" Grid.Row="0"
-                                                     CurrentVat="0.21"
-                                                     Grid.RowSpan="2"
-                                                     VatOnAmount="{Binding DataObject.IVA_RES2, Mode=TwoWay}"
-                                                     ContraTotal="{Binding DataObject.FRANQUICIA_REDUCIDA_RES1, Mode=TwoWay}"
-                                                     Amount="{Binding DataObject.BASEI_RES2, Mode=TwoWay}"
-                                                     Total="{Binding DataObject.TOLON_RES2, Mode=TwoWay}"
-                                                     Text="{Binding lyourbooking, Source={StaticResource ResourceLanguage}}"
-                                                     VerticalAlignment="Top" Height="Auto"  
-                                                     Width="Auto"/>
-                        <ContentControl ContentTemplate="{StaticResource Bonus}"
-                                        Content="{Binding}"
-                                        Grid.Column="3" Grid.Row="0"></ContentControl>
-
-                        <StackPanel Grid.Column="3" Grid.Row="1">
-                            <TextBlock
-                                 x:Name="prepaidAmount"
-                                Text="{Binding lprepaidamount, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
-                                
-                            </TextBlock>
-                            <Syncfusion:SfTextBoxExt Watermark="{Binding lprepaidamount, Source={StaticResource ResourceLanguage}}"
-                                                 Text="{Binding DataObject.IMPORTE_PREPAGADO_RES2, Mode=TwoWay}"
-                                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                                 karveControls:ControlExt.DataSourcePath="IMPORTE_PREPAGADO_RES2"
-                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                                 >
-
-                            </Syncfusion:SfTextBoxExt>
-                        </StackPanel>
-                    </Grid>
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="48*"></ColumnDefinition>
+                            <ColumnDefinition Width="50*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
+
                         </Grid.RowDefinitions>
-                        <Label Content="{Binding ldescuento, Mode=OneTime, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="0" Height="30"></Label>
-                        <Label Content="{Binding lkilometro, Mode=OneTime, Source={StaticResource ResourceLanguage}}" Grid.Column="1" Grid.Row="0" Height="30"></Label>
-                        <Label Content="{Binding lkilometroincluido, Mode=OneTime, Source={StaticResource ResourceLanguage}}" Grid.Column="2" Grid.Row="0" Height="30"></Label>
-                        <Syncfusion:SfTextBoxExt Grid.Column="0" 
-                                                 Grid.Row="1"
-                                                 Height="30"
-                                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                 karveControls:ControlExt.DataSourcePath="DTO_RES1"
-                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
-                                                 Text="{Binding DataObject.DTO_RES1}">
-                        </Syncfusion:SfTextBoxExt>
-                        <Syncfusion:SfTextBoxExt Grid.Column="1" Grid.Row="1"
-                                                 Height="30"
-                                                 karveControls:ControlExt.DataSource="{Binding DataObject, 
-                                                                                       Mode=TwoWay, 
-                                                                                       UpdateSourceTrigger=PropertyChanged}"
-                                                 karveControls:ControlExt.DataSourcePath="KILOMETROS"
-                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
-                                                 Text="{Binding DataObject.KILOMETROS}">
-
-                        </Syncfusion:SfTextBoxExt>
-                        <Syncfusion:SfTextBoxExt Grid.Column="2" Grid.Row="1"
-                                                 Height="30"
-                                                 karveControls:ControlExt.DataSource="{Binding DataObject, 
-                                                                                       Mode=TwoWay, 
-                                                                                       UpdateSourceTrigger=PropertyChanged}"
-                                                 karveControls:ControlExt.DataSourcePath="KMINCL_RES1"
-                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
-                                                 Text="{Binding DataObject.KMINCL_RES1}">
-
-                        </Syncfusion:SfTextBoxExt>
-                    </Grid>
-                    <Grid Grid.Row="3">
-                        <Grid.ColumnDefinitions>
-                           
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <Label Content="{Binding lbookingcompany, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
-                                <Syncfusion:SfTextBoxExt Width="Auto" Text="{Binding Path=DataObject.SUBLICEN_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                         Grid.Column="3" Height="30" x:Name="SUBLICEN_RES1"
-                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                 karveControls:ControlExt.DataSourcePath="SUBLICEN_RES1"
-                                 AutoCompleteSource="{Binding CompanyDto}"
-                                 SearchItemPath="Code"
-                                 Style="{StaticResource SfFieldErrorStyle}"
-                                 Watermark="{Binding lempresa, Source={StaticResource ResourceLanguage}}"
-                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                 />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <Label Content="{Binding loficinacreation, Source={StaticResource ResourceLanguage}}"/>
-                                <KarveControls:DualFieldSearchBox 
-                                x:Name="OFICINA_RES1"
-                                LabelVisible="False"
-                                AssistProperties="Codigo,Nombre"
-                                AssistTableName="OFFICE_ASSIST"
-                                TextContentFirstWidth="50"
-                                TextContentSecondWidth="160"
-                                SourceView="{Binding OfficeDto, Mode=OneWay}"
-                                ItemChangedCommand="{Binding ItemChangedCommand}"
-                                MagnifierCommand="{Binding AssistCommand}"
-                                DataSource="{Binding DataObject, Mode=TwoWay}"
-                                DataFieldFirst="OFICINA_RES1"
-                                ButtonImage="/KarveControls;component/Images/search.png"
-                                Height="30">
-                                </KarveControls:DualFieldSearchBox>
-
-                            </StackPanel>
-                        </Grid>
-                        <Grid Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0">
-                                <Label Content="RSC"/>
-                                <Syncfusion:SfTextBoxExt  Text="{Binding Path=DataObject.RENTAL1_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                karveControls:ControlExt.DataSourcePath="RENTAL_RES1"
-                                Style="{StaticResource SfFieldErrorStyle}"
-                                Watermark="{Binding lrsc, Source={StaticResource ResourceLanguage}}"
-                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                Height="30" x:Name="rENTAL1_RES1" Width="Auto" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <Label Content="{Binding linvoiceday, Source={StaticResource ResourceLanguage}}" />
-                                <Syncfusion:UpDown Width="Auto" Value="{Binding Path=DataObject.DIAFAC_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                 karveControls:ControlExt.DataSourcePath="DIAFAC_RES1"
-                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                 MinValue="0"
-                                 FocusedBackground="Pink" 
-                                 EnableFocusedColors="True"              
-                                 Height="30" x:Name="dIAFAC_RES1"/>
-                            </StackPanel>
-                        </Grid>
-                    </Grid>
-                    <Grid Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Image DockPanel.Dock="Left" Source="/KarveControls;component/Images/checkin.png" Grid.Column="0"  Height="60" />
-                            <TextBlock DockPanel.Dock="Right" Text="Check-in" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" 
-                                       Grid.Column="1" FontFamily="Arial" FontWeight="Black" FontSize="20"></TextBlock>
-                        </Grid>
-
-                        <Grid Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="1" Source="/KarveControls;component/Images/checkout.png"  Height="60" />
-                            <TextBlock DockPanel.Dock="Left" Text="Check-out" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" 
-                                       FontFamily="Arial" FontWeight="Black" FontSize="20"></TextBlock>
-                        </Grid>
-
-
-                    </Grid>
-                    <Grid Grid.Row="5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Column="0" Grid.Row="0">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Image Source="/KarveControls;component/Images/calendar1.png" Height="30"></Image>
-                                <DatePicker  Width="150"  
-                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                    karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
-                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                    SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30" x:Name="fSALIDA_RES1" />
-                                <materialDesign:TimePicker  x:Name="DataTimePicker"
-                                                                          Height="30"
-                                                                          SelectedTime="{Binding DataObject.HSALIDA_RES1,
-       
-                                                                                        Mode=TwoWay, 
-                                    Converter={StaticResource TimeSpanConverter},UpdateSourceTrigger=PropertyChanged}"
-                                                                          HorizontalAlignment="Left"/>
-
-                            </StackPanel>
-
-                        </Grid>
-                        <Grid Grid.Column="0" Grid.Row="1">
-                            <Expander Header="Checkin" IsExpanded="True">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Text="{Binding loficina, Source={StaticResource ResourceLanguage}}"></TextBlock>
-
-                                        <KarveControls:DualFieldSearchBox 
-                                                x:Name="DepartureOfficeSearchBox"
-                                                LabelVisible="False"
-                                                AssistTableName="OFICINA1"
-                                                AssistProperties="Codigo,Nombre"
-                                                TextContentFirstWidth="50"
-                                                TextContentSecondWidth="160"
-                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
-                                                SourceView="{Binding ReservationOfficeDeparture, Mode=OneWay}"
-                                                ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
-                                                MagnifierCommand="{Binding AssistCommand}"
-                                                DataSource="{Binding DataObject, Mode=TwoWay}"
-                                                DataFieldFirst="OFISALIDA_RES1"
-                                                ButtonImage="/KarveControls;component/Images/search.png"
-                                                Height="30">
-                                        </KarveControls:DualFieldSearchBox>
-
-
-
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Lugar"></TextBlock>
-                                        <Syncfusion:SfTextBoxExt 
-                                        Style="{StaticResource SfFieldErrorStyle}" 
-                                         karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                         karveControls:ControlExt.DataSourcePath="LUENTRE_RES1"
-                                         karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                         Text="{Binding Path=DataObject.LUENTRE_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                         Watermark="{Binding ldepartureplace, Source={StaticResource ResourceLanguage}}" Height="30">
-                                        </Syncfusion:SfTextBoxExt>
-                                    </StackPanel>
-                                </Grid>
-                            </Expander>
-                        </Grid>
-                        <Grid Grid.Column="1" Grid.Row="0">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Image Source="/KarveControls;component/Images/calendar1.png" Height="30"></Image>
-                                <DatePicker Width="150"  
-                                    karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                    karveControls:ControlExt.DataSourcePath="FSALIDA_RES1"
-                                    karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                    SelectedDate="{Binding Path=DataObject.FSALIDA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Height="30"  />
-                                <materialDesign:TimePicker  x:Name="DataTimePicker2"
-                                                                          Height="30"
-                                                                          SelectedTime="{Binding DataObject.HPREV_RES1, Mode=TwoWay,
-                                                                          Converter={StaticResource TimeSpanConverter},
-                                                                            UpdateSourceTrigger=PropertyChanged}"
-                                                                          HorizontalAlignment="Left"></materialDesign:TimePicker>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Grid.Column="1" Grid.Row="1">
-                            <Expander Header="CheckOut" IsExpanded="True">
-
-                                <Grid Margin="30,0,0,0">
+                        <GroupBox   Grid.Column="0" Grid.Row="0">
+                            <ContentControl 
+                        Content="{Binding}" ContentTemplate="{StaticResource DriverAndClient}"></ContentControl>
+                        </GroupBox>
+                        <GroupBox Grid.Row="0" Grid.Column="1">
+                            <Grid Grid.Column="1" Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
                                     <ColumnDefinition></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Text="{Binding loficina, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                                        <KarveControls:DualFieldSearchBox 
-                                                x:Name="ArrivalOfficeSearchBox"
-                                                LabelVisible="False"
-                                                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
-                                                AssistTableName="OFICINA2"
-                                                AssistProperties="Codigo,Nombre"
-                                                TextContentFirstWidth="50"
-                                                TextContentSecondWidth="160"
-                                                SourceView="{Binding ReservationOfficeArrival, Mode=OneWay}"
-                                                ItemChangedCommand="{Binding ItemChangedCommand}"
-                                                DataSource="{Binding DataObject, Mode=TwoWay}"
-                                                MagnifierCommand="{Binding AssistCommand}"
-                                                DataFieldFirst="OFIRETORNO_RES1"
-                                                ButtonImage="/KarveControls;component/Images/search.png"
-                                                Height="30">
-                                        </KarveControls:DualFieldSearchBox>
-                                    </StackPanel>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="Lugar"></TextBlock>
-                                    <Syncfusion:SfTextBoxExt 
-                                        Watermark="Lugar de Retorno" 
-                                        karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                        karveControls:ControlExt.DataSourcePath="LUDEVO_RES1"
-                                        karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                        Text="{Binding Path=DataObject.LUDEVO_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                        Style="{StaticResource SfFieldErrorStyle}"     
-                                        Height="30"></Syncfusion:SfTextBoxExt>
-                                </StackPanel>
-                            </Grid>
-                            </Expander>
+                                <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2">
 
-                        </Grid>
 
-                        <Grid Grid.Row="2" 
-                               Grid.Column="0" Margin="0,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <Label Content="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
-                                <Syncfusion:SfTextBoxExt Width="Auto" Text="{Binding Path=DataObject.LOCALIZA_RES1, Mode=TwoWay, 
-                                         ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                         Grid.Column="3" Height="30"
-                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                 karveControls:ControlExt.DataSourcePath="LOCALIZA_RES1"
-                                 Style="{StaticResource SfFieldErrorStyle}"
-                                 Watermark="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"
-                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="0">
-                                <Label Content="{Binding lvuelo, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition></ColumnDefinition>
-                                        <ColumnDefinition Width="50"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Syncfusion:SfTextBoxExt  Grid.Column="0" Width="Auto" Text="{Binding Path=DataObject.VUELO_RES1, Mode=TwoWay, 
-                                         ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
-                                         Height="30"
-                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
-                                 karveControls:ControlExt.DataSourcePath="VUELO_RES1"
-                                 Style="{StaticResource SfFieldErrorStyle}"
-                                 Watermark="{Binding lvuelo, Source={StaticResource ResourceLanguage}}"
-                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"/>
-                                    <Button Grid.Column="1" Command="{Binding LookupFlightCommand}"   
-                                            ToolTip="{Binding llookupflight, Source={StaticResource ResourceLanguage}}" 
-                                            Background="#e6e6fa">
-                                        <Image Source="/KarveControls;component/Images/flight2.png"></Image>
-                                    </Button>
-                                </Grid>
-                            </StackPanel>
-                        </Grid>
-                        <Grid Grid.Row="2" Grid.Column="1" Margin="30,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80*"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                <Label Content="{Binding lbudget, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
-                               
-                                <KarveControls:DualFieldSearchBox x:Name="Budget" 
-                                                  TextContentSecondWidth="200"
+                                    <KarveControls:DualFieldSearchBox x:Name="Budget" 
+                                                                                                              TextContentSecondWidth="200"
                                                   TextContentFirstWidth="100"
-                                                  LabelTextWidth="80"
+                                                  LabelTextWidth="87"
                                                   LabelText="{Binding lbudget, Source={StaticResource ResourceLanguage}}"
                                                   Height="30"
                                                   AssistTableName="BUDGET_ASSIST"
-                                                  LabelVisible="False"
+                                                  LabelVisible="True"
                                                   AssistProperties="BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,BookingNumber"
                                                   MagnifierCommand="{Binding AssistCommand}"
                                                   ItemChangedCommand="{Binding ItemChangedCommand}"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding BudgetDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="PRESUPUESTO_RES1"></KarveControls:DualFieldSearchBox>
-                                
-                                
-                            </StackPanel>
-
-                        </Grid>
 
 
+                                </StackPanel>
+                                <DockPanel Grid.Column="0" Grid.Row="1" >
 
-                        <ContentControl Grid.Row="2" Grid.Column="0"  
-                                        Content="{Binding}" 
-                                        ContentTemplate="{StaticResource DriverAndClient}" 
-                                        Margin="-1,65,1,3" 
-                                        Grid.RowSpan="2">
-                        </ContentControl>
-                        <Grid Grid.Row="2" Grid.Column="1" Margin="30,70,0,0" Grid.RowSpan="4" Grid.ColumnSpan="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
-
-                                <Syncfusion:ButtonAdv  DockPanel.Dock="Left"  
+                                    <Syncfusion:ButtonAdv  DockPanel.Dock="Left"  
                                                        Label="{Binding ltarifa,Source={StaticResource ResourceLanguage}}"
                                   Height="30" ToolTip="Nueva Tarifa" Background="#e6e6fa"
                                                        Width="98" BorderBrush="#2196f3"
                                   SmallIcon="/KarveControls;component/Images/fare.png" Command="{Binding CreateNewFare}"></Syncfusion:ButtonAdv>
 
-                                <KarveControls:DualFieldSearchBox x:Name="VehicleFare" 
+                                    <KarveControls:DualFieldSearchBox x:Name="VehicleFare" 
                                                   DockPanel.Dock="Right"
-                                                  TextContentSecondWidth="200"
-                                                  TextContentFirstWidth="100"
+                                                  TextContentFirstWidth="50"
+                                                  TextContentSecondWidth="150"
                                                   LabelTextWidth="80"
-                                                  Grid.ColumnSpan="2"
+                                                 
                                                   LabelText="{Binding ltarifa, Source={StaticResource ResourceLanguage}}" 
                                                   Height="30"
                                                   LabelVisible="False"
@@ -682,14 +909,13 @@
                                                   MagnifierCommand="{Binding AssistCommand}"
                                                   ItemChangedCommand="{Binding ItemChangedCommand}"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SourceView="{Binding  FareDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding  ActiveFareDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="TARIFA_RES1">
 
-                                </KarveControls:DualFieldSearchBox>
-
-                            </DockPanel>
-                            <DockPanel Grid.Row="1" Grid.Column="0">
-                                <Syncfusion:ButtonAdv  DockPanel.Dock="Left"  
+                                    </KarveControls:DualFieldSearchBox>
+                                </DockPanel>
+                                <DockPanel Grid.Row="1" Grid.Column="1">
+                                    <Syncfusion:ButtonAdv  DockPanel.Dock="Left"  
                                                        Label="{Binding lgrupo,Source={StaticResource ResourceLanguage}}"
                                                        Height="30" 
                                                        ToolTip="{Binding lnuevogrupo, Source={StaticResource ResourceLanguage}}" 
@@ -698,11 +924,11 @@
                                                        BorderBrush="#2196f3"
                                                        SmallIcon="/KarveControls;component/Images/create.png" 
                                                        Command="{Binding CreateNewGroup}">
-                                </Syncfusion:ButtonAdv>
-                                <KarveControls:DualFieldSearchBox x:Name="VehicleGroup" 
+                                    </Syncfusion:ButtonAdv>
+                                    <KarveControls:DualFieldSearchBox x:Name="VehicleGroup" 
                                                   DockPanel.Dock="Right"
-                                                  TextContentSecondWidth="200"
-                                                  TextContentFirstWidth="100"
+                                                  TextContentSecondWidth="150"
+                                                  TextContentFirstWidth="50"
                                                   LabelTextWidth="80"
                                                   LabelText="{Binding lgrupo, Source={StaticResource ResourceLanguage}}" 
                                                   Height="30"
@@ -715,19 +941,22 @@
                                                   SourceView="{Binding  VehicleGroupDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="GRUPO_RES1"></KarveControls:DualFieldSearchBox>
 
-                            </DockPanel>
-                            <DockPanel Grid.Column="0" Grid.Row="3">
-                                <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   Background="#e6e6fa" 
+                                </DockPanel>
+
+                                <DockPanel Grid.Column="0" Grid.Row="2">
+                                    <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   Background="#e6e6fa" 
                                                        BorderBrush="#2196f3"
                                                        Label="{Binding lvehiculo,Source={StaticResource ResourceLanguage}}"
                                                        Height="30" 
                                                        Width="99" 
                                   ToolTip="{Binding VehiclesControlViewModel_NewItem_NuevoVehiculos, Source={StaticResource ResourceLanguage}}"
-                                  SmallIcon="/KarveControls;component/Images/cars.png" Command="{Binding CreateNewVehicle}"></Syncfusion:ButtonAdv>
-                                <KarveControls:DualFieldSearchBox x:Name="NewVehicle" 
+                                  SmallIcon="/KarveControls;component/Images/cars.png" Command="{Binding CreateNewVehicle}">
+
+                                    </Syncfusion:ButtonAdv>
+                                    <KarveControls:DualFieldSearchBox x:Name="NewVehicle" 
                                                   DockPanel.Dock="Right"
-                                                      TextContentSecondWidth="200"
-                                                  TextContentFirstWidth="100"
+                                                      TextContentSecondWidth="150"
+                                                  TextContentFirstWidth="50"
                                                   LabelTextWidth="80"
                                                   LabelText="{Binding lvehicle, Source={StaticResource ResourceLanguage}}" 
                                                   Height="30"
@@ -739,20 +968,21 @@
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding  VehicleDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="VCACT_RES1"></KarveControls:DualFieldSearchBox>
-                            </DockPanel>
-                            <DockPanel Grid.Column="0" Grid.Row="2">
-                                <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   Background="#e6e6fa" 
+                                </DockPanel>
+                                <DockPanel Grid.Column="1" Grid.Row="2">
+                                    <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   Background="#e6e6fa" 
                                                        BorderBrush="#2196f3"
                                                        Label="{Binding lbroker,Source={StaticResource ResourceLanguage}}"
                                                        Height="30" Width="100" 
                                                        ToolTip="{Binding lnewbroker,Source={StaticResource ResourceLanguage}}"
                                                        SmallIcon="/KarveControls;component/Images/cagent.png" 
                                                        Command="{Binding CreateNewBroker}">
-                                </Syncfusion:ButtonAdv>
-                                <KarveControls:DualFieldSearchBox x:Name="NewBroker" 
+                                    </Syncfusion:ButtonAdv>
+                                    <KarveControls:DualFieldSearchBox x:Name="NewBroker" 
                                                   DockPanel.Dock="Right"
-                                                  TextContentSecondWidth="200"
-                                                  TextContentFirstWidth="100"
+                                                  TextContentFirstWidth="50"
+                                                  TextContentSecondWidth="150"
+                                                  
                                                   LabelTextWidth="80"
                                                   LabelText="{Binding lbroker, Source={StaticResource ResourceLanguage}}" 
                                                   Height="30"
@@ -764,100 +994,50 @@
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   SourceView="{Binding  BrokerDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="COMISIO_RES2"></KarveControls:DualFieldSearchBox>
-                            </DockPanel>
-                            <DockPanel Grid.Column="0" Grid.Row="4">
-                                <!--
-                                <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   
+                                </DockPanel>
+                                <WrapPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="2">
+
+                                    <Syncfusion:ButtonAdv  
                                                        Background="#e6e6fa" 
                                                        BorderBrush="#2196f3"
-                                                       Label="Reservas futura"
+                                                       Label="Res.Futuras"
                                                        Height="30" 
                                                        Width="100"
                                                        SmallIcon="/KarveControls;component/Images/booking.png" 
-                                                       Command="{Binding CreateNewCommisionAgent}">
-                                </Syncfusion:ButtonAdv>
-                                <Syncfusion:SfTextBoxExt  Width="Auto"
+                                                       Command="{Binding ShowNewBooking}">
+                                    </Syncfusion:ButtonAdv>
+                                    <Syncfusion:SfTextBoxExt 
                                                           Margin="12,0,0,0"
+                                                          Width="179"
+                                                         
                                                           Text="{Binding Path=DataObject.MATRI_VC, Mode=TwoWay,
                                                                 ValidatesOnDataErrors=True, 
                                                                 ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" 
                                  Height="30"
-                                 DockPanel.Dock="Right"
+                                 
                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
                                  karveControls:ControlExt.DataSourcePath="MATRI_VC"
                                  Style="{StaticResource SfFieldErrorStyle}"
                                  Watermark="{Binding lmatricula, Source={StaticResource ResourceLanguage}}"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"/>
-                            -->
 
-                            </DockPanel>
-                        </Grid>
+                                </WrapPanel>
 
-                    </Grid>
-                    <Grid Grid.Row="6" Grid.Column="2">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        
-                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding ldeposit, Source={StaticResource ResourceLanguage}}">
-                            
-                        </Label>
-                        <Syncfusion:SfTextBoxExt 
-                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            karveControls:ControlExt.DataSourcePath="FIANZA_DEPOSITO_RES1"
-                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            Watermark="{Binding ldeposit,Source={StaticResource ResourceLanguage}}"
-                            Text="{Binding DataObject.FIANZA_DEPOSITO_RES1, Mode=TwoWay}">
-                            
-                        </Syncfusion:SfTextBoxExt>
-                        <karveControls:DataArea  
-                                Height="Auto"
-                                Width="Auto"
-                                Grid.Row="0" Grid.Column="1" 
-                                Grid.RowSpan="2"
-                                DataAreaWidth="200"
-                                Margin="5,0,0,0"
-                                DataAreaTitle="{Binding ldepositnotes,Source={StaticResource ResourceLanguage}}"
-                                LabelVisible="False"
-                                TextContent="{Binding DataObject.OBSFIANZA_RES1, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
-                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                karveControls:ControlExt.DataSourcePath="OBSFIANZA_RES1"
-                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                />
-                        <Syncfusion:ButtonAdv Grid.Row="2" Grid.Column="2" Width="150" 
-                                              Label="Cobro"
-                                              Command="{Binding AmountCommand, Mode=OneWay}"
-                                              SmallIcon="/KarveControls;component/Images/payment.png" >
-
-                        </Syncfusion:ButtonAdv>
-
-                        <Syncfusion:ButtonAdv Grid.Row="2" Grid.Column="3" Width="150" 
-                                              Label="Recalcula Importe"
-                                              Command="{Binding RecomputeImport, Mode=OneWay}"
-                                              SmallIcon="/KarveControls;component/Images/euro.png">
-                            
-                        </Syncfusion:ButtonAdv>
-
+                            </Grid>
+                        </GroupBox>
 
                     </Grid>
-                     
-                </Grid>
 
-            </TabItem>
-            <TabItem Header="{Binding ldrivers, Source={StaticResource ResourceLanguage}}">
-                <local:BookingDrivers></local:BookingDrivers>
-            </TabItem>
-            <TabItem Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}">
-                <local:BookingOtherDataView></local:BookingOtherDataView>
-            </TabItem>
-        </TabControl>
+                </TabItem>
 
+
+                <TabItem Header="{Binding ldrivers, Source={StaticResource ResourceLanguage}}">
+                    <local:BookingDrivers></local:BookingDrivers>
+                </TabItem>
+                <TabItem Header="{Binding lotherData, Source={StaticResource ResourceLanguage}}">
+                    <local:BookingOtherDataView></local:BookingOtherDataView>
+                </TabItem>
+            </TabControl>
+       
     </Grid>
 </UserControl>

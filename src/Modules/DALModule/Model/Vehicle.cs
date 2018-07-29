@@ -513,7 +513,7 @@ namespace DataAccessLayer.Model
         }
 
         public IEnumerable<AgentDto> AgentsDto { get; set; }
-        public IEnumerable<ActividadDto> ActivityDtos { get; set; }
+        public IEnumerable<VehicleActivitiesDto> ActivityDtos { get; set; }
         public IEnumerable<PictureDto> PicturesDtos { get; set; }
         public IEnumerable<SupplierSummaryDto> Supplier2 { get; set; }
         public IEnumerable<PaymentFormDto> PaymentForm { get; set; }
@@ -526,7 +526,7 @@ namespace DataAccessLayer.Model
         public IEnumerable<SupplierSummaryDto> AssistenceAssuranceDto { get ; set; }
         public IEnumerable<SupplierSummaryDto> AdditionalAssuranceDto { get ; set ; }
         public IEnumerable<SupplierSummaryDto> AssuranceDto { get ; set ; }
-        public IEnumerable<AgentDto> AssuranceAgentDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<AgentDto> AssuranceAgentDto { get; set; }
     }
 
 }

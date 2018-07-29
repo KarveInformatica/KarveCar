@@ -41,7 +41,7 @@ namespace DataAccessLayer
             var emptyValue = new NullAssist();
             if (value)
             {
-                return await transfer.Invoke(arg);
+                return await transfer.Invoke(arg).ConfigureAwait(false);
             }
             return emptyValue;
 

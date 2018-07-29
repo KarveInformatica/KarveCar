@@ -43,7 +43,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the INCLUIDO property.
         /// </summary>
-        [Display(Name = "Km Includidos")]
+        [Display(Name = "Incluido")]
         public Int16? Included { get; set; }
 
         /// <summary>
@@ -81,6 +81,16 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         [Display(Name = "Extra")]
         public Int16? Extra { get; set; }
+
+
+
+        [Display(Name="Minimo")]
+        public Int32 Min { set; get; }
+
+        [Display(Name="Max")]
+        public Int32 Max { set; get; }
+
+
 
         /// <summary>
         /// Set or Get the number of days.

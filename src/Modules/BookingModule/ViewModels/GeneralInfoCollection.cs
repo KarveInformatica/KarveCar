@@ -202,7 +202,7 @@ namespace BookingModule.ViewModels
         private readonly ICommand _newAssistCommand;
         private readonly ICommand _newCreateCommand;
         private readonly ICommand _newChangedCommand;
-        private List<GeneralInfo> _list;
+        private ObservableCollection<GeneralInfo> _list;
       
         /// <summary>
         /// Builder for the collection. 
@@ -215,7 +215,7 @@ namespace BookingModule.ViewModels
             _newAssistCommand = assist;
             _newCreateCommand = changed;
             _newChangedCommand = changed;
-            _list = new List<GeneralInfo>();
+            _list = new ObservableCollection<GeneralInfo>();
         }
         /// <summary>
         /// Add a new item to the collection.

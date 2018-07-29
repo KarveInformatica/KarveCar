@@ -4,10 +4,140 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BookingModule.Views"
+               xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
               xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+             xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="1024">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <DataTemplate x:Name="Bonus" x:Key="Bonus">
+                    <Grid>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="82*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="200*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <karveControls:DataFieldCheckBox
+                                    x:Name="ExistBonusCheckBox"
+                                    Grid.Column="0"
+                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     karveControls:ControlExt.DataSourcePath="BONOSI_RES2"
+                                    Content="{Binding lexistbonus, Source={StaticResource ResourceLanguage}}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                        <prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </karveControls:DataFieldCheckBox>
+                            <karveControls:DataFieldCheckBox 
+                                     x:Name="ExistSelfBonusCheckBox"
+                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     karveControls:ControlExt.DataSourcePath="BONOAURO_RES2"
+                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
+                                     Grid.Column="1"
+                                     Content="{Binding lselfbonus, Source={StaticResource ResourceLanguage}}">
+                            </karveControls:DataFieldCheckBox>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock
+                                 x:Name="bonusNumber"
+                                Text="{Binding lbonusnumber, Mode=OneTime, Source={StaticResource ResourceLanguage}}"/>
+
+                                <syncfusion:SfTextBoxExt
+                                                
+                                                 x:Name="BonusNumber"
+                                                 Width="200"
+                                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 karveControls:ControlExt.DataSourcePath="BONONUM_RES2"
+                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
+                                                 Watermark="{Binding lbonusnumber, Source={StaticResource ResourceLanguage}}"
+                                                 Text="{Binding DataObject.BONONUM_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, 
+                                                        ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="3">
+                                <TextBlock
+                                 x:Name="prepaidAmount"
+                                Text="{Binding lprepaidamount, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
+
+                                </TextBlock>
+                                <syncfusion:SfTextBoxExt Watermark="{Binding lprepaidamount, Source={StaticResource ResourceLanguage}}"
+                                                 Text="{Binding DataObject.IMPORTE_PREPAGADO_RES2, Mode=TwoWay}"
+                                                 karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                                 karveControls:ControlExt.DataSourcePath="IMPORTE_PREPAGADO_RES2"
+                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                 >
+
+                                </syncfusion:SfTextBoxExt>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4" Grid.ColumnSpan="2">
+                                <TextBlock
+                                 x:Name="depositInfo"
+                                Text="{Binding ldeposit, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
+
+                                </TextBlock>
+                                <syncfusion:SfTextBoxExt Watermark="{Binding ldeposit, Source={StaticResource ResourceLanguage}}"
+                                                 Text="{Binding DataObject.FIANZA_DEPOSITO_RES1, Mode=TwoWay}"
+                                                 Width="100"
+                                                         karveControls:ControlExt.DataSource="{Binding DataObject}"
+                                                 karveControls:ControlExt.DataSourcePath="FIANZA_DEPOSITO_RES1"
+                                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                                 >
+
+                                </syncfusion:SfTextBoxExt>
+                                <karveControls:DataArea  
+                                Height="Auto"
+                                Width="Auto"
+                                Grid.Row="0" Grid.Column="1" 
+                                Grid.RowSpan="2"
+                                DataAreaWidth="200"
+                                Margin="5,0,0,0"
+                                DataAreaTitle="{Binding ldepositnotes,Source={StaticResource ResourceLanguage}}"
+                                LabelVisible="False"
+                                TextContent="{Binding DataObject.OBSFIANZA_RES1, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                karveControls:ControlExt.DataSourcePath="OBSFIANZA_RES1"
+                                karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                />
+                                
+                            </StackPanel>
+
+
+                        </Grid>
+
+
+                    </Grid>
+                </DataTemplate>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <DockPanel>
+            <Grid DockPanel.Dock="Left">
+
+                <ContentControl ContentTemplate="{StaticResource Bonus}"
+                                        Content="{Binding}"></ContentControl>
+            </Grid>
+            <karveControls:AmountControl Width="201" 
+                                                     CurrentVat="0.21"
+                                                     DockPanel.Dock="Right"
+                                                     VatOnAmount="{Binding DataObject.IVA_RES2, Mode=TwoWay}"
+                                                     ContraTotal="{Binding DataObject.FRANQUICIA_REDUCIDA_RES1, Mode=TwoWay}"
+                                                     Amount="{Binding DataObject.BASEI_RES2, Mode=TwoWay}"
+                                                     Total="{Binding DataObject.TOLON_RES2, Mode=TwoWay}"
+                                                     Text="{Binding lyourbooking, Source={StaticResource ResourceLanguage}}"
+                                                     VerticalAlignment="Top" Height="127" ></karveControls:AmountControl>
+
+
+        </DockPanel>
+
+
     </Grid>
 </UserControl>

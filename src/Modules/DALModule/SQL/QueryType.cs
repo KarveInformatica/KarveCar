@@ -125,6 +125,12 @@ namespace DataAccessLayer.SQL
         QueryBrokerVisit,
         QueryBrokerContactsPaged,
         QueryFareConcept,
-        QueryBudget
+        QueryBudget,
+        QueryBookingMedia,
+        QueryBookingType,
+        QueryAgencyEmployee,
+        QueryPrintingType,
+        QueryCityByName,
+        QueryBudgetSummaryById
     };
 }

@@ -934,7 +934,7 @@ namespace KarveControls
                         }
                         HandleObjectValue(value);
                         Popup.IsOpen = false;
-                        ClearView();
+                       // ClearView();
                     }
                 }
             }
@@ -955,7 +955,7 @@ namespace KarveControls
                     HandleObjectValue(value);
                     SelectedObject = value;
                     RaiseBoxResolvedEvent(SearchBoxResolvedEvent);
-                    ClearView();
+                  
                    
                     Popup.IsOpen = false;
                 }
@@ -967,11 +967,10 @@ namespace KarveControls
             var method = SourceView.GetType().GetMethod("Clear");
             method?.Invoke(SourceView, null);
             SourceView = null;
-            MagnifierGrid.Dispose();
             MagnifierGrid.ItemsSource = null;
         }
-        
-       private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchTxtFirst = SearchTextFirst.Text;
             string currentValueSecond = CheckTheValueInSourceView(searchTxtFirst);
@@ -1879,11 +1878,6 @@ namespace KarveControls
 
         public void Dispose()
         {
-            if (SourceView is IList list)
-            {
-                list.Clear();
-                SourceView = null;
-            }
             SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as SfTextBoxExt;
             SearchTextSecond = GetTemplateChild("PART_SearchTextSecond") as SfTextBoxExt;
             if (SearchTextFirst != null)
@@ -1901,13 +1895,15 @@ namespace KarveControls
             this.PreviewKeyDown -= DualFieldSearchBox_PreviewKeyDown;
             this.LostFocus -= DualFieldSearchBox_LostFocus;
             Popup = GetTemplateChild("PART_PopUp") as Popup;
-            ClearView();
             _dataSource = null;
             PopUpButtonImage = GetTemplateChild("PART_PopUpButtonImage") as Image;
             SearchLabel = GetTemplateChild("PART_SearchLabel") as TextBlock;
             MagnifierGrid = GetTemplateChild("PART_MagnifierGrid") as SfDataGrid;
             MagnifierGrid.SelectionChanged -= MagnifierGrid_OnSelectionRowChanged;
             MagnifierGrid.MouseDoubleClick -= MagnifierGrid_MouseDoubleClick;
+            // just call it here.
+            ClearView();
+
         }
     }
 }

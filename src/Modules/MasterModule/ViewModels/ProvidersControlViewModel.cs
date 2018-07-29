@@ -10,17 +10,14 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using KarveCommon.Generic;
-using KarveDataServices.DataObjects;
 using MasterModule.Common;
 using MasterModule.Interfaces;
 using MasterModule.Views;
 using Prism.Regions;
 using KarveDataServices.DataTransferObject;
 using System.Threading.Tasks;
-using DataAccessLayer.Model;
 using NLog;
 using Syncfusion.UI.Xaml.Grid;
-using DataRow = System.Data.DataRow;
 using KarveCommonInterfaces;
 
 namespace MasterModule.ViewModels
@@ -68,6 +65,7 @@ namespace MasterModule.ViewModels
             IDialogService service,
             IEventManager eventManager) : base(configurationService, eventManager, services, null, service,regionManager)
         {
+           
             _container = container;
             _regionManager = regionManager;
             _extendedSupplierDataTable = new DataTable();
@@ -79,9 +77,11 @@ namespace MasterModule.ViewModels
             _gridSorter.OnInitPage += _gridSorter_OnInitPage;
             _gridSorter.OnNewPage += _gridSorter_OnNewPage;
             DefaultPageSize = 100;
+            ViewModelUri = new Uri("karve://booking/viewmodel?id=" + Guid.ToString());
             SortCommand = new DelegateCommand<object>(OnSortCommand);
             OpenItemCommand = new DelegateCommand<object>(OpenCurrentItem);
             InitViewModel();
+            ActiveSubSystem();
         }
 
         private void _gridSorter_OnNewPage(IEnumerable<SupplierSummaryDto> page)
@@ -130,7 +130,7 @@ namespace MasterModule.ViewModels
             base.GridIdentifier = GridIdentifiers.Supplier;
             SubSystem = DataSubSystem.SupplierSubsystem;
             StartAndNotify();
-            ActiveSubSystem();
+           
         }
         /// <summary>
         ///  Command to open a new view for each detailed supplier.
@@ -145,10 +145,13 @@ namespace MasterModule.ViewModels
        
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
-            payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
-            payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
-            payLoad.ObjectPath = ViewModelUri;
-            payLoad.Sender = ViewModelUri.ToString();
+            if (payLoad != null)
+            {
+                payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
+                payLoad.Subsystem = DataSubSystem.SupplierSubsystem;
+                payLoad.ObjectPath = ViewModelUri;
+                payLoad.Sender = ViewModelUri.ToString();
+            }
         }
         
 

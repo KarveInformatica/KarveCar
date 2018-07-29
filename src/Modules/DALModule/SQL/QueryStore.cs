@@ -6,6 +6,8 @@ using NLog;
 using KarveCommonInterfaces;
 using System.ComponentModel;
 using System.Linq;
+using ExtendedXmlSerialization;
+using System.Xml;
 
 namespace DataAccessLayer.SQL
 {
@@ -18,50 +20,59 @@ namespace DataAccessLayer.SQL
     [XmlRoot("QueryStore")]
     public class QueryStore : IQueryStore
     {
+        [XmlIgnore]
         protected Logger Logger = LogManager.GetCurrentClassLogger();
         [XmlElement("PrimaryKeys")]
         private Dictionary<QueryType, Tuple<string, string>> _paramDictionary = new Dictionary<QueryType, Tuple<string, string>>
+
         {
-             {  QueryType.QueryCity, new Tuple<string,string>("POBLACIONES", "CP") },
-             {  QueryType.QueryBrandByVehicle, new Tuple<string,string>("MARCAS", "CODIGO") },
+             {  QueryType.QueryAccount, new Tuple<string,string>("CU1", "CODIGO") },
              {  QueryType.QueryAgentByVehicle, new Tuple<string,string>("AGENTES", "NUM_AG") },
+             {  QueryType.QueryAgencyEmployee, new Tuple<string, string>("EAGE","NUM_EAGE") },
+             {  QueryType.QueryBookingMedia, new Tuple<string, string>("MEDIO_RES", "CODIGO") },
+             {  QueryType.QueryBookingType, new Tuple<string, string>("TIPOS_RESERVAS", "CODIGO") },
+             {  QueryType.QueryCommissionAgentSummaryById, new Tuple<string, string>("COMISIO", "NUM_COMI") },
+             {  QueryType.QueryBrandByVehicle, new Tuple<string,string>("MARCAS", "CODIGO") },
+             {  QueryType.QueryBudgetSummary, new Tuple<string, string>("PRESUP1", "NUMERO_PRE") },
+             {  QueryType.QueryBudgetSummaryById, new Tuple<string, string>("PRESUP1", "NUMERO_PRE") },
 
-            {  QueryType.QueryPaymentForm, new Tuple<string,string>("FORMAS", "CODIGO") },
-            {  QueryType.QueryReseller, new Tuple<string,string>("VENDEDOR", "NUM_VENDE") },
-            {  QueryType.QuerySupplierSummaryById, new Tuple<string,string>("PROVEE1", "NUM_PROVEE") },
-
-            {  QueryType.QueryCurrency, new Tuple<string,string>("DIVISAS", "CODIGO") },
-            {  QueryType.QueryProvince, new Tuple<string,string>("PROVINCIA", "CP") },
-            {  QueryType.QueryCountry, new Tuple<string,string>("PAIS", "SIGLAS") },
-            {  QueryType.QueryFares, new Tuple<string,string>("NTARI", "CODIGO") },
-            {  QueryType.QueryAccount, new Tuple<string,string>("CU1", "CODIGO") },
-            {  QueryType.QueryCompany, new Tuple<string,string>("SUBLICEN", "CODIGO") },
-            {  QueryType.QueryOrigin, new Tuple<string,string>("ORIGEN", "NUM_ORIGEN") },
-            {  QueryType.QueryClientSummaryExtById, new Tuple<string,string>("CLIENTES1", "NUMERO_CLI") },
-            {  QueryType.QueryOffice, new Tuple<string,string>("OFICINAS", "CODIGO") },
-            {  QueryType.QueryOfficePaged, new Tuple<string,string>("OFICINAS", "CODIGO") },
-            {  QueryType.QueryOfficeZone, new Tuple<string,string>("ZONAOFI", "COD_ZONAOFI") },
-            {  QueryType.QueryReservationRequestReason, new Tuple<string,string>("MOPETI", "CODIGO") },
-            {  QueryType.QueryVehicle, new Tuple<string,string>("VEHICULO1", "CODIINT") },
-            {  QueryType.QueryVehicleColor, new Tuple<string,string>("COLORFL", "CODIGO") },
-            {  QueryType.QueryVehicleGroup, new Tuple<string,string>("GRUPOS", "CODIGO") },
-            {  QueryType.QueryVehicleSummaryById, new Tuple<string,string>("VEHICULO1", "CODIINT") },
-            {  QueryType.QueryCompanyOffices, new Tuple<string,string>("OFICINAS", "CODIGO") },
-            {  QueryType.QueryVehicleActivity, new Tuple<string,string>("ACTIVEHI", "NUM_ACTIVEHI") },
-            {  QueryType.QueryVehicleOwner, new Tuple<string,string>("PROPIE", "NUM_PROPIE") },
-            {  QueryType.QueryCurrencyValue, new Tuple<string,string>("CURRENCIES", "CODIGO_CUR") },
-            {  QueryType.HolidaysByOffice, new Tuple<string,string>("FESTIVOS_OFICINA", "OFICINA") },
-            {  QueryType.QueryContractsByClient, new Tuple<string, string>("CONTRATOS1", "NUMERO")},
-            {  QueryType.QueryDeptContable, new Tuple<string, string>("DELEGA", "NUM_DELEGA") },
-            {  QueryType.QueryDeliveringFrom, new Tuple<string, string>("FORMA_PEDENT", "CODIGO")  },
             {  QueryType.QueryBudgetSummaryPaged, new Tuple<string, string>("PRESUP1","NUMERO_PRE") },
-            {  QueryType.QueryClientContacts, new Tuple<string, string>("CliContactos","cldIdCliente") },
-            {  QueryType.QueryBudgetSummary, new Tuple<string, string>("PRESUP1", "NUMERO_PRE") }
+             {  QueryType.QueryCity, new Tuple<string,string>("POBLACIONES", "CP") },
+             {  QueryType.QueryCityByName, new Tuple<string,string>("POBLACIONES", "POBLA") },
+             {  QueryType.QueryClientSummaryExtById, new Tuple<string,string>("CLIENTES1", "NUMERO_CLI") },
+             {  QueryType.QueryCompany, new Tuple<string,string>("SUBLICEN", "CODIGO") },
+             {  QueryType.QueryCompanyOffices, new Tuple<string,string>("OFICINAS", "CODIGO") },
+             {  QueryType.QueryContractsByClient, new Tuple<string, string>("CONTRATOS1", "NUMERO")},
+             {  QueryType.QueryCountry, new Tuple<string,string>("PAIS", "SIGLAS") },
+             {  QueryType.QueryCurrency, new Tuple<string,string>("DIVISAS", "CODIGO") },
+             {  QueryType.QueryCurrencyValue, new Tuple<string,string>("CURRENCIES", "CODIGO_CUR") },
+             {  QueryType.QueryDeptContable, new Tuple<string, string>("DELEGA", "NUM_DELEGA") },
+             {  QueryType.QueryDeliveringFrom, new Tuple<string, string>("FORMA_PEDENT", "CODIGO")  },
+             {  QueryType.QueryReseller, new Tuple<string,string>("VENDEDOR", "NUM_VENDE") },
+             {  QueryType.QuerySupplierSummaryById, new Tuple<string,string>("PROVEE1", "NUM_PROVEE") },
+             {  QueryType.QueryProvince, new Tuple<string,string>("PROVINCIA", "CP") },
+             {  QueryType.QueryFares, new Tuple<string,string>("NTARI", "CODIGO") },
+             {  QueryType.QueryOrigin, new Tuple<string,string>("ORIGEN", "NUM_ORIGEN") },
+             {  QueryType.QueryOffice, new Tuple<string,string>("OFICINAS", "CODIGO") },
+             {  QueryType.QueryOfficePaged, new Tuple<string,string>("OFICINAS", "CODIGO") },
+             {  QueryType.QueryOfficeZone, new Tuple<string,string>("ZONAOFI", "COD_ZONAOFI") },
+             {  QueryType.QueryPaymentForm, new Tuple<string,string>("FORMAS", "CODIGO") },
+             {  QueryType.QueryReservationRequestReason, new Tuple<string,string>("MOPETI", "CODIGO") },
+             {  QueryType.QueryVehicle, new Tuple<string,string>("VEHICULO1", "CODIINT") },
+             {  QueryType.QueryVehicleColor, new Tuple<string,string>("COLORFL", "CODIGO") },
+             {  QueryType.QueryVehicleGroup, new Tuple<string,string>("GRUPOS", "CODIGO") },
+             {  QueryType.QueryVehicleSummaryById, new Tuple<string,string>("VEHICULO1", "CODIINT") },
+             {  QueryType.QueryVehicleActivity, new Tuple<string,string>("ACTIVEHI", "NUM_ACTIVEHI") },
+             {  QueryType.QueryVehicleOwner, new Tuple<string,string>("PROPIE", "NUM_PROPIE") },
+             {  QueryType.HolidaysByOffice, new Tuple<string,string>("FESTIVOS_OFICINA", "OFICINA") },
+             {  QueryType.QueryClientContacts, new Tuple<string, string>("CliContactos","cldIdCliente") },
+             {  QueryType.QueryPrintingType, new Tuple<string, string>("CONTRATIPIMPR","CODIGO") }
         };
         [XmlElement("StaticQueries")]
         private Dictionary<QueryType, string> _dictionary = new Dictionary<QueryType, string>()
         {
-            {
+             {  QueryType.QueryAgencyEmployee, @"SELECT * FROM EAGE"},
+             {
                 QueryType.QueryBroker, @"SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACION as City, " +
             "PROVINCIA.PROV as Province, PAIS.PAIS as Country, IATA as IATA,  FROM COMISIO " +
             " LEFT JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS " +
@@ -88,10 +99,45 @@ namespace DataAccessLayer.SQL
                                                    LEFT OUTER JOIN CLIENTES1 ON NUMERO_CLI = CLIENTE_PRE1
                                                    LEFT OUTER JOIN ORIGEN ON NUM_ORIGEN = PRESUP2.ORIGEN_PRE2
                                                    LEFT OUTER JOIN COMISIO ON NUM_COMI = PRESUP2.COMISIO_PRE2;"},
+                          {QueryType.QueryBudgetSummary, @"SELECT PRESUP1.NUMERO_PRE as BudgetNumber,
+                                                   OFICINA_PRE1 as BudgetOffice,
+                                                   CLIENTES1.NOMBRE as ClientName,
+                                                   FECHA_PRE1 as BudgetCreationDate,
+                                                   FSALIDA_PRE1 as DepartureDate,
+                                                   GRUPO_PRE1 as GroupCode,
+                                                   RESERVA_PRE1 as BookingNumber,
+                                                   COMISIO.NOMBRE as BrokerName,
+                                                   PRESUP2.BONONUM_PRE2 as BonusNumber,
+                                                   ORIGEN.NOMBRE as Origin,
+                                                   NOTAS_PRE1 as Notes
+                                                   FROM PRESUP1
+                                                   INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE
+                                                   LEFT OUTER JOIN CLIENTES1 ON NUMERO_CLI = CLIENTE_PRE1
+                                                   LEFT OUTER JOIN ORIGEN ON NUM_ORIGEN = PRESUP2.ORIGEN_PRE2
+                                                   LEFT OUTER JOIN COMISIO ON NUM_COMI = PRESUP2.COMISIO_PRE2;"},
+                            {QueryType.QueryBudgetSummaryById, @"SELECT PRESUP1.NUMERO_PRE as BudgetNumber,
+                                                   OFICINA_PRE1 as BudgetOffice,
+                                                   CLIENTES1.NOMBRE as ClientName,
+                                                   FECHA_PRE1 as BudgetCreationDate,
+                                                   FSALIDA_PRE1 as DepartureDate,
+                                                   GRUPO_PRE1 as GroupCode,
+                                                   RESERVA_PRE1 as BookingNumber,
+                                                   COMISIO.NOMBRE as BrokerName,
+                                                   PRESUP2.BONONUM_PRE2 as BonusNumber,
+                                                   ORIGEN.NOMBRE as Origin,
+                                                   NOTAS_PRE1 as Notes
+                                                   FROM PRESUP1
+                                                   INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE
+                                                   LEFT OUTER JOIN CLIENTES1 ON NUMERO_CLI = CLIENTE_PRE1
+                                                   LEFT OUTER JOIN ORIGEN ON NUM_ORIGEN = PRESUP2.ORIGEN_PRE2
+                                                   LEFT OUTER JOIN COMISIO ON NUM_COMI = PRESUP2.COMISIO_PRE2 
+                                                   WHERE PRESUP1.NUMERO_PRE='{0}';"},
+
             { QueryType.QueryPagedClient, @"SELECT TOP {0} START AT {1} CLIENTES1.NUMERO_CLI, * FROM CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES1.NUMERO_CLI = CLIENTES2.NUMERO_CLI ORDER BY CLIENTES1.NUMERO_CLI" },
             {QueryType.QueryClient1, @"SELECT * FROM CLIENTES1 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryClient2, @"SELECT * FROM CLIENTES2 WHERE NUMERO_CLI='{0}'"},
             {QueryType.QueryCity, @"SELECT * FROM POBLACIONES WHERE CP = '{0}'" },
+            {QueryType.QueryCityByName, @"SELECT * FROM POBLACIONES WHERE POBLA = '{0}'" },
             {QueryType.QueryClientType, @"SELECT * FROM TIPOCLI WHERE NUM_TICLI = '{0}'" },
             {QueryType.QueryCompany, @"SELECT * FROM SUBLICEN WHERE CODIGO='{0}'"},
             {QueryType.QueryCreditCard, @"SELECT * FROM TARCREDI WHERE CODIGO='{0}'"},
@@ -295,8 +341,13 @@ namespace DataAccessLayer.SQL
                  QueryType.QueryBooking, "SELECT * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES WHERE RESERVAS2.NUMERO_RES='{0}';SELECT * FROM LIRESER WHERE NUMERO='{0}'"
             },
             {
+                 QueryType.QueryBookingMedia, "SELECT * FROM MEDIO_RES WHERE CODIGO='{0}'"
+            },
+
+            {
                  QueryType.QueryBookedPaged, "SELECT TOP {0} START AT {1} * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES"
             },
+
             { QueryType.QueryBookingSummaryExt, "select * from reservas1;" },
             { QueryType.QueryBookingPaged,"SELECT TOP {0} START AT {1} RESERVAS1.NUMERO_RES as BookingNumber, RESERVAS1.NOMBRE_RES1 as BookingName, RESERVAS1.FECHA_RES1 as BookingDate, RESERVAS1.LOCALIZA_RES1 as Locator, OFFICE.CODIGO AS OfficeCode, OFFICE.ZONAOFI AS OfficeZone, OFFICE.NOMBRE as OfficeName, RESERVAS1.GRUPO_RES1 as BookingGroup, RESERVAS1.RENTAL1_RES1 AS BookerUserCode, RESERVAS1.FSALIDA_RES1 as DepartureDate, RESERVAS1.HSALIDA_RES1 as DepartureHour, US1.NOMBRE as BookerUserName, DRIVER.NOMBRE as DriverName, DRIVER.NUMERO_CLI as DriverCode, RESERVAS1.USUARIO_RES1 AS CurrentUser, RESERVAS2.OBS1_RES2 as Notes, RESERVAS2.ORIGEN_RES2 as BookingOrigin, RESERVAS2.MULDIR_RES2 as MultipleDirection, RESERVAS1.ULTMODI_RES1 as LastModification, RESERVAS2.COMISIO_RES2 as BookingBroker, RESERVAS2.TOLON_RES2 as DepositTotal, RESERVAS1.contrato_res1 as Contract, RESERVAS1.FIANZA_DEPOSITO_RES1 as Deposit, RESERVAS1.TARIFA_RES1 as Fare, RESERVAS1.LUENTRE_RES1 as DeliveryPlace, RESERVAS1.LUDEVO_RES1 as ReturnPlace, RESERVAS1.RECHAZAFECHA as RejectionDate, RESERVAS1.FPREV_RES1 as ReturnDate, RESERVAS1.HPREV_RES1 as ReturnTime, V1.MATRICULA as RegistrationNumber, V1.MODELO as VehicleModel, V1.SITUACION as VehicleSituation, RESERVAS2.BONONUM_RES2 as Bonus, CLIENT1.NUMERO_CLI as ClientCode,CLIENT1.NOMBRE as ClientName, RESERVAS2.CONFIRMADA_RES2 as Confirmed, RESERVAS2.OTROCOND_RES2 as OtherDriver, RESERVAS2.OTRO2COND_RES2 as OtherDriver2, RESERVAS2.OTRO3COND_RES2 as OtherDriver3, (select sum(importe) from cobros where reserva = RESERVAS1.NUMERO_RES) as BookingBill, (select NOMBRE from ORIGEN where NUM_ORIGEN=BookingOrigin) as BookingOriginName FROM RESERVAS1 LEFT OUTER JOIN GRUPOS G ON RESERVAS1.GRUPO_RES1=G.CODIGO LEFT OUTER JOIN OFICINAS AS OFFICE ON RESERVAS1.OFISALIDA_RES1 = OFFICE.CODIGO LEFT OUTER JOIN CLIENTES1 AS CLIENT1 ON RESERVAS1.CLIENTE_RES1 = CLIENT1.NUMERO_CLI LEFT OUTER JOIN CLIENTES1 AS DRIVER ON RESERVAS1.CONDUCTOR_RES1 = DRIVER.NUMERO_CLI LEFT OUTER JOIN SUBLICEN AS COMPANY ON RESERVAS1.SUBLICEN_RES1 = COMPANY.CODIGO LEFT OUTER JOIN VEHICULO1 V1 ON RESERVAS1.VCACT_RES1=V1.CODIINT LEFT OUTER JOIN USURE US1 ON US1.CODIGO=RESERVAS1.RENTAL1_RES1 LEFT OUTER JOIN VEHICULO2 V2 ON V2.CODIINT=V1.CODIINT INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES ORDER BY BookingNumber, BookingDate;"},
 
@@ -315,7 +366,8 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryReservationRequestReason, "SELECT * FROM MOPETI WHERE CODIGO='{0}'" },
             {QueryType.QueryFares, "SELECT * FROM NTARI WHERE CODIGO='{0}'" },
             {QueryType.QueryBrokerVisit, "SELECT visIdVisita as VisitId,visIdCliente as VisitClientId,visIdContacto as ContactId,visFecha as VisitDate,visIdVendedor as ResellerId, visIdVisitaTipo as VisitTypeId, TV.NOMBRE_VIS as VisitTypeName, PV.nom_contacto AS ContactName, PEDIDO as VisitOrder, VE.NOMBRE as ResellerName FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON  PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE= '{0}' ORDER BY CC.visFECHA" },
-             { QueryType.QueryMulti, ""}
+            { QueryType.QueryPrintingType, "SELECT * FROM CONTRATIPIMPR WHERE CODIGO='{0}'" },
+            { QueryType.QueryMulti, ""}
             /*
             { QueryType.QueryVehicleMaintenance,  "select CODIGO_MAN as MaintananceCode, NOMBRE_MAN as MaintananceName, ULT_FEC_MV as LastMaintenenceDate, ULT_KM_MV as  LastMaintananceKMs, PROX_FEC_MV as NextMaintenenceDate, PROX_KM_MV as  NextMaintananceKMs, OBSERVACIONES_MAN as Observation from MANTENIMIENTO_VEHICULO LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)" }*/
 
@@ -328,7 +380,9 @@ namespace DataAccessLayer.SQL
         /// <summary>
         ///  Working memory to assign and build a query.
         /// </summary>
+        [XmlIgnore]
         private MultiDictionary<QueryType, string> _memoryStore = new MultiDictionary<QueryType, string>();
+        [XmlIgnore]
         private StringBuilder _multiQuery = new StringBuilder();
        
         /// <summary>
@@ -719,6 +773,19 @@ namespace DataAccessLayer.SQL
                 AddParamCount(type,value);
             }
             return this;
+        }
+
+        public void Save(string path)
+        {
+            ExtendedXmlSerializer serializer = new ExtendedXmlSerializer();
+            var xml = serializer.Serialize(this);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            using (XmlTextWriter writer = new XmlTextWriter(path, null))
+            {
+                writer.Formatting = Formatting.Indented;
+                doc.Save(writer);
+            }
         }
     }
 }

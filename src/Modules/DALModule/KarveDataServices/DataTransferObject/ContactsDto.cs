@@ -25,7 +25,15 @@ namespace KarveDataServices.DataTransferObject
         [Display(Name = "Nombre")]
         public string ContactName
         {
-            get; set;
+
+            get
+            {
+                return base.Name;
+            }
+            set
+            {
+                base.Name = value;
+            }
         }
         /// <summary>
         ///  Nif

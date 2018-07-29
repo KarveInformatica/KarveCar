@@ -39,7 +39,7 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
        
         private string _assistQueryOwner;
-        private IEnumerable<ActividadDto> _activity;
+        private IEnumerable<VehicleActivitiesDto> _activity;
         private IEnumerable<AgentDto> _agents;
         private IEnumerable<OwnerDto> _owner;
         private IEnumerable<SupplierSummaryDto> _supplier;
@@ -92,7 +92,7 @@ namespace MasterModule.ViewModels
         private IEnumerable<SupplierSummaryDto> _buyerSupplier = new List<SupplierSummaryDto>();
 
         // This returns the list of activity when asked.
-        public IEnumerable<ActividadDto> ActivityDtos
+        public IEnumerable<VehicleActivitiesDto> ActivityDtos
         {
             get
             {
@@ -429,7 +429,7 @@ namespace MasterModule.ViewModels
                 {
                     case "ACTIVEHI":
                     {
-                        ActivityDtos = resultMap as IEnumerable<ActividadDto>;
+                        ActivityDtos = resultMap as IEnumerable<VehicleActivitiesDto>;
                         break;
                     }
                     case "PROPIE":

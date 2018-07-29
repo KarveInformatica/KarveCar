@@ -126,7 +126,12 @@
       
         <Grid ShowGridLines="False">
             <StackPanel Orientation="Vertical">
-             
+                <DockPanel Background="SeaGreen">
+                    <Image x:Name="TitleImage" DockPanel.Dock="Left" HorizontalAlignment="Left"
+                   Source="/KarveControls;component/Images/supplier.png" Height="48" />
+                    <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Left" Text="{Binding lproveedor, Source={StaticResource ResourceLanguage}}" FontSize="24"
+                       Foreground="White" />
+                </DockPanel>
                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ProviderUpperBar}"></ContentControl>
 
                 <Syncfusion:TabControlExt 
@@ -228,7 +233,7 @@
                                                           TextContentFirstWidth="100"
                                                           TextContentSecondWidth="300"
                                                           ButtonImage="{x:Static common:MasterModuleConstants.ImagePath}"
-                                                          SourceView="{Binding CityDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}"
+                                                          SourceView="{Binding CityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, diag:PresentationTraceSources.TraceLevel=High}"
                                                           DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
@@ -451,6 +456,7 @@
                             DataAreaTitle="{Binding lnotas, Source={StaticResource ResourceLanguage}}"
                             Margin="10,0,348.5,0"
                             LabelVisible="False"
+                            Height="Auto"                            
                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="NOTAS"
                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto">
@@ -462,9 +468,10 @@
                             DataAreaTitle="{Binding lobservaciones, Source={StaticResource ResourceLanguage}}"
                             Margin="10,5,351.75,0"
                             LabelVisible="False"
+                            Height="Auto"
                             karveControls:ControlExt.DataSource="{Binding  DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="OBSERVA"
-                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto" Height="145">
+                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="Auto">
                                 </karveControls:DataArea>
 
                             </Grid>

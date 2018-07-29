@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Interactivity;
 using Syncfusion.UI.Xaml.Grid;
 using System.Windows.Input;
 using System.Windows;
 using Syncfusion.UI.Xaml.ScrollAxis;
-using System.ComponentModel;
 using System;
 using KarveControls.Behaviour.Grid;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Windows.Media;
 
 
@@ -70,15 +67,18 @@ namespace KarveControls.Behaviour
      
         protected override void OnSetup()
         {
+
             base.OnAttached();
-            this.AssociatedObject.GridCopyOption = GridCopyOption.CopyData | GridCopyOption.CutData;
-            KarveGridCopyPaste karve = new KarveGridCopyPaste(this.AssociatedObject);
-            this.AssociatedObject.GridCopyPaste = karve;
-            this.AssociatedObject.AutoGeneratingColumn += AssociatedObject_AutogenerateCols;
-           // this.AssociatedObject.RowValidating += OnRowValidating;
-           // this.AssociatedObject.RowValidated += RowValidated;
-            this.AssociatedObject.CurrentCellValueChanged += dataGrid_CurrentCellValueChanged;
-            this.AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
+            AssociatedObject.GridCopyOption = GridCopyOption.CopyData | GridCopyOption.CutData;
+            var karve = new KarveGridCopyPaste(AssociatedObject);
+            AssociatedObject.GridCopyPaste = karve;
+            AssociatedObject.AutoGeneratingColumn += AssociatedObject_AutogenerateCols;
+            AssociatedObject.RowValidating += OnRowValidating;
+            AssociatedObject.RowValidated += RowValidated;
+            AssociatedObject.CurrentCellValueChanged += dataGrid_CurrentCellValueChanged;
+            AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
+            this.AssociatedObject.RecordDeleting += dataGrid_RecordDeleting;
+
         }
         protected override void OnCleanup()
         {
@@ -87,7 +87,7 @@ namespace KarveControls.Behaviour
             this.AssociatedObject.CurrentCellValueChanged -= dataGrid_CurrentCellValueChanged;
             this.AssociatedObject.CurrentCellBeginEdit -= dataGrid_CurrentCellBeginEdit;
             this.AssociatedObject.RowValidating -= OnRowValidating;
-
+            this.AssociatedObject.RecordDeleting -= dataGrid_RecordDeleting;
         }
         void OnRowValidating(object sender, RowValidatingEventArgs args)
         {
@@ -145,7 +145,20 @@ namespace KarveControls.Behaviour
             // look for itemcommandchanged.
           
         }
+        void dataGrid_RecordDeleting(object sender, RecordDeletingEventArgs args)
+        {
 
+            MessageBoxResult result = MessageBox.Show("Quieres borrar la linea?",
+                      "Confirma",
+                      MessageBoxButton.YesNo,
+                      MessageBoxImage.Question);
+            if (result != MessageBoxResult.Yes)
+            {
+                args.Cancel = true;
+            }
+                
+            
+        }
         private void AssociatedObject_AutogenerateCols(object sender, AutoGeneratingColumnArgs e)
         {
 

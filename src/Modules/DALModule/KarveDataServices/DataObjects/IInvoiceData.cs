@@ -6,12 +6,8 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  Marker interface
     /// </summary>
-    public interface IInvoiceData: IValidDomainObject
+    public interface IInvoiceData: IValidDomainObject, IValueObject<InvoiceDto>
     {
-        /// <summary>
-        ///  Return the value object from an entity.
-        /// </summary>
-        InvoiceDto Value { set; get; }
         /// <summary>
         /// ContractSummary 
         /// </summary>

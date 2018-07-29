@@ -2930,4 +2930,7 @@
   <data name="lbooking" xml:space="preserve">
     <value>Buchung</value>
   </data>
+  <data name="lid" xml:space="preserve">
+    <value>Id</value>
+  </data>
 </root>

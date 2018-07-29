@@ -400,7 +400,7 @@ namespace DataAccessLayer
                 currentHelper = await CreateAssistByQuery<ActividadDto, ACTIVI>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
-                    currentHelper = await CreateAssistThroughHelper<ActividadDto, ACTIVI>(_dataServices, LoadMoreActivities).ConfigureAwait(false);
+                    currentHelper = await CreateAssistThroughHelper<ActividadDto, ACTIVI>(_dataServices, LoadMoreActivities1).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -415,10 +415,10 @@ namespace DataAccessLayer
             });
             _assistMapper.Configure("ACTIVEHI", async (query) =>
             {
-                currentHelper = await CreateAssistByQuery<ActividadDto, ACTIVEHI>(query as string).ConfigureAwait(false);
+                currentHelper = await CreateAssistByQuery<VehicleActivitiesDto, ACTIVEHI>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
-                    currentHelper = await CreateAssistThroughHelper<ActividadDto, ACTIVEHI>(_dataServices, LoadMoreActivities);
+                    currentHelper = await CreateAssistThroughHelper<VehicleActivitiesDto, ACTIVEHI>(_dataServices, LoadMoreActivities2);
                 }
                 return currentHelper;
             });
@@ -521,7 +521,7 @@ namespace DataAccessLayer
                 currentHelper = await CreateAssistByQuery<VehicleActivitiesDto, ACTIVEHI>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
-                    currentHelper = await CreateAssistThroughHelper<VehicleActivitiesDto, ACTIVEHI>(_dataServices, LoadMoreBookingType).ConfigureAwait(false);
+                    currentHelper = await CreateAssistThroughHelper<VehicleActivitiesDto, ACTIVEHI>(_dataServices, LoadMoreVehicleActivities).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -580,7 +580,7 @@ namespace DataAccessLayer
                 currentHelper = await CreateAssistByQuery<ClientDto, CLIENTES1>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
-                    currentHelper = await CreateAssistThroughHelper<ClientDto, CLIENTES1>(_dataServices, LoadMoreActivities).ConfigureAwait(false);
+                    currentHelper = await CreateAssistThroughHelper<ClientDto, CLIENTES1>(_dataServices, LoadMoreClients).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -1305,6 +1305,16 @@ namespace DataAccessLayer
                 currentHelper = await CreateClientHelper().ConfigureAwait(false);
                 return currentHelper;
             });
+            _assistMapper.Configure("DRIVER_ASSIST_6", async (query) =>
+            {
+                currentHelper = await CreateClientHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
+            _assistMapper.Configure("DRIVER_ASSIST_7", async (query) =>
+            {
+                currentHelper = await CreateClientHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
             _assistMapper.Configure("CLIENTES1", async (query) =>
             {
                 currentHelper = await CreateClientHelper().ConfigureAwait(false);
@@ -1366,6 +1376,7 @@ namespace DataAccessLayer
                 }
                 return currentHelper;
             });
+
             _assistMapper.Configure("GRUPOS", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<VehicleGroupDto, GRUPOS>(query as string).ConfigureAwait(false);
@@ -1500,6 +1511,8 @@ namespace DataAccessLayer
                 return currentHelper;
             });
         }
+
+      
 
         private async Task<object> CreateBookingContactsHelperAsync(object query)
         {
@@ -1723,11 +1736,22 @@ namespace DataAccessLayer
             LoadMoreData<AgentDto, AGENTES>(index, currentHelper);
 
         }
-        private void LoadMoreActivities(uint arg1, int index)
+        private void LoadMoreActivities1(uint arg1, int index)
         {
-            LoadMoreData<BudgetKeyDto, CLAVEPTO>(index, currentHelper);
+            LoadMoreData<ActividadDto, ACTIVI>(index, currentHelper);
 
         }
+        private void LoadMoreActivities2(uint arg1, int index)
+        {
+            LoadMoreData<ActividadDto, ACTIVEHI>(index, currentHelper);
+
+        }
+        /*
+                private void LoadMoreBudgetKey(uint arg1, int index)
+                {
+                    LoadMoreData<BudgetKeyDto, CLAVEPTO>(index, currentHelper);
+
+                }*/
 
         private void LoadMoreReseller(uint arg1, int index)
         {

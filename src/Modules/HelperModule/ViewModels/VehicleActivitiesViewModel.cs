@@ -11,7 +11,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  VehicleActivitiesViewModel. This is a viewmodel for the helpers vehicle view model.
     /// </summary>
-    class VehicleActivitiesViewModel : GenericHelperViewModel<ActividadDto, ACTIVEHI>
+    class VehicleActivitiesViewModel : GenericHelperViewModel<VehicleActivitiesDto, ACTIVEHI>
     {
         /// <summary>
         /// Constructor.
@@ -27,12 +27,12 @@ namespace HelperModule.ViewModels
 
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            ActividadDto activitiesDto = new ActividadDto();
-            string activities = await DataServices.GetHelperDataServices().GetMappedUniqueId<ActividadDto, ACTIVEHI>(activitiesDto);
-            activitiesDto = payLoad.DataObject as ActividadDto;
+            VehicleActivitiesDto activitiesDto = new VehicleActivitiesDto();
+            string activities = await DataServices.GetHelperDataServices().GetMappedUniqueId<VehicleActivitiesDto, ACTIVEHI>(activitiesDto);
+            activitiesDto = payLoad.DataObject as VehicleActivitiesDto;
             if (activitiesDto != null)
             {
-                activitiesDto.Codigo = activities;
+                activitiesDto.Code = activities;
                 payLoad.DataObject = activitiesDto;
 
             }

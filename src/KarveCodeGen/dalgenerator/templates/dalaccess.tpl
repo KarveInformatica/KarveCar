@@ -18,6 +18,9 @@ using AutoMapper;
 
 namespace DataAccessLayer
 {
+	  /// <summary>
+      ///  Data Access Layer Repository generated automagically by Karve CodeGenerator Project.
+      /// </summary>
     class {{data.name}}DataAccessLayer : AbstractDataAccessLayer, I{{data.name}}DataService
     {
         private IDataLoader<{{data.name}}Dto> _dataLoader;
@@ -60,11 +63,19 @@ namespace DataAccessLayer
             // now i shall use a query store again for setting and loading related stuff.
             if (result.Valid)
             {
-                var auxQueryStore = QueryStoreFactory.GetQueryStore();
-                // foreach querytype and entity
+				result = await BuildAux(result).ConfigureAwait(false);
+            }
+            return result;
+        }
+		 public async Task<I{{data.name}}Data> BuildAux(I{{data.name}}Data result)
+		 {
+			 var auxQueryStore = QueryStoreFactory.GetQueryStore();
+                #region KarveCode Generator for query multiple
+				// Code Generated that concatains multiple queries to be executed by QueryMultipleAsync.
                 {% for query in data.queries %}
                 auxQueryStore.AddParamCount({{query.type}}, {{query.param}});
                 {% endfor %}
+				#endregion
                 var query = auxQueryStore.BuildQuery();
                 using (var connection = SqlExecutor.OpenNewDbConnection())
                 {
@@ -74,9 +85,8 @@ namespace DataAccessLayer
                         result.Valid = ParseResult(result, multipleResult);
                     }
                 }
-            }
-            return result;
-        }
+				return result;
+		 }
         private bool ParseResult(I{{data.name}}Data request, SqlMapper.GridReader reader)
         {
 

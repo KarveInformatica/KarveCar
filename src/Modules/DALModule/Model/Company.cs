@@ -15,6 +15,7 @@ namespace DataAccessLayer.Model
     class Company : ICompanyData
     {
         public CompanyDto Value { get; set; }
+
         public IEnumerable<ProvinciaDto> ProvinciaDto { get; set; }
         public IEnumerable<CountryDto> CountryDto { get ; set; }
         public IEnumerable<CityDto> CityDto { get ; set; }
@@ -23,5 +24,6 @@ namespace DataAccessLayer.Model
         public IEnumerable<ClientZoneDto> ZoneDto { get ; set; }
         public IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
         public IEnumerable<OfficeDtos> OfficeDto { get; set ; }
+        public bool Valid { get; set ; }
     }
 }

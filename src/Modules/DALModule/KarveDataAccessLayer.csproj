@@ -143,6 +143,7 @@
     <Compile Include="Assist\AssistResponse.cs" />
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="BookingDataAccessLayer.cs" />
+    <Compile Include="BookingDataAccessLayerGen.cs" />
     <Compile Include="BudgetDataAccessLayer.cs" />
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />

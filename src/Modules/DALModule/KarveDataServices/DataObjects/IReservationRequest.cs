@@ -8,11 +8,7 @@ using KarveDataServices.DataTransferObject;
 
 namespace KarveDataServices.DataObjects
 {
-    public interface IReservationRequest: IValidDomainObject, IHelperData
+    public interface IReservationRequest: IValidDomainObject, IValueObject<ReservationRequestDto>, IHelperData
     {
-        /// <summary>
-        ///  reservation request dto.
-        /// </summary>
-        ReservationRequestDto Value { set; get; }
     }
 }

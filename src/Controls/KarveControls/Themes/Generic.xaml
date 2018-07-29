@@ -397,13 +397,13 @@
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=Amount}" Grid.Column="1"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Foreground="Gray"></TextBlock>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                        Path=ContraAmount}" Grid.Column="2"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Foreground="Gray"></TextBlock>
+                                        Path=ContraTotal}" Grid.Column="2"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="1" Foreground="Gray"></TextBlock>
 
                                 <TextBlock Text="IVA" FontSize="15" Grid.Column="0" Grid.Row="2" />
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                        Path=IvaOnAmount}" FontSize="15" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Foreground="Gray"></TextBlock>
+                                        Path=VatOnAmount}" FontSize="15" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Foreground="Gray"></TextBlock>
                                 <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                        Path=IvaOnContraAmount}" FontSize="15" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Foreground="Gray"></TextBlock>
+                                        Path=VatOnContraAmount}" FontSize="15" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Foreground="Gray"></TextBlock>
                                 
                                 <Line Grid.Row="3"
                       Grid.ColumnSpan="3"

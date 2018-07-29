@@ -67,7 +67,7 @@
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
                                              DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding SourceView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                             </karveControls:DualFieldSearchBox>
                         </Grid>

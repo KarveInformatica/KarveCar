@@ -1,7 +1,6 @@
 ﻿using KarveControls.ViewModels;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
-using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -33,22 +32,22 @@ namespace BookingModule.ViewModels
         private ObservableCollection<GeneralInfo> CreateCollectionForOtherData()
         {
             var builder = new GeneralInfoCollectionBuilder(AssistCommand, CreateCommand, ItemChangedCommand);
-            builder.Add(KarveLocale.Properties.Resources.StringConstants_Origen,"ORIGEN_RES", "BOOKING_ORIGIN_ASSIST", "BOOKING_ORIGIN_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.StringConstants_Origen,"ORIGEN_RES", "BOOKING_ORIGIN_ASSIST", "BOOKING_ORIGIN_CREATE", "Code, Name");
             builder[0].SourceView = BookingOrigen;
             
-            builder.Add(KarveLocale.Properties.Resources.lbookingmedia, "MEDIO_RES", "BOOKING_MEDIO_ASSIST", "BOOKING_MEDIO_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lbookingmedia, "MEDIO_RES", "BOOKING_MEDIO_ASSIST", "BOOKING_MEDIO_CREATE", "Name,Code");
             builder[1].SourceView = BookingMedia;
-            builder.Add(KarveLocale.Properties.Resources.lbookingtype, "TIPORES_RES1", "BOOKING_TYPE_ASSIST", "BOOKING_TYPE_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lbookingtype, "TIPORES_RES1", "BOOKING_TYPE_ASSIST", "BOOKING_TYPE_CREATE", "Name,Code");
             builder[2].SourceView = BookingType;
-            builder.Add(KarveLocale.Properties.Resources.lagencyemployee,"EMPLEAGE_RES2", "EMPLEAGE_ASSIST", "EMPLEAGE_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lagencyemployee,"EMPLEAGE_RES2", "EMPLEAGE_ASSIST", "EMPLEAGE_CREATE", "Name,Code");
             builder[3].SourceView = BookingAgencyEmployee;
-            builder.Add(KarveLocale.Properties.Resources.lcontacto,"CONTACTO_RES2", "BOOKING_CONTACTO_ASSIST", "BOOKING_CONTACTO_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lcontacto,"CONTACTO_RES2", "BOOKING_CONTACTO_ASSIST", "BOOKING_CONTACTO_CREATE", "Name,Code");
             builder[4].SourceView = BookingContacts;
-            builder.Add(KarveLocale.Properties.Resources.lformadecobro,"FCOBRO_RES1", "BOOKING_FCOBRO_ASSIST", "BOOKING_FCOBRO_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lformadecobro,"FCOBRO_RES1", "BOOKING_FCOBRO_ASSIST", "BOOKING_FCOBRO_CREATE", "Name,Code");
             builder[5].SourceView = BookingPaymentFormDto;
-            builder.Add(KarveLocale.Properties.Resources.lprintingtype,"CONTRATIPIMPR_RES", "BOOKING_CONTRATIPIMPR_ASSIST", "BOOKING_CONTRATIPIMPR_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lprintingtype,"CONTRATIPIMPR_RES", "BOOKING_CONTRATIPIMPR_ASSIST", "BOOKING_CONTRATIPIMPR_CREATE", "Name,Code");
             builder[6].SourceView = PrintingTypeDto;
-            builder.Add(KarveLocale.Properties.Resources.lrbtnActividadesVehiculos, "ACTIVEHI_RES1", "BOOKING_ACTIVEHI_RES1_ASSIST", "BOOKING_ACTIVEHI_RES1_CREATE");
+            builder.Add(KarveLocale.Properties.Resources.lrbtnActividadesVehiculos, "ACTIVEHI_RES1", "BOOKING_ACTIVEHI_RES1_ASSIST", "BOOKING_ACTIVEHI_RES1_CREATE", "Name,Code");
             builder[7].SourceView = BookingVehicleActivity;
             return builder.AsObservable();
         }

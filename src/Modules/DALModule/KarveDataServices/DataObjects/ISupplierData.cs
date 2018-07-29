@@ -10,7 +10,7 @@ namespace KarveDataServices.DataObjects
     ///  Interface for giving information about suppliers.
     /// </summary>
     /// 
-    public interface ISupplierData: IHelperMasterCommon, IValidDomainObject
+    public interface ISupplierData: IHelperMasterCommon, IValidDomainObject, IValueObject<SupplierDto>
     {
         /// <summary>
         ///  This delete all data in async way 
@@ -37,11 +37,6 @@ namespace KarveDataServices.DataObjects
         /// <param name="cCodiint">Vehicle code primary key</param>
         /// <returns></returns>
         Task<bool> LoadValue(IDictionary<string, string> fields, string cCodiint);
-
-        /// <summary>
-        /// Vehicle Data.
-        /// </summary>
-        SupplierDto Value { set; get; }
 
         /// <summary>
         ///  Return the type

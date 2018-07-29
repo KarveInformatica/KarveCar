@@ -75,7 +75,7 @@
                                                       TextContentSecondWidth="100"
                                                       MagnifierCommand="{Binding AssistCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                                      SourceView="{Binding Country2Dto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                                      SourceView="{Binding DriverCountryList, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                                       DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 

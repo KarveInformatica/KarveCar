@@ -2275,7 +2275,7 @@
     <value>Tipo Visita</value>
   </data>
   <data name="LugarDeEntregas" xml:space="preserve">
-    <value>Lugar de entregas</value>
+    <value>Lugar Entrega</value>
   </data>
   <data name="BudgetKey_ClaveDePresuppuesto" xml:space="preserve">
     <value>Claves de presuppuesto</value>
@@ -2687,5 +2687,23 @@
   </data>
   <data name="lcreditcardholder" xml:space="preserve">
     <value>Titular</value>
+  </data>
+  <data name="lid" xml:space="preserve">
+    <value>DNI</value>
+  </data>
+  <data name="ldeparture" xml:space="preserve">
+    <value>Salida</value>
+  </data>
+  <data name="lnone" xml:space="preserve">
+    <value>Ninguna</value>
+  </data>
+  <data name="lweek" xml:space="preserve">
+    <value>Semana</value>
+  </data>
+  <data name="lhide" xml:space="preserve">
+    <value>Nasconde</value>
+  </data>
+  <data name="lshow" xml:space="preserve">
+    <value>Muestra</value>
   </data>
 </root>

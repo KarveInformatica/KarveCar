@@ -1006,6 +1006,26 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<HolidayDto, FESTIVOS_OFICINA>().ConvertUsing(new HolidayConverterBack());
                 cfg.CreateMap<FESTIVOS_OFICINA, HolidayDto>().ConvertUsing(new HolidayConverter());
                 cfg.CreateMap<SupplierPoco, SupplierDto>().ConvertUsing(new SupplierPocoConverter());
+                cfg.CreateMap<CONTRATIPIMPR, PrintingTypeDto>().ConstructUsing(src=> 
+                {
+                    var printingContracto = new PrintingTypeDto();
+                    printingContracto.Code = src.CODIGO.ToString();
+                    printingContracto.Name = src.NOMBRE;
+                    printingContracto.LastModification = src.ULTMODI;
+                    printingContracto.CurrentUser = src.USUARIO;
+                    return printingContracto;
+                });
+                cfg.CreateMap<PrintingTypeDto, CONTRATIPIMPR>().ConstructUsing(src =>
+                {
+                    var printingContracto = new CONTRATIPIMPR();
+                    printingContracto.CODIGO = byte.Parse(src.Code);
+                    printingContracto.NOMBRE = src.Name;
+                    printingContracto.ULTMODI = src.LastModification;
+                    printingContracto.USUARIO = src.User;
+                    return printingContracto;
+                });
+
+
                 cfg.CreateMap<MEDIO_RES, BookingMediaDto>().ConstructUsing(src =>
                 {
                     var bookingMediaDto = new BookingMediaDto();
@@ -1172,6 +1192,25 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+
+                cfg.CreateMap<ACTIVEHI, VehicleActivitiesDto>().ConvertUsing(src =>
+                {
+                    var model = new VehicleActivitiesDto();
+                    model.Code = src.NUM_ACTIVEHI;
+                    model.Activity = src.NOMBRE;
+                    model.Name = src.NOMBRE;
+                    model.LastModification = src.ULTMODI;
+                    model.User = src.USUARIO;
+                    /*
+                    model.ActivitySigle = src.SIGLAS_ACT;
+                    var c = Convert.ToInt16(src.CALCULO);
+                    model.Compute = (c == 0);
+                    model.ActityAlquiler = src.ACTIVI_ALQ;
+                    model.Assurance = src.SEGURO_ANUAL;
+                    */
+                    return model;
+                });
+                /*
                 cfg.CreateMap<ACTIVEHI, ActividadDto>().ConvertUsing(src =>
                 {
                     var actividad = new ActividadDto
@@ -1180,7 +1219,7 @@ namespace DataAccessLayer.Logic
                         Nombre = src.NOMBRE
                     };
                     return actividad;
-                });
+                });*/
                 cfg.CreateMap<FareDto, NTARI>().ConvertUsing(src =>
                 {
                     var fare = new NTARI();
@@ -1483,15 +1522,17 @@ namespace DataAccessLayer.Logic
                     return model;
                 }
                 );
-
-                cfg.CreateMap<ACTIVEHI, ActividadDto>().ConvertUsing(src =>
+                
+                cfg.CreateMap<ACTIVEHI, VehicleActivitiesDto>().ConvertUsing(src =>
                 {
-                    var color = new ActividadDto();
-                    color.Codigo = src.NUM_ACTIVEHI;
-                    color.Nombre = src.NOMBRE;
+                    var color = new VehicleActivitiesDto();
+                    color.Code = src.NUM_ACTIVEHI;
+                    color.Name = src.NOMBRE;
                     return color;
                 }
                 );
+
+                /*
                 cfg.CreateMap<ActividadDto, ACTIVEHI>().ConvertUsing(src =>
                 {
                     var color = new ACTIVEHI();
@@ -1500,6 +1541,7 @@ namespace DataAccessLayer.Logic
                     return color;
                 }
                 );
+                */
 
                 cfg.CreateMap<ClientPoco, ClientSummaryDto>().ConvertUsing(new ClientSummaryConverter());
 

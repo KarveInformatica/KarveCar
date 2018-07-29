@@ -65,7 +65,6 @@ namespace KarveTest.DAL
                     Assert.AreEqual(company.Value.CODIGO, code);
                     Assert.NotNull(company.Value.Province);
                     Assert.NotNull(company.Value.City);
-                    Assert.Greater(company.Value.Offices.Count(), 0);
             }
         }
         [Test]
@@ -89,7 +88,7 @@ namespace KarveTest.DAL
                     bool saved = await _companyDataService.SaveAsync(company);
                     var newItem = await _companyDataService.GetAsyncCompanyDo(id);
                     Assert.IsTrue(saved);
-                    Assert.AreEqual(newItem.Value.CODIGO, id);
+                    Assert.AreEqual(id, newItem.Value.CODIGO);
                 }
 
             }
@@ -109,7 +108,7 @@ namespace KarveTest.DAL
             }
         }
         [Test]
-        public void Should_Throws_WithNullIdCompany()
+        public async Task Should_Throws_WithNullIdCompany()
         {
             using (var conn = _sqlExecutor.OpenNewDbConnection())
             {

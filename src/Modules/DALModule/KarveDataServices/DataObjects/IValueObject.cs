@@ -1,8 +1,7 @@
 ﻿namespace KarveDataServices
 {
-    // marker interface.
-    public interface IValueObject
+    public interface IValueObject<T>
     {
-       
+       T Value { set; get; }
     }
 }

@@ -3,27 +3,7 @@ import os
 import dalgenerator.dal
 from dalgenerator.modeldata import *
 from util.meta import *
-"""
-  var builder = new GeneralInfoCollectionBuilder(AssistCommand, CreateCommand, ItemChangedCommand);
-            builder.Add(KarveLocale.Properties.Resources.StringConstants_Origen,"ORIGEN_RES", "BOOKING_ORIGIN_ASSIST", "BOOKING_ORIGIN_CREATE");
-            builder[0].SourceView = BookingOrigen;
-            
-            builder.Add(KarveLocale.Properties.Resources.lbookingmedia, "MEDIO_RES", "BOOKING_MEDIO_ASSIST", "BOOKING_MEDIO_CREATE");
-            builder[1].SourceView = BookingMedia;
-            builder.Add(KarveLocale.Properties.Resources.lbookingtype, "TIPORES_RES1", "BOOKING_TYPE_ASSIST", "BOOKING_TYPE_CREATE");
-            builder[2].SourceView = BookingType;
-            builder.Add(KarveLocale.Properties.Resources.lagencyemployee,"EMPLEAGE_RES2", "EMPLEAGE_ASSIST", "EMPLEAGE_CREATE");
-            builder[3].SourceView = BookingAgencyEmployee;
-            builder.Add(KarveLocale.Properties.Resources.lcontacto,"CONTACTO_RES2", "BOOKING_CONTACTO_ASSIST", "BOOKING_CONTACTO_CREATE");
-            builder[4].SourceView = BookingContacts;
-            builder.Add(KarveLocale.Properties.Resources.lformadecobro,"FCOBRO_RES1", "BOOKING_FCOBRO_ASSIST", "BOOKING_FCOBRO_CREATE");
-            builder[5].SourceView = BookingPaymentFormDto;
-            builder.Add(KarveLocale.Properties.Resources.lprintingtype,"CONTRATIPIMPR_RES", "BOOKING_CONTRATIPIMPR_ASSIST", "BOOKING_CONTRATIPIMPR_CREATE");
-            builder[6].SourceView = PrintingTypeDto;
-            builder.Add(KarveLocale.Properties.Resources.lrbtnActividadesVehiculos, "ACTIVEHI_RES1", "BOOKING_ACTIVEHI_RES1_ASSIST", "BOOKING_ACTIVEHI_RES1_CREATE");
-            builder[7].SourceView = BookingVehicleActivity;
-            return builder.AsObservable();
-"""
+
 class BookingDalGenerator(object):
     def __init__(self):
         self.__auxQuery = [{'type': 'QueryType.QueryOffice', 'param': 'dto.OFICINA_RES1'},
@@ -38,7 +18,7 @@ class BookingDalGenerator(object):
                     {'type': 'QueryType.ClientSummaryExtended', 'param': 'dto.OTRO2COND_RES2'},
                     {'type': 'QueryType.ClientSummaryExtended', 'param': 'dto.OTRO3COND_RES2'},
                     {'type': 'QueryType.ClientSummaryExtended', 'param': 'dto.CONDUCTOR_CON1'},
-                    {'type': 'QueryType.QueryCity', 'param': 'dto.POCOND_RES2'},
+                    {'type': 'QueryType.QueryCityByName', 'param': 'dto.POCOND_RES2'},
                     {'type': 'QueryType.QueryCountry', 'param': 'dto.PAISNIFCOND_RES2'},
                     {'type': 'QueryType.QueryCountry', 'param': 'dto.PAISCOND_RES2'},
                     {'type': 'QueryType.QueryProvince', 'param': 'dto.PROVCOND_RES2'},
@@ -58,14 +38,14 @@ class BookingDalGenerator(object):
                                  ResultObject("BudgetDto", "PRESUP1","BudgetDto", "Value.PRESUPUESTO_RES1"),
                                  ResultObject("FareDto", "NTARI", "FareDto","Value.TARIFA_RES1"),
                                  ResultObject("VehicleGroupDto", "GRUPOS", "VehicleGroupDto", "Value.GRUPO_RES1"),
-                                 ResultObject("BrokerDto", "COMISIO","CommissionAgentSummaryDto","Value.COMISIO_RES2"),
-                                 ResultObject("VehicleDto","VEHICULOS1", "VehicleSummaryDto","Value.VCACT_RES1"),
-                                 ResultObject("DriverDto3","CLIENTES1", "ClientSummaryExtended", "Value.OTROCOND_RES2"),
-                                 ResultObject("DriverDto4","CLIENTES1", "ClientSummaryExtended", "Value.OTRO2COND_RES2"),
-                                 ResultObject("DriverDto5","CLIENTES1","ClientSummaryExtended", "Value.OTRO3COND_RES2"),
-                                 ResultObject("DriverDto2","CLIENTES1","ClientSummaryExtended", "Value.CONDUCTOR_CON1"),
+                                 ResultObject("BrokerDto", "CommissionAgentSummaryDto","CommissionAgentSummaryDto","Value.COMISIO_RES2"),
+                                 ResultObject("VehicleDto","VehicleSummaryDto", "VehicleSummaryDto","Value.VCACT_RES1"),
+                                 ResultObject("DriverDto3","ClientSummaryExtended", "ClientSummaryExtended", "Value.OTROCOND_RES2"),
+                                 ResultObject("DriverDto4","ClientSummaryExtended", "ClientSummaryExtended", "Value.OTRO2COND_RES2"),
+                                 ResultObject("DriverDto5","ClientSummaryExtended","ClientSummaryExtended", "Value.OTRO3COND_RES2"),
+                                 ResultObject("DriverDto2","ClientSummaryExtended","ClientSummaryExtended", "Value.CONDUCTOR_CON1"),
                                  ResultObject("CityDto3", "POBLACIONES","CityDto","Value.POCOND_RES2"),
-                                 ResultObject("Country2Dto", "PAIS", "CountryDto","Value.PAISNIFCOND_RES2"),
+                                 ResultObject("DriverCountryList", "PAIS", "CountryDto","Value.PAISNIFCOND_RES2"),
                                  ResultObject("CountryDto3", "PAIS","CountryDto","Value.PAISCOND_RES2"),
                                  ResultObject("ProvinceDto3", "PROVINCIA","ProvinciaDto","Value.PROVCOND_RES2"),
                                  ResultObject("OriginDto", "ORIGEN","OriginDto","Value.ORIGEN_RES1"),

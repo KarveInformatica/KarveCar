@@ -18,6 +18,9 @@ using AutoMapper;
 
 namespace DataAccessLayer
 {
+	  /// <summary>
+      ///  Data Access Layer Repository generated automagically by Karve CodeGenerator Project.
+      /// </summary>
     class BookingDataAccessLayer : AbstractDataAccessLayer, IBookingDataService
     {
         private IDataLoader<BookingDto> _dataLoader;
@@ -61,7 +64,8 @@ namespace DataAccessLayer
             if (result.Valid)
             {
                 var auxQueryStore = QueryStoreFactory.GetQueryStore();
-                // foreach querytype and entity
+                #region KarveCode Generator for query multiple
+				// Code Generated that concatains multiple queries to be executed by QueryMultipleAsync.
                 
                 auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFICINA_RES1);
                 
@@ -91,10 +95,27 @@ namespace DataAccessLayer
                 
                 auxQueryStore.AddParamCount(QueryType.QueryCountry, dto.PAISNIFCOND_RES2);
                 
-                auxQueryStore.AddParamCount(QueryType.QueryCounty, dto.PAISCOND_RES2);
+                auxQueryStore.AddParamCount(QueryType.QueryCountry, dto.PAISCOND_RES2);
                 
                 auxQueryStore.AddParamCount(QueryType.QueryProvince, dto.PROVCOND_RES2);
                 
+                auxQueryStore.AddParamCount(QueryType.QueryOrigin, dto.ORIGEN_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryBookingMedia, dto.MEDIO_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryBookingType, dto.TIPORES_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryAgencyEmployee, dto.EMPLEAGE_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryClientContacts, dto.CONTACTO_RES2);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryPaymentForm, dto.FCOBRO_RES1);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryPrintingType, dto.CONTRATIPIMPR_RES);
+                
+                auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, dto.ACTIVEHI_RES1);
+                
+				#endregion
                 var query = auxQueryStore.BuildQuery();
                 using (var connection = SqlExecutor.OpenNewDbConnection())
                 {
@@ -152,6 +173,22 @@ namespace DataAccessLayer
                 request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<PAIS, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
               
                 request.ProvinceDto3 = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(request.Value.PROVCOND_RES2, _mapper, reader);
+              
+                request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OriginDto>(request.Value.ORIGEN_RES1, _mapper, reader);
+              
+                request.BookingMediaDto = SelectionHelpers.WrappedSelectedDto<MEDIO_RES, BookingMediaDto>(request.Value.MEDIO_RES1, _mapper, reader);
+              
+                request.BookingTypeDto = SelectionHelpers.WrappedSelectedDto<TIPORES, BookingTypeDto>(request.Value.TIPORES_RES1, _mapper, reader);
+              
+                request.AgencyEmployeeDto = SelectionHelpers.WrappedSelectedDto<EAGE, AgencyEmployeeDto>(request.Value.EMPLEAGE_RES2, _mapper, reader);
+              
+                request.ContactsDto1 = SelectionHelpers.WrappedSelectedDto<CliContactos, ContactsDto>(request.Value.CONTACTO_RES2, _mapper, reader);
+              
+                request.PaymentFormDto = SelectionHelpers.WrappedSelectedDto<FORMAS, PaymentFormDto>(request.Value.FCOBRO_RES1, _mapper, reader);
+              
+                request.PrintingTypeDto = SelectionHelpers.WrappedSelectedDto<CONTRATIPIMPR, PrintingTypeDto>(request.Value.CONTRATIPIMPR_RES, _mapper, reader);
+              
+                request.VehicleActivitiesDto = SelectionHelpers.WrappedSelectedDto<ACTIVEHI, VehicleActivitiesDto>(request.Value.ACTIVEHI_RES1, _mapper, reader);
               
 
 #pragma warning disable CS0168 // Variable is declared but never used

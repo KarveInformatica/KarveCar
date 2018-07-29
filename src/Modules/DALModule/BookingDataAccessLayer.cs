@@ -22,7 +22,7 @@ namespace DataAccessLayer
     /// <summary>
     /// BookingDataAccessLayer. It is the data access layer for the booking.
     /// </summary>
-    internal class BookingDataAccessLayer: AbstractDataAccessLayer, IBookingDataService
+    internal partial class BookingDataAccessLayer: AbstractDataAccessLayer, IBookingDataService
     {
         private readonly IDataLoader<BookingDto> _dataLoader;
         private readonly IDataSaver<BookingDto> _dataSaver;
@@ -128,7 +128,7 @@ namespace DataAccessLayer
         public async Task<IBookingData> GetAsyncDo(string identifier)
         {
             var reservas = await _dataLoader.LoadValueAsync(identifier).ConfigureAwait(false);
-            var reservation = new Reservation();
+            IBookingData reservation = new Reservation();
             if (reservas != null)
             {
                 reservation.Value = reservas;
@@ -137,6 +137,7 @@ namespace DataAccessLayer
             }
             reservation.Value = new BookingDto();
             reservation.Valid = false;
+            reservation = await BuildAux(reservation).ConfigureAwait(false);
             return reservation;
         }
 
@@ -251,130 +252,19 @@ namespace DataAccessLayer
             {
                 data = new Reservation { Value = bookingData, Valid = bookingData.IsValid};
             }
-
             if ((data.Value != null) && (data.Valid))
             {
                 data.Clients = data.Value.Clients;
                 data.Drivers = data.Value.Drivers;
                 data.Contracts = data.Value.Contracts;
-            
+                data = await BuildAux(data).ConfigureAwait(false);
             }
             return data;
         }
-        /* This code has been generated automatically */
-        public async Task<IBookingData> BuildAux(IBookingData result)
-        {
-                var dto = result.Value;
-                // now i shall use a query store again for setting and loading related stuff.
-                if (result.Valid)
-                {
-                    var auxQueryStore = QueryStoreFactory.GetQueryStore();
-                    // foreach querytype and entity
-
-                    auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFICINA_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFISALIDA_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFIRETORNO_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryBudget, dto.PRESUPUESTO_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryFares, dto.TARIFA_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, dto.GRUPO_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryBroker, dto.COMISIO_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryVehicleSummary, dto.VCACT_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExt, dto.OTROCOND_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExt, dto.OTRO2COND_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExt, dto.OTRO3COND_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryClientSummaryExt, dto.CONDUCTOR_RES1);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryCity, dto.POCOND_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryCountry, dto.PAISNIFCOND_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryCountry, dto.PAISCOND_RES2);
-
-                    auxQueryStore.AddParamCount(QueryType.QueryProvince, dto.PROVCOND_RES2);
-
-                    var query = auxQueryStore.BuildQuery();
-                    using (var connection = SqlExecutor.OpenNewDbConnection())
-                    {
-                        if (connection != null)
-                        {
-                            var multipleResult = await connection.QueryMultipleAsync(query).ConfigureAwait(false);
-                            result.Valid = ParseResult(result, multipleResult);
-                        }
-                    }
-                }
-                return result;
-            }
-            /*
-             *  The code here has been generated.
-             */
-            private bool ParseResult(IBookingData request, SqlMapper.GridReader reader)
-            {
-
-                if ((request == null) || (reader == null))
-                {
-                    return false;
-                }
-                if (request.Value == null)
-                {
-                    return false;
-                }
-                try
-                {
-                    request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA_RES1, _mapper, reader);
-
-                    request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFISALIDA_RES1, _mapper, reader);
-
-                    request.ReservationOfficeArrival = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFIRETORNO_RES1, _mapper, reader);
-
-                    request.BudgetDto = SelectionHelpers.WrappedSelectedDto<PRESUP1, BudgetDto>(request.Value.PRESUPUESTO_RES1, _mapper, reader);
-
-                    request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA_RES1, _mapper, reader);
-
-                    request.VehicleGroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupDto>(request.Value.GRUPO_RES1, _mapper, reader);
-
-                    request.BrokerDto = SelectionHelpers.WrappedSelectedDto<COMISIO, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
-
-                    request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VEHICULO1, VehicleSummaryDto>(request.Value.VCACT_RES1, _mapper, reader);
-
-                    request.DriverDto3 = SelectionHelpers.WrappedSelectedDto<CLIENTES1, ClientSummaryExtended>(request.Value.OTROCOND_RES2, _mapper, reader);
-
-                    request.DriverDto4 = SelectionHelpers.WrappedSelectedDto<CLIENTES1, ClientSummaryExtended>(request.Value.OTRO2COND_RES2, _mapper, reader);
-
-                    request.DriverDto5 = SelectionHelpers.WrappedSelectedDto<CLIENTES1, ClientSummaryExtended>(request.Value.OTRO3COND_RES2, _mapper, reader);
-
-                    request.DriverDto2 = SelectionHelpers.WrappedSelectedDto<CLIENTES1, ClientSummaryExtended>(request.Value.CONDUCTOR_RES1, _mapper, reader);
-
-                    request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
-
-                    request.Country2Dto = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
-
-                    request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
-
-                    request.ProvinceDto3 = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(request.Value.PROVCOND_RES2, _mapper, reader);
 
 
-#pragma warning disable CS0168 // Variable is declared but never used
-                }
-                catch (System.Exception ex)
-#pragma warning restore CS0168 // Variable is declared but never used
-                {
-                    return false;
-                }
-                return true;
-            }
         
-    
+           
         /// <summary>
         ///  Generate a new identifier.
         /// </summary>

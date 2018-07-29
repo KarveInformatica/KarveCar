@@ -10,15 +10,9 @@ namespace KarveDataServices.DataObjects
     /// <summary>
     ///  Value of the OfficeData.
     /// </summary>
-    public interface IOfficeData : IHelperBase, IValidDomainObject
+    public interface IOfficeData : IHelperBase, IValidDomainObject, IValueObject<OfficeDtos>
     {
-        /// <summary>
-        ///  Vale of the data transfer object.
-        /// <summary>
-        /// OfficeDto Data.
-        /// </summary>
-        OfficeDtos Value { set; get; }
-      
+        
         /// <summary>
         ///   CurrenciesDto.
         /// </summary>

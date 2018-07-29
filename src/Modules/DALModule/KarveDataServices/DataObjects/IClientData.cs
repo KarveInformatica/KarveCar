@@ -15,21 +15,9 @@ namespace KarveDataServices.DataObjects
     ///  to a model domain element.
     ///  In this case is the client. 
     /// </summary>
-    public interface IClientData: IHelperData
+    public interface IClientData: IHelperData, IValidDomainObject, IValueObject<ClientDto>
     {
        
-        /// <summary>
-        ///  Vale of the data transfer object.
-        /// <summary>
-        /// ClientData Data.
-        /// </summary>
-       ClientDto Value { set; get; }
-        /// <summary>
-        ///  This tells us if the data is valid or not.
-        /// </summary>
-        bool Valid { get; set; }
-   
-
     }
 
    

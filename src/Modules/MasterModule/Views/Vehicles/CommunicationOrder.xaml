@@ -98,7 +98,7 @@
                 DataAreaTitle="{Binding llugaresdeentrega, Source={StaticResource ResourceLanguage}}"
                 LabelTextWidth="120"
                 LabelVisible="True"
-                Height="180"
+                Height="Auto"
                 DataAreaWidth="320"
                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}" Margin="0,4,255,-8" Width="Auto"
                >

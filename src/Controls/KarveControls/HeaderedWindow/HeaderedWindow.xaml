@@ -27,7 +27,7 @@
                 </ContentControl>
                 <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}">
                 </ContentControl>
-                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}" Visibility="{Binding FooterVisible, Converter={StaticResource BooleanToVisibility}}">
+                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}">
                 </ContentControl>
             </Grid>
 

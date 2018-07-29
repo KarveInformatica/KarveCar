@@ -2626,4 +2626,16 @@
   <data name="lcreditcardholder" xml:space="preserve">
     <value>Credit Card Holder</value>
   </data>
+  <data name="lid" xml:space="preserve">
+    <value>Id.</value>
+  </data>
+  <data name="ldeparture" xml:space="preserve">
+    <value>Departure</value>
+  </data>
+  <data name="lhide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="lshow" xml:space="preserve">
+    <value>Show</value>
+  </data>
 </root>

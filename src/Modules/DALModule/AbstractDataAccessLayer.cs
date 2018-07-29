@@ -47,7 +47,7 @@ namespace DataAccessLayer
         /// <summary>
         /// Ctr for all the abstract access layer.
         /// </summary>
-        /// <param name="executor"></param>
+        /// <param name="executor">The executor to be used in the data layer.</param>
         internal AbstractDataAccessLayer(ISqlExecutor executor)
         {
             Contract.Requires(executor != null, "AbstractQuery query executor is null");

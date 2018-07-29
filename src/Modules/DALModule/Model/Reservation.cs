@@ -8,6 +8,7 @@ namespace DataAccessLayer.Model
 {
     /// <summary>
     ///  Wrapper that allows us to deliver  its dto and a set of related things for the searchboxes.
+    ///  I think that those wrapper are simply vectors (they bring something). No need for raiseproperty change.
     /// </summary>
     public class Reservation : BindableBase, IBookingData
     {
@@ -199,8 +200,17 @@ namespace DataAccessLayer.Model
             get => _city3;
             set => _city3 = value;
         }
-        public IEnumerable<CountryDto> Country2Dto { get => _country2; set => _country2 = value; }
+        public IEnumerable<CountryDto> DriverCountryList { get => _country2; set => _country2 = value; }
         public IEnumerable<CountryDto> CountryDto3 { get => _country3; set => _country3 = value; }
         public IEnumerable<ProvinciaDto> ProvinceDto3 { get => _province3; set => _province3 = value; }
+        public IEnumerable<OrigenDto> OriginDto { get ; set ; }
+        public IEnumerable<BookingMediaDto> BookingMediaDto { get ; set; }
+        public IEnumerable<BookingTypeDto> BookingTypeDto { get; set ; }
+        public IEnumerable<AgencyEmployeeDto> AgencyEmployeeDto { get; set ; }
+        public IEnumerable<ContactsDto> ContactsDto1 { get; set; }
+        public IEnumerable<PaymentFormDto> PaymentFormDto { get ; set ; }
+        public IEnumerable<PrintingTypeDto> PrintingTypeDto { get; set; }
+        public IEnumerable<VehicleActivitiesDto> VehicleActivitiesDto { get ; set; }
+        public IEnumerable<BudgetSummaryDto> BookingBudget { get; set; }
     }
 }

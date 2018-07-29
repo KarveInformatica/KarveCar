@@ -8,12 +8,8 @@ namespace KarveDataServices.DataObjects
     /// The commission interface. It is a wrapper over the pocos.
     /// 
     /// </summary>
-    public interface ICommissionAgent: IHelperMasterCommon
+    public interface ICommissionAgent: IHelperMasterCommon, IValidDomainObject,  IValueObject<ComisioDto>
     {
-        /// <summary>
-        ///   This is a property to verify if the domain object commission agent is correctly loaded.
-        /// </summary>
-        bool Valid { set; get; }
         /// <summary>
         ///  Data transfer object for province
         /// </summary>
@@ -21,9 +17,7 @@ namespace KarveDataServices.DataObjects
 
         /// A commission agent can be in one city. City data transfer object.
         IEnumerable<CityDto> CityDtos { get; set; }
-        /// <summary>
-        ///  </summary>
-        ComisioDto Value { set; get; }
+
         /// <summary>
         /// Country Data Transfer Object
         /// </summary>

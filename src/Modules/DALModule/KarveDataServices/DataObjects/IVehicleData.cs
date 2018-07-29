@@ -11,7 +11,7 @@ namespace KarveDataServices.DataObjects
     ///  to a model domain element.
     ///  In this case the vehicle. 
     /// </summary>
-    public interface IVehicleData
+    public interface IVehicleData: IValidDomainObject, IValueObject<VehicleDto>
     {
         /// <summary>
         ///  This delete all data in async way 
@@ -35,15 +35,7 @@ namespace KarveDataServices.DataObjects
         /// <param name="cCodiint">Vehicle code primary key</param>
         /// <returns></returns>
         Task<bool> LoadValue(IDictionary<string, string> fields, string cCodiint);
-        /// <summary>
-        /// Vehicle Entity properties. 
-        /// This hides all the entity of the model inside a VehicleDto.
-        /// </summary>
-        VehicleDto Value { set; get; }
-        /// <summary>
-        ///  This tells us if the data is valid or not.
-        /// </summary>
-        bool Valid { get; set; }
+     
         /// <summary>
         //  Brand data trasnfer object. Usually a vehicle has just one brand.
         /// </summary>
@@ -80,7 +72,7 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Activities dto.
         /// </summary>
-        IEnumerable<ActividadDto> ActivityDtos { get; set; }
+        IEnumerable<VehicleActivitiesDto> ActivityDtos { get; set; }
         IEnumerable<PictureDto> PicturesDtos { get; set; }
         IEnumerable<SupplierSummaryDto> Supplier1 { get; set; }
         IEnumerable<PaymentFormDto> PaymentForm { get; set; }
