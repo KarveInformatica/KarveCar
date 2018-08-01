@@ -332,15 +332,19 @@ namespace DataAccessLayer
                 {
                     var code = values[0].Trim();
                     var fieldValue = values[1].Trim();
-                    try
+                    if (!string.IsNullOrEmpty(code) && !string.IsNullOrEmpty(fieldValue))
                     {
-                        helper = await helperData.GetSingleMappedAsyncHelper<Dto, Entity>(fieldValue).ConfigureAwait(false);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        throw new AssistDataException("Assist DataService Exception", ex);
+                        try
+                        {
+                            helper = await helperData.GetSingleMappedAsyncHelper<Dto, Entity>(fieldValue).ConfigureAwait(false);
+                        }
+                        catch (System.Exception ex)
+                        {
+                            throw new AssistDataException("Assist DataService Exception", ex);
 
+                        }
                     }
+
                     var list = new List<Dto>();
                     list.Add(helper);
                     return list;
@@ -459,6 +463,24 @@ namespace DataAccessLayer
                 if (currentHelper == null)
                 {
                     currentHelper = await CreateAssistThroughHelper<BanksDto, BANCO>(_dataServices, LoadMoreBanks).ConfigureAwait(false);
+                }
+                return currentHelper;
+            });
+            _assistMapper.Configure("DELIVERY_PLACE_0", async(query)=>
+            {
+                currentHelper = await CreateAssistByQuery<DeliveringPlaceDto, ENTREGAS>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<DeliveringPlaceDto, ENTREGAS>(_dataServices, LoadMorePlaces).ConfigureAwait(false);
+                }
+                return currentHelper;
+            });
+            _assistMapper.Configure("DELIVERY_PLACE_1", async (query)=>
+            {
+                currentHelper = await CreateAssistByQuery<DeliveringPlaceDto, ENTREGAS>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper= await CreateAssistThroughHelper<DeliveringPlaceDto, ENTREGAS>(_dataServices, LoadMorePlaces).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -986,11 +1008,7 @@ namespace DataAccessLayer
            
             _assistMapper.Configure("PROV_DEVO", async (query) =>
             {
-                currentHelper = await CreateAssistByQuery<ProvinciaDto, PROVINCIA>(query as string).ConfigureAwait(false);
-                if (currentHelper == null)
-                {
-                    currentHelper = await CreateAssistThroughHelper<ProvinciaDto, PROVINCIA>(_dataServices, LoadProvincia);
-                }
+                currentHelper = await CreateAssistThroughHelper<ProvinciaDto, PROVINCIA>(_dataServices, LoadProvincia);
                 return currentHelper;
             });
             _assistMapper.Configure("PAIS_PAGO", async (query) =>
@@ -1106,6 +1124,26 @@ namespace DataAccessLayer
                 return currentHelper;
             });
             _assistMapper.Configure("OFICINA1", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<OfficeDtos, OFICINAS>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<OfficeDtos, OFICINAS>(_dataServices, LoadMoreOffices);
+                }
+                return currentHelper;
+
+            });
+            _assistMapper.Configure("BOOKING_OFFICE_1", async (query) =>
+            {
+                currentHelper = await CreateAssistByQuery<OfficeDtos, OFICINAS>(query as string).ConfigureAwait(false);
+                if (currentHelper == null)
+                {
+                    currentHelper = await CreateAssistThroughHelper<OfficeDtos, OFICINAS>(_dataServices, LoadMoreOffices);
+                }
+                return currentHelper;
+
+            });
+            _assistMapper.Configure("BOOKING_OFFICE_2", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<OfficeDtos, OFICINAS>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
@@ -1836,8 +1874,6 @@ namespace DataAccessLayer
         private void LoadMoreCompanies(uint arg1, int index)
         {
             LoadMoreData<CompanyDto, SUBLICEN>(index, currentHelper);
-
-
         }
         private void LoadMoreCountries(uint arg1, int index)
         {
@@ -1865,16 +1901,13 @@ namespace DataAccessLayer
         {
             LoadMoreData<BusinessDto, NEGOCIO>(index, currentHelper);
         }
-
         private void LoadMoreBanks(uint arg1, int index)
         {
             LoadMoreData<BanksDto, BANCO>(index, currentHelper);
         }
-
         private void LoadPromoCodes(uint arg1, int index)
         {
             LoadMoreData<PromotionCodesDto, CODIGOS_PROMOCIONALES>(index, currentHelper);
-
         }
         private void LoadMoreBookingType(uint arg1, int index)
         {
@@ -1884,6 +1917,9 @@ namespace DataAccessLayer
         {
             LoadMoreData<BookingMediaDto, MEDIO_RES>(index, currentHelper);
         }
-
+        private void LoadMorePlaces(uint arg1, int index)
+        {
+            LoadMoreData<DeliveringPlaceDto, ENTREGAS>(index, currentHelper);
+        }
     }
 }

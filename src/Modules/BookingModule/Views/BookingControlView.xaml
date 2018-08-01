@@ -51,7 +51,7 @@
 						   NumericButtonCount="5"
 						   PageSize="20" 
                            Grid.Column="0"
-						   Source="{Binding SummaryView}" />
+						   Source="{Binding SummaryView}" Visibility="Collapsed" />
             <StackPanel x:Name="FirstLinePanel" Orientation="Horizontal" Grid.Column="1" Margin="200,0,0,0">
                 <Syncfusion:ComboBoxAdv x:Name="PagerSizeCombo"  DefaultText="20" Width="40" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,0">
                     <Syncfusion:ComboBoxItemAdv>
@@ -59,7 +59,7 @@
                     </Syncfusion:ComboBoxItemAdv>
                     <Syncfusion:ComboBoxItemAdv>50</Syncfusion:ComboBoxItemAdv>
                 </Syncfusion:ComboBoxAdv>
-                <TextBlock Margin="10,10,0,10" Text="Rigas per pagina" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Margin="10,10,0,10" Text="{Binding lrowsperpage, Source={StaticResource ResourceLanguage}}" VerticalAlignment="Center" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
             </StackPanel>
             <Grid Grid.Column="2" VerticalAlignment="Center" Margin="100,0,0,0">
                 <Grid.ColumnDefinitions>
@@ -67,10 +67,18 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding lshowing, Source={StaticResource ResourceLanguage}}" Grid.Column="0" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-                <TextBlock Text="{Binding CounterInterval}" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text=" " Grid.Column="1"></TextBlock>
+                    <TextBlock Text="{Binding CounterInterval}" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text=" " Grid.Column="1"></TextBlock>
+
                 <TextBlock Text="{Binding lof, Source={StaticResource ResourceLanguage}}" Grid.Column="2" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
+                <TextBlock Text=" " Grid.Column="1"></TextBlock>
+
                 <TextBlock Text="{Binding ItemCounts,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
             </Grid>
         </Grid>
@@ -131,7 +139,8 @@
                     HeaderText="{Binding lcreationdate, Source={StaticResource ResourceLanguage}}"
                     MappingName="BookingDate" FilterPopupStyle="{StaticResource GenericCodeStyle}">
                 </Syncfusion:GridDateTimeColumn>
-                <Syncfusion:GridTemplateColumn HeaderText="{Binding lrbtnAnularReserva, Source={StaticResource ResourceLanguage}}"
+               <!--
+                    <Syncfusion:GridTemplateColumn HeaderText="{Binding lrbtnAnularReserva, Source={StaticResource ResourceLanguage}}"
                                                 MappingName="CancelBook">
                     <Syncfusion:GridTemplateColumn.CellTemplate>
 
@@ -153,6 +162,8 @@
                         </DataTemplate>
                     </Syncfusion:GridTemplateColumn.CellTemplate>
                 </Syncfusion:GridTemplateColumn>
+                -->
+                <!--
                 <Syncfusion:GridCheckBoxColumn HeaderText="{Binding lcancelled, Source={StaticResource ResourceLanguage}}"
                                                DisplayBinding="{Binding Path=Confirmed, Converter={StaticResource NullBooleanToBooleanConverter}}" 
                                                MappingName="Confirmed"
@@ -163,7 +174,7 @@
                                                AllowGrouping="True">
 
                 </Syncfusion:GridCheckBoxColumn>
-
+-->
                 <Syncfusion:GridTextColumn HeaderText="{Binding llocator, Source={StaticResource ResourceLanguage}}"
                                            MappingName="Locator"
                                            TextAlignment="Left"
@@ -204,7 +215,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding DriverName}" Width="200"></TextBlock>
-                                <Button Grid.Column ="1" Command="{Binding Path=DataContext.NavigateClient,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding DriverCode}" Background="Transparent">
+                                <Button Visibility="Collapsed" Grid.Column ="1" Command="{Binding Path=DataContext.NavigateClient,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding DriverCode}" Background="Transparent">
                                     <Button.Content>
                                         <Grid>
                                             <Image  Margin="10,0,0,0" Source="/KarveControls;component/Images/driver2.png"></Image>
@@ -230,7 +241,7 @@
                                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding ClientName}" Width="200"></TextBlock>
-                                <Button Grid.Column ="1" Command="{Binding Path=DataContext.NavigateClient,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding ClientCode}" Background="Transparent">
+                                <Button Visibility="Collapsed" Grid.Column ="1" Command="{Binding Path=DataContext.NavigateClient,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding ClientCode}" Background="Transparent">
                                     <Button.Content>
                                         <Grid>
                                             

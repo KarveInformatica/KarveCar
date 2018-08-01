@@ -6307,6 +6307,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rigas per pagina.
+        /// </summary>
+        public static string lrowsperpage {
+            get {
+                return ResourceManager.GetString("lrowsperpage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RSC.
         /// </summary>
         public static string lrsc {

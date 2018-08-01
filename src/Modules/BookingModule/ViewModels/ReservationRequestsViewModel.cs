@@ -322,6 +322,8 @@ namespace BookingModule.ViewModels
         {
             bool isSaved = false;
             _reservationRequest.Value = DataObject;
+
+
             NotifyTaskCompletion.Create(_dataReservationService.SaveAsync(_reservationRequest), (sender, args) =>
             {
                 if (sender is INotifyTaskCompletion<bool> taskCompletion)

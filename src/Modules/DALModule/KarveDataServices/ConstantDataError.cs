@@ -20,6 +20,8 @@ namespace KarveDataServices
         private const string _codeNotValid = "Codigo no valido";
         private const string _invalidPhone = "Telefono no valido";
         private const string _nameIsEmpty = "Pon un valore valido y no vacio, por favor";
+        private const string _sameHour = "Misma hora de salida y llegada";
+        private const string _invalidDate = "Error en las fechas de reserva";
 
         public static string NameTooLong { get { return _nameTooLong; } }
         public static string SwiftInvalid { get { return _swiftinvalid; } }
@@ -28,14 +30,12 @@ namespace KarveDataServices
         public static string ChannelNameTooLong { get { return _channelnameTooLong; } }
         public static string AccountValueTooLong { get { return _accountValueTooLong; } }
         public static string BranchNameTooLong { get { return _branchNameTooLong; } }
-
         public static string NameIsEmpty { get { return _nameIsEmpty; } }
         public static string InvalidEmail { get { return _emailValidate; } }
-
         public static string InvalidRange { get { return _invalidRange; } }
-
         public static string CodeNotValid { get { return _codeNotValid; } }
-
         public static string InvalidPhone { get { return _invalidPhone; } }
+        public static string SameHourError {  get { return _sameHour; } }
+        public static string InvalidDate { get { return _invalidDate; } }
     }
 }

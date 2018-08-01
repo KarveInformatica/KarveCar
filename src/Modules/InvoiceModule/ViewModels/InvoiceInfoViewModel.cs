@@ -58,8 +58,9 @@ namespace InvoiceModule.ViewModels
             _dataServices = dataServices;
             _regionManager = regionManager;
             _invoiceDataService = _dataServices.GetInvoiceDataServices();
+            LineVisible = true;
 
-            SourceView = new ObservableCollection<InvoiceSummaryDto>();
+            CollectionView = new ObservableCollection<InvoiceSummaryDto>();
             AssistMapper = _dataServices.GetAssistDataServices().Mapper;
             ItemChangedCommand = new Prism.Commands.DelegateCommand<IDictionary<string, object>>(OnChangedCommand);
             NavigateCommand = new DelegateCommand<object>(OnNavigate);
@@ -315,7 +316,11 @@ namespace InvoiceModule.ViewModels
             DeleteRegion();
 
         }
-       
+        decimal ComputeTotal(IncrementalList<BookingItemsDto> view)
+        {
+            var total = view.Select(x => (x.Subtotal.HasValue) ? x.Subtotal.Value : 0 ).Sum();
+            return total;
+        }
         /*
         private void DeleteRegion()
         {
@@ -403,14 +408,14 @@ namespace InvoiceModule.ViewModels
                 { MaxItemCount = _invoiceData.NumberOfClients };
                 ClientDto.LoadItems(_invoiceData.ClientSummary);
 
-                SourceView = _invoiceData.InvoiceItems;
+                CollectionView = _invoiceData.InvoiceItems;
                 _invoiceSummary = _invoiceData.InvoiceSummary;
                 InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
 
                 ActiveSubSystem();
             }
         }
-
+        public bool LineVisible { set; get; }
         private async void LoadMoreClients(uint arg1, int arg2)
         {
             var clientDs = _dataServices.GetClientDataServices();
@@ -566,7 +571,7 @@ namespace InvoiceModule.ViewModels
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
                 payLoad.HasDataObject = true;
                 var dto = DataObject;
-                dto.InvoiceItems = SourceView as IEnumerable<InvoiceSummaryDto>;
+                dto.InvoiceItems = CollectionView as IEnumerable<InvoiceSummaryDto>;
                 payLoad.DataObject = DataObject;
                 var uid = "invoice://" + Guid.ToString();
                 payLoad.ObjectPath = new Uri(uid);
@@ -669,12 +674,12 @@ namespace InvoiceModule.ViewModels
         /// <summary>
         ///  Items to be shown in the lower grid.
         /// </summary>
-        public object SourceView
+        public object CollectionView
         {
             set
             {
                 _sourceView = value;
-                RaisePropertyChanged("SourceView");
+                RaisePropertyChanged("CollectionView");
             }
             get => _sourceView;
         }
@@ -740,6 +745,7 @@ namespace InvoiceModule.ViewModels
         private IDataServices _dataServices;
         private IRegionManager _regionManager;
         private IInvoiceDataServices _invoiceDataService;
+        
         private IUnityContainer _unityContainer;
 
         private object _sourceView;

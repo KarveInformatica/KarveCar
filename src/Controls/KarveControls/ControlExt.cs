@@ -585,11 +585,10 @@ namespace KarveControls
          *  we get the new row event and move the grid operation to insert, 
          *  later when we are in a validation row, we validate the row and that's it.  
          */
-
-       
         private static void CurrentDataGrid_RowValidated(object sender, RowValidatedEventArgs e)
         {
             SfDataGrid dataGrid = sender as SfDataGrid;
+            BaseDto dto = null;
             DependencyObject dependencyObject = sender as DependencyObject;
             var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
             List<object> value = new List<object>();
@@ -599,7 +598,7 @@ namespace KarveControls
                 var rowState = GetGridOperation(dependencyObject);
                 if (dataValue != null)
                 {
-                    BaseDto dto = dataValue as BaseDto;
+                    dto = dataValue as BaseDto;
                     if (dto != null)
                     {
                         dto.LastModification = DateTime.Now.ToLongTimeString();
@@ -610,13 +609,21 @@ namespace KarveControls
                 }
                 
                 var collection = dataGrid.View.SourceCollection;
+
+                /*
                 if (collection is IEnumerable<BaseDto> dtoArray)
                 {
-                    if (dtoArray.Count() == 0)
+                    if (dto != null)
                     {
-                        return;
+                        if (dtoArray.Count() == 0)
+                        {
+                            dtoArray = dtoArray.Union(new List<BaseDto> { dto });
+                            collection = dtoArray;
+                           return;
+                        }
                     }
-                }
+                }*/
+
                 foreach (var c in collection)
                 {
                     BaseDto v = c as BaseDto;
@@ -636,6 +643,7 @@ namespace KarveControls
                         }
                     }
                 }
+                
                
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 value.Add(dataValue);

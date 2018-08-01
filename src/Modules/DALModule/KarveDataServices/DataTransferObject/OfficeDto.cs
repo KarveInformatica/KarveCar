@@ -50,11 +50,25 @@ namespace KarveDataServices.DataTransferObject
             HolidayDates = new List<HolidayDto>();
             TimeTable = new List<DailyTime>();
             Currencies = new List<CurrenciesDto>();
+
         }
         [Display(GroupName = "Codigo Oficina")]
-        public string Codigo { get; set; }
+        public string Codigo { get { return Code; }
+            set
+            {
+                Code = value;
+            }
+        }
         [Display(GroupName = "Nombre Oficina")]
-        public string Nombre { get; set; }
+        public string Nombre { get
+            {
+                return Name;
+            }
+            set
+            {
+                Name = value;
+            }
+        }
 
         public string Empresa { get; set; }
         /// <summary>

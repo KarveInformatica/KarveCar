@@ -26,8 +26,9 @@
                              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                              xmlns:views="clr-namespace:MasterModule.Views;assembly=MasterModule"
                              d:DesignHeight="900" d:DesignWidth="1200"
-                             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.9' }" 
-                             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.9' }" 
+                             HorizontalAlignment="Left"
+                             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.8' }" 
+                             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.8' }" 
                              xmlns:viewModels="clr-namespace:KarveCar.ViewModels"
                              xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
                              
@@ -711,6 +712,7 @@
                                           TabScrollStyle="Extended"
                                            TabScrollButtonVisibility="Auto"
                                            syncfusion:SkinStorage.VisualStyle="Metro"
+                                          
                                            prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.TabRegion}">
 
 

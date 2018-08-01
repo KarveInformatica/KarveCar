@@ -14,6 +14,23 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class BookingItemsDto: BaseDto
     {
+        private int _concept;
+        private string _descr;
+        private int? _quantity;
+        private decimal? _subtotal;
+        private decimal? _price;
+        private decimal? _discount;
+
+        public BookingItemsDto()
+        {
+            Quantity = 0;
+            Min = 0;
+            Max = 0;
+            Quantity = 0;
+            Subtotal = 0;
+            Iva = 21;
+            Discount = 0;
+        }
         /// <summary>
         ///  Set or get the TARIFA property.
         /// </summary>
@@ -31,13 +48,35 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         [Display(Name = "Concepto")]
 
-        public Int32 Concept { get; set; }
+        public Int32 Concept {
+            get
+            {
+                return _concept;
+            }
+            set
+            {
+                _concept = value;
+                RaisePropertyChanged();
+            }
+        }
         ///  [Display(Name = "Contracto", Description = "Codigo de Contracto")]
         /// <summary>
         ///  Set or get the DESCCON property.
         /// </summary>
-        [Display(Name = "Descuento")]
-        public string Desccon{ get; set; }
+        [Display(Name = "Descripción Concepto")]
+        public
+            string Desccon
+        {
+            get
+            {
+                return _descr;
+            }
+            set
+            {
+                _descr = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         /// <summary>
@@ -50,7 +89,28 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the CANTIDAD property.
         /// </summary>
         [Display(Name = "Cantidad")]
-        public Int32? Quantity { get; set; }
+        public Int32? Quantity {
+            get
+            {
+                return _quantity;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _quantity = value;
+                    ComputeSubtotal();
+                }
+                RaisePropertyChanged();
+            }
+        }
+        private void ComputeSubtotal()
+        {
+            var tot = _quantity * Price;
+            var descImport = (tot * Discount) / 100;
+            Subtotal = tot - descImport;
+
+        }
 
         /// <summary>
         ///  Set or get the UNIDAD property.
@@ -62,13 +122,51 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the PRECIO property.
         /// </summary>
         [Display(Name = "Precio")]
-        public Decimal? Price { get; set; }
-
+        public Decimal? Price {
+            get
+            {
+                return _price;
+            }
+            set
+            {
+                _price = value;
+                ComputeSubtotal();
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or get the DTO property.
+        /// </summary>
+        [Display(Name = "Disconto")]
+        public Decimal? Discount
+        {
+            get
+            {
+                return _discount;
+            }
+            set
+            {
+                _discount = value;
+                ComputeSubtotal();
+                RaisePropertyChanged();
+            }
+        }
         /// <summary>
         ///  Set or get the SUBTOTAL property.
         /// </summary>
         [Display(Name = "Subtotal")]
-        public Decimal? Subtotal { get; set; }
+        public Decimal? Subtotal {
+            get
+            {
+                return _subtotal;
+            }
+
+            set
+            {
+                _subtotal = value;
+                RaisePropertyChanged("Subtotal");
+            }
+        }
 
         /// <summary>
         ///  Set or get the NUMERO property.
@@ -175,10 +273,6 @@ namespace KarveDataServices.DataTransferObject
 
         public byte? MultipleQuote { get; set; }
 
-        /// <summary>
-        ///  Set or get the DTO property.
-        /// </summary>
-        [Display(Name = "Disconto")]
-        public Decimal? Discount { get; set; }
+      
     }
 }

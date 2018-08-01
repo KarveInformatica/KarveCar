@@ -8,7 +8,10 @@ namespace KarveDataServices
     /// <summary>
     ///  This is a data service to handle the booking data retrieval.
     /// </summary>
-    public interface IBookingDataService: IPageCounter, IIdentifier, IDataProvider<IBookingData, BookingSummaryDto>
+    public interface IBookingDataService: IPageCounter, 
+                                          IIdentifier, 
+                                          IDataProvider<IBookingData, BookingSummaryDto>,
+                                          IDataSearch<IBookingData, BookingSummaryDto>
     {
         /// <summary>
         ///  Booking items data object

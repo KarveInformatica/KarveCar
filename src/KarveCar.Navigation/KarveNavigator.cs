@@ -9,6 +9,7 @@ using Prism.Regions;
 using System;
 using AutoMapper;
 using DataAccessLayer.Logic;
+using System.Collections.Generic;
 
 namespace KarveCar.Navigation
 {
@@ -56,7 +57,13 @@ namespace KarveCar.Navigation
             var viewName = numberCode +"."+KarveLocale.Properties.Resources.ClientsControlViewModel_NewItem_NuevoCliente ;
             Navigate(_regionManager, numberCode, viewName, typeof(MasterModule.Views.ClientsInfoView).FullName);
             var factory = DataPayloadFactory.GetInstance();
-            var dataPayload = factory.BuildInsertPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
+            var dataPayload = factory.BuildInsertPayLoadDo<IClientData>(viewName, 
+                payload, 
+                DataSubSystem.ClientSubsystem, 
+                viewModelUri.ToString(), 
+                viewModelUri.ToString(), 
+                viewModelUri);
+            payload.Value.NUMERO_CLI = numberCode;
             _eventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
         }
         /// <summary>
@@ -204,6 +211,14 @@ namespace KarveCar.Navigation
         public IHelperViewFactory GetHelperViewFactory()
         {
             return new HelperNavigatorFactory(_dataServices, _regionManager, _dialogService);
+        }
+
+        public void NewSummaryView<DomainType,T>(IEnumerable<T> summary, string title, string fullName)
+        {
+            var navigationUri = title;
+            var uri = new Uri(navigationUri, UriKind.Relative);
+            Navigate(_regionManager,string.Empty, title, fullName);
+              
         }
     }
     

@@ -1208,6 +1208,7 @@
     <Compile Include="MongoDB\MongoSupplierDataAccessLayer.cs" />
     <Compile Include="MongoDB\MongoVehicleDataAccessLayer.cs" />
     <Compile Include="ReservationRequestDataAccessLayer.cs" />
+    <Compile Include="SQL\ComposableStore.cs" />
     <Compile Include="SQL\IQueryStore.cs" />
     <Compile Include="LocaleDataService.cs" />
     <Compile Include="Logic\ComiDelegaConverter.cs" />

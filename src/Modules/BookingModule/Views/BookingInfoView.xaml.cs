@@ -25,9 +25,5 @@ namespace BookingModule.Views
             InitializeComponent();
         }
 
-        private void VehicleFare_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

@@ -131,6 +131,8 @@ namespace DataAccessLayer.SQL
         QueryAgencyEmployee,
         QueryPrintingType,
         QueryCityByName,
-        QueryBudgetSummaryById
+        QueryBudgetSummaryById,
+        QueryDelivering,
+        QueryDeliveringBy
     };
 }

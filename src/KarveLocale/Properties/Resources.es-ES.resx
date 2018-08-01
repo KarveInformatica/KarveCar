@@ -2706,4 +2706,7 @@
   <data name="lshow" xml:space="preserve">
     <value>Muestra</value>
   </data>
+  <data name="lrowsperpage" xml:space="preserve">
+    <value>Rigas per pagina</value>
+  </data>
 </root>

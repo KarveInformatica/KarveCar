@@ -632,6 +632,7 @@ namespace KarveDataServices.DataTransferObject
         {
             get
             {
+                /*
                 if (string.IsNullOrEmpty(NOMBRE))
                 {
                     ErrorList.Add(ConstantDataError.NameIsEmpty);
@@ -645,7 +646,8 @@ namespace KarveDataServices.DataTransferObject
                 if (((PORCEN != null)) && ((PORCEN > 100) || (PORCEN < 0)))
                 {
                     ErrorList.Add(ConstantDataError.InvalidRange);
-                }
+                }*/
+
                 return false;
             }
         }

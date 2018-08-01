@@ -132,6 +132,13 @@ namespace DataAccessLayer.SQL
         IQueryStore AddParamCount(QueryType type, string code);
         IQueryStore AddParamCount(QueryType type, string code, string refCode="");
         IQueryStore AddParamCount(QueryType type, string table, string primaryKey, string code, string refCode = "");
-       
+        IComposableStore Compose(QueryType queryBooking);
+    }
+    public interface IComposableStore: IQueryStore
+    {
+        IComposableStore Where(string value);
+        IComposableStore Where(IQueryFilter filyer);
+        IComposableStore Like(string propertyName, string value);
+        IComposableStore Like(IQueryFilter value);
     }
 }

@@ -66,7 +66,33 @@ namespace KarveCommon.Generic
         {
             RegionManager = regionManager;
         }
-      
+
+        protected bool IsForMe<DomainType>(DataPayLoad dataPayLoad, Func<DomainType,bool> fieldCompare) where DomainType : class
+        {
+            // is it null?
+            if (dataPayLoad == null) return false;
+            // is it sent by myself?
+            if ((dataPayLoad.Sender != null) && (dataPayLoad.Sender.Equals(ViewModelUri)))
+            {
+                return false;
+            }
+            if (dataPayLoad.DataObject == null)
+            {
+                return false;
+            }
+            if (PrimaryKeyValue.Length > 0)
+            {
+                var request = dataPayLoad.DataObject as DomainType;
+                if (request == null)
+                {
+                    return false;
+                }
+                return fieldCompare(request);
+               
+            }
+            return true;
+        }
+
         protected void DeleteRegion()
         {
 
@@ -429,22 +455,9 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
 
         }
 
-
-        protected void UnregisterToolBar(string key, ICommand savedCommand, ICommand deleteCommand)
-        {
-            var payLoadUnregister = new DataPayLoad
-            {
-                PayloadType = DataPayLoad.Type.UnregisterPayload,
-                PrimaryKeyValue = key,
-                ObjectPath = ViewModelUri,
-                Sender = ViewModelUri.ToString(),
-                HasSaveCommand = true,
-                HasDeleteCommand = true,
-                SaveCommand = savedCommand,
-                DeleteCommand = deleteCommand
-            };
-            EventManager.NotifyToolBar(payLoadUnregister);
-        }
+        
+        
+        
         /// <summary>
         ///  This build a data payload, enforcing the value that cames from the UI.
         /// </summary>

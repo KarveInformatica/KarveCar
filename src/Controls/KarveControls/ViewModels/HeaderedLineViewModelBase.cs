@@ -14,6 +14,7 @@ using Syncfusion.UI.Xaml.Grid;
 using KarveControls;
 using KarveCommon;
 using Prism.Interactivity.InteractionRequest;
+using System.Collections.ObjectModel;
 
 namespace KarveControls.ViewModels
 {
@@ -43,6 +44,7 @@ namespace KarveControls.ViewModels
         private bool _footervisible;
         private object _selectedItem;
         private InteractionRequest<INotification> _notificationRequest;
+        private ObservableCollection<InnerDtoType> _collectionView;
 
         protected HeaderedLineViewModelBase(IDataServices dataServices,
             IDialogService dialogServices,
@@ -57,7 +59,7 @@ namespace KarveControls.ViewModels
             LineVisible = true;
             FooterVisible = true;
         }
-
+      
         protected override string GetRouteName(string name)
         {
             return string.Empty;
@@ -192,9 +194,15 @@ namespace KarveControls.ViewModels
         
         protected abstract  Task<bool> DeleteAsync(DataPayLoad payLoad);
 
+
+      
         public IncrementalList<InnerDtoType> SourceView
         {
-            set { SourceItems = value; RaisePropertyChanged(); }
+            set
+            {
+                SourceItems = value;
+                RaisePropertyChanged();
+            }
             get { return SourceItems; }
         }
 
@@ -260,8 +268,9 @@ namespace KarveControls.ViewModels
                 return;
             }
             var evDictionary = eventDictionary as IDictionary<string, object>;
-            var changedDataObject = evDictionary["DataObject"] as DtoType;
 
+           
+            var changedDataObject = eventDictionary["ChangedValue"];
 
             var payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = subSystem;
@@ -272,28 +281,11 @@ namespace KarveControls.ViewModels
              * when we change one line.
              * 1. Update the object
              */
-            if (changedDataObject is IEnumerable<InnerDtoType> innerData)
-            {
+             
+          
+            ComputeTotals(data);
 
-                var aggregateRows = UpdateObject(changedDataObject, evDictionary, innerData);
-                data = ComputeTotals(aggregateRows);
-                data.Items = innerData;
-                payLoad.DataObject = data;
-                payLoad.Subsystem = subSystem;
-            }
-            else
-            {
-
-                payLoad.PayloadType = DataPayLoad.Type.Update;
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                payLoad.HasDataObject = true;
-                data.Items = SourceView as IEnumerable<InnerDtoType>;
-                payLoad.DataObject = data;
-                payLoad.ObjectPath = new Uri(objectPath);
-                payLoad.Sender = objectPath;
-            }
-           payLoad.Sender = ViewModelUri.ToString();
-           payLoad.ObjectPath = ViewModelUri;
+        
             var handlerDo = new ChangeFieldHandlerDo<DtoType>(EventManager, subSystem);
             if (OperationalState == DataPayLoad.Type.Insert)
             {
@@ -305,9 +297,23 @@ namespace KarveControls.ViewModels
 
                 handlerDo.OnUpdate(payLoad, eventDictionary);
             }
-
+            RaisePropertyChanged("CollectionView");
         }
 
+        bool IsGridChanged(IDictionary<string, object> ev)
+        {
+            // precond: operation shall exits.
+            if (!ev.ContainsKey("Operation"))
+            {
+                return false;
+            }
+
+            var op = (ControlExt.GridOp)ev["Operation"];
+            return ((op == KarveControls.ControlExt.GridOp.Insert) ||
+                    (op == KarveControls.ControlExt.GridOp.Delete) ||
+                    (op == KarveControls.ControlExt.GridOp.Update));
+
+        }
         DtoType UpdateObject(DtoType dataObject, IDictionary<string, object> ev, IEnumerable<InnerDtoType> linesDto) 
         {
             // precond: operation shall exits.
@@ -358,7 +364,7 @@ namespace KarveControls.ViewModels
             return dataObject;
         }
 
-        public abstract DtoType ComputeTotals(DtoType aggregated);
+        public abstract DtoType ComputeTotals(DtoType aggregated = null);
         
 
 

@@ -397,9 +397,8 @@ DependencyProperty.Register(
                 return GetValue(ProvinceSourceViewProperty);
             }
         }
-
         /// <summary>
-        //
+        /// CountryPath for the dependency property.
         /// </summary>
         public static readonly DependencyProperty CountryProperty =
             DependencyProperty.Register(

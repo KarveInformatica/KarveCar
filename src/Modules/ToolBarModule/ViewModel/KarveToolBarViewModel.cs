@@ -488,7 +488,52 @@ namespace ToolBarModule
             }
             return retValue;
         }
-     
+        /// <summary>
+        ///  Remove all save command.
+        /// </summary>
+        /// <param name="dataPayLoad"></param>
+        private void RemoveAllSaveCommand(DataPayLoad dataPayLoad)
+        {
+            var command = dataPayLoad.SaveCommand;
+            if (command != null)
+            {
+                var registered = false;
+                do
+                {
+                    registered = _compositeSaveCommand.RegisteredCommands.Contains(command);
+                    _compositeSaveCommand.UnregisterCommand(command);
+                } while (registered);
+            }
+        }
+
+        private void RemoveAllNewCommand(DataPayLoad dataPayLoad)
+        {
+            var command = dataPayLoad.NewCommand;
+            if (command != null)
+            {
+                var registered = false;
+                do
+                {
+                    registered = _compositeNewCommand.RegisteredCommands.Contains(command);
+                    _compositeNewCommand.UnregisterCommand(command);
+                } while (registered);
+            }
+        }
+
+        private void RemoveAllDeleteCommand(DataPayLoad dataPayLoad)
+        {
+            var command = dataPayLoad.DeleteCommand;
+            if (command != null)
+            {
+                var registered = false;
+                do
+                {
+                    registered =_compositeDeleteCommand.RegisteredCommands.Contains(command);
+                    _compositeDeleteCommand.UnregisterCommand(command);
+                } while (registered);
+            }
+        }
+
         private void DoSaveCommand()
         {
             bool retValue = false;
@@ -613,21 +658,10 @@ namespace ToolBarModule
                         }
                         // some crazy people has invented a composite command to delete/save
                         // so in this case we can degister the command.
-                        if (payload.HasDeleteCommand)
-                        {
-                            if (payload.DeleteCommand != null)
-                                _compositeDeleteCommand.UnregisterCommand(payload.DeleteCommand);
-                        }
-                        if (payload.HasSaveCommand)
-                        {
-                            if (payload.SaveCommand != null)
-                                _compositeSaveCommand.UnregisterCommand(payload.SaveCommand);
-                        }
-                        if (payload.HasNewCommand)
-                        {
-                            if (payload.NewCommand != null)
-                                _compositeNewCommand.UnregisterCommand(payload.NewCommand);
-                        }
+                        RemoveAllNewCommand(payload);
+                        RemoveAllDeleteCommand(payload);
+                        RemoveAllSaveCommand(payload);
+                        
                         break;
                     }
                 case DataPayLoad.Type.Dispose:

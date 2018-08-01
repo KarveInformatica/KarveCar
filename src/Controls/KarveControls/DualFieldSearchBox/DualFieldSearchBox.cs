@@ -1358,6 +1358,7 @@ namespace KarveControls
                         textContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1]) as string;
                         // bingo.
                         objectFound = true;
+                        SelectedObject = currentDto;
                         break;
                     }
                 }
@@ -1495,7 +1496,7 @@ namespace KarveControls
             IDictionary<string, string> valueDictionary = new Dictionary<string, string>();
             valueDictionary["AssistTable"] = AssistTableName;
             valueDictionary["DataFieldFirst"] = DataFieldFirst;
-            valueDictionary["AssistQuery"] = DataFieldFirst+"="+TextContentFirst;
+            valueDictionary["AssistQuery"] = string.Empty;
             if (MagnifierCommand != null)
             {
                MagnifierCommand.Execute(valueDictionary);
@@ -1524,10 +1525,12 @@ namespace KarveControls
 
             MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
 
+            /*
             if (string.IsNullOrEmpty(this.AssistQuery))
             {
-                AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
+               AssistQuery = ComputeAssistQuery(AssistDataFieldFirst, AssistDataFieldSecond, AssistTableName);
             }
+            */
             if (!string.IsNullOrEmpty(AssistQuery))
             {
                 args.AssistQuery = this.AssistQuery;
@@ -1547,14 +1550,17 @@ namespace KarveControls
             valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
             valueDictionary["AssistQuery"] = AssistQuery;
 
-            if (MagnifierCommand != null)
+            if (!string.IsNullOrEmpty(DataFieldFirst))
             {
+                if (MagnifierCommand != null)
+                {
 
-                MagnifierCommand.Execute(valueDictionary);
-            }
-            else
-            {
-                RaiseEvent(args);
+                    MagnifierCommand.Execute(valueDictionary);
+                }
+                else
+                {
+                    RaiseEvent(args);
+                }
             }
 
 

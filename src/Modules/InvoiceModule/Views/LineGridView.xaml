@@ -36,8 +36,10 @@
                                AutoExpandGroups="True"
                                ColumnSizer="Star"
                                AllowDeleting="True"
+                               HorizontalAlignment="Left"
+                              
                                CellStyle="{StaticResource CellStyle}"
-                               ItemsSource="{Binding SourceView, Mode=TwoWay}"
+                               ItemsSource="{Binding ControllerView, Mode=TwoWay}"
                                LiveDataUpdateMode="AllowDataShaping"
                                SelectionMode="Extended"
                                SelectionUnit="Cell"

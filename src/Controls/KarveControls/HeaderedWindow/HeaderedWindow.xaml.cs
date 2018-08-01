@@ -25,6 +25,21 @@ namespace KarveControls.HeaderedWindow
         public HeaderedWindow()
         {
             InitializeComponent();
+
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+        // this.HeaderPart.MaxWidth = this.ActualWidth ; 
+//             this.LinesPart.MaxWidth = this.ActualWidth * 0.87;
+        // this.FooterPart.MaxWidth = this.ActualWidth;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //this.HeaderPart.MaxWidth = this.ActualWidth * 0.87;
+            //this.LinesPart.MaxWidth = this.ActualWidth * 0.87;
+           // this.FooterPart.MaxWidth = this.ActualWidth * 0.87;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
@@ -16,10 +17,7 @@ namespace DataAccessLayer.Model
         {
             Value = new BookingDto();
             Valid = true;
-
-            _contracts = new List<ContractSummaryDto>();
-            _clients = new List<ClientSummaryExtended>();
-            _drivers = new List<ClientSummaryExtended>();
+            
         }
 
         /// <summary>
@@ -60,6 +58,7 @@ namespace DataAccessLayer.Model
         private IEnumerable<CountryDto> _country3;
         private IEnumerable<CountryDto> _country4;
         private IEnumerable<ProvinciaDto> _province3;
+        private IEnumerable<CompanyDto> _company;
 
 
         /// <summary>
@@ -73,6 +72,20 @@ namespace DataAccessLayer.Model
             set
             {
                 _contracts = value;
+                RaisePropertyChanged();
+            }
+        }
+        /// <summary>
+        ///  Set or get the company
+        /// </summary>
+        public IEnumerable<CompanyDto> CompanyDto {
+            get
+            {
+                return _company;
+            }
+            set
+            {
+                _company = value;
                 RaisePropertyChanged();
             }
         }
@@ -125,30 +138,61 @@ namespace DataAccessLayer.Model
         /// </summary>
         public IEnumerable<OfficeDtos> ReservationOfficeDeparture
         {
-            get => _reservationOfficeDeparture;
-            set => _reservationOfficeDeparture = value;
+            get
+            {
+              return _reservationOfficeDeparture;
+            }
+            set
+            {
+                _reservationOfficeDeparture = value;
+                RaisePropertyChanged();
+            }
+
         }
         /// <summary>
         ///  Get or set the reservation office arrival
         /// </summary>
         public IEnumerable<OfficeDtos> ReservationOfficeArrival
-        { get => _reservationOfficeArrival;
-            set => _reservationOfficeArrival = value; }
+        {
+            get
+            {
+                return _reservationOfficeArrival;
+            }
+            set
+            {
+                _reservationOfficeArrival = value;
+                RaisePropertyChanged();
+            }
+        }
         /// <summary>
         ///  Get ot set the budget dto
         /// </summary>
         public IEnumerable<BudgetDto> BudgetDto
         {
-            get => _budget;
-            set => _budget = value;
+            get
+            {
+              return _budget;
+            }
+            set
+            {
+                _budget = value;
+                RaisePropertyChanged();
+            }
         }
         /// <summary>
         ///  Get or Set the fare dto.
         /// </summary>
         public IEnumerable<FareDto> FareDto
         {
-            get => _fare;
-            set => _fare = value;
+            get
+            {
+                return _fare;
+            }
+            set
+            {
+                _fare = value;
+                RaisePropertyChanged();
+            }
         }
         /// <summary>
         ///  Set or Get the vehicle group dto.
@@ -212,5 +256,11 @@ namespace DataAccessLayer.Model
         public IEnumerable<PrintingTypeDto> PrintingTypeDto { get; set; }
         public IEnumerable<VehicleActivitiesDto> VehicleActivitiesDto { get ; set; }
         public IEnumerable<BudgetSummaryDto> BookingBudget { get; set; }
+        public IEnumerable<DeliveringPlaceDto> DepartureDeliveryDto { set; get; }
+        public IEnumerable<DeliveringPlaceDto> PlaceOfReturnDto { set; get; }
+
+        
+
+       
     }
 }

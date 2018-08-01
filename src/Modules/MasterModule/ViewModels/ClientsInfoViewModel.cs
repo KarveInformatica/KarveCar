@@ -895,9 +895,25 @@ namespace MasterModule.ViewModels
                 if (clientData != null)
                 {
                     _clientData = clientData;
-                    
-                    
-                    DataObject = clientData.Value;
+                    // DRY
+
+                    // check if this message is for me.
+                    if (PrimaryKeyValue.Length > 0)
+                    {
+                        if (!(payload.DataObject is IClientData dto))
+                        {
+                            if (payload.DataObject is IClientData domainObject)
+                                if (domainObject.Value.NUMERO_CLI != PrimaryKeyValue)
+                                    return;
+                        }
+                        else
+                        {
+                            if (_clientData.Value.NUMERO_CLI!= PrimaryKeyValue) return;
+                        }
+                    }
+
+                    //      DataObject = clientData.Value;
+                    //      DataObject.NUMERO_CLI = clientData.Value.NUMERO_CLI;
 
                     // in this way we trigger just one time the raiseproperty changed.
                     if (clientData.Value != null)

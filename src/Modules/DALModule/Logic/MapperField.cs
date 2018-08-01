@@ -987,7 +987,14 @@ namespace DataAccessLayer.Logic
                 return memory.ToArray();
             }
         }
-
+        private static string CheckLastMod(string lastModification)
+        {
+            if (string.IsNullOrEmpty(lastModification))
+            {
+              return  DateTime.Now.ToString("yyyyMMddHHmmss");
+            }
+            return lastModification;
+        }
         private static IMapper BuildMapping()
         {
             var config = new MapperConfiguration(cfg =>
@@ -1020,7 +1027,7 @@ namespace DataAccessLayer.Logic
                     var printingContracto = new CONTRATIPIMPR();
                     printingContracto.CODIGO = byte.Parse(src.Code);
                     printingContracto.NOMBRE = src.Name;
-                    printingContracto.ULTMODI = src.LastModification;
+                    printingContracto.ULTMODI = CheckLastMod(src.LastModification);
                     printingContracto.USUARIO = src.User;
                     return printingContracto;
                 });
@@ -1032,7 +1039,7 @@ namespace DataAccessLayer.Logic
                     bookingMediaDto.Code = src.CODIGO;
                     bookingMediaDto.Name = src.NOMBRE;
                     bookingMediaDto.CurrentUser = src.USUARIO;
-                    bookingMediaDto.LastModification = src.ULTMODI;
+                    bookingMediaDto.LastModification = CheckLastMod(src.ULTMODI);
                     return bookingMediaDto;
                 });
                 cfg.CreateMap<BookingMediaDto, MEDIO_RES>().ConstructUsing(src=>
@@ -1040,6 +1047,7 @@ namespace DataAccessLayer.Logic
                     var bookingMedia = new MEDIO_RES();
                     bookingMedia.CODIGO = src.Code;
                     bookingMedia.NOMBRE = src.Name;
+
                     bookingMedia.ULTMODI = src.LastModification;
                     bookingMedia.USUARIO = src.CurrentUser;
                     return bookingMedia;
@@ -1192,7 +1200,19 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+                cfg.CreateMap<DeliveringPlaceDto, ENTREGAS>().ConvertUsing(src=>
+                {
+                    var genericConverter = new GenericConverter<DeliveringPlaceDto, ENTREGAS>();
+                    var value = genericConverter.Convert(src, null, null);
+                    return value;
 
+                });
+                cfg.CreateMap<ENTREGAS, DeliveringPlaceDto>().ConvertUsing(src =>
+                {
+                    var genericConverter = new GenericConverter<ENTREGAS, DeliveringPlaceDto>();
+                    var value = genericConverter.Convert(src, null, null);
+                    return value;
+                });
                 cfg.CreateMap<ACTIVEHI, VehicleActivitiesDto>().ConvertUsing(src =>
                 {
                     var model = new VehicleActivitiesDto();
@@ -1359,10 +1379,10 @@ namespace DataAccessLayer.Logic
                         TARIFA = src.Fare,
                         GRUPO = src.Group,
                         INCLUIDO = src.Included,
-                        UNIDAD= src.Unity,
+                        UNIDAD = src.Unity,
                         PRECIO = src.Price,
                         SUBTOTAL = src.Subtotal,
-                        ULTMODI = src.LastModification
+                        ULTMODI = CheckLastMod(src.LastModification)
                     };
                     return lineaReservation;
                 });

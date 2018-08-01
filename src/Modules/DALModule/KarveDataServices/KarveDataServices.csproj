@@ -121,6 +121,7 @@
     <Compile Include="DataTransferObject\ContractByClientDto.cs" />
     <Compile Include="DataTransferObject\CountryRegionDto.cs" />
     <Compile Include="DataTransferObject\DelegaContableDto.cs" />
+    <Compile Include="DataTransferObject\DeliveringPlaceDto.cs" />
     <Compile Include="DataTransferObject\FareSummaryDto.cs" />
     <Compile Include="DataTransferObject\GridSettingsColumnDto.cs" />
     <Compile Include="DataTransferObject\InvoiceComponent.cs" />
@@ -248,8 +249,8 @@
     <Compile Include="IDataLoader.cs" />
     <Compile Include="IDataPageLoader.cs" />
     <Compile Include="IDataProvider.cs" />
-    <Compile Include="IDataProvider1.cs" />
     <Compile Include="IDataSaver.cs" />
+    <Compile Include="IDataSearch.cs" />
     <Compile Include="IFareDataServices.cs" />
     <Compile Include="IHelperBase.cs" />
     <Compile Include="IHelperData.cs" />

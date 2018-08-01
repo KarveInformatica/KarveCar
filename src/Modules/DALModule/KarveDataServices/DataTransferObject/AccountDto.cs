@@ -38,7 +38,7 @@ namespace KarveDataServices.DataTransferObject
             {
                 if (Cuenta.Length > 20)
                 {
-                    ErrorList.Add(ConstantDataError.AccountValueTooLong);
+                    AddMessage("Cuenta",ConstantDataError.AccountValueTooLong);
                     return true;
                 }
 

@@ -1,18 +1,20 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a ENTREGAS.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("ENTREGAS")]
 	public class ENTREGAS 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]
 		public Int32 CODIGO { get; set; }
  
 	/// <summary>

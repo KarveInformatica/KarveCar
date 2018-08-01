@@ -24,10 +24,11 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Set or Get the Summary of drivers.
         /// </summary>
+        IEnumerable<BudgetDto> BudgetDto { get; set; }
         IEnumerable<ClientSummaryExtended> Drivers { set; get; }
+        IEnumerable<DeliveringPlaceDto> DepartureDeliveryDto { set; get; }
         IEnumerable<OfficeDtos> ReservationOfficeDeparture { get; set; }
         IEnumerable<OfficeDtos> ReservationOfficeArrival { get; set; }
-        IEnumerable<BudgetDto> BudgetDto { get; set; }
         IEnumerable<FareDto> FareDto { get; set; }
         IEnumerable<VehicleGroupDto> VehicleGroupDto { get; set; }
         IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
@@ -50,5 +51,7 @@ namespace KarveDataServices.DataObjects
         IEnumerable<PrintingTypeDto> PrintingTypeDto { get; set; }
         IEnumerable<VehicleActivitiesDto> VehicleActivitiesDto { get; set; }
         IEnumerable<BudgetSummaryDto> BookingBudget { get; set; }
+        IEnumerable<CompanyDto> CompanyDto { get; set; }
+        IEnumerable<DeliveringPlaceDto> PlaceOfReturnDto { set; get; }
     }
 }

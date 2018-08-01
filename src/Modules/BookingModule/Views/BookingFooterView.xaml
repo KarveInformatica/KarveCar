@@ -21,7 +21,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="82*"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="200*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="Auto"/>
@@ -31,6 +31,7 @@
                             <karveControls:DataFieldCheckBox
                                     x:Name="ExistBonusCheckBox"
                                     Grid.Column="0"
+                                    VerticalAlignment="Top"
                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      karveControls:ControlExt.DataSourcePath="BONOSI_RES2"
                                     Content="{Binding lexistbonus, Source={StaticResource ResourceLanguage}}">
@@ -45,18 +46,23 @@
                                      karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                      karveControls:ControlExt.DataSourcePath="BONOAURO_RES2"
                                      karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
-                                     Grid.Column="1"
+                                VerticalAlignment="Top"     
+                                Grid.Column="1"
+                                Margin="0,0,5,0"
                                      Content="{Binding lselfbonus, Source={StaticResource ResourceLanguage}}">
+                                
                             </karveControls:DataFieldCheckBox>
                             <StackPanel Grid.Column="2">
                                 <TextBlock
+                                    VerticalAlignment="Top"
                                  x:Name="bonusNumber"
                                 Text="{Binding lbonusnumber, Mode=OneTime, Source={StaticResource ResourceLanguage}}"/>
 
                                 <syncfusion:SfTextBoxExt
-                                                
+                                                VerticalAlignment="Top"
                                                  x:Name="BonusNumber"
                                                  Width="200"
+                                                  Margin="0,15,0,0"
                                                  karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  karveControls:ControlExt.DataSourcePath="BONONUM_RES2"
                                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
@@ -75,41 +81,48 @@
                                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
                                                  karveControls:ControlExt.DataSourcePath="IMPORTE_PREPAGADO_RES2"
                                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                                 >
+                                                 Margin="0,15,0,0">
 
                                 </syncfusion:SfTextBoxExt>
                             </StackPanel>
-                            <StackPanel Grid.Column="4" Grid.ColumnSpan="2">
+                            <StackPanel Grid.Column="4">
                                 <TextBlock
+                                    VerticalAlignment="Top"
                                  x:Name="depositInfo"
-                                Text="{Binding ldeposit, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
+                                   Height="30"
+                                    Text="{Binding ldeposit, Mode=OneTime, Source={StaticResource ResourceLanguage}}">
 
                                 </TextBlock>
                                 <syncfusion:SfTextBoxExt Watermark="{Binding ldeposit, Source={StaticResource ResourceLanguage}}"
                                                  Text="{Binding DataObject.FIANZA_DEPOSITO_RES1, Mode=TwoWay}"
                                                  Width="100"
+                                                         VerticalAlignment="Top"
+                                                 Height="30"
                                                          karveControls:ControlExt.DataSource="{Binding DataObject}"
                                                  karveControls:ControlExt.DataSourcePath="FIANZA_DEPOSITO_RES1"
                                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                                 >
+                                                 
+                                                         >
 
                                 </syncfusion:SfTextBoxExt>
-                                <karveControls:DataArea  
-                                Height="Auto"
-                                Width="Auto"
-                                Grid.Row="0" Grid.Column="1" 
-                                Grid.RowSpan="2"
-                                DataAreaWidth="200"
-                                Margin="5,0,0,0"
-                                DataAreaTitle="{Binding ldepositnotes,Source={StaticResource ResourceLanguage}}"
-                                LabelVisible="False"
-                                TextContent="{Binding DataObject.OBSFIANZA_RES1, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                            </StackPanel>
+                            <StackPanel Grid.Column="5">
+                                    <TextBlock Text="{Binding ldepositnotes,Source={StaticResource ResourceLanguage}}"/>
+                                    <syncfusion:SfTextBoxExt 
+                                  Height="100"
+                                Width="200"
+                                VerticalAlignment="Top"
+                                     
+                                Watermark="{Binding ldepositnotes,Source={StaticResource ResourceLanguage}}"
+                                Margin="0,15,0,0"
+                                Text="{Binding DataObject.OBSFIANZA_RES1, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 karveControls:ControlExt.DataSourcePath="OBSFIANZA_RES1"
                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                 />
-                                
-                            </StackPanel>
+                                </StackPanel>
+
+                            
 
 
                         </Grid>
@@ -126,6 +139,7 @@
                                         Content="{Binding}"></ContentControl>
             </Grid>
             <karveControls:AmountControl Width="201" 
+                                                     HorizontalAlignment="Right"
                                                      CurrentVat="0.21"
                                                      DockPanel.Dock="Right"
                                                      VatOnAmount="{Binding DataObject.IVA_RES2, Mode=TwoWay}"

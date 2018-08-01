@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmailValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace KarveDataServices.DataTransferObject
     /// </summary>
     public class BookingDto: LineBaseDto<BookingItemsDto>
     {
-       
+        private decimal? _tolon_res;
+        private decimal? _iva_res;
 
         [PrimaryKey]
         [Required]
@@ -1226,7 +1228,17 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the TOLON_RES2 property.
         /// </summary>
 
-        public Decimal? TOLON_RES2 { get; set; }
+        public Decimal? TOLON_RES2 {
+            get
+            {
+                return _tolon_res;
+            }
+            set
+            {
+                _tolon_res = value;
+                RaisePropertyChanged();
+            }
+        }
 
         /// <summary>
         ///  Set or get the OTROCOND_RES2 property.
@@ -1424,7 +1436,15 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the IVA_RES2 property.
         /// </summary>
 
-        public Decimal? IVA_RES2 { get; set; }
+        public Decimal? IVA_RES2 {
+            get
+            {
+                return _iva_res;
+            }
+            set {
+                _iva_res = value;
+                RaisePropertyChanged();
+            } }
 
         /// <summary>
         ///  Set or get the CONTACTO_RES2 property.
@@ -2016,51 +2036,50 @@ namespace KarveDataServices.DataTransferObject
 
         private bool IsInvalid()
         {
-            if (string.IsNullOrEmpty(NUMERO_RES))
+            if (!IsNew)
             {
-                ErrorList.Add(ConstantDataError.CodeNotValid);
-                return true;
-            }
-            if (string.IsNullOrEmpty(OFICINA_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (string.IsNullOrEmpty(this.SUBLICEN_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (string.IsNullOrEmpty(this.SUBLICEN_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (string.IsNullOrEmpty(OFISALIDA_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (string.IsNullOrEmpty(OFIRETORNO_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (string.IsNullOrEmpty(LUDEVO_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (string.IsNullOrEmpty(LUENTRE_RES1))
-            {
-                ErrorList.Add(ConstantDataError.NameIsEmpty);
-                return true;
-            }
-            if (!string.IsNullOrEmpty(EMAIL_RES1))
-            {
-                EMAIL_RES1 = EMAIL_RES1.Trim();
-                ErrorList.Add(ConstantDataError.InvalidEmail);
-                return !IsValidEmailField(EMAIL_RES1);
+                if (string.IsNullOrEmpty("NUMERO_RES"))
+                {
+                    AddMessage("NUMERO_RES",ConstantDataError.CodeNotValid);
+                    return true;
+                }
+                
+                if ((FPREV_RES1.HasValue) && (FSALIDA_RES1.HasValue))
+                {
+                    var startDate = FPREV_RES1.Value;
+                    var endDate = FSALIDA_RES1.Value;
+                    var startHour = HPREV_RES1;
+                    var endHour = HSALIDA_RES1;
+                    if (startDate < endDate)
+                    {
+                        AddMessage("FSALIDA_RES1",ConstantDataError.InvalidDate);
+                        return true;
+                    }
+                    if ((FPREV_RES1 == FSALIDA_RES1) && (HPREV_RES1 == HPREV_RES1))
+                    {
+                        AddMessage("FPREV_RES1",ConstantDataError.NameIsEmpty);
+                        return true;
+                    }
+                }
+                if (string.IsNullOrEmpty(OFISALIDA_RES1))
+                {
+                    AddMessage("OFISALIDA_RES1",ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (string.IsNullOrEmpty(OFIRETORNO_RES1))
+                {
+                    AddMessage("OFIRETORNO_RES1",ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (!string.IsNullOrEmpty(EMAIL_RES1))
+                {
+                    var emailValid = EmailValidator.Validate(EMAIL_RES1);
+                    if (!emailValid)
+                    {
+                        AddMessage("EMAIL_RES1",ConstantDataError.InvalidEmail);
+                        return true;
+                    }
+                }
             }
             return false;
         }

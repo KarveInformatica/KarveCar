@@ -264,14 +264,12 @@ namespace BookingModule.ViewModels
             var name = reservation.ClientCode;
             var id = reservation.BookingNumber;
             var tabName =  "Reserva."+id;
-            MessageBox.Show("Tets");
             CreateNewItem(tabName);
             var provider = await _bookingDataService.GetDoAsync(id).ConfigureAwait(false);         
             var currentPayload = BuildShowPayLoadDo(tabName, provider);
             currentPayload.DataObject = provider;
             currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
             currentPayload.PrimaryKeyValue = id;
-            //ActiveSubSystem();
             currentPayload.Sender = ViewModelUri.ToString();
             EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
         }

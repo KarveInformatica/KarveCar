@@ -15,7 +15,8 @@ using System;
 using DataAccessLayer.Exception;
 using AutoMapper;
 using System.ComponentModel.DataAnnotations;
-using DataAccessLayer.Crud;
+using KarveCommonInterfaces;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace DataAccessLayer
 {
@@ -29,7 +30,7 @@ namespace DataAccessLayer
         private readonly IDataDeleter<BookingDto> _dataDeleter;
         private IMapper _mapper;
         private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
-
+       
 
         /// <summary>
         ///  Booking data access layer.
@@ -81,7 +82,7 @@ namespace DataAccessLayer
                 {
                    reservations = dbConnection.UniqueId<RESERVAS1>(bookingValue);
                 }
-                var bookingDto = new BookingDto {NUMERO_RES = reservations};
+                var bookingDto = new BookingDto {NUMERO_RES = reservations, IsNew = true};
                 bookingData.Value = bookingDto;
             }
             return bookingData;
@@ -117,7 +118,7 @@ namespace DataAccessLayer
             {
                 throw new DataAccessLayerException("Invalid Booking Number");
             }
-            var boolValue = await _dataSaver.SaveAsync(value); 
+            var boolValue = await _dataSaver.SaveAsync(value).ConfigureAwait(false); 
             return boolValue;
         }
         /// <summary>
@@ -137,7 +138,13 @@ namespace DataAccessLayer
             }
             reservation.Value = new BookingDto();
             reservation.Valid = false;
-            reservation = await BuildAux(reservation).ConfigureAwait(false);
+            try
+            {
+                reservation = await BuildAux(reservation).ConfigureAwait(false);
+            } catch (System.Exception ex)
+            {
+                throw new DataLayerException("Helper table loading error", ex);
+            }
             return reservation;
         }
 
@@ -173,7 +180,7 @@ namespace DataAccessLayer
                     var qs = _queryStoreFactory.GetQueryStore();
                     qs.AddParam(QueryType.QueryBookingSummaryExt);
                     var query = qs.BuildQuery();
-                    bookingList = await dbConnection.QueryAsync<BookingSummaryDto>(query);
+                    bookingList = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
                 }
             }
             return bookingList;
@@ -363,7 +370,131 @@ namespace DataAccessLayer
             return numberOfItems;
         }
 
-        
+        /// <summary>
+        /// Retrieve a list of summaries in a date interval. Both dates cannot be null.
+        /// </summary>
+        /// <param name="from">Starting date. If it is null means all the past.</param>
+        /// <param name="to">Ending date. It it is null means all the future.</param>
+        /// <returns>List of summaries type</returns>
+
+        public async Task<IEnumerable<BookingSummaryDto>> SearchByDate(DateTime? from, DateTime? to)
+        {
+            DateTime startDate = DateTime.Now;
+            DateTime endDate  = DateTime.Now;
+            IEnumerable<BookingSummaryDto> booking = new List<BookingSummaryDto>();
+            if ((!from.HasValue) && (!to.HasValue))
+            {
+                throw new ArgumentException("One of the date shall have a value");
+            }
+            if (from.HasValue)
+            {
+                startDate = from.Value;
+            }
+            if (to.HasValue)
+            {
+                endDate = to.Value;
+            }
+            string queryWhere = string.Empty;
+
+            var queryStore = _queryStoreFactory.GetQueryStore();
+            var fromDate = startDate.ToString("yyyy-MM-dd");
+            var toDate =endDate.ToString("yyyy-MM-dd");
+            // 1.st case we have just to fix the start date
+
+            if ((from.HasValue) && (!to.HasValue))
+            {
+                queryWhere = " ${(FSALIDA_RES1 >= fromDate) ";
+
+            }
+            else if ((to.HasValue) && (!from.HasValue))
+            {
+                queryWhere = " ${(FPREV_RES1 <= toDate) ";
+
+            }
+            else
+            {
+                queryWhere = " ${(FSALIDA_RES1 == fromDate) AND (FPREV_RES1==toDate} ";
+            }
+            var composedQuery = queryStore.Compose(QueryType.QueryBookingAllFields).Where(queryWhere);
+            var query = composedQuery.BuildQuery();
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                booking = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
+            }
+            return booking;
+        }
+
+        private async Task<IEnumerable<BookingSummaryDto>> SearchPaged(QueryType type, DateTime? from, DateTime? to)
+        {
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = DateTime.Now;
+            IEnumerable<BookingSummaryDto> booking = new List<BookingSummaryDto>();
+            if ((!from.HasValue) && (!to.HasValue))
+            {
+                throw new ArgumentException("One of the date shall have a value");
+            }
+            if (from.HasValue)
+            {
+                startDate = from.Value;
+            }
+            if (to.HasValue)
+            {
+                endDate = to.Value;
+            }
+            string queryWhere = string.Empty;
+
+            var queryStore = _queryStoreFactory.GetQueryStore();
+            var fromDate = startDate.ToString("yyyy-MM-dd");
+            var toDate = endDate.ToString("yyyy-MM-dd");
+            // 1.st case we have just to fix the start date
+
+            if ((from.HasValue) && (!to.HasValue))
+            {
+                queryWhere = " ${(FSALIDA_RES1 >= fromDate) ";
+
+            }
+            else if ((to.HasValue) && (!from.HasValue))
+            {
+                queryWhere = " ${(FPREV_RES1 <= toDate) ";
+
+            }
+            else
+            {
+                queryWhere = " ${(FSALIDA_RES1 == fromDate) AND (FPREV_RES1==toDate} ";
+            }
+            var composedQuery = queryStore.Compose(type).Where(queryWhere);
+            var query = composedQuery.BuildQuery();
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                booking = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
+            }
+            return booking;
+        }
+
+        public Task<IEnumerable<BookingSummaryDto>> SearchByFilterPaged(IQueryFilter filter, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IBookingData> SearchSingleByFilter(IQueryFilter filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IBookingData> SearchSingleByProperty(string name, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<BookingSummaryDto>> SearchByFilter(IQueryFilter filter)
+        {
+            throw new NotImplementedException();
+        }
+       
+        public Task<IEnumerable<BookingSummaryDto>> SearchByDatePaged(DateTime? from, DateTime? to, int pageSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

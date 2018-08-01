@@ -35,7 +35,6 @@ namespace BookingModule
             _container.RegisterType<object, BookingInfoViewModel>("BookingInfoViewModel");
             _container.RegisterType<object, BookingFooterView>("BookingFooterView");
             _container.RegisterType<object, BookingDrivers>();
-            _container.RegisterType<object, BookingDataView>();
         }
     }
 }

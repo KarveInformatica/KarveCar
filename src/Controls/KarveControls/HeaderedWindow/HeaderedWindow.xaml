@@ -6,10 +6,16 @@
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KarveControls.HeaderedWindow"
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:karvecm="clr-namespace:KarveCommon.Generic;assembly=KarveCommon"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              mc:Ignorable="d" 
+             HorizontalAlignment="Left"
+             Loaded="UserControl_Loaded"
+             SizeChanged="UserControl_SizeChanged"
+            
+             
              d:DesignHeight="300" d:DesignWidth="300">
 
     <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
@@ -23,11 +29,11 @@
                     <RowDefinition Height="25*"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.HeaderRegion}">
+                <ContentControl x:Name="HeaderPart" Grid.Row="0" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.HeaderRegion}">
                 </ContentControl>
-                <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}">
+                <ContentControl x:Name="LinesPart" Grid.Row="1" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.LineRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}" >
                 </ContentControl>
-                <ContentControl Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}">
+                <ContentControl x:Name="FooterPart" Grid.Row="2" prism:RegionManager.RegionName="{x:Static karvecm:RegionNames.FooterRegion}" Visibility="{Binding LineVisible, Converter={StaticResource BooleanToVisibility}}">
                 </ContentControl>
             </Grid>
 

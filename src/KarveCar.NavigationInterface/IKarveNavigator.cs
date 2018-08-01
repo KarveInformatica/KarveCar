@@ -1,6 +1,8 @@
 ﻿using KarveCommon.Services;
 using KarveDataServices.DataTransferObject;
 using System;
+using System.Collections.Generic;
+
 namespace KarveCar.Navigation
 {
     /// <summary>
@@ -32,9 +34,8 @@ namespace KarveCar.Navigation
         /// <summary>
         ///  Navigate a create an empty booking view.
         /// </summary>
-        /// <param name="viewModelUri"></param>
+        /// <param name="viewModelUri">Booking sender</param>
         void NewBookingView(Uri viewModelUri);
-
         /// <summary>
         /// Open a new tab for an existing item. You need to provide the DataPayload to be used in the tab.
         /// </summary>
@@ -43,11 +44,20 @@ namespace KarveCar.Navigation
         /// <param name="viewName">Name of the view.</param>
         /// <param name="payload">Kind of payload.</param>
         /// <param name="subsystem">Kind of subsystem.</param>
-
         void Navigate<ViewType>(string id, string viewName,
            DataPayLoad payload, string subsystem);
-        
+        /// <summary>
+        ///  Get a factory for the helpers.
+        /// </summary>
+        /// <returns></returns>
         IHelperViewFactory GetHelperViewFactory();
-
+        /// <summary>
+        ///  NewSummaryView
+        /// </summary>
+        /// <typeparam name="T">DataType</typeparam>
+        /// <param name="summary">Data to load into the summary view</param>
+        /// <param name="title">Title of the view</param>
+        /// <param name="fullName">Name of the view as registered in the container</param>
+        void NewSummaryView<DomainType, T>(IEnumerable<T> summary, string title , string fullName);
     }
 }

@@ -6,6 +6,7 @@ using Syncfusion.Windows.Shared;
 using KarveCommonInterfaces;
 using System.Collections.Generic;
 using EmailValidation;
+using System.Linq;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -18,7 +19,9 @@ namespace KarveDataServices.DataTransferObject
     {
         // the problem is the _email;
         protected string _email;
+        // this is is possible to detect the errors.
         protected List<string> ErrorList = new List<string>();
+        private IDictionary<string, List<string>> ErrorDict = new Dictionary<string, List<string>>();
         protected const int NameSize = 35;
         protected const int SecondNameSize = 50;
 
@@ -28,6 +31,11 @@ namespace KarveDataServices.DataTransferObject
         {
             
             HasErrors = false;
+            IsNew = false;
+            IsDirty = false;
+            IsDeleted = false;
+            IsChanged = false;
+
         }
 
     
@@ -52,6 +60,7 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the code
         ///  
         /// </summary>
+        [DisplayName("Codigo")]
         public virtual string Code
         {
             set; get;
@@ -59,6 +68,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or Get the name.
         /// </summary>
+        [DisplayName("Nombre")]
         public virtual string Name { set; get; }
 
         /// <summary>
@@ -98,9 +108,59 @@ namespace KarveDataServices.DataTransferObject
         public ValidationChain<BaseDto> ValidationChain 
             { get; set;}
 
+        /// <summary>
+        ///  Get or Set the list of errors.
+        /// </summary>
+        public IList<string> Errors {
+            get {
+                var lists = ErrorDict.Values;
+                List<string> outList = new List<string>();
+                bool first = true;
+                foreach (var l in lists)
+                {
+                    outList = l;
+                    if (!first)
+                    {
+                        outList = outList.Union(l).ToList();
+                    }
+                    first = false;
+                }
+                return outList;
+            }
+        }
+        /// <summary>
+        ///  Set or get the errors for a given property
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
         public virtual IEnumerable GetErrors(string propertyName)
         {
-            return ErrorList;
+            List<string> error = new List<string>();
+            if (ErrorDict.ContainsKey(propertyName))
+            {
+                error = ErrorDict[propertyName];
+            }
+           return error;
+        }
+        /// <summary>
+        ///  Add a new error message for the property.
+        /// </summary>
+        /// <param name="prop"></param>
+        /// <param name="value"></param>
+        public void AddMessage(string prop, string value)
+        {
+            if (!ErrorDict.ContainsKey(prop))
+            {
+                var list = new List<string>() { value };
+                ErrorDict.Add(prop, list);
+            }
+            else
+            {
+                var listError = ErrorDict[prop];
+                listError.Add(value);
+                ErrorDict.Remove(prop);
+                ErrorDict.Add(prop, listError);
+            }
         }
         /// <summary>
         /// Get if there are validation erros
@@ -128,7 +188,7 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public void Dispose()
         {
-            ErrorList.Clear();
+            ErrorDict.Clear();
             HasErrors = false;
             
         }

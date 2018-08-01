@@ -7,18 +7,45 @@ namespace DataAccessLayer.DataObjects
 
     public class FareConceptDto: BaseDto
     {
+        private int _code;
+        private string _name;
+
+
 
 
         /// <summary>
         ///  Set or get the CODIGO property.
         /// </summary>
-       
-        public Int32 CODIGO { get; set; }
+
+        public Int32 CODIGO {
+            get
+            {
+                return _code;
+            }
+            set
+            {
+                _code = value;
+                Code = _code.ToString();
+                RaisePropertyChanged();
+            }
+        }
 
         /// <summary>
         ///  Set or get the NOMBRE property.
         /// </summary>
-        public string NOMBRE { get; set; }
+        public string NOMBRE
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                Name = _name;
+                RaisePropertyChanged();
+            }
+        }
         /// <summary>
         ///  Set or get the ULTMODI property.
         /// </summary>

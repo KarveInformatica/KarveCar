@@ -28,7 +28,10 @@ namespace KarveDataServices.DataTransferObject
             set
             {
                 _cname = value;
-                ShortName = _cname.Substring(0, 2).ToUpper();
+                if (!string.IsNullOrEmpty(_cname))
+                {
+                    ShortName = _cname.Substring(0, 2).ToUpper();
+                }
             }
         }
         private bool IsInvalid()

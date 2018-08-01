@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlTypes;
-using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
-using DataAccessLayer.DataObjects.Wrapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using System.Diagnostics.Contracts;

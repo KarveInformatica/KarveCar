@@ -36,7 +36,9 @@
                   
                         <Image Source="/KarveControls;component/Images/contract.png"></Image>
                         <i:Interaction.Behaviors>
-                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.NavigateCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" 
+                            <behaviour:GridEditButtonBehavior 
+                                Command="{Binding Path=DataContext.NavigateCommand ,
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" 
                                                               />
                         </i:Interaction.Behaviors>
                     </Button>
@@ -62,8 +64,8 @@
             <DataTemplate x:Key="BillToBookin">
                 <Grid>
                    
-                    <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
-                                            SelectedIndex="{Binding Path=Bill,Converter={StaticResource BillToBook}}" Width="Auto">
+                     <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
+                                            SelectedIndex="{Binding Path=Value.Bill,Converter={StaticResource BillToBook}}" Width="Auto">
                         <syncfusion:ComboBoxItemAdv Width="200">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/KarveControls;component/Images/driver.png" Height="30"/>
@@ -77,6 +79,7 @@
                             </StackPanel>
                         </syncfusion:ComboBoxItemAdv>
                     </syncfusion:ComboBoxAdv>
+                   
                 </Grid>
             </DataTemplate>
             
@@ -85,40 +88,46 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-
                     <CheckBox  Grid.Column="0"
-                               IsChecked="{Binding Path=Included, Mode=TwoWay, Converter={StaticResource KmBoolConverter}}">
+                               IsChecked="{Binding Path=Value.Included, Mode=TwoWay, Converter={StaticResource KmBoolConverter}}">
                     </CheckBox>
+                  
                 </Grid>
             </DataTemplate>
 
 
             <DataTemplate x:Key="NavigateBookingConcept">
+                
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    
                     </Grid.ColumnDefinitions>
-                   
-                    <TextBox x:Name="ColName" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}"
-                           Width="80"></TextBox>
+                   <!--
+                    <TextBlock x:Name="ColName" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Width="80" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               FontWeight="Bold">
+                        
+                    </TextBlock>
+                    -->
                     <Button Grid.Column="1" x:Name="NavigateButton" BorderBrush="Transparent" Background="Transparent" 
-                                        Width="50">
+                                         syncfusion:FocusManagerHelper.FocusedElement="True">
 
-                        <Image Source="/KarveControls;component/Images/search.png" Height="40"></Image>
+                        <Image Source="/KarveControls;component/Images/searchImage.png" Height="40" Width="30" ToolTip="Busca.."></Image>
                         <i:Interaction.Behaviors>
                             <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ShowBookingConcept,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
                         </i:Interaction.Behaviors>
                     </Button>
+                    <!--
                     <Button Grid.Column="2" x:Name="AddConcept" BorderBrush="Transparent" Background="Transparent" 
-                                        Width="50">
+                                        Width="50" syncfusion:FocusManagerHelper.FocusedElement="True" >
                         <Image Source="/KarveControls;component/Images/create.png" Height="40"></Image>
                         <i:Interaction.Behaviors>
                             <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.AddNewConceptCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
                         </i:Interaction.Behaviors>
                     </Button>
-                </Grid>
+-->
+                    </Grid>
             </DataTemplate>
             <DataTemplate x:Key="NavigateVehicleItem">
                 <Grid>
@@ -157,22 +166,12 @@
                
             </Grid.Resources>
 
-            <!--  Syncfusion SfDataGrid implementation  -->
-
-            <syncfusion:SfDataGrid x:Name="GenericLineGridView"
-                                   Grid.Row="0"    
-                                    AllowEditing="True"
-                                    AutoGenerateColumns="True"
-                                    AllowGrouping="True"
-                                    AutoExpandGroups="True"
-                                    ColumnSizer="AutoLastColumnFill"
-                                    ItemsSource="{Binding SourceView, Mode=TwoWay}"
-                                    LiveDataUpdateMode="AllowDataShaping"                                 
+            <!--  Syncfusion SfDataGrid implementation 
+            
+            liveDataUpdateMode="AllowDataShaping"                                 
                                     SelectionMode="Extended"
                                     SelectionUnit="Row"
                                     CellStyle="{StaticResource KarveGridCell}"
-                                    AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
-                                    AlternationCount="2"
                                     HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                     AllowDraggingColumns="True"
                                     AllowDeleting="True"
@@ -181,22 +180,46 @@
                                     AllowSorting="True"
                                     RowSelectionBrush="LightYellow"  
                                     SelectionForegroundBrush="Black"
-                                    NavigationMode="Cell"
                                     AddNewRowPosition="Bottom"
                                     RowHeight="40"
-                                    MaxHeight="400"
                                     karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                     karveControls:ControlExt.SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    karveControls:ControlExt.DataSource="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                    ShowGroupDropArea="True"
+                                    
+            -->
+
+            <syncfusion:SfDataGrid x:Name="GenericLineGridView"
+                                    Grid.Row="0"                                 
+                                    SelectionUnit="Row"
+                                    HorizontalAlignment="Left"                                 
+                                    AddNewRowPosition="Bottom"
+                                    AllowEditing="True"
+                                    AllowDeleting="True"
+                                    AutoGenerateColumns="True"
+                                    AllowGrouping="True"
+                                    AutoExpandGroups="True"
+                                    EditTrigger="OnTap"
+                                    RowHeight="40"
+                                    ColumnSizer="AutoLastColumnFill"
+                                    MaxWidth="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.88' }" 
+                                    karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
+                                    karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
+                                    karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
+                                    karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
+                                    ItemsSource="{Binding CollectionView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+       
+                                   NavigationMode="Cell"
+                                     ShowGroupDropArea="True"
                                     ShowRowHeader="True" >
                 <i:Interaction.Behaviors>
              
                     <behaviour:LineGridBehaviour GridColumns="{Binding GridColumns, Mode=OneWay}"
+                                                 DataObject="{Binding DataObject, Mode=TwoWay}"
+                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                  CellPresenterItems="{Binding CellGridPresentation, Mode=OneWay}">
                         
                     </behaviour:LineGridBehaviour>    

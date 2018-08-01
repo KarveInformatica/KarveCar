@@ -49,10 +49,10 @@
                                 TextContentSecondWidth="250"
                                 LabelText="Conductor"
                                 LabelTextWidth="86"
-                                SourceView="{Binding DriverDto3, Mode=OneWay}"
+                                SourceView="{Binding DriverDto3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
-                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 DataFieldFirst="OTROCOND_RES2"
                                 ButtonImage="/KarveControls;component/Images/driver2.png"
                                 Height="30">
@@ -95,10 +95,10 @@
                          TextContentFirstWidth="50"
                                 TextContentSecondWidth="250"
                                 
-                                SourceView="{Binding DriverDto4, Mode=OneWay}"
+                                SourceView="{Binding DriverDto4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
-                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataSource="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                 DataFieldFirst="OTRO2COND_RES2"
                                 ButtonImage="/KarveControls;component/Images/driver2.png"
                                 Height="30">
@@ -144,10 +144,10 @@
                                 AssistTableName="DRIVER_ASSIST_5"
                                 TextContentFirstWidth="50"
                                 TextContentSecondWidth="250"
-                                SourceView="{Binding DriverDto5, Mode=OneWay}"
+                                SourceView="{Binding DriverDto5, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
-                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 DataFieldFirst="OTRO3COND_RES2"
                                 ButtonImage="/KarveControls;component/Images/driver2.png"
                                 Height="30">

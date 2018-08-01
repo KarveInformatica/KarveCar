@@ -145,9 +145,6 @@
     <Compile Include="Views\BookingControlView.xaml.cs">
       <DependentUpon>BookingControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BookingDataView.xaml.cs">
-      <DependentUpon>BookingDataView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\BookingDrivers.xaml.cs">
       <DependentUpon>BookingDrivers.xaml</DependentUpon>
     </Compile>
@@ -229,10 +226,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BookingControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BookingDataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
