@@ -19,3 +19,8 @@ Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Co
 6. To compile you it is enough:
    dotnet restore KarveCar.sln
    msbuild KarveCar.sln /m
+   
+   
+- Booking Screen.
+
+![alt text](https://github.com/KarveInformatica/KarveCar/blob/master/src/sample2.png)
