@@ -15,6 +15,8 @@ namespace BookingModule
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
         internal const string BookingSubSystem = "BookingSubsystem";
+        internal const string RequestGroup = "ReservationRequests";
+
         /// <summary>
         ///     BookingModule is a container.
         /// </summary>

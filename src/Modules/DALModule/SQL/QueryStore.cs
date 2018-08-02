@@ -357,7 +357,7 @@ namespace DataAccessLayer.SQL
             { QueryType.QueryBookingItem, @"select * from LIRESER WHERE CLAVE_LR='{0}';" },
             { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO='{0}'" },
             { QueryType.QueryActiveFare,@"SELECT TOP {0} START AT {1} DISTINCT(XX.TARIFA) AS Fare, XX.NOMBRE as Name, XX.ACTIVA as IsActive from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
-            
+
             { QueryType.QueryContractsByClient, @"SELECT NUMERO as Contract, CLIENTE_CON1 as ClientCode, D.NOMBRE as Driver, DIAS_CON1 as Days, FPREV_CON1 as ForeCastDeparture, FECHA_CON1 as DepartureDate, FRETOR_CON1 as ReturnData, V.MATRICULA as Matricula, V.MARCA as Brand, V.MODELO as Model, TARIFA_CON1 as Fare,F.NUMERO_FAC as InvoiceNumber, F.BRUTO_FAC as GrossInvoice from CONTRATOS1 LEFT OUTER JOIN VEHICULO1 V ON V.CODIINT=VCACT_CON1 LEFT OUTER JOIN CLIENTES1 D ON D.NUMERO_CLI=CONDUCTOR_CON1 LEFT OUTER JOIN FACTURAS F ON F.CLIENTE_FAC=CLIENTE_CON1 WHERE CLIENTE_CON1='{0}';" },
             { QueryType.QueryCountActiveFare,@"SELECT COUNT(DISTINCT(XX.TARIFA)) from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
             { QueryType.QueryBudgetKey, "select * from CLAVEPTO WHERE COD_CLAVE='{0}'"},
@@ -370,6 +370,7 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryFares, "SELECT * FROM NTARI WHERE CODIGO='{0}'" },
             {QueryType.QueryBrokerVisit, "SELECT visIdVisita as VisitId,visIdCliente as VisitClientId,visIdContacto as ContactId,visFecha as VisitDate,visIdVendedor as ResellerId, visIdVisitaTipo as VisitTypeId, TV.NOMBRE_VIS as VisitTypeName, PV.nom_contacto AS ContactName, PEDIDO as VisitOrder, VE.NOMBRE as ResellerName FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON  PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE= '{0}' ORDER BY CC.visFECHA" },
             { QueryType.QueryPrintingType, "SELECT * FROM CONTRATIPIMPR WHERE CODIGO='{0}'" },
+            { QueryType.QueryDriverWithContract, "select DISTINCT CONDUCTOR_CON1 as Code, clientes1.NOMBRE as Name from clientes1 inner join contratos1 on clientes1.NUMERO_CLI = contratos1.CONDUCTOR_CON1 WHERE NUMERO_CLI = '{0}';" },
             { QueryType.QueryMulti, ""}
             /*
             { QueryType.QueryVehicleMaintenance,  "select CODIGO_MAN as MaintananceCode, NOMBRE_MAN as MaintananceName, ULT_FEC_MV as LastMaintenenceDate, ULT_KM_MV as  LastMaintananceKMs, PROX_FEC_MV as NextMaintenenceDate, PROX_KM_MV as  NextMaintananceKMs, OBSERVACIONES_MAN as Observation from MANTENIMIENTO_VEHICULO LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)" }*/

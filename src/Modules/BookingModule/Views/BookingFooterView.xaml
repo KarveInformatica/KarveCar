@@ -9,8 +9,14 @@
               xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d" 
+             xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              d:DesignHeight="300" d:DesignWidth="1024">
-    <Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:StringToBoolConverter x:Key="StringToBoolConverter"></converter:StringToBoolConverter>
+        </ResourceDictionary>
+    </UserControl.Resources>
+        <Grid>
         <Grid.Resources>
             <ResourceDictionary>
                 <DataTemplate x:Name="Bonus" x:Key="Bonus">
@@ -32,8 +38,9 @@
                                     x:Name="ExistBonusCheckBox"
                                     Grid.Column="0"
                                     VerticalAlignment="Top"
-                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     karveControls:ControlExt.DataSourcePath="BONOSI_RES2"
+                                    karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    karveControls:ControlExt.DataSourcePath="BONOSI_RES2"
+                                    IsChecked="{Binding DataObject.BONOSI_RES2, Converter={StaticResource StringToBoolConverter}}"
                                     Content="{Binding lexistbonus, Source={StaticResource ResourceLanguage}}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="DataFieldCheckBoxChanged">
@@ -43,14 +50,18 @@
                             </karveControls:DataFieldCheckBox>
                             <karveControls:DataFieldCheckBox 
                                      x:Name="ExistSelfBonusCheckBox"
-                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      karveControls:ControlExt.DataSourcePath="BONOAURO_RES2"
-                                     karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand,Mode=OneWay}"
+                                      IsChecked="{Binding DataObject.BONOAURO_RES2, Converter={StaticResource StringToBoolConverter}}"
                                 VerticalAlignment="Top"     
                                 Grid.Column="1"
                                 Margin="0,0,5,0"
                                      Content="{Binding lselfbonus, Source={StaticResource ResourceLanguage}}">
-                                
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="DataFieldCheckBoxChanged">
+                                        <prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
                             </karveControls:DataFieldCheckBox>
                             <StackPanel Grid.Column="2">
                                 <TextBlock

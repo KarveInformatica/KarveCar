@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingModule.ViewModels
+namespace KarveDataServices.DataTransferObject
 {
-    class BookingOtherDataViewModel
+    public class DriverWithContractDto: BaseDtoDefaultName
     {
     }
 }

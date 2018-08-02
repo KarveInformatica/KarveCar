@@ -49,18 +49,26 @@ namespace BookingModule.ViewModels
             IUnityContainer container,
             IRegionManager regionManager,
            IKarveNavigator karveNavigator,
+           IConfigurationService configurationService,
             IInteractionRequestController controller) : base(dataServices,
             dialogServices, manager, regionManager, dataServices.GetBookingDataService(), controller)
         {
-
             InitViewModel();
             _karveNavigator = karveNavigator;
             _container = container;
             _regionManager = regionManager;
+            
+
+            _selectedIndex = 0;
+           
             DefaultPageSize = 100;
             IsReady = false;
             IsChanged = false;
             CollectionView = new ObservableCollection<BookingItemsDto>();
+            _regionManager = regionManager;
+            DefaultPageSize = 100;
+            IsReady = false;
+            IsChanged = false;
             // this shall be at the configuration service
             BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
             VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
@@ -78,6 +86,10 @@ namespace BookingModule.ViewModels
              *  Each view will save itself.
              */
             CompositeCommandOnly = true;
+
+            BookingConfirmMessage = new BookingConfirmMessageDto() { Code= "0006" };
+
+
         }
         #region CommonProperties
         /// <summary>
@@ -165,7 +177,18 @@ namespace BookingModule.ViewModels
         /// <summary>
         /// Set or Get the columns
         /// </summary>
-        public string BookingInfoCols { get; private set; }
+        public string BookingInfoCols
+        {
+            get
+            {
+                return _bookingCols;
+            }
+            set
+            {
+                _bookingCols = value;
+                RaisePropertyChanged();
+            }
+        }
 
 
         public ObservableCollection<BookingItemsDto> CollectionView
@@ -501,7 +524,7 @@ namespace BookingModule.ViewModels
             EventManager.DeleteMailBoxSubscription(viewModelUri.ToString());
             ViewModelUri = viewModelUri;
         }
-        
+
 
         public ICommand ShowBookingConcept
         {
@@ -560,6 +583,15 @@ namespace BookingModule.ViewModels
 
         #endregion
 
+
+        private void GridColumnsConfiguration()
+        {
+            // this shall be at the configuration service
+            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
+            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
+            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
+            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
+        }
         public int SelectedIndex
         {
             set
@@ -599,12 +631,12 @@ namespace BookingModule.ViewModels
                 decimal subTotal = 0;
                 foreach (var x in CollectionView)
                 {
-                   if (x.Subtotal.HasValue)
+                    if (x.Subtotal.HasValue)
                     {
                         subTotal += x.Subtotal.Value;
                     }
                 }
-                
+
                 /**
                  * Here we use Bankers Rounding, an algorithm for rounding quantities to integers, 
                  * in which numbers which are equidistant from the two nearest integers 
@@ -620,7 +652,7 @@ namespace BookingModule.ViewModels
 
                 subTotal = decimal.Round(subTotal, 2, MidpointRounding.AwayFromZero);
                 DataObject.BASEI_RES2 = subTotal;
-                decimal iva = DataObject.IVA_RES2.HasValue ? 21  : DataObject.IVA_RES2.Value;
+                decimal iva = DataObject.IVA_RES2.HasValue ? 21 : DataObject.IVA_RES2.Value;
                 if (iva == 0)
                 {
                     iva = 21;
@@ -629,9 +661,9 @@ namespace BookingModule.ViewModels
                 var computeIva = (subTotal * 21 * (decimal)0.01);
                 DataObject.IVA_RES2 = decimal.Round(computeIva, 2, MidpointRounding.AwayFromZero);
                 var total = subTotal + DataObject.IVA_RES2.Value;
-                tmp.TOLON_RES2 = decimal.Round(total, 2, MidpointRounding.AwayFromZero); 
+                tmp.TOLON_RES2 = decimal.Round(total, 2, MidpointRounding.AwayFromZero);
                 DataObject = tmp;
-               
+
             }
             else
             {
@@ -801,7 +833,7 @@ namespace BookingModule.ViewModels
         {
             // I am looking all the future request from this moment
             var summary = await _bookingDataService.SearchByDate(DateTime.Now, DateTime.Now).ConfigureAwait(false);
-            _karveNavigator.NewSummaryView<IBookingData, BookingSummaryDto>(summary,"Reservas Futura",typeof(BookingControlView).FullName);
+            _karveNavigator.NewSummaryView<IBookingData, BookingSummaryDto>(summary, "Reservas Futura", typeof(BookingControlView).FullName);
 
         }
 
@@ -816,7 +848,7 @@ namespace BookingModule.ViewModels
             FareConceptDto item = null;
             BookingItemsDto bookingItem = null;
             LoadConcepts();
-            
+
             ShowDataTransferObjects<FareConceptDto>(ConceptDto,
                                               "Conceptos",
                                               "Code,Name",
@@ -824,7 +856,7 @@ namespace BookingModule.ViewModels
                                               {
                                                   if (selectedItem != null)
                                                   {
-                                                     ConceptDto =ConceptDto.Union(new List<FareConceptDto>() { selectedItem });
+                                                      ConceptDto = ConceptDto.Union(new List<FareConceptDto>() { selectedItem });
                                                       item = selectedItem;
                                                   }
                                               });
@@ -834,21 +866,29 @@ namespace BookingModule.ViewModels
                 bookingItem = helper.Record as BookingItemsDto;
                 if (bookingItem == null)
                 {
+                   
+                    var newItems = new BookingItemsDto();
+                    newItems.Concept = int.Parse(item.Code);
+                    newItems.Desccon = item.Name;
+                    CollectionView.Add(newItems);
+                    SelectedItem = CollectionView[CollectionView.Count - 1];
+                    RaisePropertyChanged("CollectionView");
+                    
                     return;
                 }
                 if (item != null)
                 {
-                   var itemReplace = CollectionView.FirstOrDefault(i => i.Number == bookingItem.Number);
-                   var newItem = new BookingItemsDto();
+                    var itemReplace = CollectionView.FirstOrDefault(i => i.Number == bookingItem.Number);
+                    var newItem = new BookingItemsDto();
 
-                   var index = CollectionView.IndexOf(itemReplace);
-                   newItem.Concept = int.Parse(item.Code);
-                   newItem.Desccon = item.Name;
-                   newItem.BookingKey = bookingItem.BookingKey;
-                   newItem.Number = bookingItem.Number;              
-                   if (index != -1)
-                      CollectionView[index] = newItem;
-
+                    var index = CollectionView.IndexOf(itemReplace);
+                    newItem.Concept = int.Parse(item.Code);
+                    newItem.Desccon = item.Name;
+                    newItem.BookingKey = bookingItem.BookingKey;
+                    newItem.Number = bookingItem.Number;
+                    if (index != -1)
+                        CollectionView[index] = newItem;
+                 
                     RaisePropertyChanged("CollectionView");
                 }
             }
@@ -968,7 +1008,7 @@ namespace BookingModule.ViewModels
             }
         }
 
-        
+
         private void InitServices()
         {
             // services.
@@ -987,14 +1027,14 @@ namespace BookingModule.ViewModels
             };
             return presenter;
         }
-        
+
         /// <summary>
         ///  Init the view model.
         /// </summary>
         private void InitViewModel()
         {
-          
-            ViewModelUri = new Uri("karve://booking/viewmodel?id="+ Guid.ToString());
+
+            ViewModelUri = new Uri("karve://booking/viewmodel?id=" + Guid.ToString());
             InitCommunication();
             InitCommands();
             InitServices();
@@ -1010,15 +1050,15 @@ namespace BookingModule.ViewModels
             /*
              *  This goes to a data template to configure directly the grid with its mapping.
              */
-            
+
             AssistMapper = _assistDataService.Mapper;
-    
+
             FetchGridsSettings();
             ReservationOffice = FetchOffices();
-           ConceptDto = new ObservableCollection<FareConceptDto>();
+            ConceptDto = new ObservableCollection<FareConceptDto>();
         }
 
-        private  void LoadConcepts()
+        private void LoadConcepts()
         {
             var office = NotifyTaskCompletion.Create<IEnumerable<FareConceptDto>>
                 (_helperDataService.GetMappedAllAsyncHelper<FareConceptDto, CONCEP_FACTUR>(), (task, sender) =>
@@ -1027,7 +1067,7 @@ namespace BookingModule.ViewModels
                     {
                         if (result.IsSuccessfullyCompleted)
                         {
-                            ConceptDto = new ObservableCollection<FareConceptDto>(result.Task.Result);                            
+                            ConceptDto = new ObservableCollection<FareConceptDto>(result.Task.Result);
                         }
                     }
                 });
@@ -1036,6 +1076,11 @@ namespace BookingModule.ViewModels
         private void OnCreateNewBroker(object obj)
         {
             _karveNavigator.NewBrokerView(ViewModelUri);
+        }
+        private void OnCreateNewIncident(object obj)
+        {
+            BookingDto currentBooking = obj as BookingDto;
+            _karveNavigator.NewIncidentView(currentBooking);
         }
 
         private void OnCreateNewVehicle(object obj)
@@ -1104,7 +1149,7 @@ namespace BookingModule.ViewModels
                     if ((task.IsSuccessfullyCompleted) && (task.Result == true))
                     {
                         var msg = $"Reserva {number} guardada con exito!";
-                        DialogService?.ShowMessage("Reservation",msg);
+                        DialogService?.ShowMessage("Reservation", msg);
                         IsChanged = false;
                         OperationalState = DataPayLoad.Type.Show;
                     }
@@ -1116,7 +1161,7 @@ namespace BookingModule.ViewModels
             });
         }
 
-        
+
         private void DeleteViewCommand(object obj)
         {
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
@@ -1150,7 +1195,7 @@ namespace BookingModule.ViewModels
                              * i notify my group and i unregister the //toolbar.
                              */
 
-                          //  EventManager.RegisterObserverSubsystem(BookingModule.BookingSubSystem, this);
+                            //  EventManager.RegisterObserverSubsystem(BookingModule.BookingSubSystem, this);
                             viewDeleter.Notify(ViewModelUri.ToString(), BookingModule.BookingSubSystem);
                             UnregisterToolBar(payLoad.PrimaryKeyValue);
                             DeleteRegion();
@@ -1403,19 +1448,19 @@ namespace BookingModule.ViewModels
                 {
                     case DataPayLoad.Type.Insert:
                         {
-                           if (payload.Destination == null)
+                            if (payload.Destination == null)
                             {
                                 return;
                             }
-                           if (payload.Destination != ViewModelUri)
+                            if (payload.Destination != ViewModelUri)
                             {
                                 return;
                             }
-                           //it is me.
+                            //it is me.
                             _bookingData.Value.Items = new ObservableCollection<BookingItemsDto>();
                             PrimaryKeyValue = payload.PrimaryKeyValue;
                             data.Value.NUMERO_RES = PrimaryKeyValue;
-                            
+
                             break;
                         }
                     default:
@@ -1440,22 +1485,26 @@ namespace BookingModule.ViewModels
 
         private void UpdateGenericCollection(IBookingData data)
         {
-                var builder = GeneralInfoCollection;
-                 builder[0].SourceView = data.OriginDto;
-                builder[1].SourceView = data.BookingMediaDto;
-                builder[2].SourceView = data.BookingTypeDto;
-                builder[3].SourceView = data.AgencyEmployeeDto;
-                builder[4].SourceView = data.ContactsDto1;
-                builder[5].SourceView = data.PaymentFormDto;
-                builder[6].SourceView = data.PrintingTypeDto;
-                builder[7].SourceView = data.VehicleActivitiesDto;
-                RaisePropertyChanged("GeneralCollectionInfo");
+            var builder = GeneralInfoCollection;
+            builder[0].SourceView = data.OriginDto;
+            builder[1].SourceView = data.BookingMediaDto;
+            builder[2].SourceView = data.BookingTypeDto;
+            builder[3].SourceView = data.AgencyEmployeeDto;
+            builder[4].SourceView = data.ContactsDto1;
+            builder[5].SourceView = data.PaymentFormDto;
+            builder[6].SourceView = data.PrintingTypeDto;
+            builder[7].SourceView = data.VehicleActivitiesDto;
+            RaisePropertyChanged("GeneralCollectionInfo");
 
 
 
         }
         private void UpdateAux(IBookingData data)
         {
+            if (data == null)
+            {
+                return;
+            }
             UpdateGenericCollection(data);
 
             BookingAgencyEmployee = data.AgencyEmployeeDto;
@@ -1472,26 +1521,36 @@ namespace BookingModule.ViewModels
             CompanyDto = data.CompanyDto;
             DeliveringPlaceDto = data.DepartureDeliveryDto;
             PlaceReturnDto = data.PlaceOfReturnDto;
-         
+            DriverCountryList = data.DriverCountryList;
+           
+
+
             if (data.DriverDto2 != null)
             {
                 this.DriverDto2 = new ObservableCollection<ClientSummaryExtended>(data.DriverDto2);
             }
 
-                this.DriverDto3 = data.DriverDto3;
-                this.DriverDto4 = data.DriverDto4;
-                this.DriverDto5 = data.DriverDto5;
-                this.CountryDto3 = data.CountryDto3;
-                this.ProvinceDto3 = data.ProvinceDto3;
-                this.CityDto3 = data.CityDto3;
-                this.ActiveFareDto = data.FareDto;
-                this.OfficeDto = data.OfficeDto;
-                this.BookingOrigen = data.OriginDto;
-                this.VehicleDto = data.VehicleDto;
-                this.VehicleGroupDto = data.VehicleGroupDto;
-                ReservationOfficeArrival = data.ReservationOfficeArrival;
-                ReservationOfficeDeparture = data.ReservationOfficeDeparture;
-            
+            this.DriverDto3 = data.DriverDto3;
+            this.DriverDto4 = data.DriverDto4;
+            this.DriverDto5 = data.DriverDto5;
+            this.CountryDto3 = data.CountryDto3;
+            this.ProvinceDto3 = data.ProvinceDto3;
+            if (data.CityDto3 != null)
+            {
+                var cityData = data.CityDto3.FirstOrDefault();
+                if (cityData != null)
+                {
+                    this.CityDto3 = new ObservableCollection<CityDto>() { cityData };
+                }
+            }
+            this.ActiveFareDto = data.FareDto;
+            this.OfficeDto = data.OfficeDto;
+            this.BookingOrigen = data.OriginDto;
+            this.VehicleDto = data.VehicleDto;
+            this.VehicleGroupDto = data.VehicleGroupDto;
+            ReservationOfficeArrival = data.ReservationOfficeArrival;
+            ReservationOfficeDeparture = data.ReservationOfficeDeparture;
+
         }
 
         private void LoadMoreItems(uint arg1, int arg2)
@@ -1506,7 +1565,7 @@ namespace BookingModule.ViewModels
             {
                 payLoad = new DataPayLoad();
             }
-         
+
             payLoad.Subsystem = DataSubSystem.BookingSubsystem;
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
@@ -1605,10 +1664,10 @@ namespace BookingModule.ViewModels
             {
                 case "BOOKING_FCOBRO_ASSIST":
                     {
-                       
+
                         var value = collection[5];
                         value.SourceView = collectionValue as IEnumerable<PaymentFormDto>;
-                        
+
                         break;
                     }
                 case "BOOKING_CONTRATIPIMPR_ASSIST":
@@ -1631,7 +1690,7 @@ namespace BookingModule.ViewModels
                     }
                 case "BOOKING_CONTACTO_ASSIST":
                     {
-                        collection[4].SourceView  = collectionValue as IEnumerable<ContactsDto>;
+                        collection[4].SourceView = collectionValue as IEnumerable<ContactsDto>;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
@@ -1647,6 +1706,13 @@ namespace BookingModule.ViewModels
 
                         collection[1].SourceView = collectionValue as IEnumerable<BookingMediaDto>;
                         RaisePropertyChanged("GeneralCollectionInfo");
+
+                        break;
+                    }
+
+                case "BOOKING_CONF_MESSAGE_ASSIST":
+                    {
+                        BookingConfirmMessageDto = (IEnumerable<BookingConfirmMessageDto>)collectionValue;
 
                         break;
                     }
@@ -1781,12 +1847,12 @@ namespace BookingModule.ViewModels
                     }
                 case "EMPLEAGE_ASSIST":
                     {
-                        BookingAgencyEmployee = collectionValue as IEnumerable<AgencyEmployeeDto>;
+                        BookingAgencyEmployee = (IEnumerable<AgencyEmployeeDto>)collectionValue;
                         break;
                     }
                 case "COMPANY_ASSIST":
                     {
-                        CompanyDto = (IEnumerable<CompanyDto>) collectionValue;
+                        CompanyDto = (IEnumerable<CompanyDto>)collectionValue;
                         break;
                     }
                 case "BOOKING_OFFICE_1":
@@ -1802,6 +1868,11 @@ namespace BookingModule.ViewModels
                 case "OFFICE_ASSIST":
                     {
                         OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        break;
+                    }
+                case "LANGUAGE_ASSIST":
+                    {
+                        LanguageDto = (IEnumerable<LanguageDto>) collectionValue;
                         break;
                     }
                 case "PROMOTION_ASSIST":
@@ -1864,6 +1935,17 @@ namespace BookingModule.ViewModels
                 return clearable;
             }
             return t;
+        }
+        public BookingConfirmMessageDto BookingConfirmMessage
+        { set
+            {
+                _bookingConfirmMessage = value;
+                RaisePropertyChanged();
+            }
+            get
+            {
+                return _bookingConfirmMessage;
+            }
         }
 
         /// <summary>
@@ -1932,7 +2014,8 @@ namespace BookingModule.ViewModels
         }
         public ICommand SaveToClient { set; get; }
 
-        public IEnumerable<SupplierSummaryDto> CrmSupplierDto {
+        public IEnumerable<SupplierSummaryDto> CrmSupplierDto
+        {
             get
             {
                 return _crmSupplierDto;
@@ -1945,33 +2028,36 @@ namespace BookingModule.ViewModels
         }
 
 
-     
+
         public IEnumerable<CountryDto> CountryDto4
         {
-          get
-          {
+            get
+            {
                 return _countryDto4;
-          }
-          set
-          {
+            }
+            set
+            {
                 _countryDto4 = value;
                 RaisePropertyChanged();
-          }
+            }
         }
 
         public IEnumerable<PromotionCodesDto> PromotionDto
         {
-            get { return _promotionDto;  }
+            get { return _promotionDto; }
             set { _promotionDto = value; RaisePropertyChanged(); }
 
         }
 
         public IEnumerable<CountryDto> Country
         {
-            get {
+            get
+            {
                 return _countryDto6;
             }
-            set { _countryDto6 = value; RaisePropertyChanged();
+            set
+            {
+                _countryDto6 = value; RaisePropertyChanged();
             }
         }
         public IEnumerable<CompanyDto> CompanyDto
@@ -1981,6 +2067,19 @@ namespace BookingModule.ViewModels
             set { _company = value; RaisePropertyChanged(); }
         }
 
+        public IEnumerable<LanguageDto> LanguageDto
+        {
+            get
+            {
+                return _languageDto;
+            }
+            set
+            {
+                _languageDto = value;
+                RaisePropertyChanged();
+            }
+
+        }
         public ICommand CreateCommand { set; get; }
         public ICommand AddNewConceptCommand { set; get; }
         public ICommand RejectBooking { set; get; }
@@ -1994,8 +2093,9 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or Get the delivery places dto.
         /// </summary>
-        public IEnumerable<DeliveringPlaceDto> 
-            DeliveringPlaceDto {
+        public IEnumerable<DeliveringPlaceDto>
+            DeliveringPlaceDto
+        {
             get
             {
                 return _deliveryPlace;
@@ -2020,51 +2120,26 @@ namespace BookingModule.ViewModels
                 RaisePropertyChanged();
             }
         }
+        /// <summary>
+        ///  Set or Get the booking confirmation message.
+        /// </summary>
+        public IEnumerable<BookingConfirmMessageDto> BookingConfirmMessageDto {
+            get
+            {
+                return _bookingConfirm;
+            }
+            set
+            {
+                _bookingConfirm = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private ICommand _newCommand;
         private ICommand _bookingConcept;
         private ICommand _newBookingCommand;
-
-
-        private IncrementalList<ClientSummaryExtended> _bookingClientsIncrementalList;
-        private DelegateCommand<object> _saveCommand;
-        private DelegateCommand<object> _deleteCommand;
-        private ViewDeleter<IBookingData, BookingDto> _viewDeleter;
-        private IKarveNavigator _karveNavigator;
-        private ObservableCollection<OfficeDtos> _reservationOffice = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<CompanyDto> _company = new ObservableCollection<CompanyDto>();
-        private IEnumerable<BudgetSummaryDto> _budgetDto = new ObservableCollection<BudgetSummaryDto>();
-        private IEnumerable<FareConceptDto> _concepts = new ObservableCollection<FareConceptDto>();
-        private IEnumerable<FareDto> _fare = new ObservableCollection<FareDto>();
-        private IEnumerable<VehicleSummaryDto> _vehicle = new ObservableCollection<VehicleSummaryDto>();
-        private IEnumerable<CityDto> _cityDto = new ObservableCollection<CityDto>();
-        private IEnumerable<CommissionAgentSummaryDto> _brokers;
-        private IEnumerable<VehicleGroupDto> _vehicleGroup = new ObservableCollection<VehicleGroupDto>();
-        private IEnumerable<FareDto> _activeFareDto = new ObservableCollection<FareDto>();
-        private IEnumerable<ContractByClientDto> _contractClientDto = new ObservableCollection<ContractByClientDto>();
-        private IEnumerable<ClientSummaryExtended> _clientDto = new ObservableCollection<ClientSummaryExtended>();
-        private IEnumerable<ClientSummaryExtended> _drivers = new ObservableCollection<ClientSummaryExtended>();
-        private IEnumerable<ClientSummaryExtended> _drivers2 = new ObservableCollection<ClientSummaryExtended>();
-        private IEnumerable<ClientSummaryExtended> _drivers3 = new ObservableCollection<ClientSummaryExtended>();
-        private IEnumerable<OfficeDtos> _officeDto = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<OfficeDtos> _reservationOfficeDeparture = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<OfficeDtos> _reservationOfficeArrival = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<CountryDto> _country = new ObservableCollection<CountryDto>();
-        private IEnumerable<CityDto> _city = new ObservableCollection<CityDto>();
-        private IEnumerable<CountryDto> _countryDto = new ObservableCollection<CountryDto>();
-        private IEnumerable<ProvinciaDto> _provinceDto = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<CountryDto> _country2 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CreditCardDto> _creditCardView = new ObservableCollection<CreditCardDto>();
-        private int _selectedIndex;
-        private IEnumerable<ClientSummaryExtended> _drivers4 = new ObservableCollection<ClientSummaryExtended>();
-        private IEnumerable<ClientSummaryExtended> _drivers5 = new ObservableCollection<ClientSummaryExtended>();
-        private IEnumerable<CityDto> _secondCityDriver = new ObservableCollection<CityDto>();
-        private IEnumerable<ProvinciaDto> _secondProvinceDriver = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<CountryDto> _secondDriverCountry = new ObservableCollection<CountryDto>();
-        private IEnumerable<BookingItemsDto> _dataItems = new List<BookingItemsDto>();
+        private string _expirationMonth;
         private ObservableCollection<CellPresenterItem> _cellGridPresentation;
-        private IRegionManager _otherDataRegionManager;
-        private IRegionManager _showDriversRegionManager;
         private IConfigurationService _configurationService;
         private IUserSettings _userSettings;
         private string _gridColumnsKey;
@@ -2079,13 +2154,58 @@ namespace BookingModule.ViewModels
         private PropertyChangedEventHandler _clientHandler;
         private string _driverCreditCardExpireYear;
         private string _driverCreditCardExpireMonth;
+        private IncrementalList<ClientSummaryExtended> _bookingClientsIncrementalList;
+        private DelegateCommand<object> _saveCommand;
+        private DelegateCommand<object> _deleteCommand;
+        private ViewDeleter<IBookingData, BookingDto> _viewDeleter;
+        private IKarveNavigator _karveNavigator;
+
+        private IEnumerable<BudgetSummaryDto> _budgetDto = new ObservableCollection<BudgetSummaryDto>();
+
+        private IEnumerable<ClientSummaryExtended> _clientDto = new ObservableCollection<ClientSummaryExtended>();
+        private IEnumerable<ClientSummaryExtended> _drivers = new ObservableCollection<ClientSummaryExtended>();
+        private IEnumerable<ClientSummaryExtended> _drivers2 = new ObservableCollection<ClientSummaryExtended>();
+        private IEnumerable<ClientSummaryExtended> _drivers3 = new ObservableCollection<ClientSummaryExtended>();
+        private IEnumerable<ClientSummaryExtended> _drivers4 = new ObservableCollection<ClientSummaryExtended>();
+        private IEnumerable<ClientSummaryExtended> _drivers5 = new ObservableCollection<ClientSummaryExtended>();
+
+        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<CompanyDto> _company = new ObservableCollection<CompanyDto>();
+        private IEnumerable<ContractByClientDto> _contractClientDto = new ObservableCollection<ContractByClientDto>();
+
+        private ObservableCollection<OfficeDtos> _reservationOffice = new ObservableCollection<OfficeDtos>();
+        private IEnumerable<FareConceptDto> _concepts = new ObservableCollection<FareConceptDto>();
+        private IEnumerable<FareDto> _fare = new ObservableCollection<FareDto>();
+        private IEnumerable<VehicleSummaryDto> _vehicle = new ObservableCollection<VehicleSummaryDto>();
+        private IEnumerable<CityDto> _cityDto = new ObservableCollection<CityDto>();
+        private IEnumerable<VehicleGroupDto> _vehicleGroup = new ObservableCollection<VehicleGroupDto>();
+        private IEnumerable<FareDto> _activeFareDto = new ObservableCollection<FareDto>();
+
+
+        private IEnumerable<OfficeDtos> _officeDto = new ObservableCollection<OfficeDtos>();
+        private IEnumerable<OfficeDtos> _reservationOfficeDeparture = new ObservableCollection<OfficeDtos>();
+        private IEnumerable<OfficeDtos> _reservationOfficeArrival = new ObservableCollection<OfficeDtos>();
+        private IEnumerable<CountryDto> _country = new ObservableCollection<CountryDto>();
+        private IEnumerable<CityDto> _city = new ObservableCollection<CityDto>();
+        private IEnumerable<CountryDto> _countryDto = new ObservableCollection<CountryDto>();
+        private IEnumerable<ProvinciaDto> _provinceDto = new ObservableCollection<ProvinciaDto>();
+        private IEnumerable<CountryDto> _country2 = new ObservableCollection<CountryDto>();
+        private IEnumerable<CreditCardDto> _creditCardView = new ObservableCollection<CreditCardDto>();
+        private int _selectedIndex;
+        private IEnumerable<CityDto> _secondCityDriver = new ObservableCollection<CityDto>();
+        private IEnumerable<ProvinciaDto> _secondProvinceDriver = new ObservableCollection<ProvinciaDto>();
+        private IEnumerable<CountryDto> _secondDriverCountry = new ObservableCollection<CountryDto>();
+        private IEnumerable<BookingItemsDto> _dataItems = new List<BookingItemsDto>();
+        private IEnumerable<BookingConfirmMessageDto> _bookingConfirm = new ObservableCollection<BookingConfirmMessageDto>();
         private IEnumerable<SupplierSummaryDto> _crmSupplierDto = new ObservableCollection<SupplierSummaryDto>();
         private IEnumerable<CountryDto> _countryDto4 = new ObservableCollection<CountryDto>();
         private IEnumerable<PromotionCodesDto> _promotionDto = new ObservableCollection<PromotionCodesDto>();
         private IEnumerable<CountryDto> _countryDto6 = new ObservableCollection<CountryDto>();
         private IEnumerable<CompanyDto> _companyDto = new ObservableCollection<CompanyDto>();
-        private string _expirationMonth;
         private IEnumerable<DeliveringPlaceDto> _deliveryPlace = new ObservableCollection<DeliveringPlaceDto>();
         private IEnumerable<DeliveringPlaceDto> _returnPlaceDto = new ObservableCollection<DeliveringPlaceDto>();
+        private IEnumerable<LanguageDto> _languageDto;
+        private BookingConfirmMessageDto _bookingConfirmMessage;
+        private string _bookingCols;
     }
 }

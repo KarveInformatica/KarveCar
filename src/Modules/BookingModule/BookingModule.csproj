@@ -131,7 +131,6 @@
     <Compile Include="ViewModels\BookingInfoViewModelOtherData.cs" />
     <Compile Include="ViewModels\GeneralInfoCollection.cs" />
     <Compile Include="ViewModels\MockOtherDataViewModel.cs" />
-    <Compile Include="ViewModels\BookingOtherDataViewModel.cs" />
     <Compile Include="ViewModels\ViewDeleter.cs" />
     <Compile Include="ViewModels\ViewFactory.cs" />
     <Compile Include="ViewModels\ReservationRequestControlViewModel.cs" />

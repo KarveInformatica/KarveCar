@@ -43,6 +43,8 @@
                                 Grid.Row="0"
                                 Margin="0,0,0,0"
                                 LabelVisible="True"
+                                IsReadOnly="True"
+                               
                                 AssistProperties="{Binding ClientsConductor, Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
                                 AssistTableName="DRIVER_ASSIST_3"
                                 TextContentFirstWidth="50"

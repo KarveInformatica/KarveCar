@@ -101,6 +101,9 @@
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
     </Reference>
+    <Reference Include="RtfPipe, Version=1.0.6787.26245, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RtfPipe.1.0.0.23\lib\net45\RtfPipe.dll</HintPath>
+    </Reference>
     <Reference Include="sinkien.IBAN4Net, Version=1.0.6.0, Culture=neutral, PublicKeyToken=b72d67ea62346b72, processorArchitecture=MSIL">
       <HintPath>..\..\packages\IBAN4Net.1.0.6\lib\sinkien.IBAN4Net.dll</HintPath>
     </Reference>

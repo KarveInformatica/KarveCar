@@ -27,13 +27,12 @@
                     </Grid.RowDefinitions>
                     <karveControls:DualFieldSearchBox LabelText="TestClient"
                                       Grid.Row="0"
-                                      LabelTextWidth="200"
+                                      LabelTextWidth="100"
                                       DataFieldFirst="ClientNumber"
                                       AssistProperties="{Binding AssistProperties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                       AssistTableName="CLIENTES"
                                       TextContentFirstWidth="60"
-                                      TextContentSecondWidth="120"
-                                      Visibility="Visible"
+                                      TextContentSecondWidth="120"                                             
                                       ButtonImage="/KarveControls;component/Images/search.png"
                                       SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,106,0,105"/>

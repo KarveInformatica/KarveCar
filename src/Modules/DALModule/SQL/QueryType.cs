@@ -33,6 +33,7 @@ namespace DataAccessLayer.SQL
         DeleteClientVisits,
         QueryPagedClient,
         QueryClientPagedSummary,
+        QueryDriverWithContract,
         QueryCompanyPaged,
         QueryCompanySummary,
         QueryCountry,

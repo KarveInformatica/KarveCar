@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KarveDataServices.DataTransferObject
 {
@@ -20,6 +15,7 @@ namespace KarveDataServices.DataTransferObject
         private decimal? _subtotal;
         private decimal? _price;
         private decimal? _discount;
+        private int _billTo;
 
         public BookingItemsDto()
         {
@@ -77,13 +73,14 @@ namespace KarveDataServices.DataTransferObject
                 RaisePropertyChanged();
             }
         }
-
-
         /// <summary>
         ///  Set or get the INCLUIDO property.
         /// </summary>
         [Display(Name = "Incluido")]
-        public Int16? Included { get; set; }
+        public bool Included
+        {
+            get; set;
+        }
 
         /// <summary>
         ///  Set or get the CANTIDAD property.
@@ -137,7 +134,7 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the DTO property.
         /// </summary>
-        [Display(Name = "Disconto")]
+        [Display(Name = "Descuento")]
         public Decimal? Discount
         {
             get
@@ -165,6 +162,23 @@ namespace KarveDataServices.DataTransferObject
             {
                 _subtotal = value;
                 RaisePropertyChanged("Subtotal");
+            }
+        }
+
+        /// <summary>
+        ///  Set or get the FACTURAR property.
+        /// </summary>
+        [Display(Name = "Facturar a")]
+        public int Bill
+        {
+            get
+            {
+                return _billTo;
+            }
+            set
+            {
+                _billTo = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -260,12 +274,6 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
 
         public Decimal? TaxableSubtotal { get; set; }
-
-        /// <summary>
-        ///  Set or get the FACTURAR property.
-        /// </summary>
-        [Display(Name = "Facturar a")]
-        public byte? Bill { get; set; }
 
         /// <summary>
         ///  Set or get the COT_MULTI property.

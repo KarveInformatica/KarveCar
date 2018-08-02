@@ -5,6 +5,7 @@ using DataAccessLayer.Exception;
 using DataAccessLayer.SQL;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
+using System;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
@@ -40,6 +41,7 @@ namespace DataAccessLayer
             auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, dto.ACTIVEHI_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, dto.GRUPO_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryVehicleSummaryById, dto.VCACT_RES1);
+          //  auxQueryStore.AddParamCount(QueryType.QueryLanguage, dto.L)
             #endregion
 
 
@@ -87,12 +89,14 @@ namespace DataAccessLayer
                     {
                         var multipleResult = await connection.QueryMultipleAsync(query).ConfigureAwait(false);
                         result.Valid = ParseResult(result, multipleResult);
+                        result.Valid = result.Valid && ParseCountryResult(result, multipleResult);
                         var officeResult = await connection.QueryMultipleAsync(officeQuery).ConfigureAwait(false);
                         result.Valid = result.Valid && ParseOfficeResult(result, officeResult);
                         var clientResult = await connection.QueryMultipleAsync(clientQuery).ConfigureAwait(false);
                         result.Valid = result.Valid && ParseClientResult(result, clientResult);
-                     //   var deliveryPlaces = await connection.QueryMultipleAsync(deliveryQuery).ConfigureAwait(false);
-                     //   result.Valid = result.Valid && ParseDeliveryPlaces(result, deliveryPlaces);
+                       // var countries = await connection.QueryMultipleAsync(countryQuery).ConfigureAwait(false);
+                      //  result.Valid = result.Valid && ParseCountryResult(result, clientResult);
+
 
                     }
                 }
@@ -103,7 +107,32 @@ namespace DataAccessLayer
             }
             return result;
         }
-        
+
+        private bool ParseCountryResult(IBookingData request, SqlMapper.GridReader reader)
+        {
+            // null checking as usual.
+            if ((request == null) || (reader == null))
+            {
+                return false;
+            }
+            if (request.Value == null)
+            {
+                return false;
+            }
+            try
+            {
+                // client queries. Multiple Query are stacked when created so we need to fetch in the reverse order.
+                request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
+                request.DriverCountryList = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
+            }
+            catch (System.Exception ex)
+            {
+                throw new DataAccessLayerException("Parsing multiple query result error", ex);
+            }
+            return true;
+        }
+
+
         private bool ParseClientResult(IBookingData request, SqlMapper.GridReader reader)
         {
             if ((request == null) || (reader == null))
@@ -126,7 +155,10 @@ namespace DataAccessLayer
                 request.DriverDto2 = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(request.Value.CONDUCTOR_RES1, _mapper, reader);
 
                 request.Clients = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(request.Value.CLIENTE_RES1, _mapper, reader);
-                            
+
+              
+
+
             } catch (System.Exception ex)
             {
                 throw new DataAccessLayerException("Parsing multiple query result error", ex);
@@ -178,16 +210,19 @@ namespace DataAccessLayer
                 request.BookingTypeDto = SelectionHelpers.WrappedSelectedDto<TIPOS_RESERVAS, BookingTypeDto>(request.Value.TIPORES_res1, _mapper, reader);
 
 
+                
                 request.BookingBudget = SelectionHelpers.WrappedSelectedDto<BudgetSummaryDto, BudgetSummaryDto>(request.Value.PRESUPUESTO_RES1, _mapper, reader);
 
-                request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
+                request.BrokerDto = SelectionHelpers.WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
 
+
+                request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
 
                 request.ContactsDto1 = SelectionHelpers.WrappedSelectedDto<CliContactos, ContactsDto>(request.Value.CONTACTO_RES2, _mapper, reader);
 
                 request.CompanyDto = SelectionHelpers.WrappedSelectedDto<SUBLICEN, CompanyDto>(request.Value.SUBLICEN_RES1, _mapper, reader);
 
-                request.BrokerDto = SelectionHelpers.WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
+                
 
                 request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA_RES1, _mapper, reader);
 
@@ -199,18 +234,13 @@ namespace DataAccessLayer
 
                 request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OrigenDto>(request.Value.ORIGEN_RES2,_mapper,reader);
 
+                request.VehicleActivitiesDto = SelectionHelpers.WrappedSelectedDto<ACTIVEHI, VehicleActivitiesDto>(request.Value.ACTIVEHI_RES1, _mapper, reader);
 
+                request.VehicleGroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupDto>(request.Value.GRUPO_RES1, _mapper, reader);
 
                 request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryDto, VehicleSummaryDto>(request.Value.VCACT_RES1, _mapper, reader);
 
               
-
-                // country queries
-                request.DriverCountryList = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
-                request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
-    
-              
-
 #pragma warning disable CS0168 // Variable is declared but never used
             }
             catch (System.Exception ex)

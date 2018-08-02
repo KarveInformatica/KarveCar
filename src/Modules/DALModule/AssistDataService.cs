@@ -444,6 +444,7 @@ namespace DataAccessLayer
                 currentHelper = supplierHelper;
                 return currentHelper;
             });
+
             _assistMapper.Configure("ASSURANCE_3", async (query) =>
             {
                 var supplierHelper = await CreateSupplierHelper().ConfigureAwait(false);
@@ -464,6 +465,11 @@ namespace DataAccessLayer
                 {
                     currentHelper = await CreateAssistThroughHelper<BanksDto, BANCO>(_dataServices, LoadMoreBanks).ConfigureAwait(false);
                 }
+                return currentHelper;
+            });
+            _assistMapper.Configure("BOOKING_CONF_MESSAGE_ASSIST", async (query)=> 
+            {
+                currentHelper = await _helperDataServices.GetPagedSummaryDoAsync<BookingConfirmMessageDto, RESERCONFIRM>(1, DefaultPage).ConfigureAwait(false);
                 return currentHelper;
             });
             _assistMapper.Configure("DELIVERY_PLACE_0", async(query)=>
@@ -516,7 +522,7 @@ namespace DataAccessLayer
                 currentHelper = await CreateAssistByQuery<AgencyEmployeeDto, EAGE>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
-                    currentHelper = await CreateAssistThroughHelper<AgencyEmployeeDto, EAGE>(_dataServices, LoadMoreBookingType).ConfigureAwait(false);
+                    currentHelper = await CreateAssistThroughHelper<AgencyEmployeeDto, EAGE>(_dataServices, LoadMoreAgencies).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -525,7 +531,7 @@ namespace DataAccessLayer
                 currentHelper = await CreateAssistByQuery<PaymentFormDto, FORMAS>(query as string).ConfigureAwait(false);
                 if (currentHelper == null)
                 {
-                    currentHelper = await CreateAssistThroughHelper<PaymentFormDto, FORMAS>(_dataServices, LoadMoreBookingType).ConfigureAwait(false);
+                    currentHelper = await CreateAssistThroughHelper<PaymentFormDto, FORMAS>(_dataServices, LoadMorePaymentTypes).ConfigureAwait(false);
                 }
                 return currentHelper;
             });
@@ -1550,7 +1556,7 @@ namespace DataAccessLayer
             });
         }
 
-      
+       
 
         private async Task<object> CreateBookingContactsHelperAsync(object query)
         {
@@ -1781,7 +1787,7 @@ namespace DataAccessLayer
         }
         private void LoadMoreActivities2(uint arg1, int index)
         {
-            LoadMoreData<ActividadDto, ACTIVEHI>(index, currentHelper);
+            LoadMoreData<VehicleActivitiesDto, ACTIVEHI>(index, currentHelper);
 
         }
         /*
@@ -1920,6 +1926,14 @@ namespace DataAccessLayer
         private void LoadMorePlaces(uint arg1, int index)
         {
             LoadMoreData<DeliveringPlaceDto, ENTREGAS>(index, currentHelper);
+        }
+        private void LoadMorePaymentTypes(uint arg1, int index)
+        {
+            LoadMoreData<PaymentFormDto, FORMAS>(index, currentHelper);
+        }
+        private void LoadMoreAgencies(uint arg1, int index)
+        {
+            LoadMoreData<AgencyEmployeeDto, EAGE>(index, currentHelper);
         }
     }
 }

@@ -22,6 +22,7 @@ using KarveDataServices.DataTransferObject;
 using Syncfusion.Data.Extensions;
 using Syncfusion.UI.Xaml.CellGrid.Helpers;
 using Syncfusion.Windows.Controls.Input;
+using TheArtOfDev.HtmlRenderer.WPF;
 using static DualFieldSearchBox.DualFieldSearchBox;
 
 namespace KarveControls
@@ -38,7 +39,7 @@ namespace KarveControls
     [TemplatePart(Name = "PART_PopUpButton", Type = typeof(Button))]
     [TemplatePart(Name = "PART_PopUp", Type = typeof(Popup))]
     [TemplatePart(Name = "PART_PopUpButtonImage", Type = typeof(Image))]
-
+    [TemplatePart(Name = "PART_SearchHtmlSecond", Type = typeof(HtmlRender))]
     public partial class DualFieldSearchBox : TextBox, IDisposable
     {
 
@@ -46,6 +47,7 @@ namespace KarveControls
         // most of the shared ones shall be moved as attached properties 
         private Logger _logger = LogManager.GetCurrentClassLogger();
         private bool _triggerLoad = false;
+        private bool _onHtmlRendered = false;
         /// <summary>
         ///  Magnifier command dependency property.
         /// </summary>
@@ -85,6 +87,24 @@ namespace KarveControls
                 typeof(string),
                 typeof(DualFieldSearchBox), new PropertyMetadata(string.Empty));
 
+
+        /// <summary>
+        ///  This enable the HTML support for displaying the second box.
+        ///  
+        /// </summary>
+        public static readonly DependencyProperty IsHtmlEnabledSecondBoxProperty
+            = DependencyProperty.Register("IsHtmlEnabledSecondBox",
+                typeof(bool), typeof(DualFieldSearchBox), new PropertyMetadata(false));
+
+        /// <summary>
+        ///  Enable or disable the second box as xhtml allowing the correct rendering.
+        ///  
+        /// </summary>
+        public bool IsHtmlEnabledSecondBox
+        {
+            get => (bool)GetValue(IsHtmlEnabledSecondBoxProperty);
+            set => SetValue(IsHtmlEnabledSecondBoxProperty, value);
+        }
 
         /// <summary>
         /// Second field that it can be used in the assist table.
@@ -811,6 +831,11 @@ namespace KarveControls
         /// </summary>
         private bool _textMode = false;
         private bool _textModeChanged = false;
+        /// <summary>
+        ///
+        /// </summary>
+        private HtmlPanel SearchHtmlSecond;
+
         private SfTextBoxExt SearchTextFirst;
         private TextBox SearchTextSecond;
         private Popup Popup;
@@ -846,6 +871,8 @@ namespace KarveControls
             this.LostFocus += DualFieldSearchBox_LostFocus;
             SearchTextFirst = GetTemplateChild("PART_SearchTextFirst") as SfTextBoxExt;
             SearchTextSecond = GetTemplateChild("PART_SearchTextSecond") as SfTextBoxExt;
+            SearchHtmlSecond = GetTemplateChild("PART_SearchHtmlSecond") as HtmlPanel;
+
             if (SearchTextFirst != null)
             {
                 SearchTextFirst.TextChanged += SearchText_TextChanged;
@@ -864,11 +891,24 @@ namespace KarveControls
    
                 MagnifierGrid.SelectionChanged += MagnifierGrid_OnSelectionRowChanged;
                 MagnifierGrid.MouseDoubleClick += MagnifierGrid_MouseDoubleClick;
-
-           
+           // MagnifierGrid.KeyDown += MagnifierGrid_KeyDown;
+           // MagnifierGrid.KeyUp += MagnifierGrid_KeyUp;
             _triggerLoad = true;
              //RaiseMagnifierPressEvent();
             _triggerLoad = false;
+            var recordIndex = this.MagnifierGrid.ResolveToRecordIndex(1);
+            MagnifierGrid.SelectedIndex = recordIndex;
+        }
+
+        private void MagnifierGrid_KeyUp(object sender, KeyEventArgs e)
+        {
+           // MagnifierGrid.SelectedIndex = MagnifierGrid.SelectedIndex - 1;
+        }
+
+        private void MagnifierGrid_KeyDown(object sender, KeyEventArgs e)
+        {
+           // MagnifierGrid.SelectedIndex = MagnifierGrid.SelectedIndex + 1;
+
         }
 
         private void SearchTextFirst_LostFocus(object sender, RoutedEventArgs e)
@@ -1030,6 +1070,22 @@ namespace KarveControls
             get { return (bool)GetValue(IsVisibleFirstProperty); }
             set { SetValue(IsVisibleFirstProperty, value); }
         }
+
+        public static readonly DependencyProperty IsMagnifierVisibleProperty =
+            DependencyProperty.Register(
+                "IsMagnifierVisible",
+                typeof(Visibility),
+                typeof(DualFieldSearchBox),
+                new PropertyMetadata(Visibility.Visible));
+
+        // <summary>
+        /// Visibility of the first part.
+        /// </summary>
+        public Visibility IsMagnifierVisible
+        {
+            get { return (Visibility)GetValue(IsMagnifierVisibleProperty); }
+            set { SetValue(IsMagnifierVisibleProperty, value); }
+        }
         /// <summary>
         /// width of the second content.
         /// </summary>
@@ -1067,6 +1123,10 @@ namespace KarveControls
                 if ((_buttonManifierState == 1))
                 {
                     Popup.IsOpen = true;
+                    if (MagnifierGrid != null) 
+                    {
+                        MagnifierGrid.SelectedIndex = 0;
+                    }
                 }
 
 
@@ -1317,6 +1377,7 @@ namespace KarveControls
           
             var itemToFind = ComponentUtils.GetTextDo(itemSource, DataFieldFirst, DataAllowedFirst);
             bool objectFound = false;
+            object currentSelectedObject = null;
             string textContentFirst = "";
             string textContentSecond = "";
 
@@ -1331,6 +1392,7 @@ namespace KarveControls
                 fieldList = AssistProperties.Split(',');
             }
 
+            // i lookup into the all object and i search a match
             foreach (var currentDto in currentDtos)  
             {
 
@@ -1358,7 +1420,7 @@ namespace KarveControls
                         textContentSecond = ComponentUtils.GetPropValue(currentDto, fieldList[1]) as string;
                         // bingo.
                         objectFound = true;
-                        SelectedObject = currentDto;
+                        currentSelectedObject = currentDto;
                         break;
                     }
                 }
@@ -1370,8 +1432,7 @@ namespace KarveControls
                     if (textContentFirst == itemToFind)
                     {
                         // bingo.
-                       
-                        this.SelectedObject = currentDto;
+                        currentSelectedObject = currentDto;               
                         objectFound = true;
                        
                         break;
@@ -1383,6 +1444,7 @@ namespace KarveControls
             {
                 TextContentFirst = textContentFirst;
                 TextContentSecond = textContentSecond;
+                SelectedObject = currentSelectedObject; 
                 RaiseBoxResolvedEvent(SearchBoxResolvedEvent);
             }
 

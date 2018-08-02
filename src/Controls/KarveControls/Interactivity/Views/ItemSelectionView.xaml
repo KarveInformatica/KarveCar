@@ -35,6 +35,7 @@
                                    karveControls:KarveGridExt.SelectedItems="{Binding Path=SelectedItem, Mode=TwoWay}" 
                                     ItemsSource="{Binding Notification.Items}"
                                      Grid.Row="1"
+                                       SelectedItem="{Binding Notification.SelectedItem}"                                 
                                        karveControls:KarveGridExt.GridIdentifier="{Binding Notification.GridIdentifier, Mode=OneWay}"
                                        karveControls:KarveGridExt.GridInitCommand="{Binding Notification.GridRegisterCommand, Mode=OneWay}"
                                        karveControls:KarveGridExt.GridParamChangedCommand="{Binding Notification.GridResizeCommand, Mode=OneWay}"

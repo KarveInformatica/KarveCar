@@ -532,6 +532,29 @@ namespace DataAccessLayer.Logic
         }
     }
     /// POCO to Dto converter for the client domain object to merge both.
+    public class BookingToReserva1 : ITypeConverter<RESERVAS1, BookingDto>
+    {
+        public BookingDto Convert(RESERVAS1 source, BookingDto destination, ResolutionContext context)
+        {
+            GenericConverter<RESERVAS1, BookingDto> gc = new GenericConverter<RESERVAS1, BookingDto>();
+            var v = gc.Convert(source, destination, context);
+            return v;
+        }
+    }
+    /// POCO to Dto converter for the client domain object to merge both.
+    public class BookingToReserva2 : ITypeConverter<RESERVAS2, BookingDto>
+    {
+        public BookingDto Convert(RESERVAS2 source, BookingDto destination, ResolutionContext context)
+        {
+            GenericConverter<RESERVAS2, BookingDto> gc = new GenericConverter<RESERVAS2, BookingDto>();
+            var v = gc.Convert(source, destination, context);
+            return v;
+        }
+    }
+
+
+
+    /// POCO to Dto converter for the client domain object to merge both.
     public class ClientToClientes1 : ITypeConverter<CLIENTES1, ClientDto>
     {
         public ClientDto Convert(CLIENTES1 source, ClientDto destination, ResolutionContext context)
@@ -1042,12 +1065,22 @@ namespace DataAccessLayer.Logic
                     bookingMediaDto.LastModification = CheckLastMod(src.ULTMODI);
                     return bookingMediaDto;
                 });
+                cfg.CreateMap<RESERCONFIRM, BookingConfirmMessageDto>().ConstructUsing(src =>
+                {
+                    var bookingConfirmDto = new BookingConfirmMessageDto();
+                    bookingConfirmDto.Code = src.CODIGO;
+                    bookingConfirmDto.Language = src.IDIOMA;
+                    bookingConfirmDto.LastModification = src.ULTMODI;
+                    bookingConfirmDto.Text = src.TEXTO;
+                    bookingConfirmDto.Title = src.TITULO;
+
+                    return bookingConfirmDto;
+                });
                 cfg.CreateMap<BookingMediaDto, MEDIO_RES>().ConstructUsing(src=>
                 {
                     var bookingMedia = new MEDIO_RES();
                     bookingMedia.CODIGO = src.Code;
                     bookingMedia.NOMBRE = src.Name;
-
                     bookingMedia.ULTMODI = src.LastModification;
                     bookingMedia.USUARIO = src.CurrentUser;
                     return bookingMedia;
@@ -1200,6 +1233,7 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<ClientDto, CLIENTES2>().ConvertUsing(new ClientDtoToClientes2());
                 cfg.CreateMap<ACTIVI, ActividadDto>().ConvertUsing(new ActivityConverter());
                 cfg.CreateMap<BrandVehicleDto, MARCAS>().ConvertUsing(new BrandVehicle2Poco());
+               // cfg.CreateMap<BookingDto, RESERVAS1>().ConvertUsing(new )
                 cfg.CreateMap<DeliveringPlaceDto, ENTREGAS>().ConvertUsing(src=>
                 {
                     var genericConverter = new GenericConverter<DeliveringPlaceDto, ENTREGAS>();
@@ -1338,7 +1372,7 @@ namespace DataAccessLayer.Logic
                     {
                         Number = src.NUMERO,
                         BookingKey = src.CLAVE_LR,
-                        Bill = src.FACTURAR,
+                        Bill = Convert.ToInt32(src.FACTURAR),
                         Concept = src.CONCEPTO,
                         Cost = src.COSTE,
                         CurrentUser = src.USUARIO,
@@ -1350,11 +1384,10 @@ namespace DataAccessLayer.Logic
                         Fare = src.TARIFA,
                         Quantity = src.CANTIDAD,
                         Group = src.GRUPO,
-                        Included = src.INCLUIDO,
+                        Included = (src.INCLUIDO.HasValue) && (src.INCLUIDO.Value == 1),
                         Price = src.PRECIO,
                         Subtotal = src.SUBTOTAL,
                         Unity = src.UNIDAD
-
                     };
                     reservaItem.LastModification = src.ULTMODI;
                     return reservaItem;
@@ -1366,7 +1399,7 @@ namespace DataAccessLayer.Logic
                     {
                         NUMERO = src.Number,
                         CLAVE_LR = src.BookingKey,
-                        FACTURAR = src.Bill,
+                        FACTURAR = Convert.ToByte(src.Bill),
                         CONCEPTO = src.Concept,
                         COSTE = src.Cost,
                         CANTIDAD = src.Quantity,
@@ -1378,7 +1411,7 @@ namespace DataAccessLayer.Logic
                         TIPO = src.Type,
                         TARIFA = src.Fare,
                         GRUPO = src.Group,
-                        INCLUIDO = src.Included,
+                        INCLUIDO = src.Included ? (short)0 : (short)1,
                         UNIDAD = src.Unity,
                         PRECIO = src.Price,
                         SUBTOTAL = src.Subtotal,
@@ -1547,7 +1580,7 @@ namespace DataAccessLayer.Logic
                 {
                     var color = new VehicleActivitiesDto();
                     color.Code = src.NUM_ACTIVEHI;
-                    color.Name = src.NOMBRE;
+                    color.Activity = src.NOMBRE;
                     return color;
                 }
                 );
@@ -1915,8 +1948,8 @@ namespace DataAccessLayer.Logic
                     model.LastModification = src.ULTMODI;
                     model.User = src.USUARIO;
                     model.ActivitySigle = src.SIGLAS_ACT;
-                    var c = Convert.ToInt16(src.CALCULO);
-                    model.Compute = (c == 0);
+                   // var c = Convert.ToInt16(src.CALCULO);
+                   // model.Compute = (c == 0);
                     model.ActityAlquiler = src.ACTIVI_ALQ;
                     model.Assurance = src.SEGURO_ANUAL;
 

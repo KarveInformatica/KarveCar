@@ -24,6 +24,7 @@ namespace KarveTest.ViewModels
                 _mockUnityContainer.Object,
                 _mockRegionManager.Object,
                 _mockKarveNavigator.Object,
+                _mockConfigurationService.Object,
                 _mockRequestController.Object);
 
             

@@ -19,7 +19,6 @@ namespace BookingModule.ViewModels
         private INotifyTaskCompletion<IEnumerable<ReservationRequestSummary>> _reservationCompletion;
         private PayloadInterpeter<ReservationRequestSummary> _payloadInterpeterReload;
         private PayloadInterpeter<KarveDataServices.IReservationRequest> _payloadInterpeter;
-
         public bool CreateRegionManagerScope => true;
 
         public ReservationRequestControlViewModel(IDataServices services,
@@ -33,7 +32,7 @@ namespace BookingModule.ViewModels
             ItemName = "Peticiones de Reserva";
             DefaultPageSize = 50;
 
-            DirectSubsystem = "ReservationRequests";
+            DirectSubsystem = BookingModule.RequestGroup;
             ViewModelUri = new Uri("karve://booking/request/viewmodel?id=" + UniqueId);
             InitViewModel();
 
@@ -47,7 +46,7 @@ namespace BookingModule.ViewModels
             base.GridIdentifier = GridIdentifiers.ReservationRequestGrid;
             SubSystem = DataSubSystem.BookingSubsystem;
             EventManager.RegisterObserverSubsystem(EventSubsystem.BookingSubsystemVm, this);
-            EventManager.RegisterObserverSubsystem("ReservationRequests", this);
+            EventManager.RegisterObserverSubsystem(BookingModule.RequestGroup, this);
             OpenCommand = new DelegateCommand<object>(OpenCurrentItem);
             SummaryView = new IncrementalList<ReservationRequestSummary>(LoadMoreItems);
             _payloadInterpeterReload = new PayloadInterpeter<ReservationRequestSummary>();
@@ -87,6 +86,7 @@ namespace BookingModule.ViewModels
             {
                 return;
             }
+          
             var currentId = _reservationRequestDataService.NewId();
 
             var interpeter = new PayloadInterpeter<KarveDataServices.IReservationRequest>();
@@ -116,7 +116,7 @@ namespace BookingModule.ViewModels
         // when i shall delete.
         protected void CleanUp(DataPayLoad payLoad, DataSubSystem subsystem, string eventSubsystem)
         {
-            EventManager.NotifyObserverSubsystem("ReservationRequests", payLoad);
+            EventManager.NotifyObserverSubsystem(BookingModule.RequestGroup, payLoad);
         }
         protected void LoadMoreItems(uint count, int baseIndex)
         {
@@ -197,7 +197,7 @@ namespace BookingModule.ViewModels
             currentPayload.PrimaryKeyValue = id;
             ActiveSubSystem();
             currentPayload.Sender = ViewModelUri.ToString();
-            EventManager.NotifyObserverSubsystem("ReservationRequests", currentPayload);
+            EventManager.NotifyObserverSubsystem(BookingModule.RequestGroup, currentPayload);
         }
         protected override void NewItem()
         {
@@ -218,7 +218,7 @@ namespace BookingModule.ViewModels
             currentPayload.PrimaryKeyValue = id;
             ActiveSubSystem();
             currentPayload.Sender = ViewModelUri.ToString();
-            EventManager.NotifyObserverSubsystem("ReservationRequests", currentPayload);
+            EventManager.NotifyObserverSubsystem(BookingModule.RequestGroup, currentPayload);
         }
         private void CreateNewItem(string id, string name)
         {
@@ -262,7 +262,7 @@ namespace BookingModule.ViewModels
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
             EventManager.DeleteObserverSubSystem(EventSubsystem.BookingSubsystemVm, this);
-            EventManager.DeleteObserverSubSystem("ReservationRequests", this);
+            EventManager.DeleteObserverSubSystem(BookingModule.RequestGroup, this);
         }
 
         public override void Dispose()

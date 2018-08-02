@@ -16,7 +16,7 @@ namespace KarveCommon.Converter
             if (currentValue is DateTime time)
             {
                 var span = time.TimeOfDay;
-                return new TimeSpan(span.Days, span.Hours, span.Seconds, span.Milliseconds);
+                return new TimeSpan(span.Days, span.Hours, span.Seconds);
             }
             return currentValue;
 

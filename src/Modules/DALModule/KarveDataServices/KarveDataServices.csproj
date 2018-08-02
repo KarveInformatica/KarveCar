@@ -108,6 +108,7 @@
     <Compile Include="DataTransferObject\ActiveFareDto.cs" />
     <Compile Include="DataTransferObject\AgencyEmployee.cs" />
     <Compile Include="DataTransferObject\BaseDtoDefaultName.cs" />
+    <Compile Include="DataTransferObject\BookingConfirmMessageDto.cs" />
     <Compile Include="DataTransferObject\BookingDto.cs" />
     <Compile Include="DataTransferObject\BookingItemsDto.cs" />
     <Compile Include="DataTransferObject\BookingMedia.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="DataTransferObject\CountryRegionDto.cs" />
     <Compile Include="DataTransferObject\DelegaContableDto.cs" />
     <Compile Include="DataTransferObject\DeliveringPlaceDto.cs" />
+    <Compile Include="DataTransferObject\DriverWithContractDto.cs" />
     <Compile Include="DataTransferObject\FareSummaryDto.cs" />
     <Compile Include="DataTransferObject\GridSettingsColumnDto.cs" />
     <Compile Include="DataTransferObject\InvoiceComponent.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="DataTransferObject\InvoiceItem.cs" />
     <Compile Include="DataTransferObject\InvoiceSummaryDto.cs" />
     <Compile Include="DataTransferObject\InvoiceSummaryValueDto.cs" />
+    <Compile Include="IResolver.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\LineBaseDto.cs" />
     <Compile Include="DataTransferObject\LocaleDataDto.cs" />

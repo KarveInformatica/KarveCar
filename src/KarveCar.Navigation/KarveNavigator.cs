@@ -10,6 +10,7 @@ using System;
 using AutoMapper;
 using DataAccessLayer.Logic;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace KarveCar.Navigation
 {
@@ -219,6 +220,11 @@ namespace KarveCar.Navigation
             var uri = new Uri(navigationUri, UriKind.Relative);
             Navigate(_regionManager,string.Empty, title, fullName);
               
+        }
+
+        public void NewIncidentView(BookingDto currentBooking)
+        {
+            MessageBox.Show("New incident");
         }
     }
     

@@ -5,18 +5,30 @@ namespace KarveDataServices.DataTransferObject
     /// <summary>
     ///  This is a dto that maps the code and activity.
     /// </summary>
-    public class VehicleActivitiesDto: BaseDto
+    public class VehicleActivitiesDto : BaseDto
     {
         /// <summary>
-        ///  Activity code
+        ///  Set or Get the activities.
         /// </summary>
-        [Display(Name ="Codigo")]
-        public override string Code { get; set; }
+        [Display(Name = "Codigo")]
+
+        public override string Code {set; get;}
+        
         /// <summary>
-        ///  Activity
+        ///  Set or Get the activities.
         /// </summary>
         [Display(Name ="Actividad")]
-        public string Activity { get; set; }
+        public string Activity {
+            get
+            {
+                return base.Name;
+            }
+            set
+            {
+                base.Name = value;
+
+            }
+        }
         /// <summary>
         ///  Compute a value
         /// </summary>

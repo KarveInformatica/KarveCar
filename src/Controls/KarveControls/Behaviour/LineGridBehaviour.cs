@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Media;
 using KarveDataServices.DataTransferObject;
 using System.Collections.Specialized;
+using KarveDataServices;
 
 namespace KarveControls.Behaviour
 {
@@ -50,6 +51,16 @@ namespace KarveControls.Behaviour
             set => SetValue(cellPresenterItemsProperty, value);
             get => (ObservableCollection<CellPresenterItem>)GetValue(cellPresenterItemsProperty);
         }
+
+        public static readonly DependencyProperty relatedItemsProperty = DependencyProperty.Register("IResolver", typeof(IResolver), typeof(LineGridBehaviour));
+
+        public IResolver Resolver
+        {
+            set => SetValue(relatedItemsProperty, value);
+            get => (IResolver)GetValue(relatedItemsProperty);
+
+        }
+
         /// <summary>
         ///  DependencyProperty. ItemChangedCommand.
         /// </summary>
@@ -64,6 +75,8 @@ namespace KarveControls.Behaviour
             get => (ICommand)GetValue(ItemChangedCommandProperty);
         }
 
+
+     
         public static readonly DependencyProperty DataObjectProperty = DependencyProperty.Register("DataObject", typeof(object), typeof(LineGridBehaviour));
 
         /// <summary>
@@ -85,34 +98,16 @@ namespace KarveControls.Behaviour
             AssociatedObject.RowValidating += OnRowValidating;
             AssociatedObject.RowValidated += RowValidated;
             // AssociatedObject.CurrentCellValueChanged += dataGrid_CurrentCellValueChanged;
-            //AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
+            AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
+            
             this.AssociatedObject.CurrentCellEndEdit += dataGridCellEndEdit;
             this.AssociatedObject.RecordDeleting += dataGrid_RecordDeleting;
             this.AssociatedObject.RecordDeleted += AssociatedObject_RecordDeleted;
-            this.AssociatedObject.ItemsSourceChanged += AssociatedObject_ItemsSourceChanged;
-            this.AssociatedObject.SourceUpdated += AssociatedObject_SourceUpdated;
-            if (this.AssociatedObject.View != null)
-            {
-                this.AssociatedObject.View.CollectionChanged += View_CollectionChanged;
-            }
-      
+        
             
         }
 
-        private void View_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var collectionChanged = sender;
-            var v = this.AssociatedObject.ItemsSource;
-            var command = ItemChangedCommand as ICommand;
-            if ((command != null))
-            {
-                IDictionary<string, object> objectName = new Dictionary<string, object>();
-                objectName["ChangedValue"] = v;
-                command.Execute(objectName);
-            }
-
-        }
-
+ 
         private void AssociatedObject_RecordDeleted(object sender, RecordDeletedEventArgs e)
         {
             var v = this.AssociatedObject.ItemsSource;
@@ -126,39 +121,18 @@ namespace KarveControls.Behaviour
             
         }
 
-        private void AssociatedObject_SourceUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
-        {
-            var v = this.AssociatedObject.ItemsSource;
-
-        }
-
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var v = this.AssociatedObject.ItemsSource;
-           
-        }
-
-        private void AssociatedObject_ItemsSourceChanged(object sender, GridItemsSourceChangedEventArgs e)
-        {
-            var v = 1;
-            if (this.AssociatedObject.View != null)
-            {
-                this.AssociatedObject.View.CollectionChanged += View_CollectionChanged;
-            }
-            /*
-            var v = this.AssociatedObject.ItemsSource;
-            var command = ItemChangedCommand as ICommand;
-            if ((command != null))
-            {
-                IDictionary<string, object> objectName = new Dictionary<string, object>();
-                objectName["ChangedValue"] = e.NewItemsSource;
-                command.Execute(objectName);
-            }*/
-        }
-
+ 
         private void dataGridCellEndEdit(object sender, CurrentCellEndEditEventArgs e)
         {
-            var value = this.AssociatedObject.ItemsSource;
+            var recordIndex = this.AssociatedObject.ResolveToRecordIndex(e.RowColumnIndex.RowIndex);
+            var columnIndex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(e.RowColumnIndex.ColumnIndex);
+           var editedMappedName = this.AssociatedObject.Columns[columnIndex].MappingName;
+            var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
+            var editCellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, editedMappedName);
+           // var resolver = Resolver;
+
+//            resolver.ResolveReference(editCellValue, );
+
 
         }
 
@@ -167,7 +141,7 @@ namespace KarveControls.Behaviour
             base.OnAttached();
           
             this.AssociatedObject.AutoGeneratingColumn -= AssociatedObject_AutogenerateCols;
-            this.AssociatedObject.CurrentCellValueChanged -= dataGrid_CurrentCellValueChanged;
+          
             this.AssociatedObject.CurrentCellBeginEdit -= dataGrid_CurrentCellBeginEdit;
             this.AssociatedObject.RowValidating -= OnRowValidating;
             this.AssociatedObject.RecordDeleting -= dataGrid_RecordDeleting;
@@ -187,6 +161,7 @@ namespace KarveControls.Behaviour
                 objectName["ChangedValue"] = this.AssociatedObject.ItemsSource;
                 command.Execute(objectName);
             }
+           
 /*
             if (args.RowData != null && string.IsNullOrEmpty((args.RowData as OrderInfo).CustomerID))
             {
@@ -197,6 +172,7 @@ namespace KarveControls.Behaviour
         }
         void RowValidated(object sender, RowValidatedEventArgs e)
         {
+            
             SfDataGrid dataGrid = sender as SfDataGrid;
             BaseDto dto = e.RowData as BaseDto;
             if (dataGrid.IsAddNewIndex(e.RowIndex))
@@ -222,21 +198,13 @@ namespace KarveControls.Behaviour
             var columnIndex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(e.RowColumnIndex.ColumnIndex);
            _editedMappedName = this.AssociatedObject.Columns[columnIndex].MappingName;
             var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
-           _editCellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, _editedMappedName);
+          var  _editCellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, _editedMappedName);
+
+
+          
 
         }
-        private void dataGrid_CurrentCellValueChanged(object sender, Syncfusion.UI.Xaml.Grid.CurrentCellValueChangedEventArgs args)
-        {
-            var colIndex = args.RowColumnIndex;
-            var recordIndex = this.AssociatedObject.ResolveToRecordIndex(args.RowColumnIndex.RowIndex);
-            var columnIndex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(args.RowColumnIndex.ColumnIndex);
-            var mappingName = this.AssociatedObject.Columns[columnIndex].MappingName;
-            var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
-            var cellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, mappingName);
-         
-            // look for itemcommandchanged.
-          
-        }
+     
         void dataGrid_RecordDeleting(object sender, RecordDeletingEventArgs args)
         {
 
@@ -281,6 +249,10 @@ namespace KarveControls.Behaviour
                                 if (this.AssociatedObject.FindResource(navigationAwareItem.DataTemplateName) is DataTemplate resource)
                                 {
                                    
+                                    if (e.Column is GridCheckBoxColumn)
+                                    {
+                                        return;
+                                    }
                                     e.Column.CellTemplate = resource;   
                                     // here in data template i shall find the button.
                                  
@@ -289,7 +261,7 @@ namespace KarveControls.Behaviour
                             }
 
                         }
-                        catch (ResourceReferenceKeyNotFoundException ex)
+                        catch (System.Exception ex)
                         {
                             throw new LineGridUIException("Autogenerate Columns", ex);
                         }
@@ -325,7 +297,6 @@ namespace KarveControls.Behaviour
         private string _editedMappedName;
         private object _editCellValue;
         public RowColumnIndex _editedIndex { get; private set; }
-
-
+        public bool SelectionCellDone { get; private set; }
     }
 }

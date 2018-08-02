@@ -7,6 +7,7 @@
   xmlns:karveLocale="clr-namespace:KarveLocale;assembly=KarveLocale"
   xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
   xmlns:ExtendedWpf="http://schemas.xceed.com/wpf/xaml/toolkit"
+  xmlns:HtmlRender="clr-namespace:TheArtOfDev.HtmlRenderer.WPF;assembly=HtmlRenderer.WPF"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:interactivity="http://prismlibrary.com/"
   xmlns:calendar="clr-namespace:KarveControls.Calendar"
@@ -814,9 +815,17 @@
                                 ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
                                 MethodName="GetResourceLanguage">
             </ObjectDataProvider>
+            <ResourceDictionary x:Key="CellStyle">
+                <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Styles/KarveStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
             <converters:BoolToVisiblityConverter x:Key="BooleanToVisibilityConverterKey">
                 
             </converters:BoolToVisiblityConverter>
+            <converters:InvertedBooleanToVisibility x:Key="InvertedBooleanToVisibility">
+                
+            </converters:InvertedBooleanToVisibility>
 
             <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBox}">
                 <Style.Triggers>
@@ -865,17 +874,30 @@
                                     Margin="10,0,0,0">
                                     
                                 </Syncfusion:SfTextBoxExt>
-                                <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextSecond" 
+                                <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextSecond"
+                                         Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
+                                         Path=IsHtmlEnabledSecondBox, 
+                                         Converter={StaticResource InvertedBooleanToVisibility}}"
                                          IsReadOnly="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=IsReadOnlySecond}"
                                          Style="{StaticResource TextBoxStyle}"
                                          Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecondWidth}"
                                          Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}" 
                                    
                                          ></Syncfusion:SfTextBoxExt>
-
-                                <StackPanel Background="Azure">
+                                <HtmlRender:HtmlPanel x:Name="PART_SearchTextSecondHtml"
+                                         Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}"
+                                         Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
+                                         Path=IsHtmlEnabledSecondBox, 
+                                         Converter={StaticResource BooleanToVisibilityConverterKey}}"
+                                        
+                                         Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecondWidth}"
+                                                      />
+                                    <StackPanel Background="Azure">
                                     
-                                    <Button x:Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" HorizontalAlignment="Left" 
+                                    <Button x:Name="PART_PopUpButton" Command="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PopUpOpenCommand}" 
+                                            HorizontalAlignment="Left" 
+                                            Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, 
+                                            Path=IsMagnifierVisible, UpdateSourceTrigger=PropertyChanged}"
                                             Background="Lavender" Height="{Binding  RelativeSource={RelativeSource TemplatedParent},Path=Height}">
                                         <Image x:Name="PART_PopUpButtonImage" Source="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=ButtonImage}"/>
                                     </Button>
@@ -935,6 +957,28 @@
                                                             </Border>
                                                         </ControlTemplate>
                                                     </Thumb.Template>
+                                                    AutoGenerateColumns="False"
+                               AllowDraggingColumns="True"
+                               AllowEditing="False"
+                               AllowFiltering="True"
+                               CellStyle="{StaticResource KarveGridCell}"
+                               AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                               AlternationCount="2"
+                               HeaderStyle ="{StaticResource BasicHeaderStyle}"
+                               RowSelectionBrush="#FF8CC63F"
+                               AllowResizingColumns="True"
+                               AllowSorting="True"
+                               AllowGrouping="True"
+                               ShowGroupDropArea="True"
+                               RowHeight="40"
+                               NavigationMode="Row"
+                               SelectionMode="Single"
+                               FilterRowPosition="FixedTop"
+                                                                       CellStyle="{StaticResource KarveGridCell}"
+                                                                        AlternatingRowStyle="{StaticResource KarveAlternatingRowStyle}"
+                               AlternationCount="2"
+                               HeaderStyle ="{StaticResource BasicHeaderStyle}"
+                                                    
                                                     -->
                                                 </local:TextedThumb>
                                              
@@ -942,6 +986,7 @@
                                                 <Syncfusion:SfDataGrid x:Name="PART_MagnifierGrid"                       
                                                                        ColumnSizer="AutoWithLastColumnFill"
                                                                        Grid.Row="1"
+                                                       
                                                                        AllowDraggingColumns="True"
                                                                        AllowEditing="False"
                                                                        AllowFiltering="True"
@@ -954,7 +999,9 @@
                                                                        Height="800"
                                                                        MaxWidth="1100"
                                                                        Background="White"
-                                                                       BorderBrush="#3373f2" 
+                                                                       BorderBrush="#3373f2"
+                                                                       RowSelectionBrush="#FF8CC63F"
+                                                                       RowHeight="30"
                                                                   
                                                 >
         

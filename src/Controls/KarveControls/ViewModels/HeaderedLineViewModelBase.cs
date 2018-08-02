@@ -20,12 +20,15 @@ namespace KarveControls.ViewModels
 {
     /// <summary>
     ///  Generic class for all the headered base model ("cabecera-linea", in spanish).
-    ///  All view model in the headered base model class have to manage a dto with a list of inner type dtos as datamember.
+    ///  All view model in the headered base model class have to manage a dto 
+    ///  with a list of inner type dtos as datamember.
+    ///  All headered view view models have by default the composite command state.
+    ///  This means that the view model shall save himself and not using the handler of the toolbar.
     /// </summary>
     /// <typeparam name="DataType">Type of the domain, used to delivered data payload</typeparam>
     /// <typeparam name="DtoType">Data transfer object</typeparam>
     /// <typeparam name="InnerDtoType">Type of the other dto</typeparam>
-    public abstract class HeaderedLineViewModelBase<DataType, DtoType, InnerDtoType>: KarveRoutingBaseViewModel, ICreateRegionManagerScope,IEventObserver where DtoType: LineBaseDto<InnerDtoType> where InnerDtoType: BaseDto
+    public abstract class HeaderedLineViewModelBase<DataType, DtoType, InnerDtoType> : KarveRoutingBaseViewModel, ICreateRegionManagerScope, IEventObserver where DtoType : LineBaseDto<InnerDtoType> where InnerDtoType : BaseDto
     {
 
         protected IIdentifier IdentifierGenerator;
@@ -45,6 +48,7 @@ namespace KarveControls.ViewModels
         private object _selectedItem;
         private InteractionRequest<INotification> _notificationRequest;
         private ObservableCollection<InnerDtoType> _collectionView;
+        private object _selectedCellValue;
 
         protected HeaderedLineViewModelBase(IDataServices dataServices,
             IDialogService dialogServices,
@@ -58,8 +62,18 @@ namespace KarveControls.ViewModels
             AssistDataService = DataServices.GetAssistDataServices();
             LineVisible = true;
             FooterVisible = true;
+            /* This instruct the toolbar to skip its is own handlers. Avoiding complexity. 
+            * It will be just the view to save itself with composite command and to alert it subsystem.
+            *  This with the SetRegistrationPayLoad set properly it will permit to save itself.
+            *  Each view will save itself, like in this scenario:
+            *  https://prismlibrary.github.io/docs/wpf/Advanced-MVVM.html
+            * It is better that all headered window will use a composite command.
+            */
+            CompositeCommandOnly = true;
         }
-      
+
+        public IResolver Resolver { get; private set; }
+        
         protected override string GetRouteName(string name)
         {
             return string.Empty;
@@ -67,9 +81,22 @@ namespace KarveControls.ViewModels
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
-          
-        }
 
+        }
+        /*
+        protected virtual void CheckAndCommitRow(BaseDto dto, 
+            out ObservableCollection<InnerDtoType> collection) where InnerDtoType: class
+            {
+           
+            var newItems = Activator.CreateInstance<InnerDtoType>();
+
+        newItems.Concept = int.Parse(item.Code);
+        newItems.Desccon = item.Name;
+                    CollectionView.Add(newItems);
+                    RaisePropertyChanged("CollectionView");
+                    return;
+                }
+                */
         public InteractionRequest<INotification> NotificationRequest
         {
             get => _notificationRequest;
@@ -79,6 +106,20 @@ namespace KarveControls.ViewModels
                 RaisePropertyChanged("NotificationRequest");
             }
 
+        }
+
+        /// <summary>
+        /// Set to get a selected cell value. This is used to transfer 
+        /// to the line grid behaviour the selection.
+        /// </summary>
+        public object SelectedCellValue
+        {
+            get => _selectedCellValue;
+            set
+            {
+                _selectedCellValue = value;
+                RaisePropertyChanged("SelectedCellValue");
+            }
         }
         public object SelectedItem
         {

@@ -15,8 +15,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1100">
     <UserControl.Resources>
-                <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
-                <local:BookingStateConverter x:Key="BookingStateConverter" />
+        <converter:StringToTimeSpanConverter x:Key="StringSpanConverter"></converter:StringToTimeSpanConverter>
+
+        <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
+        <local:BookingStateConverter x:Key="BookingStateConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -58,7 +60,7 @@
                             </Syncfusion:ButtonAdv>
                             <karveControls:DualFieldSearchBox Grid.Column="1"
                                              LabelText ="{Binding LabelText, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                             LabelTextWidth="100"
+                                             LabelTextWidth="120"
                                              DataFieldFirst="{Binding DataField}"
                                              AssistTableName="{Binding AssistTableName}"
                                              AssistProperties="{Binding AssistProperties}"
@@ -92,19 +94,49 @@
                 </photoframe:PhotoFrame>
 
                 <karveControls:DataField Grid.Row="3"
+                                         x:Name="FirstLine"
                                          LabelText="1.Linea"
+                                         DataObject="{Binding DataObject}"
                                          LabelTextWidth="60"
+                                         DataSourcePath="LINEA1ROT_RES2"
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         TextContent="{Binding Path=DataObject.LINEA1ROT_RES2, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" Height="30"
                                          Grid.Column="0"></karveControls:DataField>
                 <karveControls:DataField Grid.Row="4" 
+                                         x:Name="SecondLine"
                                          LabelText="2.Linea"
+                                         DataObject="{Binding DataObject}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         TextContent="{Binding Path=DataObject.LINEA2ROT_RES2, Mode=TwoWay, 
+                                                            ValidatesOnDataErrors=True, 
+                                                            ValidatesOnNotifyDataErrors=True, 
+                                                            ValidatesOnExceptions=True, 
+                                                            UpdateSourceTrigger=PropertyChanged}"
+                                          DataSourcePath="LINEA2ROT_RES2"
                                          LabelTextWidth="60"
-                                         Grid.Column="0"></karveControls:DataField>
+                                         Grid.Column="0">
+
+                </karveControls:DataField>
                 <karveControls:DataField Grid.Row="5"
+                                         x:Name="ThirdLine"
                                          LabelText="3.Linea"
                                          LabelTextWidth="60"
+                                         DataObject="{Binding DataObject}"
+                                         ItemChangedCommand="{Binding ItemChangedCommand}"
+                                         TextContent="{Binding Path=DataObject.LINEA3ROT_RES2, Mode=TwoWay, 
+                                                            ValidatesOnDataErrors=True, 
+                                                            ValidatesOnNotifyDataErrors=True, 
+                                                            ValidatesOnExceptions=True, 
+                                                            UpdateSourceTrigger=PropertyChanged}"
+                                          DataSourcePath="LINEA3ROT_RES2"
                                          Grid.Column="0"></karveControls:DataField>
+                <Syncfusion:ButtonAdv Grid.RowSpan="2" 
+                                      Command="{Binding PrintCommand, Mode=TwoWay}"
+                                      SmallIcon="/KarveControls;component/Images/largeprint.png"
+                                      Label="Imprimir" Margin="398,8,32,5" Grid.Row="3"/>
             </Grid>
         </GroupBox>
+        
         <GroupBox Header="Impresion" Grid.Row="2" Height="Auto" Margin="0,0,0,32">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -117,68 +149,49 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Syncfusion:ButtonAdv Grid.Column="3" Grid.RowSpan="2" 
-                                      Command="{Binding PrintCommand, Mode=TwoWay}"
-                                      SmallIcon="/KarveControls;component/Images/largeprint.png"
-                                      Label="Imprimir"></Syncfusion:ButtonAdv>
-                <karveControls:DataFieldCheckBox Content="Para Destino" Grid.Column="0"
-                                                 Grid.Row="0"
-                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 karveControls:ControlExt.DataSourcePath="Value.AUTO_ONEWAY">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                            <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </karveControls:DataFieldCheckBox>
-                <karveControls:DualFieldSearchBox 
+                
+                <RadioButton x:Name="PrintingForDestination"
+                                    Content="Para Destino" Grid.Column="0"
+                                                 Grid.Row="0"/>
+                <karveControls:DualFieldSearchBox
+                    x:Name="BookingConfirmationMessageLanguage"
                     Grid.Column="1"
                     Grid.Row="0"
                     LabelText="Idioma" 
-                                                                LabelTextWidth="50" 
-                                                                DataFieldFirst="NACIOPER" 
-                                                                AssistDataFieldFirst="SIGLAS"
-                                                                AssistDataFieldSecond="PAIS" 
-                                                                AssistTableName="PAIS"
-                                                                AssistProperties="Code,CountryName"
-                                                                TextContentFirstWidth="50"
-                                                                TextContentSecondWidth="120"
-                                                                ItemChangedCommand="{Binding ItemChangedCommand}"
-                                                                MagnifierCommand="{Binding AssistCommand}"
-                                                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}">
+                    LabelTextWidth="50" 
+                    DataFieldFirst="Code" 
+                    AssistTableName="LANGUAGE_ASSIST"
+                    AssistProperties="Codigo,Nombre"
+                    TextContentFirstWidth="50"
+                    TextContentSecondWidth="200"
+                    IsMagnifierVisible="{Binding  ElementName=PrintingForClient, Path=IsChecked, 
+                    Converter={StaticResource BooleanToVisibility}}"
+                    IsEnabled="{Binding  ElementName=PrintingForClient, Path=IsChecked}"
+                    ItemChangedCommand="{Binding ItemChangedCommand}"
+                    MagnifierCommand="{Binding AssistCommand}"
+                    DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SourceView="{Binding LanguageDto, UpdateSourceTrigger=PropertyChanged}">
                 </karveControls:DualFieldSearchBox>
 
-                <karveControls:DataFieldCheckBox Content="Para Cliente" Grid.Column="0"
-                                                 Grid.Row="1"
-                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 karveControls:ControlExt.DataSourcePath="Value.AUTO_ONEWAY">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DataFieldCheckBoxChanged">
-                            <Prism:InvokeCommandAction Command="{Binding ItemChangedCommand, PresentationTraceSources.TraceLevel=High}" TriggerParameterPath="ChangedValuesObjects"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-
-                </karveControls:DataFieldCheckBox>
-                <karveControls:DualFieldSearchBox 
+                <RadioButton  x:Name="PrintingForClient" Content="Para Cliente" Grid.Column="0" Grid.Row="1"/>
+                <karveControls:DualFieldSearchBox
+                    x:Name="BookingConfirmationMessageText"
                     Grid.Column="1"
                     Grid.Row="1"
                     LabelText="Texto" 
-                                                                LabelTextWidth="50" 
-                                                                DataFieldFirst="NACIOPER" 
-                                                                AssistDataFieldFirst="SIGLAS"
-                                                                AssistDataFieldSecond="PAIS" 
-                                                                AssistTableName="PAIS"
-                                                                AssistProperties="Code,CountryName"
-                                                                TextContentFirstWidth="50"
-                                                                TextContentSecondWidth="120"
+                    LabelTextWidth="50" 
+                    DataFieldFirst="Code" 
+                    AssistTableName="BOOKING_CONF_MESSAGE_ASSIST"
+                    AssistProperties="Code,Title,Name,Language"
+                    TextContentFirstWidth="50"
+                    TextContentSecondWidth="200"
+                    IsMagnifierVisible="{Binding  ElementName=PrintingForClient, Path=IsChecked, 
+                    Converter={StaticResource BooleanToVisibility}}"
+                    IsEnabled="{Binding  ElementName=PrintingForClient, Path=IsChecked}"
                                                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                                                 MagnifierCommand="{Binding AssistCommand}"
-                                                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                SourceView="{Binding Country, UpdateSourceTrigger=PropertyChanged}"
+                                                                DataSource="{Binding BookingConfirmMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                SourceView="{Binding BookingConfirmMessageDto, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                                 ButtonImage="/KarveControls;component/Images/search.png">
                 </karveControls:DualFieldSearchBox>
             </Grid>
@@ -197,9 +210,10 @@
                     <ColumnDefinition Width="10*"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Label Content="Salida Reserva" Grid.Column="0"></Label>
+                <Label Content="Salida en Reserva :" Grid.Column="0"></Label>
                 <DatePicker Grid.Column="1"
                             Height="Auto"
+                            SelectedDate="{Binding DataObject.FECHAESPLAZASAL_RES1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="FECHAESPLAZASAL_RES1"
                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                             karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"></DatePicker>
@@ -208,28 +222,28 @@
                                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            karveControls:ControlExt.DataSource="{Binding DataObject}"
                                            karveControls:ControlExt.DataSourcePath="HORAESPLAZASAL_RES1"
-                                           SelectedTime="{Binding DataObject.HORAESPLAZASAL_RES1,Mode=TwoWay, Converter={StaticResource TimeSpanConverter}}"/>
+                                           SelectedTime="{Binding DataObject.HORAESPLAZASAL_RES1,Mode=TwoWay, Converter={StaticResource StringSpanConverter}}"/>
 
                 <Label Content="Reserva Prevista" Grid.Column="0" Grid.Row="1"></Label>
                 <DatePicker Grid.Column="1" Grid.Row="1"
+                            SelectedDate="{Binding DataObject.FECHAESPLAZA_RES1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             karveControls:ControlExt.DataSourcePath="FECHAESPLAZA_RES1"
                             karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}"
-                            ></DatePicker>
-
+                            karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay}">
+                </DatePicker>
                 <materialDesign:TimePicker Width="150" Height="40" 
                                            Grid.Column="2"
                                            Grid.Row="1"
                                            karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
                                            karveControls:ControlExt.DataSource="{Binding DataObject}"
                                            karveControls:ControlExt.DataSourcePath="HORAESPLAZA_RES1"
-                                           SelectedTime="{Binding DataObject.HORAESPLAZA_RES1, Mode=TwoWay,Converter={StaticResource TimeSpanConverter}, UpdateSourceTrigger=PropertyChanged,  ValidatesOnNotifyDataErrors=True}"/>
+                                           SelectedTime="{Binding DataObject.HORAESPLAZA_RES1, Mode=TwoWay,Converter={StaticResource StringSpanConverter}, UpdateSourceTrigger=PropertyChanged,  ValidatesOnNotifyDataErrors=True}"/>
 
                 <Button Grid.Column="3" Grid.RowSpan="3" Command="{Binding IncidentLookup}"
                         CommandParameter="{Binding DataObject}">
                     <StackPanel>
                         <TextBlock Text="Incidencias" FontSize="14"></TextBlock>
-                        <Image Source="/KarveControls;component/Images/incident.png"></Image>
+                        <Image Source="/KarveControls;component/Images/incident.png" Height="100" ></Image>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -425,13 +439,13 @@
                                              LabelTextWidth="100"
                                              DataFieldFirst="PROVECRM_RES1"
                                              AssistTableName="CRM_PROVIDER_ASSIST"
-                                             AssistProperties="Code,Name"
+                                             AssistProperties="Codigo,Nombre,Nif,Proveedor,Comercial,Telefono"
                                              TextContentFirstWidth="100"
                                              TextContentSecondWidth="200"
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding CrmSupplierDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             SourceView="{Binding CrmSupplierDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </karveControls:DualFieldSearchBox>
 
                     <karveControls:DataField Grid.Row="3"
@@ -482,7 +496,7 @@
                                              LabelText="Abono:"
                                              Watermark="Abono por Km. no recorrido"
                                              Grid.Row="6">
-                        
+
                     </karveControls:DataField>
                     <karveControls:DataField  
                          Margin="5,0,0,0"
@@ -557,7 +571,7 @@
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding PromotionDto, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                                             SourceView="{Binding PromotionDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </karveControls:DualFieldSearchBox>
 
                     <Syncfusion:SfTextBoxExt Grid.Column="3" Grid.Row="1" Width="80"></Syncfusion:SfTextBoxExt>

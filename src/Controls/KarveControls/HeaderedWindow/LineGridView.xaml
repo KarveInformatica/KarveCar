@@ -64,21 +64,22 @@
             <DataTemplate x:Key="BillToBookin">
                 <Grid>
                    
-                     <syncfusion:ComboBoxAdv DefaultText="..Eliges.." Grid.Column="0"
-                                            SelectedIndex="{Binding Path=Value.Bill,Converter={StaticResource BillToBook}}" Width="Auto">
-                        <syncfusion:ComboBoxItemAdv Width="200">
+                     <ComboBox Grid.Column="0"
+                                            SelectedIndex="{Binding Path=Value.Bill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                             Width="Auto">
+                        <ComboBoxItem Width="200">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="/KarveControls;component/Images/driver.png" Height="30"/>
                                 <TextBlock Text="{Binding ldriver, Source={StaticResource ResourceLanguage}}"></TextBlock>
                             </StackPanel>
-                        </syncfusion:ComboBoxItemAdv>
-                        <syncfusion:ComboBoxItemAdv Width="200">
+                        </ComboBoxItem>
+                        <ComboBoxItem Width="200">
                             <StackPanel Orientation="Horizontal" >
                                 <Image Source="/KarveControls;component/Images/clients.png" Height="30"/>
                                 <TextBlock Text="{Binding lcliente, Source={StaticResource ResourceLanguage}}"></TextBlock>
                             </StackPanel>
-                        </syncfusion:ComboBoxItemAdv>
-                    </syncfusion:ComboBoxAdv>
+                        </ComboBoxItem>
+                    </ComboBox>
                    
                 </Grid>
             </DataTemplate>
@@ -201,10 +202,16 @@
                                     AllowDeleting="True"
                                     AutoGenerateColumns="True"
                                     AllowGrouping="True"
+                                    AllowFiltering="True"
+                                    AllowResizingColumns="True"
+                                    AllowSorting="True"
                                     AutoExpandGroups="True"
                                     EditTrigger="OnTap"
                                     RowHeight="40"
+                                    SelectedItem="{Binding SelectedItem, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                     ColumnSizer="AutoLastColumnFill"
+                                    CellStyle="{StaticResource KarveGridCell}"
+                                    HeaderStyle ="{StaticResource BasicHeaderStyle}"
                                     MaxWidth="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.88' }" 
                                     karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"

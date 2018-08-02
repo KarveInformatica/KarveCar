@@ -247,6 +247,7 @@ namespace KarveControls
                 DependencyPropertyChangedEventArgs ev = new DependencyPropertyChangedEventArgs();
                 KarveGridParameters parm = GetGridParameter(dataGrid, ev);
                 LoadParameters(dataGrid, parm.Xml);
+               
             }
         }
         /// <summary>

@@ -175,8 +175,10 @@
     <Compile Include="Converter\NullBooleanToBooleanConverter.cs" />
     <Compile Include="Converter\RatioScreenConverter.cs" />
     <Compile Include="Converter\StraightBooleanToVisibility.cs" />
+    <Compile Include="Converter\StringToBoolConverter.cs" />
     <Compile Include="Converter\StringToByteConverter.cs" />
     <Compile Include="Converter\StringToIntegerConverter.cs" />
+    <Compile Include="Converter\StringToTimeSpanConverter.cs" />
     <Compile Include="Converter\TimeSpanToDateTimeConverter.cs" />
     <Compile Include="DialogService\KarveDialogService.cs" />
     <Compile Include="Generic\AssistProperties.cs" />

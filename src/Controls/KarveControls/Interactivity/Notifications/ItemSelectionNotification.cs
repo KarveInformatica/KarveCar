@@ -33,7 +33,7 @@ namespace KarveControls.Interactivity.Notifications
             : this()
         {
             Items = items;
-        
+         
         }
         /// <summary>
         /// IncrementalList of utems.

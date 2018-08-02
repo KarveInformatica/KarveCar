@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using KarveCar.Navigation;
-using DataAccessLayer.DataObjects;
 using Prism.Regions;
-using HelperModule;
 
 namespace BookingModule.ViewModels
 {
@@ -62,7 +60,7 @@ namespace BookingModule.ViewModels
             AssistMapper = _assistDataService.Mapper;
             CompositeCommandOnly = true;
             VehicleGridColumns = _userSettings.FindSetting<string>(UserSettingConstants.VehicleSummaryGridColumnsKey);
-            EventManager.RegisterObserverSubsystem("ReservationRequests", this);
+            EventManager.RegisterObserverSubsystem(BookingModule.RequestGroup, this);
 
 
         }
@@ -117,7 +115,7 @@ namespace BookingModule.ViewModels
                 OnChangedCommand(DataObject,
                                        eventData,
                                        DataSubSystem.BookingSubsystem,
-                                       "ReservationRequests",
+                                       BookingModule.RequestGroup,
                                        ViewModelUri.ToString());
             }
         }
@@ -125,7 +123,7 @@ namespace BookingModule.ViewModels
         public override void DisposeEvents()
         {
             base.DisposeEvents();
-            EventManager.DeleteObserverSubSystem("ReservationRequests", this);
+            EventManager.DeleteObserverSubSystem(BookingModule.RequestGroup, this);
         }
        
         private void OnAssistCommand(object param)
@@ -346,7 +344,7 @@ namespace BookingModule.ViewModels
                     Sender = ViewModelUri.ToString(),
                     PayloadType = DataPayLoad.Type.UpdateView
                 };
-                EventManager.NotifyObserverSubsystem("ReservationRequests", dataPayLoad);
+                EventManager.NotifyObserverSubsystem(BookingModule.RequestGroup, dataPayLoad);
                 DialogService?.ShowErrorMessage("Data saved with success!");
 
             }
@@ -379,7 +377,7 @@ namespace BookingModule.ViewModels
                     Sender = ViewModelUri.ToString(),
                     PayloadType = DataPayLoad.Type.UpdateView
                 };
-                EventManager.NotifyObserverSubsystem("ReservationRequests", dataPayLoad);
+                EventManager.NotifyObserverSubsystem(BookingModule.RequestGroup, dataPayLoad);
                 UnregisterToolBar(payLoad.PrimaryKeyValue);
                 DeleteRegion();
                 DialogService?.ShowErrorMessage("Data deleted with success!");
