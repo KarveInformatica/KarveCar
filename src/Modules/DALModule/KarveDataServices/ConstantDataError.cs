@@ -22,6 +22,7 @@ namespace KarveDataServices
         private const string _nameIsEmpty = "Pon un valore valido y no vacio, por favor";
         private const string _sameHour = "Misma hora de salida y llegada";
         private const string _invalidDate = "Error en las fechas de reserva";
+        private const string _invalidWeb = "Web no valida";
 
         public static string NameTooLong { get { return _nameTooLong; } }
         public static string SwiftInvalid { get { return _swiftinvalid; } }
@@ -37,5 +38,6 @@ namespace KarveDataServices
         public static string InvalidPhone { get { return _invalidPhone; } }
         public static string SameHourError {  get { return _sameHour; } }
         public static string InvalidDate { get { return _invalidDate; } }
+        public static string InvalidWeb {  get { return _invalidWeb;  } }
     }
 }

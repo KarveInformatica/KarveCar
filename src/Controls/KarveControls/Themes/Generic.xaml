@@ -200,8 +200,8 @@
                             </Grid.ColumnDefinitions>
                             <Label Width="100" Margin="10,5,0,0" Content="{Binding lname, Source={StaticResource ResourceLanguage}}" Grid.Column="0"></Label>
                             <ComboBox x:Name="PART_DriverSalutation" Grid.Column="1"
-                      SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=SalutationItem, Mode=TwoWay}"
-                      SelectedIndex="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SalutationIndex}"
+                      SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=SalutationItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedIndex="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SalutationIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Width="80" HorizontalAlignment="Left" Margin="5,0,0,10">
                                 <ComboBoxItem IsSelected="True" x:Name="PART_FirstSalutationItem">
                                     <TextBlock Text="{Binding lmr, Source={StaticResource ResourceLanguage}}" />
@@ -222,11 +222,11 @@
                             <Syncfusion:SfTextBoxExt x:Name="PART_DriverFirstName" Grid.Column="2" 
                                      Margin="0,0,0,10"
                                      Width="150"
-                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DriverFirstName, Mode=TwoWay,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"/>
+                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DriverFirstName, Mode=TwoWay,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                             <Syncfusion:SfTextBoxExt x:Name="PART_DriverSecondName" Grid.Column="3" 
                                      Margin="0,0,0,10"
                                      Width="150"
-                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DriverSecondName, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"/>
+                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DriverSecondName, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                         
                         <Grid Grid.Row="1">
@@ -245,7 +245,11 @@
                             x:Name="PART_DriverLicenseNumber"
                                 Grid.Column="1"
                             Width="200"
-                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DrivingLicenseNumber, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}"
+                            Text="{Binding RelativeSource={RelativeSource TemplatedParent},  Path=DrivingLicenseNumber, 
+                                Mode=TwoWay,
+                                ValidatesOnDataErrors=True, 
+                                ValidatesOnNotifyDataErrors=True, 
+                                ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                             VerticalAlignment="Center"
                             Watermark="{Binding ldriverlicensenumber, Source={StaticResource ResourceLanguage}}" Height="30" Margin="0,0,50,0">
                             </Syncfusion:SfTextBoxExt>
@@ -1112,7 +1116,7 @@
                             <TextBlock Text="Tipo" FontSize="10"></TextBlock>
                             <local:DualFieldSearchBox LabelVisible="False"
                                       DataFieldFirst="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=CardHolderPath, Mode=TwoWay}"
-                                      AssistProperties="Code, Name"
+                                      AssistProperties="Code,Name"
                                       AssistTableName="CREDIT_CARD_ASSIST"
                                       LabelTextWidth="0"
                                       TextContentFirstWidth="60"
@@ -1186,7 +1190,8 @@
                             <TextBlock  Text="Card Token" FontSize="10"></TextBlock>
                             <TextBox Height="25" Margin="10,5,10,5" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=CardToken, Mode=TwoWay}"></TextBox>
                         </StackPanel>
-                        <Button Grid.Row="6" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ValidateFrom}" Content="Tokenizer" Height="25"></Button>
+                        <!-- By default it is collapsed.-->
+                        <Button Grid.Row="6" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=ValidateFrom}" Content="Tokenizer" Height="25" Visibility="Collapsed"></Button>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -1211,6 +1216,7 @@
                                 <Syncfusion:SfTextBoxExt
                                     Watermark="{Binding lstreetwm, Source={StaticResource ResourceLanguage}}"
                                     x:Name="PART_DirectionTextBox"
+                                  
                                     Width="250"/>
                             </StackPanel>
 
@@ -1293,7 +1299,8 @@
                                 <Syncfusion:SfTextBoxExt Watermark="{Binding ltelefono, Source={StaticResource ResourceLanguage}}"
                                     x:Name="PART_PhoneTextBox"
                                     Height="25"
-                                    Width="272"       
+                                    Width="272"
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PhoneValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 />
 
                             </StackPanel>
@@ -1301,7 +1308,7 @@
                                 <Image Source="/KarveControls;component/Images/fax.png" Margin="0,0,8,0" Height="25"></Image>
                                 <Syncfusion:SfTextBoxExt Watermark="Fax"
                                     x:Name="PART_FaxTextBox"
-		            
+		            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=FaxValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Width="272"
                     
                                 />
@@ -1310,17 +1317,21 @@
 
                             <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
                                 <Image Source="/KarveControls;component/Images/email.png" Margin="0,0,8,0" Height="25"></Image>
-                                <Syncfusion:SfTextBoxExt Watermark="Email"
+                                <Syncfusion:SfTextBoxExt Watermark="{Binding lemail, Source={StaticResource ResourceLanguage}}"
                                     x:Name="PART_EmailTextBox"
                                     Width="272"
+                                    Style="{StaticResource SfFieldErrorStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=EmailValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 
                                 />
                                 <Button x:Name="PART_EmailButton" Width="100" Content="Check!" Command="{Binding RelativeSource={RelativeSource TemplatedParent},Path=EmailCommand}"></Button>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="16,5,0,0">
+                            <StackPanel Orientation="Horizontal" Margin="16,5,0,0" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WebVisibility}">
                                 <Image Source="/KarveControls;component/Images/web.png" Margin="0,0,8,0" Height="25"></Image>
                                 <Syncfusion:SfTextBoxExt Watermark="{Binding lwebaddress, Source={StaticResource ResourceLanguage}}"
-                                    x:Name="PART_WebTextBox"
+                                    x:Name="PART_WebTextBox"                                    
+                                    Style="{StaticResource SfFieldErrorStyle}"
+                                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=WebValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                   
                                     Width="272"
                                 />
                                 <Button x:Name="PART_WebButton" Content="Go!" Width="100"

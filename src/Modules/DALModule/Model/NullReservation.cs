@@ -88,7 +88,10 @@ namespace DataAccessLayer.Model
         public IEnumerable<BudgetSummaryDto> BookingBudget { get ; set ; }
         public IEnumerable<BudgetDto> BudgetDto { get ; set; }
         public IEnumerable<CompanyDto> CompanyDto { get; set; }
-        public IEnumerable<DeliveringPlaceDto> DepartureDeliveryDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<DeliveringPlaceDto> DepartureDeliveryDto { get; set; }
         public IEnumerable<DeliveringPlaceDto> PlaceOfReturnDto { get ; set ; }
+        public IEnumerable<CountryDto> SecondDriverCountryDto { get; set; }
+        public IEnumerable<CityDto> SecondDriverCityDto { get ; set ; }
+        public IEnumerable<ProvinciaDto> SecondDriverProvinceDto { get; set; }
     }
 }

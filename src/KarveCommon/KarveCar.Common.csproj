@@ -164,7 +164,9 @@
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\CardTypeImageConverter.cs" />
     <Compile Include="Converter\CharToIntegerConverter.cs" />
+    <Compile Include="Converter\ConvertToCombo.cs" />
     <Compile Include="Converter\DateTimeToTimeSpanConverter.cs" />
+    <Compile Include="Converter\DebugConverter.cs" />
     <Compile Include="Converter\DebugDataBindingConverter.cs" />
     <Compile Include="Converter\ExpanderToStringConverter.cs" />
     <Compile Include="Converter\GridCellConverter.cs" />

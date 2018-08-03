@@ -12,13 +12,16 @@ namespace KarveCommon.Validation
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string pattern = @"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$";
-            Regex regEx=new Regex(pattern);
-            if (!regEx.IsMatch((string)value))
+            if (value is string uri)
             {
-                return new ValidationResult(false, "You entered an invalid email");
+                Uri outValue = null;
+                if (Uri.TryCreate(uri, UriKind.RelativeOrAbsolute, out outValue))
+                {
+                    return new ValidationResult(true, null);
+                }
+
             }
-            return new ValidationResult(true, null);
+            return new ValidationResult(false, "You entered an invalid web address");   
         }
     }
 }

@@ -53,5 +53,8 @@ namespace KarveDataServices.DataObjects
         IEnumerable<BudgetSummaryDto> BookingBudget { get; set; }
         IEnumerable<CompanyDto> CompanyDto { get; set; }
         IEnumerable<DeliveringPlaceDto> PlaceOfReturnDto { set; get; }
+        IEnumerable<CountryDto> SecondDriverCountryDto { set; get; }
+        IEnumerable<CityDto> SecondDriverCityDto { set; get; }
+        IEnumerable<ProvinciaDto> SecondDriverProvinceDto { set; get; }
     }
 }

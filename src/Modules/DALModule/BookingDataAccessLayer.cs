@@ -118,9 +118,17 @@ namespace DataAccessLayer
             {
                 throw new DataAccessLayerException("Invalid Booking Number");
             }
-            var boolValue = await _dataSaver.SaveAsync(value).ConfigureAwait(false); 
+            var boolValue = await _dataSaver.SaveAsync(value).ConfigureAwait(false);
+          //  boolValue = boolValue && SaveDataAsync(data);
             return boolValue;
         }
+        /*
+        private bool SaveDataAsync(IBookingData data)
+        {
+            var dataValue = data.
+        }
+        */
+
         /// <summary>
         ///  Serve an asynchronous data object 
         /// </summary>

@@ -192,6 +192,7 @@
     <Compile Include="DataTransferObject\InvoiceItem.cs" />
     <Compile Include="DataTransferObject\InvoiceSummaryDto.cs" />
     <Compile Include="DataTransferObject\InvoiceSummaryValueDto.cs" />
+    <Compile Include="Extension\ClientDataServiceExtension.cs" />
     <Compile Include="IResolver.cs" />
     <Compile Include="DataTransferObject\LanguageDto.cs" />
     <Compile Include="DataTransferObject\LineBaseDto.cs" />

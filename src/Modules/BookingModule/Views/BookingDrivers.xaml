@@ -6,9 +6,16 @@
              xmlns:local="clr-namespace:BookingModule.Views"
              xmlns:vm="clr-namespace:BookingModule.ViewModels"
              xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:karveCommon="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"
              xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1224">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <karveCommon:DebugDataBindingConverter x:Key="debugConverter"></karveCommon:DebugDataBindingConverter>
+            <karveCommon:ConvertToCombo x:Key="Convert2Combo"></karveCommon:ConvertToCombo>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
 
     <Grid>
@@ -181,8 +188,16 @@
                 <karveControls:DriverSmallControl AssistNameCity="CITY_ASSIST_2"
                                                   AssistNameCountry="COUNTRY_ASSIST_3" 
                                                   AssistNameProvince="PROVINCE_ASSIST_2"
+                                                  
                                                   AssistCommand="{Binding AssistCommand}"
+                                                  SalutationItem="{Binding DataObject.DRV2_DRIVER_SALUTATION, Mode=TwoWay, Converter={StaticResource Convert2Combo}}"
+                                                  DriverFirstName="{Binding DataObject.DRV2_DRIVER_FIRSTNAME, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DriverSecondName="{Binding DataObject.DRV2_DRIVER_LASTNAME, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  DrivingLicenseNumber="{Binding DataObject.DRV2_LICENSE_NR, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                  DrivingLicenseExpireDate="{Binding DataObject.DRV2_LICENSE_ISSUE_DATE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   CitySourceView="{Binding SecondDriverCityDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                              
+                                                  Phone="{Binding DataObject.DRV2_TEL,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Email="{Binding DataObject.DRV2_MAIL,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   CityPath="DRV2_CITY"
                                                   CountryPath="DRV2_ID_CARD_COU_CODE"
                                                   CountrySourceView="{Binding SecondDriverCountryDto,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -197,7 +212,7 @@
                                   Label="{Binding lsaveclients,Source={StaticResource ResourceLanguage}}"
                                   Width="200"
                                   HorizontalAlignment="Center"
-                                  Command="{Binding SaveToClient}">
+                                  Command="{Binding SaveToClient}" CommandParameter="{Binding DataObject}">
             </Syncfusion:ButtonAdv>
         </Grid>
     </Grid>

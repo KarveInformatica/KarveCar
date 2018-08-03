@@ -105,7 +105,76 @@ namespace KarveControls
             UpdateControls(DataObject);
         }
 
-     
+        public static readonly DependencyProperty EmailProperty =
+           DependencyProperty.Register(
+               "EmailValue",
+               typeof(string),
+               typeof(DirectionInfo));
+        public string EmailValue
+        {
+            set
+            {
+                SetValue(EmailProperty, value);
+            }
+            get
+            {
+                return (string)GetValue(EmailProperty);
+            }
+        }
+
+        public static readonly DependencyProperty WebProperty =
+   DependencyProperty.Register(
+       "WebValue",
+       typeof(string),
+       typeof(DirectionInfo));
+
+        public string WebValue
+        {
+            set
+            {
+                SetValue(WebProperty, value);
+            }
+            get
+            {
+                return (string)GetValue(WebProperty);
+            }
+        }
+
+        public static readonly DependencyProperty FaxProperty =
+   DependencyProperty.Register(
+       "FaxValue",
+       typeof(string),
+       typeof(DirectionInfo));
+
+        public string FaxValue
+        {
+            set
+            {
+                SetValue(FaxProperty, value);
+            }
+            get
+            {
+                return (string)GetValue(FaxProperty);
+            }
+        }
+
+        public static readonly DependencyProperty PhoneProperty =
+   DependencyProperty.Register(
+       "PhoneValue",
+       typeof(string),
+       typeof(DirectionInfo));
+
+        public string PhoneValue
+        {
+            set
+            {
+                SetValue(PhoneProperty, value);
+            }
+            get
+            {
+                return (string)GetValue(PhoneProperty);
+            }
+        }
 
         /// <summary>
         ///  Name of the assist table. The assist table is the table used to ref integrity with the previous table.
@@ -173,10 +242,13 @@ namespace KarveControls
             {
                 return;
             }
+///           var validateAction = ValidateTable[type];
+
             var value = GetValue(dependencyProperty) as string;
             if (!string.IsNullOrEmpty(value))
             {
                 box.Text = GetDependencyValue(dataObject,dependencyProperty,type);
+                
             }
         }
 
@@ -196,7 +268,7 @@ namespace KarveControls
                 GetAndSetDependency(dataObject, EmailDependencyProperty, ref _emailTextBox, DataType.Email);
                 GetAndSetDependency(dataObject, FaxDependencyProperty, ref _faxTextBox, type);
                 GetAndSetDependency(dataObject, PhoneDependencyProperty, ref _phoneTextBox, type);
-                GetAndSetDependency(dataObject, WebDependencyProperty, ref _webTextBox, type);
+                GetAndSetDependency(dataObject, WebDependencyProperty, ref _webTextBox, DataType.WebAddress);
             }
         }
         /// <summary>
@@ -226,6 +298,25 @@ namespace KarveControls
             get
             {
                 return _isSecondEnabled;
+            }
+        }
+
+
+        public static readonly DependencyProperty WebVisibleProperty =
+               DependencyProperty.Register(
+               "WebVisibility",
+               typeof(Visibility),
+               typeof(DirectionInfo), new PropertyMetadata(Visibility.Visible));
+
+        public Visibility WebVisibility
+        {
+            set
+            {
+                SetValue(WebVisibleProperty, value);
+            }
+            get
+            {
+                return (Visibility) GetValue(WebVisibleProperty);
             }
         }
         public static readonly DependencyProperty HideDirectionDependencyProperty =

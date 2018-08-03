@@ -104,6 +104,8 @@ namespace DataAccessLayer.Crud.Booking
                         returnValue = returnValue && await DoCrudAction(toUpdateLires, async (lires) => { return await dbConnection.UpdateAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false); });
                         returnValue = returnValue &&  await DoCrudAction(toInsertLires, async (lires) => { return await dbConnection.InsertAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false) > 0; });
                         returnValue = returnValue &&  await DoCrudAction(toDeleteLires, async (lires) => { return await dbConnection.DeleteCollectionAsync(lires).ConfigureAwait(false); });
+
+
                         if (!returnValue)
                         {
                             scope.Dispose();

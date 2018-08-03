@@ -2033,6 +2033,7 @@ namespace KarveDataServices.DataTransferObject
         /// </summary>
         public string MOTIVO_NOCONFIRM_RES2 { get; set; }
 
+        public string WEBCOND_RES2 { get; set; }
 
         private bool IsInvalid()
         {
@@ -2071,6 +2072,15 @@ namespace KarveDataServices.DataTransferObject
                     AddMessage("OFIRETORNO_RES1",ConstantDataError.NameIsEmpty);
                     return true;
                 }
+                if (!string.IsNullOrEmpty(MAILCOND_RES2))
+                {
+                    var emailValid = EmailValidator.Validate(MAILCOND_RES2);
+                    if (!emailValid)
+                    {
+                        AddMessage("EMAIL_RES1", ConstantDataError.InvalidEmail);
+                        return true;
+                    }
+                }
                 if (!string.IsNullOrEmpty(EMAIL_RES1))
                 {
                     var emailValid = EmailValidator.Validate(EMAIL_RES1);
@@ -2078,6 +2088,13 @@ namespace KarveDataServices.DataTransferObject
                     {
                         AddMessage("EMAIL_RES1",ConstantDataError.InvalidEmail);
                         return true;
+                    }
+                }
+                if (!string.IsNullOrEmpty(WEBCOND_RES2))
+                {
+                    if(Uri.TryCreate(WEBCOND_RES2, UriKind.RelativeOrAbsolute, out Uri result))
+                    {
+                        AddMessage("WEBCOND_RES2", ConstantDataError.InvalidWeb);
                     }
                 }
             }

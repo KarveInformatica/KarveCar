@@ -74,6 +74,7 @@ namespace BookingModule.ViewModels
             VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
             ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
             BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
+            SaveToClient = new DelegateCommand<BookingDto>(OnExecuteSaveClient);
             _bookingClientsIncrementalList = new IncrementalList<ClientSummaryExtended>(LoadMoreClients);
             _clientHandler += LoadClientEvent;
             IsChanged = false;
@@ -91,6 +92,46 @@ namespace BookingModule.ViewModels
 
 
         }
+
+        private async Task<bool> OnExecuteSaveClient(BookingDto dto)
+        {
+            var taskBool = await SaveDrivingLicenseDriver1(dto).ConfigureAwait(false);
+
+            return taskBool;
+        }
+        private async Task<bool> SaveDrivingLicenseDriver2(BookingDto dto)
+        {
+            var clientDataService = DataServices.GetClientDataServices();
+            var firstDriver = await clientDataService.GetDoAsync(dto.C).ConfigureAwait(false);
+
+        }
+        private async Task<bool> SaveDrivingLicenseDriver1(BookingDto dto)
+        {
+            var clientDataService = DataServices.GetClientDataServices();
+            var firstDriver = await clientDataService.GetDoAsync(dto.CONDUCTOR_RES1).ConfigureAwait(false);
+            if (firstDriver.Valid)
+            {
+                var clientDto = firstDriver.Value;
+                clientDto.DIRECCION = dto.DIRCOND_RES2;
+                clientDto.POBLACION = dto.POCOND_RES2;
+                clientDto.CP = dto.CPCOND_RES2;
+                clientDto.PROVINCIA = dto.PROVCOND_RES2;
+                clientDto.PAIS = dto.PAISCOND_RES2;
+                clientDto.TELEFONO = dto.TELCOND_RES2;
+                clientDto.FAX = dto.TEL2COND_RES2;
+                clientDto.EMAIL = dto.EMAIL_RES1;
+                clientDto.PERMISO = dto.PERMISO_RES2;
+                clientDto.FEEXPE = dto.FEEXPE_RES2;
+                clientDto.LUNACI = dto.LUNACI_RES2;
+                clientDto.NIF = dto.PAISNIFCOND_RES2;
+                clientDto.FENAC = dto.FENACI_RES2;
+                clientDto.CLASE = dto.CLASE_RES2;
+                firstDriver.Value = clientDto;
+                return await clientDataService.SaveAsync(firstDriver).ConfigureAwait(false);
+            }
+            return true;
+        }
+
         #region CommonProperties
         /// <summary>
         ///  Set or Get command for creating a new fare.
@@ -295,7 +336,7 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or Get the OfficeDto
         /// </summary>
-        public IEnumerable<OfficeDtos> OfficeDto
+        public IEnumerable<OfficeDtos> BookingOfficeDto
         {
             get { return _officeDto; }
             set
@@ -1499,6 +1540,16 @@ namespace BookingModule.ViewModels
 
 
         }
+        public ObservableCollection<DtoType> SelectItem<DtoType>(IEnumerable<DtoType> item, IEnumerable<DtoType> collection)
+        {
+            ObservableCollection<DtoType> obsCollection = collection as ObservableCollection<DtoType>;
+            var i = item.FirstOrDefault();
+            if (i != null)
+            {
+                obsCollection.Add(i);
+            }
+            return obsCollection;
+        }
         private void UpdateAux(IBookingData data)
         {
             if (data == null)
@@ -1518,23 +1569,26 @@ namespace BookingModule.ViewModels
             BudgetDto = data.BookingBudget;
             ClientDto = data.Clients;
             DriverDto = data.DriverDto2;
-            CompanyDto = data.CompanyDto;
+            BookingCompanyDto = SelectItem<CompanyDto>(data.CompanyDto, BookingCompanyDto);
             DeliveringPlaceDto = data.DepartureDeliveryDto;
             PlaceReturnDto = data.PlaceOfReturnDto;
             DriverCountryList = data.DriverCountryList;
-           
+            SecondDriverCityDto = data.SecondDriverCityDto;
+            SecondDriverCountryDto = data.SecondDriverCountryDto;
+            SecondDriverProvinceDto = data.SecondDriverProvinceDto;
+
 
 
             if (data.DriverDto2 != null)
             {
-                this.DriverDto2 = new ObservableCollection<ClientSummaryExtended>(data.DriverDto2);
+                DriverDto2 = new ObservableCollection<ClientSummaryExtended>(data.DriverDto2);
             }
 
-            this.DriverDto3 = data.DriverDto3;
-            this.DriverDto4 = data.DriverDto4;
-            this.DriverDto5 = data.DriverDto5;
-            this.CountryDto3 = data.CountryDto3;
-            this.ProvinceDto3 = data.ProvinceDto3;
+            DriverDto3 = data.DriverDto3;
+            DriverDto4 = data.DriverDto4;
+            DriverDto5 = data.DriverDto5;
+            CountryDto3 = data.CountryDto3;
+            ProvinceDto3 = data.ProvinceDto3;
             if (data.CityDto3 != null)
             {
                 var cityData = data.CityDto3.FirstOrDefault();
@@ -1543,11 +1597,11 @@ namespace BookingModule.ViewModels
                     this.CityDto3 = new ObservableCollection<CityDto>() { cityData };
                 }
             }
-            this.ActiveFareDto = data.FareDto;
-            this.OfficeDto = data.OfficeDto;
-            this.BookingOrigen = data.OriginDto;
-            this.VehicleDto = data.VehicleDto;
-            this.VehicleGroupDto = data.VehicleGroupDto;
+            ActiveFareDto = data.FareDto;
+            BookingOfficeDto = data.OfficeDto;
+            BookingOrigen = data.OriginDto;
+            VehicleDto = data.VehicleDto;
+            VehicleGroupDto = data.VehicleGroupDto;
             ReservationOfficeArrival = data.ReservationOfficeArrival;
             ReservationOfficeDeparture = data.ReservationOfficeDeparture;
 
@@ -1667,7 +1721,6 @@ namespace BookingModule.ViewModels
 
                         var value = collection[5];
                         value.SourceView = collectionValue as IEnumerable<PaymentFormDto>;
-
                         break;
                     }
                 case "BOOKING_CONTRATIPIMPR_ASSIST":
@@ -1852,7 +1905,7 @@ namespace BookingModule.ViewModels
                     }
                 case "COMPANY_ASSIST":
                     {
-                        CompanyDto = (IEnumerable<CompanyDto>)collectionValue;
+                        BookingCompanyDto = (IEnumerable<CompanyDto>)collectionValue;
                         break;
                     }
                 case "BOOKING_OFFICE_1":
@@ -1867,7 +1920,7 @@ namespace BookingModule.ViewModels
                     }
                 case "OFFICE_ASSIST":
                     {
-                        OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        BookingOfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
                         break;
                     }
                 case "LANGUAGE_ASSIST":
@@ -2060,7 +2113,7 @@ namespace BookingModule.ViewModels
                 _countryDto6 = value; RaisePropertyChanged();
             }
         }
-        public IEnumerable<CompanyDto> CompanyDto
+        public IEnumerable<CompanyDto> BookingCompanyDto
         {
             get => _company;
 

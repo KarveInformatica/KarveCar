@@ -258,9 +258,8 @@ namespace DataAccessLayer.Model
         public IEnumerable<BudgetSummaryDto> BookingBudget { get; set; }
         public IEnumerable<DeliveringPlaceDto> DepartureDeliveryDto { set; get; }
         public IEnumerable<DeliveringPlaceDto> PlaceOfReturnDto { set; get; }
-
-        
-
-       
+        public IEnumerable<CountryDto> SecondDriverCountryDto { get ; set; }
+        public IEnumerable<CityDto> SecondDriverCityDto { get; set; }
+        public IEnumerable<ProvinciaDto> SecondDriverProvinceDto { get ; set; }
     }
 }

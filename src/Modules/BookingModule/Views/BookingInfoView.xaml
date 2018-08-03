@@ -66,7 +66,7 @@
                                  DataFieldFirst="SUBLICEN_RES1"
                                  TextContentFirstWidth="50"
                                  TextContentSecondWidth="100"
-                                 SourceView="{Binding CompanyDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 SourceView="{Binding BookingCompanyDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  PresentationTraceSources.TraceLevel=High}"
                                  AssistTableName="COMPANY_ASSIST"
                                  AssistProperties="Code,Name"
                                  MagnifierCommand="{Binding AssistCommand}"
@@ -84,7 +84,7 @@
                                  TextContentSecondWidth="100"
                                  AssistProperties="Codigo,Nombre"
                                 AssistTableName="OFFICE_ASSIST"
-                                SourceView="{Binding OfficeDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                SourceView="{Binding BookingOfficeDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 ItemChangedCommand="{Binding ItemChangedCommand}"
                                 MagnifierCommand="{Binding AssistCommand}"
                                 DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -885,7 +885,7 @@
                                   karveControls:ControlExt.DataSource="{Binding DataObject}"
                                  karveControls:ControlExt.DataSourcePath="HORA_RES1"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                  Text="{Binding Path=DataObject.HORA_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Height="30" x:Name="hORA_RES1" />
+                                 SelectedTime="{Binding Path=DataObject.HORA_RES1, Converter={StaticResource StringSpanConverter} ,Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" Grid.Column="3" Height="30" x:Name="hORA_RES1" />
                                 <Label Content="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"  Width="Auto" />
                                 <Syncfusion:SfTextBoxExt Width="150" 
                                                                  
@@ -1172,7 +1172,6 @@
                                                   TextContentFirstWidth="80"
                                                   TextContentSecondWidth="115"
                                                   LabelTextWidth="0"
-                                                 
                                                   LabelText="{Binding ltarifa, Source={StaticResource ResourceLanguage}}" 
                                                   Height="30"
                                                   LabelVisible="False"

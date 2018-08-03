@@ -48,6 +48,11 @@ namespace KarveDataServices
         /// <param name="pageSize">Size of the page</param>
         /// <returns></returns>
         Task<IEnumerable<SummaryType>> GetPagedSummaryDoAsync(int index, int pageSize);
-
+        /// <summary>
+        /// Load a list of domain types give some data.
+        /// </summary>
+        /// <param name="listPrimaryKeys">A list primary keys</param>
+        /// <returns>A list of domain types</returns>
+        Task<IEnumerable<DomainType>> GetListAsync(IList<DomainType> primaryKeys);
     }
 }

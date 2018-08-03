@@ -49,7 +49,8 @@ namespace KarveCommon.Generic
             /// <summary>
             ///  Datatime field of the contorl.
             /// </summary>
-            DateTime
-        }
+            DateTime,
+        WebAddress
+    }
     
 }

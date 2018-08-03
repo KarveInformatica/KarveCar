@@ -41,7 +41,7 @@ namespace DataAccessLayer
             auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, dto.ACTIVEHI_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, dto.GRUPO_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryVehicleSummaryById, dto.VCACT_RES1);
-          //  auxQueryStore.AddParamCount(QueryType.QueryLanguage, dto.L)
+       
             #endregion
 
 
@@ -77,6 +77,7 @@ namespace DataAccessLayer
             var countryQuery = countryStore.BuildQuery();
             var clientQuery = clientStore.BuildQuery();
             var officeQuery = officeStore.BuildQuery();
+           
             //var deliveryQuery = deliveryPlaceStore.BuildQuery();
 
             // query comtains everything we need now.
@@ -94,9 +95,9 @@ namespace DataAccessLayer
                         result.Valid = result.Valid && ParseOfficeResult(result, officeResult);
                         var clientResult = await connection.QueryMultipleAsync(clientQuery).ConfigureAwait(false);
                         result.Valid = result.Valid && ParseClientResult(result, clientResult);
-                       // var countries = await connection.QueryMultipleAsync(countryQuery).ConfigureAwait(false);
-                      //  result.Valid = result.Valid && ParseCountryResult(result, clientResult);
-
+                 
+               
+                        
 
                     }
                 }
@@ -105,7 +106,51 @@ namespace DataAccessLayer
                 var msg = "Error building aux for booking type " + dto.NUMERO_RES;
                 throw new DataAccessLayerException(msg, ex);
             }
+            try
+            {
+                result.Valid = result.Valid && await ExecuteSecondDriverResult(result).ConfigureAwait(false);
+            } catch(System.Exception ex)
+            {
+                var msg = "Error building aux for booking type" + dto.NUMERO_RES + " ";
+                msg += ex.Message;
+            }
             return result;
+        }
+        private async Task<bool> ExecuteSecondDriverResult(IBookingData request)
+        {
+            if (request == null)
+            {
+                return false;
+            }
+            if (request.Value == null)
+            {
+                return false;
+            }
+            try
+            {
+
+                using (var connection = SqlExecutor.OpenNewDbConnection())
+                {
+                    BookingDto dto = request.Value;
+                    var secondDriverStore = _queryStoreFactory.GetQueryStore();
+                    secondDriverStore.AddParamCount(QueryType.QueryCity, dto.DRV2_CITY);
+                    secondDriverStore.AddParamCount(QueryType.QueryCountry, dto.DRV2_ID_CARD_COU_CODE);
+                    secondDriverStore.AddParamCount(QueryType.QueryProvince, dto.DRV2_ZIP_CODE);
+                    var secondDriverQuery = secondDriverStore.BuildQuery();
+                    var driverResult = await connection.QueryMultipleAsync(secondDriverQuery).ConfigureAwait(false);
+                    request.SecondDriverCityDto = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.DRV2_CITY, _mapper, driverResult);
+                    request.SecondDriverCountryDto = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.DRV2_ID_CARD_COU_CODE, _mapper, driverResult);
+                    request.SecondDriverProvinceDto = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(request.Value.DRV2_ZIP_CODE, _mapper, driverResult);
+                   
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                throw new DataAccessLayerException("Parsing multiple query result error", ex);
+            }
+            return true;
+
         }
 
         private bool ParseCountryResult(IBookingData request, SqlMapper.GridReader reader)
@@ -131,8 +176,6 @@ namespace DataAccessLayer
             }
             return true;
         }
-
-
         private bool ParseClientResult(IBookingData request, SqlMapper.GridReader reader)
         {
             if ((request == null) || (reader == null))

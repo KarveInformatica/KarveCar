@@ -814,5 +814,10 @@ namespace DataAccessLayer.DataObjects
     /// </summary>
     
 		public string MOTIVO_NOCONFIRM_RES2 { get; set; }
-	}
+    /// <summary>
+    /// 
+    /// </summary>
+        public string WEBCOND_RES2 { get; set; }
+
+    }
 }
