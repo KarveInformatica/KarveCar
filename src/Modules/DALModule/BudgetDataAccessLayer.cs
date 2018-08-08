@@ -67,6 +67,17 @@ namespace DataAccessLayer
             var data = new Budget(result);
             return data;
         }
+
+        public Task<IEnumerable<IBudgetData>> GetListAsync(IList<IBudgetData> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<IBudgetData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///  Create a new domain object
         /// </summary>

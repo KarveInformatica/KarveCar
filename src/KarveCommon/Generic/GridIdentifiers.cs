@@ -115,5 +115,7 @@ namespace KarveCommon.Generic
         public static long ActivitySector = 0x110;
 
         public static long RequestReasonGrid = 0x111;
+
+        public static long BookingIncidentGrid = 0x112;
     }
 }

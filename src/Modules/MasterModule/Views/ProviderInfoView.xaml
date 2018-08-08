@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MasterModule.Views"
               xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-               xmlns:map="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+              
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
              xmlns:dockablz="http://dragablz.net/winfx/xaml/dockablz"

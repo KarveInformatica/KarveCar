@@ -5,6 +5,7 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
 using MasterModule.Common;
+using BookingModule;
 using Prism.Regions;
 using System;
 using AutoMapper;
@@ -222,9 +223,22 @@ namespace KarveCar.Navigation
               
         }
 
-        public void NewIncidentView(BookingDto currentBooking)
+        public void NewIncidentView(string code, string driverName, Uri viewModelUri)
         {
-            MessageBox.Show("New incident");
+            var dataServices = _dataServices.GetBookingIncidentDataService();
+            var numberCode = dataServices.NewId();
+            var payload = dataServices.GetNewDo(numberCode);
+            var dto = payload.Value;
+            var viewName = "Nueva Incidencia Reserva." + numberCode;
+            dto.RESERVA = code;
+            dto.CONDUCTOR = driverName;
+            // ok. i have set the reference link now i can send 
+            Navigate(_regionManager, numberCode, viewName, typeof(BookingModule.Views.BookingIncidentInfoView).FullName);
+            var factory = DataPayloadFactory.GetInstance();
+            var dataPayload = factory.BuildInsertPayLoadDo<IBookingIncidentData>(viewName, payload, DataSubSystem.BookingSubsystem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
+            dataPayload.PrimaryKeyValue = numberCode;
+
+            _eventManager.NotifyObserverSubsystem(BookingModule.BookingModule.GroupBookingIncident, dataPayload);
         }
     }
     

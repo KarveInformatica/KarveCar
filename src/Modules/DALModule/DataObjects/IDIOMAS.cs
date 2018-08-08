@@ -8,9 +8,8 @@ namespace DataAccessLayer.DataObjects
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
 	[Table("IDIOMAS")]
-	public class IDIOMAS 
-	{
-        string _value;
+	public class IDIOMAS
+    { 
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>

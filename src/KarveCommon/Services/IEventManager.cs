@@ -104,18 +104,6 @@ namespace KarveCommon.Services
         /// <param name="obs">Observer to be notified</param>
         void DeleteObserverSubSystem(string id, IEventObserver obs);
         /// <summary>
-        /// Disable the notifications
-        /// </summary>
-        /// <param name="id">Identificator of the subsystem</param>
-        /// <param name="obs">Observer to be notified</param>
-        void DisableNotify(string id, IEventObserver obs);
-        /// <summary>
-        /// Enable the notification for the susbsystem
-        /// </summary>
-        /// <param name="id">Identifier of the subsystem</param>
-        /// <param name="obs">Observer to be notified</param>
-        void EnableNotify(string id, IEventObserver obs);
-        /// <summary>
         /// Register a view model to a mailbox to receive message (direct messaging)
         /// </summary>
         /// <param name="id">Identifier of the view model.</param>

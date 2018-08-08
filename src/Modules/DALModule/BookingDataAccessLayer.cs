@@ -503,6 +503,11 @@ namespace DataAccessLayer
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<IBookingData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

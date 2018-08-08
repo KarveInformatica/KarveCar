@@ -108,7 +108,7 @@ namespace KarveTest.DAL
             }
         }
         [Test]
-        public async Task Should_Throws_WithNullIdCompany()
+        public void Should_Throws_WithNullIdCompany()
         {
             using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
@@ -153,6 +153,7 @@ namespace KarveTest.DAL
                 // prepare
                 company.Value = c;
                 Assert.Throws<Exception>(async () => await _companyDataService.SaveAsync(company));
+             
             }
         }
 

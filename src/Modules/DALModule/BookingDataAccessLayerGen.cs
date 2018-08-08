@@ -5,7 +5,6 @@ using DataAccessLayer.Exception;
 using DataAccessLayer.SQL;
 using KarveDataServices.DataObjects;
 using KarveDataServices.DataTransferObject;
-using System;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
@@ -13,7 +12,9 @@ namespace DataAccessLayer
     /*
      *  Code has been generared by the script BookingStructureGenerator.py in CodeGenerator project.
      *  The generator shall keep present that duplicated query type shall be separated generating 
-     *  a temp variable.
+     *  a temp variable. This is due to how the querystore has been designed. 
+     *  Further work might be done.It happens that in case of duplicate ids, the query store it will 
+     *  work as a stack (LIFO = Last Input First Output).
      */
 
     internal partial class BookingDataAccessLayer
@@ -41,7 +42,8 @@ namespace DataAccessLayer
             auxQueryStore.AddParamCount(QueryType.QueryVehicleActivity, dto.ACTIVEHI_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryVehicleGroup, dto.GRUPO_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryVehicleSummaryById, dto.VCACT_RES1);
-       
+            auxQueryStore.AddParamCount(QueryType.QueryRefusedBooking, dto.RECHAZAMOTI);
+            
             #endregion
 
 
@@ -67,20 +69,12 @@ namespace DataAccessLayer
             countryStore.AddParamCount(QueryType.QueryCountry, dto.PAISNIFCOND_RES2);
             countryStore.AddParamCount(QueryType.QueryCountry, dto.PAISCOND_RES2);
             #endregion
-            #region DeliveryPlaces
-            //var deliveryPlaceStore = _queryStoreFactory.GetQueryStore();
-           // deliveryPlaceStore.AddParamCount(QueryType.QueryDeliveringBy, dto.LUDEVO_RES1);
-           // deliveryPlaceStore.AddParamCount(QueryType.QueryDeliveringBy, dto.LUENTRE_RES1);
 
-            #endregion
             var basicQuery = auxQueryStore.BuildQuery();
             var countryQuery = countryStore.BuildQuery();
             var clientQuery = clientStore.BuildQuery();
             var officeQuery = officeStore.BuildQuery();
            
-            //var deliveryQuery = deliveryPlaceStore.BuildQuery();
-
-            // query comtains everything we need now.
             var query = basicQuery + countryQuery;
             try
             {
@@ -141,7 +135,6 @@ namespace DataAccessLayer
                     request.SecondDriverCityDto = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.DRV2_CITY, _mapper, driverResult);
                     request.SecondDriverCountryDto = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.DRV2_ID_CARD_COU_CODE, _mapper, driverResult);
                     request.SecondDriverProvinceDto = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(request.Value.DRV2_ZIP_CODE, _mapper, driverResult);
-                   
                 }
 
             }
@@ -283,7 +276,9 @@ namespace DataAccessLayer
 
                 request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryDto, VehicleSummaryDto>(request.Value.VCACT_RES1, _mapper, reader);
 
-              
+                request.BookingRefusedDto = SelectionHelpers.WrappedSelectedDto<MOTANU, BookingRefusedDto>(request.Value.RECHAZAMOTI, _mapper, reader);
+
+
 #pragma warning disable CS0168 // Variable is declared but never used
             }
             catch (System.Exception ex)

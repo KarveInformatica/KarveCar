@@ -70,10 +70,11 @@ namespace KarveTest.DAL
         ///  This test detect and error and save entities in not a correct way.
         /// </summary>
         [Test]
-        public async Task Should_Throw_Entities_NotCorrectSavedData()
+        public void Should_Throw_Entities_NotCorrectSavedData()
         {
             ComisioDto value = new ComisioDto {NUM_COMI = ""};
-            Assert.ThrowsAsync<DataLayerException>(async () => await _dataSaver.SaveAsync(value));           
+            Assert.ThrowsAsync<DataLayerException>(async () => await _dataSaver.SaveAsync(value));
+            
           
         }
         /// <summary>

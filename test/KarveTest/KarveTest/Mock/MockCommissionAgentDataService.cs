@@ -40,6 +40,16 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<ICommissionAgent>> GetListAsync(IList<ICommissionAgent> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ICommissionAgent>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
         public ICommissionAgent GetNewDo(string value)
         {
             throw new NotImplementedException();

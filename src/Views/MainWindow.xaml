@@ -8,7 +8,6 @@
                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                              xmlns:local="clr-namespace:KarveCar.Views"
-                             xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
                              xmlns:lang="clr-namespace:KarveCar.Logic.Generic"
                              xmlns:prism="http://prismlibrary.com/"
                              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -40,7 +39,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml"/>
+               
                 <ResourceDictionary Source="/Syncfusion.Tools.WPF;component/Framework/Ribbon/Themes/MetroStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -95,21 +94,7 @@
             </DataTemplate>
             <karvecm:KarveInterTabClient x:Key="KarveInterTabClient"/>
 
-            <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
-                <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
-                </Setter>
-            </Style>
-
-            <Style TargetType="{x:Type dragablz:TabablzControl}" x:Key="TabablzControlStyle">
-                <Setter Property="ShowDefaultCloseButton" Value="True" />
-
-                <Setter Property="ItemContainerStyle" Value="{StaticResource TrapezoidDragableTabItemStyle}" />
-                <Setter Property="HeaderMemberPath" Value="Header" />
-                <Setter Property="ClosingItemCallback" Value="{Binding ClosingTabItemHandler }" />
-                <Setter Property="Margin" Value="0 5 0 0" />
-
-            </Style>
-
+           
             <Style TargetType="{x:Type syncfusion:TabItemExt}" x:Key="TabItemStyle">
                 <Setter Property="Header" Value="Luca"/>
                 <Setter Property="HeaderTemplate">
@@ -285,6 +270,14 @@
                                             LargeIcon="/KarveCar;component/Images/reservation.png"
                                             Command="{Binding NavigateCommand}" 
                                             CommandParameter="BookingRequestSummary">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton x:Name="rbtnBookingIncidents"
+                                            Label="Incidencias Reserva"
+                                            HorizontalAlignment="Left" 
+                                            SizeForm="Large"
+                                            LargeIcon="/KarveControls;component/Images/incident.png"
+                                            Command="{Binding NavigateCommand}" 
+                                            CommandParameter="BookingIncidentSummary">
                         </syncfusion:RibbonButton>
 
                     </syncfusion:RibbonTab>

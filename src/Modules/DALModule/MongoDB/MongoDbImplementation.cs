@@ -98,5 +98,15 @@ namespace DataAccessLayer.MongoDB
         {
             throw new NotImplementedException();
         }
+
+        public IBookingIncidentDataService GetBookingIncidentDataService()
+        {
+            throw new NotImplementedException();
+        }
+
+        IBookingIncidentDataService IDataServices.GetBookingIncidentDataService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,25 +1,29 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a INCIRE.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("INCIRE")]
 	public class INCIRE 
 	{
 	
 	/// <summary>
     ///  Set or get the COD_INCI property.
     /// </summary>
-    
+        [Key]
 		public string COD_INCI { get; set; }
- 
-	/// <summary>
+
+
+        public string PROVEE { get; set; }
+    /// <summary>
     ///  Set or get the RESERVA property.
     /// </summary>
-    
-		public string RESERVA { get; set; }
+
+        public string RESERVA { get; set; }
  
 	/// <summary>
     ///  Set or get the CORTO property.

@@ -93,5 +93,6 @@ namespace DataAccessLayer.Model
         public IEnumerable<CountryDto> SecondDriverCountryDto { get; set; }
         public IEnumerable<CityDto> SecondDriverCityDto { get ; set ; }
         public IEnumerable<ProvinciaDto> SecondDriverProvinceDto { get; set; }
+        public IEnumerable<BookingRefusedDto> BookingRefusedDto { get ; set; }
     }
 }

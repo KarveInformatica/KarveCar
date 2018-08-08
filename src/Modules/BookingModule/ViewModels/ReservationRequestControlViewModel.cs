@@ -254,11 +254,7 @@ namespace BookingModule.ViewModels
         }
         public override void DisposeEvents()
         {
-            if (SummaryView is IncrementalList<ReservationRequestSummary> summary)
-            {
-                summary.Clear();
-                SummaryView = null;
-            }
+            ClearSummary<ReservationRequestSummary>();
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
             EventManager.DeleteObserverSubSystem(EventSubsystem.BookingSubsystemVm, this);

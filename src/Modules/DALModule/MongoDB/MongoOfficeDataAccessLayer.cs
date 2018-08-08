@@ -47,6 +47,16 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
+        public Task<IEnumerable<IOfficeData>> GetListAsync(IList<IOfficeData> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<IOfficeData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IOfficeData GetNewDo(string value)
         {
             throw new System.NotImplementedException();

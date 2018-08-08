@@ -22,9 +22,13 @@ namespace DataAccessLayer.SQL
     {
         [XmlIgnore]
         protected Logger Logger = LogManager.GetCurrentClassLogger();
-        /*
-         *  This table is used for cross reference in order to create a select count(*) from....
-         */
+        /// <summary>
+        /// This dictionary is needed from the query store to create select count(*) from table 
+        /// The table needs the table name and its primary key. 
+        /// There is a mechanism in the query store for multiple query. We always preceed a select count(*) 
+        /// and a query in dapper query multiple mechanism. This allows us to know whether
+        /// or not we have to parse result later.
+        /// </summary>
         [XmlElement("PrimaryKeys")]
         protected Dictionary<QueryType, Tuple<string, string>> _paramDictionary = new Dictionary<QueryType, Tuple<string, string>>
 
@@ -34,6 +38,9 @@ namespace DataAccessLayer.SQL
              {  QueryType.QueryAgencyEmployee, new Tuple<string, string>("EAGE","NUM_EAGE") },
              {  QueryType.QueryBookingMedia, new Tuple<string, string>("MEDIO_RES", "CODIGO") },
              {  QueryType.QueryBookingType, new Tuple<string, string>("TIPOS_RESERVAS", "CODIGO") },
+             {  QueryType.QueryBookingIncident, new Tuple<string, string>("INCRE","COD_INCI") },
+             {  QueryType.QueryBookingIncidentSummary, new Tuple<string, string>("INCRE", "COD_INCI") },
+             {  QueryType.QueryBookingIncidentType, new Tuple<string, string>("COINRE", "CODIGO") },
              {  QueryType.QueryBrandByVehicle, new Tuple<string,string>("MARCAS", "CODIGO") }, 
              {  QueryType.QueryBudgetSummary, new Tuple<string, string>("PRESUP1", "NUMERO_PRE") },
              {  QueryType.QueryBudgetSummaryById, new Tuple<string, string>("PRESUP1", "NUMERO_PRE") },
@@ -62,6 +69,7 @@ namespace DataAccessLayer.SQL
              {  QueryType.QueryOfficePaged, new Tuple<string,string>("OFICINAS", "CODIGO") },
              {  QueryType.QueryOfficeZone, new Tuple<string,string>("ZONAOFI", "COD_ZONAOFI") },
              {  QueryType.QueryPaymentForm, new Tuple<string,string>("FORMAS", "CODIGO") },
+             {  QueryType.QueryRefusedBooking, new Tuple<string,string>("MOTANU", "CODIGO") },
              {  QueryType.QueryReservationRequestReason, new Tuple<string,string>("MOPETI", "CODIGO") },
              {  QueryType.QueryVehicle, new Tuple<string,string>("VEHICULO1", "CODIINT") },
              {  QueryType.QueryVehicleColor, new Tuple<string,string>("COLORFL", "CODIGO") },
@@ -85,7 +93,20 @@ namespace DataAccessLayer.SQL
             "PROVINCIA.PROV as Provincia, PAIS.PAIS as Pais FROM COMISIO " +
             " LEFT JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS " +
             " LEFT JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS;"},
-             {QueryType.QueryBusiness,@"SELECT * FROM NEGOCIO WHERE CODIGO='{0}'"},
+            { QueryType.QueryBookingIncidentType, @"SELECT * FROM COINRE WHERE CODIGO='{0}';" },
+            { QueryType.QueryBookingIncident, @"SELECT * FROM INCIRE WHERE CODIGO='{0}';" },
+            { QueryType.QueryBookingIncidentSummary, @"SELECT COD_INCI as Code, ID_INCIDEN as Name, RESERVA as Booking, CORTO as Notes FROM INCIRE;" },
+            { QueryType.QueryBookingIncidentSummaryPaged, "SELECT TOP {0} START AT {1}  COD_INCI as Code, ID_INCIDEN as Name, RESERVA as Booking, CORTO as Notes FROM INCIRE;" },
+
+            {
+                 QueryType.QueryBookedPaged, "SELECT TOP {0} START AT {1} * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES"
+            },
+
+            { QueryType.QueryBookingSummaryExt, "select * from reservas1;" },
+                       { QueryType.QueryBookingAllFields,"SELECT RESERVAS1.NUMERO_RES as BookingNumber, RESERVAS1.NOMBRE_RES1 as BookingName, RESERVAS1.FECHA_RES1 as BookingDate, RESERVAS1.LOCALIZA_RES1 as Locator, OFFICE.CODIGO AS OfficeCode, OFFICE.ZONAOFI AS OfficeZone, OFFICE.NOMBRE as OfficeName, RESERVAS1.GRUPO_RES1 as BookingGroup, RESERVAS1.RENTAL1_RES1 AS BookerUserCode, RESERVAS1.FSALIDA_RES1 as DepartureDate, RESERVAS1.HSALIDA_RES1 as DepartureHour, US1.NOMBRE as BookerUserName, DRIVER.NOMBRE as DriverName, DRIVER.NUMERO_CLI as DriverCode, RESERVAS1.USUARIO_RES1 AS CurrentUser, RESERVAS2.OBS1_RES2 as Notes, RESERVAS2.ORIGEN_RES2 as BookingOrigin, RESERVAS2.MULDIR_RES2 as MultipleDirection, RESERVAS1.ULTMODI_RES1 as LastModification, RESERVAS2.COMISIO_RES2 as BookingBroker, RESERVAS2.TOLON_RES2 as DepositTotal, RESERVAS1.contrato_res1 as Contract, RESERVAS1.FIANZA_DEPOSITO_RES1 as Deposit, RESERVAS1.TARIFA_RES1 as Fare, RESERVAS1.LUENTRE_RES1 as DeliveryPlace, RESERVAS1.LUDEVO_RES1 as ReturnPlace, RESERVAS1.RECHAZAFECHA as RejectionDate, RESERVAS1.FPREV_RES1 as ReturnDate, RESERVAS1.HPREV_RES1 as ReturnTime, V1.MATRICULA as RegistrationNumber, V1.MODELO as VehicleModel, V1.SITUACION as VehicleSituation, RESERVAS2.BONONUM_RES2 as Bonus, CLIENT1.NUMERO_CLI as ClientCode,CLIENT1.NOMBRE as ClientName, RESERVAS2.CONFIRMADA_RES2 as Confirmed, RESERVAS2.OTROCOND_RES2 as OtherDriver, RESERVAS2.OTRO2COND_RES2 as OtherDriver2, RESERVAS2.OTRO3COND_RES2 as OtherDriver3, (select sum(importe) from cobros where reserva = RESERVAS1.NUMERO_RES) as BookingBill, (select NOMBRE from ORIGEN where NUM_ORIGEN=BookingOrigin) as BookingOriginName FROM RESERVAS1 LEFT OUTER JOIN GRUPOS G ON RESERVAS1.GRUPO_RES1=G.CODIGO LEFT OUTER JOIN OFICINAS AS OFFICE ON RESERVAS1.OFISALIDA_RES1 = OFFICE.CODIGO LEFT OUTER JOIN CLIENTES1 AS CLIENT1 ON RESERVAS1.CLIENTE_RES1 = CLIENT1.NUMERO_CLI LEFT OUTER JOIN CLIENTES1 AS DRIVER ON RESERVAS1.CONDUCTOR_RES1 = DRIVER.NUMERO_CLI LEFT OUTER JOIN SUBLICEN AS COMPANY ON RESERVAS1.SUBLICEN_RES1 = COMPANY.CODIGO LEFT OUTER JOIN VEHICULO1 V1 ON RESERVAS1.VCACT_RES1=V1.CODIINT LEFT OUTER JOIN USURE US1 ON US1.CODIGO=RESERVAS1.RENTAL1_RES1 LEFT OUTER JOIN VEHICULO2 V2 ON V2.CODIINT=V1.CODIINT INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES ORDER BY BookingNumber, BookingDate;"},
+
+            { QueryType.QueryBookingPaged,"SELECT TOP {0} START AT {1} RESERVAS1.NUMERO_RES as BookingNumber, RESERVAS1.NOMBRE_RES1 as BookingName, RESERVAS1.FECHA_RES1 as BookingDate, RESERVAS1.LOCALIZA_RES1 as Locator, OFFICE.CODIGO AS OfficeCode, OFFICE.ZONAOFI AS OfficeZone, OFFICE.NOMBRE as OfficeName, RESERVAS1.GRUPO_RES1 as BookingGroup, RESERVAS1.RENTAL1_RES1 AS BookerUserCode, RESERVAS1.FSALIDA_RES1 as DepartureDate, RESERVAS1.HSALIDA_RES1 as DepartureHour, US1.NOMBRE as BookerUserName, DRIVER.NOMBRE as DriverName, DRIVER.NUMERO_CLI as DriverCode, RESERVAS1.USUARIO_RES1 AS CurrentUser, RESERVAS2.OBS1_RES2 as Notes, RESERVAS2.ORIGEN_RES2 as BookingOrigin, RESERVAS2.MULDIR_RES2 as MultipleDirection, RESERVAS1.ULTMODI_RES1 as LastModification, RESERVAS2.COMISIO_RES2 as BookingBroker, RESERVAS2.TOLON_RES2 as DepositTotal, RESERVAS1.contrato_res1 as Contract, RESERVAS1.FIANZA_DEPOSITO_RES1 as Deposit, RESERVAS1.TARIFA_RES1 as Fare, RESERVAS1.LUENTRE_RES1 as DeliveryPlace, RESERVAS1.LUDEVO_RES1 as ReturnPlace, RESERVAS1.RECHAZAFECHA as RejectionDate, RESERVAS1.FPREV_RES1 as ReturnDate, RESERVAS1.HPREV_RES1 as ReturnTime, V1.MATRICULA as RegistrationNumber, V1.MODELO as VehicleModel, V1.SITUACION as VehicleSituation, RESERVAS2.BONONUM_RES2 as Bonus, CLIENT1.NUMERO_CLI as ClientCode,CLIENT1.NOMBRE as ClientName, RESERVAS2.CONFIRMADA_RES2 as Confirmed, RESERVAS2.OTROCOND_RES2 as OtherDriver, RESERVAS2.OTRO2COND_RES2 as OtherDriver2, RESERVAS2.OTRO3COND_RES2 as OtherDriver3, (select sum(importe) from cobros where reserva = RESERVAS1.NUMERO_RES) as BookingBill, (select NOMBRE from ORIGEN where NUM_ORIGEN=BookingOrigin) as BookingOriginName FROM RESERVAS1 LEFT OUTER JOIN GRUPOS G ON RESERVAS1.GRUPO_RES1=G.CODIGO LEFT OUTER JOIN OFICINAS AS OFFICE ON RESERVAS1.OFISALIDA_RES1 = OFFICE.CODIGO LEFT OUTER JOIN CLIENTES1 AS CLIENT1 ON RESERVAS1.CLIENTE_RES1 = CLIENT1.NUMERO_CLI LEFT OUTER JOIN CLIENTES1 AS DRIVER ON RESERVAS1.CONDUCTOR_RES1 = DRIVER.NUMERO_CLI LEFT OUTER JOIN SUBLICEN AS COMPANY ON RESERVAS1.SUBLICEN_RES1 = COMPANY.CODIGO LEFT OUTER JOIN VEHICULO1 V1 ON RESERVAS1.VCACT_RES1=V1.CODIINT LEFT OUTER JOIN USURE US1 ON US1.CODIGO=RESERVAS1.RENTAL1_RES1 LEFT OUTER JOIN VEHICULO2 V2 ON V2.CODIINT=V1.CODIINT INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES ORDER BY BookingNumber, BookingDate;"},
+            { QueryType.QueryBusiness,@"SELECT * FROM NEGOCIO WHERE CODIGO='{0}';"},
             { QueryType.QueryBudget,@"SELECT * FROM PRESUP1 INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE WHERE NUMERO_PRE='{0}'" },
              {QueryType.QueryBudgetSummaryPaged, @"SELECT TOP {0} START AT {1} PRESUP1.NUMERO_PRE as BudgetNumber,
                                                    OFICINA_PRE1 as BudgetOffice,
@@ -99,7 +120,7 @@ namespace DataAccessLayer.SQL
                                                    ORIGEN.NOMBRE as Origin,
                                                    NOTAS_PRE1 as Notes
                                                    FROM PRESUP1
-                                                   INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE = PRESUP2.NUMERO_PRE
+                                                   INNER JOIN PRESUP2 ON PRESUP1.NUMERO_PRE =       PRESUP2.NUMERO_PRE
                                                    LEFT OUTER JOIN CLIENTES1 ON NUMERO_CLI = CLIENTE_PRE1
                                                    LEFT OUTER JOIN ORIGEN ON NUM_ORIGEN = PRESUP2.ORIGEN_PRE2
                                                    LEFT OUTER JOIN COMISIO ON NUM_COMI = PRESUP2.COMISIO_PRE2;"},
@@ -161,7 +182,7 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryProvince, @"SELECT * FROM PROVINCIA WHERE SIGLAS='{0}'" },
             {QueryType.QueryCountry, @"SELECT * FROM PAIS WHERE SIGLAS='{0}'" },
             {QueryType.QueryPaymentForm, @"SELECT * FROM FORMAS WHERE CODIGO='{0}'" },
-
+            {QueryType.QueryRefusedBooking,  @"SELECT * FROM MOTANU WHERE CODIGO='{0}'"},
             {QueryType.QueryVehicle,@"SELECT VEHICULO1.CODIINT,MARCA,MATRICULA,MODELO,MO1,MO2,GRUPO,MAR,COLOR,PROVEEDOR,TIPOSEGU,BASTIDOR,DANOS,LEXTRAS,ACCESORIOS_VH,AVISO,REF,ACTIVIDAD,PROPIE,KMRESTA,
                                 FCAMBIO_KM,VEHICULO2.GASTOS,VEHICULO2.KM,VEHICULO2.SALDO,VEHICULO2.PROXIMANTE
                                       FROM VEHICULO1 INNER JOIN VEHICULO2 ON VEHICULO2.CODIINT=VEHICULO1.CODIINT WHERE VEHICULO1.CODIINT='{0}'"},
@@ -344,15 +365,7 @@ namespace DataAccessLayer.SQL
             {
                  QueryType.QueryBookingMedia, "SELECT * FROM MEDIO_RES WHERE CODIGO='{0}'"
             },
-
-            {
-                 QueryType.QueryBookedPaged, "SELECT TOP {0} START AT {1} * FROM RESERVAS1 INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES"
-            },
-
-            { QueryType.QueryBookingSummaryExt, "select * from reservas1;" },
-                       { QueryType.QueryBookingAllFields,"SELECT RESERVAS1.NUMERO_RES as BookingNumber, RESERVAS1.NOMBRE_RES1 as BookingName, RESERVAS1.FECHA_RES1 as BookingDate, RESERVAS1.LOCALIZA_RES1 as Locator, OFFICE.CODIGO AS OfficeCode, OFFICE.ZONAOFI AS OfficeZone, OFFICE.NOMBRE as OfficeName, RESERVAS1.GRUPO_RES1 as BookingGroup, RESERVAS1.RENTAL1_RES1 AS BookerUserCode, RESERVAS1.FSALIDA_RES1 as DepartureDate, RESERVAS1.HSALIDA_RES1 as DepartureHour, US1.NOMBRE as BookerUserName, DRIVER.NOMBRE as DriverName, DRIVER.NUMERO_CLI as DriverCode, RESERVAS1.USUARIO_RES1 AS CurrentUser, RESERVAS2.OBS1_RES2 as Notes, RESERVAS2.ORIGEN_RES2 as BookingOrigin, RESERVAS2.MULDIR_RES2 as MultipleDirection, RESERVAS1.ULTMODI_RES1 as LastModification, RESERVAS2.COMISIO_RES2 as BookingBroker, RESERVAS2.TOLON_RES2 as DepositTotal, RESERVAS1.contrato_res1 as Contract, RESERVAS1.FIANZA_DEPOSITO_RES1 as Deposit, RESERVAS1.TARIFA_RES1 as Fare, RESERVAS1.LUENTRE_RES1 as DeliveryPlace, RESERVAS1.LUDEVO_RES1 as ReturnPlace, RESERVAS1.RECHAZAFECHA as RejectionDate, RESERVAS1.FPREV_RES1 as ReturnDate, RESERVAS1.HPREV_RES1 as ReturnTime, V1.MATRICULA as RegistrationNumber, V1.MODELO as VehicleModel, V1.SITUACION as VehicleSituation, RESERVAS2.BONONUM_RES2 as Bonus, CLIENT1.NUMERO_CLI as ClientCode,CLIENT1.NOMBRE as ClientName, RESERVAS2.CONFIRMADA_RES2 as Confirmed, RESERVAS2.OTROCOND_RES2 as OtherDriver, RESERVAS2.OTRO2COND_RES2 as OtherDriver2, RESERVAS2.OTRO3COND_RES2 as OtherDriver3, (select sum(importe) from cobros where reserva = RESERVAS1.NUMERO_RES) as BookingBill, (select NOMBRE from ORIGEN where NUM_ORIGEN=BookingOrigin) as BookingOriginName FROM RESERVAS1 LEFT OUTER JOIN GRUPOS G ON RESERVAS1.GRUPO_RES1=G.CODIGO LEFT OUTER JOIN OFICINAS AS OFFICE ON RESERVAS1.OFISALIDA_RES1 = OFFICE.CODIGO LEFT OUTER JOIN CLIENTES1 AS CLIENT1 ON RESERVAS1.CLIENTE_RES1 = CLIENT1.NUMERO_CLI LEFT OUTER JOIN CLIENTES1 AS DRIVER ON RESERVAS1.CONDUCTOR_RES1 = DRIVER.NUMERO_CLI LEFT OUTER JOIN SUBLICEN AS COMPANY ON RESERVAS1.SUBLICEN_RES1 = COMPANY.CODIGO LEFT OUTER JOIN VEHICULO1 V1 ON RESERVAS1.VCACT_RES1=V1.CODIINT LEFT OUTER JOIN USURE US1 ON US1.CODIGO=RESERVAS1.RENTAL1_RES1 LEFT OUTER JOIN VEHICULO2 V2 ON V2.CODIINT=V1.CODIINT INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES ORDER BY BookingNumber, BookingDate;"},
-
-            { QueryType.QueryBookingPaged,"SELECT TOP {0} START AT {1} RESERVAS1.NUMERO_RES as BookingNumber, RESERVAS1.NOMBRE_RES1 as BookingName, RESERVAS1.FECHA_RES1 as BookingDate, RESERVAS1.LOCALIZA_RES1 as Locator, OFFICE.CODIGO AS OfficeCode, OFFICE.ZONAOFI AS OfficeZone, OFFICE.NOMBRE as OfficeName, RESERVAS1.GRUPO_RES1 as BookingGroup, RESERVAS1.RENTAL1_RES1 AS BookerUserCode, RESERVAS1.FSALIDA_RES1 as DepartureDate, RESERVAS1.HSALIDA_RES1 as DepartureHour, US1.NOMBRE as BookerUserName, DRIVER.NOMBRE as DriverName, DRIVER.NUMERO_CLI as DriverCode, RESERVAS1.USUARIO_RES1 AS CurrentUser, RESERVAS2.OBS1_RES2 as Notes, RESERVAS2.ORIGEN_RES2 as BookingOrigin, RESERVAS2.MULDIR_RES2 as MultipleDirection, RESERVAS1.ULTMODI_RES1 as LastModification, RESERVAS2.COMISIO_RES2 as BookingBroker, RESERVAS2.TOLON_RES2 as DepositTotal, RESERVAS1.contrato_res1 as Contract, RESERVAS1.FIANZA_DEPOSITO_RES1 as Deposit, RESERVAS1.TARIFA_RES1 as Fare, RESERVAS1.LUENTRE_RES1 as DeliveryPlace, RESERVAS1.LUDEVO_RES1 as ReturnPlace, RESERVAS1.RECHAZAFECHA as RejectionDate, RESERVAS1.FPREV_RES1 as ReturnDate, RESERVAS1.HPREV_RES1 as ReturnTime, V1.MATRICULA as RegistrationNumber, V1.MODELO as VehicleModel, V1.SITUACION as VehicleSituation, RESERVAS2.BONONUM_RES2 as Bonus, CLIENT1.NUMERO_CLI as ClientCode,CLIENT1.NOMBRE as ClientName, RESERVAS2.CONFIRMADA_RES2 as Confirmed, RESERVAS2.OTROCOND_RES2 as OtherDriver, RESERVAS2.OTRO2COND_RES2 as OtherDriver2, RESERVAS2.OTRO3COND_RES2 as OtherDriver3, (select sum(importe) from cobros where reserva = RESERVAS1.NUMERO_RES) as BookingBill, (select NOMBRE from ORIGEN where NUM_ORIGEN=BookingOrigin) as BookingOriginName FROM RESERVAS1 LEFT OUTER JOIN GRUPOS G ON RESERVAS1.GRUPO_RES1=G.CODIGO LEFT OUTER JOIN OFICINAS AS OFFICE ON RESERVAS1.OFISALIDA_RES1 = OFFICE.CODIGO LEFT OUTER JOIN CLIENTES1 AS CLIENT1 ON RESERVAS1.CLIENTE_RES1 = CLIENT1.NUMERO_CLI LEFT OUTER JOIN CLIENTES1 AS DRIVER ON RESERVAS1.CONDUCTOR_RES1 = DRIVER.NUMERO_CLI LEFT OUTER JOIN SUBLICEN AS COMPANY ON RESERVAS1.SUBLICEN_RES1 = COMPANY.CODIGO LEFT OUTER JOIN VEHICULO1 V1 ON RESERVAS1.VCACT_RES1=V1.CODIINT LEFT OUTER JOIN USURE US1 ON US1.CODIGO=RESERVAS1.RENTAL1_RES1 LEFT OUTER JOIN VEHICULO2 V2 ON V2.CODIINT=V1.CODIINT INNER JOIN RESERVAS2 ON RESERVAS1.NUMERO_RES = RESERVAS2.NUMERO_RES ORDER BY BookingNumber, BookingDate;"},
+         
             { QueryType.QueryDelivering, "SELECT * FROM ENTREGAS;" },
             { QueryType.QueryBookingItem, @"select * from LIRESER WHERE CLAVE_LR='{0}';" },
             { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO='{0}'" },
@@ -397,6 +410,8 @@ namespace DataAccessLayer.SQL
         {
             get { return _dictionary; }
         }
+
+        public static QueryType BookingIncidentSummaryPaged { get; internal set; }
 
 
 

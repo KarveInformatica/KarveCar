@@ -19,6 +19,8 @@ namespace KarveCommonInterfaces
         /// <param name="defaultResult"></param>
         /// <returns></returns>
         MessageDialogResult ShowYesNoDialog(string title, string text, MessageDialogResult defaultResult = MessageDialogResult.Yes);
+        bool ShowConfirmMessage(string v1, string v2);
+
         /// <summary>
         ///  Show dialog message with title.
         /// </summary>

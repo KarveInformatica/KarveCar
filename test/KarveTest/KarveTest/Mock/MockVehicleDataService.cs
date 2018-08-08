@@ -24,6 +24,16 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<IVehicleData>> GetListAsync(IList<IVehicleData> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<IVehicleData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
         public IVehicleData GetNewDo(string value)
         {
             throw new NotImplementedException();

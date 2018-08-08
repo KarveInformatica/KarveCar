@@ -249,5 +249,10 @@ namespace DataAccessLayer
             var pagedValue = await paged.GetPagedSummaryDoAsync(QueryType.QueryCommissionAgentPaged, pageIndex, pageSize);
             return pagedValue;
         }
+
+        public Task<IEnumerable<ICommissionAgent>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

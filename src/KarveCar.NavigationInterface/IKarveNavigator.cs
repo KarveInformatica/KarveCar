@@ -60,11 +60,15 @@ namespace KarveCar.Navigation
         /// <param name="fullName">Name of the view as registered in the container</param>
         void NewSummaryView<DomainType, T>(IEnumerable<T> summary, string title , string fullName);
 
-
         /// <summary>
-        /// This returns an incident view lookup.
+        ///  Create and navigate an incident view.
         /// </summary>
-        /// <param name="currentBooking">The current booking</param>
-        void NewIncidentView(BookingDto currentBooking);
+        /// <param name="code">Booking request code</param>
+        /// <param name="driverName">Booking request code</param>
+        /// <param name="viewModelUri">Sender view model</param>
+        /// 
+        void NewIncidentView(string code, string driverName, Uri viewModelUri);
+
+        
     }
 }

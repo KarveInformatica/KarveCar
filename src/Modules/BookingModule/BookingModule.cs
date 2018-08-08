@@ -10,15 +10,17 @@ namespace BookingModule
     /// <summary>
     ///     Bootstrap for the booking module. The booking module is a module for book stuffs.
     /// </summary>
-    public class BookingModule : IModule
+    public sealed class BookingModule : IModule
     {
         private readonly IUnityContainer _container;
         private IRegionManager _regionManager;
-        internal const string BookingSubSystem = "BookingSubsystem";
+        public const string BookingSubSystem = "BookingSubsystem";
         internal const string RequestGroup = "ReservationRequests";
+        public const string GroupBookingIncident = "BookingIncidentSubsystem";
+        internal enum BookingState { CONFIRMED, CANCELLED, NONE };
 
         /// <summary>
-        ///     BookingModule is a container.
+        /// BookingModule is a container.
         /// </summary>
         /// <param name="container">Container to be used in the booking module</param>
         /// <param name="regionManager">Region manager to be used in the regionManager</param>
@@ -27,7 +29,9 @@ namespace BookingModule
             _container = container;
             _regionManager = regionManager;
         }
-
+        /// <summary>
+        ///  Initialize the container.
+        /// </summary>
         public void Initialize()
         {
             _container.RegisterType<object, BookingControlView>("BookingSummary");
@@ -36,6 +40,7 @@ namespace BookingModule
             _container.RegisterType<object, ReservationRequestControl>("BookingRequestSummary");
             _container.RegisterType<object, BookingInfoViewModel>("BookingInfoViewModel");
             _container.RegisterType<object, BookingFooterView>("BookingFooterView");
+            _container.RegisterType<object, BookingIncidentInfoView>(typeof(BookingIncidentInfoView).FullName);
             _container.RegisterType<object, BookingDrivers>();
         }
     }

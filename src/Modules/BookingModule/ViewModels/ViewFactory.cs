@@ -6,14 +6,101 @@ using KarveDataServices.DataTransferObject;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace BookingModule.ViewModels
 {
+    /// <summary>
+    ///  Abstract view factory that is able to create new views in the tab region.
+    /// </summary>
+    /// <typeparam name="Data">Domain data. It is a value object</typeparam>
+    /// <typeparam name="SummaryDto">Data object to be used in the data provider</typeparam>
+    abstract class AbstractViewFactory<Data, SummaryDto> where Data: class where SummaryDto: BaseDto
+    {
+
+        protected IRegionManager RegionManager;
+        protected IUnityContainer Container;
+        protected IRegionManager DetailsRegionManager;
+        protected IEventManager EventManager;
+        protected IDataProvider<Data, SummaryDto> DataProvider;
+             protected IIdentifier DataIdentifier;
+
+        protected AbstractViewFactory(IRegionManager regionManager, IUnityContainer container, IEventManager manager, IDataProvider<Data, SummaryDto> dataProvider, IIdentifier dataIdentifier)
+        {
+            RegionManager = regionManager;
+            Container = container;
+            EventManager = manager;
+            DataProvider = dataProvider;
+            DataIdentifier = dataIdentifier;
+        }
+
+        public void NewItem<ViewType>(string subname, string baseUri, DataSubSystem subsystem, string eventManagerName)
+        {
+            var id = DataIdentifier.NewId();
+            var newDo = DataProvider.GetNewDo(id);
+            var tmp = subname;
+            var upperFirst = tmp.ToUpper();
+            tmp = upperFirst[0] + subname.Substring(1);
+            var viewName = KarveLocale.Properties.Resources.lnew + " " + tmp + "." + id;
+            var uri = new Uri(baseUri + Guid.NewGuid().ToString());
+            var currentPayload = BuildShowPayLoadDo(uri.ToString(), newDo);
+            currentPayload.Subsystem = subsystem;
+            currentPayload.PayloadType = DataPayLoad.Type.Insert;
+            currentPayload.PrimaryKeyValue = id;
+            currentPayload.Sender = "karve://viewfactory";
+            currentPayload.Destination = uri;
+            CreateNewItem<ViewType>(viewName, uri, currentPayload);
+            EventManager.NotifyObserverSubsystem(eventManagerName, currentPayload);
+        }
+
+        internal protected abstract void CreateNewItem<ViewType>(string viewName, Uri uri, DataPayLoad payload);
+
+        protected void Navigate<T>(IRegionManager manager, string code, string viewName)
+        {
+            var navigationParameters = new NavigationParameters
+            {
+                {"id", code},
+                {ScopedRegionNavigationContentLoader.DefaultViewName, viewName}
+            };
+            var uri = new Uri(typeof(T).FullName + navigationParameters, UriKind.Relative);
+            manager.
+                RequestNavigate(RegionNames.TabRegion, uri);
+        }
+  
+        protected DataPayLoad BuildShowPayLoadDo<T>(string routedName, T Object)
+        {
+            var currentPayload = new DataPayLoad();
+            // name that it is give from the subclass, it may be a master
+            currentPayload.PayloadType = DataPayLoad.Type.Show;
+            currentPayload.Registration = routedName;
+            currentPayload.HasDataObject = true;
+            currentPayload.DataObject = Object;
+            return currentPayload;
+        }
+    }
+
+    class ViewFactory<Data, SummaryDto> : AbstractViewFactory<Data,SummaryDto>
+                                                  where Data:class
+                                                  where SummaryDto: BaseDto
+    {
+        public ViewFactory(IRegionManager regionManager, IUnityContainer container,
+                           IEventManager manager, IDataProvider<Data, SummaryDto> dataProvider,
+                           IIdentifier dataIdentifier) : base(regionManager, container, manager, dataProvider, dataIdentifier)
+        {
+            RegionManager = regionManager;
+            Container = container;
+            EventManager = manager;
+            Container = container;
+            DataProvider = dataProvider;
+            DataIdentifier = dataIdentifier;
+        }
+
+        internal protected override void CreateNewItem<ViewType>(string viewName, Uri uri, DataPayLoad payLoad)
+        {
+            Navigate<ViewType>(RegionManager, payLoad.PrimaryKeyValue, viewName);
+        }
+
+    }
     /// <summary>
     ///  This is a factory for the view.
     /// </summary>
@@ -21,19 +108,15 @@ namespace BookingModule.ViewModels
     /// <typeparam name="FooterView">Type of the footer</typeparam>
     /// <typeparam name="Data">Type of the domain object</typeparam>
     /// <typeparam name="SummaryDto">Type of the summary dto.</typeparam>
-    class ViewFactory<MainView,FooterView, Data, SummaryDto> where MainView: UserControl
+    class ViewFactory<MainView,FooterView, Data, SummaryDto>: AbstractViewFactory<Data, SummaryDto>
+                                           where MainView: UserControl
                                            where FooterView: UserControl
                                            where Data :class
-                                           where SummaryDto: BaseDto 
+                                           where SummaryDto: BaseDto  
     {
-
-        private IRegionManager _regionManager;
-        private IUnityContainer _container;
         private IRegionManager _detailsRegionManager;
-        private IEventManager _eventManager;
-        private IDataProvider<Data, SummaryDto> _dataProvider;
-        private IIdentifier _dataIdentifier;
-        
+
+
         /// <summary>
         ///  Constructor
         /// </summary>
@@ -43,31 +126,31 @@ namespace BookingModule.ViewModels
         /// <param name="dataProvider">Provider to manage the data</param>
         public ViewFactory(IRegionManager regionManager, IUnityContainer container, 
                             IEventManager manager, IDataProvider<Data, SummaryDto> dataProvider,
-                            IIdentifier dataIdentifier)
+                            IIdentifier dataIdentifier): base(regionManager, container, manager, dataProvider, dataIdentifier)
         {
-            _regionManager = regionManager;
-            _container = container;
-            _eventManager = manager;
-            _container = container;
-            _dataProvider = dataProvider;
-            _dataIdentifier = dataIdentifier;
+            RegionManager = regionManager;
+            Container = container;
+            EventManager = manager;
+            Container = container;
+            DataProvider = dataProvider;
+            DataIdentifier = dataIdentifier;
         }
-        
-        private void CreateNewItem(string name, Uri uri)
+
+        internal protected override void CreateNewItem<T>(string name, Uri uri, DataPayLoad payLoad)
         {
             // The composite.
-            var detailsRegion = _regionManager.Regions[RegionNames.TabRegion];
-            var headeredWindow = _container.Resolve<HeaderedWindow>();
+            var detailsRegion = RegionManager.Regions[RegionNames.TabRegion];
+            var headeredWindow = Container.Resolve<HeaderedWindow>();
             headeredWindow.Header = name;
-            var infoView = _container.Resolve<MainView>();
-            var lineview = _container.Resolve<LineGridView>();
-            var footerView = _container.Resolve<FooterView>();
+            var infoView = Container.Resolve<MainView>();
+            var lineview = Container.Resolve<LineGridView>();
+            var footerView = Container.Resolve<FooterView>();
             /* 
              * Resolve the view model. Kind of view model first approach. We can use a LineGridView 
              * for every kind of subject and for the specific.
              *  This allows the reuse better than view.
              */
-            var vm = _container.Resolve<BookingInfoViewModel>();
+            var vm = Container.Resolve<BookingInfoViewModel>();
             vm.ViewModelUri = uri;
             // datacontext has inheritance.
             headeredWindow.DataContext = vm;
@@ -80,59 +163,7 @@ namespace BookingModule.ViewModels
             footerRegion.Add(footerView, null, true);
             headeredWindow.Focus();
         }
-
-        private void Navigate(string code, string viewName)
-        {
-            Navigate<MainView>(_regionManager, code, viewName);
-        }
-        private void Navigate<T>(IRegionManager manager, string code, string viewName)
-        {
-            var navigationParameters = new NavigationParameters
-            {
-                {"id", code},
-                {ScopedRegionNavigationContentLoader.DefaultViewName, viewName}
-            };
-            var uri = new Uri(typeof(T).FullName + navigationParameters, UriKind.Relative);
-            manager.
-                RequestNavigate(RegionNames.TabRegion, uri);
-        }
-
-        private DataPayLoad BuildShowPayLoadDo<T>(string routedName, T Object)
-        {
-            var currentPayload = new DataPayLoad();
-            // name that it is give from the subclass, it may be a master
-            currentPayload.PayloadType = DataPayLoad.Type.Show;
-            currentPayload.Registration = routedName;
-            currentPayload.HasDataObject = true;
-            currentPayload.DataObject = Object;
-          
-           
-            return currentPayload;
-        }
-     /// <summary>
-     /// Create a new form
-     /// </summary>
-     /// <param name="viewModelUri">The uri of the view model.</param>
-     /// <param name="subsystem">The subsystem to be used.</param>
-     /// <param name="viewModuleName">The name of the view model.</param>
-     /// <param name="routedName">The routed name.</param>
-        public void NewItem(string subname, string baseUri, DataSubSystem subsystem, string eventManagerName)
-        {
-            var id = _dataIdentifier.NewId();
-            var newDo = _dataProvider.GetNewDo(id);
-            var tmp = subname;
-            var upperFirst = tmp.ToUpper();
-            tmp = upperFirst[0] + subname.Substring(1);
-            var viewName =  KarveLocale.Properties.Resources.lnew+ " "+  tmp + "." + id;
-            var uri = new Uri(baseUri + Guid.NewGuid().ToString());
-            var currentPayload = BuildShowPayLoadDo(uri.ToString(), newDo);
-            currentPayload.Subsystem = subsystem;
-            currentPayload.PayloadType = DataPayLoad.Type.Insert;
-            currentPayload.PrimaryKeyValue = id;
-            currentPayload.Sender = "karve://viewfactory";
-            currentPayload.Destination =uri;
-            CreateNewItem(viewName, uri);
-             _eventManager.NotifyObserverSubsystem(eventManagerName, currentPayload);
-        }
+        
+        
     }
 }

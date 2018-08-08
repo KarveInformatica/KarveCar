@@ -55,21 +55,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Dapper.SqlBuilder, Version=1.50.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapper.SqlBuilder.1.50.4\lib\net451\Dapper.SqlBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="DnsClient, Version=1.0.7.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\DnsClient.1.0.7\lib\net45\DnsClient.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -79,49 +64,15 @@
     <Reference Include="ExtendedXmlSerializer, Version=1.5.0.0, Culture=neutral, PublicKeyToken=0311609c42bdb381, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ExtendedXmlSerializer.1.5.0\lib\net45\ExtendedXmlSerializer.dll</HintPath>
     </Reference>
-    <Reference Include="iAnywhere.Data.SQLAnywhere.v4.5, Version=16.0.0.19484, Culture=neutral, PublicKeyToken=f222fc4333e0d400, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iAnywhere.Data.SQLAnywhere.v4.5.16.0.0.19484\lib\net45\iAnywhere.Data.SQLAnywhere.v4.5.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Bson, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MongoDB.Bson.2.5.0\lib\net45\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MongoDB.Driver.2.5.0\lib\net45\MongoDB.Driver.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Driver.Core, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MongoDB.Driver.Core.2.5.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="Omu.ValueInjecter, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ValueInjecter.3.1.1.5\lib\net40\Omu.ValueInjecter.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="RtfPipe, Version=1.0.6787.26245, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RtfPipe.1.0.0.23\lib\net45\RtfPipe.dll</HintPath>
-    </Reference>
-    <Reference Include="sinkien.IBAN4Net, Version=1.0.6.0, Culture=neutral, PublicKeyToken=b72d67ea62346b72, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\IBAN4Net.1.0.6\lib\sinkien.IBAN4Net.dll</HintPath>
-    </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.Shared.Wpf, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89" />
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
-    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
@@ -130,9 +81,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Z.Dapper.Plus, Version=1.3.18.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Z.Dapper.Plus.1.3.18\lib\net45\Z.Dapper.Plus.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractDataAccessLayer.cs" />
@@ -147,6 +95,7 @@
     <Compile Include="Assist\IAssistResult.cs" />
     <Compile Include="BookingDataAccessLayer.cs" />
     <Compile Include="BookingDataAccessLayerGen.cs" />
+    <Compile Include="BookingIncidentDataAccessLayer.cs" />
     <Compile Include="BudgetDataAccessLayer.cs" />
     <Compile Include="ClientDataAccessLayer.cs" />
     <Compile Include="CommissionAgentAccessLayer.cs" />
@@ -1173,6 +1122,7 @@
     <Compile Include="Logic\ClientDtoToClientes2.cs" />
     <Compile Include="Logic\ContactsComiToDto.cs" />
     <Compile Include="Logic\SupplierPocoConverter.cs" />
+    <Compile Include="Model\BookingIncident.cs" />
     <Compile Include="Model\Budget.cs" />
     <Compile Include="Model\BudgetPoco.cs" />
     <Compile Include="Model\Client.cs" />
@@ -1184,6 +1134,7 @@
     <Compile Include="Model\InvoiceFareDto.cs" />
     <Compile Include="Model\MagnifierColumns.cs" />
     <Compile Include="Model\MagnifierSettings.cs" />
+    <Compile Include="Model\NullBookingIncident.cs" />
     <Compile Include="Model\NullBudget.cs" />
     <Compile Include="Model\NullClient.cs" />
     <Compile Include="Model\NullCommissionAgentTypeData.cs" />
@@ -1243,7 +1194,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Assist\READ.ME" />
-    <None Include="packages.config" />
     <None Include="providers.config">
       <SubType>Designer</SubType>
     </None>
@@ -1289,6 +1239,47 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper">
+      <Version>7.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Castle.Core">
+      <Version>4.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Dapper">
+      <Version>1.50.5</Version>
+    </PackageReference>
+    <PackageReference Include="Dapper.SqlBuilder">
+      <Version>1.50.4</Version>
+    </PackageReference>
+    <PackageReference Include="DesignByContract">
+      <Version>1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="iAnywhere.Data.SQLAnywhere.v4.5">
+      <Version>16.0.0.19484</Version>
+    </PackageReference>
+    <PackageReference Include="IBAN4Net">
+      <Version>1.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="MongoDB.Driver">
+      <Version>2.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="NLog">
+      <Version>4.4.12</Version>
+    </PackageReference>
+    <PackageReference Include="Prism.Core">
+      <Version>6.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="RtfPipe">
+      <Version>1.0.0.23</Version>
+    </PackageReference>
+    <PackageReference Include="ValueInjecter">
+      <Version>3.1.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="Z.Dapper.Plus">
+      <Version>1.3.18</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

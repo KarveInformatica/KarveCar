@@ -1,15 +1,20 @@
-﻿using KarveCommon.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Controls;
+using BookingModule.Views;
+using KarveCar.Navigation;
+using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
+using Microsoft.Practices.Unity;
 using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using KarveCar.Navigation;
 using Prism.Regions;
+
 
 namespace BookingModule.ViewModels
 {
@@ -17,6 +22,7 @@ namespace BookingModule.ViewModels
     {
         private ICommand _deleteCommand;
         private ICommand _saveCommand;
+        private IUnityContainer _container;
         private ReservationRequestDto _dataObject;
         private IReservationRequestDataService _dataReservationService;
         private IAssistDataService _assistDataService;
@@ -31,12 +37,36 @@ namespace BookingModule.ViewModels
         private IEnumerable<ClientSummaryExtended> _client;
         private IEnumerable<OfficeDtos> _office;
         private IEnumerable<VehicleSummaryDto> _vehicleSummary;
-        private IEnumerable<OrigenDto> _origenSummary;
+        //private IEnumerable<OrigenDto> _origenSummary;
         private IUserSettings _userSettings;
         private IHelperViewFactory _helperViewFactory;
         private ICommand _newCommand;
 
-        public ReservationRequestsViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IKarveNavigator navigation, IConfigurationService configurationService, IRegionManager regionManager) : base(services, controller, dialogService, eventManager, regionManager)
+        public ReservationRequestsViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IKarveNavigator navigation, IConfigurationService configurationService, IRegionManager regionManager, IUnityContainer unityContainer) : base(services, controller, dialogService, eventManager, regionManager)
+        {
+            InitServices(services, configurationService);
+            InitCommands();
+            InitCrudCommands();
+            SubSystem = DataSubSystem.BookingSubsystem;
+            ViewModelUri = new Uri("karve://booking/request/viewmodel?id=" + Guid.ToString());
+            _navigator = navigation;
+            _container = unityContainer;
+            _helperViewFactory = _navigator.GetHelperViewFactory();
+            AssistMapper = _assistDataService.Mapper;
+            CompositeCommandOnly = true;
+            VehicleGridColumns = _userSettings.FindSetting<string>(UserSettingConstants.VehicleSummaryGridColumnsKey);
+            EventManager.RegisterObserverSubsystem(BookingModule.RequestGroup, this);
+
+
+        }
+        private void InitServices(IDataServices services, IConfigurationService configurationService)
+        {
+            _userSettings = configurationService.GetUserSettings();
+            _dataReservationService = services.GetReservationRequestDataService();
+            _assistDataService = services.GetAssistDataServices();
+
+        }
+        private void InitCommands()
         {
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
@@ -47,22 +77,12 @@ namespace BookingModule.ViewModels
             CreateNewFare = new DelegateCommand(NewFare);
             CreateNewVehicle = new DelegateCommand(NewVehicle);
             CreateNewOrigen = new DelegateCommand(NewOrigin);
-            SubSystem = DataSubSystem.BookingSubsystem;
-
-            ViewModelUri = new Uri("karve://booking/request/viewmodel?id=" + Guid.ToString());
-            _navigator = navigation;
-            _helperViewFactory = _navigator.GetHelperViewFactory();
-            _userSettings = configurationService.GetUserSettings();
-              _deleteCommand = new DelegateCommand<object>(this.DeleteViewCommand);
-              _saveCommand = new DelegateCommand<object>(SaveViewCommand);
-            _dataReservationService = services.GetReservationRequestDataService();
-            _assistDataService = services.GetAssistDataServices();
-            AssistMapper = _assistDataService.Mapper;
-            CompositeCommandOnly = true;
-            VehicleGridColumns = _userSettings.FindSetting<string>(UserSettingConstants.VehicleSummaryGridColumnsKey);
-            EventManager.RegisterObserverSubsystem(BookingModule.RequestGroup, this);
-
-
+        }
+        private void InitCrudCommands()
+        {
+            _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
+            _saveCommand = new DelegateCommand<object>(SaveViewCommand);
+            _newCommand = new DelegateCommand<object>(NewViewCommand);
         }
 
         private void NewOrigin()
@@ -108,10 +128,7 @@ namespace BookingModule.ViewModels
         private void OnChangedField(object ev)
         {
             if (ev is IDictionary<string, object> eventData)
-            {
-
-                var ev1 = eventData;
-            
+            {            
                 OnChangedCommand(DataObject,
                                        eventData,
                                        DataSubSystem.BookingSubsystem,
@@ -306,6 +323,29 @@ namespace BookingModule.ViewModels
             RegisterToolBar();
             ActiveSubSystem();
         }
+
+        public void NewViewCommand(object key)
+        {
+            var factory = new ViewFactory<IReservationRequest, ReservationRequestSummary>(RegionManager, _container, EventManager,_dataReservationService, _dataReservationService);
+
+
+            var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+            /// i shall check that i am on foreground
+            if (activeView is UserControl control)
+            {
+                if (control.DataContext is KarveViewModelBase baseViewModel)
+                {
+                    // its is me....
+                    if (baseViewModel.ViewModelUri == ViewModelUri)
+                    {
+                        factory.NewItem<ReservationRequests>(KarveLocale.Properties.Resources.lrgrReservas,
+                            "karve://booking/request/viewmodel?id=",
+                            DataSubSystem.BookingSubsystem,
+                            BookingModule.BookingSubSystem);
+                    }
+                }
+            }
+        }
         public void DeleteViewCommand(object key)
         {
             base.DeleteView(key);
@@ -320,8 +360,6 @@ namespace BookingModule.ViewModels
         {
             bool isSaved = false;
             _reservationRequest.Value = DataObject;
-
-
             NotifyTaskCompletion.Create(_dataReservationService.SaveAsync(_reservationRequest), (sender, args) =>
             {
                 if (sender is INotifyTaskCompletion<bool> taskCompletion)
@@ -433,8 +471,7 @@ namespace BookingModule.ViewModels
             payLoad.ObjectPath = ViewModelUri;
             payLoad.Sender = ViewModelUri.ToString();
             payLoad.Subsystem = DataSubSystem.BookingSubsystem;
-           
-            
+                       
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

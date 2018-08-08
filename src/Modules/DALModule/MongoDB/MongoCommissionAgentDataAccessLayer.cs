@@ -67,6 +67,17 @@ namespace DataAccessLayer.MongoDB
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IEnumerable<ICommissionAgent>> GetListAsync(IList<ICommissionAgent> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<ICommissionAgent>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int NumberPage { get; set; }
         public long NumberItems { get; set; }
     }

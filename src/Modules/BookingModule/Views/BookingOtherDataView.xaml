@@ -16,7 +16,7 @@
              d:DesignHeight="1000" d:DesignWidth="1100">
     <UserControl.Resources>
         <converter:StringToTimeSpanConverter x:Key="StringSpanConverter"></converter:StringToTimeSpanConverter>
-
+        <converter:InvertedBooleanToVisibility x:Key="InvertedBoolConverter"></converter:InvertedBooleanToVisibility>
         <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
         <local:BookingStateConverter x:Key="BookingStateConverter" />
     </UserControl.Resources>
@@ -68,8 +68,8 @@
                                              TextContentSecondWidth="200"
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
-                                             DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                             DataSource="{Binding DataSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
+                                             SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}">
 
                             </karveControls:DualFieldSearchBox>
                         </Grid>
@@ -529,7 +529,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Text="Estado Reserva"/>
                     <TextBlock Grid.Column="1" Text="Fecha"></TextBlock>
-                    <TextBlock Grid.Column="2" Text="Motivo"></TextBlock>
+                    <TextBlock Grid.Column="2" Text="Motivo Rechazo"></TextBlock>
                     <TextBlock Grid.Column="3" Text="Usuario"></TextBlock>
                     <Syncfusion:ComboBoxAdv Grid.Row="1" Grid.Column="0">
                         <Syncfusion:ComboBoxAdv.SelectedItem>
@@ -562,16 +562,17 @@
                                              x:Name="BookingReason"
                                              Grid.Column="2"
                                             Grid.Row="1"
+                                             Visibility="{Binding IsReservationCancelled,Converter={StaticResource InvertedBoolConverter}}"
                                             LabelVisible="False"
-                                             DataFieldFirst="AMBITO_RES2"
-                                             AssistTableName="TERRITORIALSCOPE_ASSIST"
+                                             DataFieldFirst="RECHAZAMOTI"
+                                             AssistTableName="BOOKING_REFUSE_ASSIST"
                                              AssistProperties="Code,Name"
                                              TextContentFirstWidth="50"
                                              TextContentSecondWidth="150"
                                              MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                              ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
                                              DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                             SourceView="{Binding PromotionDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                             SourceView="{Binding BookingRefusedDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     </karveControls:DualFieldSearchBox>
 
                     <Syncfusion:SfTextBoxExt Grid.Column="3" Grid.Row="1" Width="80"></Syncfusion:SfTextBoxExt>
@@ -582,7 +583,7 @@
                                               SmallIcon="/KarveControls;component/Images/ball_red.png"></Syncfusion:ButtonAdv>
                         <Syncfusion:ButtonAdv Label="Desrechazar"
                                               SmallIcon="/KarveControls;component/Images/ball_green.png"
-                                              Command="{Binding RejectBooking}"
+                                              Command="{Binding UnrejectBooking}"
                                               CommandParameter="{Binding DataObject.NUMERO_RES}"
                                               ></Syncfusion:ButtonAdv>
                         <Syncfusion:ButtonAdv Label="Confirmar"   

@@ -21,6 +21,16 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
+        public Task<IEnumerable<IVehicleData>> GetListAsync(IList<IVehicleData> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<IVehicleData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IVehicleData GetNewDo(string value)
         {
             throw new System.NotImplementedException();

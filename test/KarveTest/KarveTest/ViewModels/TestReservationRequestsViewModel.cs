@@ -17,6 +17,7 @@ using DataAccessLayer.Model;
 using KarveDapper;
 using KarveDapper.Extensions;
 using Dapper;
+using Microsoft.Practices.Unity;
 
 namespace KarveTest.ViewModels
 {
@@ -32,6 +33,7 @@ namespace KarveTest.ViewModels
         private Mock<IInteractionRequestController> _interacionController;
         private Mock<IDialogService> _dialogService;
         private Mock<IAssistDataService> _assistService;
+        private Mock<IUnityContainer> _unityContainer;
         private ISqlExecutor _sqlExecutor;
         private IDataServices _services;
         private DalBase testbase = new DalBase();
@@ -41,6 +43,7 @@ namespace KarveTest.ViewModels
         {
          _eventManager = new Mock<IEventManager>();
          _dataServices = new Mock<IDataServices>();
+            _unityContainer = new Mock<IUnityContainer>();
          _navigator = new Mock<IKarveNavigator>();
          _interacionController = new Mock<IInteractionRequestController>();
          _dialogService = new Mock<IDialogService>();
@@ -55,7 +58,7 @@ namespace KarveTest.ViewModels
             // prepare the navigator call back
             _navigator.Setup(x => x.NewClientView(It.IsAny<Uri>()))
         .Callback(()=> { isClientNavigated = true; });
-        var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null);
+        var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null, _unityContainer.Object);
             _reservationRequestsView.CreateNewClient.Execute();
             Assert.IsTrue(isClientNavigated);
         }
@@ -90,7 +93,7 @@ namespace KarveTest.ViewModels
                 currentDataPayLoad = x;
             });
             _dataServices.Setup(x=>x.GetReservationRequestDataService()).Returns(requestService.Object);
-            var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null);
+            var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null, _unityContainer.Object);
 
             // now i should arrange a new id and send to the reservation request view model.
             DataPayLoad payload = new DataPayLoad();
@@ -132,7 +135,7 @@ namespace KarveTest.ViewModels
             DataPayLoad payload = new DataPayLoad();
             payload.PayloadType = DataPayLoad.Type.Show;
             payload.DataObject = reservation;
-            var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null);
+            var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null, _unityContainer.Object);
             reservationRequestsView.IncomingPayload(payload);
             Assert.GreaterOrEqual(1, reservationRequestsView.ClientDto.Count());
             Assert.GreaterOrEqual(1, reservationRequestsView.GroupDto.Count());

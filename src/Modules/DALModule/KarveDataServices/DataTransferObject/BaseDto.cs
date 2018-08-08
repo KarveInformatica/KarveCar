@@ -25,7 +25,7 @@ namespace KarveDataServices.DataTransferObject
         protected const int NameSize = 35;
         protected const int SecondNameSize = 50;
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate {};
 
         public BaseDto()
         {

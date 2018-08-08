@@ -9,7 +9,8 @@ namespace DataAccessLayer.Model
 {
     /// <summary>
     ///  Wrapper that allows us to deliver  its dto and a set of related things for the searchboxes.
-    ///  I think that those wrapper are simply vectors (they bring something). No need for raiseproperty change.
+    ///  I think that those wrapper are simply vectors (they bring something). 
+    ///  No need for raiseproperty change.
     /// </summary>
     public class Reservation : BindableBase, IBookingData
     {
@@ -123,7 +124,8 @@ namespace DataAccessLayer.Model
         /// <summary>
         ///  Set the validity of the domain object. In case of any error this gets false
         /// </summary>
-        public bool Valid {
+        public bool Valid
+        {
             get
             {
                 return _valid;
@@ -211,7 +213,7 @@ namespace DataAccessLayer.Model
 
         set => _broker = value;
         }
-    public IEnumerable<OfficeDtos> OfficeDto
+        public IEnumerable<OfficeDtos> OfficeDto
         {   get => _office1;
             set => _office1 = value;
         }
@@ -261,5 +263,6 @@ namespace DataAccessLayer.Model
         public IEnumerable<CountryDto> SecondDriverCountryDto { get ; set; }
         public IEnumerable<CityDto> SecondDriverCityDto { get; set; }
         public IEnumerable<ProvinciaDto> SecondDriverProvinceDto { get ; set; }
+        public IEnumerable<BookingRefusedDto> BookingRefusedDto { get; set; }
     }
 }

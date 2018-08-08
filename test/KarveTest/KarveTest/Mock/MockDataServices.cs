@@ -136,5 +136,10 @@ namespace KarveTest.Mock
         {
             throw new NotImplementedException();
         }
+
+        public IBookingIncidentDataService GetBookingIncidentDataService()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

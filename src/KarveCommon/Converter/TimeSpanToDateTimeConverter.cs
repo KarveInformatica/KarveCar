@@ -7,7 +7,7 @@ namespace KarveCommon.Converter
 
     class TimeSpanToDateTimeConverter : IValueConverter
     {
-        private DateTime _lastValue;
+  
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try

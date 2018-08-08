@@ -14,7 +14,7 @@ namespace DataAccessLayer
     /// <summary>
     ///  Abstract class for the common interface in the data access layer.
     /// </summary>
-    internal class AbstractDataAccessLayer
+    public class AbstractDataAccessLayer
     {
         /// <summary>
         ///  The executor in common between all the abstract data access layer

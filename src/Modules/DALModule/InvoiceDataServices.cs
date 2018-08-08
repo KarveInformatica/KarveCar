@@ -323,5 +323,10 @@ namespace DataAccessLayer
         {
           throw new System.NotImplementedException();
         }
+        
+        public Task<IEnumerable<IInvoiceData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

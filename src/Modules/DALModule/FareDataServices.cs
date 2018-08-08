@@ -82,5 +82,15 @@ namespace DataAccessLayer
             }
             return -1;
         }
+
+        public Task<IEnumerable<FareDto>> GetListAsync(IList<FareDto> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<FareDto>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

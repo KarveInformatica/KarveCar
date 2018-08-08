@@ -1,19 +1,22 @@
 using System;
+using KarveDapper.Extensions;
+
  
 namespace DataAccessLayer.DataObjects
 {
-	/// <summary>
-	/// Represents a COINRE.
-	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
-	/// </summary>
-	public class COINRE 
+    /// <summary>
+    /// Represents a COINRE.
+    /// NOTE: This class is generated from a T4 template - you should not modify it manually.
+    /// </summary>
+    [Table("COINRE")]
+    public class COINRE 
 	{
 	
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
-		public string CODIGO { get; set; }
+    [Key]
+        public string CODIGO { get; set; }
  
 	/// <summary>
     ///  Set or get the NOMBRE property.

@@ -318,7 +318,7 @@ namespace BookingModule.ViewModels
         protected override void NewItem()
         {
             ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto> viewFactory = new ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto>(_regionManager, _container, EventManager, _bookingDataService, _bookingDataService);
-            viewFactory.NewItem(KarveLocale.Properties.Resources.lbooking, "karve://booking/viewmodel?id=", DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
+            viewFactory.NewItem<BookingInfoView>(KarveLocale.Properties.Resources.lbooking, "karve://booking/viewmodel?id=", DataSubSystem.BookingSubsystem, BookingModule.BookingSubSystem);
         }
         protected override string GetRouteName(string name)
         {
@@ -360,8 +360,7 @@ namespace BookingModule.ViewModels
                     PageCount = _bookingDataService.NumberPage;
                     ItemCounts = maxItems.ToString();
                     var bookingList = new IncrementalList<BookingSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
-                    bookingList.LoadItems(booking);
-                    
+                    bookingList.LoadItems(booking);   
                     SummaryView = bookingList;
                     break;
             }
@@ -373,10 +372,7 @@ namespace BookingModule.ViewModels
             _bookingLoadEventHandler -= OnNotifyIncrementalList<BookingSummaryDto>;
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
-            if (SummaryView is IncrementalList<BookingSummaryDto> dto)
-            {
-                dto.Clear();
-            }
+            ClearSummary<BookingSummaryDto>();
             EventManager.DeleteObserverSubSystem(BookingModule.BookingSubSystem, this);
 
         }

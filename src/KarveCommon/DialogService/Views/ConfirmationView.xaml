@@ -1,0 +1,40 @@
+﻿<Window x:Class="KarveCommon.DialogService.Views.ConfirmationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveCommon.DialogService.Views"
+             Title="{Binding Title}"
+             mc:Ignorable="d" Height="180" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Background="CadetBlue" Grid.ColumnSpan="2" Height="30">
+            <Image DockPanel.Dock="Left" Source="/KarveCommon;component/Images/cars.png" Height="30"/>
+            <TextBlock DockPanel.Dock="Right" HorizontalAlignment="Center" Text="{Binding Subtitle}" FontSize="24" Foreground="Black" />
+        </DockPanel>
+        <Image Grid.Row="1" Margin="20,0,0,10"
+            Grid.Column="0" Source="/KarveCommon;component/Images/bt_apply.png" Height="30"></Image>
+        <TextBlock Grid.Row="1" 
+                   Margin="20,0,0,10"
+                   FontSize="19" VerticalAlignment="Top" HorizontalAlignment="Left"
+            Grid.Column="1" Text="{Binding Message}"></TextBlock>
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <Button Width="80" Margin="0,40,5,0" Content="OK" DockPanel.Dock="Left" Command="{Binding ConfirmedCommand}">
+            
+        </Button>
+            <Button Width="80" Margin="0,40,0,0" Content="Cancel" DockPanel.Dock="Right" Command="{Binding CancelledCommand}">
+
+            </Button>
+        </DockPanel>
+
+
+    </Grid>
+</Window>

@@ -1036,6 +1036,42 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<HolidayDto, FESTIVOS_OFICINA>().ConvertUsing(new HolidayConverterBack());
                 cfg.CreateMap<FESTIVOS_OFICINA, HolidayDto>().ConvertUsing(new HolidayConverter());
                 cfg.CreateMap<SupplierPoco, SupplierDto>().ConvertUsing(new SupplierPocoConverter());
+                cfg.CreateMap<BookingRefusedDto, MOTANU>().ConvertUsing(src=>
+                {
+                    var bookingRefused = new MOTANU();
+                    bookingRefused.CODIGO = src.Code;
+                    bookingRefused.NOMBRE = src.Name;
+                    bookingRefused.ULTMODI = src.LastModification;
+                    bookingRefused.USUARIO = src.CurrentUser;
+                    return bookingRefused;
+                });
+                cfg.CreateMap<MOTANU, BookingRefusedDto>().ConvertUsing(src=>
+                {
+                    var bookingRefused = new BookingRefusedDto();
+                    bookingRefused.Code = src.CODIGO;
+                    bookingRefused.Name = src.NOMBRE;
+                    bookingRefused.LastModification = src.ULTMODI;
+                    bookingRefused.CurrentUser = src.USUARIO;
+                    return bookingRefused;
+                });
+                cfg.CreateMap<COINRE, IncidentTypeDto>().ConvertUsing(src =>
+                {
+                    var incidentType = new IncidentTypeDto();
+                    incidentType.Code = src.CODIGO;
+                    incidentType.Name = src.NOMBRE;
+                    incidentType.LastModification = src.ULTMODI;
+                    incidentType.User = src.USUARIO;
+                    return incidentType;
+                });
+                cfg.CreateMap<IncidentTypeDto, COINRE>().ConvertUsing(src =>
+                {
+                    var incidentType = new COINRE();
+                    incidentType.CODIGO = src.Code;
+                    incidentType.NOMBRE = src.Name;
+                    incidentType.ULTMODI = src.LastModification;
+                    incidentType.USUARIO = src.User;
+                    return incidentType;
+                });
                 cfg.CreateMap<CONTRATIPIMPR, PrintingTypeDto>().ConstructUsing(src=> 
                 {
                     var printingContracto = new PrintingTypeDto();
@@ -1332,6 +1368,8 @@ namespace DataAccessLayer.Logic
                     return generic;
                 });
                 cfg.CreateMap<BookingPoco, BookingDto>();
+                cfg.CreateMap<BookingIncidentDto, INCIRE>();
+                cfg.CreateMap<INCIRE, BookingIncidentDto>();
                 cfg.CreateMap<CONTRATOS1, ContractDto>().ConvertUsing(src =>
                 {
                     var generic = new ContractDto()

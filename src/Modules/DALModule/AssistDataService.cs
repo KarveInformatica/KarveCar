@@ -11,6 +11,18 @@ using KarveDataServices.DataObjects;
 
 namespace DataAccessLayer
 {
+    /// <summary>
+    ///  Assist Data Service is the global service for resolving all searchboxes. 
+    ///  It contains a map of a assist. An assist is just a tag. When the user clicks 
+    ///  on the searchbox, the custom search box control (DualFieldSearchBox) raise an event
+    ///  with an associated dictionary. The conceptual idea here that it does an assist to the viewmodel,
+    ///  and the view model should smash the assist providing a new set of result.
+    ///  Inside this dictionary there is a tag that it will be passed
+    ///  to the assist data service. The resposability of the assist data service is ask to database 
+    ///  the set of the paged results that corresponds to that tag.
+    ///  The assist data service exposes the map to the world for allowing a custom configuration of the 
+    ///  tags.
+    /// </summary>
     class AssistDataService : IAssistDataService
     {
         /// <summary>
@@ -248,7 +260,9 @@ namespace DataAccessLayer
         /// <param name="dataProvider">Data service provider for loading data</param>
         /// <param name="loadMoreItemFunc">Function to be used for loading more items.</param>
         /// <returns> An incremental list of items loaded up to DefaultPage</returns>
-        private async Task<object> CreateComplexHelper<Entity, Domain, SummaryDto>(IDataProvider<Domain, SummaryDto> dataProvider, Action<uint, int> loadMoreItemsFunc)
+        private async Task<object> CreateComplexHelper<Entity, Domain, SummaryDto>(IDataProvider<Domain, SummaryDto> dataProvider, Action<uint, int> loadMoreItemsFunc) where Entity: class
+                                                             where Domain: class
+                                                             where SummaryDto: BaseDto
         {
             var page = await dataProvider.GetPagedSummaryDoAsync(1, DefaultPage).ConfigureAwait(false);
             var count = await _helperDataServices.GetItemsCount<Entity>().ConfigureAwait(false);
@@ -470,6 +484,18 @@ namespace DataAccessLayer
             _assistMapper.Configure("BOOKING_CONF_MESSAGE_ASSIST", async (query)=> 
             {
                 currentHelper = await _helperDataServices.GetPagedSummaryDoAsync<BookingConfirmMessageDto, RESERCONFIRM>(1, DefaultPage).ConfigureAwait(false);
+                return currentHelper;
+            });
+            _assistMapper.Configure("BOOKING_REFUSE_ASSIST", async (query) =>
+            {
+                // come on we dont need more than 100 refuse motivation. Common sense overall. 
+                currentHelper = await _helperDataServices.GetPagedSummaryDoAsync<BookingRefusedDto, MOTANU>(1, DefaultPage).ConfigureAwait(false);
+                return currentHelper;
+            });
+
+            _assistMapper.Configure("BOOKING_INCIDENT_TYPE", async (query) =>
+            {
+                currentHelper = await _helperDataServices.GetPagedSummaryDoAsync<IncidentTypeDto, COINRE>(1, 1000).ConfigureAwait(false);
                 return currentHelper;
             });
             _assistMapper.Configure("DELIVERY_PLACE_0", async(query)=>
@@ -1222,7 +1248,6 @@ namespace DataAccessLayer
                 }
                 return currentHelper;
             });
-
             _assistMapper.Configure("RENT_USAGE_ASSIST", async (query) =>
             {
                 currentHelper = await CreateAssistByQuery<RentingUseDto, USO_ALQUILER>(query as string).ConfigureAwait(false);
@@ -1528,7 +1553,12 @@ namespace DataAccessLayer
                 }
                 return currentHelper;
             });
-            
+            _assistMapper.Configure("SUPPLIER_ASSIST", async (query) =>
+            {
+                var currentHelper = await CreateSupplierHelper().ConfigureAwait(false);
+                return currentHelper;
+            });
+
             _assistMapper.Configure("PROVEE2", async (query) =>
             {
                 var supplierHelper = await CreateSupplierHelper().ConfigureAwait(false);

@@ -234,7 +234,13 @@ namespace KarveCommon.Generic
             }
         }
         
-       
+       protected void RaisePropertyChangeAfterInit(string propertyName=null)
+        {
+            if (IsViewModelInitialized)
+            {
+                RaisePropertyChanged(propertyName);
+            }
+        }
         /// <summary>
         ///  This is meant to be overriden only when the PageEvent is needed
         /// </summary>

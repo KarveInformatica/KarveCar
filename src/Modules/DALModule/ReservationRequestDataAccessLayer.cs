@@ -195,5 +195,15 @@ namespace DataAccessLayer
             var savedReservation = await _dataSaver.SaveAsync(bookingData.Value).ConfigureAwait(false);
             return savedReservation;
         }
+
+        public Task<IEnumerable<IReservationRequest>> GetListAsync(IList<IReservationRequest> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<IReservationRequest>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

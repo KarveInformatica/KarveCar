@@ -23,13 +23,13 @@ namespace KarveDataServices
         /// <summary>
         ///  Get the data service for managing all the booking
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return a reference to a booking data service.</returns>
         IBookingDataService GetBookingDataService();
 
         /// <summary>
         ///  Get the budget request data service
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return a reference to a budget data service.</returns>
         IBudgetDataService GetBudgetDataServices();
 
 
@@ -105,7 +105,6 @@ namespace KarveDataServices
         /// <returns></returns>
         ISettingsDataServices GetSettingsDataService();
 
-       
         /// <summary>
         ///  Start the reconfiguration of all the connections. 
         ///  It reconfigure the connection string.
@@ -114,16 +113,21 @@ namespace KarveDataServices
         void Reconfigure(string connectionString);
        /// <summary>
        ///  Get the fare data services.
-       ///  
        /// </summary>
-       /// <returns></returns>
+       /// <returns>Reference to fare data service.</returns>
         IFareDataServices GetFareDataServices();
         /// <summary>
-        ///  Get the reservatiobn request data service.
+        ///  Get the reservation request data service.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Reference to the reservation request.</returns>
         IReservationRequestDataService GetReservationRequestDataService();
-      
+
+        /// <summary>
+        ///  Get the booking incident data service.
+        /// </summary>
+        /// <returns>The booking incident data service</returns>
+        IBookingIncidentDataService GetBookingIncidentDataService();
+
     }
 
 }

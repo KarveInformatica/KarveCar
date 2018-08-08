@@ -56,5 +56,6 @@ namespace KarveDataServices.DataObjects
         IEnumerable<CountryDto> SecondDriverCountryDto { set; get; }
         IEnumerable<CityDto> SecondDriverCityDto { set; get; }
         IEnumerable<ProvinciaDto> SecondDriverProvinceDto { set; get; }
+        IEnumerable<BookingRefusedDto> BookingRefusedDto { get; set; }
     }
 }

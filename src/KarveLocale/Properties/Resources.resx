@@ -3142,4 +3142,40 @@
   <data name="lrowsperpage" xml:space="preserve">
     <value>Rigas per pagina</value>
   </data>
+  <data name="lincidentcode" xml:space="preserve">
+    <value>Cod.Incidencia</value>
+  </data>
+  <data name="lidincident" xml:space="preserve">
+    <value>Id.Incidencia</value>
+  </data>
+  <data name="lincidenttype" xml:space="preserve">
+    <value>Tipo Incidencia</value>
+  </data>
+  <data name="lincidentdate" xml:space="preserve">
+    <value>Fecha Incidencia</value>
+  </data>
+  <data name="lincidents" xml:space="preserve">
+    <value>Incidencias</value>
+  </data>
+  <data name="lincidenttypeext" xml:space="preserve">
+    <value>Tipo de Incidencia</value>
+  </data>
+  <data name="larrivaldate" xml:space="preserve">
+    <value>Fecha Devolucion</value>
+  </data>
+  <data name="lcost" xml:space="preserve">
+    <value>Coste</value>
+  </data>
+  <data name="lpositive" xml:space="preserve">
+    <value>Positivo</value>
+  </data>
+  <data name="lnegative" xml:space="preserve">
+    <value>Negativo</value>
+  </data>
+  <data name="lnothing" xml:space="preserve">
+    <value>Nada</value>
+  </data>
+  <data name="Remitente" xml:space="preserve">
+    <value>Remitente</value>
+  </data>
 </root>

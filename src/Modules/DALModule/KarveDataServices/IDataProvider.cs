@@ -6,14 +6,15 @@ namespace KarveDataServices
     /// <summary>
     ///  Common interface for each data service.
     /// </summary>
-    /// <typeparam name="DomainType"></typeparam>
-    /// <typeparam name="SummaryType"></typeparam>
-    public interface IDataProvider<DomainType, SummaryType>
+    /// <typeparam name="DomainType">Type of the domain.</typeparam>
+    /// <typeparam name="SummaryType">Summer type</typeparam>
+    public interface IDataProvider<DomainType, SummaryType> where DomainType: class
+                                                            where SummaryType: class
     {
         /// <summary>
         ///  Returns the list of summaryType. A summary type in the system is used for lookup grid.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of summary type</returns>
         Task<IEnumerable<SummaryType>> GetSummaryAllAsync();
         /// <summary>
         ///  This gets the domain type asynchronously. 
@@ -46,13 +47,13 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="index">Index inside the paged stuff.</param>
         /// <param name="pageSize">Size of the page</param>
-        /// <returns></returns>
+        /// <returns>A list of paged summary async.</returns>
         Task<IEnumerable<SummaryType>> GetPagedSummaryDoAsync(int index, int pageSize);
         /// <summary>
         /// Load a list of domain types give some data.
         /// </summary>
         /// <param name="listPrimaryKeys">A list primary keys</param>
-        /// <returns>A list of domain types</returns>
-        Task<IEnumerable<DomainType>> GetListAsync(IList<DomainType> primaryKeys);
+        /// <returns>A list of domain types.</returns>
+        Task<IEnumerable<DomainType>> GetListAsync(IList<string> primaryKeys);
     }
 }

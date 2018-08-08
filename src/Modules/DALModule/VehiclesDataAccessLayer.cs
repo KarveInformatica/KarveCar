@@ -230,5 +230,10 @@ namespace DataAccessLayer
                 return id;
             }
         }
+
+        public Task<IEnumerable<IVehicleData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

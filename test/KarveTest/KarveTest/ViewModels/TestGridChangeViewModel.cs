@@ -18,13 +18,8 @@ namespace KarveTest.ViewModels
     class TestGridChangeViewModel : TestViewModelBase
     {
         
-        private Mock<IDialogService> _dialogService;
+       
         private ProviderInfoViewModel _providerInfoViewModel;
-        private CommissionAgentInfoViewModel _commissionAgentViewModel;
-        private ClientsInfoViewModel _clientInfoViewModel;
-        private CompanyInfoViewModel _companyInfoViewModel;
-        private OfficeInfoViewModel officeInfoViewModel;
-        private KarveToolBarViewModel _karveToolBarViewModel;
         private IEventManager eventManager = new EventDispatcher();
         private IDataServices _dataServices;
 

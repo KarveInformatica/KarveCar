@@ -9,7 +9,7 @@ using System.ComponentModel;
 namespace DataAccessLayer
 {
     /// <summary>
-    ///  DataPager has the single resposability of retrieving a given interval of data starting from a position.
+    ///  DataPager has the resposability to manage data paged and retreive them in a sorted/unsorted way.
     /// </summary>
     /// <typeparam name="T">Type of the data to fetch</typeparam>
     public class DataPager<T> where T: class

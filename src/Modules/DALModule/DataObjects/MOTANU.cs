@@ -1,11 +1,13 @@
 using System;
- 
+using KarveDapper.Extensions;
+
 namespace DataAccessLayer.DataObjects
 {
 	/// <summary>
 	/// Represents a MOTANU.
 	/// NOTE: This class is generated from a T4 template - you should not modify it manually.
 	/// </summary>
+    [Table("MOTANU")]
 	public class MOTANU 
 	{
 	
@@ -30,7 +32,7 @@ namespace DataAccessLayer.DataObjects
 	/// <summary>
     ///  Set or get the CODIGO property.
     /// </summary>
-    
+        [Key]    
 		public string CODIGO { get; set; }
 	}
 }

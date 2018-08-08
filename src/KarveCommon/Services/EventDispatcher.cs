@@ -1,4 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Linq;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace KarveCommon.Services
@@ -6,16 +8,21 @@ namespace KarveCommon.Services
     /// <summary>
     /// Dispatcher of messages between different parts of the application.
     /// This makes the application and communication between view models loosely coupled.
+    /// ViewModel are not coupled to one another. Each talks to the EventDispatcher using a DataPayload. 
+    /// Each view model might subscribe direct or broadcast communication to the event dispatcher.
+    /// - In case of broadcast communication shall provide the id of the group to comunicate with.
+    /// - In case of direct communication it shall provide the uri of the view model for sending to the message.
+    /// Notification can be enabled or disabled.
     /// </summary>
-    public class EventDispatcher : IEventManager
+    public class EventDispatcher : IEventManager, IDisposable
     {
 
-        IList<IEventObserver> _observers = new List<IEventObserver>();
+        IList<WeakReference<IEventObserver>> _observers = new List<WeakReference<IEventObserver>>();
         // This are events for the each subsystem, module wide.
-        IDictionary<string, IList<IEventObserver>> _subsystemObserver = new Dictionary<string, IList<IEventObserver>>();
-        IDictionary<string, IList<IEventObserver>> _notificationDisabled = new Dictionary<string, IList<IEventObserver>>();
+        IDictionary<string, IList<WeakReference<IEventObserver>>> _subsystemObserver = new Dictionary<string, IList<WeakReference<IEventObserver>>>();
+        IDictionary<string, IList<WeakReference<IEventObserver>>> _notificationDisabled = new Dictionary<string, IList<WeakReference<IEventObserver>>>();
         // This are events that notify the toolbar. Each view module can notify the toolbar
-        IList<IEventObserver> _toolBar = new List<IEventObserver>();
+        IList<WeakReference<IEventObserver>> _toolBar = new List<WeakReference<IEventObserver>>();
         // This are direct events, each view module has a mailbox for receiving messages.
         private IDictionary<string, MailBoxMessageHandler> _mailBox = new ConcurrentDictionary<string, MailBoxMessageHandler>();
         /// <summary>
@@ -64,15 +71,17 @@ namespace KarveCommon.Services
                 }
             }
         }
-        private void NotifyObserver(DataPayLoad payload, IList<IEventObserver> eoList)
+        private void NotifyObserver(DataPayLoad payload, IList<WeakReference<IEventObserver>> eoList)
         {
 
             IsNotified = true;
             for (int i = 0; i < eoList.Count; ++i)
             {
-                IEventObserver eo = eoList[i];
-                eo.IncomingPayload(payload);
-             
+                IEventObserver eo = null;
+                if (eoList[i].TryGetTarget(out eo))
+                {
+                    eo.IncomingPayload(payload);
+                }
             }
         }
         /// <summary>
@@ -111,36 +120,29 @@ namespace KarveCommon.Services
             }
             if (_subsystemObserver.ContainsKey(id))
             {
-                if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
+                if (_subsystemObserver.TryGetValue(id, out IList<WeakReference<IEventObserver>> value))
                 {
-                    // ok we get the disabled
-                    _notificationDisabled.TryGetValue(id, out IList<IEventObserver> disabledItemList);
-                    if ((disabledItemList == null))
-                    {
                         NotifyObserver(dataPayload, value);
-                    }
-                    else
-                    {
-                        // the item are not disabled.
-                        Notify(dataPayload, value, disabledItemList);
-                    }
-
                 }
             }
         }
-        private void Notify(DataPayLoad dataPayLoad, IList<IEventObserver> values, IList<IEventObserver> disabled)
+        private void Notify(DataPayLoad dataPayLoad, IList<WeakReference<IEventObserver>> values, IList<WeakReference<IEventObserver>> disabled)
         {
             // the item are not disabled.
-            foreach (IEventObserver eo in values)
+            foreach (WeakReference<IEventObserver> eo in values)
             {
-                // i dont send the message to myself.
+                // I need a sender addres.
                 if (!string.IsNullOrEmpty(dataPayLoad.Sender))
                 {
-                   string  sender = dataPayLoad.Sender;
+                        string  sender = dataPayLoad.Sender;
                         if (!disabled.Contains(eo))
                         {
-                            eo.IncomingPayload(dataPayLoad);
-                        }
+                            IEventObserver observerEvent = null;
+                            if (eo.TryGetTarget(out observerEvent))
+                            {
+                                observerEvent.IncomingPayload(dataPayLoad);
+                            }
+                    }
                     
                 }
             }
@@ -153,15 +155,35 @@ namespace KarveCommon.Services
         {
             NotifyObserver(payload, _toolBar);
         }
+
+        private bool ContainsReference<T>(T observer, IList<WeakReference<T>> observerList) where T: class
+        {
+            if (observer == null)
+            {
+                return false;
+            }
+            foreach (var current in observerList)
+            {
+                T currentObserver = null;
+                if (current.TryGetTarget(out currentObserver))
+                {
+                    if (object.ReferenceEquals(currentObserver, observer))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         /// <summary>
         /// Register an observer
         /// </summary>
         /// <param name="obs">Observer</param>
         public void RegisterObserver(IEventObserver obs)
-        {
-            if (!_observers.Contains(obs))
+        {            
+            if (!ContainsReference<IEventObserver>(obs, _observers))
             {
-                _observers.Add(obs);
+                _observers.Add(new WeakReference<IEventObserver>(obs));
             }
         }
         /// <summary>
@@ -173,17 +195,18 @@ namespace KarveCommon.Services
         {
             if (_subsystemObserver.ContainsKey(id))
             {
-                if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
+                if (_subsystemObserver.TryGetValue(id, out IList<WeakReference<IEventObserver>> value))
                 {
-                    value.Add(obs);
+                    var myReference = new WeakReference<IEventObserver>(obs);
+                    value.Add(myReference);
                     _subsystemObserver[id] = value;
                 }
             }
             else
             {
-                IList<IEventObserver> value = new List<IEventObserver>
+                IList<WeakReference<IEventObserver>> value = new List<WeakReference<IEventObserver>>
                 {
-                    obs
+                    new WeakReference<IEventObserver>(obs)
                 };
                 _subsystemObserver[id] = value;
             }
@@ -192,69 +215,47 @@ namespace KarveCommon.Services
 
         public void RegisterObserverToolBar(IEventObserver obs)
         {
-            if (!_toolBar.Contains(obs))
+            if (!ContainsReference<IEventObserver>(obs, _toolBar))
             {
-                _toolBar.Add(obs);
+                _toolBar.Add(new WeakReference<IEventObserver>(obs));
             }
         }
 
+        private void RemoveReference<T>(T reference, IList<WeakReference<T>> referenceList) where T: class
+        {
+            WeakReference<T> toRemove = null;
+            foreach (var v in referenceList)
+            {
+                T currentReference = null;
+                if (v.TryGetTarget(out currentReference))
+                {
+                    
+                    if (object.ReferenceEquals(currentReference, reference))
+                    {
+                        toRemove = v;
+                    }
+                }
+            }
+            if (toRemove != null)
+            {
+                referenceList.Remove(toRemove);
+            }
+
+        }
         public void DeleteObserverSubSystem(string id, IEventObserver obs)
         {
             if (_subsystemObserver.ContainsKey(id))
             {
-                if (_subsystemObserver.TryGetValue(id, out IList<IEventObserver> value))
+                if (_subsystemObserver.TryGetValue(id, out IList<WeakReference<IEventObserver>> value))
                 {
-                    value.Remove(obs);
 
+
+                    RemoveReference<IEventObserver>(obs, value);
+                    
                 }
             }
-            if (_observers.Contains(obs))
-            {
-                _observers.Remove(obs);
-            }
-            if (_notificationDisabled.TryGetValue(id, out IList<IEventObserver> valueNotify))
-            {
-                valueNotify.Remove(obs);
-            }
-        }
-
-        public void DisableNotify(string id, IEventObserver obs)
-        {
-
-            if (_notificationDisabled.ContainsKey(id))
-            {
-                IList<IEventObserver> value = null;
-                if (_notificationDisabled.TryGetValue(id, out value))
-                {
-                    if (!value.Contains(obs))
-                    {
-                        value.Add(obs);
-                        _notificationDisabled[id] = value;
-                    }
-                }
-            }
-            else
-            {
-                IList<IEventObserver> value = new List<IEventObserver>
-                {
-                    obs
-                };
-                _notificationDisabled[id] = value;
-            }
-        }
-        public void EnableNotify(string id, IEventObserver obs)
-        {
-            if (_notificationDisabled.ContainsKey(id))
-            {
-                IList<IEventObserver> value = null;
-                if (_notificationDisabled.TryGetValue(id, out value))
-                {
-                    if (value.Contains(obs))
-                    {
-                      value.Remove(obs);
-                    }
-                }
-            }
+            RemoveReference<IEventObserver>(obs, _observers);
+          
         }
         /// <summary>
         ///  
@@ -283,15 +284,14 @@ namespace KarveCommon.Services
 
         public void DeleteObserver(IEventObserver observer)
         {
-            for (int i = 0; i < _observers.Count; ++i)
-            {
-                
-                IEventObserver eo = _observers[i];
-                if (eo == observer)
-                {
-                    _observers.Remove(eo);
-                }
-            }
+
+            RemoveReference<IEventObserver>(observer, _observers);
+        }
+
+        public void Dispose()
+        {
+            _observers.Clear();
+            _toolBar.Clear();
         }
     }
 }

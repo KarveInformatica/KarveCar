@@ -150,5 +150,15 @@ namespace KarveTest.Mock
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IEnumerable<IOfficeData>> GetListAsync(IList<IOfficeData> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<IOfficeData>> GetListAsync(IList<string> primaryKeys)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

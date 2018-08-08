@@ -7,13 +7,12 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using Dragablz;
-using KarveCommon.Generic;
 using KarveCommon.Services;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Mvvm;
+using KarveCommon.Generic;
 
 namespace KarveCar.ViewModels
 {
@@ -21,7 +20,7 @@ namespace KarveCar.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private IUnityContainer _container;
-        private string _title = "KarveWin 0.9 - Beta" + DateTime.Now.ToString(); 
+        private string _title = "KarveWin 0.91 - Beta" + DateTime.Now.ToString(); 
         /// <summary>
         ///  servicio de configuracion.
         /// </summary>
@@ -117,82 +116,11 @@ namespace KarveCar.ViewModels
         }
         void Navigate(string navigationPath)
         {
-            _regionManager.RequestNavigate("TabRegion", navigationPath);
+            _regionManager.RequestNavigate(RegionNames.TabRegion, navigationPath);
         }
 
-        public ItemActionCallback ClosingTabItemHandler
-        {
-            get { return ClosingTabItemHandlerImpl; }
-        }
-
-
-
-        
-        /// <summary>
-        /// Callback to handle tab closing.
-        /// </summary>        
-        private void ClosingTabItemHandlerImpl(ItemActionCallbackArgs<TabablzControl> args)
-        {
-            //in here you can dispose stuff or cancel the close
-
-            //here's your view model:
-            var view =  args.DragablzItem.DataContext as UserControl;
-            if (view != null)
-            {
-                var viewModel = view.DataContext;
-                Type viewModelType = viewModel.GetType();
-                MethodInfo methodInfo = viewModelType.GetMethod("DisposeEvents");
-                if (methodInfo != null)
-                {
-                    methodInfo.Invoke(viewModel, null);
-                }
-            }
-
-            var tabItem = args.DragablzItem;
-
-            var tabControl = FindParent<TabControl>(tabItem);
-            if (tabControl == null)
-                return;
-
-            IRegion region = RegionManager.GetObservableRegion(tabControl).Value;
-            if (region == null)
-                return;
-            IViewsCollection collection = region.ActiveViews;
-            object currentView = null;
-            foreach (var v in collection)
-            {
-                currentView = v;
-
-            }
-            if (currentView != null)
-            {
-
-                PropertyInfo parameterInfo = currentView.GetType().GetProperty("Header");
-                if (parameterInfo != null)
-                {
-                    string headerName = parameterInfo.GetValue(currentView, null) as string;
-                    string name = args.DragablzItem.Content as string;
-                    if (name != null)
-                    {
-                        if (headerName == args.DragablzItem.Content.ToString())
-                        {
-                            RemoveItemFromRegion(currentView, region);
       
-
-                        }
-                    }
-                }
-            }
-          
-            //here's how you can cancel stuff:
-            //args.Cancel(); 
-        }
-        // to remove.
-        public IInterTabClient CustomInterTabClient
-        {
-            get; set;
-        }
-
+      
         void RemoveItemFromRegion(object item, IRegion region)
         {
             var navigationContext = new NavigationContext(region.NavigationService, null);

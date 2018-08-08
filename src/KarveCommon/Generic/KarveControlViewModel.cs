@@ -9,6 +9,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using Prism.Regions;
+using Syncfusion.UI.Xaml.Grid;
 
 namespace KarveCommon.Generic
 {
@@ -79,6 +80,15 @@ namespace KarveCommon.Generic
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
 
+        }
+
+        public void ClearSummary<SummaryType>()
+        {
+            if (SummaryView is IncrementalList<SummaryType> summary)
+            {
+                summary.Clear();
+                SummaryView = null;
+            }
         }
         /// <summary>
         ///  Prism navigation support. 

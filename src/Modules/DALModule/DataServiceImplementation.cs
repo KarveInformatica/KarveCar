@@ -10,6 +10,17 @@ namespace DataAccessLayer
     /// Implementation of the the IDataService interface to provide the stairway pattern.
     /// Stairway pattern is against the entourage pattern. 
     /// The Interface assembly shall be sepatated from the implementation.
+    /* When your implementation project depends only on packages that only has interfaces then you can avoid Entourage
+     * anti-pattern.
+     * Of course that requires that you have or are able to use interface-only packages. Also, the packages should not depend on other packages. 
+     * Well, it's not possible all the time, but it would be good if those packages do not contain implementation.  
+     * Of course stairway pattern is useful only when you use abstraction(interfaces or abstract classes) and
+     * dependency inversion. So, with Google Drive example, you could create a project for Google Drive which only
+     * contains interfaces.Then you would create an implementation project which will depend on your Google Drive
+     * interface project and Google Drive packages.When you need Google Drive in your project, you just depend on your
+     * Google Drive interface project. No Entourage! Then in the application, depend on the Google Drive implementation
+     * project and compose everything together.
+     */
     /// </summary>
     public class DataServiceImplementation : IDataServices
     {
@@ -74,6 +85,7 @@ namespace DataAccessLayer
         ///  Budget rqesut data service.
         /// </summary>
         private IBudgetDataService _budgetDataService;
+        private BookingIncidentDataAccessLayer _bookingIncidentDataService;
 
         /// <summary>
         /// DataService Implementation
@@ -147,6 +159,7 @@ namespace DataAccessLayer
             _fareDataService = new FareDataServices(sqlExecutor);
             _reservationRequestDataService = new ReservationRequestDataAccessLayer(sqlExecutor);
             _budgetDataService = new BudgetDataAccessLayer(sqlExecutor);
+            _bookingIncidentDataService = new BookingIncidentDataAccessLayer(sqlExecutor);
 
 
         }
@@ -293,6 +306,15 @@ namespace DataAccessLayer
         public IBudgetDataService GetBudgetDataServices()
         {
             return _budgetDataService;
+        }
+
+        /// <summary>
+        ///  Booking incident data service
+        /// </summary>
+        /// <returns>The booking incident data service</returns>
+        public IBookingIncidentDataService GetBookingIncidentDataService()
+        {
+            return _bookingIncidentDataService;
         }
     }
 }

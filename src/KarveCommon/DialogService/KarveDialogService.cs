@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveCommonInterfaces;
 using System.Windows;
+using Microsoft.Practices.Unity;
+using KarveCommon.DialogService.Views;
+using KarveCommon.DialogService.ViewModels;
+
 
 namespace KarveCommon.DialogService
 {
@@ -14,6 +18,25 @@ namespace KarveCommon.DialogService
     /// </summary>
     public class KarveDialogService : IDialogService
     {
+        IUnityContainer _container;
+        public KarveDialogService(IUnityContainer container)
+        {
+            _container = container;
+            _container.RegisterType<object, ConfirmMessageViewModel>(typeof(ConfirmMessageViewModel).FullName);
+            _container.RegisterType<object, ConfirmationView>(typeof(ConfirmationView).FullName);
+
+        }
+        public bool ShowConfirmMessage(string title, string message)
+        {
+            var viewModel = _container.Resolve<ConfirmMessageViewModel>();
+            viewModel.Title = title;
+            viewModel.Message = message;
+            ConfirmationView view = _container.Resolve<ConfirmationView>();
+            view.DataContext = viewModel;
+            view.ShowDialog();
+            return viewModel.IsConfirmed;
+        }
+
         public MessageDialogResult ShowDialogMessage(string title, string message)
         {
             throw new NotImplementedException();

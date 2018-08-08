@@ -134,6 +134,12 @@ namespace DataAccessLayer.SQL
         QueryCityByName,
         QueryBudgetSummaryById,
         QueryDelivering,
-        QueryDeliveringBy
+        QueryDeliveringBy,
+        QueryBookingIncident,
+        QueryBookingIncidentSummary,
+        QueryBookingIncidentType,
+        BookingIncidentSummaryPaged,
+        QueryBookingIncidentSummaryPaged,
+        QueryRefusedBooking
     };
 }

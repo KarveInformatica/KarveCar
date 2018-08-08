@@ -50,11 +50,7 @@
                                         ObjectType="{x:Type karveLocale:LocaleResourceFactory}" 
                                         MethodName="GetResourceLanguage">
                     </ObjectDataProvider>
-                    <Style TargetType="{x:Type dragablz:HeaderedDragablzItem}" x:Key="ItemStyle">
-                        <Setter Property="HeaderContent" Value="{Binding DataContext.Title}">
-
-                        </Setter>
-                    </Style>
+                    
 
                     <Style TargetType="syncfusion:VirtualizingCellsControl" x:Key="KarveAlternatingRowStyle">
                         <Setter Property="Background" Value="#EEF0F0"/>
