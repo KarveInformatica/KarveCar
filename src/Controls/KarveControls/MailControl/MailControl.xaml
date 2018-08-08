@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <TextBlock Background="LightBlue" Text="Composición Messaje"></TextBlock>
         <WrapPanel x:Name="ButtonPanel" Height="100" VerticalAlignment="Top" Grid.Row="1" Background="CadetBlue">
-            <Button Height="80" Width="100" Command="{Binding SendMailCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
+            <Button Height="80" Width="100" Command="{Binding SendMail}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
                 <StackPanel Orientation="Vertical">
                     <Image Source="/KarveControls;component/Images/maildrop.png" Height="40" Width="49" RenderTransformOrigin="0.469,0.638" />
                     <TextBlock Text="Invia Email" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
@@ -49,7 +49,7 @@
             <Button Height="80" Width="100" Command="{Binding SpellerCheckerCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
                 <StackPanel Orientation="Vertical">
                     <Image Source="/KarveControls;component/Images/spellcheck.png" Height="43" Width="60"/>
-                    <TextBlock Text="Corr.ortográfico" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                    <TextBlock Text="Corr.ortografico" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 </StackPanel>
             </Button>
         </WrapPanel>
