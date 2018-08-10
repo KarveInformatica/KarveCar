@@ -20,6 +20,7 @@ namespace DataAccessLayer.Crud.Budget
         public BudgetDataLoader(ISqlExecutor sqlExecutor)
         {
             this.sqlExecutor = sqlExecutor;
+            this.queryStoreFactory = new QueryStoreFactory();
         }
 
         public Task<IEnumerable<BudgetDto>> LoadAsyncAll()

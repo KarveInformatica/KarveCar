@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="KarveControls.Interactivity.Views.ReportView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KarveControls.Interactivity.Views"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF"
+             xmlns:karveControls="clr-namespace:KarveControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <karveControls:TextedThumb Grid.Row="0" 
+                                   Width="Auto" 
+                                   Height="40" 
+                                   FontWeight="Bold" 
+                                   FontSize="24"
+                                   Foreground="White"
+                                   Title="{Binding Notification.Title}"
+                                   karveControls:PopupMovableBehaviour.IsMoveEnabledProperty="true">
+
+            </karveControls:TextedThumb>
+        <syncfusion:PdfViewerControl ItemSource="{Binding Notification.DocumentStream}"/>
+        
+    </Grid>
+</UserControl>

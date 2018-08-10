@@ -34,21 +34,31 @@ namespace BookingModule.ViewModels
             var builder = new GeneralInfoCollectionBuilder(AssistCommand, CreateCommand, ItemChangedCommand);
             builder.Add(KarveLocale.Properties.Resources.StringConstants_Origen,"ORIGEN_RES2", "BOOKING_ORIGIN_ASSIST", "BOOKING_ORIGIN_CREATE", "Code, Name");
             builder[0].SourceView = BookingOrigen;
-            
+            builder[0].Name = "BookingOrigin";
             builder.Add(KarveLocale.Properties.Resources.lbookingmedia, "MEDIO_RES1", "BOOKING_MEDIO_ASSIST", "BOOKING_MEDIO_CREATE", "Code,Name");
             builder[1].SourceView = BookingMedia;
+            builder[1].Name = "BookingMedia";
+
             builder.Add(KarveLocale.Properties.Resources.lbookingtype, "TIPORES_RES1", "BOOKING_TYPE_ASSIST", "BOOKING_TYPE_CREATE", "Code,Name");
             builder[2].SourceView = BookingType;
+            builder[2].Name = "BookingType";
+
             builder.Add(KarveLocale.Properties.Resources.lagencyemployee,"EMPLEAGE_RES2", "EMPLEAGE_ASSIST", "EMPLEAGE_CREATE", "Code,Name");
             builder[3].SourceView = BookingAgencyEmployee;
+            builder[3].Name = "BookingAgencyEmployee";
+
             builder.Add(KarveLocale.Properties.Resources.lcontacto,"CONTACTO_RES2", "BOOKING_CONTACTO_ASSIST", "BOOKING_CONTACTO_CREATE", "Code,Name");
             builder[4].SourceView = BookingContacts;
+            builder[4].Name = "BookingContacts";
             builder.Add(KarveLocale.Properties.Resources.lformadecobro,"FCOBRO_RES1", "BOOKING_FCOBRO_ASSIST", "BOOKING_FCOBRO_CREATE", "Codigo,Nombre");
             builder[5].SourceView = BookingPaymentFormDto;
+            builder[5].Name = "BookingPaymentForm";
             builder.Add(KarveLocale.Properties.Resources.lprintingtype,"CONTRATIPIMPR_RES", "BOOKING_CONTRATIPIMPR_ASSIST", "BOOKING_CONTRATIPIMPR_CREATE", "Code,Name");
             builder[6].SourceView = PrintingTypeDto;
+            builder[6].Name = "BookingContract";
             builder.Add(KarveLocale.Properties.Resources.lrbtnActividadesVehiculos, "ACTIVEHI_RES1", "BOOKING_ACTIVEHI_RES1_ASSIST", "BOOKING_ACTIVEHI_RES1_CREATE", "Code,Activity");
             builder[7].SourceView = BookingVehicleActivity;
+            builder[7].Name = "BookingVehicleActivity";
             return builder.AsObservable();
         }
 
@@ -133,7 +143,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _agencyEmployees = value;
-                RaisePropertyChanged();
+               // RaisePropertyChanged("BookingAgencyEmployee");
             }
             get
             {
@@ -148,7 +158,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _bookingVehicleActivity = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("BookingVehicleActivity");
             }
             get
             {
@@ -163,7 +173,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _printingTypeDto = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("PrintingTypeDto");
             }
             get
             {

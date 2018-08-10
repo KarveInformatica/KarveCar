@@ -1,7 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Windows.Input;
 
 namespace KarveCommonInterfaces
 {
+
+    public interface ICommandInteraction
+    {
+        ICommand RaiseInteractionCommand { set; get; }
+    }
+
     /// <summary>
     ///  This interface has been used to handle the magnifier and popups based on a list 
     ///  of items.
@@ -17,6 +25,12 @@ namespace KarveCommonInterfaces
         /// <param name="dataObjects">Data transfer objects to be shown</param>
         /// <param name="assistProperties">Properties to be used to be filtered</param>
         void ShowAssistView<T>(string title, IEnumerable<T> dataObjects, string assistProperties);
+
+        /// <summary>
+        ///  This will show an email dialog 
+        /// </summary>
+        void ShowView<ViewModelType, ViewType>(ViewModelType viewModel) where ViewModelType : ICommandInteraction;
+
         /// <summary>
         ///  SelectedItem to be shown.
         /// </summary>

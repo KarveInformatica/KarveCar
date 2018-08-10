@@ -71,7 +71,7 @@ namespace KarveCar.ViewModels
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(parameter.ToString());
             Enumerations.ResourceSource source =
-                _configurationService.GetUserSettings().GetLocaleType();
+                _configurationService.UserSettings.GetLocaleType();
             _resources = LocaleResourceFactory.GetLanguageLocale(Thread.CurrentThread.CurrentUICulture, source);
             // The toolbar shall be informed of a culture switcher
             DataPayLoad payLoad = new DataPayLoad();

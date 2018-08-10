@@ -1,55 +1,99 @@
-﻿<UserControl x:Class="KarveControls.MailControl.MailControl"
+﻿<UserControl x:Class="KarveControls.MailControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:KarveControls.MailControl"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
              xmlns:karveControls="clr-namespace:KarveControls"
+             xmlns:karveValidation="clr-namespace:KarveCommon.Validation;assembly=KarveCommon"
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:RichTextBoxAdv="clr-namespace:Syncfusion.Windows.Controls.RichTextBoxAdv;assembly=Syncfusion.SfRichTextBoxAdv.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="800">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+
+                <Style x:Key="MailControlErrorStyle" TargetType="{x:Type syncfusion:SfTextBoxExt}">
+
+                    <Style.Triggers>
+
+                        <Trigger Property="Validation.HasError" Value="true">
+
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+
+                        </Trigger>
+
+                    </Style.Triggers>
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate x:Name="TextErrorTemplate">
+                                <StackPanel Orientation="Vertical">
+                                   
+                                    <AdornedElementPlaceholder x:Name="errorControl">
+                                        <Border BorderBrush="Red" BorderThickness="2"/>
+                                    </AdornedElementPlaceholder>
+                                   
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <RichTextBoxAdv:UnderlineToggleConverter x:Key="UnderlineToggleConverter"/>
+                <RichTextBoxAdv:LeftAlignmentToggleConverter x:Key="LeftAlignmentToggleConverter"/>
+                <RichTextBoxAdv:CenterAlignmentToggleConverter x:Key="CenterAlignmentToggleConverter"/>
+                <RichTextBoxAdv:RightAlignmentToggleConverter x:Key="RightAlignmentToggleConverter"/>
+                <RichTextBoxAdv:JustifyAlignmentToggleConverter x:Key="JustifyAlignmentToggleConverter"/>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Margin" Value="12 4"/>
+                </Style>
+                <Style TargetType="ToggleButton">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Margin" Value="12 4"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="8*"></RowDefinition>
-            <RowDefinition Height="15*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
             <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="69*"></RowDefinition>
+            <RowDefinition Height="65*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Background="LightBlue" Text="Composición Messaje"></TextBlock>
+        <TextBlock Background="LightBlue" Text="{Binding lcomposemail, Source={StaticResource ResourceLanguage}}"></TextBlock>
         <WrapPanel x:Name="ButtonPanel" Height="100" VerticalAlignment="Top" Grid.Row="1" Background="CadetBlue">
-            <Button Height="80" Width="100" Command="{Binding SendMail}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
+            <Button Height="80" Width="120" Command="{Binding SendMailCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
                 <StackPanel Orientation="Vertical">
                     <Image Source="/KarveControls;component/Images/maildrop.png" Height="40" Width="49" RenderTransformOrigin="0.469,0.638" />
-                    <TextBlock Text="Invia Email" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding lsendmail, Source={StaticResource ResourceLanguage}}" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 </StackPanel>
             </Button>
-            <Button Height="80" Width="100" Command="{Binding PrintCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
+            <Button Height="80" Width="120" Command="RichTextBoxAdv:SfRichTextBoxAdv.PrintDocumentCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
                 <StackPanel Orientation="Vertical">
 
                     <Image Source="/KarveControls;component/Images/largeprint.png" Height="56" Width="100" VerticalAlignment="Top"/>
-                    <TextBlock Text="Imprime" FontSize="12" HorizontalAlignment="Center" Height="22"/>
+                    <TextBlock Text="{Binding lprinting, Source={StaticResource ResourceLanguage}}" 
+                               FontSize="12" 
+                               HorizontalAlignment="Center" 
+                               Height="22"/>
                 </StackPanel>
             </Button>
-            <Button Height="80" Width="100" Command="{Binding ExportPDFCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
+            <Button Height="80" Width="120" Command="{Binding ExportPDFCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}" IsEnabled="{Binding HasData,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
                 <StackPanel Orientation="Vertical">
 
                     <Image Source="/KarveControls;component/Images/pdf.png" Height="54"/>
-                    <TextBlock Text="Exporta PDF" FontSize="12" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding lexportpdf, Source={StaticResource ResourceLanguage}}" 
+                               FontSize="12" 
+                               HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button Height="80" Width="100" Command="{Binding AttachCommandFile}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
+            <Button Height="80" Width="120" Command="{Binding AttachFileCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
                 <StackPanel Orientation="Vertical">
                     <Image Source="/KarveControls;component/Images/attachfile.png" Height="43" Width="60"/>
                     <TextBlock Text="Adjunta Fichero" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                </StackPanel>
-            </Button>
-
-            <Button Height="80" Width="100" Command="{Binding SpellerCheckerCommand}" Background="{Binding ElementName=ButtonPanel, Path=Background}">
-                <StackPanel Orientation="Vertical">
-                    <Image Source="/KarveControls;component/Images/spellcheck.png" Height="43" Width="60"/>
-                    <TextBlock Text="Corr.ortografico" FontSize="12" HorizontalAlignment="Center" Margin="0,10,0,0"/>
                 </StackPanel>
             </Button>
         </WrapPanel>
@@ -60,41 +104,64 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="70*"></ColumnDefinition>
                 <ColumnDefinition Width="20*"></ColumnDefinition>
 
             </Grid.ColumnDefinitions>
-            <Label Content="Remitente" Grid.Column="0" Grid.Row="0"></Label>
-            <Label Content="Para" Grid.Column="0" Grid.Row="1"></Label>
-            <Label Content="Asunto" Grid.Column="0" Grid.Row="2"></Label>
+            <Label Content="{Binding lmailFrom, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding lmailTo, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></Label>
+            <Label Content="{Binding lmailSubject, Source={StaticResource ResourceLanguage}}" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></Label>
           
-            <syncfusion:SfTextBoxExt Watermark="Correo remitente" Grid.Column="1" 
-                                     Grid.Row="0" IsReadOnly="True" 
-                                     Text="{Binding SenderAddress}" 
+            <syncfusion:SfTextBoxExt Watermark="{Binding lmailsourceaddress, Source={StaticResource ResourceLanguage}}" Grid.Column="1" 
+                                     Grid.Row="0" IsReadOnly="{Binding SenderReadOnly, Mode=OneWay}" 
                                      MaxHeight="30" 
+                                     Style="{StaticResource MailControlErrorStyle}"
                                      AutoCompleteSource="{Binding AutoSenderComplete}"
                                      AutoCompleteMode="Suggest">
-                
+                <syncfusion:SfTextBoxExt.Text>
+                    <Binding Path="SenderAddress" 
+                             Mode="TwoWay"
+                             UpdateSourceTrigger="LostFocus" >
+                        <Binding.ValidationRules>
+                            <karveValidation:EmailValidationRule></karveValidation:EmailValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </syncfusion:SfTextBoxExt.Text>
+
+
+
             </syncfusion:SfTextBoxExt>
-            <syncfusion:SfTextBoxExt Watermark="Correo destinación" Grid.Column="1" Grid.Row="1" Text="{Binding DestinationAddress}" MaxHeight="30"></syncfusion:SfTextBoxExt>
-            <syncfusion:SfTextBoxExt Watermark="Asunto" Grid.Column="1" Grid.Row="2" Text="{Binding Subject}" MaxHeight="30"></syncfusion:SfTextBoxExt>
-            <GroupBox Header="Allegados" Grid.RowSpan="3" Grid.Column="3" Visibility="Visible">
-                <ListBox ItemsSource="{Binding AttachementInfo}">
+            <syncfusion:SfTextBoxExt Watermark="{Binding lmaildestination, Source={StaticResource ResourceLanguage}}" 
+                                     Grid.Column="1" Grid.Row="1" 
+                                     Style="{StaticResource MailControlErrorStyle}"
+                                     MaxHeight="30">
+                <syncfusion:SfTextBoxExt.Text>
+                    <Binding Path="DestinationAddress" 
+                             Mode="TwoWay"
+                             UpdateSourceTrigger="LostFocus" >
+                        <Binding.ValidationRules>
+                            <karveValidation:EmailValidationRule></karveValidation:EmailValidationRule>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </syncfusion:SfTextBoxExt.Text>
+            </syncfusion:SfTextBoxExt>
+            <syncfusion:SfTextBoxExt Watermark="{Binding lmailsubject, Source={StaticResource ResourceLanguage}}" Grid.Column="1" Grid.Row="2" Text="{Binding Subject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxHeight="30"></syncfusion:SfTextBoxExt>
+            <GroupBox Header="{Binding lmailattachment, Source={StaticResource ResourceLanguage}}" Grid.RowSpan="3" Grid.Column="3" Visibility="Visible">
+                <ListBox ItemsSource="{Binding AttachmentSource}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="10*"></ColumnDefinition>
-                                        <ColumnDefinition Width="80*"></ColumnDefinition>
-                                        <ColumnDefinition Width="10*"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <Image Grid.Column="0" Source="/KarveControls;component/Images/attachfile.png" Height="30" Width="30" />
-                                    <TextBlock Grid.Column="1" Text="{Binding AttachedFile}"/>
-                                    <Button Command="{Binding RemoveCommand}">
-                                        <Image Grid.Column="2" Source="/KarveControls;component/Images/bin.png" Height="30" Width="30" />
+                                    <Button Command="{Binding RemoveCommand}" CommandParameter="{Binding AttachedFile}" Grid.Column="0">
+                                        <Image  Source="/KarveControls;component/Images/bin.png" Height="16" Width="16" />
                                     </Button>
+                                        <TextBlock Grid.Column="1" Text="{Binding AttachedFile}"/>
+                                    
                                 </Grid>
                             </StackPanel>
                         </DataTemplate>
@@ -112,84 +179,76 @@
 
             </Grid>
         </Grid>
-        <syncfusion:ToolBarManager x:Name="toolBarManager" Grid.Row="3" Grid.ColumnSpan="2" 
-                                   CanDockAtLeft="{Binding IsChecked, ElementName=canDockAtLeft}"
-                                   CanDockAtTop="{Binding IsChecked, ElementName=canDockAtTop}" 
-                                   CanDockAtRight="{Binding IsChecked, ElementName=canDockAtRight}"
-                                   CanDockAtBottom="{Binding IsChecked, ElementName=canDockAtBottom}">
-            <syncfusion:ToolBarManager.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Height" Value="20" />
-                    <Setter Property="Width" Value="20"/>
-                </Style>
-                <Style TargetType="ToggleButton">
-                    <Setter Property="Height" Value="20"/>
-                    <Setter Property="Width" Value="20"/>
-                </Style>
 
-            </syncfusion:ToolBarManager.Resources>
-            <syncfusion:ToolBarManager.TopToolBarTray>
-                <syncfusion:ToolBarTrayAdv VerticalAlignment="Top"  IsLocked="{Binding IsChecked, ElementName=lockTop}">
-                    <syncfusion:ToolBarAdv ToolBarName="Standard" >
-                        <Button syncfusion:ToolBarAdv.Label="New Document" Command="syncfusion:RichTextBoxAdv.New" CommandTarget="{Binding ElementName=rte}" Height="22" Width="22" syncfusion:ToolBarAdv.Icon="Images/NewDocumentHS.png">
-                            <Image Source="Images/NewDocumentHS.png" Width="16" Height="16"/>
-                        </Button>
-                        <Button  syncfusion:ToolBarAdv.Label="Open Document" Command="syncfusion:RichTextBoxAdv.Open" CommandTarget="{Binding ElementName=rte}" Height="22" Width="22" syncfusion:ToolBarAdv.Icon="Images/openHS.png">
-                            <Image Source="Images/openHS.png"  Width="16" Height="16"/>
-                        </Button>
-                        <Button  syncfusion:ToolBarAdv.Label="Save Document" Command="syncfusion:RichTextBoxAdv.Save" CommandTarget="{Binding ElementName=rte}" Height="22" Width="22" syncfusion:ToolBarAdv.Icon="Images/saveHS.png">
-                            <Image Source="Images/saveHS.png"  Width="16" Height="16"/>
-                        </Button>
-                    </syncfusion:ToolBarAdv>
-                    <syncfusion:ToolBarAdv  ToolBarName="Edit">
-                        <ToggleButton  syncfusion:ToolBarAdv.Label="Bold" Command="syncfusion:RichTextBoxAdv.ToggleBold" CommandTarget="{Binding ElementName=rte}" IsChecked="{Binding Path=CurrentInlineStyle.FontWeight, Converter={StaticResource FontWeightToChecked}, Mode=TwoWay, ElementName=rte}" Height="22" Width="22" syncfusion:ToolBarAdv.Icon="Images/boldhs.png">
-                            <Image Source="Images/boldhs.png"  Width="16" Height="16"/>
-                        </ToggleButton>
-                        <ToggleButton  syncfusion:ToolBarAdv.Label="Italic" Command="syncfusion:RichTextBoxAdv.ToggleItalic" CommandTarget="{Binding ElementName=rte}" IsChecked="{Binding Path=CurrentInlineStyle.FontStyle, Converter={StaticResource FontStyleToChecked},Mode=TwoWay, ElementName=rte}" Height="22" Width="22" syncfusion:ToolBarAdv.Icon="Images/ItalicHS.png">
-                            <Image Source="Images/ItalicHS.png"  Width="16" Height="16"/>
-                        </ToggleButton>
-                        <ToggleButton  syncfusion:ToolBarAdv.Label="Underline" Height="22" Width="22" Command="syncfusion:RichTextBoxAdv.ToggleUnderline" CommandTarget="{Binding ElementName=rte}" IsChecked="{Binding Path=rte.CurrentInlineStyle.IsUnderline, Mode=TwoWay, ElementName=rte}" syncfusion:ToolBarAdv.Icon="Images/underline.png">
-                            <Image Source="Images/underline.png"  Width="16" Height="16"/>
-                        </ToggleButton>
-                        <ToggleButton  syncfusion:ToolBarAdv.Label="Bullets" Height="22" Width="22" IsChecked="{Binding Path=CurrentParagraphStyle.ListType, Converter={StaticResource ListTypeToChecked}, ConverterParameter=Bulleted, Mode=TwoWay, ElementName=rte}" Command="syncfusion:RichTextBoxAdv.ListType" CommandTarget="{Binding ElementName=rte}" CommandParameter="Bulleted" syncfusion:ToolBarAdv.Icon="Images/List_BulletsHS.png">
-                            <Image Source="Images/List_BulletsHS.png"  Width="16" Height="16"/>
-                        </ToggleButton>
-                        <ToggleButton  syncfusion:ToolBarAdv.Label="Numbering" Height="22" Width="22" Command="syncfusion:RichTextBoxAdv.ListType"  CommandTarget="{Binding ElementName=rte}"
-                                       IsChecked="{Binding Path=CurrentParagraphStyle.ListType, Converter={StaticResource ListTypeToChecked}, ConverterParameter=Numbered, Mode=TwoWay, ElementName=rte}" CommandParameter="Numbered" syncfusion:ToolBarAdv.Icon="Images/List_NumberedHS.png">
-                            <Image Source="Images/List_NumberedHS.png"  Width="16" Height="16"/>
-                        </ToggleButton>
-                        <syncfusion:ToolBarItemSeparator  />
-                        <Button syncfusion:ToolBarAdv.Label="Decrease Indent" Height="22" Width="22" Command="syncfusion:RichTextBoxAdv.LeftIndent" CommandParameter="False" CommandTarget="{Binding ElementName=rte}" syncfusion:ToolBarAdv.Icon="Images/IndentHS.png" >
-                            <Image Source="Images/OutdentHS.png"  Width="16" Height="16"/>
-                        </Button>
-                        <Button syncfusion:ToolBarAdv.Label="Increase Indent"  Height="22" Width="22" Command="syncfusion:RichTextBoxAdv.LeftIndent" CommandParameter="True" CommandTarget="{Binding ElementName=rte}" syncfusion:ToolBarAdv.Icon="Images/OutdentHS.png">
-                            <Image Source="Images/IndentHS.png"  Width="16" Height="16"/>
-                        </Button>
-                    </syncfusion:ToolBarAdv>
-                    <syncfusion:ToolBarAdv   ToolBarName="ClipBoard">
-                        <Button syncfusion:ToolBarAdv.Label="Cut" Height="22" Width="22" Command="syncfusion:RichTextBoxAdv.Cut" CommandTarget="{Binding ElementName=rte}" syncfusion:ToolBarAdv.Icon="Images/CutHS.png">
-                            <Image Source="Images/CutHS.png"  Width="16" Height="16"/>
-                        </Button>
-                        <Button  syncfusion:ToolBarAdv.Label="Copy" Command="syncfusion:RichTextBoxAdv.Copy" Height="22" Width="22" CommandTarget="{Binding ElementName=rte}" syncfusion:ToolBarAdv.Icon="Images/CopyHS.png" >
-                            <Image Source="Images/CopyHS.png"  Width="16" Height="16"/>
-                        </Button>
-                        <Button syncfusion:ToolBarAdv.Label="Paste" Command="syncfusion:RichTextBoxAdv.Paste" Height="22" Width="22" CommandTarget="{Binding ElementName=rte}" syncfusion:ToolBarAdv.Icon="Images/PasteHS.png"  >
-                            <Image Source="Images/PasteHS.png"  Width="16" Height="16"/>
-                        </Button>
-                    </syncfusion:ToolBarAdv>
-                  
-                </syncfusion:ToolBarTrayAdv>
-
-            </syncfusion:ToolBarManager.TopToolBarTray>
-          
-        </syncfusion:ToolBarManager>
-        <syncfusion:RichTextBoxAdv Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" 
-                                   x:Name="rte"
-                                   HTMLText="{Binding HtmlContent}"
+        <StackPanel Orientation="Horizontal" DataContext="{Binding ElementName=richTextBoxAdv}" Grid.Row="3">
+            
+                <!-- UI option to perform Undo/Redo using command binding -->
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="RichTextBoxAdv:SfRichTextBoxAdv.UndoCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" 
+                            Focusable="False">
+                    <Image Source="/KarveControls;component/Images/Undo16.png" />
+                    </Button>
+                    <Button Command="RichTextBoxAdv:SfRichTextBoxAdv.RedoCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/Redo16.png" />
+                    </Button>
+                </StackPanel>
+                <!-- UI option to perform Clipboard operations using command binding -->
+                <Border Width="2" Height="46" Background="#1F1F1F"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Command="RichTextBoxAdv:SfRichTextBoxAdv.CutCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/CutHS.png"  />
+                    </Button>
+                    <Button Command="RichTextBoxAdv:SfRichTextBoxAdv.CopyCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/CopyHS.png"  />
+                    </Button>
+                    <Button Command="RichTextBoxAdv:SfRichTextBoxAdv.PasteCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/PasteHS.png"  />
+                    </Button>
+                </StackPanel>
+                <!-- UI option to apply character formatting using property binding -->
+                <Border Width="2" Height="46" Background="#1F1F1F"/>
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton IsChecked="{Binding Selection.CharacterFormat.Bold}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/boldhs.png"  />
+                    </ToggleButton>
+                    <ToggleButton IsChecked="{Binding Selection.CharacterFormat.Italic}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/ItalicHS.png"  />
+                    </ToggleButton>
+                    <ToggleButton IsChecked="{Binding Selection.CharacterFormat.Underline, Converter={StaticResource UnderlineToggleConverter}}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/underline.png" />
+                    </ToggleButton>
+                </StackPanel>
+                <Border Width="2" Height="46" Background="#1F1F1F"/>
+                <!-- UI option to apply paragraph formatting using property binding -->
+                <StackPanel Orientation="Horizontal">
+                    <ToggleButton IsChecked="{Binding Selection.ParagraphFormat.TextAlignment, Converter={StaticResource LeftAlignmentToggleConverter}}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/paragraphleftjustify.png"  />
+                    </ToggleButton>
+                    <ToggleButton IsChecked="{Binding Selection.ParagraphFormat.TextAlignment, Converter={StaticResource CenterAlignmentToggleConverter}}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/paragraphfulljustify.png"  />
+                    </ToggleButton>
+                    <ToggleButton IsChecked="{Binding Selection.ParagraphFormat.TextAlignment, Converter={StaticResource RightAlignmentToggleConverter}}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/paragraphrightjustify.png"  />
+                    </ToggleButton>
+                    <ToggleButton IsChecked="{Binding Selection.ParagraphFormat.TextAlignment, Converter={StaticResource JustifyAlignmentToggleConverter}}" Focusable="False">
+                    <Image Source="/KarveControls;component/Images/paragraphcenterjustify.png"  />
+                    </ToggleButton>
+                </StackPanel>
+           
+        </StackPanel>
+    
+        <RichTextBoxAdv:SfRichTextBoxAdv  
+                                    Background="#F1F1F1"
+                                   Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" 
+                                   x:Name="richTextBoxAdv"                                  
                                    FontSize="12">
-            
-            
-        </syncfusion:RichTextBoxAdv>
-            
+
+            <RichTextBoxAdv:SfRichTextBoxAdv.SpellChecker>
+                <RichTextBoxAdv:SpellChecker IsEnabled="True" IgnoreURIs="true" IgnoreAlphaNumericWords="true" IgnoreUppercaseWords="true"/>
+            </RichTextBoxAdv:SfRichTextBoxAdv.SpellChecker>
+
+        </RichTextBoxAdv:SfRichTextBoxAdv>
+
+
     </Grid>
 </UserControl>

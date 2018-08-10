@@ -234,4 +234,7 @@
   <data name="PasswordWeb" xml:space="preserve">
     <value>Web Password</value>
   </data>
+  <data name="lcancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

@@ -357,4 +357,10 @@
   <data name="PasswordWeb" xml:space="preserve">
     <value>Password Web</value>
   </data>
+  <data name="lselectitem" xml:space="preserve">
+    <value>Seleciona..</value>
+  </data>
+  <data name="lcancel" xml:space="preserve">
+    <value>Cancel..</value>
+  </data>
 </root>

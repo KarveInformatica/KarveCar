@@ -2990,4 +2990,7 @@
   <data name="ldeparture" xml:space="preserve">
     <value>Partenza:</value>
   </data>
+  <data name="lcomposemail" xml:space="preserve">
+    <value>Scrivi nuova email</value>
+  </data>
 </root>

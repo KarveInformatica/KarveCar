@@ -48,6 +48,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.GridConverter.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Pdf.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Pdf.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.PdfViewer.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.PdfViewer.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL" />
     <Reference Include="Syncfusion.SfGrid.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -131,6 +143,8 @@
     <Compile Include="ViewModels\BookingIncidentInfoViewModel.cs" />
     <Compile Include="ViewModels\BookingInfoViewModel.cs" />
     <Compile Include="ViewModels\BookingInfoViewModelOtherData.cs" />
+    <Compile Include="ViewModels\BookingMailViewModel.cs" />
+    <Compile Include="ViewModels\BookingPdfCreator.cs" />
     <Compile Include="ViewModels\BookingStateManager.cs" />
     <Compile Include="ViewModels\GeneralInfoCollection.cs" />
     <Compile Include="ViewModels\MockOtherDataViewModel.cs" />
@@ -162,6 +176,9 @@
     </Compile>
     <Compile Include="Views\BookingInfoView.xaml.cs">
       <DependentUpon>BookingInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BookingMail.xaml.cs">
+      <DependentUpon>BookingMail.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BookingStateConverter.cs" />
     <Compile Include="Views\GridColumnsConstants.cs" />
@@ -252,6 +269,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BookingInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BookingMail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

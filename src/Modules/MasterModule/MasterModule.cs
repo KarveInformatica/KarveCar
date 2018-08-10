@@ -42,6 +42,7 @@ namespace MasterModule
             _container.RegisterType<object, CompanyInfoView>(typeof(CompanyInfoView).FullName);
             _container.RegisterType<object, CommissionAgentInfoView>(typeof(CommissionAgentInfoView).FullName);
             _container.RegisterType<object, ClientsInfoView>(typeof(ClientsInfoView).FullName);
+         
 
         }
         public void Initialize()

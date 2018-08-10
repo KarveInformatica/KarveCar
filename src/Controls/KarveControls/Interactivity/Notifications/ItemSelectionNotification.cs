@@ -1,22 +1,14 @@
-using Prism.Interactivity.InteractionRequest;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using KarveCommon.Generic;
-using KarveControls.Annotations;
-using KarveDataServices.DataTransferObject;
-using Syncfusion.UI.Xaml.CellGrid.Helpers;
-using Syncfusion.UI.Xaml.Grid;
+using System;
 
 namespace KarveControls.Interactivity.Notifications
 {
     /// <summary>
-    ///  ItemSelectionNotification. 
+    ///  ItemSelectionNotification is used when you need to select an item from a grid of elements. 
     /// </summary>
-    public class ItemSelectionNotification : Confirmation, INotifyPropertyChanged
+    public sealed class ItemSelectionNotification : BaseNotification, IDisposable
     {
         private object _incrementalList;
         private long _gridIdentifier;
@@ -26,9 +18,10 @@ namespace KarveControls.Interactivity.Notifications
         {
             this.SelectedItem = null;
         }
-        
-
-
+        /// <summary>
+        ///  Constructor for a list of items.
+        /// </summary>
+        /// <param name="items">A list of items.</param>
         public ItemSelectionNotification(IEnumerable items)
             : this()
         {
@@ -72,17 +65,44 @@ namespace KarveControls.Interactivity.Notifications
             }
             get { return _gridInitCommand; }
         }
+        /// <summary>
+        ///  Set or Get the grid parameters changed.
+        /// </summary>
         public ICommand GridParamChangedCommand { set; get; }
+        /// <summary>
+        ///  Set or get the grid parametes.
+        /// </summary>
         public KarveGridParameters GridParameters { set; get; }
+        /// <summary>
+        ///  Set or Get the assist properties
+        /// </summary>
         public string AssistProperites { set; get; }
-
+        /// <summary>
+        ///  Set or Get the selected item.
+        /// </summary>
         public object SelectedItem { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        /// <summary>
+        ///  Dispose the list
+        /// </summary>
+        public void Dispose()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+           /* 
+            * This clear directly every incremental list o list that we can have as item.
+            */
+           if (_incrementalList != null)
+            {
+                var type = _incrementalList.GetType();
+                var methods = type.GetMethods();
+                foreach (var m in methods)
+                {
+                    if (m.Name == "Clear")
+                    {
+                        m.Invoke(_incrementalList,null);
+                    }
+                    
+                }
+            }
         }
     }
 }

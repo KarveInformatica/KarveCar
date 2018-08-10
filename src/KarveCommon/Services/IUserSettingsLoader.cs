@@ -16,7 +16,7 @@ namespace KarveCommon.Services
     {
         
         Enumerations.ResourceSource GetLocaleType();
-        string GetConnectionString();
+        string ConnectionString { get; }
         
 
     }

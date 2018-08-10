@@ -87,10 +87,11 @@ namespace KarveControls.PhotoFrame
             InitState,
             ImageModifiedState
         };
-
-        /// <summary>
-        ///  Private componentstates.
-        /// </summary>
+        public ICommand ImageChanging { set; get; }
+        public string Text { set; get; }
+         /// <summary>
+         ///  Private componentstates.
+         /// </summary>
         private ComponentStates _componentState = ComponentStates.InitState;
 
 
@@ -132,8 +133,12 @@ namespace KarveControls.PhotoFrame
             MemoryStream ms = d.NewValue as MemoryStream;
             if (ms != null)
             {
-                _imageFile.Source = ByteToArrayImage(ms.ToArray());
-            }
+                var imageLoaded = ByteToArrayImage(ms.ToArray());
+                if (imageLoaded != null)
+                {
+                    _imageFile.Source = imageLoaded;
+                }
+             }
         }
 
         /// <summary>
@@ -324,6 +329,10 @@ namespace KarveControls.PhotoFrame
         private ImageSource ByteToArrayImage(byte[] byteArrayIn)
         {
             ImageSource img = null;
+            if (byteArrayIn.Length < 1)
+            {
+                return img;
+            }
             using (var ms = new MemoryStream(byteArrayIn))
             {
 

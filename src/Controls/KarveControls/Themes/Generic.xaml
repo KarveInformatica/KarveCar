@@ -781,7 +781,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Text, Mode=OneWay}" Visibility="Collapsed">
                                     </TextBlock>
-                                    <Image x:Name="PART_ImageFile">
+                                    <Image x:Name="PART_ImageFile" Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Width, Mode=OneWay}">
                                     </Image>
                                 </StackPanel>
                             </Button>

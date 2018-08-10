@@ -448,6 +448,24 @@ namespace MasterModule.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancela.
+        /// </summary>
+        internal static string lcancel {
+            get {
+                return ResourceManager.GetString("lcancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seleciona Elemento.
+        /// </summary>
+        internal static string lselectitem {
+            get {
+                return ResourceManager.GetString("lselectitem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Móvil.
         /// </summary>
         internal static string Móvil {

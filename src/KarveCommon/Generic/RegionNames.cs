@@ -31,5 +31,7 @@ namespace KarveCommon.Generic
         ///  Region for the drivers in the client.
         /// </summary>
         public const string ClientDrivers = "ClientDriverRegion";
+
+        public const string PopUpContent = "PopUpContentRegion";
     }
 }

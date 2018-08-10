@@ -363,4 +363,10 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="lselectitem" xml:space="preserve">
+    <value>Seleciona Elemento</value>
+  </data>
+  <data name="lcancel" xml:space="preserve">
+    <value>Cancela</value>
+  </data>
 </root>

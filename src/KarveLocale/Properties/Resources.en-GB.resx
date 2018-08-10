@@ -2638,4 +2638,19 @@
   <data name="lshow" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="lmailFrom" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="lmailTo" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="lmailSubject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="lcomposemail" xml:space="preserve">
+    <value>Compose new email</value>
+  </data>
+  <data name="lprinting" xml:space="preserve">
+    <value>Print</value>
+  </data>
 </root>

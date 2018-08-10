@@ -15,9 +15,10 @@ namespace KarveCar.Logic.Generic
         private Window _mainWindow;
         private IUserSettings _userSettings;
         private IDictionary<string, TabItem> dictionaryTab = new Dictionary<string, TabItem>();
+        /// <summary>
+        ///  Global enviroment. 
+        /// </summary>
         public static IEnviromentVariables _env = new EnviromentVariableContainer();
-        private string _connectionString;
-
         /// <summary>
         ///  This is the constructor of the configuration service
         /// </summary>
@@ -25,6 +26,7 @@ namespace KarveCar.Logic.Generic
         public ConfigurationService()
         {
             this._mainWindow = null;
+            _userSettings = new UserSettings();
         }
         /// <summary>
         ///  Configure the configuration services using the user settings.
@@ -46,7 +48,18 @@ namespace KarveCar.Logic.Generic
         /// <summary>
         ///  Get or Set the connection string.
         /// </summary>
-        public string ConnectionString { get => _connectionString; set => _connectionString = value; }
+        public string ConnectionString {
+            get
+            {
+                var connection = _userSettings.FindSetting<string>(UserSettingConstants.DefaultConnectionString);
+                return connection;
+            }
+            set
+            {
+                _userSettings.SaveSetting<string>(UserSettingConstants.DefaultConnectionString, value);
+
+            }
+        }
 
         /// <summary>
         ///  This close the application.
@@ -76,34 +89,21 @@ namespace KarveCar.Logic.Generic
         /// </summary>
         /// <returns></returns>
         public IEnviromentVariables EnviromentVariables {
-            get { return _env;  }
+            get { return _env; }
             set { _env = value; }
         }
+
+
         /// <summary>
-        ///  Return the current user settings for the value
+        /// Get or Set the enviroment variables.
         /// </summary>
         /// <returns></returns>
-        public IUserSettings GetUserSettings()
+        public IUserSettings UserSettings
         {
-            return _userSettings;
+            get { return _userSettings; }
+            set { _userSettings = value; }
         }
-        /// <summary>
-        ///  Setup the user settings.
-        /// </summary>
-        /// <param name="settings"> Set the user settings </param>
-        public void SetUserSettings(IUserSettings settings)
-        {
-            _userSettings = settings;
-        }
-        /// <summary>
-        ///  Return the connection string
-        /// </summary>
-        /// <returns>return the connection string</returns>
-        public string GetConnectionString()
-        {
-            return _connectionString;
-        }
-
+        
         public IUserAccessControlList GetAccountManagement()
         {
             throw new NotImplementedException();

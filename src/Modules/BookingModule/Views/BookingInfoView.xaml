@@ -1066,6 +1066,7 @@
                                            LabelText="{Binding lclientsconductores, Source={StaticResource ResourceLanguage}}"
                                            LabelVisible="False"               
                                            Height="30"
+                                           SelectedObject="{Binding ClientSelectedObject, Mode=TwoWay}"
                                            ToolTip="{Binding lcliente, Source={StaticResource ResourceLanguage}}" 
                                            MagnifierCommand="{Binding AssistCommand, Mode=Default}"
                                            ItemChangedCommand="{Binding ItemChangedCommand, Mode=Default}"
@@ -1083,7 +1084,7 @@
                                 Margin="0,5,0,0"
                             Height="30"
                                  Background="LightCyan"
-                                 Text="{Binding  Path=SelectedObject.Nif, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                 Text="{Binding Path=ClientSelectedObject.Nif, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
                                  Width="60">
 
                             </Syncfusion:SfTextBoxExt>
@@ -1108,7 +1109,7 @@
                             <Syncfusion:SfTextBoxExt 
                                  x:Name="Nif"
                                  Watermark="{Binding lnif, Source={StaticResource ResourceLanguage}}" Grid.Column="3" Grid.Row="1"
-                                 Text="{Binding ElementName=DriverSearchBox, Path=SelectedObject.Nif, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
+                                 Text="{Binding Path=DriverSelectedObject.Nif, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True, ValidatesOnExceptions=True, ValidatesOnNotifyDataErrors=True}"
                                  Style="{StaticResource SfFieldErrorStyle}"
                                  IsReadOnly="True"
                                 Margin="0,5,10,0"

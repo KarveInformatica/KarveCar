@@ -1078,8 +1078,8 @@ namespace KarveControls
                 typeof(DualFieldSearchBox),
                 new PropertyMetadata(Visibility.Visible));
 
-        // <summary>
-        /// Visibility of the first part.
+        /// <summary>
+        ///  Set/Unset the magnifier visible
         /// </summary>
         public Visibility IsMagnifierVisible
         {
@@ -1087,7 +1087,7 @@ namespace KarveControls
             set { SetValue(IsMagnifierVisibleProperty, value); }
         }
         /// <summary>
-        /// width of the second content.
+        /// Set or get the text content second width
         /// </summary>
         public string TextContentSecondWidth
         {

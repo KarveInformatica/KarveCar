@@ -718,6 +718,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string laddressMail {
+            get {
+                return ResourceManager.GetString("laddressMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AEAT.
         /// </summary>
         public static string laeat {
@@ -804,6 +813,15 @@ namespace KarveLocale.Properties {
         public static string lasiento {
             get {
                 return ResourceManager.GetString("lasiento", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lattachdocument {
+            get {
+                return ResourceManager.GetString("lattachdocument", resourceCulture);
             }
         }
         
@@ -1236,6 +1254,15 @@ namespace KarveLocale.Properties {
         public static string lcompletaeval {
             get {
                 return ResourceManager.GetString("lcompletaeval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Composición Messaje.
+        /// </summary>
+        public static string lcomposemail {
+            get {
+                return ResourceManager.GetString("lcomposemail", resourceCulture);
             }
         }
         
@@ -1942,6 +1969,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exporta PDF.
+        /// </summary>
+        public static string lexportpdf {
+            get {
+                return ResourceManager.GetString("lexportpdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extorno.
         /// </summary>
         public static string lextorno {
@@ -2626,6 +2662,60 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lmailattachment {
+            get {
+                return ResourceManager.GetString("lmailattachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lmaildestination {
+            get {
+                return ResourceManager.GetString("lmaildestination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remitente.
+        /// </summary>
+        public static string lmailFrom {
+            get {
+                return ResourceManager.GetString("lmailFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lmailsourceaddress {
+            get {
+                return ResourceManager.GetString("lmailsourceaddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Asunto.
+        /// </summary>
+        public static string lmailSubject {
+            get {
+                return ResourceManager.GetString("lmailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Para.
+        /// </summary>
+        public static string lmailTo {
+            get {
+                return ResourceManager.GetString("lmailTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Marca.
         /// </summary>
         public static string lmarca {
@@ -2797,6 +2887,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lnewdocument {
+            get {
+                return ResourceManager.GetString("lnewdocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to N.IATA.
         /// </summary>
         public static string lniata {
@@ -2874,6 +2973,15 @@ namespace KarveLocale.Properties {
         public static string lnothing {
             get {
                 return ResourceManager.GetString("lnothing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not valid.
+        /// </summary>
+        public static string lnotvalid {
+            get {
+                return ResourceManager.GetString("lnotvalid", resourceCulture);
             }
         }
         
@@ -3054,6 +3162,15 @@ namespace KarveLocale.Properties {
         public static string lonewayautomatico {
             get {
                 return ResourceManager.GetString("lonewayautomatico", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lopendocument {
+            get {
+                return ResourceManager.GetString("lopendocument", resourceCulture);
             }
         }
         
@@ -3297,6 +3414,15 @@ namespace KarveLocale.Properties {
         public static string lprimerdiaenflota {
             get {
                 return ResourceManager.GetString("lprimerdiaenflota", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Imprime.
+        /// </summary>
+        public static string lprinting {
+            get {
+                return ResourceManager.GetString("lprinting", resourceCulture);
             }
         }
         
@@ -6442,6 +6568,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string lsavedocument {
+            get {
+                return ResourceManager.GetString("lsavedocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proprietario.
         /// </summary>
         public static string lse {
@@ -6514,11 +6649,29 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Envia Email.
+        /// </summary>
+        public static string lsendmail {
+            get {
+                return ResourceManager.GetString("lsendmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Serie Factura.
         /// </summary>
         public static string lseriefactura {
             get {
                 return ResourceManager.GetString("lseriefactura", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server not configured.
+        /// </summary>
+        public static string lservernotconfigured {
+            get {
+                return ResourceManager.GetString("lservernotconfigured", resourceCulture);
             }
         }
         
@@ -7518,15 +7671,6 @@ namespace KarveLocale.Properties {
         public static string Recalcular {
             get {
                 return ResourceManager.GetString("Recalcular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remitente.
-        /// </summary>
-        public static string Remitente {
-            get {
-                return ResourceManager.GetString("Remitente", resourceCulture);
             }
         }
         

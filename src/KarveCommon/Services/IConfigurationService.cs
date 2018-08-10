@@ -35,12 +35,7 @@ namespace KarveCommon.Services
         ///  Get User Settings. 
         /// </summary>
         /// <returns></returns>
-        IUserSettings GetUserSettings();
-        /// <summary>
-        ///  Set user settings.
-        /// </summary>
-        /// <param name="settings"></param>
-        void SetUserSettings(IUserSettings settings);
+        IUserSettings UserSettings { set; get; }
         /// <summary>
         ///  Connection string
         /// </summary>

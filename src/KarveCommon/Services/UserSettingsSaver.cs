@@ -7,17 +7,16 @@ using KarveDataServices;
 
 namespace KarveCommon.Services
 {
+    /// <summary>
+    ///  This class is the saver resposible for the user settings.
+    ///  It is able to set the data saver. 
+    /// </summary>
     public class UserSettingsSaver: IUserSettingsSaver
     {
-        private readonly ISettingsDataServices _dataService;
-
-        /// <summary>
-        ///  This inject the data service interface to the magnifier.
-        /// </summary>
-        /// <param name="dataServices"></param>
-        public UserSettingsSaver(IDataServices dataServices)
+        
+        public UserSettingsSaver()
         {
-            _dataService = dataServices.GetSettingsDataService();
+         
         }
     }
 }

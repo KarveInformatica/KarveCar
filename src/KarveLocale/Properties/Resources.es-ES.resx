@@ -2751,4 +2751,55 @@
   <data name="Carpeta" xml:space="preserve">
     <value>Carpeta</value>
   </data>
+  <data name="lmailFrom" xml:space="preserve">
+    <value>Remitente</value>
+  </data>
+  <data name="lmailTo" xml:space="preserve">
+    <value>Para</value>
+  </data>
+  <data name="lmailSubject" xml:space="preserve">
+    <value>Asunto</value>
+  </data>
+  <data name="lcomposemail" xml:space="preserve">
+    <value>Composición Messaje</value>
+  </data>
+  <data name="lsendmail" xml:space="preserve">
+    <value>Envia correo</value>
+  </data>
+  <data name="lprinting" xml:space="preserve">
+    <value>Imprime</value>
+  </data>
+  <data name="lexportpdf" xml:space="preserve">
+    <value>Exporta PDF</value>
+  </data>
+  <data name="lmailsourceaddress" xml:space="preserve">
+    <value>Correo remitente</value>
+  </data>
+  <data name="lmailattachment" xml:space="preserve">
+    <value>Allegados</value>
+  </data>
+  <data name="lmaildestination" xml:space="preserve">
+    <value>Correo destinación</value>
+  </data>
+  <data name="lnewdocument" xml:space="preserve">
+    <value>Nuevo documento</value>
+  </data>
+  <data name="lsavedocument" xml:space="preserve">
+    <value>Guarda Boza documento</value>
+  </data>
+  <data name="lopendocument" xml:space="preserve">
+    <value>Abre documento</value>
+  </data>
+  <data name="lattachdocument" xml:space="preserve">
+    <value>Alega documento</value>
+  </data>
+  <data name="laddressMail" xml:space="preserve">
+    <value>Dirección de correo</value>
+  </data>
+  <data name="lnotvalid" xml:space="preserve">
+    <value>No valida</value>
+  </data>
+  <data name="lservernotconfigured" xml:space="preserve">
+    <value>Server no configurado en el componente</value>
+  </data>
 </root>

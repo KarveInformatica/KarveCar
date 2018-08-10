@@ -61,7 +61,7 @@ namespace BookingModule.ViewModels
         }
         private void InitServices(IDataServices services, IConfigurationService configurationService)
         {
-            _userSettings = configurationService.GetUserSettings();
+            _userSettings = configurationService.UserSettings;
             _dataReservationService = services.GetReservationRequestDataService();
             _assistDataService = services.GetAssistDataServices();
 

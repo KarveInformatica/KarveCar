@@ -24,12 +24,23 @@ namespace BookingModule.ViewModels
             _dialogService = dialogService;
             _currentBookingCode = code;
         }
-        public void ConfirmBooking(string code)
+        public async Task<bool> ConfirmBooking(string code)
         {
+            var retCode = false;
             if (_dialogService.ShowConfirmMessage("Confirm Booking", "Are you sure to confirm the booking?"))
             {
+                var currentBooking = await _dataService.GetDoAsync(code).ConfigureAwait(false);
+                if (currentBooking.Valid)
+                {
+                    var value = currentBooking.Value;
+                    value.CONFIRMADA_RES2 = "1";
+                    currentBooking.Value = value;
+                    retCode = await _dataService.SaveAsync(currentBooking);
+
+                }
 
             }
+            return retCode;
         }
         public void RejectBooking(string code)
         {

@@ -10,26 +10,18 @@ namespace KarveCommon.Services
     /// </summary>
     public class UserSettingsLoader: IUserSettingsLoader
     {
-        private readonly ISettingsDataServices _dataService;
+ 
      
         /// <summary>
         ///  This inject the data service interface to the magnifier.
         /// </summary>
         /// <param name="dataServices"></param>
-        public UserSettingsLoader(IDataServices dataServices)
+        public UserSettingsLoader()
         {
-            _dataService = dataServices.GetSettingsDataService();
-        }
-        
-        /// <summary>
-        ///  This returns the ADO.NET connection string.
-        /// </summary>
-        /// <returns></returns>
-        public string GetConnectionString()
-        {
-            return string.Empty;
         }
 
+        string IUserSettingsLoader.ConnectionString => string.Empty;
+        
         /// <summary>
         ///  This returns the locale type. For now the locale is available in the 
         /// </summary>

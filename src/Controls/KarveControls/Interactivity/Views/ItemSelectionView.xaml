@@ -6,7 +6,7 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:karveControls="clr-namespace:KarveControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             mc:Ignorable="d" Loaded="UserControl_Loaded">
+             mc:Ignorable="d" Loaded="UserControl_Loaded" Height="108">
     <Grid>
        
 
@@ -77,8 +77,10 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Button AutomationProperties.AutomationId="ItemsSelectButton" Grid.Column="0" Margin="10" Command="{Binding SelectItemCommand}" CommandParameter="{Binding Path=SelectedItem,Mode=TwoWay}">Select Item</Button>
-                <Button AutomationProperties.AutomationId="ItemsCancelButton" Grid.Column="1" Margin="10" Command="{Binding CancelCommand}">Cancel</Button>
+                <Button AutomationProperties.AutomationId="ItemsSelectButton" Grid.Column="0" Margin="4" Command="{Binding SelectItemCommand}" 
+                        CommandParameter="{Binding Path=SelectedItem,Mode=TwoWay}" Content="{Binding lselectitem, Source={StaticResource ResourceLanguage}}"/>
+                <Button AutomationProperties.AutomationId="ItemsCancelButton" Grid.Column="1" Margin="5" Command="{Binding CancelCommand}" 
+                        Content="{Binding lcancel, Source={StaticResource ResourceLanguage}}"/>
             </Grid>
         </Grid>
 

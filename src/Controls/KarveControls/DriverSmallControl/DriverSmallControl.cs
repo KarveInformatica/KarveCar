@@ -146,14 +146,14 @@ DependencyProperty.Register(
         public static readonly DependencyProperty DrivingLicenseExpireDateProperty =
          DependencyProperty.Register(
             "DrivingLicenseExpireDate",
-            typeof(DateTime),
+            typeof(DateTime?),
             typeof(DriverSmallControl));
 
         /// <summary>
         /// Set or Get the driver license expire date
         /// </summary>
 
-        public DateTime DrivingLicenseExpireDate
+        public DateTime? DrivingLicenseExpireDate
         {
             set
             {
@@ -161,7 +161,7 @@ DependencyProperty.Register(
             }
             get
             {
-                return (DateTime)GetValue(DrivingLicenseExpireDateProperty);
+                return (DateTime?)GetValue(DrivingLicenseExpireDateProperty);
             }
         }
         /// <summary>

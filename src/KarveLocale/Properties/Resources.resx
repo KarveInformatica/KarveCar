@@ -3175,7 +3175,55 @@
   <data name="lnothing" xml:space="preserve">
     <value>Nada</value>
   </data>
-  <data name="Remitente" xml:space="preserve">
+  <data name="lmailFrom" xml:space="preserve">
     <value>Remitente</value>
+  </data>
+  <data name="lmailTo" xml:space="preserve">
+    <value>Para</value>
+  </data>
+  <data name="lmailSubject" xml:space="preserve">
+    <value>Asunto</value>
+  </data>
+  <data name="lcomposemail" xml:space="preserve">
+    <value>Composición Messaje</value>
+  </data>
+  <data name="lsendmail" xml:space="preserve">
+    <value>Envia Email</value>
+  </data>
+  <data name="lprinting" xml:space="preserve">
+    <value>Imprime</value>
+  </data>
+  <data name="lexportpdf" xml:space="preserve">
+    <value>Exporta PDF</value>
+  </data>
+  <data name="lmailsourceaddress" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lmailattachment" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lmaildestination" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lnewdocument" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lsavedocument" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lopendocument" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="lattachdocument" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="laddressMail" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="lnotvalid" xml:space="preserve">
+    <value>Not valid</value>
+  </data>
+  <data name="lservernotconfigured" xml:space="preserve">
+    <value>Server not configured</value>
   </data>
 </root>

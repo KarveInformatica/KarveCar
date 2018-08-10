@@ -12,15 +12,24 @@ namespace KarveCommon.Services
     /// <summary>
     ///  This is a container class for user setting and split the resposability from the loader and saver.
     /// </summary>
-    public class UserSettings: IUserSettings
+    public class UserSettings : IUserSettings
     {
         private IUserSettingsLoader _settingsLoader;
         private IUserSettingsSaver _settingsSaver;
-        private IDictionary<Uri, object> settingDictionary = new Dictionary<Uri, object>()
+        
+        /*
+        *  We put the settings in a dictionary in order to be able to override.
+        *  This provide a safe default.
+        */
+        private IDictionary<Uri, object> _settingDictionary = new Dictionary<Uri, object>()
         {
             { UserSettingConstants.BookingClientGridColumnsKey, "Code,Name,Nif,Direction,Telefono,Movil,Email,CreditCardType, NumberCreditCard,AccountableAccount,Zip,City,Sector,Reseller,Oficina,Falta"},
              { UserSettingConstants.BookingDriverGridColumnsKey, "Code,Name,Nif,Direction,Telefono,Movil,Email,CreditCardType, NumberCreditCard,AccountableAccount,Zip,City,Sector,Reseller,Oficina,Falta"},
-            { UserSettingConstants.VehicleSummaryGridColumnsKey, "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,LastModification" }
+            { UserSettingConstants.VehicleSummaryGridColumnsKey, "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,LastModification" },
+            { UserSettingConstants.ClientDriverGridColumnsKey, "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence"
+             },
+            { UserSettingConstants.DefaultEmailAddress, "root@karveinformatica.com" },   
+    { UserSettingConstants.DefaultConnectionString, "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45:5225" }
         };
 
         [DataMember]
@@ -28,6 +37,19 @@ namespace KarveCommon.Services
         {
             get; set;
         }
+        /// <summary>
+        ///  Default behaviour is a not persitent setting.
+        /// </summary>
+        public UserSettings()
+        {
+
+        }
+        /// <summary>
+        ///  The recommended behaviour is to provide a loader or a saver in case we want
+        ///  to save the settings to database.
+        /// </summary>
+        /// <param name="loader"></param>
+        /// <param name="saver"></param>
         public UserSettings(IUserSettingsLoader loader, IUserSettingsSaver saver)
         {
             _settingsLoader = loader;
@@ -41,7 +63,8 @@ namespace KarveCommon.Services
         /// <returns>A value of T</returns>
         public T FindSetting<T>(Uri uri) where T : class
         {
-            var returnCouple = settingDictionary.FirstOrDefault(x => x.Key == uri);
+            
+            var returnCouple = _settingDictionary.FirstOrDefault(x => x.Key == uri);
             var value = returnCouple.Value as T;
             if (value==null)
             {
@@ -52,7 +75,9 @@ namespace KarveCommon.Services
 
         public string GetConnectionString()
         {
-            throw new NotImplementedException();
+            object value = string.Empty;
+            _settingDictionary.TryGetValue(UserSettingConstants.DefaultConnectionString, out value);
+            return (string) value;
         }
 
         public Enumerations.ResourceSource GetLocaleType()
@@ -68,12 +93,12 @@ namespace KarveCommon.Services
         /// <param name="value">Value of the setting</param>
         public void SaveSetting<T>(Uri uri, T value) where T : class
         {
-            if (settingDictionary.ContainsKey(uri))
+            if (_settingDictionary.ContainsKey(uri))
             {
-                settingDictionary.Remove(uri);
+                _settingDictionary.Remove(uri);
 
             }
-            settingDictionary.Add(uri, value);
+            _settingDictionary.Add(uri, value);
         }
     }
 }

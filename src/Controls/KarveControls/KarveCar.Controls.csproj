@@ -80,9 +80,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Chart.WPF.SampleLayout.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Data.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Data.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocIO.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.DocIO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocIO.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.DocIO.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.DocToPDFConverter.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.DocToPDFConverter.Base.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.Edit.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -99,6 +115,22 @@
     <Reference Include="Syncfusion.GridCommon.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.GridCommon.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.OfficeChart.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.OfficeChart.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Pdf.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.Pdf.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.PdfViewer.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.PdfViewer.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.RichTextBoxAdv.MVVM.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -147,6 +179,14 @@
     <Reference Include="Syncfusion.SfNavigationDrawer.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfNavigationDrawer.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfRichTextBoxAdv.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfRichTextBoxAdv.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfRichTextRibbon.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\15.4.0.17\Assemblies\4.6\Syncfusion.SfRichTextRibbon.WPF.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfSkinManager.WPF, Version=15.4460.0.17, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -239,6 +279,7 @@
     <Compile Include="Behaviour\MagnifierButtonBehavior.cs" />
     <Compile Include="Behaviour\NavigateEditButtonBehavior.cs" />
     <Compile Include="Behaviour\PlusMinusBehaviour.cs" />
+    <Compile Include="Behaviour\SfRichTextBoxBehaviour.cs" />
     <Compile Include="Behaviour\SfTreeNavigatorBehavior.cs" />
     <Compile Include="Behaviour\VehicleModelChangeBehavior.cs" />
     <Compile Include="ButtonImage\ButtonImage.cs" />
@@ -304,16 +345,34 @@
       <DependentUpon>DetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="HelperButtonControl\HelperButtonControl.cs" />
+    <Compile Include="Interactivity\Notifications\BaseNotification.cs" />
     <Compile Include="Interactivity\Notifications\ItemSelectionNotification.cs" />
+    <Compile Include="Interactivity\Notifications\MailNotification.cs" />
+    <Compile Include="Interactivity\Notifications\ReportNotification.cs" />
     <Compile Include="Interactivity\RequestController.cs" />
+    <Compile Include="Interactivity\ViewModels\InteractionBaseViewModel.cs" />
+    <Compile Include="Interactivity\ViewModels\InteractionMailViewModel.cs" />
+    <Compile Include="Interactivity\ViewModels\InteractionReportViewModel.cs" />
     <Compile Include="Interactivity\ViewModels\InteractionRequestViewModel.cs" />
     <Compile Include="Interactivity\ViewModels\InvokeCommandActionViewModel.cs" />
     <Compile Include="Interactivity\ViewModels\ItemSelectionViewModel.cs" />
+    <Compile Include="Interactivity\Views\InteractionView.xaml.cs">
+      <DependentUpon>InteractionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interactivity\Views\InteractionControllerView.xaml.cs">
+      <DependentUpon>InteractionControllerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interactivity\Views\InteractionRequestView.xaml.cs">
       <DependentUpon>InteractionRequestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interactivity\Views\ItemSelectionView.xaml.cs">
       <DependentUpon>ItemSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interactivity\Views\MailView.xaml.cs">
+      <DependentUpon>MailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interactivity\Views\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ItemsControl\DataPickerItemsControl.xaml.cs">
       <DependentUpon>DataPickerItemsControl.xaml</DependentUpon>
@@ -409,6 +468,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Interactivity\Views\InteractionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interactivity\Views\InteractionControllerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Interactivity\Views\InteractionRequestView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -416,6 +483,14 @@
     <Page Include="Interactivity\Views\ItemSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interactivity\Views\MailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interactivity\Views\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ItemsControl\DataPickerItemsControl.xaml">
       <SubType>Designer</SubType>
@@ -527,6 +602,39 @@
     <Resource Include="Images\pdficon.png" />
     <Resource Include="Images\attachfile.png" />
     <Resource Include="Images\spellcheck.png" />
+    <Resource Include="Images\NewDocumentHS.png" />
+    <Resource Include="Images\openHS.png" />
+    <Resource Include="Images\OutdentHS.png" />
+    <Resource Include="Images\paragraphcenterjustify.png" />
+    <Resource Include="Images\paragraphdecreaseindentation.png" />
+    <Resource Include="Images\paragraphfulljustify.png" />
+    <Resource Include="Images\paragraphincreaseindentation.png" />
+    <Resource Include="Images\paragraphleftjustify.png" />
+    <Resource Include="Images\paragraphrightjustify.png" />
+    <Resource Include="Images\PasteHS.png" />
+    <Resource Include="Images\PrintHS.png" />
+    <Resource Include="Images\ProtectFormHS.png" />
+    <Resource Include="Images\Redo16.png" />
+    <Resource Include="Images\CopyHS.png" />
+    <Resource Include="Images\CutHS.png" />
+    <Resource Include="Images\underline.png" />
+    <Resource Include="Images\Undo16.png" />
+    <Resource Include="Images\IndentHS.png" />
+    <Resource Include="Images\InsertHyperlinkHS.png" />
+    <Resource Include="Images\InsertPictureHS.png" />
+    <Resource Include="Images\ItalicHS.png" />
+    <Resource Include="Images\listbullets.png" />
+    <Resource Include="Images\listnumbering.png" />
+    <Resource Include="Images\List_BulletsHS.png" />
+    <Resource Include="Images\List_NumberedHS.png" />
+    <Resource Include="Images\editcopy.png" />
+    <Resource Include="Images\editcut.png" />
+    <Resource Include="Images\editpaste.png" />
+    <Resource Include="Images\editredo.png" />
+    <Resource Include="Images\editundo.png" />
+    <Resource Include="Images\Notes16.png" />
+    <Resource Include="Images\boldhs.png" />
+    <Resource Include="Images\saveHS.png" />
     <Content Include="KarveCommon.csproj" />
     <Content Include="KarveDataServices.csproj" />
     <Content Include="MapControl\MapControl.csproj" />
@@ -566,6 +674,9 @@
     </PackageReference>
     <PackageReference Include="CreditCardValidator">
       <Version>1.4.1</Version>
+    </PackageReference>
+    <PackageReference Include="EmailValidation">
+      <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
       <Version>3.4.0</Version>

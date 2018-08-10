@@ -26,6 +26,10 @@ using Microsoft.Practices.Unity;
 using Prism.Regions;
 using Prism.Commands;
 using SkyScanner.Services;
+using KarveControls.Interactivity.ViewModels;
+using System.IO;
+using KarveControls.Interactivity.Views;
+
 
 namespace BookingModule.ViewModels
 {
@@ -35,7 +39,7 @@ namespace BookingModule.ViewModels
     /// </summary>
     internal partial class BookingInfoViewModel : HeaderedLineViewModelBase<IBookingData, BookingDto, BookingItemsDto>
     {
-        
+
         /// <summary>
         /// BookingInfoViewModel
         /// </summary>
@@ -55,45 +59,83 @@ namespace BookingModule.ViewModels
             dialogServices, manager, regionManager, dataServices.GetBookingDataService(), controller)
         {
             InitViewModel();
+            SetInitFlags();
             _karveNavigator = karveNavigator;
             _container = container;
             _regionManager = regionManager;
-            
-
             _selectedIndex = 0;
-           
-            DefaultPageSize = 100;
-            IsReady = false;
-            IsChanged = false;
-            CollectionView = new ObservableCollection<BookingItemsDto>();
+            _configurationService = configurationService;
             _regionManager = regionManager;
-            DefaultPageSize = 100;
-            IsReady = false;
-            IsChanged = false;
-            // this shall be at the configuration service
-            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
-            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
-            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
-            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
-            SaveToClient = new DelegateCommand<BookingDto>(OnExecuteSaveClient);
+            SetGridColumns();
+            CollectionView = new ObservableCollection<BookingItemsDto>();
             _bookingClientsIncrementalList = new IncrementalList<ClientSummaryExtended>(LoadMoreClients);
             _clientHandler += LoadClientEvent;
-            IsChanged = false;
-            LineVisible = true;
-            FooterVisible = false;
-            _selectedIndex = 0;
-            IsViewModelInitialized = false;
             /* This instruct the toolbar to skip its is own handlers. Avoiding complexity. 
              * It will be just the view to save itself with composite command and to alert it subsystem.
              *  This with the SetRegistrationPayLoad set properly it will permit to save itself.
              *  Each view will save itself.
              */
             CompositeCommandOnly = true;
+            BookingConfirmMessage = new BookingConfirmMessageDto() { Code = "0006" };
+            MailClient = new DelegateCommand<object>(OnMailClient);
+            LabelImageSource = new MemoryStream();
+        }
+        private void SetInitFlags()
+        {
+            DefaultPageSize = 25;
+            IsReady = false;
+            IsChanged = false;
+            IsChanged = false;
+            LineVisible = true;
+            FooterVisible = false;
+            _selectedIndex = 0;
+            IsViewModelInitialized = false;
             IsReservationCancelled = false;
-            BookingConfirmMessage = new BookingConfirmMessageDto() { Code= "0006" };
-
 
         }
+        private void SetGridColumns()
+        {
+            // this shall be at the configuration service
+            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
+            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
+            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
+            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
+        }
+        
+      
+        /// <summary>
+        ///  A mail client 
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void OnMailClient(object clientNumber)
+        {
+            // i retrieve the number of the reservation
+            var clientNumberValue = clientNumber as string;
+            if (clientNumberValue != null)
+            {
+                var cliente =  await DataServices.GetClientDataServices().GetDoAsync(clientNumberValue).ConfigureAwait(false);
+
+                if (cliente != null)
+               {
+                    var bookingMail = new BookingMailViewModel();
+                    bookingMail.DestinationAddress = cliente.Value.EMAIL;
+                    bookingMail.Subject = KarveLocale.Properties.Resources.lbookingnumber +" " + DataObject.NUMERO_RES;
+                    var userSettings = _configurationService.UserSettings;
+                    if (userSettings != null)
+                    {
+                        var user = userSettings.FindSetting<string>(UserSettingConstants.DefaultEmailAddress);
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            bookingMail.SenderAddress = user;
+                        }
+                        // here we can start navigating.
+                        CreateViewModelMailFirst("Mail Cliente", bookingMail);
+                    }
+               }
+            }
+        }
+
+
 
         private async void OnExecuteSaveClient(BookingDto dto)
         {
@@ -101,7 +143,7 @@ namespace BookingModule.ViewModels
 
         }
 
-        private bool IsReservationCancelled
+        public bool IsReservationCancelled
         {
             set
             {
@@ -826,7 +868,7 @@ namespace BookingModule.ViewModels
                 _configurationService = _container.Resolve<IConfigurationService>();
                 if (_configurationService != null)
                 {
-                    _userSettings = _configurationService.GetUserSettings();
+                    _userSettings = _configurationService.UserSettings;
                     var columsSettings = _userSettings.FindSetting<string>(UserSettingConstants.BookingDriverGridColumnsKey);
                     GridColumns = TokenizeGridColumns(columsSettings);
                     var clientViewSettings = _userSettings.FindSetting<string>(UserSettingConstants.BookingClientGridColumnsKey);
@@ -880,10 +922,24 @@ namespace BookingModule.ViewModels
             ShowSingleDriver = new DelegateCommand<object>(ShowBookingDriver);
             LookupFlightCommand = new DelegateCommand<object>(OnLookupFlight);
             RecomputeImport = new DelegateCommand(OnRecomputeImport);
+            PrintCommand = new DelegateCommand(OnPrintCommand);
+            SaveToClient = new DelegateCommand<BookingDto>(OnExecuteSaveClient);
             _newCommand = new DelegateCommand<object>(NewViewCommand);
             _saveCommand = new DelegateCommand<object>(SaveViewCommand);
             _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
 
+        }
+
+        private void OnPrintCommand()
+        {
+            var pdfCreation = new BookingPdfCreator(DataObject, LabelImageSource);
+            var ms = pdfCreation.CreatePdf();
+            var interaction = new InteractionReportViewModel();
+            interaction.Document = ms;
+            interaction.Title = "Impresion de Rotulo";
+            // now i have to show it.
+            Controller.ShowView<InteractionReportViewModel, ReportView>(interaction);
+        
         }
 
         private async void OnBookingIncident(object obj)
@@ -918,7 +974,7 @@ namespace BookingModule.ViewModels
             FareConceptDto item = null;
             BookingItemsDto bookingItem = null;
             LoadConcepts();
-
+            // This will use the request controller to trigger the view.
             ShowDataTransferObjects<FareConceptDto>(ConceptDto,
                                               "Conceptos",
                                               "Code,Name",
@@ -965,6 +1021,37 @@ namespace BookingModule.ViewModels
         }
 
         /// <summary>
+        ///  Set or Get the client selected object.
+        /// </summary>
+        public ClientSummaryExtended ClientSelectedObject
+        {
+            set
+            {
+                _clientSelectedObject = value;
+                RaisePropertyChanged("ClientSelectedObject");
+            }
+            get
+            {
+                return _clientSelectedObject;
+            }
+        }
+
+        /// <summary>
+        ///  Set or get the driver selected object.
+        /// </summary>
+        public ClientSummaryExtended DriverSelectedObject
+        {
+            set
+            {
+                _driverSelectedObject = value;
+                RaisePropertyChanged("DriverSelectedObject");
+            }
+            get
+            {
+                return _driverSelectedObject;
+            }
+        }
+        /// <summary>
         ///  Set or Get the credit card.
         /// </summary>
         public IEnumerable<CreditCardDto> CreditCardView
@@ -976,7 +1063,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _creditCardView = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("CreditCardViww");
             }
         }
         /// <summary>
@@ -991,7 +1078,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _country = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("CountryDto");
             }
         }
         /// <summary>
@@ -1006,7 +1093,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _country2 = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("DriverCountryList");
             }
         }
 
@@ -1022,7 +1109,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _city = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("CityDto3");
             }
         }
         /// <summary>
@@ -1037,7 +1124,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _countryDto = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("CountryDto3");
             }
         }
         /// <summary>
@@ -1052,7 +1139,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _provinceDto = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("ProvicneDto3");
             }
         }
         private void OnCreateNewGroup(object obj)
@@ -1323,16 +1410,6 @@ namespace BookingModule.ViewModels
         {
 
             _karveNavigator.NewClientView(ViewModelUri);
-            /*
-            var clientDataService = DataServices.GetClientDataServices();
-            var numberCode = clientDataService.GetNewId();
-            var payload = clientDataService.GetNewDo(numberCode);
-            var viewName = payload.Value.NOMBRE + "." + numberCode;
-            var factory = DataPayloadFactory.GetInstance();
-            var dataPayload = factory.BuildInsertPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, ViewModelUri.ToString());
-            Navigate<MasterModule.ViewModels.ClientsInfoViewModel>(_regionManager, numberCode, viewName);
-            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
-            */
         }
         /// <summary>
         ///  Show current client.
@@ -1444,7 +1521,15 @@ namespace BookingModule.ViewModels
             _bookingClientsIncrementalList.Clear();
 
         }
-
+        private void CreateViewModelMailFirst(string name, BookingMailViewModel model)
+        {
+            var detailsRegion = _regionManager.Regions[RegionNames.TabRegion];
+            var clientWindow = _container.Resolve<BookingMail>();
+            clientWindow.Header = name;
+            clientWindow.DataContext = model;
+            _mailRegionManager = detailsRegion.Add(clientWindow, null, true);
+            clientWindow.Focus();
+        }
 
         /// <summary>
         ///  Get the name of the route.
@@ -1562,9 +1647,6 @@ namespace BookingModule.ViewModels
             builder[6].SourceView = data.PrintingTypeDto;
             builder[7].SourceView = data.VehicleActivitiesDto;
             RaisePropertyChanged("GeneralCollectionInfo");
-
-
-
         }
         public ObservableCollection<DtoType> SelectItem<DtoType>(IEnumerable<DtoType> item, IEnumerable<DtoType> collection)
         {
@@ -1602,7 +1684,8 @@ namespace BookingModule.ViewModels
             SecondDriverCountryDto = data.SecondDriverCountryDto;
             SecondDriverProvinceDto = data.SecondDriverProvinceDto;
 
-
+            DriverSelectedObject = DriverDto.FirstOrDefault();
+            ClientSelectedObject = ClientDto.FirstOrDefault();
 
             if (data.DriverDto2 != null)
             {
@@ -1935,7 +2018,9 @@ namespace BookingModule.ViewModels
                     }
                 case "EMPLEAGE_ASSIST":
                     {
-                        BookingAgencyEmployee = (IEnumerable<AgencyEmployeeDto>)collectionValue;
+                        collection[3].SourceView = (IEnumerable<AgencyEmployeeDto>)collectionValue;
+                        RaisePropertyChanged("GeneralCollectionInfo");
+
                         break;
                     }
                 case "COMPANY_ASSIST":
@@ -2168,15 +2253,7 @@ namespace BookingModule.ViewModels
             }
 
         }
-        public ICommand CreateCommand { set; get; }
-        public ICommand AddNewConceptCommand { set; get; }
-        public ICommand RejectBooking { set; get; }
-        public ICommand ConfirmBooking { set; get; }
-        public ICommand IncidentLookup { set; get; }
-        public ICommand CreateNewPromoCodeView { set; get; }
-        public ICommand MailOffice { set; get; }
-        public ICommand MailProforma { set; get; }
-        public ICommand MailClient { set; get; }
+       
 
         /// <summary>
         ///  Set or Get the delivery places dto.
@@ -2235,6 +2312,22 @@ namespace BookingModule.ViewModels
                 RaisePropertyChangeAfterInit("BookingRefusedDto");
             }
         }
+
+        /// <summary>
+        ///  Set or Get the image source.
+        /// </summary>
+        public MemoryStream LabelImageSource { set; get; }
+
+
+        public ICommand CreateCommand { set; get; }
+        public ICommand AddNewConceptCommand { set; get; }
+        public ICommand RejectBooking { set; get; }
+        public ICommand ConfirmBooking { set; get; }
+        public ICommand IncidentLookup { set; get; }
+        public ICommand CreateNewPromoCodeView { set; get; }
+        public ICommand MailOffice { set; get; }
+        public ICommand MailProforma { set; get; }
+        public ICommand MailClient { set; get; }
 
         private ICommand _newCommand;
         private ICommand _bookingConcept;
@@ -2311,6 +2404,8 @@ namespace BookingModule.ViewModels
         private IEnumerable<BookingRefusedDto> _bookingRefused;
         private bool _isReservationCancelled;
         private BookingModule.BookingState currentBookingState;
-
+        private ClientSummaryExtended _clientSelectedObject;
+        private ClientSummaryExtended _driverSelectedObject;
+        private IRegionManager _mailRegionManager;
     }
 }

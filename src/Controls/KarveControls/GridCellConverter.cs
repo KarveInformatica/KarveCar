@@ -16,16 +16,8 @@ namespace KarveControls
         {
             var brushCoverter = new System.Windows.Media.BrushConverter();
             var brush = (Brush)brushCoverter.ConvertFromString("#333333");
-            
+
             return brush;
-            /*var source = value as ExpenseData;
-            var brushCoverter = new System.Windows.Media.BrushConverter();
-            if (source == null)
-                return brush;
-            if (source.AccountType == AccountType.Positve)
-                return Brushes.Green;
-            else
-                return brush;*/
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

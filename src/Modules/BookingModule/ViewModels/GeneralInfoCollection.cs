@@ -27,6 +27,7 @@ namespace BookingModule.ViewModels
         private ICommand _itemChangedCommand;
         private string _createTag;
         private object _sourceView;
+        private string _componentName;
 
         /// <summary>
         /// Set ot get a command for a new link.
@@ -42,7 +43,18 @@ namespace BookingModule.ViewModels
                 return _createNewCommand;
             }
         }
-
+        public string Name
+        {
+            set
+            {
+                _componentName = value;
+                RaisePropertyChanged("Name");
+            }
+            get
+            {
+                return _componentName;
+            }
+        }
 
         /// <summary>
         ///  Set or Get the assist command
@@ -52,7 +64,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _assistProperties = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("AssistProperties");
             }
             get
             {
@@ -66,7 +78,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _assistCommand = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("AssistCommand");
             }
             get
             {
@@ -82,7 +94,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _itemChangedCommand = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("ItemChangedCommand");
             }
             get
             {
@@ -98,7 +110,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _newLabel = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("CreateNewLabel");
             }
             get
             {
@@ -113,7 +125,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _dataField = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("DataField");
             }
             get
             {
@@ -128,7 +140,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _assistTableName = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("AssistTableName");
             }
             get
             {
@@ -147,6 +159,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _createTag = value;
+                RaisePropertyChanged("AssistTableName");
             }
         }
 
@@ -162,7 +175,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _sourceView = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("SourceView");
             }
         }
 
@@ -174,7 +187,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _dataSource = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("DataSource");
             }
             get
             {
@@ -243,6 +256,7 @@ namespace BookingModule.ViewModels
             get { return _list[i]; }
             set { _list[i] = value; }
         }
+      
         public IEnumerator<GeneralInfo> GetEnumerator()
         {
             return _list.GetEnumerator();

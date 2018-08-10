@@ -62,7 +62,7 @@ namespace BookingModule.ViewModels
             ViewModelUri = new Uri("karve://booking/incident/show/viewmodel?id=" + Guid.ToString());
             _unityContainer = unityContainer;
             _navigator = navigation;
-            _userSettings = configurationService.GetUserSettings();
+            _userSettings = configurationService.UserSettings;
             _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
             _saveCommand = new DelegateCommand<object>(SaveViewCommand);
             _newCommand = new DelegateCommand<object>(NewViewCommand);

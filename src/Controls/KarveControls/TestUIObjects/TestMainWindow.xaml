@@ -25,6 +25,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
+                    <!--
                     <karveControls:DualFieldSearchBox LabelText="TestClient"
                                       Grid.Row="0"
                                       LabelTextWidth="100"
@@ -36,12 +37,15 @@
                                       ButtonImage="/KarveControls;component/Images/search.png"
                                       SourceView="{Binding SourceView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       ItemSource="{Binding ItemSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="3" Margin="0,106,0,105"/>
+                    -->
 
                 </Grid>
             </TabItem>
             <TabItem Header="DateAndCalendarControls">
                 <Grid>
+                    <!--
                     <karveControls:HolidayCalendar></karveControls:HolidayCalendar>
+                    -->
                 </Grid>
             </TabItem>
             <!--
@@ -143,10 +147,12 @@
                 </Grid>
             </TabItem>
             <TabItem Header="TestPhotoFrame">
+                <!--
                 <karvePhoto:PhotoFrame ImageLabel="TestImage" 
                                        ImageBinarySource="{Binding ImageSource}">
 
                 </karvePhoto:PhotoFrame>
+                -->
             </TabItem>
             <TabItem Header="TestSmallDriverControl">
                 <karveControls:DriverSmallControl 
@@ -171,7 +177,10 @@
                 </karveControls:DriverSmallControl>
             </TabItem>
             <TabItem Header="TestMapControl">
-                        
+
+            </TabItem>
+            <TabItem Header="TestMailControl">
+                <karveControls:MailControl></karveControls:MailControl>
             </TabItem>
         </TabControl>
     </Grid>

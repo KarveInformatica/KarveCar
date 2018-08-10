@@ -37,6 +37,9 @@ namespace BookingModule
             _container.RegisterType<object, BookingControlView>("BookingSummary");
             _container.RegisterTypeForNavigation<BookingInfoView>();
             _container.RegisterType<object, ReservationRequests>(typeof(ReservationRequests).FullName);
+            _container.RegisterType<object, BookingMail>(typeof(BookingMail).FullName);
+            _container.RegisterType<object, BookingMailViewModel>(typeof(BookingMailViewModel).FullName);
+
             _container.RegisterType<object, ReservationRequestControl>("BookingRequestSummary");
             _container.RegisterType<object, BookingInfoViewModel>("BookingInfoViewModel");
             _container.RegisterType<object, BookingFooterView>("BookingFooterView");
