@@ -12,12 +12,13 @@ namespace KarveDataServices.DataTransferObject
     ///  Booking dto is the booking data transfer object that convey the information outside the data layer.
     ///  Remark: It will important in the mapper field just map the fields needed because otherwise
     /// it will heavy and slow the load/store.
+    ///  The idea is that is contains values to convey around the system.
     /// </summary>
     public class BookingDto: LineBaseDto<BookingItemsDto>
     {
         private decimal? _tolon_res;
         private decimal? _iva_res;
-
+        private Int16? _days;
         [PrimaryKey]
         [Required]
         public string NUMERO_RES { get; set; }
@@ -26,31 +27,31 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the LOCALIZA_RES1 property.
         /// </summary>
-
+        [MaxLength(100)]
         public string LOCALIZA_RES1 { get; set; }
 
         /// <summary>
         ///  Set or get the OFICINA_RES1 property.
         /// </summary>
-
+        [MaxLength(2)]
         public string OFICINA_RES1 { get; set; }
 
         /// <summary>
         ///  Set or get the OFIRETORNO_RES1 property.
         /// </summary>
-
+        [MaxLength(2)]
         public string OFIRETORNO_RES1 { get; set; }
 
         /// <summary>
         ///  Set or get the OFISALIDA_RES1 property.
         /// </summary>
-
+        [MaxLength(2)]
         public string OFISALIDA_RES1 { get; set; }
 
         /// <summary>
         ///  Set or get the SUBLICEN_RES1 property.
         /// </summary>
-
+        [MaxLength(2)]
         public string SUBLICEN_RES1 { get; set; }
 
         /// <summary>
@@ -69,7 +70,10 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the FPREV_RES1 property.
         /// </summary>
 
-        public DateTime? FPREV_RES1 { get; set; }
+        public DateTime? FPREV_RES1 {
+            get;
+            set;
+        }
 
         /// <summary>
         ///  Set or get the FSALIDA_RES1 property.
@@ -92,13 +96,13 @@ namespace KarveDataServices.DataTransferObject
         /// <summary>
         ///  Set or get the LUDEVO_RES1 property.
         /// </summary>
-
+        [MaxLength(10, ErrorMessage ="Name cannot be greater than 256")]
         public string LUDEVO_RES1 { get; set; }
 
         /// <summary>
         ///  Set or get the LUENTRE_RES1 property.
         /// </summary>
-
+        [MaxLength(10, ErrorMessage = "Name cannot be greater than 20")]
         public string LUENTRE_RES1 { get; set; }
 
         /// <summary>
@@ -111,7 +115,23 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the DIAS_RES1 property.
         /// </summary>
 
-        public Int16? DIAS_RES1 { get; set; }
+        // FIXME: this little logic shall be moved at business layer.
+
+        public Int16? DIAS_RES1 {
+            get
+            {
+                return _days;
+            }
+            set
+            {
+                _days = value;
+                if ((FSALIDA_RES1.HasValue) && (_days.HasValue))
+                {
+                    FPREV_RES1 = FSALIDA_RES1.Value.AddDays(_days.Value);
+                    RaisePropertyChanged("FPREV_RES1");
+                }
+            }
+        }
 
         /// <summary>
         ///  Set or get the CIAAEREA_RES1 property.
@@ -2039,12 +2059,52 @@ namespace KarveDataServices.DataTransferObject
         {
             if (!IsNew)
             {
+                ClearErrors();
+
                 if (string.IsNullOrEmpty("NUMERO_RES"))
                 {
                     AddMessage("NUMERO_RES",ConstantDataError.CodeNotValid);
                     return true;
                 }
-                
+                if (!FECHA_RES1.HasValue)
+                {
+                    AddMessage("FECHA_RES1", ConstantDataError.InvalidDate);
+                    return true;
+                }
+                if (!HORA_RES1.HasValue)
+                {
+                    AddMessage("HORA_RES1", ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (!HSALIDA_RES1.HasValue)
+                {
+                    AddMessage("HSALIDA_RES1", ConstantDataError.NameIsEmpty);
+                    return true;
+
+                }
+                if (!HPREV_RES1.HasValue)
+                {
+                    AddMessage("HPREV_RES1", ConstantDataError.NameIsEmpty);
+                    return true;
+
+                }
+                if (!FPREV_RES1.HasValue)
+                {
+                    AddMessage("FPREV_RES1", ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (!FSALIDA_RES1.HasValue)
+                {
+                    AddMessage("FSALIDA_RES1", ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (string.IsNullOrEmpty("NUMERO_RES"))
+                {
+                    AddMessage("NUMERO_RES", ConstantDataError.CodeNotValid);
+                    return true;
+                }
+
+               
                 if ((FPREV_RES1.HasValue) && (FSALIDA_RES1.HasValue))
                 {
                     var startDate = FPREV_RES1.Value;
@@ -2061,6 +2121,17 @@ namespace KarveDataServices.DataTransferObject
                         AddMessage("FPREV_RES1",ConstantDataError.NameIsEmpty);
                         return true;
                     }
+                   
+                    if (startDate < FECHA_RES1.Value)
+                    {
+                        AddMessage("FSALIDA_RES1", ConstantDataError.InvalidDate);
+                        return true;
+                    }
+                    if (endDate < FECHA_RES1.Value)
+                    {
+                        AddMessage("FPREV_RES1", ConstantDataError.InvalidDate);
+                        return true;
+                    }
                 }
                 if (string.IsNullOrEmpty(OFISALIDA_RES1))
                 {
@@ -2070,6 +2141,21 @@ namespace KarveDataServices.DataTransferObject
                 if (string.IsNullOrEmpty(OFIRETORNO_RES1))
                 {
                     AddMessage("OFIRETORNO_RES1",ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (string.IsNullOrEmpty(OFICINA_RES1))
+                {
+                    AddMessage("OFICINA_RES1", ConstantDataError.NameIsEmpty);
+                    return true;
+                }
+                if (DIAS_RES1 < 0)
+                {
+                    AddMessage("DIAS_RES1", ConstantDataError.InvalidRange);
+                    return true;
+                }
+                if (string.IsNullOrEmpty(SUBLICEN_RES1))
+                {
+                    AddMessage("SUBLICEN_RES1", ConstantDataError.NameIsEmpty);
                     return true;
                 }
                 if (!string.IsNullOrEmpty(MAILCOND_RES2))

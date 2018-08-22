@@ -22,6 +22,8 @@ namespace KarveControls.Behaviour.Grid
         ///  Set or get the region name to navigate to
         /// </summary>
         public string RegionName { set; get; }
+
+        
     }
 
 

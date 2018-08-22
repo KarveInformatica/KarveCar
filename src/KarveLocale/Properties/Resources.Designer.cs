@@ -1060,6 +1060,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Eliges ....
+        /// </summary>
+        public static string lchoose {
+            get {
+                return ResourceManager.GetString("lchoose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cliente.
         /// </summary>
         public static string lcliente {
@@ -1573,6 +1582,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error en la validacion de datos\nMotivo:.
+        /// </summary>
+        public static string ldatavalidationError {
+            get {
+                return ResourceManager.GetString("ldatavalidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Datos General.
         /// </summary>
         public static string ldatosgeneral {
@@ -1794,6 +1812,15 @@ namespace KarveLocale.Properties {
         public static string ldivisa {
             get {
                 return ResourceManager.GetString("ldivisa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string ldocumentNumber {
+            get {
+                return ResourceManager.GetString("ldocumentNumber", resourceCulture);
             }
         }
         
@@ -2140,6 +2167,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quincena.
+        /// </summary>
+        public static string lfortnight {
+            get {
+                return ResourceManager.GetString("lfortnight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Franquicia.
         /// </summary>
         public static string lfranquicia {
@@ -2226,6 +2262,15 @@ namespace KarveLocale.Properties {
         public static string lgestionvehiculo {
             get {
                 return ResourceManager.GetString("lgestionvehiculo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El grupo no puede ser vacio.
+        /// </summary>
+        public static string lgroupvalidationError {
+            get {
+                return ResourceManager.GetString("lgroupvalidationError", resourceCulture);
             }
         }
         
@@ -2451,6 +2496,15 @@ namespace KarveLocale.Properties {
         public static string lintraco {
             get {
                 return ResourceManager.GetString("lintraco", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dato no valido para la reserva.
+        /// </summary>
+        public static string linvalidbookingdata {
+            get {
+                return ResourceManager.GetString("linvalidbookingdata", resourceCulture);
             }
         }
         
@@ -2793,6 +2847,15 @@ namespace KarveLocale.Properties {
         public static string lmodocomunicaciondepedido {
             get {
                 return ResourceManager.GetString("lmodocomunicaciondepedido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mes.
+        /// </summary>
+        public static string lmonth {
+            get {
+                return ResourceManager.GetString("lmonth", resourceCulture);
             }
         }
         
@@ -6703,6 +6766,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unico.
+        /// </summary>
+        public static string lsingle {
+            get {
+                return ResourceManager.GetString("lsingle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Situación.
         /// </summary>
         public static string lsituacion {
@@ -7230,6 +7302,15 @@ namespace KarveLocale.Properties {
         public static string lweek {
             get {
                 return ResourceManager.GetString("lweek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fin de Semana.
+        /// </summary>
+        public static string lweekend {
+            get {
+                return ResourceManager.GetString("lweekend", resourceCulture);
             }
         }
         

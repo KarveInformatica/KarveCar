@@ -140,6 +140,7 @@ namespace DataAccessLayer.SQL
         QueryBookingIncidentType,
         BookingIncidentSummaryPaged,
         QueryBookingIncidentSummaryPaged,
-        QueryRefusedBooking
+        QueryRefusedBooking,
+        QueryCompanyByOffice
     };
 }

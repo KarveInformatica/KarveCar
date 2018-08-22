@@ -189,8 +189,9 @@ namespace KarveDataServices.DataTransferObject
         public void Dispose()
         {
             ErrorDict.Clear();
+
             HasErrors = false;
-            
+
         }
         public bool IsDeleted { get; set; }
 

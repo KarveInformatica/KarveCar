@@ -19,6 +19,7 @@
             <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="pack://application:,,,/KarveControls;component/Styles/KarveStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <converter:DebugDataBindingConverter x:Key="DebugDataConverter"></converter:DebugDataBindingConverter>
             <converter:StringToTimeSpanConverter x:Key="StringSpanConverter"></converter:StringToTimeSpanConverter>
             <converter:DateTimeToTimeSpanConverter x:Key="TimeSpanConverter"></converter:DateTimeToTimeSpanConverter>
             <converter:ExpanderToStringConverter x:Key="ExpanderToString"></converter:ExpanderToStringConverter>
@@ -61,18 +62,18 @@
                 DataSourcePath="NUMERO_RES"
                 ItemChangedCommand="{Binding ItemChangedCommand}"  />
 
-                                <karveControls:DualFieldSearchBox 
+                               <karveControls:DualFieldSearchBox 
                                  DataSource="{Binding DataObject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                  DataFieldFirst="SUBLICEN_RES1"
                                  TextContentFirstWidth="50"
                                  TextContentSecondWidth="100"
-                                 SourceView="{Binding BookingCompanyDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,  PresentationTraceSources.TraceLevel=High}"
+                                 SourceView="{Binding BookingCompanyDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  AssistTableName="COMPANY_ASSIST"
                                  AssistProperties="Code,Name"
-                                 MagnifierCommand="{Binding AssistCommand}"
                                  LabelText="{Binding lempresa, Source={StaticResource ResourceLanguage}}"
                                  Margin="0,5,0,0"
                                  LabelTextWidth="50"
+                                 IsMagnifierVisible="Collapsed"
                                  ItemChangedCommand="{Binding ItemChangedCommand}">
                                 </karveControls:DualFieldSearchBox>
 
@@ -107,7 +108,7 @@
 
                                 <TextBlock Text="{Binding ldays, Source={StaticResource ResourceLanguage}}" 
                                 Width="Auto" Height="30" Margin="0,0,1,0"/>
-                                <Syncfusion:SfTextBoxExt  
+                                <Syncfusion:SfTextBoxExt 
                                                              
                                                  Text="{Binding DataObject.DIAS_RES1, Mode=TwoWay, 
                                                      ValidatesOnNotifyDataErrors=True, 
@@ -898,10 +899,10 @@
                                  Height="30"
                                  Watermark="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"/>
-                                <Label Content="{Binding lid, Source={StaticResource ResourceLanguage}}" Grid.Column="2" Width="96"/>
-                                <Syncfusion:SfTextBoxExt Width="100"
-                                                         
-                                 Watermark="{Binding llocaliza, Source={StaticResource ResourceLanguage}}"
+                                <Label Content="{Binding lid, Source={StaticResource ResourceLanguage}}" 
+                                       Grid.Column="2" Width="96"/>
+                                <Syncfusion:SfTextBoxExt Width="200"
+                                 Watermark="{Binding ldocumentNumber, Source={StaticResource ResourceLanguage}}"
                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
                                  karveControls:ControlExt.DataSourcePath="N_DOCU"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"

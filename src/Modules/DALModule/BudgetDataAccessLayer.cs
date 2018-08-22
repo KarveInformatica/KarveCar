@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataTransferObject;
-using DataAccessLayer.Crud;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Model;
 using DataAccessLayer.Exception;

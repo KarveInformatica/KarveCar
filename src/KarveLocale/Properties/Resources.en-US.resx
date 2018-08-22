@@ -2638,4 +2638,25 @@
   <data name="lshow" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="lmonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="lfortnight" xml:space="preserve">
+    <value>Fortnight</value>
+  </data>
+  <data name="lsingle" xml:space="preserve">
+    <value>Signle</value>
+  </data>
+  <data name="lweekend" xml:space="preserve">
+    <value>Weekend</value>
+  </data>
+  <data name="ldocumentNumber" xml:space="preserve">
+    <value>Document Number</value>
+  </data>
+  <data name="ldatavalidationError" xml:space="preserve">
+    <value>Error during data validation.\nReason:</value>
+  </data>
+  <data name="lgroupvalidationError" xml:space="preserve">
+    <value>Vehicle Group cannot be empty</value>
+  </data>
 </root>

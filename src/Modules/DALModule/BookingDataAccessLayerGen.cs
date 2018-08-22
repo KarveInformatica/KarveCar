@@ -30,10 +30,15 @@ namespace DataAccessLayer
             auxQueryStore.AddParamCount(QueryType.QueryBookingMedia, dto.MEDIO_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryBookingType, dto.TIPORES_res1);
             auxQueryStore.AddParamCount(QueryType.QueryBudgetSummaryById, dto.PRESUPUESTO_RES1);
-            auxQueryStore.AddParamCount(QueryType.QueryCityByName, dto.POCOND_RES2);
+            auxQueryStore.AddParamCount(QueryType.QueryCommissionAgentSummaryById, dto.COMISIO_RES2);
+
+            /*
+             * In some databases we have stored the complete city. And some other just the zip.
+             * 
+             */
+            auxQueryStore.AddParamCount(QueryType.QueryCityByName, SanitizeCity(dto.POCOND_RES2));
             auxQueryStore.AddParamCount(QueryType.QueryClientContacts, dto.CONTACTO_RES2);
             auxQueryStore.AddParamCount(QueryType.QueryCompany, dto.SUBLICEN_RES1);
-            auxQueryStore.AddParamCount(QueryType.QueryCommissionAgentSummaryById, dto.COMISIO_RES2);
             auxQueryStore.AddParamCount(QueryType.QueryFares, dto.TARIFA_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryPaymentForm, dto.FCOBRO_RES1);
             auxQueryStore.AddParamCount(QueryType.QueryProvince, dto.PROVCOND_RES2);
@@ -97,7 +102,7 @@ namespace DataAccessLayer
                 }
             } catch (System.Exception ex)
             {
-                var msg = "Error building aux for booking type " + dto.NUMERO_RES;
+                var msg = "Error building aux for booking type " + dto.NUMERO_RES + "Reason " + ex.Message;
                 throw new DataAccessLayerException(msg, ex);
             }
             try
@@ -213,11 +218,14 @@ namespace DataAccessLayer
             }
             try
             {
-                // office queries
-                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA_RES1, _mapper, reader);
-                request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFISALIDA_RES1, _mapper, reader);
+                // office queries. Requests are stacked so, retrieval shall be reversed.
 
                 request.ReservationOfficeArrival = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFIRETORNO_RES1, _mapper, reader);
+                request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFISALIDA_RES1, _mapper, reader);
+
+                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA_RES1, _mapper, reader);
+               
+               
             }
             catch (System.Exception ex)
             {
@@ -225,6 +233,25 @@ namespace DataAccessLayer
             }
             return true;
         }
+        /// <summary>
+        ///  In the database can appear multiple values for the field poblacion.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private string SanitizeCity(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                var tmp = value.Trim();
+                var stringArray = tmp.Split(' ');
+                if (stringArray.Length > 0)
+                {
+                    return stringArray[stringArray.Length - 1];
+                }
+            }
+            return value;
+        }
+       
 
         private bool ParseResult(IBookingData request, SqlMapper.GridReader reader)
         {
@@ -252,14 +279,13 @@ namespace DataAccessLayer
                 request.BrokerDto = SelectionHelpers.WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
 
 
-                request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
+               request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(SanitizeCity(request.Value.POCOND_RES2), _mapper, reader);
 
                 request.ContactsDto1 = SelectionHelpers.WrappedSelectedDto<CliContactos, ContactsDto>(request.Value.CONTACTO_RES2, _mapper, reader);
 
                 request.CompanyDto = SelectionHelpers.WrappedSelectedDto<SUBLICEN, CompanyDto>(request.Value.SUBLICEN_RES1, _mapper, reader);
 
-                
-
+               
                 request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA_RES1, _mapper, reader);
 
                 request.PaymentFormDto = SelectionHelpers.WrappedSelectedDto<FORMAS, PaymentFormDto>(request.Value.FCOBRO_RES1, _mapper, reader);
@@ -284,7 +310,8 @@ namespace DataAccessLayer
             catch (System.Exception ex)
 #pragma warning restore CS0168 // Variable is declared but never used
             {
-                throw new DataAccessLayerException("Parsing multiple query result error", ex);
+                var msg = "Parsing multiple query result error " + ex.Message;
+                throw new DataAccessLayerException(msg, ex);
             }
             return true;
         }

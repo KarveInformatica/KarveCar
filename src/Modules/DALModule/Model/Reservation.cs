@@ -18,7 +18,34 @@ namespace DataAccessLayer.Model
         {
             Value = new BookingDto();
             Valid = true;
+            InitFields();
             
+        }
+        private void InitFields()
+        {
+            _broker = new ObservableCollection<CommissionAgentSummaryDto>();
+            _budget = new ObservableCollection<BudgetDto>();
+            _city3 = new ObservableCollection<CityDto>();
+            _clients = new ObservableCollection<ClientSummaryExtended>();
+            _company = new ObservableCollection<CompanyDto>();
+            _contracts = new ObservableCollection<ContractSummaryDto>();
+            _country2 = new ObservableCollection<CountryDto>();
+            _country3 = new ObservableCollection<CountryDto>();
+            _country4 = new ObservableCollection<CountryDto>();
+            _driver2 = new ObservableCollection<ClientSummaryExtended>();
+            _driver3 = new ObservableCollection<ClientSummaryExtended>();
+            _driver4 = new ObservableCollection<ClientSummaryExtended>();
+            _driver5 = new ObservableCollection<ClientSummaryExtended>();
+            _drivers = new ObservableCollection<ClientSummaryExtended>();
+            _fare = new ObservableCollection<FareDto>();
+            _office1 = new ObservableCollection<OfficeDtos>();
+            _province3 = new ObservableCollection<ProvinciaDto>();
+            _reservationOfficeArrival = new ObservableCollection<OfficeDtos>();
+            _reservationOfficeDeparture = new ObservableCollection<OfficeDtos>();
+            _vehicleGroup = new ObservableCollection<VehicleGroupDto>();
+            _vehicleSummary = new ObservableCollection<VehicleSummaryDto>();
+            this.AgencyEmployeeDto = new ObservableCollection<AgencyEmployeeDto>();
+
         }
 
         /// <summary>

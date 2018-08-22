@@ -67,10 +67,31 @@ namespace KarveControls.Behaviour
         protected override void OnSetup()
         {
             this.AssociatedObject.SelectionChanged+= AssociatedObject_SelectionChanged;
+            this.AssociatedObject.PreviewKeyDown += AssociatedObject_PreviewKeyDown;
         }
+
+        private void AssociatedObject_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var selectedIndex = this.AssociatedObject.SelectedIndex;
+            if (e.Key == Key.Space)
+            {
+
+
+                if (selectedIndex == -1)
+                {
+                    selectedIndex = 0;
+                }
+                else
+                {
+                    selectedIndex = (selectedIndex + 1) % this.AssociatedObject.Items.Count; 
+                }
+            }
+        }
+
         protected override void OnCleanup()
         {
             this.AssociatedObject.SelectionChanged -= AssociatedObject_SelectionChanged;
+            this.AssociatedObject.PreviewKeyDown -= AssociatedObject_PreviewKeyDown;
         }
 
         private void AssociatedObject_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

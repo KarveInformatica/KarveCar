@@ -2,6 +2,7 @@ using System.Collections;
 using System.Windows.Input;
 using KarveCommon.Generic;
 using System;
+using System.Linq;
 
 namespace KarveControls.Interactivity.Notifications
 {
@@ -26,7 +27,7 @@ namespace KarveControls.Interactivity.Notifications
             : this()
         {
             Items = items;
-         
+            
         }
         /// <summary>
         /// IncrementalList of utems.

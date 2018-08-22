@@ -63,6 +63,6 @@ namespace KarveDataServices
         /// <param name="holidaysDates">Holidays dates.</param>
         /// <returns></returns>
         Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates);
-        
+        Task<IEnumerable<CompanyDto>> GetCompanyAsync(string oFICINA_RES1);
     }
 }

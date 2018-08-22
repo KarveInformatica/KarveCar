@@ -66,6 +66,7 @@
             -->
             
             <Grid Grid.Column="2" VerticalAlignment="Center" Margin="100,0,0,0">
+                <!--
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -76,7 +77,9 @@
                 <TextBlock Margin="10,0,10,0" Text="{Binding CounterInterval}" Grid.Column="1" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
                 <TextBlock Margin="10,0,10,0" Text="{Binding lof, Source={StaticResource ResourceLanguage}}" Grid.Column="2" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
                 <TextBlock Margin="10,0,10,0" Text="{Binding ItemCounts,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="3" FontWeight="Bold" FontFamily="Arial" Height="15"></TextBlock>
-            </Grid>
+            -->
+                </Grid>
+              
         </Grid>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock FontWeight="Bold" FontSize="20"
@@ -104,6 +107,7 @@
                                NavigationMode="Row"
                                SelectionMode="Single"
                                FilterRowPosition="FixedTop"
+                               karveControls:KarveGridExt.SelectedItems="{Binding SelectedItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                karveControls:KarveGridExt.GridIdentifier="{Binding GridIdentifier, Mode=OneWay}"
                                karveControls:KarveGridExt.GridInitCommand="{Binding GridRegisterCommand, Mode=OneWay}"
                                karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"

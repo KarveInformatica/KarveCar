@@ -1422,7 +1422,7 @@ namespace DataAccessLayer.Logic
                         Fare = src.TARIFA,
                         Quantity = src.CANTIDAD,
                         Group = src.GRUPO,
-                        Included = (src.INCLUIDO.HasValue) && (src.INCLUIDO.Value == 1),
+                        Included = (src.INCLUIDO.HasValue) && (src.INCLUIDO.Value == -1),
                         Price = src.PRECIO,
                         Subtotal = src.SUBTOTAL,
                         Unity = src.UNIDAD
@@ -1449,7 +1449,7 @@ namespace DataAccessLayer.Logic
                         TIPO = src.Type,
                         TARIFA = src.Fare,
                         GRUPO = src.Group,
-                        INCLUIDO = src.Included ? (short)0 : (short)1,
+                        INCLUIDO = src.Included ? (short)0 : (short)-1,
                         UNIDAD = src.Unity,
                         PRECIO = src.Price,
                         SUBTOTAL = src.Subtotal,

@@ -73,8 +73,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -128,6 +130,11 @@
     <Compile Include="Crud\Office\OfficeDataSaver.cs" />
     <Compile Include="Crud\SelectionHelpers.cs" />
     <Compile Include="Crud\Supplier\SupplierDataLoader.cs" />
+    <Compile Include="Crud\Validation\BookingConceptRule.cs" />
+    <Compile Include="Crud\Validation\BookingDateCorrectRule.cs" />
+    <Compile Include="Crud\Validation\BookingFareRule.cs" />
+    <Compile Include="Crud\Validation\BookingGroupCorrectRule.cs" />
+    <Compile Include="Crud\Validation\BookingNotNullRule.cs" />
     <Compile Include="Crud\Vehicle\VehicleDataDeleter.cs" />
     <Compile Include="Crud\Vehicle\VehicleDataLoader.cs" />
     <Compile Include="Crud\Vehicle\VehicleDataSaver.cs" />
@@ -1124,7 +1131,6 @@
     <Compile Include="Logic\SupplierPocoConverter.cs" />
     <Compile Include="Model\BookingIncident.cs" />
     <Compile Include="Model\Budget.cs" />
-    <Compile Include="Model\BudgetPoco.cs" />
     <Compile Include="Model\Client.cs" />
     <Compile Include="Model\CommissionAgent.cs" />
     <Compile Include="Model\Company.cs" />

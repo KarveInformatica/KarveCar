@@ -16,6 +16,27 @@ namespace KarveDataServices.DataTransferObject
         private decimal? _price;
         private decimal? _discount;
         private int _billTo;
+        private bool _conceptIncluded;
+        private string _unity;
+        private string _fare;
+        private string _group;
+        private string _number;
+        private short? _extra;
+        private int _min;
+        private int _max;
+        private string _days;
+        private byte? _type;
+        private string _money;
+        private decimal? _iva;
+        private long _bookingKey;
+        private string _machine;
+        private decimal? _unityCost;
+        private decimal? _cost;
+        private decimal? _totalPrice;
+        private decimal? _subtotalTt;
+        private decimal? _taxablePrice;
+        private decimal? _taxableSubtotal;
+        private byte? _multipleQuote;
 
         public BookingItemsDto()
         {
@@ -26,24 +47,48 @@ namespace KarveDataServices.DataTransferObject
             Subtotal = 0;
             Iva = 21;
             Discount = 0;
+            Included = false;
+
         }
         /// <summary>
         ///  Set or get the TARIFA property.
         /// </summary>
 
-        public string Fare { get; set; }
+        public string Fare
+        {
+            get
+            {
+                return _fare;
+            }
+            set
+            {
+                _fare = value;
+                RaisePropertyChanged("Fare");
+            }
+        }
 
         /// <summary>
         ///  Set or get the GRUPO property.
         /// </summary>
 
-        public string Group { get; set; }
+        public string Group
+        {
+            get
+            {
+                return _group;
+            }
+            set
+            {
+                _group = value;
+                RaisePropertyChanged("Group");
+            }
+        }
 
         /// <summary>
         ///  Set or get the CONCEPTO property.
         /// </summary>
         [Display(Name = "Concepto")]
-
+        [Required(ErrorMessage = "El Concepto esta requirido")]
         public Int32 Concept {
             get
             {
@@ -52,13 +97,14 @@ namespace KarveDataServices.DataTransferObject
             set
             {
                 _concept = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("Concept");
             }
         }
         ///  [Display(Name = "Contracto", Description = "Codigo de Contracto")]
         /// <summary>
         ///  Set or get the DESCCON property.
         /// </summary>
+        [Required(ErrorMessage = "La Descripción esta requirida")]
         [Display(Name = "Descripción Concepto")]
         public
             string Desccon
@@ -70,7 +116,7 @@ namespace KarveDataServices.DataTransferObject
             set
             {
                 _descr = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("Desccon");
             }
         }
         /// <summary>
@@ -79,7 +125,16 @@ namespace KarveDataServices.DataTransferObject
         [Display(Name = "Incluido")]
         public bool Included
         {
-            get; set;
+
+            get
+            {
+                return _conceptIncluded;
+            }
+           set
+            {
+                _conceptIncluded = value;
+                RaisePropertyChanged("Included");
+            }
         }
 
         /// <summary>
@@ -98,7 +153,7 @@ namespace KarveDataServices.DataTransferObject
                     _quantity = value;
                     ComputeSubtotal();
                 }
-                RaisePropertyChanged();
+                RaisePropertyChanged("Quantity");
             }
         }
         private void ComputeSubtotal()
@@ -113,7 +168,17 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the UNIDAD property.
         /// </summary>
         [Display(Name = "Unidad")]
-        public string Unity { get; set; }
+        public string Unity {
+            get
+            {
+                return _unity;
+            }
+            set
+            {
+                _unity = value;
+                RaisePropertyChanged("Unity");
+            }
+        }
 
         /// <summary>
         ///  Set or get the PRECIO property.
@@ -128,7 +193,7 @@ namespace KarveDataServices.DataTransferObject
             {
                 _price = value;
                 ComputeSubtotal();
-                RaisePropertyChanged();
+                RaisePropertyChanged("Price");
             }
         }
         /// <summary>
@@ -145,7 +210,7 @@ namespace KarveDataServices.DataTransferObject
             {
                 _discount = value;
                 ComputeSubtotal();
-                RaisePropertyChanged();
+                RaisePropertyChanged("Discount");
             }
         }
         /// <summary>
@@ -178,7 +243,7 @@ namespace KarveDataServices.DataTransferObject
             set
             {
                 _billTo = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("Bill");
             }
         }
 
@@ -186,21 +251,65 @@ namespace KarveDataServices.DataTransferObject
         ///  Set or get the NUMERO property.
         /// </summary>
         [Display(Name = "Numero")]
-        public string Number { get; set; }
+        public string Number
+        {
+            get
+            {
+                return _number;
+            }
+            set
+            {
+                _number = value;
+                RaisePropertyChanged("Number");
+            }
+        }
 
         /// <summary>
         ///  Set or Get the EXTRA property.
         /// </summary>
         [Display(Name = "Extra")]
-        public Int16? Extra { get; set; }
+        public Int16? Extra
+        {
+            get
+            {
+                return _extra;
+            }
+            set
+            {
+                _extra = value;
+                RaisePropertyChanged("Extra");
+            }
+        }
 
 
 
         [Display(Name="Minimo")]
-        public Int32 Min { set; get; }
+        public Int32 Min
+        {
+            set
+            {
+                _min = value;
+                RaisePropertyChanged("Min");
+            }
+            get
+            {
+                return _min;
+            }
+        }
 
         [Display(Name="Max")]
-        public Int32 Max { set; get; }
+        public Int32 Max
+        {
+            set
+            {
+                _max = value;
+                RaisePropertyChanged("Max");
+            }
+            get
+            {
+                return _max;
+            }
+        }
 
 
 
@@ -208,78 +317,221 @@ namespace KarveDataServices.DataTransferObject
         /// Set or Get the number of days.
         /// </summary>
         [Display(Name = "Dias")]
-        public string Days { get; set; }
+        public string Days {
+            get
+            {
+                return _days;
+            }
+            set
+            {
+                _days = value;
+                RaisePropertyChanged("Days");
+            }
+        }
         /// <summary>
         ///  Set or get the Type property.
         /// </summary>
         [Display(Name = "Tipo")]
 
-        public byte? Type { get; set; }
+        public byte? Type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                _type = value;
+                RaisePropertyChanged("Type");
+            }
+        }
 
         /// <summary>
         ///  Set or get the MONEDA property.
         /// </summary>
-        public string Money { get; set; }
+        [Display(Name = "Moneda")]
+        public string Money
+        {
+            get
+            {
+                return _money;
+            }
+            set
+            {
+                _money = value;
+                RaisePropertyChanged("Money");
+
+            }
+        }
 
         /// <summary>
         ///  Set or get the IVA property.
         /// </summary>
         [Display(Name ="Iva")]
-        public Decimal? Iva { get; set; }
+        public Decimal? Iva {
+            get
+            {
+                return _iva;
+            }
+            set
+            {
+                _iva = value;
+                RaisePropertyChanged("Iva");
+            }
+        }
 
         /// <summary>
         ///  Set or get the BookingKey.
         /// </summary>
 
-        public Int64 BookingKey { get; set; }
+        public Int64 BookingKey
+        {
+            get
+            {
+                return _bookingKey;
+            }
+            set
+            {
+                _bookingKey = value;
+            }
+        }
 
         /// <summary>
         ///  Set or get the MAQUINA property.
         /// </summary>
 
-        public string Machine { get; set; }
+        public string Machine
+        {
+            get
+            {
+                return _machine;
+            }
+            set
+            {
+                _machine = value;
+                RaisePropertyChanged("Machine");
+            }
+        }
 
         /// <summary>
         ///  Set or get the COSTEU property.
         /// </summary>
         [Display(Name ="Costo Unitario")]
-        public Decimal? UnityCost { get; set; }
+        public Decimal? UnityCost
+        {
+            get
+            {
+                return _unityCost;
+            }
+            set
+            {
+                _unityCost = value;
+                RaisePropertyChanged("UnityCost");
+            }
+        }
 
         /// <summary>
         ///  Set or get the COSTE property.
         /// </summary>
         [Display(Name = "Costo")]
-        public Decimal? Cost { get; set; }
+        public Decimal? Cost {
+            get
+            {
+                return _cost;
+            }
+            set
+            {
+                _cost = value;
+                RaisePropertyChanged("Cost");
+            }
+        }
 
         /// <summary>
         ///  Set or get the PRECIO_TT property.
         /// </summary>
-
-        public Decimal? TotalPriceTT { get; set; }
+        [Display(Name = "Precio Total")]
+        public Decimal? TotalPriceTT
+        {
+            get
+            {
+                return _totalPrice;
+            }
+            set
+            {
+                _totalPrice = value;
+                RaisePropertyChanged("TotalPriceTT");
+            }
+        }
 
         /// <summary>
         ///  Set or get the SUBTOTAL_TT property.
         /// </summary>
+        [Display(Name = "Precio Subtotal")]
 
-        public Decimal? SubtotalTt { get; set; }
+        public Decimal? SubtotalTt
+        {   get
+            {
+                return _subtotalTt;
+            }
+            set
+            {
+                _subtotalTt = value;
+                RaisePropertyChanged("SubtotalTt");
+            }
+        }
 
         /// <summary>
         ///  Set or get the PRECIO_IMP property.
         /// </summary>
+        [Display(Name = "Precio Imponible")]
 
-        public Decimal? TaxablePrice { get; set; }
+        public Decimal? TaxablePrice
+        {
+            get
+            {
+                return _taxablePrice;
+            }
+            set
+            {
+                _taxablePrice = value;
+                RaisePropertyChanged("TaxablePrice");
+            }
+        }
 
         /// <summary>
         ///  Set or get the SUBTOTAL_IMP property.
         /// </summary>
+        [Display(Name = "Precio Imponible Subtotal")]
 
-        public Decimal? TaxableSubtotal { get; set; }
+        public Decimal? TaxableSubtotal
+        {
+            get
+            {
+                return _taxableSubtotal;
+            }
+            set
+            {
+                _taxableSubtotal = value;
+                RaisePropertyChanged("TaxableSubtotal");
+            }
+        }
 
         /// <summary>
         ///  Set or get the COT_MULTI property.
         /// </summary>
 
-        public byte? MultipleQuote { get; set; }
+        public byte? MultipleQuote
+        {
+            get
+            {
+                return _multipleQuote;
+            }
+            set
+            {
+                _multipleQuote = value;
+                RaisePropertyChanged("MultipleQuote");
+            }
+        }
 
       
     }

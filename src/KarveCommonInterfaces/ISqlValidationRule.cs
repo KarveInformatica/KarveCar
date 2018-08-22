@@ -18,5 +18,8 @@
         /// <param name="request">Request to be validated</param>
         /// <returns>False if the request is not valid</returns>
         bool CheckRequest(T request);
+
+        string ErrorMessage { get; set; }
+
     } 
 }

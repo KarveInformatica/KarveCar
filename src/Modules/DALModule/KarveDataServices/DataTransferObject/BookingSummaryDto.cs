@@ -178,10 +178,10 @@ namespace KarveDataServices.DataTransferObject
         public string MultipleDirection { set; get; }
         [Display(Name = "Total deposito", Description = "Total")]
     
-        public ulong DepositTotal { set; get; }
+        public decimal DepositTotal { set; get; }
         [Display(Name = "Deposito", Description = "Deposito")]
 
-        public ulong Deposit { set; get; }
+        public decimal Deposit { set; get; }
         /// <summary>
         ///  Set or get the notes.
         /// </summary>

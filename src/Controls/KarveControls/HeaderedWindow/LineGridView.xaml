@@ -21,6 +21,8 @@
 
             <converter:KmIncludedToBoolConverter x:Key="KmBoolConverter"/>
             <converter:BillToBookConverter x:Key="BillToBook"/>
+            <converter:BookingUnitToIndexConverter x:Key="UnitToIndex"></converter:BookingUnitToIndexConverter>
+            
 
             <DataTemplate x:Key="NavigateInvoiceItem">
             <Grid>
@@ -47,37 +49,47 @@
 
             <DataTemplate x:Key="NavigateBookingUnit">
                 <Grid>
-                    
-                    <syncfusion:ComboBoxAdv DefaultText="..Eliges.." 
+                    <ComboBox  
                                             Width="Auto"
-                                            SelectedIndex="{Binding Path=Value.Index}">
-                        <syncfusion:ComboBoxItemAdv Content="{Binding lnone, Source={StaticResource ResourceLanguage}}">
+                                            SelectedIndex="{Binding Path=Value.Unity, Converter={StaticResource UnitToIndex}}">
+                        <ComboBoxItem Content="{Binding lnone, Source={StaticResource ResourceLanguage}}">
                             
-                        </syncfusion:ComboBoxItemAdv>
-                        <syncfusion:ComboBoxItemAdv Content="{Binding lday, Source={StaticResource ResourceLanguage}}">
+                        </ComboBoxItem>
+                        <ComboBoxItem Content="{Binding lday, Source={StaticResource ResourceLanguage}}">
                             
-                        </syncfusion:ComboBoxItemAdv>
+                        </ComboBoxItem>
+                        <ComboBoxItem Content="{Binding lweek, Source={StaticResource ResourceLanguage}}">
 
-                    </syncfusion:ComboBoxAdv>
+                        </ComboBoxItem>
+                        <ComboBoxItem Content="{Binding lmonth, Source={StaticResource ResourceLanguage}}">
+
+                        </ComboBoxItem>
+                        <ComboBoxItem Content="{Binding lfortnight, Source={StaticResource ResourceLanguage}}">
+
+                        </ComboBoxItem>
+                        <ComboBoxItem Content="{Binding lsingle, Source={StaticResource ResourceLanguage}}">
+
+                        </ComboBoxItem>
+                        <ComboBoxItem Content="{Binding lweekend, Source={StaticResource ResourceLanguage}}">
+
+                        </ComboBoxItem>
+
+                    </ComboBox>
                 </Grid>
             </DataTemplate>
             <DataTemplate x:Key="BillToBookin">
                 <Grid>
                    
                      <ComboBox Grid.Column="0"
-                                            SelectedIndex="{Binding Path=Value.Bill, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                            SelectedIndex="{Binding Path=Value.Bill, 
+                                            Mode=TwoWay,
+                                            Converter={StaticResource BillToBook},
+                                            UpdateSourceTrigger=PropertyChanged}" 
+                                        
                                              Width="Auto">
-                        <ComboBoxItem Width="200">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="/KarveControls;component/Images/driver.png" Height="30"/>
-                                <TextBlock Text="{Binding ldriver, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                            </StackPanel>
+                        <ComboBoxItem Width="200" Content="{Binding ldriver, Source={StaticResource ResourceLanguage}}">
                         </ComboBoxItem>
-                        <ComboBoxItem Width="200">
-                            <StackPanel Orientation="Horizontal" >
-                                <Image Source="/KarveControls;component/Images/clients.png" Height="30"/>
-                                <TextBlock Text="{Binding lcliente, Source={StaticResource ResourceLanguage}}"></TextBlock>
-                            </StackPanel>
+                        <ComboBoxItem Width="200" Content="{Binding lcliente, Source={StaticResource ResourceLanguage}}">
                         </ComboBoxItem>
                     </ComboBox>
                    
@@ -96,6 +108,9 @@
                 </Grid>
             </DataTemplate>
 
+            <DataTemplate x:Key="ConceptDescription">
+                <TextBlock x:Name="ConceptName" Text="{Binding Path=Value.Desccon, Mode=OneWay}" Foreground="Black"/>
+            </DataTemplate>
 
             <DataTemplate x:Key="NavigateBookingConcept">
                 

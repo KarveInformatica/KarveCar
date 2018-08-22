@@ -2653,4 +2653,28 @@
   <data name="lprinting" xml:space="preserve">
     <value>Print</value>
   </data>
+  <data name="lmonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="lfortnight" xml:space="preserve">
+    <value>FortNight</value>
+  </data>
+  <data name="lsingle" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="lweekend" xml:space="preserve">
+    <value>Weekend</value>
+  </data>
+  <data name="lchoose" xml:space="preserve">
+    <value>Choose...</value>
+  </data>
+  <data name="linvalidbookingdata" xml:space="preserve">
+    <value>Invalid data for reservation</value>
+  </data>
+  <data name="ldocumentNumber" xml:space="preserve">
+    <value>Document Number</value>
+  </data>
+  <data name="lgroupvalidationError" xml:space="preserve">
+    <value>Vehicle Group cannot be empty</value>
+  </data>
 </root>

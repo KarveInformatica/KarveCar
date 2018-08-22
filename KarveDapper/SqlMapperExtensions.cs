@@ -13,9 +13,16 @@ using System.Threading.Tasks;
 using System.Xml.Schema;
 using Dapper;
 using iAnywhere.Data.SQLAnywhere;
+using System.ComponentModel.DataAnnotations;
 
 namespace KarveDapper.Extensions
 {
+    public class KarveDapperException : Exception
+    {
+        public KarveDapperException(string message) : base(message)
+        {
+        }
+    };
     public static class SqlInsertBuilder
     {
         // List of mapped value to be filled.
@@ -402,9 +409,14 @@ namespace KarveDapper.Extensions
         /// <returns>Identity of inserted entity, or number of inserted rows if inserting a list</returns>
         public static long Insert<T>(this IDbConnection connection, T entityToInsert, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
         {
+
+            ValidateMaxLength(entityToInsert);
+
             var isList = false;
 
             var type = typeof(T);
+
+
 
             if (type.IsArray)
             {
@@ -639,6 +651,31 @@ namespace KarveDapper.Extensions
                 }
             }
             return 0;
+        }
+        public static void ValidateMaxLength<T>(T entity)
+        {
+            PropertyInfo[] props = entity.GetType().GetProperties();
+            foreach (PropertyInfo prop in props)
+            {
+                object[] attrs = prop.GetCustomAttributes(true);
+                foreach (object attr in attrs)
+                {
+                    MaxLengthAttribute fieldSize = attr as MaxLengthAttribute;
+                    if (fieldSize != null)
+                    {
+                        int size = Convert.ToInt32(fieldSize.Length);
+                        var propertyValue = prop.GetValue(entity);
+                        if (propertyValue is string currentValue)
+                        {
+                            if (currentValue.Length > size)
+                            {
+                                throw new KarveDapperException("Length not valid for " + prop.Name);
+                            }
+                        }
+                    }
+                }
+            }
+
         }
         /// <summary>
         ///  This get the property that contains the magnifier

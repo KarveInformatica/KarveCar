@@ -82,7 +82,8 @@ namespace DataAccessLayer
                 {
                    reservations = dbConnection.UniqueId<RESERVAS1>(bookingValue);
                 }
-                var bookingDto = new BookingDto {NUMERO_RES = reservations, IsNew = true};
+                // FIXME: Temporary the sublicen is 00.
+                var bookingDto = new BookingDto {NUMERO_RES = reservations, SUBLICEN_RES1 = "00" ,IsNew = true};
                 bookingData.Value = bookingDto;
             }
             return bookingData;
@@ -114,20 +115,15 @@ namespace DataAccessLayer
                 return false;
             }
             var value = data.Value;
+            
+
             if (string.IsNullOrEmpty(data.Value.NUMERO_RES))
             {
                 throw new DataAccessLayerException("Invalid Booking Number");
             }
             var boolValue = await _dataSaver.SaveAsync(value).ConfigureAwait(false);
-          //  boolValue = boolValue && SaveDataAsync(data);
             return boolValue;
         }
-        /*
-        private bool SaveDataAsync(IBookingData data)
-        {
-            var dataValue = data.
-        }
-        */
 
         /// <summary>
         ///  Serve an asynchronous data object 
@@ -272,7 +268,13 @@ namespace DataAccessLayer
                 data.Clients = data.Value.Clients;
                 data.Drivers = data.Value.Drivers;
                 data.Contracts = data.Value.Contracts;
-                data = await BuildAux(data).ConfigureAwait(false);
+                try
+                {
+                    data = await BuildAux(data).ConfigureAwait(false);
+                } catch (System.Exception ex)
+                {
+                    throw new DataAccessLayerException("Failed GetDoAsync:" + ex.Message, ex);
+                }
             }
             return data;
         }
@@ -508,6 +510,19 @@ namespace DataAccessLayer
         {
             throw new NotImplementedException();
         }
+
+        public long GetNextLineId()
+        {
+            var lineaReservas = "SELECT COUNT(*) FROM LIRESER";
+            long numberCount = 0;
+            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            {
+                var countName = (int)dbConnection.ExecuteScalar(lineaReservas);
+                numberCount = countName + 1;
+            }
+            return numberCount;
+        }
+
     }
 
 }

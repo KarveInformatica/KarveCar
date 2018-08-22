@@ -470,6 +470,10 @@ namespace ToolBarModule
                 {
                     _compositeSaveCommand.Execute(payload);
                 }
+                else
+                {
+                    return false;
+                }
                 return true;
             }
             return false;

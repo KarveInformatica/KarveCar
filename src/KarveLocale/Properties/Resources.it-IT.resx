@@ -2993,4 +2993,19 @@
   <data name="lcomposemail" xml:space="preserve">
     <value>Scrivi nuova email</value>
   </data>
+  <data name="lmonth" xml:space="preserve">
+    <value>Mese</value>
+  </data>
+  <data name="lfortnight" xml:space="preserve">
+    <value>Due settimane</value>
+  </data>
+  <data name="lsingle" xml:space="preserve">
+    <value>Singolo</value>
+  </data>
+  <data name="lweekend" xml:space="preserve">
+    <value>Fine Settimana</value>
+  </data>
+  <data name="linvalidbookingdata" xml:space="preserve">
+    <value>Dati non validi per la prenotazione</value>
+  </data>
 </root>

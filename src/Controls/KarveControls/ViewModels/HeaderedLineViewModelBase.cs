@@ -15,6 +15,7 @@ using KarveControls;
 using KarveCommon;
 using Prism.Interactivity.InteractionRequest;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace KarveControls.ViewModels
 {
@@ -70,7 +71,11 @@ namespace KarveControls.ViewModels
             * It is better that all headered window will use a composite command.
             */
             CompositeCommandOnly = true;
+     
         }
+
+        // This is a direct command for deleting grid lines.
+        public ICommand DeleteLine { set; get; }
 
         public IResolver Resolver { get; private set; }
         
@@ -317,6 +322,7 @@ namespace KarveControls.ViewModels
             payLoad.Subsystem = subSystem;
             payLoad.SubsystemName = subsystemName;
             var data = dataObject;
+           // data.IsNew = false;
 
             /*
              * when we change one line.
@@ -355,7 +361,7 @@ namespace KarveControls.ViewModels
                     (op == KarveControls.ControlExt.GridOp.Update));
 
         }
-        DtoType UpdateObject(DtoType dataObject, IDictionary<string, object> ev, IEnumerable<InnerDtoType> linesDto) 
+        protected DtoType UpdateObject(DtoType dataObject, IDictionary<string, object> ev, IEnumerable<InnerDtoType> linesDto) 
         {
             // precond: operation shall exits.
             if (!ev.ContainsKey("Operation"))

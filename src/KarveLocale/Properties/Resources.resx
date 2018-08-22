@@ -3226,4 +3226,31 @@
   <data name="lservernotconfigured" xml:space="preserve">
     <value>Server not configured</value>
   </data>
+  <data name="lmonth" xml:space="preserve">
+    <value>Mes</value>
+  </data>
+  <data name="lfortnight" xml:space="preserve">
+    <value>Quincena</value>
+  </data>
+  <data name="lsingle" xml:space="preserve">
+    <value>Unico</value>
+  </data>
+  <data name="lweekend" xml:space="preserve">
+    <value>Fin de Semana</value>
+  </data>
+  <data name="lchoose" xml:space="preserve">
+    <value>Eliges ...</value>
+  </data>
+  <data name="linvalidbookingdata" xml:space="preserve">
+    <value>Dato no valido para la reserva</value>
+  </data>
+  <data name="ldocumentNumber" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ldatavalidationError" xml:space="preserve">
+    <value>Error en la validacion de datos\nMotivo:</value>
+  </data>
+  <data name="lgroupvalidationError" xml:space="preserve">
+    <value>El grupo no puede ser vacio</value>
+  </data>
 </root>

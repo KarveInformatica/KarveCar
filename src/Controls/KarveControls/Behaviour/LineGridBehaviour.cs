@@ -9,8 +9,8 @@ using KarveControls.Behaviour.Grid;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using KarveDataServices.DataTransferObject;
-using System.Collections.Specialized;
 using KarveDataServices;
+using Syncfusion.UI.Xaml.Grid.Helpers;
 
 namespace KarveControls.Behaviour
 {
@@ -97,17 +97,68 @@ namespace KarveControls.Behaviour
             AssociatedObject.AutoGeneratingColumn += AssociatedObject_AutogenerateCols;
             AssociatedObject.RowValidating += OnRowValidating;
             AssociatedObject.RowValidated += RowValidated;
-            // AssociatedObject.CurrentCellValueChanged += dataGrid_CurrentCellValueChanged;
+          
+            AssociatedObject.AddNewRowInitiating += AssociatedObject_AddNewRowInitiating;
             AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
-            
-            this.AssociatedObject.CurrentCellEndEdit += dataGridCellEndEdit;
             this.AssociatedObject.RecordDeleting += dataGrid_RecordDeleting;
             this.AssociatedObject.RecordDeleted += AssociatedObject_RecordDeleted;
         
             
         }
 
- 
+        protected override void OnCleanup()
+        {
+            base.OnAttached();
+            this.AssociatedObject.AutoGeneratingColumn -= AssociatedObject_AutogenerateCols;
+            this.AssociatedObject.CurrentCellBeginEdit -= dataGrid_CurrentCellBeginEdit;
+            this.AssociatedObject.RowValidating -= OnRowValidating;
+            AssociatedObject.RowValidated -= RowValidated;
+            this.AssociatedObject.RecordDeleting -= dataGrid_RecordDeleting;
+           
+        }
+        private static readonly DependencyProperty GridStateProperty =
+DependencyProperty.Register("GridState", typeof(ControlExt.GridOp),
+typeof(ControlExt));
+
+        private void AssociatedObject_AddNewRowInitiating(object sender, AddNewRowInitiatingEventArgs e)
+        {
+
+          //  MessageBox.Show("Ciao baby");
+          //        SetValue(GridStateProperty, ControlExt.GridOp.Insert);
+             
+        }
+        private void AddNewRow(object sender, RoutedEventArgs e)
+        {
+
+            // Which avoid the process of committing normal rows. It only processed for AddNewRow.
+            var rowIndex = this.AssociatedObject.SelectionController.CurrentCellManager.CurrentCell != null ? this.AssociatedObject.SelectionController.CurrentCellManager.CurrentCell.RowIndex : 0;
+            if (this.AssociatedObject.IsAddNewIndex(rowIndex))
+            {
+                // Which end edit the current cell. by passing false, it commit the entered value.
+                if (this.AssociatedObject.SelectionController.CurrentCellManager.CurrentCell.IsEditing)
+                    this.AssociatedObject.SelectionController.CurrentCellManager.EndEdit(true);
+
+                //Initialize row and column index after committing new row 
+                var rowColumnIndex = this.AssociatedObject.SelectionController.CurrentCellManager.CurrentRowColumnIndex;
+                var addNewRowController = this.AssociatedObject.GetAddNewRowController();
+                addNewRowController.CommitAddNew();
+                rowColumnIndex.RowIndex = addNewRowController.GetAddNewRowIndex();
+                this.AssociatedObject.SelectedItems.Clear();
+                //If the AddNewRowPosition is Top need to move the current cell to next row 
+                if (this.AssociatedObject.AddNewRowPosition == AddNewRowPosition.Top)
+                    rowColumnIndex.RowIndex = rowColumnIndex.RowIndex + 1;
+
+                var recordIndex = this.AssociatedObject.ResolveToRecordIndex(rowColumnIndex.RowIndex);
+                var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
+                BaseDto dto = record as BaseDto;
+                if (dto != null)
+                {
+                    dto.IsNew = true;
+                }
+                // Which retains the current cell border in the row after canceling addnewrow as you press esc key operation.
+                this.AssociatedObject.MoveCurrentCell(rowColumnIndex);
+            }
+        }
         private void AssociatedObject_RecordDeleted(object sender, RecordDeletedEventArgs e)
         {
             var v = this.AssociatedObject.ItemsSource;
@@ -116,6 +167,7 @@ namespace KarveControls.Behaviour
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 objectName["ChangedValue"] = v;
+                objectName["Operation"] = GetValue(GridStateProperty);
                 command.Execute(objectName);
             }
             
@@ -126,7 +178,7 @@ namespace KarveControls.Behaviour
         {
             var recordIndex = this.AssociatedObject.ResolveToRecordIndex(e.RowColumnIndex.RowIndex);
             var columnIndex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(e.RowColumnIndex.ColumnIndex);
-           var editedMappedName = this.AssociatedObject.Columns[columnIndex].MappingName;
+            var editedMappedName = this.AssociatedObject.Columns[columnIndex].MappingName;
             var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
             var editCellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, editedMappedName);
            // var resolver = Resolver;
@@ -136,75 +188,78 @@ namespace KarveControls.Behaviour
 
         }
 
-        protected override void OnCleanup()
+       
+
+        private void AssociatedObject_CurrentCellActivated(object sender, CurrentCellActivatedEventArgs args)
         {
-            base.OnAttached();
-          
-            this.AssociatedObject.AutoGeneratingColumn -= AssociatedObject_AutogenerateCols;
-          
-            this.AssociatedObject.CurrentCellBeginEdit -= dataGrid_CurrentCellBeginEdit;
-            this.AssociatedObject.RowValidating -= OnRowValidating;
-            this.AssociatedObject.RecordDeleting -= dataGrid_RecordDeleting;
-            
+            var datagrid = sender as SfDataGrid;
+            if (datagrid.IsAddNewIndex(args.PreviousRowColumnIndex.RowIndex))
+            {
+                var recordIndex = this.AssociatedObject.ResolveToRecordIndex(args.CurrentRowColumnIndex.RowIndex);
+                var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
+                BaseDto dto = record as BaseDto;
+                if (dto != null)
+                {
+                    dto.IsNew = true;
+                }
+            }
         }
+
         void OnRowValidating(object sender, RowValidatingEventArgs args)
         {
             if (args.RowData is BookingItemsDto dto)
             {
-                var item = dto;
-                
+                dto.IsDirty = true;
             }
             var command = ItemChangedCommand as ICommand;
             if ((command != null))
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 objectName["ChangedValue"] = this.AssociatedObject.ItemsSource;
+              //  objectName["Operation"] = GetValue(GridStateProperty);
                 command.Execute(objectName);
             }
            
-/*
-            if (args.RowData != null && string.IsNullOrEmpty((args.RowData as OrderInfo).CustomerID))
-            {
-                args.ErrorMessages.Add("CustomerID", "Customer ID field should not be null or empty");
-                args.IsValid = false;
-            }*/
-
         }
         void RowValidated(object sender, RowValidatedEventArgs e)
         {
-            
+
             SfDataGrid dataGrid = sender as SfDataGrid;
             BaseDto dto = e.RowData as BaseDto;
+           
             if (dataGrid.IsAddNewIndex(e.RowIndex))
             {
-               dataGrid.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    dataGrid.SelectedItem = e.RowData;
-                    dataGrid.ScrollInView(dataGrid.SelectionController.CurrentCellManager.CurrentRowColumnIndex);
-                }));
+                dataGrid.Dispatcher.BeginInvoke(new Action(() =>
+                 {
+                     dataGrid.SelectedItem = e.RowData;
+                     dataGrid.ScrollInView(this.AssociatedObject.SelectionController.CurrentCellManager.CurrentRowColumnIndex);
+                 }));
                 if (dto != null)
                 {
-                    dto.IsDirty = true;
                     dto.IsNew = true;
                 }
             }
-          
-          
+            if (dto != null)
+            {
+                dto.IsDirty = true;
+            }
+            
         }
         private void dataGrid_CurrentCellBeginEdit(object sender, CurrentCellBeginEditEventArgs e)
         {
-            _editedIndex = e.RowColumnIndex;
-            var recordIndex = this.AssociatedObject.ResolveToRecordIndex(e.RowColumnIndex.RowIndex);
-            var columnIndex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(e.RowColumnIndex.ColumnIndex);
-           _editedMappedName = this.AssociatedObject.Columns[columnIndex].MappingName;
-            var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
-          var  _editCellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, _editedMappedName);
+            /*
+             *  In case of a readonly value.
+             */
+            var navigationAwareItem = CellPresenterItems.FirstOrDefault<CellPresenterItem>(x => x.MappingName == e.Column.MappingName);
 
-
-          
-
+            if (navigationAwareItem != null)
+            {
+                if (navigationAwareItem.IsReadOnly)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
-     
         void dataGrid_RecordDeleting(object sender, RecordDeletingEventArgs args)
         {
 
@@ -236,6 +291,15 @@ namespace KarveControls.Behaviour
                     CellPresenterItem navigationAwareItem = CellPresenterItems.FirstOrDefault<CellPresenterItem>(x => x.MappingName == e.Column.MappingName);
                     if (navigationAwareItem != null)
                     {
+                        // in this case we dont want bound the cell with a template
+                        // we want just to keep the mapping in the cell presenter list.
+                        // It is true in case of readonly cells.
+         
+                        if (navigationAwareItem.NoTemplate)
+                        {
+                           
+                            return;
+                        }
                         try
                         {
                             e.Column.SetCellBoundValue = true;

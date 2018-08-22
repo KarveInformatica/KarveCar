@@ -9,9 +9,9 @@ namespace KarveDataServices.DataTransferObject
     public class CommissionAgentSummaryDto: BaseDto
     {
         [Display(Name = "Numero Commissionista")]
-        public override string Code { set; get; }
+        public new string Code { set; get; }
         [Display(Name = "Nombre Commisionista")]
-        public override string Name { set; get; }
+        public new string Name { set; get; }
         [Display(Name = "Persona riferimento")]
         public string Person { set; get; }
         [Display(Name = "Nif")]

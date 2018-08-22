@@ -26,6 +26,9 @@ using DataAccessLayer.SQL;
 namespace DataAccessLayer.Model
 {
 
+
+    // This needs a refactory. 
+
     public class CommissionAgentFactory
     {
         // SELECT TOP 5 START AT 50 * FROM ProDelega;

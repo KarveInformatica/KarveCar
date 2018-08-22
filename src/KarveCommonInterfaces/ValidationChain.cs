@@ -21,7 +21,14 @@ namespace KarveCommonInterfaces
     public abstract class ValidationChain<T> : ISqlValidationRule<T>
     {
         protected ISqlValidationRule<T> Next;
-       
+        private string _errorMessage;
+        
+        /// <summary>
+        /// Set or Get an error message in the validation chain
+        /// </summary>
+        public string ErrorMessage { get ; set ; }
+    
+
         /// <summary>
         /// Set next to make a list of chains
         /// </summary>
@@ -51,6 +58,10 @@ namespace KarveCommonInterfaces
                 if (Next != null)
                 {
                     valid = Next.CheckRequest(request);
+                    if (!valid)
+                    {
+                        ErrorMessage = Next.ErrorMessage;
+                    }
                 }
             }
             return valid;

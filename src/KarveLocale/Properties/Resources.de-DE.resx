@@ -2933,4 +2933,10 @@
   <data name="lid" xml:space="preserve">
     <value>Id</value>
   </data>
+  <data name="lmonth" xml:space="preserve">
+    <value>Monate</value>
+  </data>
+  <data name="lfortnight" xml:space="preserve">
+    <value>Zwei Wochen</value>
+  </data>
 </root>

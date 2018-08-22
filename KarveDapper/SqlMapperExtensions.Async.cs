@@ -259,6 +259,8 @@ namespace KarveDapper.Extensions
             return connection.ExecuteAsync(cmd, entityToInsert, transaction, commandTimeout);
         }
 
+        
+
         /// <summary>
         /// Updates entity in table "Ts" asynchronously using .NET 4.5 Task, checks if the entity is modified if the entity is tracked by the Get() extension.
         /// </summary>
@@ -270,6 +272,10 @@ namespace KarveDapper.Extensions
         /// <returns>true if updated, false if not found or not modified (tracked entities)</returns>
         public static async Task<bool> UpdateAsync<T>(this IDbConnection connection, T entityToUpdate, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
         {
+
+            // first of all i shall validate max length for each fields.
+            ValidateMaxLength(entityToUpdate);
+
             if ((entityToUpdate is IProxy proxy) && !proxy.IsDirty)
             {
                 return false;

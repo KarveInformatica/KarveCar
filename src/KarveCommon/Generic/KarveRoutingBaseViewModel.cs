@@ -93,6 +93,31 @@ namespace KarveCommon.Generic
             return true;
         }
 
+        protected bool IsCommandForMe()
+        {
+            var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+
+            /*
+             * we dont want to save if it is not changed.
+             *  The composite command will trigger a broadcast command.
+             */
+            if (!IsChanged)
+            {
+                return false;
+            }
+            if (activeView is UserControl control)
+            {
+                if (control.DataContext is KarveViewModelBase baseViewModel)
+                {
+                    // its is me....
+                    if (baseViewModel.ViewModelUri != ViewModelUri)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         protected void DeleteRegion()
         {
 

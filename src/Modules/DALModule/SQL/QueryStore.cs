@@ -232,6 +232,7 @@ namespace DataAccessLayer.SQL
               {QueryType.QueryOfficeSummaryByCompany, "select OFICINAS.CODIGO as Code, OFICINAS.NOMBRE AS Name, OFICINAS.DIRECCION as Direction, OFICINAS.POBLACION as City, PROVINCIA.PROV as Province, SUBLICEN.NOMBRE as CompanyName, ZONAOFI.NOM_ZONA as OfficeZone FROM OFICINAS LEFT OUTER JOIN PROVINCIA " +
                 "ON OFICINAS.PROVINCIA=PROVINCIA.SIGLAS LEFT OUTER JOIN ZONAOFI ON OFICINAS.ZONAOFI=ZONAOFI.COD_ZONAOFI " +
                 "LEFT OUTER JOIN SUBLICEN ON OFICINAS.SUBLICEN=SUBLICEN.CODIGO WHERE SUBLICEN='{0}';" },
+            {QueryType.QueryCompanyByOffice, "select sublicen.* from oficinas inner join sublicen on sublicen.codigo = oficinas.sublicen where OFICINAS.CODIGO='{0}';" },
             {QueryType.QueryClientSummaryExt, "SELECT CLIENTES1.NUMERO_CLI as Code, NOMBRE as Name,NIF as Nif,TELEFONO as Phone,MOVIL as Movil,EMAIL as Email, DIRECCION as Direction,CLIENTES1.CP as Zip,POBLACION as City,PROVINCIA.PROV as Province,PAIS.PAIS as Country,TARTI as CreditCardType, TARNUM as NumberCreditCard,FPAGO as PaymentForm,CONTABLE as AccountableAccount,CLIENTES2.SECTOR as Sector,ZONA as Zone,ORIGEN as Origin, CLIENTES2.VENDEDOR as Reseller,OFICINA as Office,COMERCIAL as Commercial,ALTA as Falta,FENAC as BirthDate from CLIENTES1 INNER JOIN CLIENTES2 ON CLIENTES2.NUMERO_CLI = CLIENTES1.NUMERO_CLI LEFT OUTER JOIN PROVINCIA ON PROVINCIA.SIGLAS = CLIENTES1.PROVINCIA LEFT OUTER JOIN PAIS ON PAIS.SIGLAS = CLIENTES1.NACIOPER"},
             {QueryType.QueryClientSummaryExtById, "SELECT CLIENTES1.NUMERO_CLI as Code, NOMBRE as Name FROM CLIENTES1 WHERE CLIENTES1.NUMERO_CLI='{0}'"},
             {
@@ -301,6 +302,33 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryInvoiceSingleByDate,"select * from FACTURAS where NUMERO_FAC='{0}' and fecha_fac='{1}'"},
             {QueryType.QuerySellerSummary, "select NUM_VENDE, NOMBRE, DIRECCION, POBLACION, VENDEDOR.CP, PR.PROV as PROVINCIA, TELEFONO,MOVIL FROM VENDEDOR left outer join provincia as pr on pr.SIGLAS = VENDEDOR.PROVINCIA" },
             {QueryType.QueryCommissionAgentSummary, "SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACIONES.CP as Zip, POBLACIONES.POBLA as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS LEFT OUTER JOIN POBLACIONES on COMISIO.CP = POBLACIONES.CP;"},
+
+            /*
+              [Display(Name = "Numero Commissionista")]
+        public override string Code { set; get; }
+        [Display(Name = "Nombre Commisionista")]
+        public override string Name { set; get; }
+        [Display(Name = "Persona riferimento")]
+        public string Person { set; get; }
+        [Display(Name = "Nif")]
+        public string Nif { set; get; }
+        [Display(Name = "Direccion")]
+        public string Direction { set; get; }
+        [Display(Name = "CP")]
+        public string Zip { set; get; }
+        [Display(Name = "Poblacion")]
+        public string City { set; get; }
+        [Display(Name = "Provincia")]
+        public string Province { set; get; }
+        [Display(Name = "Pais")]
+        public string Country { set; get; }
+        [Display(Name = "N.IATA")]
+        public string IATA { set; get; }
+        [Display(Name = "Empresa")]
+        public string Company { set; get; }
+        [Display(Name = "Zona")]
+        public string OfficeZone { set; get; }
+             */
                         {QueryType.QueryCommissionAgentSummaryById, "SELECT NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACIONES.CP as Zip, POBLACIONES.POBLA as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS LEFT OUTER JOIN POBLACIONES on COMISIO.CP = POBLACIONES.CP WHERE NUM_COMI='{0}';"},
 
             { QueryType.QueryCommissionAgentPaged, "SELECT TOP {0} START AT {1} NUM_COMI as Code, NOMBRE as Name, PERSONA as Person, NIF as Nif, DIRECCION as Direction, POBLACIONES.CP as Zip, POBLACIONES.POBLA as City, PROVINCIA.PROV as Province, PAIS.PAIS as Country,IATA, SUBLICEN as Company,  ZONAOFI as OfficeZone, COMISIO.ULTMODI as LastModification, COMISIO.USUARIO as CurrentUser  FROM COMISIO LEFT OUTER JOIN PROVINCIA ON COMISIO.PROVINCIA = PROVINCIA.SIGLAS LEFT OUTER JOIN PAIS on COMISIO.NACIOPER = PAIS.SIGLAS LEFT OUTER JOIN POBLACIONES on COMISIO.CP = POBLACIONES.CP;" },
@@ -368,7 +396,7 @@ namespace DataAccessLayer.SQL
          
             { QueryType.QueryDelivering, "SELECT * FROM ENTREGAS;" },
             { QueryType.QueryBookingItem, @"select * from LIRESER WHERE CLAVE_LR='{0}';" },
-            { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO='{0}'" },
+            { QueryType.QueryBookingItems, @"SELECT * FROM LIRESER WHERE NUMERO='{0}' order by desccon;" },
             { QueryType.QueryActiveFare,@"SELECT TOP {0} START AT {1} DISTINCT(XX.TARIFA) AS Fare, XX.NOMBRE as Name, XX.ACTIVA as IsActive from ( SELECT TC.TARIFA, T.NOMBRE, T.ACTIVA FROM TARICLI TC INNER JOIN NTARI T ON TC.TARIFA=T.CODIGO WHERE TC.CLIENTE='{2}' UNION ALL SELECT CODIGO,NOMBRE, ACTIVA FROM Ntari WHERE PUBLICA='1')XX WHERE XX.ACTIVA=1;" },
 
             { QueryType.QueryContractsByClient, @"SELECT NUMERO as Contract, CLIENTE_CON1 as ClientCode, D.NOMBRE as Driver, DIAS_CON1 as Days, FPREV_CON1 as ForeCastDeparture, FECHA_CON1 as DepartureDate, FRETOR_CON1 as ReturnData, V.MATRICULA as Matricula, V.MARCA as Brand, V.MODELO as Model, TARIFA_CON1 as Fare,F.NUMERO_FAC as InvoiceNumber, F.BRUTO_FAC as GrossInvoice from CONTRATOS1 LEFT OUTER JOIN VEHICULO1 V ON V.CODIINT=VCACT_CON1 LEFT OUTER JOIN CLIENTES1 D ON D.NUMERO_CLI=CONDUCTOR_CON1 LEFT OUTER JOIN FACTURAS F ON F.CLIENTE_FAC=CLIENTE_CON1 WHERE CLIENTE_CON1='{0}';" },

@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KarveWeb", "KarveWeb\KarveW
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CodeGenerator", "KarveCodeGen\CodeGenerator.pyproj", "{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveBusinessServices", "..\KarveBusinessServices\KarveBusinessServices.csproj", "{88CA56C0-2792-4415-8946-25C308CD54D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -303,6 +305,18 @@ Global
 		{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}.Release|x64.ActiveCfg = Release|Any CPU
 		{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}.Release|x86.ActiveCfg = Release|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x64.Build.0 = Debug|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x86.Build.0 = Debug|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x64.ActiveCfg = Release|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x64.Build.0 = Release|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x86.ActiveCfg = Release|Any CPU
+		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -317,9 +331,9 @@ Global
 		{140C1044-4F56-4855-AF52-A2F91B369460} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
-		RESX_DuplicateKeyHandling = Fail
-		RESX_NeutralResourcesLanguage = es-ES
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		RESX_NeutralResourcesLanguage = es-ES
+		RESX_DuplicateKeyHandling = Fail
+		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
 	EndGlobalSection
 EndGlobal

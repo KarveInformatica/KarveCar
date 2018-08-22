@@ -46,7 +46,14 @@ namespace DataAccessLayer.Crud
             {
                 return current;
             }
-            
+            // malformed string or empty string shall return null or empty values.
+            if (value is string currentString)
+            {
+                if (string.IsNullOrEmpty(currentString))
+                {
+                    return current;
+                }
+            }
             current = SelectDto<EntityType, DtoType>(mapper, reader);
             return current;
             

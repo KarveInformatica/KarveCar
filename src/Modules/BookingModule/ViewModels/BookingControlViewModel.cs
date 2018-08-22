@@ -19,7 +19,8 @@ using System.Windows;
 using KarveCar.Navigation;
 using MasterModule.ViewModels;
 using MasterModule.Common;
-
+using System.Windows.Controls;
+using System.Linq;
 namespace BookingModule.ViewModels
 {
     /// <summary>
@@ -45,9 +46,12 @@ namespace BookingModule.ViewModels
         private PayloadInterpeter<IBookingData> _payloadInterpeter;
         private string _itemsCounts;
         private int _counterInterval;
+        private ICommand _newBookingCommand;
+        private ICommand _deleteCommand;
+        private IList<object> _selectedItems;
 
-      
-       
+
+
 
         /// <summary>
         ///  The region shall be scoped.
@@ -81,6 +85,7 @@ namespace BookingModule.ViewModels
             _counterInterval = 0;
             CancelBook = new DelegateCommand<object>(OnCancelBook);
             ViewModelUri = new Uri("karve://booking/viewmodel?id=" + UniqueId);
+            CompositeCommandOnly = true;
             InitViewModel();
         }
 
@@ -88,6 +93,7 @@ namespace BookingModule.ViewModels
         {
             DialogService?.ShowErrorMessage("Cannot cancel this booking");
         }
+
 
         private void InitViewModel()
         {
@@ -100,7 +106,10 @@ namespace BookingModule.ViewModels
             SummaryView = new IncrementalList<BookingSummaryDto>(LoadMoreItems);
             OpenCommand = new DelegateCommand<object>(OpenCurrentItem);
             NavigateClient = new DelegateCommand<object>(OnNavigateClient);
-
+            _newBookingCommand = new DelegateCommand<object>(OnNewBooking);
+            _deleteCommand = new DelegateCommand<object>(OnDeleteCommand);
+            SubSystem = DataSubSystem.BookingSubsystem;
+            
             _payloadInterpeterReload = new PayloadInterpeter<BookingSummaryDto>();
             _payloadInterpeterReload.Init = (value, packet, insertion) =>
               {
@@ -117,8 +126,71 @@ namespace BookingModule.ViewModels
              };
             _payloadInterpeter = new PayloadInterpeter<IBookingData>();
             InitPayLoadInterpeter(_payloadInterpeter);
-             RegisterToolBar();
-             StartAndNotify();
+            RegisterToolBar();
+            StartAndNotify();
+        }
+
+        private async void OnDeleteCommand(object obj)
+        {
+            var activeView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+            var bookingList = SelectedItems;
+            if (SelectedItems.Count == 0)
+            {
+                DialogService?.ShowErrorMessage("Por favor selecciona el elemento da borrar.");
+                return;
+            }
+            if (activeView is UserControl control)
+            {
+                if (control.DataContext is KarveViewModelBase baseViewModel)
+                {
+                    // just if it is me.
+                    if (baseViewModel.ViewModelUri == ViewModelUri)
+                    {
+
+
+                        bool deletionResult = await DeleteSelectedItems(bookingList);
+                        if (!deletionResult)
+                        {
+                            DialogService?.ShowErrorMessage("Error en el borrar una reserva");
+                        }
+                        else
+                        {
+                            DialogService?.ShowMessage("Reservas", "Reservas borrada con exito");
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+        private async Task<bool> DeleteSelectedItems(IList<object> bookingList)
+        {
+            var bookingService = DataServices.GetBookingDataService();
+            foreach (var reservation in bookingList)
+            {
+                if (reservation is BookingSummaryDto bookingSummary)
+                {
+                    var item = await bookingService.GetDoAsync(bookingSummary.BookingNumber).ConfigureAwait(false);
+                    var result = await bookingService.DeleteAsync(item).ConfigureAwait(false);
+                }
+            }
+            return true;
+        }
+
+        private void OnNewBooking(object obj)
+        {
+            var activeView = _regionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
+            if (activeView is UserControl control)
+            {
+                if (control.DataContext is KarveViewModelBase baseViewModel)
+                {
+                    // just if it is me.
+                    if (baseViewModel.ViewModelUri == ViewModelUri)
+                    {
+                        NewItem();
+                    }
+                }
+            }
         }
 
         private async void OnNavigateClient(object code)
@@ -202,8 +274,6 @@ namespace BookingModule.ViewModels
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-
-
         public void StartRefresh()
         {
             Task<IEnumerable<BookingSummaryDto>> t = _bookingDataService.GetPagedSummaryDoAsync(1, 50);
@@ -234,7 +304,7 @@ namespace BookingModule.ViewModels
                     {
                         if (bookingSummary.IsFaulted)
                         {
-                            DialogService?.ShowErrorMessage("Cannot load booking summary");
+                            DialogService?.ShowErrorMessage("Cannot load booking summary: " + bookingSummary.ErrorMessage);
                             return;
                         }
                         var booking = bookingSummary.Result;
@@ -261,17 +331,24 @@ namespace BookingModule.ViewModels
             {
                 return;
             }
-            var name = reservation.ClientCode;
-            var id = reservation.BookingNumber;
-            var tabName =  "Reserva."+id;
-            CreateNewItem(tabName);
-            var provider = await _bookingDataService.GetDoAsync(id).ConfigureAwait(false);         
-            var currentPayload = BuildShowPayLoadDo(tabName, provider);
-            currentPayload.DataObject = provider;
-            currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
-            currentPayload.PrimaryKeyValue = id;
-            currentPayload.Sender = ViewModelUri.ToString();
-            EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
+            try
+            {
+                var name = reservation.ClientCode;
+                var id = reservation.BookingNumber;
+                var tabName = "Reserva." + id;
+                CreateNewItem(tabName);
+                var provider = await _bookingDataService.GetDoAsync(id).ConfigureAwait(false);
+                var currentPayload = BuildShowPayLoadDo(tabName, provider);
+                currentPayload.DataObject = provider;
+                currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
+                currentPayload.PrimaryKeyValue = id;
+                currentPayload.Sender = ViewModelUri.ToString();
+                EventManager.NotifyObserverSubsystem(BookingModule.BookingSubSystem, currentPayload);
+
+            } catch (System.Exception ex)
+            {
+                DialogService?.ShowErrorMessage(ex.Message);
+            }
         }
 
         private void CreateNewItem(string name)
@@ -313,7 +390,7 @@ namespace BookingModule.ViewModels
         }
 
         /// <summary>
-        ///     Create a new invoice.
+        ///     Create a new ireservation
         /// </summary>
         protected override void NewItem()
         {
@@ -387,6 +464,11 @@ namespace BookingModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
             payLoad.HasRelatedObject = false;
+            payLoad.NewCommand = _newBookingCommand;
+            payLoad.DeleteCommand = _deleteCommand;
+            payLoad.HasDeleteCommand = true;
+            payLoad.HasNewCommand = true;
+            payLoad.ObjectPath = ViewModelUri;
             payLoad.Sender = ViewModelUri.ToString();
         }
         /// <summary>
@@ -493,5 +575,19 @@ namespace BookingModule.ViewModels
         /// </summary>
         public ICommand CancelBook { get; set; }
 
+        /// <summary>
+        ///  Set or Get the selected items.
+        /// </summary>
+        public IList<object> SelectedItems
+        {   set
+            {
+                _selectedItems = value;
+                RaisePropertyChanged("SelectedItems");
+            }
+            get
+            {
+                return _selectedItems;
+            }
+        }
     }
 }

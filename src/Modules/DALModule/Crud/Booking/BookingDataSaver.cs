@@ -10,6 +10,9 @@ using KarveDataServices.DataTransferObject;
 using DataAccessLayer.Exception;
 using KarveDapper.Extensions;
 using System.Data;
+using KarveCommonInterfaces;
+using DataAccessLayer.Crud.Validation;
+using KarveCommon.Generic;
 
 namespace DataAccessLayer.Crud.Booking
 {
@@ -20,18 +23,44 @@ namespace DataAccessLayer.Crud.Booking
     {
         private ISqlExecutor _executor;
         private IMapper _mapper;
+        private ValidationChain<BookingDto> _validationChain;
+        
         public BookingDataSaver(ISqlExecutor sqlExecutor, IMapper mapper)
         {
             _executor = sqlExecutor;
             _mapper = mapper;
+            _validationChain = new BookingNotNullRule();
+            LoadValidationRules(sqlExecutor);
         }
-        private IEnumerable<LIRESER> RemapItems(IEnumerable<BookingItemsDto> items)
+        /// <summary>
+        ///  This load a list of validation rules. Chain of resposability design pattern.
+        ///  Each rule check a single aspect of the data.
+        /// </summary>
+        private void LoadValidationRules(ISqlExecutor executor)
+        {
+            var conceptValidation = new BookingConceptRule();
+            var correctRule = new BookingDateCorrectRule();
+            var fare = new BookingFareRule(executor);
+            var groupRule = new BookingGroupCorrectRule(executor);
+            fare.SetNext(conceptValidation);
+            conceptValidation.SetNext(correctRule);
+            correctRule.SetNext(groupRule);
+            _validationChain.SetNext(fare);
+
+        }
+        private IEnumerable<LIRESER> RemapItems(IEnumerable<BookingItemsDto> items, string group, string numero)
         {
             if (items == null)
             {
                 return new List<LIRESER>();
             }
-            return _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(items);
+            var itemCount = items.Count();
+            var mappedItems = _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(items.ToList<BookingItemsDto>());
+            // it is mandatory the group for each lines. And the group shall be the group of the reservation.
+            mappedItems.ToList().ForEach(i => i.GRUPO = group);
+            mappedItems.ToList().ForEach(i => i.NUMERO = numero);
+
+            return mappedItems;
         }
 
         /// <summary>
@@ -76,20 +105,29 @@ namespace DataAccessLayer.Crud.Booking
         /// <returns>True if it has been saved correctly or false if it has not been saved correctly</returns>
         public async Task<bool> SaveAsync(BookingDto save)
         {
+            
+
+            // first of all we check if it is valid. In no case at data layer we shall allow invalid data.
+            if (!_validationChain.CheckRequest(save))
+            {
+                var value = KarveLocale.Properties.Resources.ldatavalidationError+ " "+_validationChain.ErrorMessage;
+                throw new DataAccessLayerException(value);
+            }
+            save.LastModification = DateUtils.GetKarveDateTimeNow();
             var items = save.Items;
-            IEnumerable<BookingItemsDto> toUpdateItems = new List<BookingItemsDto>();
-            IEnumerable<BookingItemsDto> toInsertItems = new List<BookingItemsDto>();
-            IEnumerable<BookingItemsDto> toDeleteItems = new List<BookingItemsDto>();
-
-            toUpdateItems = items.Where<BookingItemsDto>(x => (x.IsDirty && !x.IsNew && !x.IsDeleted));
-            toInsertItems = items.Where<BookingItemsDto>(x => (x.IsNew));
-            toDeleteItems = items.Where<BookingItemsDto>(x => (x.IsDeleted));
-
-            IEnumerable<LIRESER> toUpdateLires = RemapItems(toUpdateItems);
-            IEnumerable<LIRESER> toDeleteLires = RemapItems(toDeleteItems);
-            IEnumerable<LIRESER> toInsertLires = RemapItems(toInsertItems);
+            var toUpdateItems = items.Where<BookingItemsDto>(x => (x.IsDirty && !x.IsNew && !x.IsDeleted));
+            var toInsertItems = items.Where<BookingItemsDto>(x => (x.IsNew));
+            var toDeleteItems = items.Where<BookingItemsDto>(x => (x.IsDeleted));
+           
+            // the database has the weird thing that the booking group shall be present in lines.
+            // we convert the booking items to the database columns.
+           
+            var toUpdateLires = RemapItems(toUpdateItems, save.GRUPO_RES1, save.NUMERO_RES);
+            var toDeleteLires = RemapItems(toDeleteItems, save.GRUPO_RES1, save.NUMERO_RES);
+            var toInsertLires = RemapItems(toInsertItems, save.GRUPO_RES1, save.NUMERO_RES);
 
             var booking = _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(items);
+            // here since we have at lower level multiple tables. We shall split the items to the real stuff.
             var bookedTableValue1 = _mapper.Map<RESERVAS1>(save);
             var bookedTableValue2 = _mapper.Map<RESERVAS2>(save);
             var returnValue = true;
@@ -117,7 +155,8 @@ namespace DataAccessLayer.Crud.Booking
                     }
                     catch (System.Exception ex)
                     {
-                        throw new DataAccessLayerException("Error during saving the data", ex);
+                        var message = "Reservation Error: " + ex.Message;
+                        throw new DataAccessLayerException(message, ex);
                     }
                 }
             }

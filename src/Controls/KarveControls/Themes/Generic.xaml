@@ -491,8 +491,8 @@
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}">
                             <StackPanel  x:Name="PART_DataFieldContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
-                                <ScrollViewer x:Name="PART_ContentHost"/>
                                 <TextBlock x:Name="PART_LabelField"
+                                           KeyboardNavigation.TabNavigation="None"
                            Width="{Binding RelativeSource={RelativeSource TemplatedParent},
                                         Path=LabelTextWidth}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}"
@@ -865,7 +865,7 @@
 
                             <StackPanel  x:Name="PART_DataFieldContent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="Visible">
                                 <TextBlock x:Name="PART_SearchLabel" 
-                                     
+                                           KeyboardNavigation.TabNavigation="None"
                                            Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelText}" 
                                            Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=LabelVisible, Converter={StaticResource BooleanToVisibilityConverterKey}}"
                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelTextWidth}" Margin="10,0,0,0"></TextBlock>
@@ -879,6 +879,7 @@
                                     
                                 </Syncfusion:SfTextBoxExt>
                                 <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextSecond"
+                                         KeyboardNavigation.TabNavigation="None"
                                          Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
                                          Path=IsHtmlEnabledSecondBox, 
                                          Converter={StaticResource InvertedBooleanToVisibility}}"
@@ -889,6 +890,7 @@
                                    
                                          ></Syncfusion:SfTextBoxExt>
                                 <HtmlRender:HtmlPanel x:Name="PART_SearchTextSecondHtml"
+                                         KeyboardNavigation.TabNavigation="None"
                                          Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=TextContentSecond}"
                                          Visibility="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
                                          Path=IsHtmlEnabledSecondBox, 

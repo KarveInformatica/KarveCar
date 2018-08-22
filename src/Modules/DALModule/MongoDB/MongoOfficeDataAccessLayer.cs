@@ -32,6 +32,11 @@ namespace DataAccessLayer.MongoDB
             throw new System.NotImplementedException();
         }
 
+        public Task<IEnumerable<CompanyDto>> GetCompanyAsync(string oFICINA_RES1)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode)
         {
             throw new System.NotImplementedException();

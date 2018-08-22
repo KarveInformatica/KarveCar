@@ -41,20 +41,23 @@ namespace BookingModule.ViewModels
     {
 
         /// <summary>
-        /// BookingInfoViewModel
+        /// BookingInfoViewModel Constructor.
         /// </summary>
-        /// <param name="dataServices">Data Access Layer service facade</param>
-        /// <param name="dialogServices">Dialog service instance.</param>
-        /// <param name="manager">Event manager. It allows the communication between view models</param>
-        /// <param name="regionManager">Region manager for working with regions.</param>
-        /// <param name="controller">Request controller for dialog boxes</param>
+        /// <param name="dataServices">Data Services</param>
+        /// <param name="dialogServices">Dialog Data Service</param>
+        /// <param name="manager"></param>
+        /// <param name="container"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="karveNavigator"></param>
+        /// <param name="configurationService"></param>
+        /// <param name="controller"></param>
         public BookingInfoViewModel(IDataServices dataServices,
             IDialogService dialogServices,
             IEventManager manager,
             IUnityContainer container,
             IRegionManager regionManager,
-           IKarveNavigator karveNavigator,
-           IConfigurationService configurationService,
+            IKarveNavigator karveNavigator,
+            IConfigurationService configurationService,
             IInteractionRequestController controller) : base(dataServices,
             dialogServices, manager, regionManager, dataServices.GetBookingDataService(), controller)
         {
@@ -84,7 +87,6 @@ namespace BookingModule.ViewModels
         {
             DefaultPageSize = 25;
             IsReady = false;
-            IsChanged = false;
             IsChanged = false;
             LineVisible = true;
             FooterVisible = false;
@@ -372,6 +374,7 @@ namespace BookingModule.ViewModels
         {
             set
             {
+                _previousBookingData = _bookingDtoValue;
                 _bookingDtoValue = value;
                 RaisePropertyChanged("DataObject");
             }
@@ -525,7 +528,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _activeFareDto = value;
-                RaisePropertyChanged("ActiveFare");
+                RaisePropertyChanged("ActiveFareDto");
             }
         }
         /// <summary>
@@ -729,9 +732,12 @@ namespace BookingModule.ViewModels
                 decimal subTotal = 0;
                 foreach (var x in CollectionView)
                 {
-                    if (x.Subtotal.HasValue)
+                    if (x.Included)
                     {
-                        subTotal += x.Subtotal.Value;
+                        if (x.Subtotal.HasValue)
+                        {
+                            subTotal += x.Subtotal.Value;
+                        }
                     }
                 }
 
@@ -773,6 +779,36 @@ namespace BookingModule.ViewModels
             }
             return DataObject;
         }
+
+        /// <summary>
+        ///   this changes the company value when the data is changed.
+        ///   This shall moved to the business service.
+        /// </summary>
+        /// <param name="eventData"></param>
+        private void ChangeCompany(IDictionary<string,object> eventData)
+        {
+            NotifyTaskCompletion.Create(FetchOfficeByCompanyAsync(eventData), (result,ev) =>
+            {
+                if (result is INotifyTaskCompletion<IEnumerable<CompanyDto>> taskResult)
+
+                {
+                    if (taskResult.IsFaulted)
+                    {
+                        DialogService?.ShowErrorMessage("Error retrieving company:" + taskResult.ErrorMessage);
+
+                    }
+                    if (taskResult.IsSuccessfullyCompleted)
+                    {
+                        if (taskResult.Result.Count() > 0)
+                        {
+                            var company= new ObservableCollection<CompanyDto>(taskResult.Result);
+                            BookingCompanyDto = company;
+                            RaisePropertyChanged("BookingCompanyDto");
+                        }
+                    }
+                }
+            });
+        }
         /// <summary>
         /// Method called every time a component changes. 
         /// It handles the change and forward the change to the toolbar for saving.
@@ -785,20 +821,43 @@ namespace BookingModule.ViewModels
             {
                 if (eventDictionary is IDictionary<string, object> eventData)
                 {
+
                     /*
                      * This part send directly to the toolbar any change that cames from the grid or the object
                      * independently.
                      */
-                    IsChanged = true;
-                    OnChangedCommand(DataObject,
-                                           eventData,
-                                           DataSubSystem.BookingSubsystem,
-                                           EventSubSystemName,
-                                           ViewModelUri.ToString());
+                    if (IsViewModelInitialized)
+                    {
+                        IsChanged = true;
+                        OnChangedCommand(DataObject,
+                                               eventData,
+                                               DataSubSystem.BookingSubsystem,
+                                               EventSubSystemName,
+                                               ViewModelUri.ToString());
+                    }
+                    // here i shall check if oficna is changed.
+                    ChangeCompany(eventData);
                 }
                 Contract.Ensures(IsChanged == true);
             }
         }
+
+        private async Task<IEnumerable<CompanyDto>> FetchOfficeByCompanyAsync(IDictionary<string, object> eventData)
+        {
+            if (eventData.ContainsKey("Field"))
+            {
+                var field = eventData["Field"] as string;
+                if ((field != null) && (field == "OFICINA_RES1"))
+                {
+                    // we shall retreive the company.
+                    var officeDataService = DataServices.GetOfficeDataServices();
+                    var company = await officeDataService.GetCompanyAsync(DataObject.OFICINA_RES1).ConfigureAwait(false);
+                    return company;
+                }
+            }
+            return new List<CompanyDto>();
+        }
+
         /// <summary>
         ///  Method called when we close a tab. 
         ///  It should free all the object used in this view model.
@@ -878,6 +937,8 @@ namespace BookingModule.ViewModels
             }
         }
 
+        
+
         private List<string> TokenizeGridColumns(string cols)
         {
             var colSummary = cols.Split(',');
@@ -925,10 +986,12 @@ namespace BookingModule.ViewModels
             PrintCommand = new DelegateCommand(OnPrintCommand);
             SaveToClient = new DelegateCommand<BookingDto>(OnExecuteSaveClient);
             _newCommand = new DelegateCommand<object>(NewViewCommand);
-            _saveCommand = new DelegateCommand<object>(SaveViewCommand);
+            _saveCommand = new DelegateCommand<object>(SaveViewCommand, CanSave);
             _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
 
         }
+
+       
 
         private void OnPrintCommand()
         {
@@ -962,7 +1025,7 @@ namespace BookingModule.ViewModels
             _karveNavigator.NewSummaryView<IBookingData, BookingSummaryDto>(summary, "Reservas Futura", typeof(BookingControlView).FullName);
 
         }
-
+       
         private void OnAddNewConcept()
         {
             MessageBox.Show("Not yet implemented");
@@ -986,16 +1049,21 @@ namespace BookingModule.ViewModels
                                                       item = selectedItem;
                                                   }
                                               });
-
+            
             if (value is Syncfusion.UI.Xaml.Grid.Cells.DataContextHelper helper)
             {
                 bookingItem = helper.Record as BookingItemsDto;
+              
                 if (bookingItem == null)
                 {
                    
                     var newItems = new BookingItemsDto();
+                    newItems.IsNew = true;
+                    newItems.Number = DataObject.NUMERO_RES;
+                    newItems.IsDirty = true;
                     newItems.Concept = int.Parse(item.Code);
                     newItems.Desccon = item.Name;
+                    newItems.BookingKey = _bookingDataService.GetNextLineId();
                     CollectionView.Add(newItems);
                     SelectedItem = CollectionView[CollectionView.Count - 1];
                     RaisePropertyChanged("CollectionView");
@@ -1004,12 +1072,12 @@ namespace BookingModule.ViewModels
                 }
                 if (item != null)
                 {
-                    var itemReplace = CollectionView.FirstOrDefault(i => i.Number == bookingItem.Number);
-                    var newItem = new BookingItemsDto();
-
+                    var itemReplace = CollectionView.FirstOrDefault(i => i.BookingKey == bookingItem.BookingKey);
                     var index = CollectionView.IndexOf(itemReplace);
+                    var newItem = new BookingItemsDto();
                     newItem.Concept = int.Parse(item.Code);
                     newItem.Desccon = item.Name;
+                    newItem.IsDirty = true;
                     newItem.BookingKey = bookingItem.BookingKey;
                     newItem.Number = bookingItem.Number;
                     if (index != -1)
@@ -1139,7 +1207,7 @@ namespace BookingModule.ViewModels
             set
             {
                 _provinceDto = value;
-                RaisePropertyChanged("ProvicneDto3");
+                RaisePropertyChanged("ProvinceDto3");
             }
         }
         private void OnCreateNewGroup(object obj)
@@ -1175,12 +1243,20 @@ namespace BookingModule.ViewModels
         }
         private ObservableCollection<CellPresenterItem> InitGridColumns()
         {
+        
             var presenter = new ObservableCollection<CellPresenterItem>()
             {
                 new NavigationAwareItem() { DataTemplateName="NavigateBookingConcept", MappingName="Concept", RegionName=RegionNames.LineRegion},
-                 new NavigationAwareItem() { DataTemplateName="BookingInclude", MappingName="Included", RegionName=RegionNames.LineRegion},
+                // here we want to enfornce the readonly
+                new CellPresenterItem() { NoTemplate = true, MappingName = "Desccon", IsReadOnly=true},
+                new CellPresenterItem() { NoTemplate = true, MappingName = "Extra", IsReadOnly=true},
+                new CellPresenterItem() { NoTemplate = true, MappingName = "Min", IsReadOnly=true},
+                new CellPresenterItem() { NoTemplate = true, MappingName = "Max", IsReadOnly=true},
+                new CellPresenterItem() { NoTemplate = true, MappingName = "Subtotal", IsReadOnly=true},
+                new NavigationAwareItem() { DataTemplateName="BookingInclude", MappingName="Included", RegionName=RegionNames.LineRegion},
                  new NavigationAwareItem() { DataTemplateName="BillToBookin",
                      MappingName ="Bill", RegionName=RegionNames.LineRegion},
+                 new NavigationAwareItem() { DataTemplateName="NavigateBookingUnit", MappingName="Unity", RegionName=RegionNames.LineRegion}
             };
             return presenter;
         }
@@ -1269,29 +1345,47 @@ namespace BookingModule.ViewModels
                 });
             return collection;
         }
+
+
+       
+        /// <summary>
+        ///  Evaluate of it is possible to save
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        private bool CanSave(object arg)
+        {
+            var dataObject = DataObject;
+            if (!IsCommandForMe())
+            {
+                return true;
+            }
+            if (dataObject.HasErrors)
+            {
+                DialogService?.ShowErrorMessage(KarveLocale.Properties.Resources.linvalidbookingdata + " " + dataObject.NUMERO_RES + "\nReason: " + dataObject.Errors[0]);
+                return false;
+            }
+            // here we can put the business validation.
+            return true;
+        }
         /// <summary>
         ///  Save data from the view.
         /// </summary>
-        /// <param name="obj">Save data from the view command.</param>
-        private void SaveViewCommand(object obj)
+        /// <param name="savedObject">Save data from the view command.</param>
+        private void SaveViewCommand(object savedObject)
         {
-            var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-
-            /*
-             * we dont want to save if it is not changed.
-             *  The composite command will trigger a broadcast command.
-             */
-            if (!IsChanged)
+            if (!IsCommandForMe())
             {
                 return;
             }
-
-            _bookingData.Value = DataObject;
-            if (_bookingData.Value.HasErrors)
+            if (!CanSave(savedObject))
             {
-                //DialogService?.ShowErrorMessageView(_bookingData);
                 return;
             }
+            var bookingDataObject = DataObject;
+            bookingDataObject.Items = CollectionView;
+            _bookingData.Value = bookingDataObject;
+            var IsErrorNotified = false;
             NotifyTaskCompletion.Create<bool>(_bookingDataService.SaveAsync(_bookingData), (sender, ev) =>
             {
                 if (sender is INotifyTaskCompletion<bool> task)
@@ -1306,12 +1400,21 @@ namespace BookingModule.ViewModels
                     }
                     else
                     {
-                        DialogService?.ShowErrorMessage("Error during saving reservation :" + task.ErrorMessage);
+                        if (IsErrorNotified)
+                        {
+                            return;
+                        }
+                        var error = "Validation error while saving!";
+                        if (!string.IsNullOrEmpty(task.ErrorMessage))
+                        {
+                            error = task.ErrorMessage;
+                            IsErrorNotified = true;
+                        }
+                        DialogService?.ShowErrorMessage(error);
                     }
                 }
             });
         }
-
 
         private void DeleteViewCommand(object obj)
         {
@@ -1362,7 +1465,7 @@ namespace BookingModule.ViewModels
         /// <param name="obj"></param>
         private void NewViewCommand(object obj)
         {
-            ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto> viewFactory = new ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto>(_regionManager, _container, EventManager, _bookingDataService, _bookingDataService);
+            var viewFactory = new ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto>(_regionManager, _container, EventManager, _bookingDataService, _bookingDataService);
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
             /// i shall check that i am on foreground
             if (activeView is UserControl control)
@@ -1660,12 +1763,13 @@ namespace BookingModule.ViewModels
         }
         private void UpdateAux(IBookingData data)
         {
+
             if (data == null)
             {
                 return;
             }
             UpdateGenericCollection(data);
-            BookingAgencyEmployee = data.AgencyEmployeeDto;
+            BookingAgencyEmployee = new ObservableCollection<AgencyEmployeeDto>(data.AgencyEmployeeDto);
             BookingContacts = data.ContactsDto1;
             BookingMedia = data.BookingMediaDto;
             BookingOrigen = data.OriginDto;
@@ -1676,7 +1780,7 @@ namespace BookingModule.ViewModels
             BudgetDto = data.BookingBudget;
             ClientDto = data.Clients;
             DriverDto = data.DriverDto2;
-            BookingCompanyDto = SelectItem<CompanyDto>(data.CompanyDto, BookingCompanyDto);
+            BookingCompanyDto = new ObservableCollection<CompanyDto>(data.CompanyDto);
             DeliveringPlaceDto = data.DepartureDeliveryDto;
             PlaceReturnDto = data.PlaceOfReturnDto;
             DriverCountryList = data.DriverCountryList;
@@ -1706,18 +1810,18 @@ namespace BookingModule.ViewModels
                 }
             }
             ActiveFareDto = data.FareDto;
-            BookingOfficeDto = data.OfficeDto;
+            BookingOfficeDto = new ObservableCollection<OfficeDtos>(data.OfficeDto);
             BookingOrigen = data.OriginDto;
             BookingRefusedDto = data.BookingRefusedDto;
             VehicleDto = data.VehicleDto;
             VehicleGroupDto = data.VehicleGroupDto;
-            ReservationOfficeArrival = data.ReservationOfficeArrival;
-            ReservationOfficeDeparture = data.ReservationOfficeDeparture;
+            ReservationOfficeArrival = new ObservableCollection<OfficeDtos>(data.ReservationOfficeArrival);
+            ReservationOfficeDeparture = new ObservableCollection<OfficeDtos>(data.ReservationOfficeDeparture);
             // this send an update to everyone
             RaisePropertyChanged(null);
-            RaisePropertyChanged(null);
             IsViewModelInitialized = true;
-            
+
+
         }
 
         private void LoadMoreItems(uint arg1, int arg2)
@@ -1732,17 +1836,16 @@ namespace BookingModule.ViewModels
             {
                 payLoad = new DataPayLoad();
             }
-
             payLoad.Subsystem = DataSubSystem.BookingSubsystem;
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
             payLoad.HasRelatedObject = false;
             payLoad.HasNewCommand = true;
-            payLoad.NewCommand = _newCommand;
             payLoad.HasSaveCommand = true;
+            payLoad.HasDeleteCommand = true;
+            payLoad.NewCommand = _newCommand;
             payLoad.SaveCommand = _saveCommand;
             payLoad.DeleteCommand = _deleteCommand;
-            payLoad.HasDeleteCommand = true;
             payLoad.ObjectPath = ViewModelUri;
             payLoad.Sender = ViewModelUri.ToString();
         }
@@ -2407,5 +2510,6 @@ namespace BookingModule.ViewModels
         private ClientSummaryExtended _clientSelectedObject;
         private ClientSummaryExtended _driverSelectedObject;
         private IRegionManager _mailRegionManager;
+        private BookingDto _previousBookingData;
     }
 }

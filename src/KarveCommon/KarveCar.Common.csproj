@@ -141,6 +141,7 @@
     <Compile Include="ChangeFieldHandlerDo.cs" />
     <Compile Include="ComponentUtils.cs" />
     <Compile Include="Converter\BillToBookConverter.cs" />
+    <Compile Include="Converter\BookingUnitToIndexConverter.cs" />
     <Compile Include="Converter\BooleanToVisibility.cs" />
     <Compile Include="Converter\ByteToBooleanConverter.cs" />
     <Compile Include="Converter\CardTypeImageConverter.cs" />
@@ -173,8 +174,8 @@
     <Compile Include="Generic\CleanupHelper.cs" />
     <Compile Include="Generic\CloseTabAction.cs" />
     <Compile Include="Generic\ContactsDtoValidation.cs" />
-    <Compile Include="Generic\CrossReferenceValidationRule.cs" />
     <Compile Include="Generic\DataTypes.cs" />
+    <Compile Include="Generic\DateUtils.cs" />
     <Compile Include="Generic\EnvirommentConfig.cs" />
     <Compile Include="Generic\GenericSQL.cs" />
     <Compile Include="Generic\GridIdentifiers.cs" />
