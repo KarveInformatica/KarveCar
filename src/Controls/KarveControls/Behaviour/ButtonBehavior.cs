@@ -16,7 +16,7 @@ namespace KarveControls.Behaviour
         /// <summary>
         ///  This is a property for the cell presentation.
         /// </summary>
-        /// 
+       
         public static readonly DependencyProperty assistNameProperty = DependencyProperty.Register("AssistName", typeof(string), typeof(ButtonBehavior), 
             new UIPropertyMetadata(string.Empty));
         
@@ -34,6 +34,7 @@ namespace KarveControls.Behaviour
                 SetValue(assistNameProperty, value);
             }
         }
+
         /// <summary>
         ///  OnAttached property. Attach the property to an item.
         /// </summary>

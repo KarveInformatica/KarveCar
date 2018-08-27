@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 namespace KarveDataServices
 {
     public interface IContractDataServices: IPageCounter
@@ -15,18 +15,18 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="id">This return asynchrnously a contract</param>
         /// <returns>A single agreement.</returns>
-        Task<ContractDto> GetContractAsync(string id);
+        Task<ContractViewObject> GetContractAsync(string id);
         /// <summary>
         /// Get a list of agreement by conductor.
         /// </summary>
         /// <returns>A list of agreement and conductors summary </returns>
-        Task<IEnumerable<ContractByConductorDto>> GetContractByConductorAsync(string vehicleId);
+        Task<IEnumerable<ContractByConductorViewObject>> GetContractByConductorAsync(string vehicleId);
         /// <summary>
         ///  Returns a summary list of contract data used by the client.
         /// </summary>
         /// <param name="code"></param>
         /// <returns>A list of contracts</returns>
-        Task<IEnumerable<ContractByClientDto>> GetContractByClientAsync(string code);
+        Task<IEnumerable<ContractByClientViewObject>> GetContractByClientAsync(string code);
         /// <summary>
         /// Returns a list of contract data used by the client.
         /// </summary>

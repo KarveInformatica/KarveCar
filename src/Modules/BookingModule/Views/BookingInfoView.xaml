@@ -936,10 +936,10 @@
                                                 LabelTextWidth="50"
                                                 TextContentSecondWidth="160"
                                                 LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
-                                                SourceView="{Binding ReservationOfficeDeparture, Mode=OneWay}"
+                                                SourceView="{Binding ReservationOfficeDeparture, Mode=TwoWay}"
                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                 MagnifierCommand="{Binding AssistCommand}"
-                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 DataFieldFirst="OFISALIDA_RES1"
                                                 ButtonImage="/KarveControls;component/Images/search.png"
                                     
@@ -964,7 +964,8 @@
                                  karveControls:ControlExt.DataSourcePath="FPREV_RES1"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
 
-                                     SelectedDate="{Binding Path=DataObject.FPREV_RES1, Mode=TwoWay, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="fPREV_RES1" Grid.ColumnSpan="2"  />
+                                     SelectedDate="{Binding Path=DataObject.FPREV_RES1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                    ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="fPREV_RES1" Grid.ColumnSpan="2"  />
                                 <materialDesign:TimePicker Width="100"  
                                                            Height="30"
                                                            Grid.Column="2" 
@@ -972,7 +973,7 @@
                                  karveControls:ControlExt.DataSource="{Binding DataObject}"
                                  karveControls:ControlExt.DataSourcePath="HPREV_RES1"
                                  karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
-                                 SelectedTime="{Binding Path=DataObject.HPREV_RES1, Mode=TwoWay, Converter={StaticResource StringSpanConverter}, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True}" x:Name="hPREV_RES1"  />
+                                 SelectedTime="{Binding Path=DataObject.HPREV_RES1, Mode=TwoWay, Converter={StaticResource StringSpanConverter}, ValidatesOnDataErrors=True, ValidatesOnNotifyDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" x:Name="hPREV_RES1"  />
 
                                 <karveControls:DualFieldSearchBox 
                                               
@@ -987,7 +988,7 @@
                                                 SourceView="{Binding ReservationOfficeArrival, Mode=TwoWay}"
                                                 ItemChangedCommand="{Binding ItemChangedCommand, Mode=OneWay}"
                                                 MagnifierCommand="{Binding AssistCommand}"
-                                                DataSource="{Binding DataObject, Mode=TwoWay}"
+                                                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 DataFieldFirst="OFIRETORNO_RES1"
                                                 ButtonImage="/KarveControls;component/Images/search.png"
                                                 Height="30">

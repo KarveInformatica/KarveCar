@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices.DataObjects
 {
@@ -11,7 +11,7 @@ namespace KarveDataServices.DataObjects
     ///  to a model domain element.
     ///  In this case the vehicle. 
     /// </summary>
-    public interface IVehicleData: IValidDomainObject, IValueObject<VehicleDto>
+    public interface IVehicleData: IValidDomainObject, IValueObject<VehicleViewObject>
     {
         /// <summary>
         ///  This delete all data in async way 
@@ -39,52 +39,52 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         //  Brand data trasnfer object. Usually a vehicle has just one brand.
         /// </summary>
-        IEnumerable<BrandVehicleDto> BrandDtos { get; set; }
+        IEnumerable<BrandVehicleViewObject> BrandDtos { get; set; }
         /// <summary>
         /// Model data transfer object. Usually a vehicle has just one model/
         /// </summary>
-        IEnumerable<ModelVehicleDto> ModelDtos { get; set; }
+        IEnumerable<ModelVehicleViewObject> ModelDtos { get; set; }
         /// <summary>
         ///  Color data transfer object.
         /// </summary>
-        IEnumerable<ColorDto> ColorDtos { get; set; }
+        IEnumerable<ColorViewObject> ColorDtos { get; set; }
         /// <summary>
         ///  Color data transfer object.
         /// </summary>
-        IEnumerable<OwnerDto> OwnerDtos { get; set; }
+        IEnumerable<OwnerViewObject> OwnerDtos { get; set; }
         /// <summary>
-        ///  Vehicle group dto.
+        ///  Vehicle group viewObject.
         /// </summary>
-        IEnumerable<VehicleGroupDto> VehicleGroupDtos { get; set; }
+        IEnumerable<VehicleGroupViewObject> VehicleGroupDtos { get; set; }
         /// <summary>
         ///  History of the maintenance of the vehicle.
         /// </summary>
-        IEnumerable<MaintainanceDto> MaintenanceHistory { get; set; }
+        IEnumerable<MaintainanceViewObject> MaintenanceHistory { get; set; }
         /// <summary>
         ///  Query of the model.
         /// </summary>
         string AssistModelQuery { get; }
 
         /// <summary>
-        ///  Agents dto
+        ///  Agents viewObject
         /// </summary>
-        IEnumerable<AgentDto> AgentsDto { get; set; }
+        IEnumerable<AgentViewObject> AgentsDto { get; set; }
         /// <summary>
-        ///  Activities dto.
+        ///  Activities viewObject.
         /// </summary>
-        IEnumerable<VehicleActivitiesDto> ActivityDtos { get; set; }
+        IEnumerable<VehicleActivitiesViewObject> ActivityDtos { get; set; }
         IEnumerable<PictureDto> PicturesDtos { get; set; }
-        IEnumerable<SupplierSummaryDto> Supplier1 { get; set; }
-        IEnumerable<PaymentFormDto> PaymentForm { get; set; }
+        IEnumerable<SupplierSummaryViewObject> Supplier1 { get; set; }
+        IEnumerable<PaymentFormViewObject> PaymentForm { get; set; }
         IEnumerable<ClientSummaryExtended> ClientDto { get; set; }
-        IEnumerable<ResellerDto> ResellerDto { get; set; }
-        IEnumerable<SupplierSummaryDto> Supplier2 { get; set; }
-        IEnumerable<CityDto> RoadTaxesCityDto { get; set; }
-        IEnumerable<ZonaOfiDto> RoadOfficeZoneDto { get; set; }
-        IEnumerable<SupplierSummaryDto> AssistencePolicyDto { get; set; }
-        IEnumerable<SupplierSummaryDto> AssistenceAssuranceDto { get; set; }
-        IEnumerable<SupplierSummaryDto> AdditionalAssuranceDto { get; set; }
-        IEnumerable<SupplierSummaryDto> AssuranceDto { get; set; }
-        IEnumerable<AgentDto> AssuranceAgentDto { get; set; }
+        IEnumerable<ResellerViewObject> ResellerDto { get; set; }
+        IEnumerable<SupplierSummaryViewObject> Supplier2 { get; set; }
+        IEnumerable<CityViewObject> RoadTaxesCityDto { get; set; }
+        IEnumerable<ZonaOfiViewObject> RoadOfficeZoneDto { get; set; }
+        IEnumerable<SupplierSummaryViewObject> AssistencePolicyDto { get; set; }
+        IEnumerable<SupplierSummaryViewObject> AssistenceAssuranceDto { get; set; }
+        IEnumerable<SupplierSummaryViewObject> AdditionalAssuranceDto { get; set; }
+        IEnumerable<SupplierSummaryViewObject> AssuranceDto { get; set; }
+        IEnumerable<AgentViewObject> AssuranceAgentDto { get; set; }
     }
 }

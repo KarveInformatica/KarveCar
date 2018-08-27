@@ -1,26 +1,38 @@
-﻿using System;
+﻿//-----------------------------------------------------------------------------------------
+// <copyright file="VehicleBrandViewModel.cs" company="KarveInformatica S.L">
+//   
+// </copyright>
+// <summary>
+//   The vehicle brand view model.
+// </summary>
+// ----------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-  
-    public class VehicleBrandViewModel : GenericHelperViewModel<BrandVehicleDto, MARCAS>
+    /// <summary>
+    /// The vehicle brand view model.
+    /// </summary>
+    public class VehicleBrandViewModel : GenericHelperViewModel<BrandVehicleViewObject, MARCAS>
     {
-
-        private INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>> _initializationNotifier;
+        private INotifyTaskCompletion<IEnumerable<SupplierSummaryViewObject>> _initializationNotifier;
         private PropertyChangedEventHandler _loadCompleted;
-        private IEnumerable<SupplierSummaryDto> _supplierSummary;
+
+        /// <summary>
+        /// The _supplier summary.
+        /// </summary>
+        private IEnumerable<SupplierSummaryViewObject> _supplierSummary;
 
         public VehicleBrandViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(query, dataServices, region, manager, dialogService)
         {
@@ -50,12 +62,12 @@ namespace HelperModule.ViewModels
             throw new NotImplementedException();
         }
 
-        private async Task<IEnumerable<SupplierSummaryDto>> LoadSuppliers()
+        private async Task<IEnumerable<SupplierSummaryViewObject>> LoadSuppliers()
         {
             return await DataServices.GetSupplierDataServices().GetSupplierAsyncSummaryDo();
         }
 
-        public IEnumerable<SupplierSummaryDto> SupplierSummary
+        public IEnumerable<SupplierSummaryViewObject> SupplierSummary
         {
 
             set { _supplierSummary = value; RaisePropertyChanged(); }

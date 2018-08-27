@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.SQL;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices;
 using System.Data;
 using KarveDapper.Extensions;
@@ -18,7 +18,7 @@ namespace DataAccessLayer.Crud.Office
     /// <summary>
     ///  Loader of the data 
     /// </summary>
-    public class OfficeDataLoader: IDataLoader<OfficeDtos> 
+    public class OfficeDataLoader: IDataLoader<OfficeViewObject> 
     {
         private readonly ISqlExecutor _executor;
         private readonly IMapper _mapper;
@@ -38,13 +38,13 @@ namespace DataAccessLayer.Crud.Office
         /// Load asynchronously a list of offices.
         /// </summary>
         /// <returns>A list of offcies</returns>
-        public async Task<IEnumerable<OfficeDtos>> LoadAsyncAll()
+        public async Task<IEnumerable<OfficeViewObject>> LoadAsyncAll()
         {
-            IEnumerable<OfficeDtos> officeDtos = new List<OfficeDtos>();
+            IEnumerable<OfficeViewObject> officeDtos = new List<OfficeViewObject>();
             using (IDbConnection connection = _executor.OpenNewDbConnection())
             {
                 var value = await connection.GetAllAsync<OFICINAS>();
-                officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(value);
+                officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeViewObject>>(value);
                
            
             }
@@ -59,7 +59,7 @@ namespace DataAccessLayer.Crud.Office
         /// <param name="reader"></param>
         /// <returns></returns>
        
-        private bool ParseResult(OfficeDtos request, OFICINAS  value, SqlMapper.GridReader reader)
+        private bool ParseResult(OfficeViewObject request, OFICINAS  value, SqlMapper.GridReader reader)
         {
 
             if ((request == null) || (reader == null))
@@ -72,13 +72,13 @@ namespace DataAccessLayer.Crud.Office
             }
             try
             {
-                request.City = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(value.CP, _mapper, reader);
-                request.Province = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(value.PROVINCIA, _mapper, reader);
-                request.Currencies = SelectionHelpers.WrappedSelectedDto<CURRENCIES, CurrenciesDto>(value.CURRENCY_OFI, _mapper, reader);
-                request.HolidayDates= SelectionHelpers.WrappedSelectedDto<FESTIVOS_OFICINA, HolidayDto>(value.CODIGO, _mapper, reader);
-                request.DelegaContable = SelectionHelpers.WrappedSelectedDto<DELEGA, DelegaContableDto>(value.DEPARTA, _mapper, reader);
-                request.Country = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(value.PAIS, _mapper, reader);
-                request.OfficeZone = SelectionHelpers.WrappedSelectedDto<ZONAOFI, ZonaOfiDto>(value.ZONAOFI, _mapper, reader);
+                request.City = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityViewObject>(value.CP, _mapper, reader);
+                request.Province = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinceViewObject>(value.PROVINCIA, _mapper, reader);
+                request.Currencies = SelectionHelpers.WrappedSelectedDto<CURRENCIES, CurrenciesViewObject>(value.CURRENCY_OFI, _mapper, reader);
+                request.HolidayDates= SelectionHelpers.WrappedSelectedDto<FESTIVOS_OFICINA, HolidayViewObject>(value.CODIGO, _mapper, reader);
+                request.DelegaContable = SelectionHelpers.WrappedSelectedDto<DELEGA, DelegaContableViewObject>(value.DEPARTA, _mapper, reader);
+                request.Country = SelectionHelpers.WrappedSelectedDto<Country, CountryViewObject>(value.PAIS, _mapper, reader);
+                request.OfficeZone = SelectionHelpers.WrappedSelectedDto<ZONAOFI, ZonaOfiViewObject>(value.ZONAOFI, _mapper, reader);
 #pragma warning disable CS0168 // Variable is declared but never used
             }
             catch (System.Exception ex)
@@ -89,12 +89,12 @@ namespace DataAccessLayer.Crud.Office
             return true;
         }
 
-        private async Task<OfficeDtos> LoadAuxAsync(IDbConnection connection,
-                                                    OfficeDtos officeDtos, OFICINAS value)
+        private async Task<OfficeViewObject> LoadAuxAsync(IDbConnection connection,
+                                                    OfficeViewObject officeViewObject, OFICINAS value)
 
         {
 
-            if ((officeDtos == null) || (value == null) || (connection == null))
+            if ((officeViewObject == null) || (value == null) || (connection == null))
             {
                 throw new ArgumentNullException("Invalid input during load!");                 
             }
@@ -108,8 +108,8 @@ namespace DataAccessLayer.Crud.Office
             auxQueryStore.AddParamCount(QueryType.QueryOfficeZone, value.ZONAOFI);
             var query = auxQueryStore.BuildQuery();
             var multipleResult = await connection.QueryMultipleAsync(query).ConfigureAwait(false);
-            officeDtos.IsValid = ParseResult(officeDtos,value, multipleResult);
-            return officeDtos;
+            officeViewObject.IsValid = ParseResult(officeViewObject,value, multipleResult);
+            return officeViewObject;
         }
 
         // <summary>
@@ -117,30 +117,30 @@ namespace DataAccessLayer.Crud.Office
         /// </summary>
         /// <param name="code">Code to be used</param>
         /// <returns>An office data transfer object</returns>
-        public async Task<OfficeDtos> LoadValueAsync(string code)
+        public async Task<OfficeViewObject> LoadValueAsync(string code)
         {
 
             Contract.Requires(condition: !string.IsNullOrEmpty(code));
-            OfficeDtos officeDtos = new OfficeDtos();
+            OfficeViewObject officeViewObject = new OfficeViewObject();
          
             using (var connection = _executor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<OFICINAS>(code).ConfigureAwait(false);
                 if (value == null)
                 {
-                    officeDtos.IsValid = false;
-                    return officeDtos;
+                    officeViewObject.IsValid = false;
+                    return officeViewObject;
                 }
-                officeDtos = _mapper.Map<OFICINAS, OfficeDtos>(value);
-                officeDtos = await LoadAuxAsync(connection, officeDtos, value).ConfigureAwait(false);
-                officeDtos.IsValid = true;
+                officeViewObject = _mapper.Map<OFICINAS, OfficeViewObject>(value);
+                officeViewObject = await LoadAuxAsync(connection, officeViewObject, value).ConfigureAwait(false);
+                officeViewObject.IsValid = true;
             }
-            return officeDtos;
+            return officeViewObject;
         }
 
-        public async Task<IEnumerable<OfficeDtos>> LoadValueAtMostAsync(int n, int back = 0)
+        public async Task<IEnumerable<OfficeViewObject>> LoadValueAtMostAsync(int n, int back = 0)
         {
-            IEnumerable<OfficeDtos> officeDtos;
+            IEnumerable<OfficeViewObject> officeDtos;
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             if (_currentPos <= 0)
             {
@@ -152,7 +152,7 @@ namespace DataAccessLayer.Crud.Office
                 _currentPos += n - back;
                 var query = store.BuildQuery();
                 var value = await connection.QueryAsync<OFICINAS>(query);
-                officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(value);
+                officeDtos = _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeViewObject>>(value);
             }
             return officeDtos;
             

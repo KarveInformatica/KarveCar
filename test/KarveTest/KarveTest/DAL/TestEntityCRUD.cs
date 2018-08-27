@@ -2,9 +2,9 @@
 using System.Linq;
 using DataAccessLayer;
 using DataAccessLayer.Crud;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
@@ -19,9 +19,9 @@ namespace KarveTest.DAL
     class TestEntityCrud: TestBase
     {
         private ISqlExecutor _sqlExecutor;
-        private IDataLoader<ComisioDto> _dataLoader;
-        private IDataSaver<ComisioDto> _dataSaver;
-        private IDataDeleter<ComisioDto> _dataDeleter;
+        private IDataLoader<ComisioViewObject> _dataLoader;
+        private IDataSaver<ComisioViewObject> _dataSaver;
+        private IDataDeleter<ComisioViewObject> _dataDeleter;
         /// <summary>
         /// This setup the test for entity modification.
         /// </summary>
@@ -31,9 +31,9 @@ namespace KarveTest.DAL
             try
             {
                 _sqlExecutor = SetupSqlQueryExecutor();
-                _dataLoader = new DataLoader<COMISIO, ComisioDto>(_sqlExecutor);
-                _dataSaver = new DataSaver<COMISIO,ComisioDto>(_sqlExecutor);
-                _dataDeleter = new DataDeleter<COMISIO,ComisioDto>(_sqlExecutor);
+                _dataLoader = new DataLoader<COMISIO, ComisioViewObject>(_sqlExecutor);
+                _dataSaver = new DataSaver<COMISIO,ComisioViewObject>(_sqlExecutor);
+                _dataDeleter = new DataDeleter<COMISIO,ComisioViewObject>(_sqlExecutor);
             }
             catch (Exception e)
             {
@@ -56,7 +56,7 @@ namespace KarveTest.DAL
                     expectedCode = resultItem?.NUM_COMI;
                 }
             }
-           var value = new ComisioDto
+           var value = new ComisioViewObject
            {
                  NUM_COMI = expectedCode
             };
@@ -72,7 +72,7 @@ namespace KarveTest.DAL
         [Test]
         public void Should_Throw_Entities_NotCorrectSavedData()
         {
-            ComisioDto value = new ComisioDto {NUM_COMI = ""};
+            ComisioViewObject value = new ComisioViewObject {NUM_COMI = ""};
             Assert.ThrowsAsync<DataLayerException>(async () => await _dataSaver.SaveAsync(value));
             
           
@@ -83,7 +83,7 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Entity_Insert_And_Delete_A_Correctly()
         {
-            var value = new ComisioDto {NUM_COMI = "891892", NOMBRE = "Lucia"};
+            var value = new ComisioViewObject {NUM_COMI = "891892", NOMBRE = "Lucia"};
             bool result = await _dataSaver.SaveAsync(value);
             Assert.IsTrue(result);
             bool dataDeleter = await _dataDeleter.DeleteAsync(value);

@@ -12,10 +12,10 @@ using KarveDataServices;
 using NUnit.Framework;
 using KarveDataServices.DataObjects;
 using  Dapper;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveDapper;
 using KarveDapper.Extensions;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.SQL;
 using DataAccessLayer.Logic;
 using AutoMapper;
@@ -308,7 +308,7 @@ namespace KarveTest.DAL
 
             Assert.NotNull(agent);
             Assert.NotNull(agent.Value);
-            ComisioDto comisio = (ComisioDto) agent.Value;
+            ComisioViewObject comisio = (ComisioViewObject) agent.Value;
             Assert.NotNull(comisio.NUM_COMI, primaryKeyValue);
         }
 
@@ -320,7 +320,7 @@ namespace KarveTest.DAL
             var ret = _commissionAgentDataServices.SaveAsync(commissionAgent);
             commissionAgent = await _commissionAgentDataServices.GetDoAsync(numComi);
             Assert.NotNull(commissionAgent);
-            var value = commissionAgent.Value as ComisioDto;
+            var value = commissionAgent.Value as ComisioViewObject;
             Assert.NotNull(value);
             Assert.AreEqual(value.NUM_COMI, numComi);
         }
@@ -339,10 +339,10 @@ namespace KarveTest.DAL
 
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
-            ComisioDto internalValue = (ComisioDto) commissionAgent.Value;
-            IEnumerable<BranchesDto> branchesDto = commissionAgent.BranchesDto;
-            IEnumerable<ContactsDto> contactsDtos = commissionAgent.ContactsDto;
-            IEnumerable<VisitsDto> visitsDtos = commissionAgent.VisitsDto;
+            ComisioViewObject internalValue = (ComisioViewObject) commissionAgent.Value;
+            IEnumerable<BranchesViewObject> branchesDto = commissionAgent.BranchesDto;
+            IEnumerable<ContactsViewObject> contactsDtos = commissionAgent.ContactsDto;
+            IEnumerable<VisitsViewObject> visitsDtos = commissionAgent.VisitsDto;
             internalValue.NOMBRE = "Karve2Comission";
             commissionAgent.Value = internalValue;
             // act 
@@ -368,7 +368,7 @@ namespace KarveTest.DAL
             dataCountry.Code = "34";
             dataCountry.CountryName = "Spain";
            // commissionAgent.Country = dataCountry;
-            ComisioDto comisio = (ComisioDto) commissionAgent.Value;
+            ComisioViewObject comisio = (ComisioViewObject) commissionAgent.Value;
             comisio.NUM_COMI = _commissionAgentDataServices.NewId();
             Assert.NotNull(comisio.NUM_COMI);
             comisio.TIPOCOMI = "2";
@@ -414,8 +414,8 @@ namespace KarveTest.DAL
             ICommissionAgent commissionAgent = await _commissionAgentDataServices.GetCommissionAgentDo(numComi);
             // check if the condition is valid.
             Assert.True(commissionAgent.Valid);
-            ComisioDto internalValue = (ComisioDto)commissionAgent.Value;
-            ContactsDto contactsDto = new ContactsDto();
+            ComisioViewObject internalValue = (ComisioViewObject)commissionAgent.Value;
+            ContactsViewObject contactsViewObject = new ContactsViewObject();
             string contactosId = string.Empty;
             int comiDelega = 0;
             // this open a db connection and ensure that the primary key is unique.
@@ -431,35 +431,35 @@ namespace KarveTest.DAL
                 }
             }
             Random random = new Random();
-            contactsDto.ContactId = contactosId;
-            contactsDto.ContactName = "Pineapple";
-            contactsDto.ContactsKeyId = internalValue.NUM_COMI;
-            contactsDto.Nif = "Y171559F";
-            contactsDto.Email = "pineapple@microsoft.com";
-            contactsDto.Movil = "33409304";
-            contactsDto.State = 0;
-            contactsDto.ResponsabilitySource = new PersonalPositionDto();
-            contactsDto.ResponsabilitySource.Code = "1";
-            contactsDto.ResponsabilitySource.Name = "GERENTE";
-            contactsDto.CurrentDelegation = comiDelega.ToString();
-            contactsDto.IsDirty = true;
-            contactsDto.IsNew = true;
+            contactsViewObject.ContactId = contactosId;
+            contactsViewObject.ContactName = "Pineapple";
+            contactsViewObject.ContactsKeyId = internalValue.NUM_COMI;
+            contactsViewObject.Nif = "Y171559F";
+            contactsViewObject.Email = "pineapple@microsoft.com";
+            contactsViewObject.Movil = "33409304";
+            contactsViewObject.State = 0;
+            contactsViewObject.ResponsabilitySource = new PersonalPositionViewObject();
+            contactsViewObject.ResponsabilitySource.Code = "1";
+            contactsViewObject.ResponsabilitySource.Name = "GERENTE";
+            contactsViewObject.CurrentDelegation = comiDelega.ToString();
+            contactsViewObject.IsDirty = true;
+            contactsViewObject.IsNew = true;
             IHelperDataServices helper = _dataServices.GetHelperDataServices();
-            IList<ContactsDto> entities = new List<ContactsDto>();
-            entities.Add(contactsDto);
+            IList<ContactsViewObject> entities = new List<ContactsViewObject>();
+            entities.Add(contactsViewObject);
             // act
-            bool inserted = await helper.ExecuteBulkInsertAsync<ContactsDto, CONTACTOS_COMI>(entities);
-            var allSavedContacts = await helper.GetMappedAllAsyncHelper<ContactsDto, CONTACTOS_COMI>();
+            bool inserted = await helper.ExecuteBulkInsertAsync<ContactsViewObject, CONTACTOS_COMI>(entities);
+            var allSavedContacts = await helper.GetMappedAllAsyncHelper<ContactsViewObject, CONTACTOS_COMI>();
             var singleContact = allSavedContacts.FirstOrDefault(x => x.ContactId == contactosId);
             Assert.True(inserted);
             Assert.NotNull(singleContact);
-            Assert.AreEqual(singleContact.ContactsKeyId, contactsDto.ContactsKeyId);
-            Assert.AreEqual(singleContact.Email, contactsDto.Email);
-            Assert.AreEqual(singleContact.Nif, contactsDto.Nif);
-            Assert.AreEqual(singleContact.Movil, contactsDto.Movil);
-            Assert.AreEqual(singleContact.State, contactsDto.State);
-            Assert.AreEqual(singleContact.ResponsabilitySource.Code, contactsDto.ResponsabilitySource.Code);
-            Assert.AreEqual(singleContact.ResponsabilitySource.Name, contactsDto.ResponsabilitySource.Name);
+            Assert.AreEqual(singleContact.ContactsKeyId, contactsViewObject.ContactsKeyId);
+            Assert.AreEqual(singleContact.Email, contactsViewObject.Email);
+            Assert.AreEqual(singleContact.Nif, contactsViewObject.Nif);
+            Assert.AreEqual(singleContact.Movil, contactsViewObject.Movil);
+            Assert.AreEqual(singleContact.State, contactsViewObject.State);
+            Assert.AreEqual(singleContact.ResponsabilitySource.Code, contactsViewObject.ResponsabilitySource.Code);
+            Assert.AreEqual(singleContact.ResponsabilitySource.Name, contactsViewObject.ResponsabilitySource.Name);
         }
 
     }

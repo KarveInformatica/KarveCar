@@ -11,7 +11,7 @@ using System.Transactions;
 using Dapper;
 using KarveDapper;
 using KarveDapper.Extensions;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer.Crud.Vehicle
 {

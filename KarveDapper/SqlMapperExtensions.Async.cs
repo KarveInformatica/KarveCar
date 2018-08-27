@@ -274,7 +274,7 @@ namespace KarveDapper.Extensions
         {
 
             // first of all i shall validate max length for each fields.
-            ValidateMaxLength(entityToUpdate);
+           // ValidateMaxLength(entityToUpdate);
 
             if ((entityToUpdate is IProxy proxy) && !proxy.IsDirty)
             {
@@ -435,12 +435,17 @@ namespace KarveDapper.Extensions
             }
             return value;
         }
-        static Tuple<string,string> ExtractQueryFromNumber(ulong value, string primaryKey, string name, int fieldSize)
+        static Tuple<string,string> ExtractQueryFromNumber(ulong value, string primaryKey, string name, int fieldSize, string pad)
         {
 
             StringBuilder builder = new StringBuilder();
             var id = value.ToString().Substring(0, fieldSize);
             id = id.PadLeft(fieldSize, '0');
+            // we add the pad left.
+            if (!string.IsNullOrEmpty(pad))
+            {
+                id = pad + id;
+            }
             builder.Append(" WHERE ");
             builder.Append(primaryKey);
             builder.Append("=");
@@ -449,6 +454,7 @@ namespace KarveDapper.Extensions
             return new Tuple<string,string>(statement, id);
 
         }
+
         /// <summary>
         ///  This method is used for generate an unique number for  a primary key:
         ///  1. It generate 8 bytes from a crypto random generator.
@@ -461,31 +467,41 @@ namespace KarveDapper.Extensions
         /// <param name="entityValue">EntityValue</param>
         /// <param name="transaction">Transaction</param>
         /// <param name="commandTimeout">Timeout</param>
+        /// <param name="pad">Padding string before the generated string</param>
         /// <returns></returns>
         public static string UniqueId<T>(this IDbConnection connection, T entityValue,
             IDbTransaction transaction = null,
-            int? commandTimeout = null) where T : class
+            int? commandTimeout = null, string pad=null) where T : class
         {
 
             var type = typeof(T);
             var name = GetTableName(type);
-            PropertyInfo info = GetKeyAttribute<T>(entityValue);
-            int fieldSize = GetFieldSize<T>(entityValue);
-            StringBuilder builder = new StringBuilder();
+            var info = GetKeyAttribute<T>(entityValue);
+            var fieldSize = GetFieldSize<T>(entityValue);
+            var builder = new StringBuilder();
             IEnumerable<T> collection = null;
-            int tries = 0;
+            var tries = 0;
             string id = String.Empty;
+            int padSize = 0;
+            if (!string.IsNullOrEmpty(pad))
+            {
+                padSize = pad.Length;
+            }
             if (fieldSize == 0)
             {
                 fieldSize = 6;
             }
+
+            // This is useful if we want to pad the number.
+
+            fieldSize = fieldSize - padSize;
             do
             {
                 var value = GenerateBigNumber();
                 if (info != null)
                 {
                     // ok this is a unique id. 6 is the default field size.
-                    var statement = ExtractQueryFromNumber(value, info.Name, name, fieldSize);
+                    var statement = ExtractQueryFromNumber(value, info.Name, name, fieldSize, pad);
                     id = statement.Item2;
                     try
                     {

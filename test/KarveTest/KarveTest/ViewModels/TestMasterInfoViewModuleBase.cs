@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommon.Services;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using Prism.Regions;
@@ -20,7 +20,7 @@ namespace KarveTest.ViewModels
     
     class TestViewModel : MasterInfoViewModuleBase
     {
-        private BranchesDto _branchesDto;
+        private BranchesViewObject _branchesViewObject;
         private bool _showExecuted;
         private IDictionary<string, object> _eventDictionary;
         // set or Get
@@ -39,10 +39,10 @@ namespace KarveTest.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.Subsystem = DataSubSystem.CompanySubsystem;
         }
-        internal override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branch)
+        internal override async Task SetBranchProvince(ProvinceViewObject province, BranchesViewObject branch)
         {
-            IList<BranchesDto> branchList = new List<BranchesDto>();
-            var ev = CreateGridEvent<ProvinciaDto, BranchesDto>(province, 
+            IList<BranchesViewObject> branchList = new List<BranchesViewObject>();
+            var ev = CreateGridEvent<ProvinceViewObject, BranchesViewObject>(province, 
                 branch, 
                 branchList, new DelegateCommand<object>((_branchesDto)=> 
                 {
@@ -51,10 +51,10 @@ namespace KarveTest.ViewModels
             await Task.Delay(1);
             EventDictionary = ev;
         }
-        internal override async Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override async Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
-            IList<VisitsDto> visitList = new List<VisitsDto>();
-            var ev = CreateGridEvent<ClientSummaryExtended, VisitsDto>(p,
+            IList<VisitsViewObject> visitList = new List<VisitsViewObject>();
+            var ev = CreateGridEvent<ClientSummaryExtended, VisitsViewObject>(p,
               b,
               visitList, new DelegateCommand<object>((_branchesDto) =>
               {
@@ -63,10 +63,10 @@ namespace KarveTest.ViewModels
             await Task.Delay(1);
             EventDictionary = ev;
         }
-        internal override async Task SetVisitContacts(ContactsDto p, VisitsDto b)
+        internal override async Task SetVisitContacts(ContactsViewObject p, VisitsViewObject b)
         {
-            IList<VisitsDto> visitList = new List<VisitsDto>();
-            var ev = CreateGridEvent<ContactsDto, VisitsDto>(p,
+            IList<VisitsViewObject> visitList = new List<VisitsViewObject>();
+            var ev = CreateGridEvent<ContactsViewObject, VisitsViewObject>(p,
               b,
               visitList, new DelegateCommand<object>((_branchesDto) =>
               {
@@ -75,10 +75,10 @@ namespace KarveTest.ViewModels
             await Task.Delay(1);
             EventDictionary = ev;
         }
-        internal override async Task SetVisitReseller(ResellerDto p, VisitsDto b)
+        internal override async Task SetVisitReseller(ResellerViewObject p, VisitsViewObject b)
         {
-            IList<VisitsDto> visitList = new List<VisitsDto>();
-            var ev = CreateGridEvent<ResellerDto, VisitsDto>(p,
+            IList<VisitsViewObject> visitList = new List<VisitsViewObject>();
+            var ev = CreateGridEvent<ResellerViewObject, VisitsViewObject>(p,
               b,
               visitList, new DelegateCommand<object>((_branchesDto) =>
               {

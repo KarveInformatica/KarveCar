@@ -11,7 +11,7 @@ using Prism.Commands;
 using Prism.Regions;
 using KarveCommonInterfaces;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Syncfusion.UI.Xaml.Grid;
@@ -29,9 +29,9 @@ namespace MasterModule.ViewModels
         private const string VehiclesAgentSummaryVm = "VehiclesAgentSummaryVm";
         private const string VehiclesModuleRoutePrefix = "VehiclesModule:";
        
-        private INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> _vehicleTaskNotify;
+        private INotifyTaskCompletion<IEnumerable<VehicleSummaryViewObject>> _vehicleTaskNotify;
 
-        private IEnumerable<VehicleSummaryDto> _vehicleSummaryDtos;
+        private IEnumerable<VehicleSummaryViewObject> _vehicleSummaryDtos;
         private PropertyChangedEventHandler _vehicleEventTask;
        
         
@@ -61,7 +61,7 @@ namespace MasterModule.ViewModels
         }
         private async void OpenCurrentItem(object selectedItem)
         {
-            if (selectedItem is VehicleSummaryDto summaryItem)
+            if (selectedItem is VehicleSummaryViewObject summaryItem)
             {
                 var idNameTuple = new Tuple<string, string>(summaryItem.Code, summaryItem.Brand);
                 var tabName = idNameTuple.Item1 + "." + idNameTuple.Item2;
@@ -105,9 +105,9 @@ namespace MasterModule.ViewModels
         {
           
             MessageHandlerMailBox += MessageHandler;
-            SummaryView = new IncrementalList<VehicleSummaryDto>(LoadMoreItems);
+            SummaryView = new IncrementalList<VehicleSummaryViewObject>(LoadMoreItems);
             StartAndNotify();
-            _vehicleEventTask += OnNotifyIncrementalList<VehicleSummaryDto>;
+            _vehicleEventTask += OnNotifyIncrementalList<VehicleSummaryViewObject>;
             PagingEvent += OnPagedEvent;
             EventManager.RegisterMailBox(EventSubsystem.VehichleSummaryVm, MessageHandlerMailBox);
             // Register the current subsystem to the toolbar.
@@ -117,10 +117,10 @@ namespace MasterModule.ViewModels
         // FIXME: see if it is possible to get rid of this..
         protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
         {
-            if ((sender is INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> listCompletion) && (listCompletion.IsSuccessfullyCompleted))
+            if ((sender is INotifyTaskCompletion<IEnumerable<VehicleSummaryViewObject>> listCompletion) && (listCompletion.IsSuccessfullyCompleted))
             {
 
-                if (SummaryView is IncrementalList<VehicleSummaryDto> summary)
+                if (SummaryView is IncrementalList<VehicleSummaryViewObject> summary)
                 {
                     summary.LoadItems(listCompletion.Result);
                     SummaryView = summary;
@@ -136,15 +136,15 @@ namespace MasterModule.ViewModels
         public void StartAndNotify()
         {
             _vehicleDataServices = DataServices.GetVehicleDataServices();
-            _vehicleTaskNotify = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(_vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev)=> {
-                if (task is INotifyTaskCompletion<IEnumerable<VehicleSummaryDto>> vehicles)
+            _vehicleTaskNotify = NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryViewObject>>(_vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev)=> {
+                if (task is INotifyTaskCompletion<IEnumerable<VehicleSummaryViewObject>> vehicles)
                 {
                     if (vehicles.IsSuccessfullyCompleted)
                     {
                         var collection = vehicles.Result;
                         var maxItems = _vehicleDataServices.NumberItems;
                         PageCount =_vehicleDataServices.NumberPage;
-                        var summaryList = new IncrementalList<VehicleSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                        var summaryList = new IncrementalList<VehicleSummaryViewObject>(LoadMoreItems) { MaxItemCount = (int)maxItems };
                         summaryList.LoadItems(collection);
                         SummaryView = summaryList;
 
@@ -231,21 +231,21 @@ namespace MasterModule.ViewModels
 
         public override void DisposeEvents()
         {
-            _vehicleEventTask -= OnNotifyIncrementalList<VehicleSummaryDto>;
+            _vehicleEventTask -= OnNotifyIncrementalList<VehicleSummaryViewObject>;
             EventManager.DeleteMailBoxSubscription(EventSubsystem.VehichleSummaryVm);
         }
 
         protected override void SetResult<T>(IEnumerable<T> result)
         {
-            _vehicleSummaryDtos = result as IEnumerable<VehicleSummaryDto>;
+            _vehicleSummaryDtos = result as IEnumerable<VehicleSummaryViewObject>;
             var maxItems =_vehicleDataServices.NumberItems;
             PageCount =_vehicleDataServices.NumberPage;
-            SummaryView = new IncrementalList<VehicleSummaryDto>(LoadMoreItems) {MaxItemCount = (int) maxItems};
+            SummaryView = new IncrementalList<VehicleSummaryViewObject>(LoadMoreItems) {MaxItemCount = (int) maxItems};
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<VehicleSummaryViewObject>>(
                 _vehicleDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
             
         }

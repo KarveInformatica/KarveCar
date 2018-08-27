@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using KarveCommon.Generic;
 using KarveCommon.Services;
 
 namespace KarveCar.Logic.Generic
@@ -14,19 +15,18 @@ namespace KarveCar.Logic.Generic
     {
         private Window _mainWindow;
         private IUserSettings _userSettings;
-        private IDictionary<string, TabItem> dictionaryTab = new Dictionary<string, TabItem>();
+   
         /// <summary>
         ///  Global enviroment. 
         /// </summary>
-        public static IEnviromentVariables _env = new EnviromentVariableContainer();
-        /// <summary>
-        ///  This is the constructor of the configuration service
-        /// </summary>
-        /// <param name="mainWindow">The main shell of the application will be injected to the ConfigurationService.</param>
+        private static IEnviromentVariables _enviroment = new EnvironmentVariableContainer();
+        
         public ConfigurationService()
         {
             this._mainWindow = null;
+           
             _userSettings = new UserSettings();
+             SetDefaultEnvironmentValues();
         }
         /// <summary>
         ///  Configure the configuration services using the user settings.
@@ -37,13 +37,19 @@ namespace KarveCar.Logic.Generic
             _userSettings = settings;
         }
 
+        private void SetDefaultEnvironmentValues()
+        {
+            _enviroment.SetKey(EnvironmentConfig.KarveConfiguration, EnvironmentKey.CurrentOffice, "C1");
+            _enviroment.SetKey(EnvironmentConfig.KarveConfiguration, EnvironmentKey.CurrentUser, "CV");
+            
+        }
         /// <summary>
         ///  This returns the Shell.
         /// </summary>
         public Window Shell
         {
-            set { this._mainWindow = value; }
-            get { return this._mainWindow; }
+            set { _mainWindow = value; }
+            get { return _mainWindow; }
         }
         /// <summary>
         ///  Get or Set the connection string.
@@ -89,8 +95,8 @@ namespace KarveCar.Logic.Generic
         /// </summary>
         /// <returns></returns>
         public IEnviromentVariables EnviromentVariables {
-            get { return _env; }
-            set { _env = value; }
+            get { return _enviroment; }
+            set { _enviroment = value; }
         }
 
 

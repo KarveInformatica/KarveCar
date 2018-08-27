@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveControls.HeaderedWindow;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System;
@@ -15,7 +15,7 @@ namespace BookingModule.ViewModels
     /// </summary>
     /// <typeparam name="Data">Domain data. It is a value object</typeparam>
     /// <typeparam name="SummaryDto">Data object to be used in the data provider</typeparam>
-    abstract class AbstractViewFactory<Data, SummaryDto> where Data: class where SummaryDto: BaseDto
+    abstract class AbstractViewFactory<Data, SummaryDto> where Data: class where SummaryDto: BaseViewObject
     {
 
         protected IRegionManager RegionManager;
@@ -34,13 +34,13 @@ namespace BookingModule.ViewModels
             DataIdentifier = dataIdentifier;
         }
 
-        public void NewItem<ViewType>(string subname, string baseUri, DataSubSystem subsystem, string eventManagerName)
+        public void NewItem<ViewType>(string subsystemName, string baseUri, DataSubSystem subsystem, string eventManagerName)
         {
             var id = DataIdentifier.NewId();
             var newDo = DataProvider.GetNewDo(id);
-            var tmp = subname;
+            var tmp = subsystemName;
             var upperFirst = tmp.ToUpper();
-            tmp = upperFirst[0] + subname.Substring(1);
+            tmp = upperFirst[0] + subsystemName.Substring(1);
             var viewName = KarveLocale.Properties.Resources.lnew + " " + tmp + "." + id;
             var uri = new Uri(baseUri + Guid.NewGuid().ToString());
             var currentPayload = BuildShowPayLoadDo(uri.ToString(), newDo);
@@ -81,7 +81,7 @@ namespace BookingModule.ViewModels
 
     class ViewFactory<Data, SummaryDto> : AbstractViewFactory<Data,SummaryDto>
                                                   where Data:class
-                                                  where SummaryDto: BaseDto
+                                                  where SummaryDto: BaseViewObject
     {
         public ViewFactory(IRegionManager regionManager, IUnityContainer container,
                            IEventManager manager, IDataProvider<Data, SummaryDto> dataProvider,
@@ -107,12 +107,12 @@ namespace BookingModule.ViewModels
     /// <typeparam name="MainView">Type of the view</typeparam>
     /// <typeparam name="FooterView">Type of the footer</typeparam>
     /// <typeparam name="Data">Type of the domain object</typeparam>
-    /// <typeparam name="SummaryDto">Type of the summary dto.</typeparam>
+    /// <typeparam name="SummaryDto">Type of the summary viewObject.</typeparam>
     class ViewFactory<MainView,FooterView, Data, SummaryDto>: AbstractViewFactory<Data, SummaryDto>
                                            where MainView: UserControl
                                            where FooterView: UserControl
                                            where Data :class
-                                           where SummaryDto: BaseDto  
+                                           where SummaryDto: BaseViewObject  
     {
         private IRegionManager _detailsRegionManager;
 

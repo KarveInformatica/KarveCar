@@ -1,7 +1,7 @@
 ﻿using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using Prism.Commands;
 using Prism.Regions;
@@ -12,7 +12,7 @@ using KarveCommon.Generic;
 using System.Diagnostics.Contracts;
 using KarveDataServices.DataObjects;
 using System;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveCommon;
 using Microsoft.Practices.Unity;
 using System.Linq;
@@ -50,16 +50,16 @@ namespace MasterModule.ViewModels
             _officeDataService = dataServices.GetOfficeDataServices();
             _newOfficeCommand = new DelegateCommand(OnNewOffice);
             _newOfficeSave = new DelegateCommand(OnSaveOffice);
-            _provinciaDto = new System.Collections.ObjectModel.ObservableCollection<ProvinciaDto>();
+            _provinciaDto = new System.Collections.ObjectModel.ObservableCollection<ProvinceViewObject>();
             _openDays = new System.Collections.ObjectModel.ObservableCollection<DailyTime>();
-            _currentHolidays = new Dictionary<DateTime, HolidayDto>();
+            _currentHolidays = new Dictionary<DateTime, HolidayViewObject>();
             _currentPartOfDay = null;
 
             AssistMapper = _assistDataService.Mapper;
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
             AssistExecuted += OfficeAssistResult;
-            DataObject = new OfficeDtos();
+            DataObject = new OfficeViewObject();
             DateTime dt = DateTime.Now;
             ProvinciaDto = _provinciaDto;
             CurrentYear = dt.Year.ToString();
@@ -84,17 +84,17 @@ namespace MasterModule.ViewModels
             }
 
         }
-        private void CreateHolidayItem(ref HolidayDto dto, DateTime time, bool isNew, bool isDeleted)
+        private void CreateHolidayItem(ref HolidayViewObject viewObject, DateTime time, bool isNew, bool isDeleted)
         {
-            dto.PARTE_DIA = _currentPartOfDay;
-            dto.FESTIVO = time;
-            dto.OFICINA = DataObject.Codigo;
-            dto.HORA_DESDE = _holidayTimeSpanFrom;
-            dto.HORA_HASTA = _holidayTimeSpanTo;
-            dto.IsDirty = true;
-            dto.IsDeleted = isDeleted;
-            dto.IsNew = isNew;
-            dto.IsChanged = true;
+            viewObject.PARTE_DIA = _currentPartOfDay;
+            viewObject.FESTIVO = time;
+            viewObject.OFICINA = DataObject.Codigo;
+            viewObject.HORA_DESDE = _holidayTimeSpanFrom;
+            viewObject.HORA_HASTA = _holidayTimeSpanTo;
+            viewObject.IsDirty = true;
+            viewObject.IsDeleted = isDeleted;
+            viewObject.IsNew = isNew;
+            viewObject.IsChanged = true;
         }
 
         private void OnSelectedDaysCommand(object obj)
@@ -102,7 +102,7 @@ namespace MasterModule.ViewModels
             var dictionary = obj as IDictionary<HolidayCalendar.Status, object>;
             var holidays = dictionary[HolidayCalendar.Status.CurrentHolidays];
             var changedValue = dictionary[HolidayCalendar.Status.ChangedValue] as Tuple<DateTime, bool>;
-            var holidayDto = new HolidayDto();
+            var holidayDto = new HolidayViewObject();
             CreateHolidayItem(ref holidayDto, changedValue.Item1, changedValue.Item2, !changedValue.Item2);
             _lastSelectedDay = holidayDto;
             if (_holidaysDates.Contains(holidayDto, new HolidayDateComparer()))
@@ -117,19 +117,19 @@ namespace MasterModule.ViewModels
             }
             else
             {
-                _holidaysDates = _holidaysDates.Union(new List<HolidayDto>() { holidayDto });
+                _holidaysDates = _holidaysDates.Union(new List<HolidayViewObject>() { holidayDto });
             }
         }
-        public class HolidayDateComparer : IEqualityComparer<HolidayDto>
+        public class HolidayDateComparer : IEqualityComparer<HolidayViewObject>
         {
 
-            public bool Equals(HolidayDto x, HolidayDto y)
+            public bool Equals(HolidayViewObject x, HolidayViewObject y)
             {
                 return ((x.FESTIVO == y.FESTIVO) &&
                     (x.OFICINA == y.OFICINA));
             }
 
-            public int GetHashCode(HolidayDto obj)
+            public int GetHashCode(HolidayViewObject obj)
             {
                 //Get hash code for the Name field if it is not null. 
                 int hashFestivo = obj.FESTIVO == null ? 0 : obj.FESTIVO.GetHashCode();
@@ -217,7 +217,7 @@ namespace MasterModule.ViewModels
             var value = _holidaysDates.FirstOrDefault(x => (x.FESTIVO == _lastSelectedDay.FESTIVO) && (x.OFICINA == _lastSelectedDay.OFICINA));
             if (value != null)
             {
-                _holidaysDates = _holidaysDates.Union(new List<HolidayDto>() { value });
+                _holidaysDates = _holidaysDates.Union(new List<HolidayViewObject>() { value });
             }
             Task savedValueOnPicker = _officeDataService.SaveHolidaysAsync(_officeData.Value, _holidaysDates);
             await savedValueOnPicker;
@@ -240,14 +240,14 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data object
         /// </summary>
-        public OfficeDtos DataObject
+        public OfficeViewObject DataObject
         {
             set
             {
-                _currentOfficeDto = value;
+                _currentOfficeViewObject = value;
                 RaisePropertyChanged();
             }
-            get => _currentOfficeDto;
+            get => _currentOfficeViewObject;
         }
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace MasterModule.ViewModels
             get => _officeHelper;
         }
 
-        public IEnumerable<ProvinciaDto> ProvinciaDto
+        public IEnumerable<ProvinceViewObject> ProvinciaDto
         {
             get => _provinciaDto;
             set
@@ -273,7 +273,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             get => _cityDto;
             set
@@ -283,7 +283,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<CountryDto> CountryDto
+        public IEnumerable<CountryViewObject> CountryDto
         {
             get => _countryDto;
             set
@@ -321,7 +321,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  BrokersDto
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokersDto
+        public IEnumerable<CommissionAgentSummaryViewObject> BrokersDto
         {
             get => _brokers;
             set
@@ -330,8 +330,8 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        // currency dto.
-        public IEnumerable<CurrenciesDto> CurrenciesDto
+        // currency viewObject.
+        public IEnumerable<CurrenciesViewObject> CurrenciesDto
         {
             set
             {
@@ -348,7 +348,7 @@ namespace MasterModule.ViewModels
             }
         }
         /// <summary>
-        ///  ClientDto.
+        ///  ClientViewObject.
         /// </summary>
         public IEnumerable<ClientSummaryExtended> ClientDto
         {
@@ -411,7 +411,7 @@ namespace MasterModule.ViewModels
                         {
                             if (payload.HasDataObject)
                             {
-                                var clientData = payload.DataObject as OfficeDtos;
+                                var clientData = payload.DataObject as OfficeViewObject;
                                 DataObject = clientData;
                             }
                             break;
@@ -491,9 +491,9 @@ namespace MasterModule.ViewModels
             }
         }
 
-        private void CreateHolidayMap(IEnumerable<HolidayDto> holidayDates)
+        private void CreateHolidayMap(IEnumerable<HolidayViewObject> holidayDates)
         {
-            _currentHolidays = new Dictionary<DateTime, HolidayDto>();
+            _currentHolidays = new Dictionary<DateTime, HolidayViewObject>();
             foreach (var date in holidayDates)
             {
                 _currentHolidays.Add(date.FESTIVO, date);
@@ -560,44 +560,44 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                         {
-                            CityDto = (IEnumerable<CityDto>)value;
+                            CityDto = (IEnumerable<CityViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "PROVINCE_ASSIST":
                         {
-                            ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
+                            ProvinciaDto = (IEnumerable<ProvinceViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "COUNTRY_ASSIST":
                         {
-                            CountryDto = (IEnumerable<CountryDto>)value;
+                            CountryDto = (IEnumerable<CountryViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "CONTABLE_DELEGA_ASSIST":
                         {
-                            ContableDelegaDto = (IEnumerable<DelegaContableDto>)value;
+                            ContableDelegaDto = (IEnumerable<DelegaContableViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "OFFICE_ZONE_ASSIST":
                         {
-                            OfficeZoneDto = (IEnumerable<ZonaOfiDto>)value;
+                            OfficeZoneDto = (IEnumerable<ZonaOfiViewObject>)value;
                             retValue = true;
 
                             break;
                         }
                     case "BROKER_ASSIST":
                         {
-                            BrokersDto = (IEnumerable<CommissionAgentSummaryDto>)value;
+                            BrokersDto = (IEnumerable<CommissionAgentSummaryViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "CURRENCY_ASSIST":
                         {
-                            CurrenciesDto = (IEnumerable<CurrenciesDto>)value;
+                            CurrenciesDto = (IEnumerable<CurrenciesViewObject>)value;
                             break;
                         }
                 }
@@ -624,7 +624,7 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.OfficeSubsystem;
             payLoad.SubsystemName = MasterModuleConstants.OfficeSubSytemName;
             payLoad.PayloadType = DataPayLoad.Type.Update;
-            if ((payLoad != null) && (payLoad.DataObject is OfficeDtos dto))
+            if ((payLoad != null) && (payLoad.DataObject is OfficeViewObject dto))
             {
                 // the first update is on and we can add a value.
                 if (dto.IsNew)
@@ -636,7 +636,7 @@ namespace MasterModule.ViewModels
             }
             SetBasePayLoad(eventDictionary, ref payLoad);
 
-            ChangeFieldHandlerDo<OfficeDtos> handlerDo = new ChangeFieldHandlerDo<OfficeDtos>(EventManager, DataSubSystem.OfficeSubsystem);
+            ChangeFieldHandlerDo<OfficeViewObject> handlerDo = new ChangeFieldHandlerDo<OfficeViewObject>(EventManager, DataSubSystem.OfficeSubsystem);
 
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
             {
@@ -689,25 +689,25 @@ namespace MasterModule.ViewModels
         * The interface and related stuff to a grid shall be separated in another class to give an option to implement or not
         * that interface.
         */
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
             var t = Task.FromResult(0);
             return t;
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsViewObject)
         {
             var t = Task.FromResult(0);
             return t;
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             var t = Task.FromResult(0);
             return t;
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             var t = Task.FromResult(0);
             return t;
@@ -723,7 +723,7 @@ namespace MasterModule.ViewModels
         public DelegateCommand<object> TimePickerSaveCommand { set; get; }
         public DelegateCommand<object> TimePickerDeleteCommand { set; get; }
         public DelegateCommand<object> TimePickerResetCommand { get; }
-        public IEnumerable<DelegaContableDto> ContableDelegaDto
+        public IEnumerable<DelegaContableViewObject> ContableDelegaDto
         {
             get
             {
@@ -736,7 +736,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<ZonaOfiDto> OfficeZoneDto
+        public IEnumerable<ZonaOfiViewObject> OfficeZoneDto
         {
             get
             {
@@ -749,7 +749,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        private IEnumerable<HolidayDto> _holidaysDates;
+        private IEnumerable<HolidayViewObject> _holidaysDates;
 
         public System.Collections.ObjectModel.ObservableCollection<DateTime> CurrentVacationDays
         {
@@ -783,24 +783,24 @@ namespace MasterModule.ViewModels
         private string _mailBoxName;
         private IHelperBase _officeHelper = new Office();
         private IAssistDataService _assistDataService;
-        private OfficeDtos _currentOfficeDto = new OfficeDtos();
+        private OfficeViewObject _currentOfficeViewObject = new OfficeViewObject();
         private string _currentYear;
-        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<CommissionAgentSummaryViewObject> _brokers;
         private IEnumerable<ClientSummaryExtended> _client;
-        private IEnumerable<CurrenciesDto> _currencyDto;
+        private IEnumerable<CurrenciesViewObject> _currencyDto;
         private System.Collections.ObjectModel.ObservableCollection<DailyTime> _openDays;
-        private IEnumerable<ProvinciaDto> _provinciaDto;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<CountryDto> _countryDto;
-        private IEnumerable<DelegaContableDto> _contableDto;
-        private IEnumerable<ZonaOfiDto> _officeZoneDto;
+        private IEnumerable<ProvinceViewObject> _provinciaDto;
+        private IEnumerable<CityViewObject> _cityDto;
+        private IEnumerable<CountryViewObject> _countryDto;
+        private IEnumerable<DelegaContableViewObject> _contableDto;
+        private IEnumerable<ZonaOfiViewObject> _officeZoneDto;
         private DelegateCommand _newOfficeCommand;
         private DelegateCommand _newOfficeSave;
         private IOfficeDataServices _officeDataService;
         private TimeSpan? _holidayTimeSpanFrom;
         private TimeSpan? _holidayTimeSpanTo;
-        private HolidayDto _lastSelectedDay;
-        private IDictionary<DateTime, HolidayDto> _currentHolidays;
+        private HolidayViewObject _lastSelectedDay;
+        private IDictionary<DateTime, HolidayViewObject> _currentHolidays;
         private System.Collections.ObjectModel.ObservableCollection<DateTime> _currentVacationDays = new System.Collections.ObjectModel.ObservableCollection<DateTime>();
         private byte? _currentPartOfDay;
         private System.Collections.ObjectModel.ObservableCollection<DateTime> _savedVacationDays;

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveTest.Mock;
 using NUnit.Framework;
 using System.IO;

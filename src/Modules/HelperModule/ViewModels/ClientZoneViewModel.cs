@@ -8,12 +8,12 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-    class ClientZoneViewModel: GenericHelperViewModel<ClientZoneDto, ZONAS>
+    class ClientZoneViewModel: GenericHelperViewModel<ClientZoneViewObject, ZONAS>
     {
 
         public ClientZoneViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(
@@ -25,12 +25,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            ClientZoneDto dto = payLoad.DataObject as ClientZoneDto;
-            if (dto != null)
+            ClientZoneViewObject viewObject = payLoad.DataObject as ClientZoneViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<ClientZoneDto, ZONAS>(dto);
-                dto.Code = codeId.Substring(0, 4);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<ClientZoneViewObject, ZONAS>(viewObject);
+                viewObject.Code = codeId.Substring(0, 4);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

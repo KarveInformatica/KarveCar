@@ -8,20 +8,20 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-    class ChannelViewModel : GenericHelperViewModel<ChannelDto, CANAL>
+    class ChannelViewModel : GenericHelperViewModel<ChannelViewObject, CANAL>
     {
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            var dto = payLoad.DataObject as ChannelDto;
+            var dto = payLoad.DataObject as ChannelViewObject;
             if (dto != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<ChannelDto, CANAL>(dto);
+                string codeId = await helperDal.GetMappedUniqueId<ChannelViewObject, CANAL>(dto);
                 dto.Code = codeId.Substring(0, 2);
                 payLoad.DataObject = dto;
             }

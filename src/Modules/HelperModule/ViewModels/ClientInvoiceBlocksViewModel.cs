@@ -8,13 +8,13 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 
 namespace HelperModule.ViewModels
 {
-    class ClientInvoiceBlocksViewModel : GenericHelperViewModel<InvoiceBlockDto, BLOQUEFAC>
+    class ClientInvoiceBlocksViewModel : GenericHelperViewModel<InvoiceBlockViewObject, BLOQUEFAC>
     {
       
         public ClientInvoiceBlocksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty,dataServices, region, manager, dialogService)
@@ -24,13 +24,13 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            InvoiceBlockDto dto = payLoad.DataObject as InvoiceBlockDto;
-            if (dto != null)
+            InvoiceBlockViewObject viewObject = payLoad.DataObject as InvoiceBlockViewObject;
+            if (viewObject != null)
             {
 
                 string codeId = await helperDal.GetUniqueId<BLOQUEFAC>(new BLOQUEFAC());
-                dto.Code = codeId.Substring(0,3);
-                payLoad.DataObject = dto;
+                viewObject.Code = codeId.Substring(0,3);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

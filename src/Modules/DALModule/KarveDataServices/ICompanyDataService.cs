@@ -2,18 +2,18 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
     
-    public interface ICompanyDataServices: IPageCounter, ISorterData<CompanySummaryDto>
+    public interface ICompanyDataServices: IPageCounter, ISorterData<CompanySummaryViewObject>
     {
         /// <summary>
         ///  This give us the summary query.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<CompanySummaryDto>> GetAsyncAllCompanySummary();
+        Task<IEnumerable<CompanySummaryViewObject>> GetAsyncAllCompanySummary();
         /// <summary>
         /// This return a client with a new code.
         /// </summary>
@@ -48,6 +48,6 @@ namespace KarveDataServices
         /// <param name="baseIndex">Index to placed</param>
         /// <param name="defaultPageSize">Default page size</param>
         /// <returns></returns>
-        Task<IEnumerable<CompanySummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
+        Task<IEnumerable<CompanySummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
     }
 }

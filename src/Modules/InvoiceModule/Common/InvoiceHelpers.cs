@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace InvoiceModule.Common
 {
@@ -14,7 +14,7 @@ namespace InvoiceModule.Common
         /// </summary>
         /// <param name="invoiceSummaryDtos">List of invoice objects</param>
         /// <returns></returns>
-        public static decimal ComputeGrossTotal(IEnumerable<InvoiceSummaryDto> invoiceSummaryDtos)
+        public static decimal ComputeGrossTotal(IEnumerable<InvoiceSummaryViewObject> invoiceSummaryDtos)
         {
             decimal grossTotal = 0;
             foreach (var invoiceLine in invoiceSummaryDtos)
@@ -29,7 +29,7 @@ namespace InvoiceModule.Common
         /// <param name="invoiceSummaryDtos">List of totals</param>
         /// <param name="discount">Value of discount</param>
         /// <returns></returns>
-        public static decimal ComputeBase(IEnumerable<InvoiceSummaryDto> invoiceSummaryDtos, decimal discount)
+        public static decimal ComputeBase(IEnumerable<InvoiceSummaryViewObject> invoiceSummaryDtos, decimal discount)
         {
             var grossTotal = ComputeGrossTotal(invoiceSummaryDtos);
             var baseValue = grossTotal - discount / 100;
@@ -41,7 +41,7 @@ namespace InvoiceModule.Common
         /// </summary>
         /// <param name="invoiceSummaryDtos">List of totals</param>
         /// <returns></returns>
-        public static IEnumerable<decimal?> ComputeBaseLines(IEnumerable<InvoiceSummaryDto> invoiceSummaryDtos)
+        public static IEnumerable<decimal?> ComputeBaseLines(IEnumerable<InvoiceSummaryViewObject> invoiceSummaryDtos)
         {
             var subtotalList = invoiceSummaryDtos.Select(x => x.Subtotal - x.Discount / 100);
             return subtotalList;

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
 using System.Collections.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
@@ -10,7 +10,7 @@ namespace KarveDataServices
     ///  This implements the commission agent data services.
     /// It is a dual interface that can work with data objects and with DataSet
     /// </summary>
-    public interface ICommissionAgentDataServices: IPageCounter, ISorterData<CommissionAgentSummaryDto>, IIdentifier, IDataProvider<ICommissionAgent, CommissionAgentSummaryDto>
+    public interface ICommissionAgentDataServices: IPageCounter, ISorterData<CommissionAgentSummaryViewObject>, IIdentifier, IDataProvider<ICommissionAgent, CommissionAgentSummaryViewObject>
     {
         /// <summary>
         /// Get the commission agent data obejct

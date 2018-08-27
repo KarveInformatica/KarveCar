@@ -4,30 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Mvvm;
 
 namespace DataAccessLayer
 {
     public class HelperBase : BindableBase, IHelperData
     {
-        private IEnumerable<ActividadDto> _activityDto;
-        private IEnumerable<ClientTypeDto> _clientTypeDto;
-        private IEnumerable<CreditCardDto> _creditCardType;
-        private IEnumerable<ProvinciaDto> _provinciaDto;
-        private IEnumerable<CountryDto> _countryDto;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<DelegaContableDto> _contableDelega;
-        private IEnumerable<ClientZoneDto> _clientZoneDto;
-        private IEnumerable<OrigenDto> _origenDto;
-        private IEnumerable<MercadoDto> _mercadoDto;
-        private IEnumerable<CommissionAgentSummaryDto> _brokerDto;
-        private IEnumerable<ResellerDto> _resellerDto;
-        private IEnumerable<PaymentFormDto> _clientpayment;
-        private IEnumerable<InvoiceBlockDto> _invoiceBlockDto;
-        private IEnumerable<RentingUseDto> _rentUsageDto;
+        private IEnumerable<ActividadViewObject> _activityDto;
+        private IEnumerable<ClientTypeViewObject> _clientTypeDto;
+        private IEnumerable<CreditCardViewObject> _creditCardType;
+        private IEnumerable<ProvinceViewObject> _provinciaDto;
+        private IEnumerable<CountryViewObject> _countryDto;
+        private IEnumerable<CityViewObject> _cityDto;
+        private IEnumerable<DelegaContableViewObject> _contableDelega;
+        private IEnumerable<ClientZoneViewObject> _clientZoneDto;
+        private IEnumerable<OrigenViewObject> _origenDto;
+        private IEnumerable<MarketViewObject> _mercadoDto;
+        private IEnumerable<CommissionAgentSummaryViewObject> _brokerDto;
+        private IEnumerable<ResellerViewObject> _resellerDto;
+        private IEnumerable<PaymentFormViewObject> _clientpayment;
+        private IEnumerable<InvoiceBlockViewObject> _invoiceBlockDto;
+        private IEnumerable<RentingUseViewObject> _rentUsageDto;
 
-        public IEnumerable<ActividadDto> ActivityDto
+        public IEnumerable<ActividadViewObject> ActivityDto
         {
             get => _activityDto;
             set
@@ -38,7 +38,7 @@ namespace DataAccessLayer
             }
         }
 
-        public IEnumerable<ClientTypeDto> ClientTypeDto
+        public IEnumerable<ClientTypeViewObject> ClientTypeDto
         {
             get
             {
@@ -50,7 +50,7 @@ namespace DataAccessLayer
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<CreditCardDto> CreditCardType
+        public IEnumerable<CreditCardViewObject> CreditCardType
         {
             get
             {
@@ -63,7 +63,7 @@ namespace DataAccessLayer
             }
         }
 
-        public IEnumerable<ProvinciaDto> ProvinciaDto
+        public IEnumerable<ProvinceViewObject> ProvinciaDto
         {
             get
             {
@@ -76,7 +76,7 @@ namespace DataAccessLayer
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<CountryDto> CountryDto
+        public IEnumerable<CountryViewObject> CountryDto
         {
             get
             {
@@ -86,18 +86,18 @@ namespace DataAccessLayer
             set { _countryDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             get { return _cityDto; }
             set { _cityDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ClientZoneDto> ZoneDto
+        public IEnumerable<ClientZoneViewObject> ZoneDto
         {
             get { return _clientZoneDto; }
             set { _clientZoneDto = value; }
         }
 
-        public IEnumerable<DelegaContableDto> ContableDelegaDto
+        public IEnumerable<DelegaContableViewObject> ContableDelegaDto
         {
             get { return _contableDelega; }
             set
@@ -106,33 +106,33 @@ namespace DataAccessLayer
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<OrigenDto> OrigenDto
+        public IEnumerable<OrigenViewObject> OrigenDto
         {
             get {  return _origenDto; }
             set { _origenDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<CommissionAgentSummaryDto> BrokerDto
+        public IEnumerable<CommissionAgentSummaryViewObject> BrokerDto
         { get { return _brokerDto; }
             set { _brokerDto = value; RaisePropertyChanged(); } }
-        public IEnumerable<MercadoDto> ClientMarketDto
+        public IEnumerable<MarketViewObject> ClientMarketDto
         {
             get
             {
                 return _mercadoDto;
             } set { _mercadoDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ResellerDto> ResellerDto { get { return _resellerDto; } set { _resellerDto = value; RaisePropertyChanged(); } }
-        public IEnumerable<CompanyDto> CompanyDto { get ; set; }
-        public IEnumerable<OfficeDtos> OfficeDto { get; set; }
-        public IEnumerable<BusinessDto> BusinessDto { get; set; }
-        public IEnumerable<ChannelDto> ChannelDto { get; set; }
-        public IEnumerable<BudgetKeyDto> BudgetKeyDto { get; set; }
-        public IEnumerable<PaymentFormDto> ClientPaymentForm { get { return _clientpayment; } set { _clientpayment = value; RaisePropertyChanged(); }  }
-        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get { return _invoiceBlockDto;  } set { _invoiceBlockDto = value; RaisePropertyChanged(); } }
-        public IEnumerable<RentingUseDto> RentUsageDto { get { return _rentUsageDto;  } set { _rentUsageDto = value; RaisePropertyChanged(); } }
-        public IEnumerable<LanguageDto> LanguageDto { get; set; }
-        public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
-        public IEnumerable<ContactsDto> ContactsDto { get; set; }
-        public IEnumerable<ZonaOfiDto> ClientZoneDto { get ; set ; }
+        public IEnumerable<ResellerViewObject> ResellerDto { get { return _resellerDto; } set { _resellerDto = value; RaisePropertyChanged(); } }
+        public IEnumerable<CompanyViewObject> CompanyDto { get ; set; }
+        public IEnumerable<OfficeViewObject> OfficeDto { get; set; }
+        public IEnumerable<BusinessViewObject> BusinessDto { get; set; }
+        public IEnumerable<ChannelViewObject> ChannelDto { get; set; }
+        public IEnumerable<BudgetKeyViewObject> BudgetKeyDto { get; set; }
+        public IEnumerable<PaymentFormViewObject> ClientPaymentForm { get { return _clientpayment; } set { _clientpayment = value; RaisePropertyChanged(); }  }
+        public IEnumerable<InvoiceBlockViewObject> InvoiceBlock { get { return _invoiceBlockDto;  } set { _invoiceBlockDto = value; RaisePropertyChanged(); } }
+        public IEnumerable<RentingUseViewObject> RentUsageDto { get { return _rentUsageDto;  } set { _rentUsageDto = value; RaisePropertyChanged(); } }
+        public IEnumerable<LanguageViewObject> LanguageDto { get; set; }
+        public IEnumerable<ClientSummaryViewObject> DriversDto { get; set; }
+        public IEnumerable<ContactsViewObject> ContactsDto { get; set; }
+        public IEnumerable<ZonaOfiViewObject> ClientZoneDto { get ; set ; }
     }
 }

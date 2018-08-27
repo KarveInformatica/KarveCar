@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer
 {
@@ -19,22 +19,22 @@ namespace DataAccessLayer
                 return new ConcreteDomainFactory(services);     
         }
 
-        public override async Task<IClientData> CreateClientAsync(ClientDto dto)
+        public override async Task<IClientData> CreateClientAsync(ClientViewObject viewObject)
         {
-            IClientData data = await _services.GetClientDataServices().GetDoAsync(dto.NUMERO_CLI).ConfigureAwait(false);
+            IClientData data = await _services.GetClientDataServices().GetDoAsync(viewObject.NUMERO_CLI).ConfigureAwait(false);
             return data;
         }
 
-        public override async Task<ISupplierData> CreateSupplierAsync(SupplierDto dto)
+        public override async Task<ISupplierData> CreateSupplierAsync(SupplierViewObject viewObject)
         {
-            ISupplierData data = await _services.GetSupplierDataServices().GetAsyncSupplierDo(dto.NUM_PROVEE).ConfigureAwait(false);
-            data.Value = dto;
+            ISupplierData data = await _services.GetSupplierDataServices().GetAsyncSupplierDo(viewObject.NUM_PROVEE).ConfigureAwait(false);
+            data.Value = viewObject;
             return data;
         }
 
-        public override async Task<ICommissionAgent> CreateCommissionAgentAsync(ComisioDto dto)
+        public override async Task<ICommissionAgent> CreateCommissionAgentAsync(ComisioViewObject viewObject)
         {
-            ICommissionAgent agent = await _services.GetCommissionAgentDataServices().GetCommissionAgentDo(dto.NUM_COMI).ConfigureAwait(false);
+            ICommissionAgent agent = await _services.GetCommissionAgentDataServices().GetCommissionAgentDo(viewObject.NUM_COMI).ConfigureAwait(false);
             return agent;
         }
     }

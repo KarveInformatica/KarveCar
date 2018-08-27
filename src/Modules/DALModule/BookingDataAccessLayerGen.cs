@@ -4,7 +4,7 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Exception;
 using DataAccessLayer.SQL;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
@@ -130,16 +130,16 @@ namespace DataAccessLayer
 
                 using (var connection = SqlExecutor.OpenNewDbConnection())
                 {
-                    BookingDto dto = request.Value;
+                    BookingViewObject dto = request.Value;
                     var secondDriverStore = _queryStoreFactory.GetQueryStore();
                     secondDriverStore.AddParamCount(QueryType.QueryCity, dto.DRV2_CITY);
                     secondDriverStore.AddParamCount(QueryType.QueryCountry, dto.DRV2_ID_CARD_COU_CODE);
                     secondDriverStore.AddParamCount(QueryType.QueryProvince, dto.DRV2_ZIP_CODE);
                     var secondDriverQuery = secondDriverStore.BuildQuery();
                     var driverResult = await connection.QueryMultipleAsync(secondDriverQuery).ConfigureAwait(false);
-                    request.SecondDriverCityDto = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(request.Value.DRV2_CITY, _mapper, driverResult);
-                    request.SecondDriverCountryDto = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.DRV2_ID_CARD_COU_CODE, _mapper, driverResult);
-                    request.SecondDriverProvinceDto = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(request.Value.DRV2_ZIP_CODE, _mapper, driverResult);
+                    request.SecondDriverCityDto = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityViewObject>(request.Value.DRV2_CITY, _mapper, driverResult);
+                    request.SecondDriverCountryDto = SelectionHelpers.WrappedSelectedDto<Country, CountryViewObject>(request.Value.DRV2_ID_CARD_COU_CODE, _mapper, driverResult);
+                    request.SecondDriverProvinceDto = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinceViewObject>(request.Value.DRV2_ZIP_CODE, _mapper, driverResult);
                 }
 
             }
@@ -165,8 +165,8 @@ namespace DataAccessLayer
             try
             {
                 // client queries. Multiple Query are stacked when created so we need to fetch in the reverse order.
-                request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
-                request.DriverCountryList = SelectionHelpers.WrappedSelectedDto<Country, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
+                request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Country, CountryViewObject>(request.Value.PAISCOND_RES2, _mapper, reader);
+                request.DriverCountryList = SelectionHelpers.WrappedSelectedDto<Country, CountryViewObject>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
             }
             catch (System.Exception ex)
             {
@@ -219,12 +219,9 @@ namespace DataAccessLayer
             try
             {
                 // office queries. Requests are stacked so, retrieval shall be reversed.
-
-                request.ReservationOfficeArrival = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFIRETORNO_RES1, _mapper, reader);
-                request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFISALIDA_RES1, _mapper, reader);
-
-                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA_RES1, _mapper, reader);
-               
+                request.ReservationOfficeArrival = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeViewObject>(request.Value.OFIRETORNO_RES1, _mapper, reader);
+                request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeViewObject>(request.Value.OFISALIDA_RES1, _mapper, reader);
+                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeViewObject>(request.Value.OFICINA_RES1, _mapper, reader);
                
             }
             catch (System.Exception ex)
@@ -266,43 +263,43 @@ namespace DataAccessLayer
             }
             try
             {
-                request.AgencyEmployeeDto = SelectionHelpers.WrappedSelectedDto<EAGE, AgencyEmployeeDto>(request.Value.EMPLEAGE_RES2, _mapper, reader);
+                request.AgencyEmployeeDto = SelectionHelpers.WrappedSelectedDto<EAGE, AgencyEmployeeViewObject>(request.Value.EMPLEAGE_RES2, _mapper, reader);
 
-                request.BookingMediaDto = SelectionHelpers.WrappedSelectedDto<MEDIO_RES, BookingMediaDto>(request.Value.MEDIO_RES1, _mapper, reader);
+                request.BookingMediaDto = SelectionHelpers.WrappedSelectedDto<MEDIO_RES, BookingMediaViewObject>(request.Value.MEDIO_RES1, _mapper, reader);
 
-                request.BookingTypeDto = SelectionHelpers.WrappedSelectedDto<TIPOS_RESERVAS, BookingTypeDto>(request.Value.TIPORES_res1, _mapper, reader);
+                request.BookingTypeDto = SelectionHelpers.WrappedSelectedDto<TIPOS_RESERVAS, BookingTypeViewObject>(request.Value.TIPORES_res1, _mapper, reader);
 
 
                 
-                request.BookingBudget = SelectionHelpers.WrappedSelectedDto<BudgetSummaryDto, BudgetSummaryDto>(request.Value.PRESUPUESTO_RES1, _mapper, reader);
+                request.BookingBudget = SelectionHelpers.WrappedSelectedDto<BudgetSummaryViewObject, BudgetSummaryViewObject>(request.Value.PRESUPUESTO_RES1, _mapper, reader);
 
-                request.BrokerDto = SelectionHelpers.WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
+                request.BrokerDto = SelectionHelpers.WrappedSelectedDto<CommissionAgentSummaryViewObject, CommissionAgentSummaryViewObject>(request.Value.COMISIO_RES2, _mapper, reader);
 
 
-               request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(SanitizeCity(request.Value.POCOND_RES2), _mapper, reader);
+               request.CityDto3 = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityViewObject>(SanitizeCity(request.Value.POCOND_RES2), _mapper, reader);
 
-                request.ContactsDto1 = SelectionHelpers.WrappedSelectedDto<CliContactos, ContactsDto>(request.Value.CONTACTO_RES2, _mapper, reader);
+                request.ContactsDto1 = SelectionHelpers.WrappedSelectedDto<CliContactos, ContactsViewObject>(request.Value.CONTACTO_RES2, _mapper, reader);
 
-                request.CompanyDto = SelectionHelpers.WrappedSelectedDto<SUBLICEN, CompanyDto>(request.Value.SUBLICEN_RES1, _mapper, reader);
+                request.CompanyDto = SelectionHelpers.WrappedSelectedDto<SUBLICEN, CompanyViewObject>(request.Value.SUBLICEN_RES1, _mapper, reader);
 
                
-                request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA_RES1, _mapper, reader);
+                request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareViewObject>(request.Value.TARIFA_RES1, _mapper, reader);
 
-                request.PaymentFormDto = SelectionHelpers.WrappedSelectedDto<FORMAS, PaymentFormDto>(request.Value.FCOBRO_RES1, _mapper, reader);
+                request.PaymentFormDto = SelectionHelpers.WrappedSelectedDto<FORMAS, PaymentFormViewObject>(request.Value.FCOBRO_RES1, _mapper, reader);
 
-                request.ProvinceDto3 = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(request.Value.PROVCOND_RES2, _mapper, reader);
+                request.ProvinceDto3 = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinceViewObject>(request.Value.PROVCOND_RES2, _mapper, reader);
 
-                request.PrintingTypeDto = SelectionHelpers.WrappedSelectedDto<CONTRATIPIMPR, PrintingTypeDto>(request.Value.CONTRATIPIMPR_RES, _mapper, reader);
+                request.PrintingTypeDto = SelectionHelpers.WrappedSelectedDto<CONTRATIPIMPR, PrintingTypeViewObject>(request.Value.CONTRATIPIMPR_RES, _mapper, reader);
 
-                request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OrigenDto>(request.Value.ORIGEN_RES2,_mapper,reader);
+                request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OrigenViewObject>(request.Value.ORIGEN_RES2,_mapper,reader);
 
-                request.VehicleActivitiesDto = SelectionHelpers.WrappedSelectedDto<ACTIVEHI, VehicleActivitiesDto>(request.Value.ACTIVEHI_RES1, _mapper, reader);
+                request.VehicleActivitiesDto = SelectionHelpers.WrappedSelectedDto<ACTIVEHI, VehicleActivitiesViewObject>(request.Value.ACTIVEHI_RES1, _mapper, reader);
 
-                request.VehicleGroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupDto>(request.Value.GRUPO_RES1, _mapper, reader);
+                request.VehicleGroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupViewObject>(request.Value.GRUPO_RES1, _mapper, reader);
 
-                request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryDto, VehicleSummaryDto>(request.Value.VCACT_RES1, _mapper, reader);
+                request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryViewObject, VehicleSummaryViewObject>(request.Value.VCACT_RES1, _mapper, reader);
 
-                request.BookingRefusedDto = SelectionHelpers.WrappedSelectedDto<MOTANU, BookingRefusedDto>(request.Value.RECHAZAMOTI, _mapper, reader);
+                request.BookingRefusedDto = SelectionHelpers.WrappedSelectedDto<MOTANU, BookingRefusedViewObject>(request.Value.RECHAZAMOTI, _mapper, reader);
 
 
 #pragma warning disable CS0168 // Variable is declared but never used

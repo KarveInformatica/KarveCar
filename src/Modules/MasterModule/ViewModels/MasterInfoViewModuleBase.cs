@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 using MasterModule.Common;
@@ -7,7 +6,7 @@ using Prism.Regions;
 using KarveDataServices;
 using KarveCommonInterfaces;
 using System.Windows.Input;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
 using Prism.Commands;
 using System.Linq;
@@ -19,21 +18,21 @@ namespace MasterModule.ViewModels
 {
 
     /// <summary>
-    ///  This class has the resposability to build the data payload 
+    ///  This class has the responsibility to build the data payload 
     ///  and masking overrides not needed.
     ///  In the MasterModule.ViewModels we have two kind of classes:
     ///  1. ViewModel Controllers.  
     ///     A view model controller starts navigation when the user clicks on a item. 
     ///     It will create child views as in the view-first approach.
     ///  2. ViewModel Info classes. 
-    ///     An info view model typically has the resposability 
+    ///     An info view model typically has the responsibility 
     ///     to handle logic to is associated view.
     /// </summary>
     public abstract class MasterInfoViewModuleBase : MasterViewModuleBase
     {
         private bool _canDelete = true;
-        private IEnumerable<VisitTypeDto> _visitTypeDto = new ObservableCollection<VisitTypeDto>();
-        private string _coordgps;
+        private IEnumerable<VisitTypeViewObject> _visitTypeDto = new ObservableCollection<VisitTypeViewObject>();
+    
 
         /// <summary>
         /// The MasterInfoViewModuleBase is a view model that overrides no requested operation in the InfoViewModels.
@@ -103,16 +102,16 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Returns the branch lists associated to the *InfoViewModels.
         /// </summary>
-        public IEnumerable<BranchesDto> BranchesDto { get; set; }
+        public IEnumerable<BranchesViewObject> BranchesDto { get; set; }
         /// <summary>
         ///  Returns the contact list associated to the *InfoViewModels.
         /// </summary>
-        public IEnumerable<ContactsDto> ContactsDto { get; set; }
+        public IEnumerable<ContactsViewObject> ContactsDto { get; set; }
 
         /// <summary>
         ///  Map the kind of visit inside the visit grid.
         /// </summary>
-        public IEnumerable<VisitTypeDto> VisitTypeDto
+        public IEnumerable<VisitTypeViewObject> VisitTypeDto
         {
             get => _visitTypeDto;
             set
@@ -148,7 +147,7 @@ namespace MasterModule.ViewModels
 
             await OnAssistAsyncClient(KarveLocale.Properties.Resources.lcliente, "Code,Name", async delegate (ClientSummaryExtended p)
             {
-                VisitsDto b = item as VisitsDto;
+                VisitsViewObject b = item as VisitsViewObject;
                 await SetClientData(p, b).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
@@ -158,14 +157,14 @@ namespace MasterModule.ViewModels
         /// <param name="p"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        internal abstract Task SetClientData(ClientSummaryExtended p, VisitsDto b);
+        internal abstract Task SetClientData(ClientSummaryExtended p, VisitsViewObject b);
         /// <summary>
         ///  Data grid handling in  the contacts.
         /// </summary>
         /// <param name="p"></param>
         /// <param name="visitsDto"></param>
         /// <returns></returns>
-        internal abstract Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto);
+        internal abstract Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsDto);
 
         /// <summary>
         /// This set the branch province.
@@ -174,17 +173,17 @@ namespace MasterModule.ViewModels
         /// <param name="b"></param>
         /// <returns></returns>
 
-        internal abstract Task SetBranchProvince(ProvinciaDto p, BranchesDto b);
+        internal abstract Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b);
 
 
-        protected IDictionary<string, object> SetContacts(PersonalPositionDto personal, 
-            ContactsDto contactsDto,
+        protected IDictionary<string, object> SetContacts(PersonalPositionViewObject personal, 
+            ContactsViewObject contactsDto,
             object dataObject, 
-            IEnumerable<ContactsDto> contacts)
+            IEnumerable<ContactsViewObject> contacts)
         {
             Dictionary<string, object> ev = new Dictionary<string, object>();
             ev["DataObject"] = dataObject;
-            var items = new List<ContactsDto>();
+            var items = new List<ContactsViewObject>();
             var contact = contacts.FirstOrDefault(x => x.ContactId == contactsDto.ContactId);
             if (contact == null)
             {
@@ -219,13 +218,12 @@ namespace MasterModule.ViewModels
     /// <param name="DataObject"></param>
     /// <param name="delegation"></param>   
     /// <returns></returns>
-internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto, 
-            object DataObject, IEnumerable<BranchesDto> delegation)
+internal virtual IDictionary<string, object> SetBranchProvince(ProvinceViewObject province, BranchesViewObject branchesDto, 
+            object DataObject, IEnumerable<BranchesViewObject> delegation)
         {
 
-            Dictionary<string, object> ev = new Dictionary<string, object>();
-            ev["DataObject"] = DataObject;
-            var items = new List<BranchesDto>();
+            Dictionary<string, object> ev = new Dictionary<string, object> {["DataObject"] = DataObject};
+            var items = new List<BranchesViewObject>();
             var branch = delegation.FirstOrDefault(x => x.BranchId == branchesDto.BranchId);
             if (branch == null)
             {
@@ -258,16 +256,16 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         }
 
         public IDictionary<string, object> EventDictionary { get; set; }
-        internal abstract Task SetVisitReseller(ResellerDto param, VisitsDto b);
+        internal abstract Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b);
 
-        internal static VisitsDto SetDtoCrossReference(ContactsDto contacts, VisitsDto visit)
+        internal static VisitsViewObject SetDtoCrossReference(ContactsViewObject contacts, VisitsViewObject visit)
         {
             visit.ContactsSource = contacts;
             visit.ContactName = contacts.ContactName;
             visit.ContactId = contacts.ContactId;
             return visit;
         }
-        internal static BranchesDto SetDtoCrossReference(ProvinciaDto province, BranchesDto branch) 
+        internal static BranchesViewObject SetDtoCrossReference(ProvinceViewObject province, BranchesViewObject branch) 
         {
             branch.ProvinceSource = province;
             branch.ProvinceId = province.Code;
@@ -275,7 +273,7 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
             branch.Province = province;
             return branch;
         }
-        // TODO: too many responsabilities. See if the magnifier handling can be placed in another place.
+        // TODO: too many things. See if the magnifier handling can be placed in another place.
         /// <summary>
         /// Contact Magnifier.
         /// </summary>
@@ -284,10 +282,10 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         {
             if (item == null)
                 return;
-            await OnAssistAsync<ContactsDto, CONTACTOS_COMI>(
-                KarveLocale.Properties.Resources.lcontactos, "ContactId,ContactName,Nif,Telefono,Movil,Email", delegate (ContactsDto p)
+            await OnAssistAsync<ContactsViewObject, CONTACTOS_COMI>(
+                KarveLocale.Properties.Resources.lcontactos, "ContactId,ContactName,Nif,Telefono,Movil,Email", delegate (ContactsViewObject p)
                  {
-                     VisitsDto visitsDto = item as VisitsDto;
+                     VisitsViewObject visitsDto = item as VisitsViewObject;
                      SetVisitContacts(p, visitsDto);
                  }).ConfigureAwait(false);
         }
@@ -299,9 +297,9 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         {
             if (item == null)
                 return;
-            await OnAssistAsync<ProvinciaDto, PROVINCIA>(KarveLocale.Properties.Resources.MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia, "Code,Name", async delegate (ProvinciaDto p)
+            await OnAssistAsync<ProvinceViewObject, PROVINCIA>(KarveLocale.Properties.Resources.MasterInfoViewModuleBase_OnProviceAssist_ListadoProvincia, "Code,Name", async delegate (ProvinceViewObject p)
             {
-                BranchesDto b = item as BranchesDto;
+                BranchesViewObject b = item as BranchesViewObject;
                 await SetBranchProvince(p, b).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
@@ -313,9 +311,9 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         {
             if (item == null)
                 return;
-            await OnAssistAsync<ResellerDto, VENDEDOR>(KarveLocale.Properties.Resources.lvendidor, "Code,Name,CellPhone", async delegate (ResellerDto param)
+            await OnAssistAsync<ResellerViewObject, VENDEDOR>(KarveLocale.Properties.Resources.lvendidor, "Code,Name,CellPhone", async delegate (ResellerViewObject param)
             {
-                VisitsDto v = item as VisitsDto;
+                VisitsViewObject v = item as VisitsViewObject;
                 await SetVisitReseller(param, v).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
@@ -325,20 +323,20 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// <param name="item">Contacts to be associated with a position.</param>
         protected virtual async void OnContactChargeAssist(object item)
         {
-            await OnAssistAsync<PersonalPositionDto, PERCARGOS>("Personal", "Code,Name", async delegate (PersonalPositionDto p)
+            await OnAssistAsync<PersonalPositionViewObject, PERCARGOS>("Personal", "Code,Name", async delegate (PersonalPositionViewObject p)
             {
-                ContactsDto b = item as ContactsDto;
+                ContactsViewObject b = item as ContactsViewObject;
                 await SetContactsCharge(p, b).ConfigureAwait(false);
             }).ConfigureAwait(false);
 
 
         }
 
-        protected virtual IDictionary<string, object> CreateGridEvent<InnerDto, OuterDto>(InnerDto innerDto, OuterDto outerDto, IEnumerable<OuterDto> outerDtoList, ICommand showCommand) where InnerDto : BaseDto
-        where OuterDto : BaseDto
+        protected virtual IDictionary<string, object> CreateGridEvent<InnerDto, OuterDto>(InnerDto innerDto, OuterDto outerDto, IEnumerable<OuterDto> outerDtoList, ICommand showCommand) where InnerDto : BaseViewObject
+        where OuterDto : BaseViewObject
         {
             Dictionary<string, object> ev = new Dictionary<string, object>();
-            var items = new List<BaseDto>();
+            var items = new List<BaseViewObject>();
             var outerDtoCandidate = outerDtoList.FirstOrDefault(x => x.Code == outerDto.Code);
             if (outerDtoCandidate == null)
             {
@@ -361,42 +359,42 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
             return ev;
         }
 
-        private BaseDto SetDtoCorrelation<InnerDto, OuterDto>(InnerDto innerDto, OuterDto outerDto)
-            where InnerDto : BaseDto
-            where OuterDto : BaseDto
+        private BaseViewObject SetDtoCorrelation<InnerDto, OuterDto>(InnerDto innerDto, OuterDto outerDto)
+            where InnerDto : BaseViewObject
+            where OuterDto : BaseViewObject
         {
-            BaseDto dto = new BaseDto();
-            if ((innerDto.GetType() == typeof(ContactsDto)) && (outerDto.GetType() == typeof(VisitsDto)))
+            BaseViewObject dto = new BaseViewObject();
+            if ((innerDto.GetType() == typeof(ContactsViewObject)) && (outerDto.GetType() == typeof(VisitsViewObject)))
             {
-                var inner = innerDto as ContactsDto;
-                var outer = outerDto as VisitsDto;
+                var inner = innerDto as ContactsViewObject;
+                var outer = outerDto as VisitsViewObject;
                 dto =  SetDtoCrossReference(inner, outer);
 
             }
-            if ((innerDto.GetType() == typeof(ResellerDto)) && (outerDto.GetType() == typeof(VisitsDto)))
+            if ((innerDto.GetType() == typeof(ResellerViewObject)) && (outerDto.GetType() == typeof(VisitsViewObject)))
             {
-                var inner = innerDto as ResellerDto;
-                var outer = outerDto as VisitsDto;
+                var inner = innerDto as ResellerViewObject;
+                var outer = outerDto as VisitsViewObject;
                 dto = SetDtoCrossReference(inner, outer);
 
             }
-            if ((innerDto.GetType() == typeof(ClientDto)) && (outerDto.GetType() == typeof(VisitsDto)))
+            if ((innerDto.GetType() == typeof(ClientViewObject)) && (outerDto.GetType() == typeof(VisitsViewObject)))
             {
-                var inner = innerDto as ClientDto;
-                var outer = outerDto as VisitsDto;
+                var inner = innerDto as ClientViewObject;
+                var outer = outerDto as VisitsViewObject;
                 dto = SetDtoCrossReference(inner, outer);
             }
             return dto;
         }
 
-        private BaseDto SetDtoCrossReference(ClientDto inner, VisitsDto outer)
+        private BaseViewObject SetDtoCrossReference(ClientViewObject inner, VisitsViewObject outer)
         {
             outer.ClientSource = inner;
             outer.ClientId = inner.NUMERO_CLI;
             return outer;
         }
 
-        private BaseDto SetDtoCrossReference(ResellerDto inner, VisitsDto outer)
+        private BaseViewObject SetDtoCrossReference(ResellerViewObject inner, VisitsViewObject outer)
         {
             outer.SellerId = inner.Code;
             outer.SellerSource = inner;
@@ -409,10 +407,10 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// <param name="charge">Charge inside a contact</param>
         /// <param name="item"></param>
         /// <returns></returns>
-        public virtual async Task SetContactsCharge(PersonalPositionDto charge, ContactsDto item)
+        public virtual async Task SetContactsCharge(PersonalPositionViewObject charge, ContactsViewObject item)
         {
             item.Responsability = charge.Name;
-            item.ResponsabilitySource = new PersonalPositionDto
+            item.ResponsabilitySource = new PersonalPositionViewObject
             {
                 Code = item.ContactId,
                 Name = item.ContactName
@@ -463,28 +461,28 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         /// This configure the show command in case of a province inside the branch/delegations view.
         /// </summary>
         /// <param name="dtos">This is a list of branches.</param>
-        protected void ConfigureBranchesCommand(IEnumerable<BranchesDto> dtos)
+        protected void ConfigureBranchesCommand(IEnumerable<BranchesViewObject> dtos)
         {
             foreach (var b in dtos)
             {
 
-                BaseDto v = b.ProvinceSource as BaseDto;
+                BaseViewObject v = b.ProvinceSource as BaseViewObject;
 
                 v.ShowCommand = DelegationProvinceMagnifierCommand;
             }
 
         }
         /// <summary>
-        /// This configure the resposabilty in contacts dto list.
+        /// This configure the responsibility in contacts dto list.
         /// </summary>
         /// <param name="dtos">This is a list of contacts dto.</param>
-        protected void ConfigureContactsCommand(IEnumerable<ContactsDto> dtos)
+        protected void ConfigureContactsCommand(IEnumerable<ContactsViewObject> dtos)
         {
             if (dtos == null)
                 return;
             foreach (var c in dtos)
             {
-                var v = c.ResponsabilitySource as BaseDto;
+                var v = c.ResponsabilitySource as BaseViewObject;
                 v.ShowCommand = ContactChargeMagnifierCommand;
             }
         }
@@ -492,23 +490,23 @@ internal virtual IDictionary<string, object> SetBranchProvince(ProvinciaDto prov
         ///  This configure the resposability of visit dto list.
         /// </summary>
         /// <param name="dtos">This is a list of dto.</param>
-        protected void ConfigureVisitsCommand(IEnumerable<VisitsDto> dtos)
+        protected void ConfigureVisitsCommand(IEnumerable<VisitsViewObject> dtos)
         {
             if (dtos == null)
                 return;
             foreach (var c in dtos)
             {
-                if (c.ContactsSource is BaseDto contacts)
+                if (c.ContactsSource is BaseViewObject contacts)
                 {
                     contacts.ShowCommand = ContactMagnifierCommand;
                 }
 
-                if (c.SellerSource is BaseDto reseller)
+                if (c.SellerSource is BaseViewObject reseller)
                 {
                     reseller.ShowCommand = ResellerMagnifierCommand;
                 }
 
-                if (c.ClientSource is BaseDto client)
+                if (c.ClientSource is BaseViewObject client)
                 {
                     client.ShowCommand = ClientMagnifierCommand;
                 }
@@ -546,18 +544,7 @@ protected async Task<string> FetchLocationByAddress(string address, string city,
 
         } */
 
-        protected string CoordGPS
-        {
-            get
-            {
-                return _coordgps;
-            }
-            set
-            {
-                _coordgps = value;
-                RaisePropertyChanged();
-            }
-        }
+        
     }
 
 }

@@ -4,42 +4,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.DAL.Mock.MockModel
 {
     class VehicleMock : IVehicleData
     {
-        public VehicleDto Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public VehicleViewObject Value { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public bool Valid { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<BrandVehicleDto> BrandDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<ModelVehicleDto> ModelDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<ColorDto> ColorDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<OwnerDto> OwnerDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<VehicleGroupDto> VehicleGroupDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<MaintainanceDto> MaintenanceHistory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<BrandVehicleViewObject> BrandDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<ModelVehicleViewObject> ModelDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<ColorViewObject> ColorDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<OwnerViewObject> OwnerDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<VehicleGroupViewObject> VehicleGroupDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<MaintainanceViewObject> MaintenanceHistory { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public string AssistModelQuery => throw new NotImplementedException();
 
-        public IEnumerable<AgentDto> AgentsDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<VehicleActivitiesDto> ActivityDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<AgentViewObject> AgentsDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<VehicleActivitiesViewObject> ActivityDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<PictureDto> PicturesDtos { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<SupplierDto> Supplier1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<PaymentFormDto> PaymentForm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<SupplierViewObject> Supplier1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<PaymentFormViewObject> PaymentForm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public IEnumerable<ClientSummaryExtended> ClientDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public IEnumerable<ResellerDto> ResellerDto => throw new NotImplementedException();
+        public IEnumerable<ResellerViewObject> ResellerDto => throw new NotImplementedException();
 
-        public IEnumerable<SupplierSummaryDto> Supplier2 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<CityDto> RoadTaxesCityDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<ZonaOfiDto> RoadOfficeZoneDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<SupplierSummaryDto> AssistencePolicyDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<SupplierSummaryDto> AssistenceAssuranceDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<SupplierSummaryDto> AdditionalAssuranceDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<SupplierSummaryDto> AssuranceDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<AgentDto> AssuranceAgentDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        IEnumerable<SupplierSummaryDto> IVehicleData.Supplier1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        IEnumerable<ResellerDto> IVehicleData.ResellerDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<SupplierSummaryViewObject> Supplier2 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<CityViewObject> RoadTaxesCityDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<ZonaOfiViewObject> RoadOfficeZoneDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<SupplierSummaryViewObject> AssistencePolicyDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<SupplierSummaryViewObject> AssistenceAssuranceDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<SupplierSummaryViewObject> AdditionalAssuranceDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<SupplierSummaryViewObject> AssuranceDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IEnumerable<AgentViewObject> AssuranceAgentDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        IEnumerable<SupplierSummaryViewObject> IVehicleData.Supplier1 { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        IEnumerable<ResellerViewObject> IVehicleData.ResellerDto { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Task<bool> DeleteAsyncData()
         {

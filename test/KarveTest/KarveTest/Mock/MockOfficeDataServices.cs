@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
-using DataAccessLayer.Model;
+using KarveDataServices.ViewObjects;
+using DataAccessLayer.DtoWrapper;
 using System.ComponentModel;
 
 namespace KarveTest.Mock
@@ -20,8 +20,8 @@ namespace KarveTest.Mock
         public async Task<bool> DeleteOfficeAsyncDo(IOfficeData commissionAgent)
         {
             IOfficeData data = new Office();
-            OfficeDtos dto = new OfficeDtos();
-            data.Value = dto;
+            OfficeViewObject viewObject = new OfficeViewObject();
+            data.Value = viewObject;
             data.Valid = true;
             if (string.IsNullOrEmpty(data.Value.Codigo))
             {
@@ -30,14 +30,14 @@ namespace KarveTest.Mock
             await Task.Delay(1000);
             return true;
         }
-        public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetAsyncAllOfficeSummary()
         {
-            var officeSummary = new List<OfficeSummaryDto>()
+            var officeSummary = new List<OfficeSummaryViewObject>()
             {
-                new OfficeSummaryDto(){ Code="0001", City="Barcelona",Name="IBM R&D",CompanyName="IBM",Direction="Calle Paris 54",OfficeZone="RL1"},
-                new OfficeSummaryDto(){ Code="0002", City="Barcelona",Name="Karve R&D",CompanyName="Karve Informatica S.L.",Direction="Calle Paris 54",OfficeZone="RL2"},
-                new OfficeSummaryDto(){ Code="0003", City="Paris",Name="HP R&D",CompanyName="HP",Direction="Rue Bellvenue 54",OfficeZone="RL1"},
-                new OfficeSummaryDto(){ Code="0004", City="Amsterdam",Name="Bank of America R&D",CompanyName="Bank of America",Direction="Calle Paris 54",OfficeZone="RL1"}
+                new OfficeSummaryViewObject(){ Code="0001", City="Barcelona",Name="IBM R&D",CompanyName="IBM",Direction="Calle Paris 54",OfficeZone="RL1"},
+                new OfficeSummaryViewObject(){ Code="0002", City="Barcelona",Name="Karve R&D",CompanyName="Karve Informatica S.L.",Direction="Calle Paris 54",OfficeZone="RL2"},
+                new OfficeSummaryViewObject(){ Code="0003", City="Paris",Name="HP R&D",CompanyName="HP",Direction="Rue Bellvenue 54",OfficeZone="RL1"},
+                new OfficeSummaryViewObject(){ Code="0004", City="Amsterdam",Name="Bank of America R&D",CompanyName="Bank of America",Direction="Calle Paris 54",OfficeZone="RL1"}
             };
             await Task.Delay(1000);
             return officeSummary;
@@ -45,8 +45,8 @@ namespace KarveTest.Mock
         public async Task<IOfficeData> GetAsyncOfficeDo(string clientIndentifier)
         {
             IOfficeData data = new Office();
-            OfficeDtos dto = new OfficeDtos();
-            data.Value = dto;
+            OfficeViewObject viewObject = new OfficeViewObject();
+            data.Value = viewObject;
             data.Valid = true;
             await Task.Delay(1);
             if (string.IsNullOrEmpty(clientIndentifier))
@@ -56,20 +56,20 @@ namespace KarveTest.Mock
             return data;
         }
 
-        public async Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode)
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetCompanyOffices(string companyCode)
         {
-            List<OfficeSummaryDto> officeSummary = new List<OfficeSummaryDto>()
+            List<OfficeSummaryViewObject> officeSummary = new List<OfficeSummaryViewObject>()
             {
-                new OfficeSummaryDto(){ Code="0001", City="Barcelona",Name="IBM R&D",CompanyName="IBM",Direction="Calle Paris 54",OfficeZone="RL1"},
-                new OfficeSummaryDto(){ Code="0002", City="Barcelona",Name="Karve R&D",CompanyName="Karve Informatica S.L.",Direction="Calle Paris 54",OfficeZone="RL2"},
-                new OfficeSummaryDto(){ Code="0003", City="Paris",Name="HP R&D",CompanyName="HP",Direction="Rue Bellvenue 54",OfficeZone="RL1"},
-                new OfficeSummaryDto(){ Code="0004", City="Amsterdam",Name="Bank of America R&D",CompanyName="Bank of America",Direction="Calle Paris 54",OfficeZone="RL1"}
+                new OfficeSummaryViewObject(){ Code="0001", City="Barcelona",Name="IBM R&D",CompanyName="IBM",Direction="Calle Paris 54",OfficeZone="RL1"},
+                new OfficeSummaryViewObject(){ Code="0002", City="Barcelona",Name="Karve R&D",CompanyName="Karve Informatica S.L.",Direction="Calle Paris 54",OfficeZone="RL2"},
+                new OfficeSummaryViewObject(){ Code="0003", City="Paris",Name="HP R&D",CompanyName="HP",Direction="Rue Bellvenue 54",OfficeZone="RL1"},
+                new OfficeSummaryViewObject(){ Code="0004", City="Amsterdam",Name="Bank of America R&D",CompanyName="Bank of America",Direction="Calle Paris 54",OfficeZone="RL1"}
             };
             await Task.Delay(1000);
             return officeSummary;
         }
 
-        public Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
+        public Task<IEnumerable<HolidayViewObject>> GetHolidaysAsync(string officeId)
         {
             throw new System.NotImplementedException();
         }
@@ -81,8 +81,8 @@ namespace KarveTest.Mock
         public IOfficeData GetNewOfficeDo(string code)
         {
             IOfficeData data = new Office();
-            OfficeDtos dto = new OfficeDtos();
-            data.Value = dto;
+            OfficeViewObject viewObject = new OfficeViewObject();
+            data.Value = viewObject;
             data.Valid = true;
             return data;
         }
@@ -95,7 +95,7 @@ namespace KarveTest.Mock
         public int NumberPage { get; set; }
         public long NumberItems { get; set; }
 
-        public Task<IEnumerable<OfficeSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public Task<IEnumerable<OfficeSummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
             throw new System.NotImplementedException();
         }
@@ -107,7 +107,7 @@ namespace KarveTest.Mock
 
         public async Task<bool> SaveAsync(IOfficeData clientData)
         {
-            OfficeDtos dto = clientData.Value;
+            OfficeViewObject viewObject = clientData.Value;
             if (!clientData.Valid)
             {
                 throw new DataLayerException("Trying to save invalid paramter");
@@ -116,12 +116,12 @@ namespace KarveTest.Mock
             return true;
         }
 
-        public Task<IEnumerable<OfficeSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        public Task<IEnumerable<OfficeSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<OfficeSummaryDto>> GetSummaryAllAsync()
+        public Task<IEnumerable<OfficeSummaryViewObject>> GetSummaryAllAsync()
         {
             throw new System.NotImplementedException();
         }
@@ -141,12 +141,12 @@ namespace KarveTest.Mock
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> SaveHolidaysAsync(IEnumerable<HolidayDto> holidaysDates)
+        public Task<bool> SaveHolidaysAsync(IEnumerable<HolidayViewObject> holidaysDates)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates)
+        public Task SaveHolidaysAsync(OfficeViewObject viewObject, IEnumerable<HolidayViewObject> holidaysDates)
         {
             throw new System.NotImplementedException();
         }

@@ -3,12 +3,12 @@ using KarveCommonInterfaces;
 using KarveDataServices;
 using Prism.Regions;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Threading.Tasks;
 
 namespace HelperModule.ViewModels
 {
-    public class ActivitySectorViewModel : GenericHelperViewModel<ActividadDto, ACTIVI>
+    public class ActivitySectorViewModel : GenericHelperViewModel<ActividadViewObject, ACTIVI>
     {
         public ActivitySectorViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
         {
@@ -17,9 +17,9 @@ namespace HelperModule.ViewModels
 
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            var dto = new ActividadDto();
-            string tmp = await DataServices.GetHelperDataServices().GetMappedUniqueId<ActividadDto, ACTIVI>(dto);
-            var activi = payLoad.DataObject as ActividadDto;
+            var dto = new ActividadViewObject();
+            string tmp = await DataServices.GetHelperDataServices().GetMappedUniqueId<ActividadViewObject, ACTIVI>(dto);
+            var activi = payLoad.DataObject as ActividadViewObject;
             if (activi != null)
             {
                 activi.Codigo = tmp;

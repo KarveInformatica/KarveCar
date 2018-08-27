@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using NLog;
 using System.Collections.Generic;
 using System.ComponentModel;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 using System.Linq;
 
@@ -33,8 +33,8 @@ namespace MasterModule.ViewModels
         private readonly IDataServices _dataServices;
         private readonly ICommissionAgentDataServices _commissionAgentDataServices;
         private readonly IDialogService _dialogService;
-        private INotifyTaskCompletion<IEnumerable<CommissionAgentSummaryDto>> _commissionAgentTaskNotify;
-        private IncrementalList<CommissionAgentSummaryDto> _commissionAgentSummaryDto;
+        private INotifyTaskCompletion<IEnumerable<CommissionAgentSummaryViewObject>> _commissionAgentTaskNotify;
+        private IncrementalList<CommissionAgentSummaryViewObject> _commissionAgentSummaryDto;
         private PropertyChangedEventHandler _commissionAgentDataLoaded;
         private PropertyChangedEventHandler _commissionAgentEventTask;
         /// <summary>
@@ -84,17 +84,17 @@ namespace MasterModule.ViewModels
         protected override void OnSortCommand(object ev)
         {
             var sortedDictionary = ev as Dictionary<string, ListSortDirection>;
-            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(_commissionAgentDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _commissionAgentEventTask);
+            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryViewObject>>(_commissionAgentDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _commissionAgentEventTask);
         }
 
         protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
         {
             var listCompletion =
-                sender as INotifyTaskCompletion<IEnumerable<CommissionAgentSummaryDto>>;
+                sender as INotifyTaskCompletion<IEnumerable<CommissionAgentSummaryViewObject>>;
             if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
             {
 
-                if (SummaryView is IncrementalList<CommissionAgentSummaryDto> summary)
+                if (SummaryView is IncrementalList<CommissionAgentSummaryViewObject> summary)
                 {
                     summary.LoadItems(listCompletion.Result);
                     SummaryView = summary;
@@ -118,7 +118,7 @@ namespace MasterModule.ViewModels
             MagnifierGridName = MasterModuleConstants.CommissionAgentControlVm;
             MessageHandlerMailBox += CommissionAgentMailBox;
             _commissionAgentDataLoaded += OnLoadCommissionAgent;
-            _commissionAgentEventTask += OnNotifyIncrementalList<CommissionAgentSummaryDto>;
+            _commissionAgentEventTask += OnNotifyIncrementalList<CommissionAgentSummaryViewObject>;
             EventManager.RegisterMailBox(EventSubsystem.CommissionAgentSummaryVm, MessageHandlerMailBox);
             PagingEvent += OnPagedEvent;
             ActiveSubSystem();
@@ -132,7 +132,7 @@ namespace MasterModule.ViewModels
             EventManager.DeleteMailBoxSubscription(EventSubsystem.CommissionAgentSummaryVm);
             MessageHandlerMailBox -= CommissionAgentMailBox;
             _commissionAgentDataLoaded -= OnLoadCommissionAgent;
-            _commissionAgentEventTask -= OnNotifyIncrementalList<CommissionAgentSummaryDto>;
+            _commissionAgentEventTask -= OnNotifyIncrementalList<CommissionAgentSummaryViewObject>;
         }
 
 
@@ -142,7 +142,7 @@ namespace MasterModule.ViewModels
         /// <param name="currentItem">Current item to be opened</param>
         private async void OpenCurrentItem(object currentItem)
         {
-            if (currentItem is CommissionAgentSummaryDto rowView)
+            if (currentItem is CommissionAgentSummaryViewObject rowView)
             {
                 var tabName = rowView.Code + "." + rowView.Name;
                 var broker = await DataServices.GetCommissionAgentDataServices().GetCommissionAgentDo(rowView.Code);
@@ -228,7 +228,7 @@ namespace MasterModule.ViewModels
         public void StartAndNotify()
         {
             var commissionAgentDataServices = DataServices.GetCommissionAgentDataServices();
-            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(commissionAgentDataServices.GetPagedSummaryDoAsync(1,DefaultPageSize), _commissionAgentEventTask);
+            _commissionAgentTaskNotify = NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryViewObject>>(commissionAgentDataServices.GetPagedSummaryDoAsync(1,DefaultPageSize), _commissionAgentEventTask);
         }
         /// <summary>
         ///  Each viewmodel uses the event manager for handling messages and has unique id.
@@ -338,7 +338,7 @@ namespace MasterModule.ViewModels
         {
 
             var brokerDataService = DataServices.GetCommissionAgentDataServices();
-            NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<CommissionAgentSummaryViewObject>>(
                 brokerDataService.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
             
         }
@@ -349,8 +349,8 @@ namespace MasterModule.ViewModels
         /// <param name="result"></param>
         protected override void SetResult<T>(IEnumerable<T> result)
         {
-            var resultValue = result as IEnumerable<CommissionAgentSummaryDto>;
-            _commissionAgentSummaryDto = new IncrementalList<CommissionAgentSummaryDto>(LoadMoreItems) { MaxItemCount = resultValue.Count() };
+            var resultValue = result as IEnumerable<CommissionAgentSummaryViewObject>;
+            _commissionAgentSummaryDto = new IncrementalList<CommissionAgentSummaryViewObject>(LoadMoreItems) { MaxItemCount = resultValue.Count() };
             _commissionAgentSummaryDto.LoadItems(resultValue);
             SummaryView = _commissionAgentSummaryDto;
         }

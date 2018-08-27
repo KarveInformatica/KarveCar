@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using KarveCommon.Services;
 using KarveControls.UIObjects;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
 using Prism.Regions;
@@ -50,32 +51,32 @@ namespace MasterModule.ViewModels
 
 
         /// <summary>
-        /// Auxiliares tables. Each aux table has associated a data transfer object. 
+        /// helper tables. Each aux table has associated a data transfer object. 
         /// A DTO is an object that carries data between processes in order to reduce the number of method calls.
         /// This allows us to customize the number of columns to be shown in the grid.
         /// </summary>
         private ICommissionAgent _commissionAgentDo;
-        private IEnumerable<ProvinciaDto> _provincia = new List<ProvinciaDto>();
-        private IEnumerable<CountryDto> _country = new List<CountryDto>();
+        private IEnumerable<ProvinceViewObject> _provincia = new List<ProvinceViewObject>();
+        private IEnumerable<CountryViewObject> _country = new List<CountryViewObject>();
         private IEnumerable<TIPOCOMI> _tipoComi = new List<TIPOCOMI>();
-        private IEnumerable<ClientDto> _clientOne = new List<ClientDto>();
-        private IEnumerable<ProductsDto> _products = new List<ProductsDto>();
-        private IEnumerable<BusinessDto> _negocios = new List<BusinessDto>();
-        private IEnumerable<MercadoDto> _mercados = new List<MercadoDto>();
-        private IEnumerable<ChannelDto> _canal = new List<ChannelDto>();
-        private IEnumerable<ResellerDto> _vendedor = new List<ResellerDto>();
-        private IEnumerable<CommissionTypeDto> _tipocomisions = new List<CommissionTypeDto>();
-        private IEnumerable<ZonaOfiDto> _officies = new List<ZonaOfiDto>();
-        private IEnumerable<BudgetKeyDto> _clavePto = new List<BudgetKeyDto>();
-        private IEnumerable<LanguageDto> _language = new List<LanguageDto>();
-        private IEnumerable<BranchesDto> _branchesDto = new ObservableCollection<BranchesDto>();
+        private IEnumerable<ClientViewObject> _clientOne = new List<ClientViewObject>();
+        private IEnumerable<ProductsViewObject> _products = new List<ProductsViewObject>();
+        private IEnumerable<BusinessViewObject> _negocios = new List<BusinessViewObject>();
+        private IEnumerable<MarketViewObject> _mercados = new List<MarketViewObject>();
+        private IEnumerable<ChannelViewObject> _canal = new List<ChannelViewObject>();
+        private IEnumerable<ResellerViewObject> _vendedor = new List<ResellerViewObject>();
+        private IEnumerable<CommissionTypeViewObject> _tipocomisions = new List<CommissionTypeViewObject>();
+        private IEnumerable<ZonaOfiViewObject> _officies = new List<ZonaOfiViewObject>();
+        private IEnumerable<BudgetKeyViewObject> _clavePto = new List<BudgetKeyViewObject>();
+        private IEnumerable<LanguageViewObject> _language = new List<LanguageViewObject>();
+        private IEnumerable<BranchesViewObject> _branchesDto = new ObservableCollection<BranchesViewObject>();
         private string _uniqueId = "";
 
         #region Properties
         /// <summary>
         ///  Data Transfer Objects for mercados
         /// </summary>
-        public IEnumerable<MercadoDto> Mercado
+        public IEnumerable<MarketViewObject> Mercado
         {
             get { return _mercados; }
             set { _mercados = value; RaisePropertyChanged(); }
@@ -83,7 +84,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data Transfer objects for negocio
         /// </summary>
-        public IEnumerable<BusinessDto> Negocio
+        public IEnumerable<BusinessViewObject> Negocio
         {
             get { return _negocios; }
             set { _negocios = value; RaisePropertyChanged(); }
@@ -91,17 +92,17 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data Trasnfer object for canal
         /// </summary>
-        public IEnumerable<ChannelDto> Canal
+        public IEnumerable<ChannelViewObject> Canal
         {
             get { return _canal; }
             set { _canal = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ResellerDto> Vendedor
+        public IEnumerable<ResellerViewObject> Vendedor
         {
             get { return _vendedor; }
             set { _vendedor = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<CommissionTypeDto> TipoComission
+        public IEnumerable<CommissionTypeViewObject> TipoComission
         {
             get { return _tipocomisions; }
             set { _tipocomisions = value; RaisePropertyChanged(); }
@@ -109,7 +110,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// ClavePto.
         /// </summary>
-        public IEnumerable<BudgetKeyDto> Clavepto
+        public IEnumerable<BudgetKeyViewObject> Clavepto
         {
             get { return _clavePto; }
             set
@@ -121,12 +122,12 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<OrigenDto> Origen { get; set; }
+        public IEnumerable<OrigenViewObject> Origen { get; set; }
 
         /// <summary>
         /// Province
         /// </summary>
-        public IEnumerable<ProvinciaDto> Province
+        public IEnumerable<ProvinceViewObject> Province
         {
             get { return _provincia; }
             set { _provincia = value; RaisePropertyChanged(); }
@@ -134,7 +135,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Province Delegation.
         /// </summary>
-        public IEnumerable<ProvinciaDto> ProvinceBranches
+        public IEnumerable<ProvinceViewObject> ProvinceBranches
         {
             get { return _provincia; }
             set { _provincia = value; RaisePropertyChanged(); }
@@ -142,16 +143,16 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Country
         /// </summary>
-        public IEnumerable<CountryDto> Country
+        public IEnumerable<CountryViewObject> Country
         {
             get { return _country; }
             set { _country = value; RaisePropertyChanged(); }
 
         }
         /// <summary>
-        /// Language dto.
+        /// Language viewObject.
         /// </summary>
-        public IEnumerable<LanguageDto> Language
+        public IEnumerable<LanguageViewObject> Language
         {
             get { return _language; }
             set { _language = value; RaisePropertyChanged(); }
@@ -159,7 +160,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Offices.
         /// </summary>
-        public IEnumerable<ZonaOfiDto> Offices
+        public IEnumerable<ZonaOfiViewObject> Offices
         {
             get { return _officies; }
             set { _officies = value; RaisePropertyChanged(); }
@@ -177,7 +178,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// ClientOne
         /// </summary>
-        public IEnumerable<ClientDto> ClientOne
+        public IEnumerable<ClientViewObject> ClientOne
         {
             get { return _clientOne; }
             set { _clientOne = value; RaisePropertyChanged(); }
@@ -187,7 +188,7 @@ namespace MasterModule.ViewModels
         /// Products of the view model
         /// </summary>
 
-        public IEnumerable<ProductsDto> Products
+        public IEnumerable<ProductsViewObject> Products
         {
             get { return _products; }
             set { _products = value; RaisePropertyChanged(); }
@@ -195,7 +196,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Products of the view model
         /// </summary>
-        public IEnumerable<CommissionTypeDto> BrokerTypeDto
+        public IEnumerable<CommissionTypeViewObject> BrokerTypeDto
         {
             get { return _brokerType; }
             set { _brokerType = value; RaisePropertyChanged(); }
@@ -237,23 +238,23 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Primary  key on branches
         /// </summary>
-        private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        private event SetPrimaryKey<BranchesViewObject> _onBranchesPrimaryKey;
         /// <summary>
         ///  Primary key on contacts.
         /// </summary>
-        private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+        private event SetPrimaryKey<ContactsViewObject> _onContactsPrimaryKey;
         /// <summary>
         /// Primary key on visits.
         /// </summary>
-        private event SetPrimaryKey<VisitsDto> _onVisitPrimaryKey;
+        private event SetPrimaryKey<VisitsViewObject> _onVisitPrimaryKey;
 
         public ICommand PrintAssociate { set; get; }
         public ICommand DelegationChangedRowsCommand { set; get; }
         private IRegionManager _regionManager;
 
-        private ObservableCollection<CityDto> _cityDto = new ObservableCollection<CityDto>();
+        private ObservableCollection<CityViewObject> _cityDto = new ObservableCollection<CityViewObject>();
         private string _mailBoxName;
-        private IEnumerable<CommissionTypeDto> _brokerType;
+        private IEnumerable<CommissionTypeViewObject> _brokerType;
         private IMapper _mapper;
         private int _countTime;
 
@@ -312,26 +313,26 @@ namespace MasterModule.ViewModels
         ///  Set Contacts Charge.
         /// </summary>
         /// <param name="personal">Personal Position Dto.</param>
-        /// <param name="contactsDto">Contacts Dto.</param>
-        public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
+        /// <param name="contactsViewObject">Contacts Dto.</param>
+        public override async Task SetContactsCharge(PersonalPositionViewObject personal, ContactsViewObject contactsViewObject)
         {
             var contacts = DataObject.ContactsDto;
             Dictionary<string, object> ev = new Dictionary<string, object> { ["DataObject"] = DataObject };
-            var items = new List<ContactsDto>();
+            var items = new List<ContactsViewObject>();
 
 
-            var contact = contacts.FirstOrDefault(x => x.ContactId == contactsDto.ContactId);
+            var contact = contacts.FirstOrDefault(x => x.ContactId == contactsViewObject.ContactId);
             if (contact == null)
             {
                 ev["Operation"] = ControlExt.GridOp.Insert;
                 // insert case
-                contact = contactsDto;
+                contact = contactsViewObject;
                 contact.IsNew = true;
                 contact.IsDirty = true;
             }
             else
             {
-                contact = contactsDto;
+                contact = contactsViewObject;
                 ev["Operation"] = ControlExt.GridOp.Update;
                 contact.IsChanged = true;
                 contact.IsDirty = true;
@@ -346,22 +347,22 @@ namespace MasterModule.ViewModels
             ev["ChangedValue"] = items;
 
 
-            await GridChangedNotification<ContactsDto, CONTACTOS_COMI>(ev, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+            await GridChangedNotification<ContactsViewObject, CONTACTOS_COMI>(ev, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
             RaisePropertyChanged("DataObject");
-            RaisePropertyChanged("DataObject.ContactsDto");
+            RaisePropertyChanged("DataObject.ContactsViewObject");
         }
 
         /// <summary>
         ///  Set Branch province
         /// </summary>
         /// <param name="province">It allows the province branch.</param>
-        /// <param name="branchesDto">It allows the branches dto.</param>
-        internal override async Task SetBranchProvince(ProvinciaDto province, BranchesDto branchesDto)
+        /// <param name="branchesViewObject">It allows the branches viewObject.</param>
+        internal override async Task SetBranchProvince(ProvinceViewObject province, BranchesViewObject branchesViewObject)
         {
             // set the base event dictionary
-            IDictionary<string, object> ev = SetBranchProvince(province, branchesDto, DataObject, DataObject.BranchesDto);
+            IDictionary<string, object> ev = SetBranchProvince(province, branchesViewObject, DataObject, DataObject.BranchesDto);
             // send the opportune event where it is needed.
-            await GridChangedNotification<BranchesDto, COMI_DELEGA>(ev,
+            await GridChangedNotification<BranchesViewObject, COMI_DELEGA>(ev,
                 _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
         private void OnPrintCommand(object obj)
@@ -382,17 +383,17 @@ namespace MasterModule.ViewModels
             EventManager.NotifyToolBar(payload);
         }
         // TODO: remove duplications.
-        private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
+        private void CommissionAgentInfoViewModel__onContactsPrimaryKey(ref ContactsViewObject primaryKey)
         {
             primaryKey.Code = PrimaryKeyValue;
             primaryKey.ContactsKeyId = PrimaryKeyValue;
         }
-        private void CommissionAgentInfoViewModel__onBranchesPrimaryKey(ref BranchesDto primaryKey)
+        private void CommissionAgentInfoViewModel__onBranchesPrimaryKey(ref BranchesViewObject primaryKey)
         {
             primaryKey.Code = PrimaryKeyValue;
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
-        private void CommissionAgentInfoViewModel__onVisitPrimaryKey(ref VisitsDto primaryKey)
+        private void CommissionAgentInfoViewModel__onVisitPrimaryKey(ref VisitsViewObject primaryKey)
         {
             primaryKey.Code = PrimaryKeyValue;
             primaryKey.KeyId = PrimaryKeyValue;
@@ -466,7 +467,7 @@ namespace MasterModule.ViewModels
         /// <param name="obj">This send a delegation fo the changed command</param>
         private async Task DelegationChangedCommandHandler(object obj)
         {   
-            await GridChangedNotification<BranchesDto, COMI_DELEGA>(obj, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+            await GridChangedNotification<BranchesViewObject, COMI_DELEGA>(obj, _onBranchesPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
         /// <summary>
         ///  This change the contact grid
@@ -475,11 +476,11 @@ namespace MasterModule.ViewModels
         /// <returns></returns>
         private async Task ContactsChangedCommandHandler(object obj)
         {
-            await GridChangedNotification<ContactsDto, CONTACTOS_COMI>(obj, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem);
+            await GridChangedNotification<ContactsViewObject, CONTACTOS_COMI>(obj, _onContactsPrimaryKey, DataSubSystem.CommissionAgentSubystem);
         }
         private async Task VisitsChangedCommandHandler(object obj)
         {
-            await GridChangedNotification<VisitsDto, VISITAS_COMI>(obj, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem);
+            await GridChangedNotification<VisitsViewObject, VISITAS_COMI>(obj, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem);
         }
 
         /// <summary>
@@ -517,13 +518,13 @@ namespace MasterModule.ViewModels
                 case "TIPOCOMI":
                     {
 
-                        BrokerTypeDto = (IEnumerable<CommissionTypeDto>)(resultData);
+                        BrokerTypeDto = (IEnumerable<CommissionTypeViewObject>)(resultData);
                         break;
 
                     }
                 case "PAIS":
                     {
-                        IEnumerable<CountryDto> countryDtos = (IEnumerable<CountryDto>)(resultData);
+                        IEnumerable<CountryViewObject> countryDtos = (IEnumerable<CountryViewObject>)(resultData);
                         Country = countryDtos;
                         currentView = countryDtos;
                         break;
@@ -531,26 +532,26 @@ namespace MasterModule.ViewModels
                 case "PROVINCIA":
                     {
                        
-                        Province = (IEnumerable<ProvinciaDto>) resultData;
+                        Province = (IEnumerable<ProvinceViewObject>) resultData;
                         break;
                     }
                 case "PROVINCE_BRANCHES":
                     {
-                        var provDtos = (IEnumerable<ProvinciaDto>)resultData;
+                        var provDtos = (IEnumerable<ProvinceViewObject>)resultData;
     
                         currentView = provDtos;
                         break;
                     }
                 case "POBLACIONES":
                     {
-                        var prov = (IEnumerable<CityDto>)resultData;
+                        var prov = (IEnumerable<CityViewObject>)resultData;
                         CityDto = prov;
                         currentView = CityDto;
                         break;
                     }
                 case "PRODUCTS":
                     {
-                        IEnumerable<ProductsDto> productDto = (IEnumerable<ProductsDto>)(resultData);
+                        IEnumerable<ProductsViewObject> productDto = (IEnumerable<ProductsViewObject>)(resultData);
                         Products = productDto;
                         currentView = productDto;
                         break;
@@ -559,14 +560,14 @@ namespace MasterModule.ViewModels
                 case "VENDEDOR":
                     {
 
-                        IEnumerable<ResellerDto> vendedorDto = (IEnumerable<ResellerDto>)(resultData);
+                        IEnumerable<ResellerViewObject> vendedorDto = (IEnumerable<ResellerViewObject>)(resultData);
                         Vendedor = vendedorDto;
                         currentView = Vendedor;
                         break;
                     }
                 case "MARKET_ASSIST":
                     {
-                        IEnumerable<MercadoDto> mercadoDtos = (IEnumerable<MercadoDto>)(resultData);
+                        IEnumerable<MarketViewObject> mercadoDtos = (IEnumerable<MarketViewObject>)(resultData);
                         Mercado = mercadoDtos;
                         currentView = Mercado;
                         break;
@@ -574,7 +575,7 @@ namespace MasterModule.ViewModels
                 case "BUSINESS_ASSIST":
                     {
                         
-                        IEnumerable<BusinessDto> negocios = (IEnumerable<BusinessDto>)(resultData);
+                        IEnumerable<BusinessViewObject> negocios = (IEnumerable<BusinessViewObject>)(resultData);
                         Negocio = negocios;
                         currentView = Negocio;
                         break;
@@ -583,21 +584,21 @@ namespace MasterModule.ViewModels
                 case "CLIENT_ASSIST_COMI":
                     {
 
-                        ClientOne = (IEnumerable<ClientDto>)(resultData);
+                        ClientOne = (IEnumerable<ClientViewObject>)(resultData);
                         currentView = ClientOne;
 
                         break;
                     }
                 case "CHANNEL_TYPE":
                     {
-                        IEnumerable<ChannelDto> cli = (IEnumerable<ChannelDto>)(resultData);
+                        IEnumerable<ChannelViewObject> cli = (IEnumerable<ChannelViewObject>)(resultData);
                         Canal = cli;
                         currentView = Canal;
                         break;
                     }
                 case "TIPOCOMISION":
                     {
-                        IEnumerable<CommissionTypeDto> cli = (IEnumerable<CommissionTypeDto>)(resultData);
+                        IEnumerable<CommissionTypeViewObject> cli = (IEnumerable<CommissionTypeViewObject>)(resultData);
                         
                         TipoComission = cli;
                         currentView = TipoComission;
@@ -605,21 +606,21 @@ namespace MasterModule.ViewModels
                     }
                 case "OFFICE_ZONE_ASSIST":
                     {
-                        IEnumerable<ZonaOfiDto> cli = (IEnumerable<ZonaOfiDto>)(resultData);
+                        IEnumerable<ZonaOfiViewObject> cli = (IEnumerable<ZonaOfiViewObject>)(resultData);
                         Offices = cli;
                         currentView = Offices;
                         break;
                     }
                 case "CLIENT_BUDGET":
                     {
-                        IEnumerable<BudgetKeyDto> cli = (IEnumerable<BudgetKeyDto>)(resultData);
+                        IEnumerable<BudgetKeyViewObject> cli = (IEnumerable<BudgetKeyViewObject>)(resultData);
                         Clavepto = cli;
                         currentView = Clavepto;
                         break;
                     }
                 case "ORIGIN_ASSIST":
                     {
-                        IEnumerable<OrigenDto> cli = (IEnumerable<OrigenDto>)(resultData);
+                        IEnumerable<OrigenViewObject> cli = (IEnumerable<OrigenViewObject>)(resultData);
                         
                         Origen = cli;
                         currentView = Origen;
@@ -627,7 +628,7 @@ namespace MasterModule.ViewModels
                     }
                 case "IDIOMAS":
                     {
-                        IEnumerable<LanguageDto> cli = (IEnumerable<LanguageDto>)(resultData);
+                        IEnumerable<LanguageViewObject> cli = (IEnumerable<LanguageViewObject>)(resultData);
                         Language = cli;
                         currentView = Language;
                         break;
@@ -831,7 +832,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Delegation.
         /// </summary>
-        public IEnumerable<BranchesDto> Delegation
+        public IEnumerable<BranchesViewObject> Delegation
         {
             get
             {
@@ -1097,12 +1098,12 @@ namespace MasterModule.ViewModels
             get => _uniqueId; set => _uniqueId = value;
         }
 
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             get { return _cityDto; }
             set
             {
-                _cityDto = new ObservableCollection<CityDto>(value);
+                _cityDto = new ObservableCollection<CityViewObject>(value);
                 RaisePropertyChanged();
             }
         }
@@ -1126,48 +1127,50 @@ namespace MasterModule.ViewModels
             ItemChangedCommand = new DelegateCommand<object>(ItemChangedHandler);
         }
 
-        internal override async Task SetClientData(ClientSummaryExtended p, VisitsDto visitsDto)
+        internal override async Task SetClientData(ClientSummaryExtended p, VisitsViewObject visitsViewObject)
         {
         
-            var ev = CreateGridEvent<ClientSummaryExtended, VisitsDto>(p, visitsDto,  DataObject.VisitsDto, this.ClientMagnifierCommand);
-            visitsDto.ClientId = PrimaryKeyValue;
-            var newList = new List<VisitsDto>();
-            newList.Add(visitsDto);
+            var ev = CreateGridEvent<ClientSummaryExtended, VisitsViewObject>(p, visitsViewObject,  DataObject.VisitsDto, this.ClientMagnifierCommand);
+            visitsViewObject.ClientId = PrimaryKeyValue;
+            var newList = new List<VisitsViewObject>();
+            newList.Add(visitsViewObject);
 
-            var mergedList = DataObject.VisitsDto.Union<VisitsDto>(newList);
+            var mergedList = DataObject.VisitsDto.Union<VisitsViewObject>(newList);
             DataObject.VisitsDto = mergedList;
             ev["DataObject"] = DataObject;
+
+            await Task.Delay(1);
             // craft the event dictionary.
-          //  await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+            //  await GridChangedNotification<VisitsViewObject, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
         }
 
-        internal override async Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override async Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsViewObject)
         {
           
-            var ev = CreateGridEvent<ContactsDto, VisitsDto>(p, visitsDto, DataObject.VisitsDto, this.ContactMagnifierCommand);
-            visitsDto.ClientId = PrimaryKeyValue;
-            var newList = new List<VisitsDto>();
-            newList.Add(visitsDto);
-            var mergedList = DataObject.VisitsDto.Union<VisitsDto>(newList);
+            var ev = CreateGridEvent<ContactsViewObject, VisitsViewObject>(p, visitsViewObject, DataObject.VisitsDto, this.ContactMagnifierCommand);
+            visitsViewObject.ClientId = PrimaryKeyValue;
+            var newList = new List<VisitsViewObject>();
+            newList.Add(visitsViewObject);
+            var mergedList = DataObject.VisitsDto.Union<VisitsViewObject>(newList);
             DataObject.VisitsDto = mergedList;
             ev["DataObject"] = DataObject;
             // Notify the toolbar.
-//            await GridChangedNotification<VisitsDto, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+//            await GridChangedNotification<VisitsViewObject, VISITAS_COMI>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
          
         }
 
-        internal override async Task SetVisitReseller(ResellerDto param, VisitsDto visitsDto)
+        internal override async Task SetVisitReseller(ResellerViewObject param, VisitsViewObject visitsViewObject)
         {
-            var ev = CreateGridEvent<ResellerDto, VisitsDto>(param, visitsDto, DataObject.VisitsDto, this.ResellerMagnifierCommand);
-            visitsDto.ClientId = PrimaryKeyValue;
+            var ev = CreateGridEvent<ResellerViewObject, VisitsViewObject>(param, visitsViewObject, DataObject.VisitsDto, this.ResellerMagnifierCommand);
+            visitsViewObject.ClientId = PrimaryKeyValue;
             ev["DataObject"] = DataObject;
-            var newList = new List<VisitsDto>();
-            newList.Add(visitsDto);
-            var mergedList = DataObject.VisitsDto.Union<VisitsDto>(newList);
+            var newList = new List<VisitsViewObject>();
+            newList.Add(visitsViewObject);
+            var mergedList = DataObject.VisitsDto.Union<VisitsViewObject>(newList);
             DataObject.VisitsDto = mergedList;
 
             // craft the event dictionary.
-  //          await GridChangedNotification<VisitsDto, VENDEDOR>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
+  //          await GridChangedNotification<VisitsViewObject, VENDEDOR>(ev, _onVisitPrimaryKey, DataSubSystem.CommissionAgentSubystem).ConfigureAwait(false);
             RaisePropertyChanged("DataObject");
             RaisePropertyChanged("DataObject.VisitDto");
         }

@@ -13,7 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using KarveCommon;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveControls.Generic
 {
@@ -80,7 +80,7 @@ namespace KarveControls.Generic
         /// <param name="dataField">Data field to be filled.</param>
         public void FillDataObject(object textField, string dataField, ref object dataObject)
         {
-            bool isBasedDto = (dataObject is BaseDto);
+            bool isBasedDto = (dataObject is BaseViewObject);
             if (dataObject == null)
                 return;
                 try

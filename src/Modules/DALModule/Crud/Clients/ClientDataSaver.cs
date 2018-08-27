@@ -8,7 +8,7 @@ using DataAccessLayer.Logic;
 using KarveCommonInterfaces;
 using KarveDapper.Extensions;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,11 +17,11 @@ namespace DataAccessLayer.Crud.Clients
     /// <summary>
     /// Client data save. This class has the single responsability to save the data.
     /// </summary>
-    internal sealed class ClientDataSaver : IDataSaver<ClientDto>
+    internal sealed class ClientDataSaver : IDataSaver<ClientViewObject>
     {
         private ISqlExecutor _executor;
         private IMapper _mapper;
-        private IValidationChain<ClientDto> _validationChain;
+        private IValidationChain<ClientViewObject> _validationChain;
         /// <summary>
         /// Client data saver
         /// </summary>
@@ -34,7 +34,7 @@ namespace DataAccessLayer.Crud.Clients
         /// <summary>
         ///  Returns the validation chain
         /// </summary>
-        public IValidationChain<ClientDto> ValidationChain
+        public IValidationChain<ClientViewObject> ValidationChain
         {
             set { _validationChain = value; }
             get { return _validationChain; }
@@ -46,7 +46,7 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="save">Data transfer to be saved</param>
         /// <returns>It returns the boolean value.</returns>
-        public async Task<bool> SaveAsync(ClientDto save)
+        public async Task<bool> SaveAsync(ClientViewObject save)
         {
             IDbConnection connection = null;
             ///ClientPoco currentPoco;
@@ -58,12 +58,12 @@ namespace DataAccessLayer.Crud.Clients
                 }
             }
 
-            CLIENTES1 client1 = _mapper.Map<ClientDto, CLIENTES1>(save);
+            CLIENTES1 client1 = _mapper.Map<ClientViewObject, CLIENTES1>(save);
             if (!string.IsNullOrEmpty(save.CreditCardExpiryMonth) && !string.IsNullOrEmpty(save.CreditCardExpiryYear))
             {
                 client1.TARCADU = string.Format("{0}/{1}", save.CreditCardExpiryMonth, save.CreditCardExpiryYear);
             }
-            CLIENTES2 client2 = _mapper.Map<ClientDto, CLIENTES2>(save);
+            CLIENTES2 client2 = _mapper.Map<ClientViewObject, CLIENTES2>(save);
             var retValue = false;
             if ((client1 == null) || (client2 == null))
             {
@@ -121,17 +121,17 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="saveVisitsDto">Visit to save</param>
         /// <returns></returns>
-        private async Task<bool> SaveVisitsAsync(IDbConnection connection, IEnumerable<VisitsDto> saveVisitsDto)
+        private async Task<bool> SaveVisitsAsync(IDbConnection connection, IEnumerable<VisitsViewObject> saveVisitsDto)
         {
             Contract.Assert(saveVisitsDto != null, "Save contacts shall be not null");
 
            var retValue = false;
-            if (saveVisitsDto.Count<VisitsDto>() == 0)
+            if (saveVisitsDto.Count<VisitsViewObject>() == 0)
             {
                 return true;
             }
             // SELECT * from Visitas;
-            IEnumerable<Visitas> visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(saveVisitsDto);
+            IEnumerable<Visitas> visitas = _mapper.Map<IEnumerable<VisitsViewObject>, IEnumerable<Visitas>>(saveVisitsDto);
             int value = await connection.InsertAsync(saveVisitsDto).ConfigureAwait(false);
             retValue = value > 0;
             return retValue;
@@ -142,11 +142,11 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="saveContactsDto">Contacts to be saved</param>
         /// <returns></returns>
-        private async Task<bool> SaveContactsAsync(IDbConnection connection, IEnumerable<ContactsDto> saveContactsDto)
+        private async Task<bool> SaveContactsAsync(IDbConnection connection, IEnumerable<ContactsViewObject> saveContactsDto)
         {
             Contract.Assert(saveContactsDto != null, "Save contacts shall be not null");
             var retValue = false;
-            IEnumerable<CliContactos> contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(saveContactsDto);
+            IEnumerable<CliContactos> contacts = _mapper.Map<IEnumerable<ContactsViewObject>, IEnumerable<CliContactos>>(saveContactsDto);
             var entityToInsert = contacts.ToList();
             if (!entityToInsert.Any())
             {
@@ -161,11 +161,11 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="branchesDto">List of branches</param>
         /// <returns>Return a true or a false.</returns>
-        private async Task<bool> SaveBranchesAsync(IDbConnection connection, IEnumerable<BranchesDto> branchesDto)
+        private async Task<bool> SaveBranchesAsync(IDbConnection connection, IEnumerable<BranchesViewObject> branchesDto)
         {
             Contract.Assert(connection != null, "Connection shall be not null");
             var retValue = false;
-            IEnumerable<cliDelega> branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(branchesDto);
+            IEnumerable<cliDelega> branches = _mapper.Map<IEnumerable<BranchesViewObject>, IEnumerable<cliDelega>>(branchesDto);
             var entityToInsert = branches.ToList();
             if (!entityToInsert.Any())
             {

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices.DataObjects
 {
-    public interface IReservationRequest: IValidDomainObject, IValueObject<ReservationRequestDto>, IHelperData
+    public interface IReservationRequest: IValidDomainObject, IValueObject<ReservationRequestViewObject>, IHelperData
     {
     }
 }

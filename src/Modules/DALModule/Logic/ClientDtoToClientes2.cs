@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer.Logic
 {
     ///
     /// Dto to POCO converter.
     /// 
-    public class ClientDtoToClientes2 : ITypeConverter<ClientDto, CLIENTES2>
+    public class ClientDtoToClientes2 : ITypeConverter<ClientViewObject, CLIENTES2>
     {
-        public CLIENTES2 Convert(ClientDto source, CLIENTES2 destination, ResolutionContext context)
+        public CLIENTES2 Convert(ClientViewObject source, CLIENTES2 destination, ResolutionContext context)
         {
-            var entityConverter = new GenericBackConverter<ClientDto, CLIENTES2>();
+            var entityConverter = new GenericBackConverter<ClientViewObject, CLIENTES2>();
             var entity = entityConverter.Convert(source, destination, context);
             if (entity != null && entity?.EMAIL != null)
             {

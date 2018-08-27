@@ -6,7 +6,7 @@ using KarveControls.Generic;
 using System.Windows.Input;
 using KarveCommon;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.ComponentModel.DataAnnotations;
 using Syncfusion.Windows.Controls.Input;
 
@@ -711,25 +711,25 @@ private void TextField_TextChanged(object sender, TextChangedEventArgs e)
             if (DataObject != null)
              {
 
-                BaseDto baseDto = null;
-                if (DataObject is BaseDto)
+                BaseViewObject baseViewObject = null;
+                if (DataObject is BaseViewObject)
                 {
-                    baseDto = DataObject as BaseDto;
+                    baseViewObject = DataObject as BaseViewObject;
                  }
                 else
                 {
                     var dto = ComponentUtils.GetPropValue(DataObject, "Value");
-                    baseDto = dto as BaseDto;
+                    baseViewObject = dto as BaseViewObject;
 
                 }
-                if (baseDto != null)
+                if (baseViewObject != null)
                 {
-                    var context = new ValidationContext(baseDto, serviceProvider: null, items: null);
+                    var context = new ValidationContext(baseViewObject, serviceProvider: null, items: null);
                     var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-                    var isValid = Validator.TryValidateObject(baseDto, context, results);
+                    var isValid = Validator.TryValidateObject(baseViewObject, context, results);
                     if (!isValid)
                     {
-                        baseDto.IsValid = isValid;
+                        baseViewObject.IsValid = isValid;
                         ErrorText = results[0].ErrorMessage;
                     }
                 }

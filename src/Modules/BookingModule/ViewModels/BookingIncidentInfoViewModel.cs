@@ -2,7 +2,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices.DataObjects;
 using Prism.Commands;
 using System;
@@ -15,37 +15,52 @@ using Prism.Regions;
 using Microsoft.Practices.Unity;
 using System.Windows.Controls;
 using BookingModule.Views;
+using KarveControls.Annotations;
 
 namespace BookingModule.ViewModels
 {
     /// <summary>
-    ///  View model that has the responsability for the booking incident form.
+    ///  View model that has the responsibility for the booking incident form.
     ///  
     /// </summary>
     public class BookingIncidentInfoViewModel : KarveRoutingBaseViewModel, ICreateRegionManagerScope, IEventObserver, INavigationAware
     {
-        private ICommand _deleteCommand;
-        private ICommand _saveCommand;
-        private DelegateCommand<object> _newCommand;
-        private IBookingIncidentDataService _dataIncidentService;
-        private BookingIncidentDto _dataObject;
-
+        private readonly ICommand _deleteCommand;
+        private readonly ICommand _saveCommand;
+        private readonly DelegateCommand<object> _newCommand;
+        private readonly IBookingIncidentDataService _dataIncidentService;
+        private BookingIncidentViewObject _dataObject;
+        #region ServiceDeclaration
         private IAssistDataService _assistDataService;
-        private IBookingIncidentData _domainObject;
+        #endregion
+        private IBookingIncidentData _dtoWrapperData;
+
         private IKarveNavigator _navigator;
+
         private IUserSettings _userSettings;
-        private IUnityContainer _unityContainer;
+
+        private readonly IUnityContainer _unityContainer;
         #region auxhelpers
-        private IEnumerable<OfficeDtos> _bookingIncidentOfficeDtoValue;
+        private IEnumerable<OfficeViewObject> _bookingIncidentOfficeDtoValue;
         private IEnumerable<ClientSummaryExtended> _bookingIncidentClientDtoValue;
         private IEnumerable<ClientSummaryExtended> _bookingIncidentDriverDtoValue;
-        private IEnumerable<IncidentTypeDto> _bookingIncidentTypeDtoValue;
-        private IEnumerable<SupplierSummaryDto> _bookingIncidentSupplierDtoValue;
-        private IEnumerable<VehicleSummaryDto> _bookingIncidentVehicleDtoValue;
+        private IEnumerable<IncidentTypeViewObject> _bookingIncidentTypeDtoValue;
+        private IEnumerable<SupplierSummaryViewObject> _bookingIncidentSupplierDtoValue;
+        private IEnumerable<VehicleSummaryViewObject> _bookingIncidentVehicleDtoValue;
+        #endregion
         private string _vehicleColumns;
         private string _clientColumns;
-        #endregion
-
+        /// <summary>
+        ///  Constructor.
+        /// </summary>
+        /// <param name="services">Data service for data retrieving</param>
+        /// <param name="controller">Interaction controller for showing popup</param>
+        /// <param name="dialogService">Error message dialog controller</param>
+        /// <param name="unityContainer"></param>
+        /// <param name="eventManager"></param>
+        /// <param name="navigation"></param>
+        /// <param name="configurationService"></param>
+        /// <param name="regionManager"></param>
         public BookingIncidentInfoViewModel(IDataServices services, IInteractionRequestController controller,
                                IDialogService dialogService,
                                IUnityContainer unityContainer,
@@ -95,9 +110,9 @@ namespace BookingModule.ViewModels
         /// <param name="obj"></param>
         private void NewViewCommand(object obj)
         {
-            var viewFactory = new ViewFactory<IBookingIncidentData, BookingIncidentSummaryDto>(RegionManager, _unityContainer, EventManager, _dataIncidentService, _dataIncidentService);
+            var viewFactory = new ViewFactory<IBookingIncidentData, BookingIncidentSummaryViewObject>(RegionManager, _unityContainer, EventManager, _dataIncidentService, _dataIncidentService);
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-            /// i shall check that i am on foreground
+           
             if (activeView is UserControl control)
             {
                 if (control.DataContext is KarveViewModelBase baseViewModel)
@@ -113,58 +128,59 @@ namespace BookingModule.ViewModels
         private void DeleteViewCommand(object obj)
         {
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-            var viewDeleter = new ViewDeleter<IBookingIncidentData, BookingIncidentSummaryDto>(_dataIncidentService, DialogService, EventManager);
-            /// i shall check that i am on foreground
-            if (activeView is UserControl control)
+            var viewDeleter = new ViewDeleter<IBookingIncidentData, BookingIncidentSummaryViewObject>(_dataIncidentService, DialogService, EventManager);
+
+            if (!(activeView is UserControl control))
             {
-                if (control.DataContext is KarveViewModelBase baseViewModel)
-                {
-                    // its is me....
-                    if (baseViewModel.ViewModelUri == ViewModelUri)
-                    {
-                        /*
-                         *  Just to clarify. 
-                         */
-                        _domainObject.Value = DataObject;
-                        DataPayLoad payLoad = new DataPayLoad()
-                        {
-                            DataObject = _domainObject,
-                            HasDataObject = true,
-                            ObjectPath = ViewModelUri,
-                            PrimaryKeyValue = PrimaryKeyValue,
-                            Sender = ViewModelUri.ToString(),
-                            PayloadType = DataPayLoad.Type.UpdateView
-                        };
-
-                        if (viewDeleter.DeleteView(payLoad))
-                        {
-                            /* 
-                             * Since i have deleted with success 
-                             * i notify my group and i unregister the //toolbar.
-                             */
-                            viewDeleter.Notify(ViewModelUri.ToString(), BookingModule.BookingSubSystem);
-                            UnregisterToolBar(payLoad.PrimaryKeyValue);
-                            DeleteRegion();
-                        }
-
-                    }
-                }
+                return;
             }
+
+            if (!(control.DataContext is KarveViewModelBase baseViewModel))
+            {
+                return;
+            }
+            // its is me....
+            if (baseViewModel.ViewModelUri != ViewModelUri)
+            {
+                return;
+            }
+            _dtoWrapperData.Value = DataObject;
+            // craft for new payload.
+            var payLoad = new DataPayLoad()
+            {
+                DataObject = _dtoWrapperData,
+                HasDataObject = true,
+                ObjectPath = ViewModelUri,
+                PrimaryKeyValue = PrimaryKeyValue,
+                Sender = ViewModelUri.ToString(),
+                PayloadType = DataPayLoad.Type.UpdateView
+            };
+            // Delete failed.
+            if (!viewDeleter.DeleteView(payLoad))
+            {
+                return;
+            }
+            // Delete success.
+            viewDeleter.Notify(ViewModelUri.ToString(), BookingModule.BookingSubSystem);
+            UnregisterToolBar(payLoad.PrimaryKeyValue);
+            DeleteRegion();
         }
         private void SaveViewCommand(object obj)
         {
-            _domainObject.Valid = true;
+            _dtoWrapperData.Valid = true;
 
-            var saver = new ViewSaver<IBookingIncidentData, BookingIncidentSummaryDto, BookingIncidentDto>(RegionManager, _dataIncidentService, _domainObject);
+            var saver = new ViewSaver<IBookingIncidentData, BookingIncidentSummaryViewObject, BookingIncidentViewObject>(RegionManager, _dataIncidentService, _dtoWrapperData);
             var changed = IsChanged;
             var opState = OperationalState;
-           
-            if (saver.Save(PrimaryKeyValue, _domainObject.Value, ref changed, ref opState))
+            
+            if (!saver.Save(PrimaryKeyValue, _dtoWrapperData.Value, ref changed, ref opState))
             {
-                DialogService.ShowMessage("Incidencia", "Nueva incidencia registrata!");
-                IsChanged = changed;
-                OperationalState = opState;
+                return;
             }
+            // saved with success.
+            DialogService.ShowMessage("Incidencia", "Nueva incidencia registrata!");
+            IsChanged = changed;
+            OperationalState = opState;
         }
         private void OnChangedField(object ev)
         {
@@ -189,14 +205,14 @@ namespace BookingModule.ViewModels
         private void OnAssistCommand(object param)
         {
             IDictionary<string, string> values = (Dictionary<string, string>)param;
-            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
-            string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
+            var assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
+            var assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
             this.AssistNotifierInitialized = NotifyTaskCompletion.Create<bool>(AssistQueryRequestHandler(assistTableName, assistQuery), (sender, ev) => {
-                if (sender is INotifyTaskCompletion<bool> notifed)
+                if (sender is INotifyTaskCompletion<bool> notified)
                 {
-                    if (notifed.IsFaulted)
+                    if (notified.IsFaulted)
                     {
-                        DialogService?.ShowErrorMessage(notifed.ErrorMessage);
+                        DialogService?.ShowErrorMessage(notified.ErrorMessage);
                     }
                 }
             });
@@ -216,13 +232,13 @@ namespace BookingModule.ViewModels
                 
                 case "SUPPLIER_ASSIST":
                     {
-                        BookingIncidentSupplierDto = (IEnumerable<SupplierSummaryDto>)collectionValue;
+                        BookingIncidentSupplierDto = (IEnumerable<SupplierSummaryViewObject>)collectionValue;
                         break;
                     };
                 
                 case "OFFICE_ASSIST":
                     {
-                        BookingIncidentOfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        BookingIncidentOfficeDto = (IEnumerable<OfficeViewObject>)collectionValue;
                         break;
                     };
 
@@ -233,13 +249,13 @@ namespace BookingModule.ViewModels
                     };
                 case "VEHICLE_ASSIST":
                     {
-                        BookingIncidentVehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
+                        BookingIncidentVehicleDto = (IEnumerable<VehicleSummaryViewObject>)collectionValue;
                         break;
                     };
                 
                 case "BOOKING_INCIDENT_TYPE":
                     {
-                        BookingIncidentTypeDto = (IEnumerable<IncidentTypeDto>)collectionValue;
+                        BookingIncidentTypeDto = (IEnumerable<IncidentTypeViewObject>)collectionValue;
                         break;
                     };
                 
@@ -260,7 +276,7 @@ namespace BookingModule.ViewModels
             var deleted = false;
             try
             {
-                deleted = await _dataIncidentService.DeleteAsync(_domainObject).ConfigureAwait(false);
+                deleted = await _dataIncidentService.DeleteAsync(_dtoWrapperData).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -282,19 +298,19 @@ namespace BookingModule.ViewModels
                     return;
                 }
             }
-                var interpeter = new PayloadInterpeter<IBookingIncidentData>();
+                var interpreter = new PayloadInterpeter<IBookingIncidentData>();
                 var currentId = _dataIncidentService.NewId();
-                interpeter.Init = Init;
-                interpeter.CleanUp = CleanUp;
+                interpreter.Init = Init;
+                interpreter.CleanUp = CleanUp;
 
                 if (string.IsNullOrEmpty(PrimaryKeyValue)) PrimaryKeyValue = dataPayLoad.PrimaryKeyValue;
 
                 if (string.IsNullOrEmpty(PrimaryKeyValue))
                     return;
-                // i checkj what i have to do.
-                OperationalState = interpeter.CheckOperationalType(dataPayLoad);
-                // i act baed on the system and notify the subsystem
-                interpeter.ActionOnPayload(dataPayLoad, PrimaryKeyValue, currentId, SubSystem,
+                // i check what i have to do.
+                OperationalState = interpreter.CheckOperationalType(dataPayLoad);
+                // i act on the system and notify the subsystem
+                interpreter.ActionOnPayload(dataPayLoad, PrimaryKeyValue, currentId, SubSystem,
                     EventSubsystem.BookingSubsystemVm);
             
         }
@@ -311,6 +327,10 @@ namespace BookingModule.ViewModels
         /// <param name="insertion">True if it is inserted or false otherwise</param>
         protected void Init(string value, DataPayLoad payload, bool insertion)
         {
+            if (payload == null)
+            {
+                throw new ArgumentNullException("Invalid Payload");
+            }
             if (payload.DataObject==null)
             {
                 return;
@@ -319,26 +339,22 @@ namespace BookingModule.ViewModels
             {
                 return;
             }
-            _domainObject = payload.DataObject as IBookingIncidentData;
-            DataObject = _domainObject.Value;
+            _dtoWrapperData = payload.DataObject as IBookingIncidentData;
+            DataObject = _dtoWrapperData.Value;
             
              
             RegisterToolBar();
             ActiveSubSystem();
         }
 
-        public BookingIncidentDto DataObject
+        public BookingIncidentViewObject DataObject
         {
             set
             {
                 _dataObject = value;
                 RaisePropertyChanged();
             }
-            get
-            {
-
-                return _dataObject;
-            }
+            get => _dataObject;
         }
       
       
@@ -346,7 +362,7 @@ namespace BookingModule.ViewModels
         {
             base.DeleteView(key);
             DataPayLoad payload = new DataPayLoad();
-            payload.DataObject = _domainObject;
+            payload.DataObject = _dtoWrapperData;
             payload.HasDataObject = true;
             payload.PrimaryKeyValue = DataObject.Code;
             DeleteItem(payload);
@@ -354,7 +370,7 @@ namespace BookingModule.ViewModels
         }
         protected override void DeleteItem(DataPayLoad payLoad)
         {
-            bool isDeleted = false;
+            var isDeleted = false;
             NotifyTaskCompletion.Create(DeleteAsync(payLoad),
                 (sender, args) =>
                 {
@@ -370,32 +386,39 @@ namespace BookingModule.ViewModels
                     }
                 });
 
-            if (isDeleted)
+            if (!isDeleted)
             {
-                var dataPayLoad = new DataPayLoad
-                {
-                    Sender = ViewModelUri.ToString(),
-                    PayloadType = DataPayLoad.Type.UpdateView
-                };
-                EventManager.NotifyObserverSubsystem("{data.name}Group", dataPayLoad);
-                UnregisterToolBar(payLoad.PrimaryKeyValue);
-                DeleteRegion();
+                return;
             }
-        }
-        private async Task<bool> DeleteAsync(DataPayLoad payLoad)
-        {
-            bool retValue = false;
-            if (payLoad.DataObject is IBookingIncidentData request)
+            var dataPayLoad = new DataPayLoad
             {
-                try
-                {
-                    retValue = await _dataIncidentService.DeleteAsync(request).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    var msg = "Error during saving request:" + ex.Message;
-                    DialogService?.ShowErrorMessage(msg);
-                }
+                Sender = ViewModelUri.ToString(),
+                PayloadType = DataPayLoad.Type.UpdateView
+            };
+            EventManager.NotifyObserverSubsystem("{data.name}Group", dataPayLoad);
+            UnregisterToolBar(payLoad.PrimaryKeyValue);
+            DeleteRegion();
+        }
+        private async Task<bool> DeleteAsync([NotNull] DataPayLoad payLoad)
+        {
+            if (payLoad == null)
+            {
+                throw new ArgumentNullException(nameof(payLoad));
+            }
+            var retValue = false;
+
+            if (!(payLoad.DataObject is IBookingIncidentData request))
+            {
+                return false;
+            }
+            try
+            {
+                retValue = await _dataIncidentService.DeleteAsync(request).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                var msg = "Error during saving request:" + ex.Message;
+                DialogService?.ShowErrorMessage(msg);
             }
             return retValue;
         }
@@ -432,14 +455,12 @@ namespace BookingModule.ViewModels
 
         }
      
-        #region DtoProperties
+        #region Exposing View Objects
       
         
-        public IEnumerable<OfficeDtos> BookingIncidentOfficeDto
-        {  get
-            {
-                return _bookingIncidentOfficeDtoValue;
-            }
+        public IEnumerable<OfficeViewObject> BookingIncidentOfficeDto
+        {
+            get => _bookingIncidentOfficeDtoValue;
             set
             {
                 _bookingIncidentOfficeDtoValue = value;
@@ -448,10 +469,7 @@ namespace BookingModule.ViewModels
         }
         public IEnumerable<ClientSummaryExtended> BookingIncidentClientDto
         {
-            get
-            {
-                return _bookingIncidentClientDtoValue;
-            }
+            get => _bookingIncidentClientDtoValue;
             set
             {
                 _bookingIncidentClientDtoValue = value;
@@ -460,10 +478,7 @@ namespace BookingModule.ViewModels
         }
         public IEnumerable<ClientSummaryExtended> BookingIncidentDriversDto
         {
-            get
-            {
-                return _bookingIncidentDriverDtoValue;
-            }
+            get => _bookingIncidentDriverDtoValue;
             set
             {
                 _bookingIncidentDriverDtoValue = value;
@@ -471,11 +486,8 @@ namespace BookingModule.ViewModels
             }
         }
 
-        public IEnumerable<SupplierSummaryDto> BookingIncidentSupplierDto {
-            get
-            {
-                return _bookingIncidentSupplierDtoValue;
-            }
+        public IEnumerable<SupplierSummaryViewObject> BookingIncidentSupplierDto {
+            get => _bookingIncidentSupplierDtoValue;
             set
             {
                 _bookingIncidentSupplierDtoValue = value;
@@ -492,32 +504,23 @@ namespace BookingModule.ViewModels
                 _vehicleColumns = value;
                 RaisePropertyChanged("VehicleColumns");
             }
-            get
-            {
-                return _vehicleColumns;
-            }
+            get => _vehicleColumns;
         }
         /// <summary>
         ///  Set or get the incident vehicle dto for the list.
         /// </summary>
-        public IEnumerable<VehicleSummaryDto> BookingIncidentVehicleDto
+        public IEnumerable<VehicleSummaryViewObject> BookingIncidentVehicleDto
         {
-            get
-            {
-                return _bookingIncidentVehicleDtoValue;
-            }
+            get => _bookingIncidentVehicleDtoValue;
             set
             {
                 _bookingIncidentVehicleDtoValue = value;
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<IncidentTypeDto> BookingIncidentTypeDto
+        public IEnumerable<IncidentTypeViewObject> BookingIncidentTypeDto
         {
-            get
-            {
-                return _bookingIncidentTypeDtoValue;
-            }
+            get => _bookingIncidentTypeDtoValue;
             set
             {
                 _bookingIncidentTypeDtoValue = value;

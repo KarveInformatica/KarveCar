@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using System.Windows.Input;
 using Prism.Commands;
@@ -18,14 +18,14 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  View model that contains the cities.
     /// </summary>
-    class CitiesViewModel: GenericHelperViewModel<CityDto, POBLACIONES>
+    class CitiesViewModel: GenericHelperViewModel<CityViewObject, POBLACIONES>
     {
       
         private IEnumerable<CityCountryDto> _cityCountryDto = new ObservableCollection<CityCountryDto>();
         private static long _gridIdentifier = 0;
-        private ObservableCollection<CountryDto> _countryCities;
-        private HelperLoader<CountryDto, Country> _countryDto;
-        private HelperLoader<CityDto, POBLACIONES> _cityDto;
+        private ObservableCollection<CountryViewObject> _countryCities;
+        private HelperLoader<CountryViewObject, Country> _countryDto;
+        private HelperLoader<CityViewObject, POBLACIONES> _cityDto;
         private IAssistDataService _assistDataService;
         /// <summary>
         ///  CitiesViewModel
@@ -49,7 +49,7 @@ namespace HelperModule.ViewModels
          
         }
 
-        public ObservableCollection<CountryDto> CountryCitiesDto
+        public ObservableCollection<CountryViewObject> CountryCitiesDto
         {
             get { return _countryCities; }
             set { _countryCities = value; RaisePropertyChanged(); }
@@ -62,8 +62,8 @@ namespace HelperModule.ViewModels
         public async void OnCityCountry(object obj)
         {
             IHelperDataServices helperData = DataServices.GetHelperDataServices();
-            IEnumerable<CountryDto> countries = await helperData.GetMappedAllAsyncHelper<CountryDto, Country>();
-            IncrementalList<CityDto> cities = HelperView;
+            IEnumerable<CountryViewObject> countries = await helperData.GetMappedAllAsyncHelper<CountryViewObject, Country>();
+            IncrementalList<CityViewObject> cities = HelperView;
             CityCountryDto = from l in countries
                 from r in cities
                 where l.CountryCode == r.Country.CountryCode
@@ -96,14 +96,14 @@ namespace HelperModule.ViewModels
         /// <returns></returns>
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            CityDto dto = payLoad.DataObject as CityDto;
+            CityViewObject viewObject = payLoad.DataObject as CityViewObject;
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
 
-            if (dto != null)
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<CityDto, POBLACIONES>(dto);
-                dto.Code = codeId.Substring(0, 3);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<CityViewObject, POBLACIONES>(viewObject);
+                viewObject.Code = codeId.Substring(0, 3);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

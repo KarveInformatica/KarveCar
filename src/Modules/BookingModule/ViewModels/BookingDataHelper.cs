@@ -1,11 +1,6 @@
 ﻿using KarveDataServices;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
-using Prism.Mvvm;
+using KarveDataServices.ViewObjects;
 
 namespace BookingModule.ViewModels
 {
@@ -13,8 +8,8 @@ namespace BookingModule.ViewModels
     {
         private IEnumerable<ClientSummaryExtended> _dto = new List<ClientSummaryExtended>();
         private IEnumerable<ClientSummaryExtended> _driverDto = new List<ClientSummaryExtended>();
-        private IEnumerable<ActiveFareDto> _activeFare = new List<ActiveFareDto>();
-        private IEnumerable<ContractByClientDto> _contractByClientDto = new List<ContractByClientDto>();
+        private IEnumerable<ActiveFareViewObject> _activeFare = new List<ActiveFareViewObject>();
+        private IEnumerable<ContractByClientViewObject> _contractByClientDto = new List<ContractByClientViewObject>();
         
         public IEnumerable<ClientSummaryExtended> ClientDto
         {
@@ -26,11 +21,11 @@ namespace BookingModule.ViewModels
             set { _driverDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<ActiveFareDto> ActiveFareDto {
+        public IEnumerable<ActiveFareViewObject> ActiveFareDto {
             get { return _activeFare;  }
             set { _activeFare = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ContractByClientDto> ContractByClientDto
+        public IEnumerable<ContractByClientViewObject> ContractByClientDto
         {
             get { return _contractByClientDto;  }
             set { _contractByClientDto = value; RaisePropertyChanged(); }

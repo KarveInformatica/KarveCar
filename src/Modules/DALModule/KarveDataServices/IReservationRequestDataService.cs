@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 namespace KarveDataServices
 {
     // interface for the reservation request data service.

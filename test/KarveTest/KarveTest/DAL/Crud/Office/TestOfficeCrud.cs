@@ -6,7 +6,7 @@ using DataAccessLayer.Crud;
 using NUnit.Framework;
 using KarveDataServices;
 using DataAccessLayer;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
 using KarveDapper;
 using KarveDapper.Extensions;
@@ -21,9 +21,9 @@ namespace KarveTest.DAL.Crud.Office
     {
         private IDataServices _dataServices;
         private ISqlExecutor _sqlExecutor;
-        private IDataLoader<OfficeDtos> _officeDataLoader;
-        private IDataSaver<OfficeDtos> _officeDataSaver;
-        private IDataDeleter<OfficeDtos> _officeDataDeleter;
+        private IDataLoader<OfficeViewObject> _officeDataLoader;
+        private IDataSaver<OfficeViewObject> _officeDataSaver;
+        private IDataDeleter<OfficeViewObject> _officeDataDeleter;
         private CrudFactory _crudFactory;
         [OneTimeSetUp]
         public void SetUp()
@@ -50,7 +50,7 @@ namespace KarveTest.DAL.Crud.Office
         {
             /// arrange
             var loaderOffices = await _officeDataLoader.LoadValueAtMostAsync(10);
-            var office = loaderOffices.FirstOrDefault<OfficeDtos>();
+            var office = loaderOffices.FirstOrDefault<OfficeViewObject>();
             Assert.NotNull(office);
             var entity = await _officeDataLoader.LoadValueAsync(office.Codigo).ConfigureAwait(false);
             // act
@@ -58,7 +58,7 @@ namespace KarveTest.DAL.Crud.Office
             {
                 var holidays = entity.HolidayDates;
                 // assert.
-                Assert.Greater(holidays.Count<HolidayDto>(), 0);
+                Assert.Greater(holidays.Count<HolidayViewObject>(), 0);
             }
             else
             {
@@ -72,44 +72,44 @@ namespace KarveTest.DAL.Crud.Office
             // arrange
 
             var loaderOffices = await _officeDataLoader.LoadValueAtMostAsync(10);
-            var office = loaderOffices.FirstOrDefault<OfficeDtos>();
+            var office = loaderOffices.FirstOrDefault<OfficeViewObject>();
 
             // act
             var holidays = office.HolidayDates;
-            var holidaysList = holidays.ToList<HolidayDto>();
+            var holidaysList = holidays.ToList<HolidayViewObject>();
             var prevList = holidaysList.Count();
-            HolidayDto holidayDto = Craft_Holiday_Date(office.Codigo);
-            holidaysList.Add(holidayDto);
+            HolidayViewObject holidayViewObject = Craft_Holiday_Date(office.Codigo);
+            holidaysList.Add(holidayViewObject);
             office.HolidayDates = holidaysList;
             var result = await _officeDataSaver.SaveAsync(office);
             Assert.IsTrue(result);
             var entity = await _officeDataLoader.LoadValueAsync(office.Codigo);
 
-            var value = entity.HolidayDates.FirstOrDefault<HolidayDto>(x => (
-                                                               (x.FESTIVO == holidayDto.FESTIVO) 
-                                                            && (x.OFICINA==holidayDto.OFICINA) &&                                                            (x.PARTE_DIA==holidayDto.PARTE_DIA) && 
-                                                               (x.HORA_DESDE== holidayDto.HORA_DESDE) && 
-                                                               (x.HORA_HASTA ==holidayDto.HORA_HASTA)                                                            ));
+            var value = entity.HolidayDates.FirstOrDefault<HolidayViewObject>(x => (
+                                                               (x.FESTIVO == holidayViewObject.FESTIVO) 
+                                                            && (x.OFICINA==holidayViewObject.OFICINA) &&                                                            (x.PARTE_DIA==holidayViewObject.PARTE_DIA) && 
+                                                               (x.HORA_DESDE== holidayViewObject.HORA_DESDE) && 
+                                                               (x.HORA_HASTA ==holidayViewObject.HORA_HASTA)                                                            ));
             var nextList = entity.HolidayDates.Count();
             Assert.Greater(nextList, prevList);
             Assert.NotNull(value);
         }
         /// <summary>
-        ///  HolidayDto. This craft an holiday data transfer object.
+        ///  HolidayViewObject. This craft an holiday data transfer object.
         /// </summary>
         /// <returns></returns>
-        private HolidayDto Craft_Holiday_Date(string oficina)
+        private HolidayViewObject Craft_Holiday_Date(string oficina)
         {
-            HolidayDto holidayDto = new HolidayDto();
-            holidayDto.FESTIVO = new DateTime(2018, 12, 24);
-            holidayDto.HORA_DESDE = new TimeSpan(14, 0, 0);
-            holidayDto.HORA_HASTA = new TimeSpan(20, 0, 0);
-            holidayDto.PARTE_DIA = 1;
-            holidayDto.OFICINA = oficina;
-            holidayDto.IsDirty = true;
-            holidayDto.IsNew = true;
-            holidayDto.IsValid = true;
-            return holidayDto;
+            HolidayViewObject holidayViewObject = new HolidayViewObject();
+            holidayViewObject.FESTIVO = new DateTime(2018, 12, 24);
+            holidayViewObject.HORA_DESDE = new TimeSpan(14, 0, 0);
+            holidayViewObject.HORA_HASTA = new TimeSpan(20, 0, 0);
+            holidayViewObject.PARTE_DIA = 1;
+            holidayViewObject.OFICINA = oficina;
+            holidayViewObject.IsDirty = true;
+            holidayViewObject.IsNew = true;
+            holidayViewObject.IsValid = true;
+            return holidayViewObject;
         }
         [Test]
         public async Task Should_Create_ANewOfficePerCompany()
@@ -122,7 +122,7 @@ namespace KarveTest.DAL.Crud.Office
             var dto = officeDataServices.GetNewOfficeDo(id);
                 if (dto != null)
                 {
-                    var holiday = new List<HolidayDto> { Craft_Holiday_Date(dto.Value.Codigo) };
+                    var holiday = new List<HolidayViewObject> { Craft_Holiday_Date(dto.Value.Codigo) };
                     // act: now we act to receive an office.
                     dto.Value.HolidayDates = holiday;
                     var value = await _officeDataSaver.SaveAsync(dto.Value);
@@ -146,7 +146,7 @@ namespace KarveTest.DAL.Crud.Office
         {
             // arrange
             var loaderOffices = await _officeDataLoader.LoadValueAtMostAsync(10);          
-            var office = loaderOffices.FirstOrDefault<OfficeDtos>();
+            var office = loaderOffices.FirstOrDefault<OfficeViewObject>();
             var officeCode = office.Codigo;
             office.Nombre = "JapanCarSpain SL";
             // act

@@ -1,30 +1,30 @@
 ﻿using System.Collections.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices.DataObjects
 {
     /// <summary>
     ///  Marker interface
     /// </summary>
-    public interface IInvoiceData: IValidDomainObject, IValueObject<InvoiceDto>
+    public interface IInvoiceData: IValidDomainObject, IValueObject<InvoiceViewObject>
     {
         /// <summary>
         /// ContractSummary 
         /// </summary>
-        IEnumerable<ContractDto> ContractSummary { get; }
+        IEnumerable<ContractViewObject> ContractSummary { get; }
         /// <summary>
-        /// Client summary dto.
+        /// Client summary viewObject.
         /// </summary>
         IEnumerable<ClientSummaryExtended> ClientSummary { get; }
 
         /// <summary>
         /// InvoiceSummary
         /// </summary>
-        IEnumerable<InvoiceSummaryDto> InvoiceItems { get; set; }
+        IEnumerable<InvoiceSummaryViewObject> InvoiceItems { get; set; }
         /// <summary>
         /// InvoiceSummary
         /// </summary>
-        IEnumerable<InvoiceSummaryValueDto> InvoiceSummary { get; }
+        IEnumerable<InvoiceSummaryValueViewObject> InvoiceSummary { get; }
         /// <summary>
         ///  This gives the number of invoices.
         /// </summary>

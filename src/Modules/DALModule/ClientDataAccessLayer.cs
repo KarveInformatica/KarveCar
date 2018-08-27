@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.Crud.Clients;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.SQL;
 using System.ComponentModel;
 
@@ -21,9 +21,9 @@ namespace DataAccessLayer
     /// </summary>
     internal class ClientDataAccessLayer : AbstractDataAccessLayer, IClientDataServices
     {
-        private readonly IDataLoader<ClientDto> _dataLoader;
-        private readonly IDataSaver<ClientDto> _dataSaver;
-        private readonly IDataDeleter<ClientDto> _dataDeleter;
+        private readonly IDataLoader<ClientViewObject> _dataLoader;
+        private readonly IDataSaver<ClientViewObject> _dataSaver;
+        private readonly IDataDeleter<ClientViewObject> _dataDeleter;
         private const string _tableName = "CLIENTES1";
         /// <summary>
         ///  Sql executor.
@@ -97,16 +97,16 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="clientsSummaryQuery">Query of the client summary.</param>
         /// <returns></returns>
-        public async Task<IEnumerable<ClientSummaryDto>> GetSummaryDo(string clientsSummaryQuery)
+        public async Task<IEnumerable<ClientSummaryViewObject>> GetSummaryDo(string clientsSummaryQuery)
         {
 
-            IEnumerable<ClientSummaryDto> summaryDtos = new List<ClientSummaryDto>();
+            IEnumerable<ClientSummaryViewObject> summaryDtos = new List<ClientSummaryViewObject>();
             using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 try
                 {
 
-                    summaryDtos = await connection.QueryAsync<ClientSummaryDto>(clientsSummaryQuery).ConfigureAwait(false);
+                    summaryDtos = await connection.QueryAsync<ClientSummaryViewObject>(clientsSummaryQuery).ConfigureAwait(false);
                 }
                 finally
                 {
@@ -117,7 +117,7 @@ namespace DataAccessLayer
         }
         public IClientData GetNewDo(string code)
         {
-            var value = new ClientDto { NUMERO_CLI = code, Numero = code, Code = code };
+            var value = new ClientViewObject { NUMERO_CLI = code, Numero = code, Code = code };
             IClientData varClientData = new Client(value);
             varClientData.Valid = true;
             varClientData.Value.IsValid = true;
@@ -202,10 +202,10 @@ namespace DataAccessLayer
         /// <param name="baseIndex">Base index </param>
         /// <param name="defaultPage">Page size</param>
         /// <returns>A list of contacts for a given client</returns>
-        public async Task<IEnumerable<ContactsDto>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage)
+        public async Task<IEnumerable<ContactsViewObject>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage)
         {
 
-            var dataPager = new DataPager<ContactsDto>(SqlExecutor);
+            var dataPager = new DataPager<ContactsViewObject>(SqlExecutor);
             var pageStart = baseIndex;
             if (pageStart == 0)
                 pageStart = 1;

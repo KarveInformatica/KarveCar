@@ -871,9 +871,10 @@
                                            Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LabelTextWidth}" Margin="10,0,0,0"></TextBlock>
                                 <Syncfusion:SfTextBoxExt x:Name="PART_SearchTextFirst" 
                                     Text="{Binding  RelativeSource={RelativeSource TemplatedParent}, 
-                                    Path=TextContentFirst}"
+                                    Path=TextContentFirst, Mode=TwoWay}"
                                     IsReadOnly="{Binding  RelativeSource={RelativeSource TemplatedParent}, Path=IsReadOnlyFirst}"
-                                    Watermark="Codigo.."                                   
+                                    Watermark="Codigo.."
+                                    
                                     Width="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextContentFirstWidth}"
                                     Margin="10,0,0,0">
                                     

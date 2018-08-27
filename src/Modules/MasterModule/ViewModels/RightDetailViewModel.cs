@@ -3,7 +3,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Views;
 using Prism.Regions;
 
@@ -18,7 +18,7 @@ namespace MasterModule.ViewModels
         private IEventManager _eventManager;
         private IDataServices _dataServices;
         private IRegionManager _regionManager;
-        private ClientDto _dataObject;
+        private ClientViewObject _dataObject;
 
         /// <summary>
         ///  This returns a name.
@@ -49,7 +49,7 @@ namespace MasterModule.ViewModels
         {
             if (payLoad.HasDataObject)
             {
-                DataObject = payLoad.DataObject as ClientDto;
+                DataObject = payLoad.DataObject as ClientViewObject;
                 _eventManager.DeleteMailBoxSubscription(Name);
                 // Each view model shall have a unique uri to locate it.
                 Uri uri = new Uri(Name);
@@ -62,10 +62,10 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data object to be refreshed.
         /// </summary>
-        public ClientDto DataObject
+        public ClientViewObject DataObject
         {
             get { return _dataObject; }
-            set { _dataObject = (ClientDto)value; RaisePropertyChanged(); }
+            set { _dataObject = (ClientViewObject)value; RaisePropertyChanged(); }
         }
 
         public override void DisposeEvents()

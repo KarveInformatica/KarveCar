@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.SQL;
 using KarveDataServices;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveDapper;
 using Dapper;
 using KarveDapper.Extensions;
@@ -31,22 +31,22 @@ namespace DataAccessLayer.Crud.Supplier
             throw new NotImplementedException();
         }
 
-        private void fillMonths(ref Model.Supplier supplier)
+        private void fillMonths(ref DtoWrapper.Supplier supplier)
         {
-            supplier.MonthsDtos = new List<MonthsDto>()
+            supplier.MonthsDtos = new List<MonthsViewObject>()
             {
-                new MonthsDto() {NUMERO_MES = 1, MES= "Enero"},
-                new MonthsDto() {NUMERO_MES = 2, MES= "Febrero"},
-                new MonthsDto() {NUMERO_MES = 3, MES= "Marzo"},
-                new MonthsDto() {NUMERO_MES = 4, MES= "Avril"},
-                new MonthsDto() {NUMERO_MES = 5, MES= "Mayo"},
-                new MonthsDto() {NUMERO_MES = 6, MES= "Junio"},
-                new MonthsDto() {NUMERO_MES = 7, MES= "Julio"},
-                new MonthsDto() {NUMERO_MES = 8, MES= "Agosto"},
-                new MonthsDto() {NUMERO_MES = 9, MES= "Septiembre"},
-                new MonthsDto() {NUMERO_MES = 10, MES= "Octubre"},
-                new MonthsDto() {NUMERO_MES = 11, MES= "Noviembre"},
-                new MonthsDto() {NUMERO_MES = 12, MES= "Diciembre"}
+                new MonthsViewObject() {NUMERO_MES = 1, MES= "Enero"},
+                new MonthsViewObject() {NUMERO_MES = 2, MES= "Febrero"},
+                new MonthsViewObject() {NUMERO_MES = 3, MES= "Marzo"},
+                new MonthsViewObject() {NUMERO_MES = 4, MES= "Avril"},
+                new MonthsViewObject() {NUMERO_MES = 5, MES= "Mayo"},
+                new MonthsViewObject() {NUMERO_MES = 6, MES= "Junio"},
+                new MonthsViewObject() {NUMERO_MES = 7, MES= "Julio"},
+                new MonthsViewObject() {NUMERO_MES = 8, MES= "Agosto"},
+                new MonthsViewObject() {NUMERO_MES = 9, MES= "Septiembre"},
+                new MonthsViewObject() {NUMERO_MES = 10, MES= "Octubre"},
+                new MonthsViewObject() {NUMERO_MES = 11, MES= "Noviembre"},
+                new MonthsViewObject() {NUMERO_MES = 12, MES= "Diciembre"}
 
             };
 
@@ -93,7 +93,7 @@ namespace DataAccessLayer.Crud.Supplier
 
         public async Task<ISupplierData> LoadValueAsync(string code)
         {
-            var model = new Model.Supplier();
+            var model = new DtoWrapper.Supplier();
             fillMonths(ref model);
             using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
@@ -117,7 +117,7 @@ namespace DataAccessLayer.Crud.Supplier
             return model;
         }
       
-        public Task<IEnumerable<SupplierDto>> LoadValueAtMostAsync(int n, int back = 0)
+        public Task<IEnumerable<SupplierViewObject>> LoadValueAtMostAsync(int n, int back = 0)
         {
             throw new NotImplementedException();
         }

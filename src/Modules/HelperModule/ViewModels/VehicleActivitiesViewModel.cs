@@ -3,7 +3,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -11,7 +11,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  VehicleActivitiesViewModel. This is a viewmodel for the helpers vehicle view model.
     /// </summary>
-    class VehicleActivitiesViewModel : GenericHelperViewModel<VehicleActivitiesDto, ACTIVEHI>
+    class VehicleActivitiesViewModel : GenericHelperViewModel<VehicleActivitiesViewObject, ACTIVEHI>
     {
         /// <summary>
         /// Constructor.
@@ -27,13 +27,13 @@ namespace HelperModule.ViewModels
 
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            VehicleActivitiesDto activitiesDto = new VehicleActivitiesDto();
-            string activities = await DataServices.GetHelperDataServices().GetMappedUniqueId<VehicleActivitiesDto, ACTIVEHI>(activitiesDto);
-            activitiesDto = payLoad.DataObject as VehicleActivitiesDto;
-            if (activitiesDto != null)
+            VehicleActivitiesViewObject activitiesViewObject = new VehicleActivitiesViewObject();
+            string activities = await DataServices.GetHelperDataServices().GetMappedUniqueId<VehicleActivitiesViewObject, ACTIVEHI>(activitiesViewObject);
+            activitiesViewObject = payLoad.DataObject as VehicleActivitiesViewObject;
+            if (activitiesViewObject != null)
             {
-                activitiesDto.Code = activities;
-                payLoad.DataObject = activitiesDto;
+                activitiesViewObject.Code = activities;
+                payLoad.DataObject = activitiesViewObject;
 
             }
             

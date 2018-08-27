@@ -1,32 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using KarveCommon.Generic;
-using KarveDataServices;
-using KarveCommonInterfaces;
-using KarveCommon.Services;
-using Prism.Regions;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using InvoiceModule.Common;
-using KarveCommon;
-using KarveControls;
-using KarveDataServices.DataTransferObject;
-using KarveControls.Behaviour.Grid;
-using KarveControls.HeaderedWindow;
-using KarveDataServices.DataObjects;
-using Microsoft.Practices.Unity;
-using NLog;
-using Prism.Interactivity.InteractionRequest;
-using Syncfusion.Windows.Shared;
-using MasterModule.Views;
-using Syncfusion.UI.Xaml.Grid;
-using Syncfusion.UI.Xaml.Grid.Cells;
-namespace InvoiceModule.ViewModels
+﻿namespace InvoiceModule.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Input;
+
+    using global::InvoiceModule.Common;
+
+    using KarveCommon;
+    using KarveCommon.Generic;
+    using KarveCommon.Services;
+
+    using KarveCommonInterfaces;
+
+    using KarveControls;
+    using KarveControls.Behaviour.Grid;
+    using KarveControls.HeaderedWindow;
+
+    using KarveDataServices;
+    using KarveDataServices.DataObjects;
+    using KarveDataServices.ViewObjects;
+
+    using MasterModule.Views;
+
+    using Microsoft.Practices.Unity;
+
+    using NLog;
+
+    using Prism.Interactivity.InteractionRequest;
+    using Prism.Regions;
+
+    using Syncfusion.UI.Xaml.Grid;
+    using Syncfusion.UI.Xaml.Grid.Cells;
+    using Syncfusion.Windows.Shared;
+
     /// <inheritdoc />
     /// <summary>
     ///  View model for the info view.
@@ -60,7 +71,7 @@ namespace InvoiceModule.ViewModels
             _invoiceDataService = _dataServices.GetInvoiceDataServices();
             LineVisible = true;
 
-            CollectionView = new ObservableCollection<InvoiceSummaryDto>();
+            CollectionView = new ObservableCollection<InvoiceSummaryViewObject>();
             AssistMapper = _dataServices.GetAssistDataServices().Mapper;
             ItemChangedCommand = new Prism.Commands.DelegateCommand<IDictionary<string, object>>(OnChangedCommand);
             NavigateCommand = new DelegateCommand<object>(OnNavigate);
@@ -72,7 +83,7 @@ namespace InvoiceModule.ViewModels
             CompanyName = String.Empty;
             AddressName = String.Empty;
             List<string> colList;
-            var genericInovice = new InvoiceSummaryDto();
+            var genericInovice = new InvoiceSummaryViewObject();
             colList = genericInovice.GetType().GetProperties().Select(value => value.Name).ToList();
 
             GridColumns = new List<string>()
@@ -179,8 +190,10 @@ namespace InvoiceModule.ViewModels
             MessageBox.Show("OpenContract");
         }
 
-        private ICommand OpenContractCommand { set; get; }
-        private ICommand OpenVehiclesCommand { set; get; }
+        private ICommand OpenContractCommand { get; set; }
+
+        private ICommand OpenVehiclesCommand { get; set; }
+
         /// <summary>
         /// Navigate to the view
         /// </summary>
@@ -231,6 +244,7 @@ namespace InvoiceModule.ViewModels
             var list = _invoiceSummary.Skip(baseIndex).Take(50).ToList();
             InvoiceDtos.LoadItems(list);
         }
+
         private void OnAssistExecuted(object sender, PropertyChangedEventArgs e)
         {
             var notificationCompletion = sender as INotifyTaskCompletion<bool>;
@@ -238,16 +252,15 @@ namespace InvoiceModule.ViewModels
             {
                 return;
             }
+
             if (!notificationCompletion.Task.IsFaulted)
             {
                 return;
             }
+
             var errorAssist = "Error during assist: " + notificationCompletion.ErrorMessage;
             DialogService?.ShowErrorMessage(errorAssist);
         }
-
-       
-
 
         private void OnAssistCommand(object param)
         {
@@ -267,6 +280,7 @@ namespace InvoiceModule.ViewModels
             {
                 return;
             }
+
             var interpeter = new PayloadInterpeter<IInvoiceData>();
             var currentId = _invoiceDataService.NewId();
             interpeter.Init = Init;
@@ -282,7 +296,7 @@ namespace InvoiceModule.ViewModels
             // check if this message is for me.
             if (PrimaryKeyValue.Length > 0)
             {
-                if (!(dataPayLoad.DataObject is InvoiceDto dto))
+                if (!(dataPayLoad.DataObject is InvoiceViewObject dto))
                 {
                     if (dataPayLoad.DataObject is IInvoiceData domainObject)
                     {
@@ -303,6 +317,7 @@ namespace InvoiceModule.ViewModels
 
                 }
             }
+
             OperationalState = interpeter.CheckOperationalType(dataPayLoad);
             //  PrimaryKeyValue = dataPayLoad.PrimaryKeyValue;
             interpeter.ActionOnPayload(dataPayLoad, PrimaryKeyValue, currentId, DataSubSystem.InvoiceSubsystem, EventSubsystem.InvoiceSubsystemVm);
@@ -316,11 +331,13 @@ namespace InvoiceModule.ViewModels
             DeleteRegion();
 
         }
-        decimal ComputeTotal(IncrementalList<BookingItemsDto> view)
+
+        decimal ComputeTotal(IncrementalList<BookingItemsViewObject> view)
         {
             var total = view.Select(x => (x.Subtotal.HasValue) ? x.Subtotal.Value : 0 ).Sum();
             return total;
         }
+
         /*
         private void DeleteRegion()
         {
@@ -366,12 +383,14 @@ namespace InvoiceModule.ViewModels
                         this.ClientDto = value as IncrementalList<ClientSummaryExtended>;
                         break;
                     }
+
                 case InvoiceAssist:
                     {
-                        this._invoiceSummary = (IEnumerable<InvoiceSummaryValueDto>)value;
-                        InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
+                        this._invoiceSummary = (IEnumerable<InvoiceSummaryValueViewObject>)value;
+                        InvoiceDtos = new IncrementalList<InvoiceSummaryValueViewObject>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
                         break;
                     }
+
                 default:
                     {
                         throw new ArgumentException("In the assist you neeed simply a valid tag");
@@ -382,6 +401,7 @@ namespace InvoiceModule.ViewModels
             return true;
 
         }
+
         /// <summary>
         ///  Initialize the invoice
         /// </summary>
@@ -403,6 +423,7 @@ namespace InvoiceModule.ViewModels
                 {
                     dataObject.DTOPP = new decimal(0.03);
                 }
+
                 DataObject = ComputeTotals(dataObject);
                 ClientDto = new IncrementalList<ClientSummaryExtended>(LoadMoreClients)
                 { MaxItemCount = _invoiceData.NumberOfClients };
@@ -410,12 +431,14 @@ namespace InvoiceModule.ViewModels
 
                 CollectionView = _invoiceData.InvoiceItems;
                 _invoiceSummary = _invoiceData.InvoiceSummary;
-                InvoiceDtos = new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
+                InvoiceDtos = new IncrementalList<InvoiceSummaryValueViewObject>(LoadMoreItems) { MaxItemCount = _invoiceSummary.Count() };
 
                 ActiveSubSystem();
             }
         }
-        public bool LineVisible { set; get; }
+
+        public bool LineVisible { get; set; }
+
         private async void LoadMoreClients(uint arg1, int arg2)
         {
             var clientDs = _dataServices.GetClientDataServices();
@@ -423,6 +446,7 @@ namespace InvoiceModule.ViewModels
             ClientDto.LoadItems(pagedClient);
 
         }
+
         /// <summary>
         ///  Check the data context helper if has been clicked a agreement.
         /// </summary>
@@ -430,10 +454,11 @@ namespace InvoiceModule.ViewModels
         /// <returns>True if it is an agreement, false otherwise</returns>
         private bool IsAgreement(DataContextHelper helper)
         {
-            var box = helper.Record as InvoiceSummaryDto;
+            var box = helper.Record as InvoiceSummaryViewObject;
             var helperCode = helper.Value as string;
             return ((helperCode != null) && (box != null) && (helperCode == box.AgreementCode));            
         }
+
         /// <summary>
         ///  Check the data context helper if has been clicked a agreement.
         /// </summary>
@@ -442,10 +467,11 @@ namespace InvoiceModule.ViewModels
 
         private bool IsVehicle(DataContextHelper helper)
         {
-            var box = helper.Record as InvoiceSummaryDto;
+            var box = helper.Record as InvoiceSummaryViewObject;
             var helperCode = helper.Value as string;
             return ((helperCode != null) && (box != null) && (helperCode == box.VehicleCode));
         }
+
         /// <summary>
         ///  This 
         /// </summary>
@@ -455,7 +481,7 @@ namespace InvoiceModule.ViewModels
             if (!(obj is DataContextHelper)) return;
 
             var helper = obj as DataContextHelper;
-            var box = helper.Record as InvoiceSummaryDto;
+            var box = helper.Record as InvoiceSummaryViewObject;
 
        
             if (IsVehicle(helper))
@@ -465,9 +491,9 @@ namespace InvoiceModule.ViewModels
                                      "ClientNumber,Client,Policy,Kilometers,PurchaseInvoice,Frame,MotorNumber," +
                                      "ModelYear,Referencia,KeyCode,StorageKey";
 
-                await OnVehicleSummaryAsync("Vehiculos", query, async delegate (VehicleSummaryDto vsdto)
+                await OnVehicleSummaryAsync("Vehiculos", query, async delegate (VehicleSummaryViewObject vsdto)
                 {
-                    var dto = vsdto as VehicleSummaryDto;
+                    var dto = vsdto as VehicleSummaryViewObject;
                     await Task.Delay(1);
                     box.VehicleCode = vsdto.Code;
 
@@ -491,17 +517,18 @@ namespace InvoiceModule.ViewModels
            
         }
 
-        internal async Task SetVehicleSummary(VehicleSummaryDto vsdto)
+        internal async Task SetVehicleSummary(VehicleSummaryViewObject vsdto)
         {
             await Task.Delay(1);
         }
+
         /// <summary>
         ///  Data object for the invoice.
         /// </summary>
-        public InvoiceDto DataObject
+        public InvoiceViewObject DataObject
         {
-            set { _invoiceDataValue = value; RaisePropertyChanged(); }
             get => _invoiceDataValue;
+            set { this._invoiceDataValue = value; this.RaisePropertyChanged(); }
         }
 
         /// <summary>
@@ -520,7 +547,7 @@ namespace InvoiceModule.ViewModels
         /// <summary>
         /// Summary of the invoice.
         /// </summary>
-        public IncrementalList<InvoiceSummaryValueDto> InvoiceDtos
+        public IncrementalList<InvoiceSummaryValueViewObject> InvoiceDtos
         {
             get => _invoiceSummaryView;
             set { _invoiceSummaryView = value; RaisePropertyChanged(); }
@@ -551,9 +578,9 @@ namespace InvoiceModule.ViewModels
             payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
             payLoad.SubsystemName = InvoiceModule.InvoiceSubsystemName;
 
-            if (changedDataObject is IEnumerable<InvoiceSummaryDto> ev)
+            if (changedDataObject is IEnumerable<InvoiceSummaryViewObject> ev)
             {
-                var invoiceSummaryDtos = ev as InvoiceSummaryDto[] ?? ev.ToArray();
+                var invoiceSummaryDtos = ev as InvoiceSummaryViewObject[] ?? ev.ToArray();
                 var aggregateRows = UpdateObject(evDictionary, invoiceSummaryDtos);
 
                 var data = ComputeTotals(aggregateRows);
@@ -571,12 +598,13 @@ namespace InvoiceModule.ViewModels
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
                 payLoad.HasDataObject = true;
                 var dto = DataObject;
-                dto.InvoiceItems = CollectionView as IEnumerable<InvoiceSummaryDto>;
+                dto.InvoiceItems = CollectionView as IEnumerable<InvoiceSummaryViewObject>;
                 payLoad.DataObject = DataObject;
                 var uid = "invoice://" + Guid.ToString();
                 payLoad.ObjectPath = new Uri(uid);
             }
-            var handlerDo = new ChangeFieldHandlerDo<InvoiceDto>(EventManager, DataSubSystem.InvoiceSubsystem);
+
+            var handlerDo = new ChangeFieldHandlerDo<InvoiceViewObject>(EventManager, DataSubSystem.InvoiceSubsystem);
             if (OperationalState == DataPayLoad.Type.Insert)
             {
                 handlerDo.OnInsert(payLoad, eventDictionary);
@@ -590,21 +618,21 @@ namespace InvoiceModule.ViewModels
 
         }
 
-        InvoiceDto UpdateObject(IDictionary<string, object> ev, IEnumerable<InvoiceSummaryDto> invoiceSummaryDtos)
+        InvoiceViewObject UpdateObject(IDictionary<string, object> ev, IEnumerable<InvoiceSummaryViewObject> invoiceSummaryDtos)
         {
             var op = (ControlExt.GridOp) ev["Operation"];
             var dataObject = DataObject;
 
             if (ev.ContainsKey("ChangedValue"))
             {
-                IEnumerable<InvoiceSummaryDto> summaryDtos = new List<InvoiceSummaryDto>();
+                IEnumerable<InvoiceSummaryViewObject> summaryDtos = new List<InvoiceSummaryViewObject>();
                 if (ev["ChangedValue"] is IEnumerable<object> changedValue)
                 {
-                    var localDtos = new List<InvoiceSummaryDto>();
+                    var localDtos = new List<InvoiceSummaryViewObject>();
                     foreach (var v in changedValue)
                     {
-                        InvoiceSummaryDto dto = v as InvoiceSummaryDto;
-                        localDtos.Add(dto);
+                        InvoiceSummaryViewObject viewObject = v as InvoiceSummaryViewObject;
+                        localDtos.Add(viewObject);
                     }
 
                     switch (op)
@@ -618,7 +646,7 @@ namespace InvoiceModule.ViewModels
                             break;
                         case ControlExt.GridOp.Update:
                             var localIds = from x in localDtos select x.KeyId;
-                            var enumerable = invoiceSummaryDtos as InvoiceSummaryDto[] ?? invoiceSummaryDtos.ToArray();
+                            var enumerable = invoiceSummaryDtos as InvoiceSummaryViewObject[] ?? invoiceSummaryDtos.ToArray();
                             var toReplace = enumerable.Where(x => localIds.Contains(x.KeyId));
                             var invoiceDto = enumerable.Except(toReplace);
                             summaryDtos = invoiceDto.Union(localDtos);
@@ -633,10 +661,11 @@ namespace InvoiceModule.ViewModels
 
              
             }
+
             return dataObject;
         }
 
-        InvoiceDto ComputeTotals(InvoiceDto aggregated)
+        InvoiceViewObject ComputeTotals(InvoiceViewObject aggregated)
         {
             // Fetch the data object and compute the totals.
             if (aggregated == null)
@@ -651,6 +680,7 @@ namespace InvoiceModule.ViewModels
             {
                 discount = dataObject.DTOPP.Value;
             }
+
             if (dataObject.IVAPOR_FAC.HasValue)
             {
                 ivaValue = dataObject.IVAPOR_FAC.Value;
@@ -665,6 +695,7 @@ namespace InvoiceModule.ViewModels
                 var computeIva = InvoiceHelpers.ComputeIva(baseValue, ivaValue);
                 dataObject.TODO_FAC = baseValue + computeIva;
             }
+
             return dataObject;
         }
 
@@ -676,12 +707,12 @@ namespace InvoiceModule.ViewModels
         /// </summary>
         public object CollectionView
         {
+            get => _sourceView;
             set
             {
-                _sourceView = value;
-                RaisePropertyChanged("CollectionView");
+                this._sourceView = value;
+                this.RaisePropertyChanged("CollectionView");
             }
-            get => _sourceView;
         }
 
         public string CompanyName
@@ -698,21 +729,20 @@ namespace InvoiceModule.ViewModels
         /// </summary>
         public List<string> GridColumns
         {
+            get => _gridView;
             set
             {
-                _gridView = value;
-                RaisePropertyChanged("GridColumns");
+                this._gridView = value;
+                this.RaisePropertyChanged("GridColumns");
             }
-            get => _gridView;
         }
 
-        public ICommand NavigateCommand { set; get; }
+        public ICommand NavigateCommand { get; set; }
+
         /// <summary>
         ///  This function will add a new client.
         /// </summary>
-        public ICommand AddNewClientCommand { set; get; }
-
-      
+        public ICommand AddNewClientCommand { get; set; }
 
         /// <summary>
         ///  Opciones to be loaded in the grid.
@@ -753,10 +783,10 @@ namespace InvoiceModule.ViewModels
         private InteractionRequest<INotification> _notificationRequest;
         private ObservableCollection<CellPresenterItem> _cellNavigationAware;
         private IInvoiceData _invoiceData;
-        private InvoiceDto _invoiceDataValue;
+        private InvoiceViewObject _invoiceDataValue;
         private IncrementalList<ClientSummaryExtended> _clientValue;
-        private IEnumerable<InvoiceSummaryValueDto> _invoiceSummary;
-        private IncrementalList<InvoiceSummaryValueDto> _invoiceSummaryView;
+        private IEnumerable<InvoiceSummaryValueViewObject> _invoiceSummary;
+        private IncrementalList<InvoiceSummaryValueViewObject> _invoiceSummaryView;
 
         #endregion
         public const string InvoiceAssist = "INVOICE_ASSIST";

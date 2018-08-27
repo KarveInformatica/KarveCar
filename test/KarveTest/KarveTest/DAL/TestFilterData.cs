@@ -9,7 +9,7 @@ using KarveCommon;
 using KarveCommonInterfaces;
 using Syncfusion.Data;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.FilterService;
 using Moq;
 using Syncfusion.UI.Xaml.Grid;

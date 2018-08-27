@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.Mock
 {
@@ -60,17 +60,17 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
+        public Task<IEnumerable<CommissionAgentSummaryViewObject>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        public Task<IEnumerable<CommissionAgentSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryAllAsync()
+        public Task<IEnumerable<CommissionAgentSummaryViewObject>> GetSummaryAllAsync()
         {
             throw new NotImplementedException();
         }

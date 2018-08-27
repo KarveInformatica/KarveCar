@@ -1,6 +1,6 @@
 ﻿using KarveCommon.Command;
 using KarveCommon.Services;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +34,7 @@ namespace ToolBarModule.Command
             {
                 return false;
             }
-            if (parameter is BaseDto baseDto)
+            if (parameter is BaseViewObject baseDto)
             {
                 var tmp = baseDto.IsNew;
                 if (tmp == true)

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveCommonInterfaces;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveCommon.Generic
 {
@@ -26,10 +26,10 @@ namespace KarveCommon.Generic
                 var relatedObject = request.RelatedObject;
                 switch (relatedObject)
                 {
-                    case BranchesDto valueBranchesDto:
+                    case BranchesViewObject valueBranchesDto:
                         return (!string.IsNullOrEmpty(valueBranchesDto.BranchKeyId)
                                 && (!string.IsNullOrEmpty(valueBranchesDto.BranchId)));
-                    case ContactsDto valueContactsDto:
+                    case ContactsViewObject valueContactsDto:
                         return (!string.IsNullOrEmpty(valueContactsDto.ContactId)
                                 && (!string.IsNullOrEmpty(valueContactsDto.ContactsKeyId)));
                 }

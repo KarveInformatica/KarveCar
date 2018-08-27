@@ -16,7 +16,7 @@ using AutoMapper;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveControls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.ComponentModel;
 using System.Windows;
 using System.Diagnostics;
@@ -29,7 +29,7 @@ namespace MasterModule.ViewModels
     {
         private IClientData _currentClientData;
         private string _currentName;
-        private INotifyTaskCompletion<ObservableCollection<ClientTypeDto>> _clientNotifyTask;
+        private INotifyTaskCompletion<ObservableCollection<ClientTypeViewObject>> _clientNotifyTask;
         private IEnumerable _currentView;
 
         public const string Name = "master://UpperBarClientViewModel";
@@ -83,7 +83,7 @@ namespace MasterModule.ViewModels
                 var assistName = currentData[ControlExt.AssistName] as string;
                 if (assistName == "TIPOCLI")
                 {
-                    SourceView = await helperDataServices.GetMappedAllAsyncHelper<ClientTypeDto, TIPOCLI>();
+                    SourceView = await helperDataServices.GetMappedAllAsyncHelper<ClientTypeViewObject, TIPOCLI>();
                 }
                 _status = UpperBarViewModelState.Loaded;
             }
@@ -121,7 +121,7 @@ namespace MasterModule.ViewModels
         /// <param name="ev"></param>
         private void LoadedEventHandler(object sender, PropertyChangedEventArgs ev)
         {
-            INotifyTaskCompletion<ObservableCollection<ClientTypeDto>> value = sender as INotifyTaskCompletion<ObservableCollection<ClientTypeDto>>;
+            INotifyTaskCompletion<ObservableCollection<ClientTypeViewObject>> value = sender as INotifyTaskCompletion<ObservableCollection<ClientTypeViewObject>>;
             string propertyName = ev.PropertyName;
             if (propertyName.Equals("Status"))
             {
@@ -148,16 +148,16 @@ namespace MasterModule.ViewModels
             }
             Contract.Ensures(SourceView!=null, "SourceView shall be present");
         }
-        private async Task<ObservableCollection<ClientTypeDto>> HandleUpperBar(object dataObject)
+        private async Task<ObservableCollection<ClientTypeViewObject>> HandleUpperBar(object dataObject)
         {
 
             IHelperDataServices helperDataServices = DataServices.GetHelperDataServices();
-           ClientDto data = dataObject as ClientDto;
-            var view = new ObservableCollection<ClientTypeDto>();
+           ClientViewObject data = dataObject as ClientViewObject;
+            var view = new ObservableCollection<ClientTypeViewObject>();
 
             if (data != null)
             {
-                var value = await helperDataServices.GetSingleMappedAsyncHelper<ClientTypeDto,TIPOCLI>(data.NUMERO_CLI);
+                var value = await helperDataServices.GetSingleMappedAsyncHelper<ClientTypeViewObject,TIPOCLI>(data.NUMERO_CLI);
  
                 view.Add(value);
             }

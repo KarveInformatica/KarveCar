@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace KarveDataServices.DataObjects
     ///  to a model domain element.
     ///  In this case is the client. 
     /// </summary>
-    public interface IClientData: IHelperData, IValidDomainObject, IValueObject<ClientDto>
+    public interface IClientData: IHelperData, IValidDomainObject, IValueObject<ClientViewObject>
     {
        
     }

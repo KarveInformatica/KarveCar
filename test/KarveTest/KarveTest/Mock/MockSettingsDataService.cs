@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.Mock
 {

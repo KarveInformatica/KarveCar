@@ -166,7 +166,7 @@ namespace PaymentTypeModule.ChargeClients.ViewModel
                 }
                 var helpers = _dataServices.GetHelperDataServices();
                 
-                //_bankDataTable = await helpers.GetMappedAllAsyncHelper<BanksDto,BANCO>()
+                //_bankDataTable = await helpers.GetMappedAllAsyncHelper<BanksViewObject,BANCO>()
            //     viewModel.QueryTable = _bankDataTable;
             }
             catch (Exception e)

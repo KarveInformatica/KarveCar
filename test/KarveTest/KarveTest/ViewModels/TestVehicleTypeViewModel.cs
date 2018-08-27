@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Prism.Regions;
 using HelperModule.ViewModels;
 using System.Windows.Input;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.ViewModels
 {
@@ -49,21 +49,21 @@ namespace KarveTest.ViewModels
         {
             // Arrange
             ICommand command =  _vehicleTypeViewModel.SelectionChangedCommand;
-            VehicleTypeDto dto  = new VehicleTypeDto();
-            dto.Code = "5L";
-            dto.Name = "500P";
-            dto.WebName = "Fiat 500";
-            dto.OfferMargin = 1;
-            dto.TerminationDate = DateTime.Now;
+            VehicleTypeViewObject viewObject  = new VehicleTypeViewObject();
+            viewObject.Code = "5L";
+            viewObject.Name = "500P";
+            viewObject.WebName = "Fiat 500";
+            viewObject.OfferMargin = 1;
+            viewObject.TerminationDate = DateTime.Now;
             // Act
-            command.Execute(dto);
+            command.Execute(viewObject);
            // Assert.
-            VehicleTypeDto resultDto = _vehicleTypeViewModel.HelperDto;
-            Assert.AreEqual(dto.Code, resultDto.Code);
-            Assert.AreEqual(dto.Name, resultDto.Name);
-            Assert.AreEqual(dto.WebName, resultDto.WebName);
-            Assert.AreEqual(dto.OfferMargin, resultDto.OfferMargin);
-            Assert.AreEqual(dto.TerminationDate, resultDto.TerminationDate);
+            VehicleTypeViewObject resultViewObject = _vehicleTypeViewModel.HelperDto;
+            Assert.AreEqual(viewObject.Code, resultViewObject.Code);
+            Assert.AreEqual(viewObject.Name, resultViewObject.Name);
+            Assert.AreEqual(viewObject.WebName, resultViewObject.WebName);
+            Assert.AreEqual(viewObject.OfferMargin, resultViewObject.OfferMargin);
+            Assert.AreEqual(viewObject.TerminationDate, resultViewObject.TerminationDate);
         }
      
         [Test]
@@ -71,21 +71,21 @@ namespace KarveTest.ViewModels
         {
             // arrange
             ICommand command = _vehicleTypeViewModel.ItemChangedCommand;
-            VehicleTypeDto dto = new VehicleTypeDto();
-            dto.Code = "5L";
-            dto.Name = "500P";
-            dto.WebName = "Fiat 500";
-            dto.OfferMargin = 1;
-            dto.TerminationDate = DateTime.Now;
+            VehicleTypeViewObject viewObject = new VehicleTypeViewObject();
+            viewObject.Code = "5L";
+            viewObject.Name = "500P";
+            viewObject.WebName = "Fiat 500";
+            viewObject.OfferMargin = 1;
+            viewObject.TerminationDate = DateTime.Now;
             // act
-            command.Execute(dto);
-            VehicleTypeDto resultDto = _vehicleTypeViewModel.HelperDto;
+            command.Execute(viewObject);
+            VehicleTypeViewObject resultViewObject = _vehicleTypeViewModel.HelperDto;
             // assert
-            Assert.AreEqual(dto.Code, resultDto.Code);
-            Assert.AreEqual(dto.Name, resultDto.Name);
-            Assert.AreEqual(dto.WebName, resultDto.WebName);
-            Assert.AreEqual(dto.OfferMargin, resultDto.OfferMargin);
-            Assert.AreEqual(dto.TerminationDate, resultDto.TerminationDate);
+            Assert.AreEqual(viewObject.Code, resultViewObject.Code);
+            Assert.AreEqual(viewObject.Name, resultViewObject.Name);
+            Assert.AreEqual(viewObject.WebName, resultViewObject.WebName);
+            Assert.AreEqual(viewObject.OfferMargin, resultViewObject.OfferMargin);
+            Assert.AreEqual(viewObject.TerminationDate, resultViewObject.TerminationDate);
         }
         private void InitHelper()
         {

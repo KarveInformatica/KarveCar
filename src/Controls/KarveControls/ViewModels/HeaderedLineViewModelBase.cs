@@ -8,7 +8,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
 using KarveControls;
@@ -19,17 +19,19 @@ using System.Windows.Input;
 
 namespace KarveControls.ViewModels
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     ///  Generic class for all the headered base model ("cabecera-linea", in spanish).
-    ///  All view model in the headered base model class have to manage a dto 
+    ///  All view model in the headered base model class have to manage a viewObject 
     ///  with a list of inner type dtos as datamember.
     ///  All headered view view models have by default the composite command state.
     ///  This means that the view model shall save himself and not using the handler of the toolbar.
     /// </summary>
     /// <typeparam name="DataType">Type of the domain, used to delivered data payload</typeparam>
     /// <typeparam name="DtoType">Data transfer object</typeparam>
-    /// <typeparam name="InnerDtoType">Type of the other dto</typeparam>
-    public abstract class HeaderedLineViewModelBase<DataType, DtoType, InnerDtoType> : KarveRoutingBaseViewModel, ICreateRegionManagerScope, IEventObserver where DtoType : LineBaseDto<InnerDtoType> where InnerDtoType : BaseDto
+    /// <typeparam name="InnerDtoType">Type of the other viewObject</typeparam>
+    public abstract class HeaderedLineViewModelBase<DataType, DtoType, InnerDtoType> : KarveRoutingBaseViewModel, ICreateRegionManagerScope, IEventObserver where DtoType : LineBaseViewObject<InnerDtoType> where InnerDtoType : BaseViewObject
     {
 
         protected IIdentifier IdentifierGenerator;
@@ -71,14 +73,14 @@ namespace KarveControls.ViewModels
             * It is better that all headered window will use a composite command.
             */
             CompositeCommandOnly = true;
-     
+
         }
 
         // This is a direct command for deleting grid lines.
         public ICommand DeleteLine { set; get; }
 
         public IResolver Resolver { get; private set; }
-        
+
         protected override string GetRouteName(string name)
         {
             return string.Empty;
@@ -89,7 +91,7 @@ namespace KarveControls.ViewModels
 
         }
         /*
-        protected virtual void CheckAndCommitRow(BaseDto dto, 
+        protected virtual void CheckAndCommitRow(BaseViewObject viewObject, 
             out ObservableCollection<InnerDtoType> collection) where InnerDtoType: class
             {
            
@@ -187,7 +189,7 @@ namespace KarveControls.ViewModels
             var currentId = IdentifierGenerator.NewId();
             interpeter.Init = Init;
             interpeter.CleanUp = CleanUp;
-           
+
             if (string.IsNullOrEmpty(PrimaryKeyValue)) PrimaryKeyValue = dataPayLoad.PrimaryKeyValue;
 
             if (string.IsNullOrEmpty(PrimaryKeyValue))
@@ -207,9 +209,9 @@ namespace KarveControls.ViewModels
                     if (dto.Code != PrimaryKeyValue) return;
                 }
             }
-            
+
             OperationalState = interpeter.CheckOperationalType(dataPayLoad);
-          
+
             interpeter.ActionOnPayload(dataPayLoad, PrimaryKeyValue, currentId, SubSystem,
                 EventSubSystemName);
         }
@@ -237,11 +239,11 @@ namespace KarveControls.ViewModels
         /// <summary>
         ///     This delete the region when there is a delete.
         /// </summary>
-        
-        protected abstract  Task<bool> DeleteAsync(DataPayLoad payLoad);
+
+        protected abstract Task<bool> DeleteAsync(DataPayLoad payLoad);
 
 
-      
+
         public IncrementalList<InnerDtoType> SourceView
         {
             set
@@ -256,7 +258,8 @@ namespace KarveControls.ViewModels
 
         public object ControlExt { get; private set; }
 
-        protected  override void DeleteItem(DataPayLoad payLoad)
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        protected override void DeleteItem(DataPayLoad payLoad)
         {
             bool isDeleted = false;
             NotifyTaskCompletion.Create(DeleteAsync(payLoad),
@@ -265,16 +268,16 @@ namespace KarveControls.ViewModels
 
                     if (sender is INotifyTaskCompletion<bool> taskCompletion)
                     {
-                       
+
 
                         if (taskCompletion.IsFaulted)
                             DialogService?.ShowErrorMessage("Error during deleting the invoice");
 
                         if (!taskCompletion.IsSuccessfullyCompleted) return;
                         isDeleted = true;
-                        
+
                     }
-                   
+
                 });
 
             if (isDeleted)
@@ -292,19 +295,23 @@ namespace KarveControls.ViewModels
                 UnregisterToolBar(payLoad.PrimaryKey);
             }
         }
+
         /// <summary>
-        /// 
+        ///  Base changed command to be used.
         /// </summary>
-        /// <param name="dataObject"></param>
-        /// <param name="eventDictionary"></param>
-        /// <param name="subSystem"></param>
-        /// <param name="subsystemName"></param>
-        /// <param name="objectPath"></param>
-        protected void OnChangedCommand(DtoType dataObject, 
-            IDictionary<string, object> eventDictionary, DataSubSystem subSystem, string subsystemName,string objectPath)
+        /// <param name="dataObject">Data object to be used.</param>
+        /// <param name="eventDictionary">Event dictionary to be propagated.</param>
+        /// <param name="subSystem">Data subsystem to be used.</param>
+        /// <param name="subsystemName">Data subsystem name to be used.</param>
+
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+
+        protected void OnChangedCommand(
+            DtoType dataObject,
+            IDictionary<string, object> eventDictionary,
+            DataSubSystem subSystem,
+            string subsystemName)
         {
-            /// preconditions
-            /// 
             if (OperationalState == DataPayLoad.Type.Raw)
             {
                 return;
@@ -313,26 +320,11 @@ namespace KarveControls.ViewModels
             {
                 return;
             }
-            var evDictionary = eventDictionary as IDictionary<string, object>;
-
-           
-            var changedDataObject = eventDictionary["ChangedValue"];
 
             var payLoad = BuildDataPayload(eventDictionary);
             payLoad.Subsystem = subSystem;
             payLoad.SubsystemName = subsystemName;
-            var data = dataObject;
-           // data.IsNew = false;
 
-            /*
-             * when we change one line.
-             * 1. Update the object
-             */
-             
-          
-            ComputeTotals(data);
-
-        
             var handlerDo = new ChangeFieldHandlerDo<DtoType>(EventManager, subSystem);
             if (OperationalState == DataPayLoad.Type.Insert)
             {
@@ -347,72 +339,155 @@ namespace KarveControls.ViewModels
             RaisePropertyChanged("CollectionView");
         }
 
-        bool IsGridChanged(IDictionary<string, object> ev)
+        /// <summary>
+        /// Detect if a grid operation has been occurred.
+        /// </summary>
+        /// <param name="ev">
+        /// Event that it is coming from the grid.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/> true if a grid has been changed.
+        /// </returns>
+        protected bool IsGridChanged(IDictionary<string, object> ev)
         {
-            // precond: operation shall exits.
+            // precondition: operation shall exits.
             if (!ev.ContainsKey("Operation"))
             {
                 return false;
             }
 
             var op = (ControlExt.GridOp)ev["Operation"];
-            return ((op == KarveControls.ControlExt.GridOp.Insert) ||
+            return (op == KarveControls.ControlExt.GridOp.Insert) ||
                     (op == KarveControls.ControlExt.GridOp.Delete) ||
-                    (op == KarveControls.ControlExt.GridOp.Update));
+                    (op == KarveControls.ControlExt.GridOp.Update);
 
         }
-        protected DtoType UpdateObject(DtoType dataObject, IDictionary<string, object> ev, IEnumerable<InnerDtoType> linesDto) 
+
+        /// <summary>
+        /// The update object.
+        /// </summary>
+        /// <param name="dataObject">
+        /// The data object.
+        /// </param>
+        /// <param name="ev">
+        /// Event Dictionary for the object.
+        /// </param>
+        /// <param name="linesDto">
+        /// Lines data object
+        /// </param>
+        /// <returns>
+        /// The <see cref="DtoType"/>.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        protected DtoType UpdateObject(DtoType dataObject, IDictionary<string, object> ev, IEnumerable<InnerDtoType> linesDto)
         {
             // precond: operation shall exits.
             if (!ev.ContainsKey("Operation"))
             {
                 return dataObject;
             }
-
             var op = (ControlExt.GridOp)ev["Operation"];
-           
+            // two cases:
+            // 1. The changed value is just an item of innertype
             if (ev.ContainsKey("ChangedValue"))
             {
-                IEnumerable<InnerDtoType> summaryDtos = new List<InnerDtoType>();
-                if (ev["ChangedValue"] is IEnumerable<object> changedValue)
-                {
-                    var localDtos = new List<InnerDtoType>();
-                    foreach (var v in changedValue)
-                    {
-                        InnerDtoType dto = v as InnerDtoType;
-                        localDtos.Add(dto);
-                    }
-                    switch (op)
-                    {
-                        case KarveControls.ControlExt.GridOp.Insert:
-                            var currentValue = linesDto.ToList();
-                            var count = currentValue.Count;
-                            summaryDtos = localDtos.Union(currentValue);
-                            break;
-                        case KarveControls.ControlExt.GridOp.Delete:
-                            summaryDtos = linesDto.Except(localDtos);
-                            break;
-                        case KarveControls.ControlExt.GridOp.Update:
-                            var localIds = from x in localDtos select x.KeyId;
-                            var toReplace = linesDto.Where(x => localIds.Contains(x.KeyId));
-                            var invoiceDto = linesDto.Except(toReplace);
-                            summaryDtos = invoiceDto.Union(localDtos);
-                            break;
-                    }
-                }
 
-                if (summaryDtos.Any())
+                //  just one row changed
+                if (ev["ChangedValue"] is InnerDtoType single)
                 {
-                    dataObject.Items = summaryDtos;
+                    UpdateSingleValue(op, dataObject, single, linesDto);
                 }
-
+                // multiple row changes
+                else if (ev["ChangedValue"] is IEnumerable<InnerDtoType> collection)
+                {
+                    UpdateMultipleValues(op, dataObject, collection, linesDto);
+                }
 
             }
             return dataObject;
         }
 
+        /// <summary>
+        /// Update multiple grid values
+        /// </summary>
+        /// <param name="op">
+        /// The op.
+        /// </param>
+        /// <param name="dataObject">
+        /// The data object.
+        /// </param>
+        /// <param name="collection">
+        /// The collection.
+        /// </param>
+        /// <param name="linesDto">
+        /// The lines dto.
+        /// </param>
+        private void UpdateMultipleValues(ControlExt.GridOp op, DtoType dataObject, object collection, IEnumerable<InnerDtoType> linesDto)
+        {
+            IEnumerable<InnerDtoType> summaryDtos = new List<InnerDtoType>();
+            if (collection is IEnumerable<object> changedValue)
+            {
+                var localDtos = new List<InnerDtoType>();
+                foreach (var v in changedValue)
+                {
+                    InnerDtoType dto = v as InnerDtoType;
+                    localDtos.Add(dto);
+                }
+                switch (op)
+                {
+                    case KarveControls.ControlExt.GridOp.Insert:
+                        var currentValue = linesDto.ToList();
+                        var count = currentValue.Count;
+                        summaryDtos = localDtos.Union(currentValue);
+                        break;
+                    case KarveControls.ControlExt.GridOp.Delete:
+                        summaryDtos = linesDto.Except(localDtos);
+                        break;
+                    case KarveControls.ControlExt.GridOp.Update:
+                        var localIds = from x in localDtos select x.KeyId;
+                        var toReplace = linesDto.Where(x => localIds.Contains(x.KeyId));
+                        var invoiceDto = linesDto.Except(toReplace);
+                        summaryDtos = invoiceDto.Union(localDtos);
+                        break;
+                }
+            }
+
+            if (summaryDtos.Any())
+            {
+                dataObject.Items = summaryDtos;
+            }
+
+        }
+
+        private void UpdateSingleValue(ControlExt.GridOp op, DtoType dataObject, InnerDtoType single, IEnumerable<InnerDtoType> linesDto)
+        {
+            single.IsDirty = true;
+          
+            switch (op)
+            {
+                case KarveControls.ControlExt.GridOp.Update:
+                case KarveControls.ControlExt.GridOp.Insert:
+                    var currentValue = linesDto.ToList();
+                    var count = currentValue.Count;
+                    if (!currentValue.Contains(single))
+                    {
+                        single.IsNew = true;
+                        currentValue.Add(single);
+                        dataObject.Items = currentValue;
+                    }
+                    break;
+                case KarveControls.ControlExt.GridOp.Delete:
+                    {
+                        var summaryDtos = new List<InnerDtoType>() {single};
+                        dataObject.Items = linesDto.Except(summaryDtos);
+                    }
+                    break;
+            }
+
+        }
+
         public abstract DtoType ComputeTotals(DtoType aggregated = null);
-        
+
 
 
     }

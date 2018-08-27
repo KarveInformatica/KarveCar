@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices.DataObjects
 {
@@ -8,70 +8,70 @@ namespace KarveDataServices.DataObjects
     /// The commission interface. It is a wrapper over the pocos.
     /// 
     /// </summary>
-    public interface ICommissionAgent: IHelperMasterCommon, IValidDomainObject,  IValueObject<ComisioDto>
+    public interface ICommissionAgent: IHelperMasterCommon, IValidDomainObject,  IValueObject<ComisioViewObject>
     {
         /// <summary>
         ///  Data transfer object for province
         /// </summary>
-        IEnumerable<ProvinciaDto> ProvinceDto { set; get; }
+        IEnumerable<ProvinceViewObject> ProvinceDto { set; get; }
 
         /// A commission agent can be in one city. City data transfer object.
-        IEnumerable<CityDto> CityDtos { get; set; }
+        IEnumerable<CityViewObject> CityDtos { get; set; }
 
         /// <summary>
         /// Country Data Transfer Object
         /// </summary>
-        IEnumerable<CountryDto> CountryDto { get; set; }
+        IEnumerable<CountryViewObject> CountryDto { get; set; }
         /// <summary>
         /// Products Data Transfer Object
         /// </summary>
-        IEnumerable<ProductsDto> ProductsDto { get; set; }
+        IEnumerable<ProductsViewObject> ProductsDto { get; set; }
         /// <summary>
         ///  Language Data Transfer Object
         /// </summary>
-        IEnumerable<LanguageDto> LanguageDto { get; set; }
+        IEnumerable<LanguageViewObject> LanguageDto { get; set; }
         /// <summary>
         /// Commission Type Data Transfer Object.
         /// </summary>
-        IEnumerable<CommissionTypeDto> CommisionTypeDto { get; set; }
+        IEnumerable<CommissionTypeViewObject> CommisionTypeDto { get; set; }
         /// <summary>
         /// Clients Data Transfer Object.
         /// </summary>
-        IEnumerable<ResellerDto> VendedorDto { get; set; }
+        IEnumerable<ResellerViewObject> VendedorDto { get; set; }
         /// <summary>
         /// Mercado Data Transfer Object
         /// </summary>
-        IEnumerable<MercadoDto> MercadoDto { get; set; }
+        IEnumerable<MarketViewObject> MercadoDto { get; set; }
         /// <summary>
         ///  Negocio Data Transfer Object
         /// </summary>
-        IEnumerable<BusinessDto> NegocioDto { get; set; }
+        IEnumerable<BusinessViewObject> NegocioDto { get; set; }
         /// <summary>
         ///  Canal Data Transfer Object
         /// </summary>
-        IEnumerable<ChannelDto> CanalDto { get; set; }
+        IEnumerable<ChannelViewObject> CanalDto { get; set; }
         /// <summary>
         ///  Clave Data Transfer Object
         /// </summary>
-        IEnumerable<BudgetKeyDto> ClavePptoDto { get; set; }
+        IEnumerable<BudgetKeyViewObject> ClavePptoDto { get; set; }
         /// <summary>
         /// Clientes data transfer object.
         /// </summary>
-        IEnumerable<ClientDto> ClientsDto { get; set; }
+        IEnumerable<ClientViewObject> ClientsDto { get; set; }
         
         /// <summary>
         /// Origen data transfer object.
         /// </summary>
-        IEnumerable<OrigenDto> OrigenDto { get; set; }
+        IEnumerable<OrigenViewObject> OrigenDto { get; set; }
         /// <summary>
         /// Cliente data transfer object.
         /// </summary>
-        IEnumerable<ZonaOfiDto> ZonaOfiDto { get; set; }
+        IEnumerable<ZonaOfiViewObject> ZonaOfiDto { get; set; }
 
         /// <summary>
-        /// Visit type dto.
+        /// Visit type viewObject.
         /// </summary>
-        IEnumerable<VisitTypeDto> VisitTypeDto { get; set; }
+        IEnumerable<VisitTypeViewObject> VisitTypeDto { get; set; }
         /// <summary>
         ///  This load the value for the current commission agent.
         /// </summary>

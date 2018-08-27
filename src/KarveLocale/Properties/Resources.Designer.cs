@@ -1285,6 +1285,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reason: Reservas debe tener conceptos.
+        /// </summary>
+        public static string lconceptshallbepresent {
+            get {
+                return ResourceManager.GetString("lconceptshallbepresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Condicion Venta.
         /// </summary>
         public static string lcondicionventa {

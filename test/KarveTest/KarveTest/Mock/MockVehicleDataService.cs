@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.Mock
 {
@@ -44,12 +44,12 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
+        public Task<IEnumerable<VehicleSummaryViewObject>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<VehicleSummaryDto>> GetSummaryAllAsync()
+        public Task<IEnumerable<VehicleSummaryViewObject>> GetSummaryAllAsync()
         {
             throw new NotImplementedException();
         }

@@ -8,7 +8,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -16,7 +16,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  ClientTypeViewModel.
     /// </summary>
-    class ClientTypeViewModel : GenericHelperViewModel<ClientTypeDto, TIPOCLI>
+    class ClientTypeViewModel : GenericHelperViewModel<ClientTypeViewObject, TIPOCLI>
     {
        
 
@@ -29,12 +29,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            ClientTypeDto dto = payLoad.DataObject as ClientTypeDto;
-            if (dto != null)
+            ClientTypeViewObject viewObject = payLoad.DataObject as ClientTypeViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<ClientTypeDto, TIPOCLI>(dto);
-                dto.Code = codeId.Substring(0, 4);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<ClientTypeViewObject, TIPOCLI>(viewObject);
+                viewObject.Code = codeId.Substring(0, 4);
+                payLoad.DataObject = viewObject;
             }
             
             return payLoad;

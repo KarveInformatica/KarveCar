@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -11,7 +11,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
 {
     public class VehiculeSellingBuyingVm : BindableBase
     {
-        private VehicleDto _vehicleDto = new VehicleDto();
+        private VehicleViewObject _vehicleViewObject = new VehicleViewObject();
         private string _buyerAssist = "";
         private string _sellerAssit = "";
         private string _supplierAssistQuery = "";
@@ -42,8 +42,8 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         /// </summary>
         public object DataObject
         {
-            get => _vehicleDto;
-            set { _vehicleDto = (VehicleDto)value; RaisePropertyChanged(); }
+            get => _vehicleViewObject;
+            set { _vehicleViewObject = (VehicleViewObject)value; RaisePropertyChanged(); }
         }
         /// <summary>
         /// Command to be changed.
@@ -139,7 +139,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         /// </summary>
         private void InitalizeDto()
         {
-            VehicleDto vehicleDto1 = new VehicleDto
+            VehicleViewObject vehicleDto1 = new VehicleViewObject
             {
                 PRECIO = 35000,
                 COMPRADOR = "Carles Ruiz Floriach",

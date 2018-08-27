@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.Exception;
 using Dapper;
 using DataAccessLayer.SQL;
@@ -22,9 +22,9 @@ namespace DataAccessLayer
     /// </summary>
     class BudgetDataAccessLayer : AbstractDataAccessLayer, IBudgetDataService
     {
-        private IDataLoader<BudgetDto> _dataLoader;
-        private IDataSaver<BudgetDto> _dataSaver;
-        private IDataDeleter<BudgetDto> _dataDeleter;
+        private IDataLoader<BudgetViewObject> _dataLoader;
+        private IDataSaver<BudgetViewObject> _dataSaver;
+        private IDataDeleter<BudgetViewObject> _dataDeleter;
         private IMapper _mapper;
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace DataAccessLayer
         /// <returns>A budget of data.</returns>
         public IBudgetData GetNewDo(string value)
         {
-            var newDto = new BudgetDto();
+            var newDto = new BudgetViewObject();
             newDto.NUMERO_PRE = value;
             newDto.IsNew = true;
             var domainObject = new Budget(newDto);
@@ -96,18 +96,18 @@ namespace DataAccessLayer
         /// <param name="index">Index</param>
         /// <param name="pageSize">Paged size</param>
         /// <returns>A list of budget summary.</returns>
-        public async Task<IEnumerable<BudgetSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
+        public async Task<IEnumerable<BudgetSummaryViewObject>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             if (pageSize <= 0)
             {
                 throw new ArgumentException();
             }
-            var pager = new DataPager<BudgetSummaryDto>(SqlExecutor);
+            var pager = new DataPager<BudgetSummaryViewObject>(SqlExecutor);
             var pageStart = index;
             if (pageStart <= 0)
                 pageStart = 1;
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
-            IEnumerable<BudgetSummaryDto> data = new List<BudgetSummaryDto>();
+            IEnumerable<BudgetSummaryViewObject> data = new List<BudgetSummaryViewObject>();
             try
             { 
                 data = await pager.GetPagedSummaryDoAsync(QueryType.QueryBudgetSummaryPaged, pageStart, pageSize).ConfigureAwait(false);
@@ -125,13 +125,13 @@ namespace DataAccessLayer
         /// <param name="index">Index position</param>
         /// <param name="pageSize">Dimension of the page</param>
         /// <returns></returns>
-        public async Task<IEnumerable<BudgetSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        public async Task<IEnumerable<BudgetSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             if (pageSize <= 0)
             {
                 throw new ArgumentException();
             }
-            var dataPager = new DataPager<BudgetSummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<BudgetSummaryViewObject>(SqlExecutor);
             var pageStart = index;
             if (pageStart <= 0)
                 pageStart = 1;
@@ -143,19 +143,19 @@ namespace DataAccessLayer
         ///  Get the complete collection unpaged of all budgets presents in the database.
         /// </summary>
         /// <returns>A list of budget objects</returns>
-        public async Task<IEnumerable<BudgetSummaryDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<BudgetSummaryViewObject>> GetSummaryAllAsync()
         {
             var queryStore = QueryStoreFactory.GetQueryStore();
             queryStore.AddParam(QueryType.QueryBudgetSummary);
             var query = queryStore.BuildQuery();
-            IEnumerable<BudgetSummaryDto> outResult = new List<BudgetSummaryDto>();
+            IEnumerable<BudgetSummaryViewObject> outResult = new List<BudgetSummaryViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 if (dbConnection == null)
                 {
                     throw new DataAccessLayerException("GetSummaryAllAsync cannot connect");
                 }
-                outResult = await dbConnection.QueryAsync<BudgetSummaryDto>(query).ConfigureAwait(false);
+                outResult = await dbConnection.QueryAsync<BudgetSummaryViewObject>(query).ConfigureAwait(false);
             }
             return outResult;
         }

@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -305,7 +305,7 @@ new FrameworkPropertyMetadata(0));
             bool valueChanged = (bool)box.GetValue(IsChangedDependencyProperty);
 
             var ds = box.GetValue(DataSourceProperty);
-            if (ds is BaseDto dto)
+            if (ds is BaseViewObject dto)
             {
                 if (dto.HasErrors)
                     return;

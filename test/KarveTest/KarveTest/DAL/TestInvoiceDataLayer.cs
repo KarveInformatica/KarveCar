@@ -7,9 +7,9 @@ using NUnit.Framework;
 using KarveDataServices;
 using DataAccessLayer;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveDapper.Extensions;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.DAL
 {
@@ -195,7 +195,7 @@ namespace KarveTest.DAL
             invoiceDto.CONTRATO_FAC = "128283";
 
 
-            var item0 = new InvoiceSummaryDto()
+            var item0 = new InvoiceSummaryViewObject()
             {
 
                 Description = "Lamps",
@@ -213,7 +213,7 @@ namespace KarveTest.DAL
                 KeyId = firstKey1
 
             };
-            var item1 = new InvoiceSummaryDto()
+            var item1 = new InvoiceSummaryViewObject()
             {
                 Discount = 0,
                 Description = "Lamps",
@@ -230,7 +230,7 @@ namespace KarveTest.DAL
                 KeyId = secondKey1
             };
 
-            var invoiceList = new List<InvoiceSummaryDto> {item0, item1};
+            var invoiceList = new List<InvoiceSummaryViewObject> {item0, item1};
             invoice.Value.InvoiceItems = invoiceList;
             var dataFactory = _dataServices.GetInvoiceDataServices();
             await dataFactory.DeleteAsync(invoice);

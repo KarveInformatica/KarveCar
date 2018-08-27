@@ -5,7 +5,7 @@ using Prism.Interactivity.InteractionRequest;
 using System;
 using System.Windows.Input;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveControls.Interactivity.ViewModels
 {
@@ -17,7 +17,7 @@ namespace KarveControls.Interactivity.ViewModels
         {
             this.SelectItemCommand = new DelegateCommand<object>(this.AcceptSelectedItem);
             this.CancelCommand = new DelegateCommand(this.CancelInteraction);
-            SelectedItem = new BaseDto();
+            SelectedItem = new BaseViewObject();
         }
 
         // Both the FinishInteraction and Notification properties will be set by the PopupWindowAction

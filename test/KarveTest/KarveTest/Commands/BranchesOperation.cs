@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using NUnit.Framework;
 using System;
@@ -30,22 +30,22 @@ namespace KarveTest.Commands
         {  
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsViewObject)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }
@@ -77,7 +77,7 @@ namespace KarveTest.Commands
         [Test, ]
         public void Should_Answer_OnProvince_Assist_Correctly()
         {
-            var dto = new BranchesDto();
+            var dto = new BranchesViewObject();
             viewModel.DelegationProvinceMagnifierCommand.Execute(dto);
             var branches = viewModel.BranchesDto;
             var b = branches.Where(x => x.BranchId == dto.BranchId);
@@ -86,7 +86,7 @@ namespace KarveTest.Commands
         [Test]
         public void Should_Answer_OnContact_Assist()
         {
-            var dto = new ContactsDto();
+            var dto = new ContactsViewObject();
             viewModel.ContactChargeMagnifierCommand.Execute(dto);
             var contacts = viewModel.ContactsDto;
             var b = contacts.Where(x => x.ContactId == dto.ContactId);

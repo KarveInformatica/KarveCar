@@ -4,14 +4,14 @@ using System.Data;
 using System.Threading.Tasks;
 using KarveCommonInterfaces;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
     /// <summary>
     /// Public interface for the supplier usage
     /// </summary>
-    public interface ISupplierDataServices: IPageCounter, ISorterData<SupplierSummaryDto>
+    public interface ISupplierDataServices: IPageCounter, ISorterData<SupplierSummaryViewObject>
     {
 
         #region Asynchronous methods
@@ -86,7 +86,7 @@ namespace KarveDataServices
         ///  This is a get supplier async summary data object.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo();
+        Task<IEnumerable<SupplierSummaryViewObject>> GetSupplierAsyncSummaryDo();
 
         /// <summary>
         ///  Save a supplier object
@@ -129,8 +129,8 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="codeId">id of the contacs</param>
         /// <returns></returns>
-        Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId);
-        Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
+        Task<IEnumerable<ContactsViewObject>> GetAsyncContacts(string codeId);
+        Task<IEnumerable<SupplierSummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize);
         #endregion
     }
 }

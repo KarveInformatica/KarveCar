@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices
 {
-    public interface IFareDataServices: IPageCounter, IDataProvider<FareDto, FareSummaryDto>
+    public interface IFareDataServices: IPageCounter, IDataProvider<FareViewObject, FareSummaryViewObject>
     {
 
         /// <summary>
@@ -20,6 +20,6 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="code">Client code to provide</param>
         /// <returns>Return a list of the client active fares</returns>
-        Task<IEnumerable<ActiveFareDto>> GetActiveSummaryFarePaged(string code, int index, int pageSize); 
+        Task<IEnumerable<ActiveFareViewObject>> GetActiveSummaryFarePaged(string code, int index, int pageSize); 
     }
 }

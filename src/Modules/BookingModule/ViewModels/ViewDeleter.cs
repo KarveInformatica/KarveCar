@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace BookingModule.ViewModels
     /// <typeparam name="Domain"></typeparam>
     /// <typeparam name="SummaryDto"></typeparam>
     class ViewDeleter<Domain, SummaryDto> where Domain : class
-                                          where SummaryDto : BaseDto
+                                          where SummaryDto : BaseViewObject
     {
         private IDataProvider<Domain, SummaryDto> _dataProvider;
         private IDialogService _dialogService;

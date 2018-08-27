@@ -1,6 +1,6 @@
 ﻿using KarveCommon.Services;
 using NUnit.Framework;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveTest.DAL;
 using MasterModule.Common;
 
@@ -24,13 +24,13 @@ namespace KarveTest.Common
 
             var payLoad = new DataPayLoad
             {
-                DataObject = new OfficeDtos(),
+                DataObject = new OfficeViewObject(),
                 PrimaryKeyValue = "3893893",
                 Subsystem = DataSubSystem.OfficeSubsystem,
                 SubsystemName = MasterModuleConstants.OfficeSubSytemName,
                 PayloadType = DataPayLoad.Type.Show
             };
-            var parser = new PayloadInterpeter<OfficeDtos>
+            var parser = new PayloadInterpeter<OfficeViewObject>
             {
                 Init = (value, packet, insertion) => { initValue++; },
                 CleanUp = (key, system, name) => { cleanUpValue++; }
@@ -51,7 +51,7 @@ namespace KarveTest.Common
             var cleanUpValue = 0;
 
             DataPayLoad payLoad = new NullDataPayload();
-            var parser = new PayloadInterpeter<OfficeDtos>
+            var parser = new PayloadInterpeter<OfficeViewObject>
             {
                 Init = (value, packet, insertion) => { initValue++; },
                 CleanUp = (key, system, name) => { cleanUpValue++; }

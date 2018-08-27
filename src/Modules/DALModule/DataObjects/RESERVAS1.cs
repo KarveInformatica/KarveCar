@@ -15,7 +15,8 @@ namespace DataAccessLayer.DataObjects
     ///  Set or get the NUMERO_RES property.
     /// </summary>
         [Key]
-		public string NUMERO_RES { get; set; }
+        [FieldSize("10")]
+        public string NUMERO_RES { get; set; }
  
 	/// <summary>
     ///  Set or get the LOCALIZA_RES1 property.

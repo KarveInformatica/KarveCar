@@ -7,22 +7,22 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-    class VehicleToolsViewModel : GenericHelperViewModel<VehicleToolDto, VEHI_ACC>
+    class VehicleToolsViewModel : GenericHelperViewModel<VehicleToolViewObject, VEHI_ACC>
     {
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            VehicleToolDto dto = payLoad.DataObject as VehicleToolDto;
-            if (dto != null)
+            VehicleToolViewObject viewObject = payLoad.DataObject as VehicleToolViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<VehicleToolDto, VEHI_ACC>(dto);
-                dto.Code = codeId.Substring(0, 4);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<VehicleToolViewObject, VEHI_ACC>(viewObject);
+                viewObject.Code = codeId.Substring(0, 4);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

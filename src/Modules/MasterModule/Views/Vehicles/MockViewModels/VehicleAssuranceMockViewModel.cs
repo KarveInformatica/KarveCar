@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace MasterModule.Views.Vehicles.MockViewModels
 {
@@ -8,7 +8,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
     /// </summary>
     public class VehicleAssuranceMockViewModel
     {
-        private VehicleDto _vehicleDto = new VehicleDto();
+        private VehicleViewObject _vehicleViewObject = new VehicleViewObject();
         /// <summary>
         ///  mock assit command
         /// </summary>
@@ -23,11 +23,11 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         public object DataObject {
             set
             {
-               _vehicleDto = (VehicleDto)value;
+               _vehicleViewObject = (VehicleViewObject)value;
             }
             get
             {
-                return _vehicleDto;
+                return _vehicleViewObject;
             }
         }
         /// <summary>

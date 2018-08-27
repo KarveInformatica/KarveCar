@@ -4,7 +4,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using Prism.Regions;
 using KarveCommonInterfaces;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices.DataObjects;
 using System.Windows.Input;
 using Prism.Commands;
@@ -22,7 +22,7 @@ namespace MasterModule.ViewModels
     /// </summary>
     internal sealed class CompanyInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
     {
-        private CompanyDto _currentCompanyDto = new CompanyDto();
+        private CompanyViewObject _currentCompanyDto = new CompanyViewObject();
         #region Constructor 
         /// <summary>
         /// 
@@ -67,7 +67,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data object
         /// </summary>
-        public CompanyDto DataObject {
+        public CompanyViewObject DataObject {
             set
             {
                 _currentCompanyDto = value;
@@ -100,7 +100,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Show brokers data objects.
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> CompanyBrokersDto {
+        public IEnumerable<CommissionAgentSummaryViewObject> CompanyBrokersDto {
             get
             {
                 return _brokers;
@@ -128,7 +128,7 @@ namespace MasterModule.ViewModels
         }
 
         public bool CreateRegionManagerScope => true;
-        public IEnumerable<CityDto> CityDto {
+        public IEnumerable<CityViewObject> CityDto {
             get
 
             { return _cityDto; }
@@ -138,7 +138,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<ProvinciaDto> ProvinciaDto {
+        public IEnumerable<ProvinceViewObject> ProvinciaDto {
             get {
                 return _provinciaDto;
             }
@@ -148,7 +148,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<CountryDto> CountryDto { get
+        public IEnumerable<CountryViewObject> CountryDto { get
             {
                 return _countryDto;
             }
@@ -182,7 +182,7 @@ namespace MasterModule.ViewModels
                         {
                             if (payload.HasDataObject)
                             {
-                                var clientData = payload.DataObject as CompanyDto;
+                                var clientData = payload.DataObject as CompanyViewObject;
                                 DataObject = clientData;
                             }
                             break;
@@ -299,26 +299,26 @@ namespace MasterModule.ViewModels
                 {
                     case "CITY_ASSIST":
                         {
-                            CityDto = (IEnumerable<CityDto>)value;
+                            CityDto = (IEnumerable<CityViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "PROVINCE_ASSIST":
                         {
-                            ProvinciaDto = (IEnumerable<ProvinciaDto>)value;
+                            ProvinciaDto = (IEnumerable<ProvinceViewObject>)value;
                             retValue = true;
                             break;
                         }
                     case "COUNTRY_ASSIST":
                         {
-                            CountryDto = (IEnumerable<CountryDto>)value;
+                            CountryDto = (IEnumerable<CountryViewObject>)value;
                             retValue = true;
                             break;
                         }
 
                     case "BROKER_ASSIST":
                         {
-                            CompanyBrokersDto = (IEnumerable<CommissionAgentSummaryDto>)value;
+                            CompanyBrokersDto = (IEnumerable<CommissionAgentSummaryViewObject>)value;
                             retValue = true;
                             break;
                         }
@@ -354,7 +354,7 @@ namespace MasterModule.ViewModels
             payLoad.PayloadType = DataPayLoad.Type.Update;
             var uid = "client://" + Guid.ToString();
             payLoad.ObjectPath = new Uri(uid);
-            ChangeFieldHandlerDo<CompanyDto> handlerDo = new ChangeFieldHandlerDo<CompanyDto>(EventManager,DataSubSystem.CompanySubsystem);
+            ChangeFieldHandlerDo<CompanyViewObject> handlerDo = new ChangeFieldHandlerDo<CompanyViewObject>(EventManager,DataSubSystem.CompanySubsystem);
 
             
             if (CurrentOperationalState == DataPayLoad.Type.Insert)
@@ -408,22 +408,22 @@ namespace MasterModule.ViewModels
             _companyData = null;
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
             throw new System.NotImplementedException();
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsDto)
         {
             throw new System.NotImplementedException();
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             throw new System.NotImplementedException();
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new System.NotImplementedException();
         }
@@ -443,11 +443,11 @@ namespace MasterModule.ViewModels
         private IHelperBase _companyHelper;
         private IAssistDataService _assistDataService;
         //private CompanyDto _currentCompanyDto;
-        private IEnumerable<CommissionAgentSummaryDto> _brokers;
+        private IEnumerable<CommissionAgentSummaryViewObject> _brokers;
         private IEnumerable<ClientSummaryExtended> _clientDto;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<ProvinciaDto> _provinciaDto;
-        private IEnumerable<CountryDto> _countryDto;
+        private IEnumerable<CityViewObject> _cityDto;
+        private IEnumerable<ProvinceViewObject> _provinciaDto;
+        private IEnumerable<CountryViewObject> _countryDto;
         #endregion
 
 

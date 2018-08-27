@@ -13,7 +13,7 @@ using DataAccessLayer.Logic;
 using KarveCommon.Generic;
 using KarveCommonInterfaces;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 
 namespace MasterModule.ViewModels
@@ -181,7 +181,7 @@ namespace MasterModule.ViewModels
                     // FIXME: move this to query store.
                     string value = string.Format("SELECT NUM_TICOMI, NOMBRE FROM TIPOCOMI WHERE NUM_TICOMI='{0}'",
                         currentCode);
-                     SourceView= await helperDataServices.GetMappedAsyncHelper<CommissionTypeDto, TIPOCOMI>(value);   
+                     SourceView= await helperDataServices.GetMappedAsyncHelper<CommissionTypeViewObject, TIPOCOMI>(value);   
                     
                 }
             }
@@ -189,7 +189,7 @@ namespace MasterModule.ViewModels
             {
                 if (agent != null)
                 {
-                    agent.CommisionTypeDto = new ObservableCollection<CommissionTypeDto>();
+                    agent.CommisionTypeDto = new ObservableCollection<CommissionTypeViewObject>();
                     SourceView = agent.CommisionTypeDto;
                 }
             }
@@ -204,7 +204,7 @@ namespace MasterModule.ViewModels
                 if (currentData != null)
                 
                 {
-                   var tipoComi = await helperDataServices.GetMappedAllAsyncHelper<CommissionTypeDto, TIPOCOMI>();
+                   var tipoComi = await helperDataServices.GetMappedAllAsyncHelper<CommissionTypeViewObject, TIPOCOMI>();
                     SourceView = tipoComi;
                    _status = UpperBarViewModelState.Loaded;
                 }

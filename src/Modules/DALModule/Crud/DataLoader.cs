@@ -19,7 +19,7 @@ namespace DataAccessLayer.Crud
         private readonly ISqlExecutor _sqlExecutor;
         private readonly IMapper _mapper;
         /// <summary>
-        ///  Load all entities from a query and maps directly to a dto.
+        ///  Load all entities from a query and maps directly to a viewObject.
         /// </summary>
         /// <param name="query">Query.</param>
         /// <returns></returns>
@@ -61,7 +61,7 @@ namespace DataAccessLayer.Crud
             return emptyList;
         }
         /// <summary>
-        ///  This load asynchonosly and map the dto to a given entity. In case we have an exception we dont log or capture but let them bubble up.
+        ///  This load asynchonosly and map the viewObject to a given entity. In case we have an exception we dont log or capture but let them bubble up.
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<Dto>> LoadAsyncAll() 

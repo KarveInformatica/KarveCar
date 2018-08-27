@@ -11,7 +11,7 @@ using KarveDataServices;
 using Microsoft.Practices.Unity;
 using KarveTest.Mock;
 using Prism.Regions;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 using Prism.Interactivity;
@@ -78,16 +78,16 @@ namespace KarveTest.ViewModels
                                                             _regionManager.Object,
                                                             controller);
             Assert.NotNull(assistMockViewModel.SelectedProvince);
-            IList<ProvinciaDto> provinciaDto = new List<ProvinciaDto>()
+            IList<ProvinceViewObject> provinciaDto = new List<ProvinceViewObject>()
             {
-                new ProvinciaDto() { Code = "192", Name="Barcelona"},
-                new ProvinciaDto() { Code = "200", Name = "Madrid"}
+                new ProvinceViewObject() { Code = "192", Name="Barcelona"},
+                new ProvinceViewObject() { Code = "200", Name = "Madrid"}
             };
             // act
           assistMockViewModel.LaunchBranches.Execute(provinciaDto);
-          ProvinciaDto provinceDto = assistMockViewModel.SelectedProvince;
+          ProvinceViewObject provinceViewObject = assistMockViewModel.SelectedProvince;
             // assert
-          Assert.True(provinciaDto.Contains(provinceDto));
+          Assert.True(provinciaDto.Contains(provinceViewObject));
         }
         [Test, Apartment(ApartmentState.STA)]
         public void Should_Show_Assist_ContactsMagnifier()
@@ -102,17 +102,17 @@ namespace KarveTest.ViewModels
                                                          service);
             Assert.NotNull(assistMockViewModel.LaunchContact);
 
-            IList<ContactsDto> contactsDto = new List<ContactsDto>()
+            IList<ContactsViewObject> contactsDto = new List<ContactsViewObject>()
             {
-                new ContactsDto() { ContactId="100", ContactName="Alex"},
-                new ContactsDto() { ContactId = "200", ContactName = "Madrid"}
+                new ContactsViewObject() { ContactId="100", ContactName="Alex"},
+                new ContactsViewObject() { ContactId = "200", ContactName = "Madrid"}
             };
 
             assistMockViewModel.LaunchBranches.Execute(contactsDto);
            
-            ContactsDto contactDto = assistMockViewModel.SelectedContact;
+            ContactsViewObject contactViewObject = assistMockViewModel.SelectedContact;
             // assert
-            Assert.True(contactsDto.Contains(contactDto));
+            Assert.True(contactsDto.Contains(contactViewObject));
         }
 
     }

@@ -13,6 +13,7 @@
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              xmlns:headeredWindow="crl-namespace:KarveControls.HeaderedWindow"
              xmlns:prism="http://www.codeplex.com/prism"
+             xmlns:helpers="clr-namespace:Syncfusion.UI.Xaml.CellGrid.Helpers;assembly=Syncfusion.SfCellGrid.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -22,7 +23,9 @@
             <converter:KmIncludedToBoolConverter x:Key="KmBoolConverter"/>
             <converter:BillToBookConverter x:Key="BillToBook"/>
             <converter:BookingUnitToIndexConverter x:Key="UnitToIndex"></converter:BookingUnitToIndexConverter>
-            
+            <converter:DebugDataBindingConverter x:Key="DataBindingConverter">
+
+            </converter:DebugDataBindingConverter>
 
             <DataTemplate x:Key="NavigateInvoiceItem">
             <Grid>
@@ -49,9 +52,9 @@
 
             <DataTemplate x:Key="NavigateBookingUnit">
                 <Grid>
-                    <ComboBox  
-                                            Width="Auto"
-                                            SelectedIndex="{Binding Path=Value.Unity, Converter={StaticResource UnitToIndex}}">
+                    <ComboBox x:Name="comboBoxUnity"
+                           Width="Auto"
+                           SelectedIndex="{Binding Value, Mode=TwoWay}" helpers:FocusManagerHelper.FocusedElement="True">
                         <ComboBoxItem Content="{Binding lnone, Source={StaticResource ResourceLanguage}}">
                             
                         </ComboBoxItem>
@@ -73,6 +76,9 @@
                         <ComboBoxItem Content="{Binding lweekend, Source={StaticResource ResourceLanguage}}">
 
                         </ComboBoxItem>
+                        <i:Interaction.Behaviors>
+                            <behaviour:ComboChangeBehaviour DataObject="{Binding Value, Mode=TwoWay}"></behaviour:ComboChangeBehaviour>
+                        </i:Interaction.Behaviors>
 
                     </ComboBox>
                 </Grid>
@@ -81,7 +87,7 @@
                 <Grid>
                    
                      <ComboBox Grid.Column="0"
-                                            SelectedIndex="{Binding Path=Value.Bill, 
+                                            SelectedIndex="{Binding Path=Value, 
                                             Mode=TwoWay,
                                             Converter={StaticResource BillToBook},
                                             UpdateSourceTrigger=PropertyChanged}" 
@@ -91,6 +97,10 @@
                         </ComboBoxItem>
                         <ComboBoxItem Width="200" Content="{Binding lcliente, Source={StaticResource ResourceLanguage}}">
                         </ComboBoxItem>
+                         <i:Interaction.Behaviors>
+                             <behaviour:ComboChangeBehaviour></behaviour:ComboChangeBehaviour>
+                         </i:Interaction.Behaviors>
+
                     </ComboBox>
                    
                 </Grid>
@@ -101,8 +111,18 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <CheckBox  Grid.Column="0"
-                               IsChecked="{Binding Path=Value.Included, Mode=TwoWay, Converter={StaticResource KmBoolConverter}}">
+                    <CheckBox  x:Name="BookingIncludeCheckedBox" 
+                               IsChecked="{Binding Path=Value.Included, Mode=TwoWay,PresentationTraceSources.TraceLevel=High, Converter={StaticResource KmBoolConverter}}"
+                               Grid.Column="0">
+
+                        <i:Interaction.Behaviors>
+                            <behaviour:CheckboxChangeBehavior 
+                                CheckedCommand="{Binding Path=DataContext.IncludedCheckedCommand, 
+                                Mode=TwoWay,
+                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                AncestorType={x:Type UserControl}},
+                                PresentationTraceSources.TraceLevel=High}" />
+                        </i:Interaction.Behaviors>
                     </CheckBox>
                   
                 </Grid>
@@ -131,7 +151,9 @@
 
                         <Image Source="/KarveControls;component/Images/searchImage.png" Height="40" Width="30" ToolTip="Busca.."></Image>
                         <i:Interaction.Behaviors>
-                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ShowBookingConcept,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />
+                            <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.ShowBookingConcept,
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                              Param="{Binding}" />
                         </i:Interaction.Behaviors>
                     </Button>
                     <!--
@@ -233,9 +255,9 @@
                                     karveControls:KarveGridExt.GridParamChangedCommand="{Binding GridResizeCommand, Mode=OneWay}"
                                     karveControls:KarveGridExt.GridParameters="{Binding GridParam, Mode=OneWay}"
                                     ItemsSource="{Binding CollectionView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, PresentationTraceSources.TraceLevel=High}"
-       
-                                   NavigationMode="Cell"
-                                     ShowGroupDropArea="True"
+                                    GridValidationMode="InView"
+                                    NavigationMode="Cell"
+                                    ShowGroupDropArea="True"
                                     ShowRowHeader="True" >
                 <i:Interaction.Behaviors>
              

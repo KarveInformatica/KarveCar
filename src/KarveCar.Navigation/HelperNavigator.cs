@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
 using Prism.Regions;
 using System;
@@ -39,7 +39,7 @@ namespace KarveCar.Navigation
         /// <typeparam name="Dto">Data transfer object to be used.</typeparam>
         /// <param name="e">Entity</param>
         /// <param name="viewName">Name of the view</param>
-        private void NewHelperView<Entity, Dto>(Entity e, string viewName, Uri viewModelUri) where Dto : BaseDto where Entity : class
+        private void NewHelperView<Entity, Dto>(Entity e, string viewName, Uri viewModelUri) where Dto : BaseViewObject where Entity : class
         {
             var helperDataService = _dataService.GetHelperDataServices();
             var id = string.Empty;
@@ -69,55 +69,55 @@ namespace KarveCar.Navigation
         public void NewBookingMediaView(Uri uri)
         {
             var e = new MEDIO_RES();
-            NewHelperView<MEDIO_RES, BookingMediaDto>(e, "Nuevo Medio", uri);
+            NewHelperView<MEDIO_RES, BookingMediaViewObject>(e, "Nuevo Medio", uri);
         }
 
         public void NewBookingTypeView(Uri uri)
         {
             var e = new TIPOS_RESERVAS();
-            NewHelperView<TIPOS_RESERVAS, BookingTypeDto>(e, "Nueva Reservas", uri);
+            NewHelperView<TIPOS_RESERVAS, BookingTypeViewObject>(e, "Nueva Reservas", uri);
         }
 
         public void NewContactClientView(Uri uri)
         {
             var e = new CliContactos();
-            NewHelperView<CliContactos, ContactsDto>(e, "Nuevo Contacto", uri);
+            NewHelperView<CliContactos, ContactsViewObject>(e, "Nuevo Contacto", uri);
         }
 
         public void NewEmployeeAgencyView(Uri uri)
         {
             var e = new EAGE();
-            NewHelperView<EAGE, AgencyEmployeeDto>(e, "Nueva Agencia", uri);
+            NewHelperView<EAGE, AgencyEmployeeViewObject>(e, "Nueva Agencia", uri);
         }
         public void NewOriginView(Uri uri)
         {
             var e = new ORIGEN();
-            NewHelperView<ORIGEN, OrigenDto>(e, "Nuevo Origin", uri);
+            NewHelperView<ORIGEN, OrigenViewObject>(e, "Nuevo Origin", uri);
         }
         public void NewPaymentFormView(Uri uri)
         {
             var e = new FORMAS();
-            NewHelperView<FORMAS, PaymentFormDto>(e, "Nueva Forma de Cobro", uri);
+            NewHelperView<FORMAS, PaymentFormViewObject>(e, "Nueva Forma de Cobro", uri);
         }
         public void NewVehicleActivityView(Uri uri)
         {
             var e = new ACTIVEHI();
-            NewHelperView<ACTIVEHI, VehicleActivitiesDto>(e, "Nueva Actividad Vehiculo", uri);
+            NewHelperView<ACTIVEHI, VehicleActivitiesViewObject>(e, "Nueva Actividad Vehiculo", uri);
         }
         public void NewBookingPrintingType(Uri viewModelUri)
         {
             var e = new CONTRATIPIMPR();
-            NewHelperView<CONTRATIPIMPR, PrintingTypeDto>(e, "Nueva Actividad Vehiculo", viewModelUri);
+            NewHelperView<CONTRATIPIMPR, PrintingTypeViewObject>(e, "Nueva Actividad Vehiculo", viewModelUri);
         }
         public void NewReseller(Uri uri)
         {
             var e = new VENDEDOR();
-            NewHelperView<VENDEDOR, ResellerDto>(e, "Nuevo Vendedor", uri);
+            NewHelperView<VENDEDOR, ResellerViewObject>(e, "Nuevo Vendedor", uri);
         }
         public void NewBookingRequestReason(Uri uri)
         {
             var e = new MOPETI();
-            NewHelperView<MOPETI, RequestReasonDto>(e, "Nueva Motivo Peticion", uri);
+            NewHelperView<MOPETI, RequestReasonViewObject>(e, "Nueva Motivo Peticion", uri);
         }
     }
 }

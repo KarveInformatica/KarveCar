@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,19 +11,17 @@ namespace KarveControls.Behaviour
     /// <summary>
     /// GridEditButtonBehavior is a behaviour that allows to trigger a window.
     /// </summary>
-    public class GridEditButtonBehavior: KarveBehaviorBase<Button>
+    public class GridEditButtonBehavior : KarveBehaviorBase<Button>
     {
-
-
-
-        
         /// <summary>
         ///  This is a property for the cell presentation.
         /// </summary>
         /// 
-        public static readonly DependencyProperty commandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(GridEditButtonBehavior),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.Inherits));
+        public static readonly DependencyProperty commandProperty = DependencyProperty.Register(
+            "Command",
+            typeof(ICommand),
+            typeof(GridEditButtonBehavior),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
         /// <summary>
         /// Set or Get the command property.
@@ -36,9 +34,11 @@ namespace KarveControls.Behaviour
         /// <summary>
         ///  This is a param.
         /// </summary>
-        public static readonly DependencyProperty paramProperty = DependencyProperty.Register("Param", typeof(object), typeof(GridEditButtonBehavior),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.Inherits));
+        public static readonly DependencyProperty paramProperty = DependencyProperty.Register(
+            "Param",
+            typeof(object),
+            typeof(GridEditButtonBehavior),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
         /// <summary>
         /// Set or Get the Parameters property.
         /// </summary>
@@ -62,11 +62,11 @@ namespace KarveControls.Behaviour
         /// <summary>
         /// Set or Get the command property.
         /// </summary>
-        public BaseDto SourceView
+        public BaseViewObject SourceView
         {
             get
             {
-                return (BaseDto)GetValue(sourceViewProperty);
+                return (BaseViewObject)GetValue(sourceViewProperty);
             }
             set
             {

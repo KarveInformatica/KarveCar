@@ -8,7 +8,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using Prism.Regions;
 using Prism.Commands;
@@ -28,20 +28,20 @@ namespace MasterModule.ViewModels
     /// <summary>
     /// This class is responsible for allowing the client info view to communicate with the other levels.
     /// </summary>
-    public class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
+    public sealed class ClientsInfoViewModel: MasterInfoViewModuleBase, IEventObserver, IDisposeEvents, ICreateRegionManagerScope
     {
         #region Private Fields
         private IClientData _clientData;
         private IClientDataServices _clientDataServices;
         private HelperBase _helperData;
         private object _company;
-        private IEnumerable<CompanyDto> _companyValue;
+        private IEnumerable<CompanyViewObject> _companyValue;
         private bool _stateVisible;
         private string _clientRegion;
-        private ClientDto _currentClientDo = new ClientDto();
+        private ClientViewObject _currentClientDo = new ClientViewObject();
         private string _driverZone;
-        private IEnumerable<CityDto> _currentCities = new List<CityDto>();
-        private IEnumerable<ClientTypeDto> _clientTypeDto = new List<ClientTypeDto>();
+        private IEnumerable<CityViewObject> _currentCities = new List<CityViewObject>();
+        private IEnumerable<ClientTypeViewObject> _clientTypeDto = new List<ClientTypeViewObject>();
       
         private IncrementalList<ClientSummaryExtended> _listOfDrivers;
         private PropertyChangedEventHandler eventHandler;
@@ -52,11 +52,11 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Primary  key on branches
         /// </summary>
-        private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
+        private event SetPrimaryKey<BranchesViewObject> _onBranchesPrimaryKey;
         /// <summary>
         ///  Primary key on contacts.
         /// </summary>
-        private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+        private event SetPrimaryKey<ContactsViewObject> _onContactsPrimaryKey;
 
 
         /// <summary>
@@ -101,8 +101,7 @@ namespace MasterModule.ViewModels
         /// <param name="e">Event coming</param>
         private void OnDriverUpdate(object sender, PropertyChangedEventArgs e)
         {
-            var value = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>>;
-            if (value != null)
+            if (sender is INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> value)
             {
                 if (value.IsSuccessfullyCompleted)
                 {
@@ -115,8 +114,7 @@ namespace MasterModule.ViewModels
         {
             NotifyTaskCompletion.Create<IEnumerable<ClientSummaryExtended>>(_clientDataServices.GetPagedSummaryDoAsync(index, DefaultPageSize), (sender, ev) =>
             {
-                var value = sender as INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>>;
-                if (value != null)
+                if (sender is INotifyTaskCompletion<IEnumerable<ClientSummaryExtended>> value)
                 {
                     if (value.IsSuccessfullyCompleted)
                     {
@@ -140,12 +138,12 @@ namespace MasterModule.ViewModels
             payLoad.Subsystem = DataSubSystem.ClientSubsystem;
             SubSystem = DataSubSystem.ClientSubsystem; 
         }
-        private void ClientOnContactsPrimaryKey(ref ContactsDto primaryKey)
+        private void ClientOnContactsPrimaryKey(ref ContactsViewObject primaryKey)
         {
             primaryKey.ContactsKeyId = PrimaryKeyValue;
         }
 
-        private void ClientOnBranchesPrimaryKey(ref BranchesDto primaryKey)
+        private void ClientOnBranchesPrimaryKey(ref BranchesViewObject primaryKey)
         {
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
@@ -251,7 +249,7 @@ namespace MasterModule.ViewModels
         /// <param name="obj">This send a delegation for the changed command</param>
         private async void DelegationChangedCommandHandler(object obj)
         {
-            await GridChangedNotification<BranchesDto, cliDelega>(obj, _onBranchesPrimaryKey, DataSubSystem.ClientSubsystem).ConfigureAwait(false);
+            await GridChangedNotification<BranchesViewObject, cliDelega>(obj, _onBranchesPrimaryKey, DataSubSystem.ClientSubsystem).ConfigureAwait(false);
             
         }
         /// <summary>
@@ -260,7 +258,7 @@ namespace MasterModule.ViewModels
         /// <param name="obj">This send a contact for the changed command</param>
         private async void ContactsChangedCommandHandler(object obj)
         {
-            await GridChangedNotification<ContactsDto, CliContactos>(obj,
+            await GridChangedNotification<ContactsViewObject, CliContactos>(obj,
               _onContactsPrimaryKey,
               DataSubSystem.ClientSubsystem).ConfigureAwait(false);
         }
@@ -273,7 +271,7 @@ namespace MasterModule.ViewModels
             object dataObject = DataObject;
             DataPayLoad payLoad = BuildDataPayload(eventDictionary);
 
-            ChangeFieldHandlerDo<ClientDto> handlerDo = new ChangeFieldHandlerDo<ClientDto>(EventManager,
+            ChangeFieldHandlerDo<ClientViewObject> handlerDo = new ChangeFieldHandlerDo<ClientViewObject>(EventManager,
                 DataSubSystem.ClientSubsystem);
             var fixedValue = DataObject;
 
@@ -302,10 +300,7 @@ namespace MasterModule.ViewModels
         }
         public bool SelectedDrivers
         {
-            get
-            {
-                return _selectedDrivers;
-            }
+            get => _selectedDrivers;
             set
             {
                 _selectedDrivers = value;
@@ -317,9 +312,9 @@ namespace MasterModule.ViewModels
         {
            
             IDictionary<string, string> values = (Dictionary<string, string>)param;
-            string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
-            string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
-            bool value = await AssistQueryRequestHandler(assistTableName, assistQuery).ConfigureAwait(false);
+            var assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
+            var assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
+            var value = await AssistQueryRequestHandler(assistTableName, assistQuery).ConfigureAwait(false);
             if (!value)
             {
                 MessageBox.Show("Assist Invalid!");
@@ -327,7 +322,7 @@ namespace MasterModule.ViewModels
         }
         void LoadMoreItems(uint count, int baseIndex)
         {
-           var list =  (IEnumerable<CityDto>) _currentCities.Skip(baseIndex).Take(100).ToList();
+           var list =  (IEnumerable<CityViewObject>) _currentCities.Skip(baseIndex).Take(100).ToList();
 
             ClientHelper.CityDto = list; 
         }
@@ -346,123 +341,123 @@ namespace MasterModule.ViewModels
                     case "CITY_ASSIST":
                     {
                       
-                        CityDto = (IEnumerable<CityDto>)value;        
+                        CityDto = (IEnumerable<CityViewObject>)value;        
                         break;
                     }
                     case "CHANNEL_TYPE":
                     {
-                        ChannelDto= (IEnumerable<ChannelDto>) value;
+                        ChannelDto= (IEnumerable<ChannelViewObject>) value;
                         break;
                     }
                     case "COUNTRY_ASSIST":
                     {
-                        CountryDto = (IEnumerable<CountryDto>) value;
+                        CountryDto = (IEnumerable<CountryViewObject>) value;
                         break;
                     }
                     case "PROVINCE_ASSIST":
                     {
-                        ProvinciaDto = (IEnumerable<ProvinciaDto>) value;
+                        ProvinciaDto = (IEnumerable<ProvinceViewObject>) value;
                         break;
                     }
                     case "COMPANY_ASSIST":
                     {
-                        CompanyDto = (IEnumerable<CompanyDto>) value;
+                        CompanyDto = (IEnumerable<CompanyViewObject>) value;
                         break;
                     }
                     case "ACTIVITY_ASSIST":
                     {
-                        ActivityDto = (IEnumerable<ActividadDto>) value;
+                        ActivityDto = (IEnumerable<ActividadViewObject>) value;
                         break;
                     }
                     case "OFFICE_ASSIST":
                     {
-                        OfficeDto = (IEnumerable<OfficeDtos>) value;
+                        OfficeDto = (IEnumerable<OfficeViewObject>) value;
                         break;
                     }
                     case "BUDGET_KEY":
                     {
-                        BudgetKeyDto = (IEnumerable<BudgetKeyDto>) value;
+                        BudgetKeyDto = (IEnumerable<BudgetKeyViewObject>) value;
                         break;
                     }
                     case "CLIENT_ZONE":
                     {
-                        ZoneDto = (IEnumerable<ClientZoneDto>) value;
+                        ZoneDto = (IEnumerable<ClientZoneViewObject>) value;
                         break;
                     }
                     case "RENT_USAGE_ASSIST":
                     {
-                        RentUsageDto = (IEnumerable<RentingUseDto>) value;
+                        RentUsageDto = (IEnumerable<RentingUseViewObject>) value;
                         break;
                     }
                     case "CLIENT_TYPE":
                     {
-                        ClientTypeDto = (IEnumerable<ClientTypeDto>) value;
+                        ClientTypeDto = (IEnumerable<ClientTypeViewObject>) value;
                         break;
                     }
                     case "CLIENT_TYPE_UPPER":
                         {
-                            ClientTypeDto = (IEnumerable<ClientTypeDto>)value;
+                            ClientTypeDto = (IEnumerable<ClientTypeViewObject>)value;
                             break;
                         }
                     case "CLIENT_CREDIT_CARD":
                     {
-                        CreditCardType = (IEnumerable<CreditCardDto>) value;
+                        CreditCardType = (IEnumerable<CreditCardViewObject>) value;
                         break;
                     }
                     case "CLIENT_PAYMENT_FORM":
                     {
-                        ClientPaymentForm = (IEnumerable<PaymentFormDto>) value;
+                        ClientPaymentForm = (IEnumerable<PaymentFormViewObject>) value;
                         break;
                     }
                     case "CLIENT_INVOICE_BLOCKS":
                     {
-                        InvoiceBlock = (IEnumerable<InvoiceBlockDto>) value;
+                        InvoiceBlock = (IEnumerable<InvoiceBlockViewObject>) value;
                         break;
                     }
                     case "ORIGIN_ASSIST":
                     {
-                        OrigenDto = (IEnumerable<OrigenDto>) value;
+                        OrigenDto = (IEnumerable<OrigenViewObject>) value;
                         break;
                     }
                     case "MARKET_ASSIST":
                     {
-                        ClientMarketDto = (IEnumerable<MercadoDto>) value;
+                        ClientMarketDto = (IEnumerable<MarketViewObject>) value;
                         break;
                     }
                     case "RESELLER_ASSIST":
                     {
-                        ResellerDto = (IEnumerable<ResellerDto>)value;
+                        ResellerDto = (IEnumerable<ResellerViewObject>)value;
                         break;
                     }
                     case "CLIENT_BUDGET":
                     {
-                        BudgetKeyDto = (IEnumerable<BudgetKeyDto>)value;
+                        BudgetKeyDto = (IEnumerable<BudgetKeyViewObject>)value;
                         break;
                     }
                     case "BUSINESS_ASSIST":
                     {
-                        BusinessDto = (IEnumerable<BusinessDto>)value;
+                        BusinessDto = (IEnumerable<BusinessViewObject>)value;
                         break;
                     }
                     case "LANGUAGE_ASSIST":
                     {
-                        LanguageDto = (IEnumerable<LanguageDto>) value;
+                        LanguageDto = (IEnumerable<LanguageViewObject>) value;
                         break;
                     }
                     case "CLIENT_BROKER":
                     {
-                        BrokerDto = (IEnumerable<CommissionAgentSummaryDto>) value;
+                        BrokerDto = (IEnumerable<CommissionAgentSummaryViewObject>) value;
                         break;
                     }
                     case "CLIENT_DRIVER":
                     {
                           
-                            DriversDto = (IEnumerable<ClientSummaryDto>) value;
+                            DriversDto = (IEnumerable<ClientSummaryViewObject>) value;
                             break;
                     }
                     case "CREDIT_CARD":
                     {
-                        CreditCardType = (IEnumerable<CreditCardDto>) value;
+                        CreditCardType = (IEnumerable<CreditCardViewObject>) value;
                         break;
                     }
                     
@@ -480,7 +475,7 @@ namespace MasterModule.ViewModels
         ///  This returns the client data.
         ///  We have decied starting from this form to use just the dtos outside and not a complete model wrapper.
         /// </summary>
-        public ClientDto DataObject
+        public ClientViewObject DataObject
         {
             get { return _clientData.Value; }
             set { _clientData.Value = value; RaisePropertyChanged(); }
@@ -527,7 +522,7 @@ namespace MasterModule.ViewModels
                     {
                         if (payload.HasDataObject)
                         {
-                            var clientData = payload.DataObject as ClientDto;
+                            var clientData = payload.DataObject as ClientViewObject;
                             DataObject = clientData;
                         }
                         break;
@@ -581,25 +576,25 @@ namespace MasterModule.ViewModels
         private string _expirationYear;
         private bool _selectedDrivers;
         private bool _initialized;
-        private IEnumerable<CityDto> _city;
-        private IEnumerable<ChannelDto> _channel;
-        private IEnumerable<CountryDto> _country;
-        private IEnumerable<ProvinciaDto> _province;
-        private IEnumerable<ActividadDto> _activity;
-        private IEnumerable<OfficeDtos> _office;
-        private IEnumerable<CreditCardDto> _creditCardType;
-        private IEnumerable<PaymentFormDto> _clientForm;
-        private IEnumerable<InvoiceBlockDto> _invoiceBlock;
-        private IEnumerable<OrigenDto> _origenDto;
-        private IEnumerable<MercadoDto> _clientMarket;
-        private IEnumerable<ResellerDto> _resellerDto;
-        private IEnumerable<BudgetKeyDto> _budgetKey;
-        private IEnumerable<BusinessDto> _business;
-        private IEnumerable<LanguageDto> _language;
-        private IEnumerable<CommissionAgentSummaryDto> _broker;
-        private IEnumerable<ClientSummaryDto> _drivers;
-        private IEnumerable<RentingUseDto> _rentusage;
-        private IEnumerable<ClientZoneDto> _zone;
+        private IEnumerable<CityViewObject> _city;
+        private IEnumerable<ChannelViewObject> _channel;
+        private IEnumerable<CountryViewObject> _country;
+        private IEnumerable<ProvinceViewObject> _province;
+        private IEnumerable<ActividadViewObject> _activity;
+        private IEnumerable<OfficeViewObject> _office;
+        private IEnumerable<CreditCardViewObject> _creditCardType;
+        private IEnumerable<PaymentFormViewObject> _clientForm;
+        private IEnumerable<InvoiceBlockViewObject> _invoiceBlock;
+        private IEnumerable<OrigenViewObject> _origenDto;
+        private IEnumerable<MarketViewObject> _clientMarket;
+        private IEnumerable<ResellerViewObject> _resellerDto;
+        private IEnumerable<BudgetKeyViewObject> _budgetKey;
+        private IEnumerable<BusinessViewObject> _business;
+        private IEnumerable<LanguageViewObject> _language;
+        private IEnumerable<CommissionAgentSummaryViewObject> _broker;
+        private IEnumerable<ClientSummaryViewObject> _drivers;
+        private IEnumerable<RentingUseViewObject> _rentusage;
+        private IEnumerable<ClientZoneViewObject> _zone;
 
         public string ExpireMonth {
             get { return _expirationMonth; }
@@ -667,7 +662,7 @@ namespace MasterModule.ViewModels
         }
 
         public Visibility IsVisible { get; private set; }
-        public IEnumerable<ClientTypeDto> ClientTypeDto { get
+        public IEnumerable<ClientTypeViewObject> ClientTypeDto { get
             { return _clientTypeDto; }
             set { _clientTypeDto = value; RaisePropertyChanged(); } }
 
@@ -686,7 +681,7 @@ namespace MasterModule.ViewModels
 
         public bool CreateRegionManagerScope => true;
 
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             get { return _city; }
             set
@@ -696,7 +691,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<ChannelDto> ChannelDto {
+        public IEnumerable<ChannelViewObject> ChannelDto {
             get { return _channel; }
             set
             {
@@ -705,7 +700,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<CountryDto> CountryDto {
+        public IEnumerable<CountryViewObject> CountryDto {
             get { return _country; }
             set
             {
@@ -714,7 +709,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<CompanyDto> CompanyDto {
+        public IEnumerable<CompanyViewObject> CompanyDto {
             get { return _companyValue; }
             set
             {
@@ -723,7 +718,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
              }
-        public IEnumerable<ProvinciaDto> ProvinciaDto
+        public IEnumerable<ProvinceViewObject> ProvinciaDto
         {
             get { return _province; }
             set
@@ -733,7 +728,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<ActividadDto> ActivityDto
+        public IEnumerable<ActividadViewObject> ActivityDto
         {
             get { return _activity; }
             set
@@ -743,7 +738,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<OfficeDtos> OfficeDto
+        public IEnumerable<OfficeViewObject> OfficeDto
         {
             get { return _office; }
             set
@@ -753,7 +748,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<CreditCardDto> CreditCardType
+        public IEnumerable<CreditCardViewObject> CreditCardType
         {
             get { return _creditCardType; }
             set
@@ -763,7 +758,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<PaymentFormDto> ClientPaymentForm
+        public IEnumerable<PaymentFormViewObject> ClientPaymentForm
         {
             get { return _clientForm; }
             set
@@ -773,7 +768,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<InvoiceBlockDto> InvoiceBlock
+        public IEnumerable<InvoiceBlockViewObject> InvoiceBlock
         {
             get { return _invoiceBlock; }
             set
@@ -783,7 +778,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<OrigenDto> OrigenDto
+        public IEnumerable<OrigenViewObject> OrigenDto
         {
             get { return _origenDto; }
             set
@@ -793,7 +788,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<MercadoDto> ClientMarketDto
+        public IEnumerable<MarketViewObject> ClientMarketDto
         {
             get { return _clientMarket; }
             set
@@ -803,7 +798,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<ResellerDto> ResellerDto
+        public IEnumerable<ResellerViewObject> ResellerDto
         {
             get { return _resellerDto; }
             set
@@ -813,7 +808,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<BudgetKeyDto> BudgetKeyDto
+        public IEnumerable<BudgetKeyViewObject> BudgetKeyDto
         {
             get { return _budgetKey; }
             set
@@ -823,7 +818,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<BusinessDto> BusinessDto
+        public IEnumerable<BusinessViewObject> BusinessDto
         {
             get { return _business; }
             set
@@ -833,7 +828,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<LanguageDto> LanguageDto
+        public IEnumerable<LanguageViewObject> LanguageDto
         {
             get { return _language; }
             set
@@ -843,7 +838,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<CommissionAgentSummaryDto> BrokerDto
+        public IEnumerable<CommissionAgentSummaryViewObject> BrokerDto
         {
             get { return _broker; }
             set
@@ -853,7 +848,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<ClientSummaryDto> DriversDto
+        public IEnumerable<ClientSummaryViewObject> DriversDto
         {
             get { return _drivers; }
             set
@@ -863,7 +858,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<RentingUseDto> RentUsageDto
+        public IEnumerable<RentingUseViewObject> RentUsageDto
         {
             get { return _rentusage; }
             set
@@ -873,7 +868,7 @@ namespace MasterModule.ViewModels
                     RaisePropertyChanged();
             }
         }
-        public IEnumerable<ClientZoneDto> ZoneDto
+        public IEnumerable<ClientZoneViewObject> ZoneDto
         {
             get { return _zone; }
             set
@@ -957,28 +952,26 @@ namespace MasterModule.ViewModels
                 }
             }
         }
-        public bool FixCreditCardInfo(ref ClientDto creditInfo, string month, string year)
+        public bool FixCreditCardInfo(ref ClientViewObject creditInfo, string month, string year)
         {
-            var resultValue = 0;
-            var retValue = int.TryParse(month, out resultValue);
+            var retValue = int.TryParse(month, out var resultValue);
             if ((retValue) && ((resultValue > 12) || (resultValue <1)))
             {
                 return false;
             }
-            if ((!string.IsNullOrEmpty(month)) && (!string.IsNullOrEmpty(year)))
+
+            if ((string.IsNullOrEmpty(month)) || (string.IsNullOrEmpty(year)))
             {
-                creditInfo.TARCADU = string.Format("{0}/{1}", month, year);
-                creditInfo.CreditCardExpiryMonth = month;
-                creditInfo.CreditCardExpiryYear = year;
-                return true;
+                return false;
             }
-            return false;
+            creditInfo.TARCADU = $"{month}/{year}";
+            creditInfo.CreditCardExpiryMonth = month;
+            creditInfo.CreditCardExpiryYear = year;
+            return true;
         }
         private bool ParseDataValue(string monthValue, out string parsedValue, int begin, int end)
         {
-            var resultValue = 0;
-            
-            var retValue = int.TryParse(monthValue, out resultValue);
+            var retValue = int.TryParse(monthValue, out var resultValue);
             parsedValue = string.Empty;
             if (retValue && ((resultValue > begin) && (resultValue < end)))
             {
@@ -1012,25 +1005,25 @@ namespace MasterModule.ViewModels
             }
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsDto)
         {
             throw new NotImplementedException();
         }
 
-        internal override async Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override async Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             IDictionary<string, object> ev = SetBranchProvince(p, b, DataObject, DataObject.BranchesDto);
             // send the opportune event where it is needed.
-            await GridChangedNotification<BranchesDto, cliDelega>(ev,
+            await GridChangedNotification<BranchesViewObject, cliDelega>(ev,
                 _onBranchesPrimaryKey, DataSubSystem.ClientSubsystem).ConfigureAwait(false);
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }

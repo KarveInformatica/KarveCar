@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Windows.Interactivity;
 using KarveControls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.Common {
 
     public class ContactsValidationBehavior : Behavior<SfDataGrid>
     {
-        private ContactsDto lastChangedObject = null;
+        private ContactsViewObject lastChangedObject = null;
         protected override void OnAttached()
         {
             base.OnAttached();
@@ -20,7 +20,7 @@ namespace MasterModule.Common {
 
         void AssociatedObject_RowValidating(object sender, RowValidatingEventArgs args)
         {
-            var data = args.RowData as ContactsDto;
+            var data = args.RowData as ContactsViewObject;
             if (data == null)
             {
                 args.ErrorMessages.Add("General", "Invalid insert");

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
@@ -48,7 +48,7 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="clientsSummaryQuery">String of a client data to load.</param>
         /// <returns>A list of enumerable clients.</returns>
-        Task<IEnumerable<ClientSummaryDto>> GetSummaryDo(string clientsSummaryQuery);
+        Task<IEnumerable<ClientSummaryViewObject>> GetSummaryDo(string clientsSummaryQuery);
         /// <summary>
         ///  Get the async client paged
         /// </summary>
@@ -63,7 +63,7 @@ namespace KarveDataServices
         /// <param name="baseIndex">Base Index to be used.</param>
         /// <param name="defaultPage">Page size to be used.</param>
         /// <returns>A list of contacts to be used.</returns>
-        Task<IEnumerable<ContactsDto>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage);
+        Task<IEnumerable<ContactsViewObject>> GetPagedContactsByClient(string clientCode, int baseIndex, int defaultPage);
     }
 
 }

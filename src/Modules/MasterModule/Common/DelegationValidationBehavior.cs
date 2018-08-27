@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Windows.Interactivity;
 using KarveControls;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 
 namespace MasterModule.Common
 {
     class DelegationValidationBehavior: Behavior<SfDataGrid>
     {
-        private BranchesDto lastChangedObject = null;
+        private BranchesViewObject lastChangedObject = null;
 
         protected override void OnAttached()
         {
@@ -22,7 +22,7 @@ namespace MasterModule.Common
 
         void AssociatedObject_RowValidating(object sender, RowValidatingEventArgs args)
         {
-            var data = args.RowData as BranchesDto;
+            var data = args.RowData as BranchesViewObject;
             if (data == null)
             {
                 args.ErrorMessages.Add("General", "Invalid insert");
@@ -46,7 +46,7 @@ namespace MasterModule.Common
             Dictionary<string, object> objectName = new Dictionary<string, object>();
             objectName["DataObject"] = ControlExt.GetDataSource(AssociatedObject);
             objectName["ChangedValue"] = data;
-            objectName["PreviousValue"] = new BranchesDto(lastChangedObject);
+            objectName["PreviousValue"] = new BranchesViewObject(lastChangedObject);
 
         }
         void AssociatedObject_CurrentCellValidating(object sender, CurrentCellValidatingEventArgs args)

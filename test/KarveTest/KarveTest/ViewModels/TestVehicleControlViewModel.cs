@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using MasterModule;
 using MasterModule.ViewModels;
 using Microsoft.Practices.Unity;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using KarveCommon.Generic;
 using MasterModule.Views;
@@ -37,12 +37,12 @@ namespace KarveTest.ViewModels
         {
             // This code simulate the return from the data base of a list of vehicles.
             _mockDataServices.Setup(x => x.GetVehicleDataServices().GetSummaryAllAsync()).ReturnsAsync(
-                (() => new List<VehicleSummaryDto>()
+                (() => new List<VehicleSummaryViewObject>()
                 {
-                            new VehicleSummaryDto(){ Code = "12920", Brand="FIAT" },
-                            new VehicleSummaryDto(){ Code=  "12892", Brand="FIAT" },
-                            new VehicleSummaryDto(){ Code = "12282", Brand="FIAT" },
-                            new VehicleSummaryDto(){ Code = "12289", Brand="FIAT" }
+                            new VehicleSummaryViewObject(){ Code = "12920", Brand="FIAT" },
+                            new VehicleSummaryViewObject(){ Code=  "12892", Brand="FIAT" },
+                            new VehicleSummaryViewObject(){ Code = "12282", Brand="FIAT" },
+                            new VehicleSummaryViewObject(){ Code = "12289", Brand="FIAT" }
                 }));
             _vehicleControlViewModel = new VehiclesControlViewModel( _mockConfigurationService.Object, _mockEventManager.Object, _mockDataServices.Object, _mockUnityContainer.Object, _mockRegionManager.Object);
             _mockEventManager.Setup(x => x.NotifyObserverSubsystem(MasterModuleConstants.VehiclesSystemName, currentPayload));
@@ -55,9 +55,9 @@ namespace KarveTest.ViewModels
             // you shall load the summary correctly.
             _vehicleControlViewModel.StartAndNotify();
             Assert.NotNull(_vehicleControlViewModel.SummaryView);
-            var viewModel = _vehicleControlViewModel.SummaryView as List<VehicleSummaryDto>;
+            var viewModel = _vehicleControlViewModel.SummaryView as List<VehicleSummaryViewObject>;
             Assert.NotNull(viewModel);
-            Assert.AreSame(viewModel.Count<VehicleSummaryDto>(),4);
+            Assert.AreSame(viewModel.Count<VehicleSummaryViewObject>(),4);
         }
         [Test]
         public void Should_Open_AVehicleCorrectly()
@@ -74,7 +74,7 @@ namespace KarveTest.ViewModels
             // act.
             Assert.NotNull(_vehicleControlViewModel.OpenItem);
             ICommand command = _vehicleControlViewModel.OpenItem;
-            VehicleSummaryDto summaryItem = new VehicleSummaryDto();
+            VehicleSummaryViewObject summaryItem = new VehicleSummaryViewObject();
             summaryItem.Code = "12920";
             summaryItem.Brand = "FIAT";
             command.Execute(summaryItem);

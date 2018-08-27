@@ -1,27 +1,23 @@
 ﻿using KarveCommonInterfaces;
-using KarveDataServices.DataTransferObject;
-using System;
-using System.Collections.Generic;
+using KarveDataServices.ViewObjects;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Crud.Validation
 {
-
-    class BookingConceptRule : ValidationChain<BookingDto>
+    class BookingConceptRule : ValidationChain<BookingViewObject>
     {
         /// <summary>
         ///  This validates the new concept.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public override bool Validate(BookingDto request)
+        public override bool Validate(BookingViewObject request)
         {
             var items = request.Items;
             var nullConcept = items.FirstOrDefault(x => string.IsNullOrEmpty(x.Desccon));
             if (nullConcept != null)
             {
+                ErrorMessage = "El concepto es nulo";
                 return false;
             }
             return true;

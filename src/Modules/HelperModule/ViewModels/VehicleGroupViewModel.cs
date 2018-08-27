@@ -10,7 +10,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using System.Windows.Input;
 using Prism.Commands;
@@ -20,7 +20,7 @@ using KarveCommonInterfaces;
 
 namespace HelperModule.ViewModels
 {
-    public class VehicleGroupViewModel : GenericHelperViewModel<VehicleGroupDto, GRUPOS>
+    public class VehicleGroupViewModel : GenericHelperViewModel<VehicleGroupViewObject, GRUPOS>
     {
         public VehicleGroupViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(string.Empty, dataServices, region, manager, service)
         {
@@ -29,10 +29,10 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            var dto = payLoad.DataObject as VehicleGroupDto;
+            var dto = payLoad.DataObject as VehicleGroupViewObject;
             if (dto != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<VehicleGroupDto, GRUPOS>(dto);
+                string codeId = await helperDal.GetMappedUniqueId<VehicleGroupViewObject, GRUPOS>(dto);
                 dto.Codigo = codeId.Substring(0, 4);
                 dto.Code = codeId;
                 payLoad.DataObject = dto;

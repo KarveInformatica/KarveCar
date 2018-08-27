@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace MasterModule.Views.Vehicles.MockViewModels
 {
@@ -13,9 +13,9 @@ namespace MasterModule.Views.Vehicles.MockViewModels
     public class VehicleMaintenanceMockViewModel
     {
 
-        private ObservableCollection<MaintainanceDto> _maintainanceDtos = new ObservableCollection<MaintainanceDto>()
+        private ObservableCollection<MaintainanceViewObject> _maintainanceDtos = new ObservableCollection<MaintainanceViewObject>()
         {
-            new MaintainanceDto()
+            new MaintainanceViewObject()
             {
                 LastMaintananceDate = DateTime.MinValue,
                 LastMaintananceKMs = "928393",
@@ -42,7 +42,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         /// <summary>
         /// MaintainanceCollection. This is a collection to maintain.
         /// </summary>
-        public ObservableCollection<MaintainanceDto> MaintainanceCollection
+        public ObservableCollection<MaintainanceViewObject> MaintainanceCollection
         {
             set { _maintainanceDtos = value; }
             get { return _maintainanceDtos; }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Interactivity;
 using KarveControls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.Windows.Forms.Tools;
 
@@ -16,7 +16,7 @@ namespace MasterModule.Common
         public class MaintenanceValidationBehavior : Behavior<SfDataGrid>
     {
 
-            private MaintainanceDto lastChangedObject = null;
+            private MaintainanceViewObject lastChangedObject = null;
 
             protected override void OnAttached()
             {
@@ -28,7 +28,7 @@ namespace MasterModule.Common
           
             void AssociatedObject_RowValidating(object sender, RowValidatingEventArgs args)
             {
-                var data = args.RowData as MaintainanceDto;
+                var data = args.RowData as MaintainanceViewObject;
                 if (data == null)
                 {
                     args.ErrorMessages.Add("General","Invalid insert");
@@ -53,7 +53,7 @@ namespace MasterModule.Common
                 Dictionary<string, object> objectName = new Dictionary<string, object>();
                 objectName["DataObject"] = ControlExt.GetDataSource(AssociatedObject);
                 objectName["ChangedValue"] = data;
-                objectName["PreviousValue"] = new MaintainanceDto(lastChangedObject);
+                objectName["PreviousValue"] = new MaintainanceViewObject(lastChangedObject);
                
             }
             void AssociatedObject_CurrentCellValidating(object sender, CurrentCellValidatingEventArgs args)

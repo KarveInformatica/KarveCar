@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveCommon
 {

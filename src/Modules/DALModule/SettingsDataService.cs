@@ -15,7 +15,7 @@ using KarveCommon.Generic;
 using KarveDapper.Extensions;
 using KarveDapper;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer
 {

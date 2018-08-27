@@ -2,7 +2,7 @@
 using KarveDataServices;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Linq;
 
 namespace KarveCommon.Generic
@@ -41,8 +41,8 @@ namespace KarveCommon.Generic
 
                     var newItems = dtoValues.Where(x =>
                     {
-                        BaseDto baseDto = x as BaseDto;
-                        return (baseDto.IsNew == true);
+                        BaseViewObject baseViewObject = x as BaseViewObject;
+                        return (baseViewObject.IsNew == true);
                     }
                         );
                     if (newItems.Count() > 0)
@@ -72,8 +72,8 @@ namespace KarveCommon.Generic
             {
                 var newItems = dtoValues.Where(x =>
                 {
-                    BaseDto baseDto = x as BaseDto;
-                    return (baseDto.IsDeleted == true);
+                    BaseViewObject baseViewObject = x as BaseViewObject;
+                    return (baseViewObject.IsDeleted == true);
                 });
                 if (dtoValues.Count() > 0)
                 { 
@@ -96,8 +96,8 @@ namespace KarveCommon.Generic
             {
                 var newItems = dtoValues.Where(x =>
                 {
-                    BaseDto baseDto = x as BaseDto;
-                    return ((baseDto.IsDirty == true) && (!baseDto.IsNew));
+                    BaseViewObject baseViewObject = x as BaseViewObject;
+                    return ((baseViewObject.IsDirty == true) && (!baseViewObject.IsNew));
                 });
                 if (dtoValues.Count() > 0)
                 {

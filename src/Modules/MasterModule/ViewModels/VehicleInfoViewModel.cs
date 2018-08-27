@@ -9,7 +9,7 @@ using KarveCommon.Generic;
 using System.ComponentModel;
 using AutoMapper;
 using DataAccessLayer.Logic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Views.Vehicles;
 using Prism.Commands;
 using Prism.Regions;
@@ -39,20 +39,20 @@ namespace MasterModule.ViewModels
         private INotifyTaskCompletion<IVehicleData> _initializationTable;
        
         private string _assistQueryOwner;
-        private IEnumerable<VehicleActivitiesDto> _activity;
-        private IEnumerable<AgentDto> _agents;
-        private IEnumerable<OwnerDto> _owner;
-        private IEnumerable<SupplierSummaryDto> _supplier;
-        private IEnumerable<PaymentFormDto> _paymentFormDto;
+        private IEnumerable<VehicleActivitiesViewObject> _activity;
+        private IEnumerable<AgentViewObject> _agents;
+        private IEnumerable<OwnerViewObject> _owner;
+        private IEnumerable<SupplierSummaryViewObject> _supplier;
+        private IEnumerable<PaymentFormViewObject> _paymentFormDto;
         private IEnumerable<ClientSummaryExtended> _clients;
-        private IEnumerable<ResellerDto> _vendedor;
+        private IEnumerable<ResellerViewObject> _vendedor;
         private IEnumerable<ClientSummaryExtended> _clientDto;
-        private IEnumerable<SupplierSummaryDto> _assuranceCompany;
-        private IEnumerable<SupplierSummaryDto> _assuranceAgent;
-        private IEnumerable<SupplierSummaryDto> _assuranceAdditionalCompany;
-        private IEnumerable<SupplierSummaryDto> _assistanceAssuranceCompany;
-        private IEnumerable<SupplierSummaryDto> _assistancePolicyAssuranceCompany;
-        private IEnumerable<MaintainanceDto> _maintenaince;
+        private IEnumerable<SupplierSummaryViewObject> _assuranceCompany;
+        private IEnumerable<SupplierSummaryViewObject> _assuranceAgent;
+        private IEnumerable<SupplierSummaryViewObject> _assuranceAdditionalCompany;
+        private IEnumerable<SupplierSummaryViewObject> _assistanceAssuranceCompany;
+        private IEnumerable<SupplierSummaryViewObject> _assistancePolicyAssuranceCompany;
+        private IEnumerable<MaintainanceViewObject> _maintenaince;
         
         private INotifyTaskCompletion<IEnumerable<ElementDto>> _elementLoadNotifyTaskCompletion;
 
@@ -65,34 +65,34 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  account stuff.
         /// </summary>
-        private IEnumerable<AccountDto> _accountDto;
+        private IEnumerable<AccountViewObject> _accountDto;
         private IEnumerable<ElementDto> _elementDto;
-        private IEnumerable<AccountDto> _accountPreviousRepaymentDto;
-        private IEnumerable<AccountDto> _accountImmobilizedDto;
-        private IEnumerable<AccountDto> _accountDtoPaymentAccountDto;
-        private IEnumerable<AccountDto> _accountDtoCapitalCp;
-        private IEnumerable<AccountDto> _accomulatedRepayment;
+        private IEnumerable<AccountViewObject> _accountPreviousRepaymentDto;
+        private IEnumerable<AccountViewObject> _accountImmobilizedDto;
+        private IEnumerable<AccountViewObject> _accountDtoPaymentAccountDto;
+        private IEnumerable<AccountViewObject> _accountDtoCapitalCp;
+        private IEnumerable<AccountViewObject> _accomulatedRepayment;
         private IRegionManager _regionManager;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<CityDto> _roadTaxesCities ;
-        private IEnumerable<ZonaOfiDto> _officeZoneRoadTaxes;
-        private IEnumerable<CurrentSituationDto> _situationDto;
-        private IEnumerable<OfficeDtos> _otherOffice1Dto;
-        private IEnumerable<OfficeDtos> _otherOffice2Dto ;
-        private IEnumerable<OfficeDtos> _otherOffice3Dto ;
-        private IEnumerable<BrandVehicleDto> _brandDtos;
-        private IEnumerable<ModelVehicleDto> _modelDtos;
-        private IEnumerable<VehicleGroupDto> _vehicleGroupDtos;
-        private IEnumerable<ColorDto> _colorDto;
+        private IEnumerable<CityViewObject> _cityDto;
+        private IEnumerable<CityViewObject> _roadTaxesCities ;
+        private IEnumerable<ZonaOfiViewObject> _officeZoneRoadTaxes;
+        private IEnumerable<CurrentSituationViewObject> _situationDto;
+        private IEnumerable<OfficeViewObject> _otherOffice1Dto;
+        private IEnumerable<OfficeViewObject> _otherOffice2Dto ;
+        private IEnumerable<OfficeViewObject> _otherOffice3Dto ;
+        private IEnumerable<BrandVehicleViewObject> _brandDtos;
+        private IEnumerable<ModelVehicleViewObject> _modelDtos;
+        private IEnumerable<VehicleGroupViewObject> _vehicleGroupDtos;
+        private IEnumerable<ColorViewObject> _colorDto;
         private readonly QueryStoreFactory _queryStoreFactory;
         private ICollection<string> _dataFieldCollection;
         private IAssistDataService _assistDataService;
-        private IEnumerable<ResellerDto> _resellerDto;
+        private IEnumerable<ResellerViewObject> _resellerDto;
         private ICommand _saveCommand;
-        private IEnumerable<SupplierSummaryDto> _buyerSupplier = new List<SupplierSummaryDto>();
+        private IEnumerable<SupplierSummaryViewObject> _buyerSupplier = new List<SupplierSummaryViewObject>();
 
         // This returns the list of activity when asked.
-        public IEnumerable<VehicleActivitiesDto> ActivityDtos
+        public IEnumerable<VehicleActivitiesViewObject> ActivityDtos
         {
             get
             {
@@ -106,7 +106,7 @@ namespace MasterModule.ViewModels
             
         }
 
-        public IEnumerable<ResellerDto> VendedorDtos
+        public IEnumerable<ResellerViewObject> VendedorDtos
         {
             get { return _vendedor; }
             set { _vendedor = value; RaisePropertyChanged(); }
@@ -116,7 +116,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public IEnumerable<AccountDto> AccountDtos
+        public IEnumerable<AccountViewObject> AccountDtos
         {
             get
             {
@@ -133,7 +133,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public IEnumerable<AccountDto> AccountDtosImmobilized
+        public IEnumerable<AccountViewObject> AccountDtosImmobilized
         {
             get
             {
@@ -152,7 +152,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public IEnumerable<AccountDto> AccountDtoPreviousRepayment
+        public IEnumerable<AccountViewObject> AccountDtoPreviousRepayment
         {
             get
             {
@@ -168,7 +168,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public IEnumerable<AccountDto> AccountDtoPaymentAccount
+        public IEnumerable<AccountViewObject> AccountDtoPaymentAccount
         {
             get
             {
@@ -183,7 +183,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public IEnumerable<AccountDto> AccountDtoCapitalCp
+        public IEnumerable<AccountViewObject> AccountDtoCapitalCp
         {
             get
             {
@@ -215,7 +215,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of agents.
         /// </summary>
-        public IEnumerable<AgentDto> AgentDtos
+        public IEnumerable<AgentViewObject> AgentDtos
         {
             get
             {
@@ -230,7 +230,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns the list of owners.
         /// </summary>
-        public IEnumerable<OwnerDto> OwnerDtos
+        public IEnumerable<OwnerViewObject> OwnerDtos
         {
             get
             {
@@ -245,7 +245,7 @@ namespace MasterModule.ViewModels
 
         
         /// </summary>
-        public IEnumerable<SupplierSummaryDto> AssuranceDtos
+        public IEnumerable<SupplierSummaryViewObject> AssuranceDtos
         {
             get
             {
@@ -258,7 +258,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<SupplierSummaryDto> AdditionalAssuranceDtos
+        public IEnumerable<SupplierSummaryViewObject> AdditionalAssuranceDtos
         {
             get
             {
@@ -270,7 +270,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<SupplierSummaryDto> AssistanceAssuranceDtos
+        public IEnumerable<SupplierSummaryViewObject> AssistanceAssuranceDtos
         {
             get
             {
@@ -282,7 +282,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<SupplierSummaryDto> AssistancePolicyAssuranceDtos
+        public IEnumerable<SupplierSummaryViewObject> AssistancePolicyAssuranceDtos
         {
             get
             {
@@ -297,7 +297,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This returns a maintenance collection 
         /// </summary>
-        public IEnumerable<MaintainanceDto> MaintenanceCollection
+        public IEnumerable<MaintainanceViewObject> MaintenanceCollection
         {
             get
             {
@@ -311,7 +311,7 @@ namespace MasterModule.ViewModels
         }
 
 
-        public IEnumerable<AccountDto> AccountDtoAccmulatedRepayment
+        public IEnumerable<AccountViewObject> AccountDtoAccmulatedRepayment
         {
             get { return _accomulatedRepayment; }
             set
@@ -323,7 +323,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  This is an assurance agent dtos.
         /// </summary>
-        public IEnumerable<SupplierSummaryDto> AssuranceAgentDtos
+        public IEnumerable<SupplierSummaryViewObject> AssuranceAgentDtos
         {
             get
             {
@@ -429,63 +429,63 @@ namespace MasterModule.ViewModels
                 {
                     case "ACTIVEHI":
                     {
-                        ActivityDtos = resultMap as IEnumerable<VehicleActivitiesDto>;
+                        ActivityDtos = resultMap as IEnumerable<VehicleActivitiesViewObject>;
                         break;
                     }
                     case "PROPIE":
                     {
-                        OwnerDtos = resultMap as IEnumerable<OwnerDto>;
+                        OwnerDtos = resultMap as IEnumerable<OwnerViewObject>;
                         break;
                     }
                     case "AGENTES":
                     {
-                        AgentDtos = resultMap as IEnumerable<AgentDto>;
+                        AgentDtos = resultMap as IEnumerable<AgentViewObject>;
                         break;
                     }
                     case "ASSURANCE":
                     {
-                        AssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
+                        AssuranceDtos = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
                     case "ASSURANCE_1":
                     {
-                        AssistancePolicyAssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
+                        AssistancePolicyAssuranceDtos = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
                     case "ASSURANCE_2":
                     {
-                        AdditionalAssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
+                        AdditionalAssuranceDtos = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
                     case "ASSURANCE_3":
                     {
-                        AssistanceAssuranceDtos = resultMap as IEnumerable<SupplierSummaryDto>;
+                        AssistanceAssuranceDtos = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
                     case "ASSURANCE_AGENT":
                     {
-                        AssuranceAgentDtos = resultMap as IEnumerable<SupplierSummaryDto>;
+                        AssuranceAgentDtos = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
                     case "PROVEE1":
                     {
-                        BuyerSupplierDto = resultMap as IEnumerable<SupplierSummaryDto>;
+                        BuyerSupplierDto = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
                     case "PROVEE2":
                     {
-                        ProveeDto2 = resultMap as IEnumerable<SupplierSummaryDto>;
+                        ProveeDto2 = resultMap as IEnumerable<SupplierSummaryViewObject>;
                         break;
                     }
 
                     case "CU1":
                     {
-                        AccountDtos = resultMap as IEnumerable<AccountDto>;
+                        AccountDtos = resultMap as IEnumerable<AccountViewObject>;
                         break;
                     }
                     case "FORMAS":
                     {
-                        PaymentFormDto = resultMap as IEnumerable<PaymentFormDto>;
+                        PaymentFormDto = resultMap as IEnumerable<PaymentFormViewObject>;
                         break;
                     }
                     case "CLIENTES1":
@@ -500,84 +500,84 @@ namespace MasterModule.ViewModels
                         }
                     case "ACCOUNT_INMOVILIZADO":
                     {
-                        AccountDtosImmobilized = resultMap as IEnumerable<AccountDto>;
+                        AccountDtosImmobilized = resultMap as IEnumerable<AccountViewObject>;
                         break;
                     }
                     case "ACCOUNT_PAYMENT_ACCOUNT":
                     {
-                        AccountDtoPaymentAccount = resultMap as IEnumerable<AccountDto>;
+                        AccountDtoPaymentAccount = resultMap as IEnumerable<AccountViewObject>;
                         break;
                     }
                     case "ACCOUNT_PREVIUOS_PAYMENT":
                     {
-                            AccountDtoPreviousRepayment = resultMap as IEnumerable<AccountDto>;
+                            AccountDtoPreviousRepayment = resultMap as IEnumerable<AccountViewObject>;
 
                                                     break;
                     }
                     case "ACCOUNT_ACCUMULATED_REPAYMENT":
                     {
-                        AccountDtoAccmulatedRepayment = resultMap as IEnumerable<AccountDto>;
+                        AccountDtoAccmulatedRepayment = resultMap as IEnumerable<AccountViewObject>;
                         break;
                     }
                     case "POBLACIONES":
                     {
-                        CityDto = resultMap as IEnumerable<CityDto>;
+                        CityDto = resultMap as IEnumerable<CityViewObject>;
                         break;
                     }
                     case "OFICINA1":
                     {
-                        OtherOffice1Dto = resultMap as IEnumerable<OfficeDtos>;
+                        OtherOffice1Dto = resultMap as IEnumerable<OfficeViewObject>;
                         break;
                     }
                     case "OFICINA2":
                     {
-                        OtherOffice2Dto = resultMap as IEnumerable<OfficeDtos>;
+                        OtherOffice2Dto = resultMap as IEnumerable<OfficeViewObject>;
                         break;
                     }
                     case "OFICINA3":
                     {
-                        OtherOffice3Dto = resultMap as IEnumerable<OfficeDtos>;
+                        OtherOffice3Dto = resultMap as IEnumerable<OfficeViewObject>;
                         break;
                     }
 
                     case "COLORFL":
                     {
-                        ColorDtos = resultMap as IEnumerable<ColorDto>;
+                        ColorDtos = resultMap as IEnumerable<ColorViewObject>;
                         break;
                     }
                     case "MARCAS":
                    {
-                        BrandDtos = (IEnumerable<BrandVehicleDto>) resultMap;
+                        BrandDtos = (IEnumerable<BrandVehicleViewObject>) resultMap;
                         break;
                     }
                     case "MODELO":
                     {
-                        ModelDtos = resultMap as IEnumerable<ModelVehicleDto>;
+                        ModelDtos = resultMap as IEnumerable<ModelVehicleViewObject>;
                         break;
                     }
                     case "GRUPOS":
                     {
-                        VehicleGroupDtos = resultMap as IEnumerable<VehicleGroupDto>;
+                        VehicleGroupDtos = resultMap as IEnumerable<VehicleGroupViewObject>;
                         break;
                     }
                     case "SITUATION":
                     {
-                        CurrentSituationDto = resultMap as IEnumerable<CurrentSituationDto>;
+                        CurrentSituationDto = resultMap as IEnumerable<CurrentSituationViewObject>;
                         break;
                     }
                     case "ROAD_TAXES_CITY":
                     {
-                        RoadTaxesCityDto = resultMap as IEnumerable<CityDto>;
+                        RoadTaxesCityDto = resultMap as IEnumerable<CityViewObject>;
                         break;
                     }
                     case "ROAD_TAXES_ZONAOFI":
                     {
-                        RoadTaxesOfficeZoneDto =resultMap as IEnumerable<ZonaOfiDto>;
+                        RoadTaxesOfficeZoneDto =resultMap as IEnumerable<ZonaOfiViewObject>;
                         break;
                     }
                     case "RESELLER_ASSIST":
                     {
-                        ResellerDto = resultMap as IEnumerable<ResellerDto>;
+                        ResellerDto = resultMap as IEnumerable<ResellerViewObject>;
                         break;
                     }
                 }
@@ -607,7 +607,7 @@ namespace MasterModule.ViewModels
                 return store.BuildQuery();
             }
         }
-        public IEnumerable<ZonaOfiDto> RoadTaxesOfficeZoneDto
+        public IEnumerable<ZonaOfiViewObject> RoadTaxesOfficeZoneDto
         {
             get
             {
@@ -629,7 +629,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<CurrentSituationDto> SituationDto
+        public IEnumerable<CurrentSituationViewObject> SituationDto
         {
             get => _situationDto;
             set
@@ -639,17 +639,17 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<SupplierSummaryDto> BuyerSupplierDto
+        public IEnumerable<SupplierSummaryViewObject> BuyerSupplierDto
         {
             get { return _buyerSupplier; }
             set { _buyerSupplier = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<SupplierSummaryDto> ProveeDto
+        public IEnumerable<SupplierSummaryViewObject> ProveeDto
         {
             get { return _supplier; }
             set { _supplier = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<SupplierSummaryDto> ProveeDto2
+        public IEnumerable<SupplierSummaryViewObject> ProveeDto2
         {
             get { return _supplier; }
             set { _supplier = value; RaisePropertyChanged(); }
@@ -798,7 +798,7 @@ namespace MasterModule.ViewModels
             get { return GenericSql.SupplierSummaryQuery; }
         }
             
-            public IEnumerable<PaymentFormDto> PaymentFormDto {
+            public IEnumerable<PaymentFormViewObject> PaymentFormDto {
             get { return _paymentFormDto; }
             private set { _paymentFormDto = value; RaisePropertyChanged();}
         }
@@ -864,7 +864,7 @@ namespace MasterModule.ViewModels
 
             if (_vehicleDo?.MaintenanceHistory != null)
             {
-                MaintenanceCollection = new ObservableCollection<MaintainanceDto>(_vehicleDo.MaintenanceHistory);
+                MaintenanceCollection = new ObservableCollection<MaintainanceViewObject>(_vehicleDo.MaintenanceHistory);
             }
             RevisionObject = InitRevisionComposedFieldObjects();
             ActiveSubSystem();
@@ -874,13 +874,13 @@ namespace MasterModule.ViewModels
         {
             if (vehicle.BrandDtos.Count() == 0)
             {
-                var brand = new BrandVehicleDto();
+                var brand = new BrandVehicleViewObject();
                 var firstModel = _vehicleDo.ModelDtos.FirstOrDefault();
                 if (firstModel != null)
                 {
                     brand.Code = firstModel.Marca;
                     brand.Name = firstModel.NomeMarca;
-                    var brandVehi = new List<BrandVehicleDto>() { brand };
+                    var brandVehi = new List<BrandVehicleViewObject>() { brand };
                     vehicle.BrandDtos = vehicle.BrandDtos.Union(brandVehi);
                 }
             }
@@ -998,7 +998,7 @@ namespace MasterModule.ViewModels
             return payload;
         }
     
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             get => _cityDto;
             set {
@@ -1007,7 +1007,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<CityDto> RoadTaxesCityDto
+        public IEnumerable<CityViewObject> RoadTaxesCityDto
         {
             get
             {
@@ -1022,38 +1022,38 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<CurrentSituationDto> CurrentSituationDto
+        public IEnumerable<CurrentSituationViewObject> CurrentSituationDto
         {
             get { return _situationDto; }
             set { _situationDto = value; RaisePropertyChanged(); }
         }
 
         /// <summary>
-        /// Other office 1 dto
+        /// Other office 1 viewObject
         /// </summary>
-        public IEnumerable<OfficeDtos> OtherOffice1Dto
+        public IEnumerable<OfficeViewObject> OtherOffice1Dto
         {
             get { return _otherOffice1Dto; }
             set { _otherOffice1Dto = value; RaisePropertyChanged(); }
         }
 
         /// <summary>
-        /// Other office 2 dto
+        /// Other office 2 viewObject
         /// </summary>
-        public IEnumerable<OfficeDtos> OtherOffice2Dto
+        public IEnumerable<OfficeViewObject> OtherOffice2Dto
         {
             get { return _otherOffice2Dto; }
             set { _otherOffice2Dto = value; RaisePropertyChanged(); }
         }
         /// <summary>
-        /// Other office 3 dto
+        /// Other office 3 viewObject
         /// </summary>
-        public IEnumerable<OfficeDtos> OtherOffice3Dto
+        public IEnumerable<OfficeViewObject> OtherOffice3Dto
         {
             get { return _otherOffice3Dto; }
             set { _otherOffice3Dto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<ResellerDto> ResellerDto
+        public IEnumerable<ResellerViewObject> ResellerDto
         {
             get { return _resellerDto; }
             set { _resellerDto = value; RaisePropertyChanged(); }
@@ -1061,7 +1061,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  BrandDtos. Brand Dto.
         /// </summary>
-        public IEnumerable<BrandVehicleDto> BrandDtos
+        public IEnumerable<BrandVehicleViewObject> BrandDtos
         {
             get
             {
@@ -1074,9 +1074,9 @@ namespace MasterModule.ViewModels
             }
         }
         /// <summary>
-        ///  ModelDtos. Model vehicle dto.
+        ///  ModelDtos. Model vehicle viewObject.
         /// </summary>
-        public IEnumerable<ModelVehicleDto> ModelDtos
+        public IEnumerable<ModelVehicleViewObject> ModelDtos
         {
             get => _modelDtos;
             set
@@ -1088,7 +1088,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  VehicleGroup Dtos.
         /// </summary>
-        public IEnumerable<VehicleGroupDto> VehicleGroupDtos {
+        public IEnumerable<VehicleGroupViewObject> VehicleGroupDtos {
             get
             {
                 return _vehicleGroupDtos;
@@ -1102,7 +1102,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// ColorDtos. 
         /// </summary>
-        public IEnumerable<ColorDto> ColorDtos
+        public IEnumerable<ColorViewObject> ColorDtos
         {
             get
             {
@@ -1190,22 +1190,22 @@ namespace MasterModule.ViewModels
 
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
                  throw new NotImplementedException();
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsViewObject)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }

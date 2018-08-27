@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using KarveCommon.Generic;
 using MasterModule.Views;
@@ -47,16 +47,16 @@ namespace MasterModule.ViewModels
         protected override void OnSortCommand(object obj)
         {
             var sortedDictionary = obj as Dictionary<string, ListSortDirection>;
-            _initializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(_officeDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _officeEventTask);
+            _initializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryViewObject>>(_officeDataServices.GetSortedCollectionPagedAsync(sortedDictionary, 1, DefaultPageSize), _officeEventTask);
         }
 
  
         protected override void OnPagedEvent(object sender, PropertyChangedEventArgs e)
             {
-                if ((sender is INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> listCompletion) && (listCompletion.IsSuccessfullyCompleted))
+                if ((sender is INotifyTaskCompletion<IEnumerable<OfficeSummaryViewObject>> listCompletion) && (listCompletion.IsSuccessfullyCompleted))
                 {
 
-                    if (SummaryView is IncrementalList<OfficeSummaryDto> summary)
+                    if (SummaryView is IncrementalList<OfficeSummaryViewObject> summary)
                     {
                         summary.LoadItems(listCompletion.Result);
                         SummaryView = summary;
@@ -68,7 +68,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Grid of the offices in the database.
         /// </summary>
-        public IEnumerable<OfficeSummaryDto> SourceView
+        public IEnumerable<OfficeSummaryViewObject> SourceView
         {
             get => _sourceView;
             set { _sourceView = value; RaisePropertyChanged(); }
@@ -133,17 +133,17 @@ namespace MasterModule.ViewModels
         public void StartAndNotify()
         {
             IOfficeDataServices officeDataService = DataServices.GetOfficeDataServices();
-            InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(officeDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), 
+            InitializationNotifierOffice = NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryViewObject>>(officeDataService.GetPagedSummaryDoAsync(1, DefaultPageSize), 
                 (task, ev)=> 
                 {
-                    if (task is INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> vehicles)
+                    if (task is INotifyTaskCompletion<IEnumerable<OfficeSummaryViewObject>> vehicles)
                     {
                         if (vehicles.IsSuccessfullyCompleted)
                         {
                             var collection = vehicles.Result;
                             var maxItems = officeDataService.NumberItems;
                             PageCount = officeDataService.NumberPage;
-                            var summaryList = new IncrementalList<OfficeSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                            var summaryList = new IncrementalList<OfficeSummaryViewObject>(LoadMoreItems) { MaxItemCount = (int)maxItems };
                             summaryList.LoadItems(collection);
                             SummaryView = summaryList;
                         }
@@ -163,7 +163,7 @@ namespace MasterModule.ViewModels
             OpenItemCommand = new DelegateCommand<object>(OnOpenItemCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.OfficeSummaryGrid;
             InitEventHandler += LoadNotificationHandler;
-            _officeEventTask += OnNotifyIncrementalList<OfficeSummaryDto>;
+            _officeEventTask += OnNotifyIncrementalList<OfficeSummaryViewObject>;
             DeleteEventHandler += OfficeDeleteHandler;
             _mailBoxName = EventSubsystem.OfficeSummaryVm;
             MessageHandlerMailBox += MessageHandler;
@@ -202,7 +202,7 @@ namespace MasterModule.ViewModels
             InitEventHandler -= LoadNotificationHandler;
             DeleteEventHandler -= OfficeDeleteHandler;
             PagingEvent -= OnPagedEvent;
-            _officeEventTask -= OnNotifyIncrementalList<OfficeSummaryDto>;
+            _officeEventTask -= OnNotifyIncrementalList<OfficeSummaryViewObject>;
             DeleteMailBox(_mailBoxName);
             base.DisposeEvents();
         }
@@ -214,7 +214,7 @@ namespace MasterModule.ViewModels
         /// <param name="selectedItem">Selected command</param>
         private async void OnOpenItemCommand(object selectedItem)
         {
-            OfficeSummaryDto summaryItem = selectedItem as OfficeSummaryDto;
+            OfficeSummaryViewObject summaryItem = selectedItem as OfficeSummaryViewObject;
             
             if (selectedItem != null)
             {
@@ -251,7 +251,7 @@ namespace MasterModule.ViewModels
         /// <param name="ev">Office name</param>
         private void LoadNotificationHandler(object sender, PropertyChangedEventArgs ev)
         {
-            INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> value = sender as INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>>;
+            INotifyTaskCompletion<IEnumerable<OfficeSummaryViewObject>> value = sender as INotifyTaskCompletion<IEnumerable<OfficeSummaryViewObject>>;
             string propertyName = ev.PropertyName;
             if (propertyName.Equals("Status"))
             {
@@ -314,33 +314,33 @@ namespace MasterModule.ViewModels
         {
             var maxItems = _officeDataServices.NumberItems;
             PageCount = _officeDataServices.NumberPage;
-            var officeList = new IncrementalList<OfficeSummaryDto>(LoadMoreItems) { MaxItemCount = (int)PageCount };
-            officeList.LoadItems(result as IEnumerable<OfficeSummaryDto>);
+            var officeList = new IncrementalList<OfficeSummaryViewObject>(LoadMoreItems) { MaxItemCount = (int)PageCount };
+            officeList.LoadItems(result as IEnumerable<OfficeSummaryViewObject>);
             SummaryView = officeList;
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<OfficeSummaryViewObject>>(
                 _officeDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
 
         }
 
         public override void Dispose()
         {
-            if (SummaryView is IncrementalList<OfficeSummaryDto> dto)
+            if (SummaryView is IncrementalList<OfficeSummaryViewObject> dto)
             {
                 dto.Clear();
             }
         }
         #region Private Fields
 
-        private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> InitializationNotifierOffice;
-        private IEnumerable<OfficeSummaryDto> _sourceView;
+        private INotifyTaskCompletion<IEnumerable<OfficeSummaryViewObject>> InitializationNotifierOffice;
+        private IEnumerable<OfficeSummaryViewObject> _sourceView;
         private string _mailBoxName;
         private readonly IOfficeDataServices _officeDataServices;
         private IUnityContainer _container;
-        private INotifyTaskCompletion<IEnumerable<OfficeSummaryDto>> _initializationNotifierOffice;
+        private INotifyTaskCompletion<IEnumerable<OfficeSummaryViewObject>> _initializationNotifierOffice;
         private PropertyChangedEventHandler _officeEventTask;
         private ICommand _newOfficeCommand;
 

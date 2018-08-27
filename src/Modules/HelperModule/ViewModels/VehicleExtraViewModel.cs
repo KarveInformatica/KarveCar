@@ -5,18 +5,18 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
 
 namespace HelperModule.ViewModels
 {
-    internal class VehicleExtraViewModel: GenericHelperViewModel<VehicleExtraDto, EXTRASVEHI>
+    internal class VehicleExtraViewModel: GenericHelperViewModel<VehicleExtraViewObject, EXTRASVEHI>
     {
-        private HelperLoader<VehicleTypeDto, CATEGO> _vehicleTypeLoader;
+        private HelperLoader<VehicleTypeViewObject, CATEGO> _vehicleTypeLoader;
         public DelegateCommand<object> ExtraAssistCommand { get; set; }
-        private IncrementalList<VehicleTypeDto> _vehicleTypeDto;
+        private IncrementalList<VehicleTypeViewObject> _vehicleTypeDto;
 
 
         
@@ -29,7 +29,7 @@ namespace HelperModule.ViewModels
 
         public VehicleExtraViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
         {
-            _vehicleTypeLoader = new HelperLoader<VehicleTypeDto, CATEGO>(dataServices);
+            _vehicleTypeLoader = new HelperLoader<VehicleTypeViewObject, CATEGO>(dataServices);
             InitLoad();
         }
 
@@ -38,13 +38,13 @@ namespace HelperModule.ViewModels
         /// </summary>
         private void InitLoad()
         {
-            _vehicleTypeDto = new IncrementalList<VehicleTypeDto>(LoadMoreItems);
+            _vehicleTypeDto = new IncrementalList<VehicleTypeViewObject>(LoadMoreItems);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleExtra;
         }
         /// <summary>
-        ///  VehicleTypeDto.
+        ///  VehicleTypeViewObject.
         /// </summary>
-        private IncrementalList<VehicleTypeDto> VehicleTypeDto
+        private IncrementalList<VehicleTypeViewObject> VehicleTypeDto
         {
             set { _vehicleTypeDto = value; RaisePropertyChanged();}
             get { return _vehicleTypeDto; }
@@ -63,12 +63,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            VehicleExtraDto dto = payLoad.DataObject as VehicleExtraDto;
-            if (dto != null)
+            VehicleExtraViewObject viewObject = payLoad.DataObject as VehicleExtraViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<VehicleExtraDto, EXTRASVEHI>(dto);
-                dto.Code = codeId.Substring(0, 4);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<VehicleExtraViewObject, EXTRASVEHI>(viewObject);
+                viewObject.Code = codeId.Substring(0, 4);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

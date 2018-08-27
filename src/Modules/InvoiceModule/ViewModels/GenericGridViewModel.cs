@@ -4,7 +4,7 @@ using System.Windows.Input;
 using KarveCommon.Generic;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -104,7 +104,7 @@ namespace InvoiceModule.ViewModels
         /// <param name="e"></param>
         private void OnLoadedHandler(object sender, PropertyChangedEventArgs e)
         {
-            var currentHandler = sender as INotifyTaskCompletion<IEnumerable<BaseDto>>;
+            var currentHandler = sender as INotifyTaskCompletion<IEnumerable<BaseViewObject>>;
             if (currentHandler != null)
             {
                 if (currentHandler.IsSuccessfullyCompleted) GenericGridView = currentHandler.Task.Result;

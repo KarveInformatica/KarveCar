@@ -4,17 +4,19 @@ using Dapper;
 using DataAccessLayer.Crud.Booking;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.ComponentModel;
 using System;
 using DataAccessLayer.Exception;
 using AutoMapper;
 using System.ComponentModel.DataAnnotations;
+using KarveCommon.Generic;
+using KarveCommon.Services;
 using KarveCommonInterfaces;
 using Syncfusion.UI.Xaml.Grid;
 
@@ -25,10 +27,11 @@ namespace DataAccessLayer
     /// </summary>
     internal partial class BookingDataAccessLayer: AbstractDataAccessLayer, IBookingDataService
     {
-        private readonly IDataLoader<BookingDto> _dataLoader;
-        private readonly IDataSaver<BookingDto> _dataSaver;
-        private readonly IDataDeleter<BookingDto> _dataDeleter;
+        private readonly IDataLoader<BookingViewObject> _dataLoader;
+        private readonly IDataSaver<BookingViewObject> _dataSaver;
+        private readonly IDataDeleter<BookingViewObject> _dataDeleter;
         private IMapper _mapper;
+        private readonly IConfigurationService _configuration;
         private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
        
 
@@ -36,21 +39,22 @@ namespace DataAccessLayer
         ///  Booking data access layer.
         /// </summary>
         /// <param name="executor">Executor handle database connection.</param>
-        public BookingDataAccessLayer(ISqlExecutor executor): base(executor)
+        public BookingDataAccessLayer(ISqlExecutor executor, IConfigurationService service): base(executor)
         {
             _mapper = MapperField.GetMapper();
             _dataLoader = new BookingDataLoader(SqlExecutor, _mapper);
             _dataDeleter = new BookingDataDeleter(SqlExecutor, _mapper);
             _dataSaver = new BookingDataSaver(SqlExecutor, _mapper);
             TableName = "RESERVAS1";
+            _configuration = service;
         }
         /// <summary>
         /// Get the asynchronous summary
         /// </summary>
         /// <returns>The list of reservation in the system</returns>
-        public async Task<IEnumerable<BookingSummaryDto>> GetAsyncAllSummary()
+        public async Task<IEnumerable<BookingSummaryViewObject>> GetAsyncAllSummary()
         {
-            IEnumerable<BookingSummaryDto> summaryDto = new List<BookingSummaryDto>();
+            IEnumerable<BookingSummaryViewObject> summaryDto = new List<BookingSummaryViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 if (dbConnection == null)
@@ -60,7 +64,7 @@ namespace DataAccessLayer
                 var queryStore = _queryStoreFactory.GetQueryStore();
                 queryStore.AddParam(QueryType.QueryBookingSummaryExt);
                 var currentQuery = queryStore.BuildQuery();
-                summaryDto = await dbConnection.QueryAsync<BookingSummaryDto>(currentQuery);
+                summaryDto = await dbConnection.QueryAsync<BookingSummaryViewObject>(currentQuery);
                 
             }
             return summaryDto;
@@ -69,21 +73,24 @@ namespace DataAccessLayer
         /// <summary>
         ///  Get a new data object
         /// </summary>
-        /// <param name="code">Code of the new object</param>
+        /// <param name="code">Office code for the booking</param>
         /// <returns>Returns if the data is fetched with success.</returns>
         public IBookingData GetNewDo(string code)
         {
             var bookingValue = new RESERVAS1();
+            var officeCode = code.Substring(0, 2);
             var bookingData = new Reservation() { Valid = true };
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                var reservations = string.Empty;
-                if (dbConnection != null)
+                if (dbConnection == null)
                 {
-                   reservations = dbConnection.UniqueId<RESERVAS1>(bookingValue);
+                    return bookingData;
                 }
-                // FIXME: Temporary the sublicen is 00.
-                var bookingDto = new BookingDto {NUMERO_RES = reservations, SUBLICEN_RES1 = "00" ,IsNew = true};
+                var bookingNumber = dbConnection.UniqueId<RESERVAS1>(bookingValue, null, null, officeCode);
+
+                var bookingDto = new BookingViewObject
+                    {NUMERO_RES = bookingNumber,
+                        SUBLICEN_RES1 = "00", OFICINA_RES1 = officeCode, IsNew = true};
                 bookingData.Value = bookingDto;
             }
             return bookingData;
@@ -132,15 +139,15 @@ namespace DataAccessLayer
         /// <returns>This returns a booking data</returns>
         public async Task<IBookingData> GetAsyncDo(string identifier)
         {
-            var reservas = await _dataLoader.LoadValueAsync(identifier).ConfigureAwait(false);
+            var book = await _dataLoader.LoadValueAsync(identifier).ConfigureAwait(false);
             IBookingData reservation = new Reservation();
-            if (reservas != null)
+            if (book != null)
             {
-                reservation.Value = reservas;
+                reservation.Value = book;
                 reservation.Valid = true;
                 return reservation;
             }
-            reservation.Value = new BookingDto();
+            reservation.Value = new BookingViewObject();
             reservation.Valid = false;
             try
             {
@@ -153,30 +160,27 @@ namespace DataAccessLayer
         }
 
         /// <summary>
-        ///  Get a new identifier for the reservas
+        ///  Get a new identifier for the reservation.
         /// </summary>
-        /// <returns>Returns an unique identifier for the booking. This is the booking number</returns>
+        /// <returns>Returns the office identifier to be used in a new</returns>
         public string GetNewId()
         {
-            var bookingValue = new RESERVAS1();
-            var reservas = string.Empty;
-            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
-            {
-                if (dbConnection != null)
-                {
-                    reservas = dbConnection.UniqueId<RESERVAS1>(bookingValue);
-                }
-            }
-            return reservas;
+            /*
+            var environment = _configuration.EnviromentVariables;
+            var currentOfficeCode = environment.GetKey(EnvironmentConfig.KarveConfiguration,
+                EnvironmentKey.CurrentOffice) as string;
+                */
+            // fixme.
+            return "C1";
         }
         /// <summary>
         ///  Get the new summary data object.
         /// </summary>
         /// <param name="clientsSummaryQuery">Query to be used in query.</param>
         /// <returns>A list of booking summary</returns>
-        public async Task<IEnumerable<BookingSummaryDto>> GetSummaryDo(string clientsSummaryQuery)
+        public async Task<IEnumerable<BookingSummaryViewObject>> GetSummaryDo(string clientsSummaryQuery)
         {
-            IEnumerable<BookingSummaryDto> bookingList = new List<BookingSummaryDto>();
+            IEnumerable<BookingSummaryViewObject> bookingList = new List<BookingSummaryViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 if (dbConnection != null)
@@ -184,7 +188,7 @@ namespace DataAccessLayer
                     var qs = _queryStoreFactory.GetQueryStore();
                     qs.AddParam(QueryType.QueryBookingSummaryExt);
                     var query = qs.BuildQuery();
-                    bookingList = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
+                    bookingList = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
                 }
             }
             return bookingList;
@@ -195,9 +199,9 @@ namespace DataAccessLayer
         /// </summary>
         /// <returns>Return a booking summary data object</returns>
 
-        public async Task<IEnumerable<BookingSummaryDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<BookingSummaryViewObject>> GetSummaryAllAsync()
         {
-           IEnumerable<BookingSummaryDto> bookingList = new List<BookingSummaryDto>();
+           IEnumerable<BookingSummaryViewObject> bookingList = new List<BookingSummaryViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 if (dbConnection == null)
@@ -207,42 +211,43 @@ namespace DataAccessLayer
                 var qs = _queryStoreFactory.GetQueryStore();
                 qs.AddParam(QueryType.QueryBookingSummaryExt);
                 var query = qs.BuildQuery();
-                bookingList = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
+                bookingList = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
             }
             return bookingList;
         }
 
        /// <summary>
-       ///  This validate the booking dto.
+       ///  This validate the booking viewObject.
        /// </summary>
-       /// <param name="dto">Booking data object to be validated.</param>
-        public void Validate(BookingDto dto)
+       /// <param name="viewObject">Booking data object to be validated.</param>
+        public void Validate(BookingViewObject viewObject)
         {
-            System.ComponentModel.DataAnnotations.ValidationContext context = new System.ComponentModel.DataAnnotations.ValidationContext(dto, null, null);
+            System.ComponentModel.DataAnnotations.ValidationContext context = new System.ComponentModel.DataAnnotations.ValidationContext(viewObject, null, null);
 
             List<ValidationResult> results = new List<ValidationResult>();
-            bool valid = Validator.TryValidateObject(dto, context, results, true);
+            bool valid = Validator.TryValidateObject(viewObject, context, results, true);
             if (!valid)
             {
+              
                 throw new DataAccessLayerException("Booking is not valid");
             }
-            if (dto == null)
+            if (viewObject == null)
             {
                 throw new DataAccessLayerException("Booking is null");
             }
-            if (dto.Items == null)
+            if (viewObject.Items == null)
             {
                 throw new DataAccessLayerException("Items are null");
             }
-            if (string.IsNullOrEmpty(dto.CLIENTE_RES1))
+            if (string.IsNullOrEmpty(viewObject.CLIENTE_RES1))
             {
                 throw new DataAccessLayerException("Client should be not empty");
             }
-            if (string.IsNullOrEmpty(dto.CONDUCTOR_RES1))
+            if (string.IsNullOrEmpty(viewObject.CONDUCTOR_RES1))
             {
                 throw new DataAccessLayerException("Conductor should be not empty");
             }
-            if (string.IsNullOrEmpty(dto.NUMERO_RES))
+            if (string.IsNullOrEmpty(viewObject.NUMERO_RES))
             {
                 throw new DataAccessLayerException("Reservation number should be not empty");
             }
@@ -285,7 +290,7 @@ namespace DataAccessLayer
         /// <summary>
         ///  Generate a new identifier.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An identifier for the name of the booking</returns>
         public string NewId()
         {
             string uniqueId;
@@ -314,9 +319,9 @@ namespace DataAccessLayer
         /// <param name="pageSize">Size of the page</param>
         /// <returns>Returns the list of bookings</returns>
 
-        public async Task<IEnumerable<BookingSummaryDto>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
+        public async Task<IEnumerable<BookingSummaryViewObject>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
         {
-            var pager = new DataPager<BookingSummaryDto>(SqlExecutor);
+            var pager = new DataPager<BookingSummaryViewObject>(SqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
                 pageStart = 1;
@@ -332,9 +337,9 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>A list of sorted items following the sorting criteria</returns>
-        public async Task<IEnumerable<BookingSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        public async Task<IEnumerable<BookingSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
         {
-            var dataPager = new DataPager<BookingSummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<BookingSummaryViewObject>(SqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
                 pageStart = 1;
@@ -346,21 +351,21 @@ namespace DataAccessLayer
         ///  Get Booking Items
         /// </summary>
         /// <returns>This returns a list of booking items</returns>
-        public async Task<IEnumerable<BookingItemsDto>> GetBookingItemsAsync(IBookingData bookingData)
+        public async Task<IEnumerable<BookingItemsViewObject>> GetBookingItemsAsync(IBookingData bookingData)
         {
-            IEnumerable<BookingItemsDto> bookingItems = new List<BookingItemsDto>();
+            IEnumerable<BookingItemsViewObject> bookingItems = new List<BookingItemsViewObject>();
             var data = bookingData.Value;
             var queryStore = QueryStoreFactory.GetQueryStore();
             queryStore.AddParam(QueryType.QueryBookingItems, data.NUMERO_RES);
             var qs = queryStore.BuildQuery();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                bookingItems = await dbConnection.QueryAsync<BookingItemsDto>(qs);
+                bookingItems = await dbConnection.QueryAsync<BookingItemsViewObject>(qs);
             }
             return bookingItems;
         }
         /// <summary>
-        /// This is the list of items witj a booking items coutn
+        /// This is the list of items with a booking items count
         /// </summary>
         /// <param name="code">Code to be used</param>
         /// <returns>Value to be used.</returns>
@@ -387,11 +392,11 @@ namespace DataAccessLayer
         /// <param name="to">Ending date. It it is null means all the future.</param>
         /// <returns>List of summaries type</returns>
 
-        public async Task<IEnumerable<BookingSummaryDto>> SearchByDate(DateTime? from, DateTime? to)
+        public async Task<IEnumerable<BookingSummaryViewObject>> SearchByDate(DateTime? from, DateTime? to)
         {
             DateTime startDate = DateTime.Now;
             DateTime endDate  = DateTime.Now;
-            IEnumerable<BookingSummaryDto> booking = new List<BookingSummaryDto>();
+            IEnumerable<BookingSummaryViewObject> booking = new List<BookingSummaryViewObject>();
             if ((!from.HasValue) && (!to.HasValue))
             {
                 throw new ArgumentException("One of the date shall have a value");
@@ -404,7 +409,7 @@ namespace DataAccessLayer
             {
                 endDate = to.Value;
             }
-            string queryWhere = string.Empty;
+            string queryWhere;
 
             var queryStore = _queryStoreFactory.GetQueryStore();
             var fromDate = startDate.ToString("yyyy-MM-dd");
@@ -429,16 +434,16 @@ namespace DataAccessLayer
             var query = composedQuery.BuildQuery();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                booking = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
+                booking = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
             }
             return booking;
         }
 
-        private async Task<IEnumerable<BookingSummaryDto>> SearchPaged(QueryType type, DateTime? from, DateTime? to)
+        private async Task<IEnumerable<BookingSummaryViewObject>> SearchPaged(QueryType type, DateTime? from, DateTime? to)
         {
             DateTime startDate = DateTime.Now;
             DateTime endDate = DateTime.Now;
-            IEnumerable<BookingSummaryDto> booking = new List<BookingSummaryDto>();
+            IEnumerable<BookingSummaryViewObject> booking = new List<BookingSummaryViewObject>();
             if ((!from.HasValue) && (!to.HasValue))
             {
                 throw new ArgumentException("One of the date shall have a value");
@@ -476,12 +481,12 @@ namespace DataAccessLayer
             var query = composedQuery.BuildQuery();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                booking = await dbConnection.QueryAsync<BookingSummaryDto>(query).ConfigureAwait(false);
+                booking = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
             }
             return booking;
         }
 
-        public Task<IEnumerable<BookingSummaryDto>> SearchByFilterPaged(IQueryFilter filter, int pageSize)
+        public Task<IEnumerable<BookingSummaryViewObject>> SearchByFilterPaged(IQueryFilter filter, int pageSize)
         {
             throw new NotImplementedException();
         }
@@ -496,12 +501,12 @@ namespace DataAccessLayer
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BookingSummaryDto>> SearchByFilter(IQueryFilter filter)
+        public Task<IEnumerable<BookingSummaryViewObject>> SearchByFilter(IQueryFilter filter)
         {
             throw new NotImplementedException();
         }
        
-        public Task<IEnumerable<BookingSummaryDto>> SearchByDatePaged(DateTime? from, DateTime? to, int pageSize)
+        public Task<IEnumerable<BookingSummaryViewObject>> SearchByDatePaged(DateTime? from, DateTime? to, int pageSize)
         {
             throw new NotImplementedException();
         }
@@ -513,11 +518,11 @@ namespace DataAccessLayer
 
         public long GetNextLineId()
         {
-            var lineaReservas = "SELECT COUNT(*) FROM LIRESER";
+            var bookingLines = "select TOP 1 CLAVE_LR from LIRESER ORDER BY  clave_lr desc;";
             long numberCount = 0;
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
-                var countName = (int)dbConnection.ExecuteScalar(lineaReservas);
+                var countName = (int)dbConnection.ExecuteScalar(bookingLines);
                 numberCount = countName + 1;
             }
             return numberCount;

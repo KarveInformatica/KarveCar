@@ -4,7 +4,7 @@ using System.Linq;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.ViewModels;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
@@ -35,9 +35,9 @@ namespace KarveTest.ViewModels
         public void Should_LoadSupplierSummary_Correctly()
         {
            
-            List<SupplierSummaryDto> summary = new List<SupplierSummaryDto>()
+            List<SupplierSummaryViewObject> summary = new List<SupplierSummaryViewObject>()
             {
-                new SupplierSummaryDto()
+                new SupplierSummaryViewObject()
                 {
                     Comercial = "KARVE1",
                     CP = "192029",
@@ -50,7 +50,7 @@ namespace KarveTest.ViewModels
                     Provincia = "Barcelona",
                     Telefono = "1920892"
                 },
-                new SupplierSummaryDto()
+                new SupplierSummaryViewObject()
                 {
                     Comercial = "KARVE2",
                     CP = "192029",
@@ -63,7 +63,7 @@ namespace KarveTest.ViewModels
                     Provincia = "Barcelona",
                     Telefono = "1920892"
                 },
-                new SupplierSummaryDto()
+                new SupplierSummaryViewObject()
                 {
                     Comercial = "KARVE3",
                     CP = "192029",
@@ -87,7 +87,7 @@ namespace KarveTest.ViewModels
             _supplierMock.Setup(c => c.GetSupplierAsyncSummaryDo()).ReturnsAsync(summary);
             _dataServices.Setup(ds => ds.GetSupplierDataServices()).Returns(_supplierMock.Object);
             _providersControlViewModel.StartAndNotify();
-            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
+            IEnumerable<SupplierSummaryViewObject> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryViewObject>;
             Assert.GreaterOrEqual(collection.Distinct().Count(),1);
         }
 
@@ -104,20 +104,20 @@ namespace KarveTest.ViewModels
                 _eventManager.Object);
                 */
             _providersControlViewModel.StartAndNotify();
-            IEnumerable<SupplierSummaryDto> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryDto>;
+            IEnumerable<SupplierSummaryViewObject> collection = _providersControlViewModel.SummaryView as IEnumerable<SupplierSummaryViewObject>;
             Assert.NotNull(collection);
             Assert.GreaterOrEqual(collection.Count(), 1);
             // from the view comes an openitem.
-            SupplierSummaryDto dto = collection.FirstOrDefault();
-            string tabName = dto.Codigo + "." + dto.Nombre;
+            SupplierSummaryViewObject viewObject = collection.FirstOrDefault();
+            string tabName = viewObject.Codigo + "." + viewObject.Nombre;
             var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("supplierId", dto.Codigo);
+            navigationParameters.Add("supplierId", viewObject.Codigo);
             navigationParameters.Add(ScopedRegionNavigationContentLoader.DefaultViewName, tabName);
             var uri = new Uri(typeof(ProviderInfoView).FullName + navigationParameters, UriKind.Relative);
             _regionManager.Verify(manager => manager.RequestNavigate("TabRegion", tabName),Times.AtMostOnce);
 
             Assert.NotNull(collection);
-            _providersControlViewModel.OpenItem.Execute(dto);
+            _providersControlViewModel.OpenItem.Execute(viewObject);
         }
     }
 }

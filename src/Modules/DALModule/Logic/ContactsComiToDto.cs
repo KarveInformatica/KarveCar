@@ -1,42 +1,42 @@
 ﻿using AutoMapper;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer.Logic
 {
     /// <summary>
     /// ContactsCOMI and mapper field.
     /// </summary>
-    public class ContactsComiToDto : ITypeConverter<CONTACTOS_COMI, ContactsDto>
+    public class ContactsComiToDto : ITypeConverter<CONTACTOS_COMI, ContactsViewObject>
     {
-        public ContactsDto Convert(CONTACTOS_COMI source, ContactsDto destination, ResolutionContext context)
+        public ContactsViewObject Convert(CONTACTOS_COMI source, ContactsViewObject destination, ResolutionContext context)
         {
-            ContactsDto contactsDto = new ContactsDto();
+            ContactsViewObject contactsViewObject = new ContactsViewObject();
             var contacto = source.CONTACTO;
-            contactsDto.ContactId = contacto.ToString();
-            contactsDto.ResponsabilitySource = new PersonalPositionDto();
+            contactsViewObject.ContactId = contacto.ToString();
+            contactsViewObject.ResponsabilitySource = new PersonalPositionViewObject();
             var cargo = source.CARGO;
             if (cargo != null)
             {
-                contactsDto.ResponsabilitySource.Code = cargo.ToString();
+                contactsViewObject.ResponsabilitySource.Code = cargo.ToString();
             }
-            contactsDto.ResponsabilitySource.Name = source.NOM_CARGO;
-            contactsDto.ContactName = source.NOM_CONTACTO;
-            contactsDto.ContactsKeyId = source.COMISIO;
+            contactsViewObject.ResponsabilitySource.Name = source.NOM_CARGO;
+            contactsViewObject.ContactName = source.NOM_CONTACTO;
+            contactsViewObject.ContactsKeyId = source.COMISIO;
             var currentDelega = source.DELEGA_CC;
             if (currentDelega.HasValue)
             {
-                contactsDto.CurrentDelegation = currentDelega.Value.ToString();
+                contactsViewObject.CurrentDelegation = currentDelega.Value.ToString();
             }
-            contactsDto.CurrentUser = source.USUARIO;
-            contactsDto.Email = source.EMAIL;
-            contactsDto.Fax = source.FAX;
-            contactsDto.Telefono = source.TELEFONO;
-            contactsDto.Nif = source.NIF;
-            contactsDto.Movil = source.MOVIL;
-            contactsDto.LastModification = source.ULTMODI;
-            contactsDto.User = source.USUARIO;
-            return contactsDto;
+            contactsViewObject.CurrentUser = source.USUARIO;
+            contactsViewObject.Email = source.EMAIL;
+            contactsViewObject.Fax = source.FAX;
+            contactsViewObject.Telefono = source.TELEFONO;
+            contactsViewObject.Nif = source.NIF;
+            contactsViewObject.Movil = source.MOVIL;
+            contactsViewObject.LastModification = source.ULTMODI;
+            contactsViewObject.User = source.USUARIO;
+            return contactsViewObject;
         }
     }
 }

@@ -3,7 +3,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
@@ -19,7 +19,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  FIXME this is too complex. Refactor as other identifiers.
     /// </summary>
-    public class VehicleTypesViewModel : GenericHelperViewModel<VehicleTypeDto, CATEGO>
+    public class VehicleTypesViewModel : GenericHelperViewModel<VehicleTypeViewObject, CATEGO>
     {
         /// <summary>
         /// VehicleTypes
@@ -36,12 +36,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            VehicleTypeDto dto = payLoad.DataObject as VehicleTypeDto;
-            if (dto != null)
+            VehicleTypeViewObject viewObject = payLoad.DataObject as VehicleTypeViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<VehicleTypeDto, CATEGO>(dto);
-                dto.Code = codeId.Substring(0, 2);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<VehicleTypeViewObject, CATEGO>(viewObject);
+                viewObject.Code = codeId.Substring(0, 2);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

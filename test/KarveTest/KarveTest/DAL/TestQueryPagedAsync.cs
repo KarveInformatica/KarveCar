@@ -7,7 +7,7 @@ using DataAccessLayer;
 using DataAccessLayer.SQL;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 
 
@@ -19,12 +19,12 @@ namespace KarveTest.DAL
     class TestQueryPagedAsync : TestBase
     {
         private ISqlExecutor _queryExecutor;
-        private DataPager<SupplierSummaryDto> _summaryPager;
+        private DataPager<SupplierSummaryViewObject> _summaryPager;
         [SetUp]
         public void SetUp()
         {
             _queryExecutor = SetupSqlQueryExecutor();
-            _summaryPager = new DataPager<SupplierSummaryDto>(_queryExecutor);
+            _summaryPager = new DataPager<SupplierSummaryViewObject>(_queryExecutor);
            Stopwatch.Start();
         }
 

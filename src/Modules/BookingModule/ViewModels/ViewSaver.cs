@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace BookingModule.ViewModels
 {
     class ViewSaver<DomainType,SummaryType,DtoType> where DomainType: class
                                                     where SummaryType : class 
-                                                    where DtoType: BaseDto
+                                                    where DtoType: BaseViewObject
     {
         private IRegionManager _regionManager;
        

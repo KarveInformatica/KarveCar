@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace KarveBusinessServices.Objects
 {
-    public class Booking : IBusinessObject<BookingDto>
+    public class Booking : IBusinessObject<BookingViewObject>
     {
-        private BookingDto _bookingDto;
+        private BookingViewObject _bookingViewObject;
         public Booking()
         {
-            _bookingDto = new BookingDto();
+            _bookingViewObject = new BookingViewObject();
         }
-        private void Update(BookingDto dto)
+        private void Update(BookingViewObject viewObject)
         {
-            _bookingDto = dto;
+            _bookingViewObject = viewObject;
             // here does the business changes.
         }
-        public BookingDto Value
+        public BookingViewObject Value
         {
             get {
-                return _bookingDto;
+                return _bookingViewObject;
             }
             set
             {

@@ -15,7 +15,7 @@ using System.Linq;
 using System.Reflection;
 using KarveCommonInterfaces;
 using KarveControls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
 using Prism.Commands;
 using System.Diagnostics.Contracts;
@@ -136,38 +136,38 @@ namespace MasterModule.Common
             // here the parameter query is never used.
 
             AssistMapper.Configure("LANGUAGE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<LanguageDto, IDIOMAS>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<LanguageViewObject, IDIOMAS>(1, DefaultPageSize);
                // var currentHelper = new IncrementalList<LanguageDto>
                 return helper;
             });
 
             AssistMapper.Configure("CURRENCY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CurrenciesDto, CURRENCIES>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CurrenciesViewObject, CURRENCIES>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CONTABLE_DELEGA_ASSIST", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<DelegaContableDto, DELEGA>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<DelegaContableViewObject, DELEGA>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("PROVINCE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ProvinciaDto, PROVINCIA>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ProvinceViewObject, PROVINCIA>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CITY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CityViewObject, POBLACIONES>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("COUNTRY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CountryDto, Country>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CountryViewObject, Country>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("COMPANY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CompanyDto, SUBLICEN>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CompanyViewObject, SUBLICEN>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("OFFICE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<OfficeDtos, OFICINAS>(1,DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<OfficeViewObject, OFICINAS>(1,DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BROKER_ASSIST", async (query) => {
@@ -176,54 +176,54 @@ namespace MasterModule.Common
                 return helper;
             });
             AssistMapper.Configure("ORIGIN_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<OrigenDto, ORIGEN>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<OrigenViewObject, ORIGEN>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("MARKET_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<MercadoDto, MERCADO>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<MarketViewObject, MERCADO>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("RESELLER_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ResellerDto, VENDEDOR>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ResellerViewObject, VENDEDOR>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BUSINESS_ASSIST", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BusinessDto, NEGOCIO>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BusinessViewObject, NEGOCIO>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_TYPE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeViewObject, TIPOCLI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_TYPE_UPPER", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeViewObject, TIPOCLI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("ACTIVITY_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ActividadDto, ACTIVI>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ActividadViewObject, ACTIVI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("RENT_USAGE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<RentingUseDto, USO_ALQUILER>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<RentingUseViewObject, USO_ALQUILER>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("OFFICE_ZONE_ASSIST", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ZonaOfiDto, ZONAOFI>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ZonaOfiViewObject, ZONAOFI>(1, DefaultPageSize);
                 return helper;
             });
 
             AssistMapper.Configure("CLIENT_PAYMENT_FORM", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<PaymentFormDto, FORMAS>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<PaymentFormViewObject, FORMAS>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_ZONE", async (query) => {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientZoneDto, ZONAS>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientZoneViewObject, ZONAS>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_INVOICE_BLOCKS", async (query) => {
 
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<InvoiceBlockDto, BLOQUEFAC>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<InvoiceBlockViewObject, BLOQUEFAC>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_BROKER", async (query) =>
@@ -233,28 +233,28 @@ namespace MasterModule.Common
             });
             AssistMapper.Configure("CLIENT_TYPE", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeDto, TIPOCLI>(1,DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ClientTypeViewObject, TIPOCLI>(1,DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("BUDGET_KEY", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BudgetKeyDto, CLAVEPTO>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BudgetKeyViewObject, CLAVEPTO>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CHANNEL_TYPE", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ChannelDto, CANAL>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<ChannelViewObject, CANAL>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_BUDGET", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BudgetKeyDto, CLAVEPTO>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<BudgetKeyViewObject, CLAVEPTO>(1, DefaultPageSize);
 
                 return helper;
             });
             AssistMapper.Configure("CREDIT_CARD", async (query) =>
             {
-                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CreditCardDto, TARCREDI>(1, DefaultPageSize);
+                var helper = await HelperDataServices.GetPagedSummaryDoAsync<CreditCardViewObject, TARCREDI>(1, DefaultPageSize);
                 return helper;
             });
             AssistMapper.Configure("CLIENT_DRIVER", async (query) =>
@@ -343,7 +343,7 @@ namespace MasterModule.Common
                 {
                     var currentObject = payLoad.DataObject;
                     string currentValue = string.Empty;
-                    if (currentObject is BaseDto)
+                    if (currentObject is BaseViewObject)
                     {
                         // if the object that travels is a data object and not a domain object.
                         currentValue = fieldName.Replace(".Value","");

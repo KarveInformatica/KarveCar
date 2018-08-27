@@ -67,13 +67,13 @@ namespace KarveControls.Behaviour
         protected override void OnSetup()
         {
             this.AssociatedObject.SelectionChanged+= AssociatedObject_SelectionChanged;
-            this.AssociatedObject.PreviewKeyDown += AssociatedObject_PreviewKeyDown;
+            this.AssociatedObject.KeyDown += AssociatedObject_PreviewKeyDown;
         }
 
         private void AssociatedObject_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             var selectedIndex = this.AssociatedObject.SelectedIndex;
-            if (e.Key == Key.Space)
+            if (e.Key == Key.F4)
             {
 
 
@@ -85,6 +85,8 @@ namespace KarveControls.Behaviour
                 {
                     selectedIndex = (selectedIndex + 1) % this.AssociatedObject.Items.Count; 
                 }
+
+                this.AssociatedObject.SelectedIndex = selectedIndex;
             }
         }
 

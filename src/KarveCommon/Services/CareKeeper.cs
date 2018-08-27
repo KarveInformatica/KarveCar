@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using Dapper;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveCommon.Services
 {

@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.Crud.Office;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.SQL;
 using System.Data;
 using Dapper;
@@ -58,15 +58,15 @@ namespace DataAccessLayer
         ///  Get the list asychronously of all offices.
         /// </summary>
         /// <returns>A list of summary office data transfer objects</returns>
-        public async Task<IEnumerable<OfficeSummaryDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetSummaryAllAsync()
         {
-            IEnumerable<OfficeSummaryDto> summaryCollection;
+            IEnumerable<OfficeSummaryViewObject> summaryCollection;
             var qs = QueryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryOfficeSummary);
             var query = qs.BuildQuery();
             using (var conn = SqlExecutor.OpenNewDbConnection())
             {
-              summaryCollection = await conn.QueryAsync<OfficeSummaryDto>(query).ConfigureAwait(false);
+              summaryCollection = await conn.QueryAsync<OfficeSummaryViewObject>(query).ConfigureAwait(false);
             }
             return summaryCollection;
         }
@@ -96,15 +96,15 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="companyCode">Code of the company</param>
         /// <returns>Returns the collection of offices.</returns>
-        public async Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode)
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetCompanyOffices(string companyCode)
         {
-            IEnumerable<OfficeSummaryDto> summaryCollection;
+            IEnumerable<OfficeSummaryViewObject> summaryCollection;
             var qs = QueryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryOfficeSummaryByCompany, companyCode);
             var query = qs.BuildQuery();
             using (var conn = SqlExecutor.OpenNewDbConnection())
             {
-                summaryCollection = await conn.QueryAsync<OfficeSummaryDto>(query).ConfigureAwait(false);
+                summaryCollection = await conn.QueryAsync<OfficeSummaryViewObject>(query).ConfigureAwait(false);
             }
             return summaryCollection;
         }
@@ -131,7 +131,7 @@ namespace DataAccessLayer
         public IOfficeData GetNewOfficeDo(string code)
         {
 
-            var data = new OfficeDtos
+            var data = new OfficeViewObject
             {
                 Codigo = code,
                 IsNew = true
@@ -141,13 +141,13 @@ namespace DataAccessLayer
             var office = new Office
             {
                
-                ClientZoneDto = new ObservableCollection<ZonaOfiDto>(),
-                ContableDelegaDto = new ObservableCollection<DelegaContableDto>(),
-                CountryDto = new ObservableCollection<CountryDto>(),
-                CityDto = new ObservableCollection<CityDto>(),
-                CurrenciesDto = new ObservableCollection<CurrenciesDto>(),
-                ProvinciaDto =  new ObservableCollection<ProvinciaDto>(),
-                ZoneDto = new ObservableCollection<ClientZoneDto>(),
+                ClientZoneDto = new ObservableCollection<ZonaOfiViewObject>(),
+                ContableDelegaDto = new ObservableCollection<DelegaContableViewObject>(),
+                CountryDto = new ObservableCollection<CountryViewObject>(),
+                CityDto = new ObservableCollection<CityViewObject>(),
+                CurrenciesDto = new ObservableCollection<CurrenciesViewObject>(),
+                ProvinciaDto =  new ObservableCollection<ProvinceViewObject>(),
+                ZoneDto = new ObservableCollection<ClientZoneViewObject>(),
                 Value = data,
                 Valid = true
             };
@@ -186,9 +186,9 @@ namespace DataAccessLayer
         /// <param name="baseIndex"></param>
         /// <param name="defaultPageSize"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<OfficeSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
-          var dataPager = new DataPager<OfficeSummaryDto>(SqlExecutor);
+          var dataPager = new DataPager<OfficeSummaryViewObject>(SqlExecutor);
             var pageStart = baseIndex;
             if (pageStart == 0)
                 pageStart = 1;
@@ -202,16 +202,16 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="officeId">Identifier of the office</param>
         /// <returns>The list of the office company</returns>
-        public async Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId)
+        public async Task<IEnumerable<HolidayViewObject>> GetHolidaysAsync(string officeId)
         {
             var store = QueryStoreFactory.GetQueryStore();
-            IEnumerable<HolidayDto> times;
+            IEnumerable<HolidayViewObject> times;
             using (var connection = SqlExecutor.OpenNewDbConnection())
             {
                 store.AddParam(QueryType.HolidaysByOffice, officeId);
                 var build = store.BuildQuery();
                 var holidays = await connection.QueryAsync<FESTIVOS_OFICINA>(build);
-                times = _mapper.Map<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<HolidayDto>>(holidays);
+                times = _mapper.Map<IEnumerable<FESTIVOS_OFICINA>, IEnumerable<HolidayViewObject>>(holidays);
             }
             return times;
         }
@@ -236,9 +236,9 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>A list of sorted clients</returns>
-        public async Task<IEnumerable<OfficeSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
         {
-            var dataPager = new DataPager<OfficeSummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<OfficeSummaryViewObject>(SqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
                 pageStart = 1;
@@ -268,7 +268,7 @@ namespace DataAccessLayer
         ///  Retrieve the complete list of offices.
         /// </summary>
         /// <returns>A list office summary</returns>
-        public async Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary()
+        public async Task<IEnumerable<OfficeSummaryViewObject>> GetAsyncAllOfficeSummary()
         {
             return await GetSummaryAllAsync().ConfigureAwait(false);
         }
@@ -282,7 +282,7 @@ namespace DataAccessLayer
             return await GetDoAsync(officeIdentifier).ConfigureAwait(false);
         }
 
-        public async Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates)
+        public async Task SaveHolidaysAsync(OfficeViewObject dto, IEnumerable<HolidayViewObject> holidaysDates)
         {
 
             await _saver.SaveHolidaysAsync(dto, holidaysDates).ConfigureAwait(false);
@@ -297,9 +297,9 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="office"></param>
         /// <returns>This returns the company list</returns>
-        public async Task<IEnumerable<CompanyDto>> GetCompanyAsync(string office)
+        public async Task<IEnumerable<CompanyViewObject>> GetCompanyAsync(string office)
         {
-            IEnumerable<CompanyDto> companyCollection = new List<CompanyDto>();
+            IEnumerable<CompanyViewObject> companyCollection = new List<CompanyViewObject>();
             var qs = QueryStoreFactory.GetQueryStore();
             qs.AddParam(QueryType.QueryCompanyByOffice, office);
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
@@ -307,7 +307,7 @@ namespace DataAccessLayer
                 var builder = qs.BuildQuery();
 
                 var entityCollection = await dbConnection.QueryAsync<SUBLICEN>(builder);
-                companyCollection = _mapper.Map<IEnumerable<CompanyDto>>(entityCollection);
+                companyCollection = _mapper.Map<IEnumerable<CompanyViewObject>>(entityCollection);
             }
             return companyCollection;   
         }

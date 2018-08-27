@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.SQL;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer.Crud
 { 

@@ -2,7 +2,7 @@
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -12,7 +12,7 @@ namespace DataAccessLayer.Crud.Budget
     /// <summary>
     ///  Class that has the single resposability to delete a budget.
     /// </summary>
-    class BudgetDataDeleter : IDataDeleter<BudgetDto>
+    class BudgetDataDeleter : IDataDeleter<BudgetViewObject>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
@@ -25,7 +25,7 @@ namespace DataAccessLayer.Crud.Budget
             _sqlExecutor = sqlExector;
             _mapper = MapperField.GetMapper();
         }
-        public async Task<bool> DeleteAsync(BudgetDto data)
+        public async Task<bool> DeleteAsync(BudgetViewObject data)
         {
             var presup1 = new PRESUP1() { NUMERO_PRE = data.NUMERO_PRE };
             var presup2 = new PRESUP2() { NUMERO_PRE = data.NUMERO_PRE };

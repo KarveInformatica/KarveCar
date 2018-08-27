@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using KarveCommon.Services;
 
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices.DataObjects;
 using Syncfusion.UI.Xaml.Grid;
 using BookingModule.Views;
@@ -18,8 +18,8 @@ namespace BookingModule.ViewModels
     {
 		private IBookingIncidentDataService  _incidentService;
 		private IRegionManager _regionManager;
-		private INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryDto>> _incidentCompletion;
-	    private PayloadInterpeter<BookingIncidentSummaryDto> _payloadInterpeterReload;
+		private INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryViewObject>> _incidentCompletion;
+	    private PayloadInterpeter<BookingIncidentSummaryViewObject> _payloadInterpeterReload;
         private PayloadInterpeter<IBookingIncidentData> _payloadInterpeter;
 		public bool CreateRegionManagerScope => true;
 		public BookingIncidentControlViewModel(IDataServices services,
@@ -46,8 +46,8 @@ namespace BookingModule.ViewModels
             EventManager.RegisterObserverSubsystem(EventSubsystem.BookingSubsystemVm, this);
             EventManager.RegisterObserverSubsystem(BookingModule.GroupBookingIncident, this);
             OpenCommand = new DelegateCommand<object>(OpenCurrentItem);
-            SummaryView = new IncrementalList<BookingIncidentSummaryDto>(LoadMoreItems);
-            _payloadInterpeterReload = new PayloadInterpeter<BookingIncidentSummaryDto>();
+            SummaryView = new IncrementalList<BookingIncidentSummaryViewObject>(LoadMoreItems);
+            _payloadInterpeterReload = new PayloadInterpeter<BookingIncidentSummaryViewObject>();
             _payloadInterpeterReload.Init = (value, packet, insertion) =>
             {
                 switch (packet.PayloadType)
@@ -130,14 +130,14 @@ namespace BookingModule.ViewModels
         }
         protected void LoadMoreItems(uint count, int baseIndex)
         {
-            NotifyTaskCompletion.Create<IEnumerable<BookingIncidentSummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<BookingIncidentSummaryViewObject>>(
              _incidentService.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (task, ev) =>
                 {
-                    if (task is INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryDto>> data)
+                    if (task is INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryViewObject>> data)
                     {
                         if (data.IsSuccessfullyCompleted)
                         {
-                            if (SummaryView is IncrementalList<BookingIncidentSummaryDto> summary)
+                            if (SummaryView is IncrementalList<BookingIncidentSummaryViewObject> summary)
                             {
                                 summary.LoadItems(data.Result);
                             }
@@ -153,21 +153,21 @@ namespace BookingModule.ViewModels
 		public void StartAndNotify()
         {
 
-            _incidentCompletion = NotifyTaskCompletion.Create<IEnumerable<BookingIncidentSummaryDto>>(
+            _incidentCompletion = NotifyTaskCompletion.Create<IEnumerable<BookingIncidentSummaryViewObject>>(
                _incidentService.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev) =>
                {
-                   if (task is INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryDto>> summaryCollection)
+                   if (task is INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryViewObject>> summaryCollection)
                    {
                        if (summaryCollection.IsSuccessfullyCompleted)
                        {
                            var collection = summaryCollection.Result;
 
 
-                           if (SummaryView is IncrementalList<BookingIncidentSummaryDto> summary)
+                           if (SummaryView is IncrementalList<BookingIncidentSummaryViewObject> summary)
                            {
                                var maxItems = _incidentService.NumberItems;
                                PageCount = _incidentService.NumberPage;
-                               var summaryList = new IncrementalList<BookingIncidentSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                               var summaryList = new IncrementalList<BookingIncidentSummaryViewObject>(LoadMoreItems) { MaxItemCount = (int)maxItems };
                                summaryList.LoadItems(collection);
                                SummaryView = summaryList;
                            }
@@ -188,7 +188,7 @@ namespace BookingModule.ViewModels
         /// <param name="value">value recevied</param>
         private async void OpenCurrentItem(object value)
         {
-            if (!(value is BookingIncidentSummaryDto item)) return;
+            if (!(value is BookingIncidentSummaryViewObject item)) return;
             var name = item.Name;
             var id = item.Code;
             CreateNewItem(name,id);
@@ -254,7 +254,7 @@ namespace BookingModule.ViewModels
         {
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
-            ClearSummary<BookingIncidentSummaryDto>();
+            ClearSummary<BookingIncidentSummaryViewObject>();
             EventManager.DeleteObserverSubSystem(EventSubsystem.BookingSubsystemVm, this);
             EventManager.DeleteObserverSubSystem(BookingModule.GroupBookingIncident, this);
         }

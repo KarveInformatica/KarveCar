@@ -10,7 +10,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
@@ -23,20 +23,20 @@ namespace BookingModule.ViewModels
         private ICommand _deleteCommand;
         private ICommand _saveCommand;
         private IUnityContainer _container;
-        private ReservationRequestDto _dataObject;
+        private ReservationRequestViewObject _dataObject;
         private IReservationRequestDataService _dataReservationService;
         private IAssistDataService _assistDataService;
         private IReservationRequest _reservationRequest;
         private IKarveNavigator _navigator;
-        private IEnumerable<ResellerDto> _reseller;
-        private IEnumerable<CompanyDto> _company;
-        private IEnumerable<VehicleGroupDto> _group;
-        private IEnumerable<OrigenDto> _origin;
-        private IEnumerable<FareDto> _fare;
-        private IEnumerable<RequestReasonDto> _requestreason;
+        private IEnumerable<ResellerViewObject> _reseller;
+        private IEnumerable<CompanyViewObject> _company;
+        private IEnumerable<VehicleGroupViewObject> _group;
+        private IEnumerable<OrigenViewObject> _origin;
+        private IEnumerable<FareViewObject> _fare;
+        private IEnumerable<RequestReasonViewObject> _requestreason;
         private IEnumerable<ClientSummaryExtended> _client;
-        private IEnumerable<OfficeDtos> _office;
-        private IEnumerable<VehicleSummaryDto> _vehicleSummary;
+        private IEnumerable<OfficeViewObject> _office;
+        private IEnumerable<VehicleSummaryViewObject> _vehicleSummary;
         //private IEnumerable<OrigenDto> _origenSummary;
         private IUserSettings _userSettings;
         private IHelperViewFactory _helperViewFactory;
@@ -76,7 +76,7 @@ namespace BookingModule.ViewModels
             CreateNewReseller = new DelegateCommand(NewReseller);
             CreateNewFare = new DelegateCommand(NewFare);
             CreateNewVehicle = new DelegateCommand(NewVehicle);
-            CreateNewOrigen = new DelegateCommand(NewOrigin);
+            CreateNewOrigin = new DelegateCommand(NewOrigin);
         }
         private void InitCrudCommands()
         {
@@ -159,17 +159,17 @@ namespace BookingModule.ViewModels
             {
                 case "VEHICLE_GROUP_ASSIST":
                     {
-                        GroupDto = (IEnumerable<VehicleGroupDto>)collectionValue;
+                        GroupDto = (IEnumerable<VehicleGroupViewObject>)collectionValue;
                         break;
                     };
                 case "RESELLER_ASSIST":
                     {
-                        ResellerDto = (IEnumerable<ResellerDto>)collectionValue;
+                        ResellerDto = (IEnumerable<ResellerViewObject>)collectionValue;
                         break;
                     }
                 case "FARE_ASSIST":
                     {
-                        FareDto = (IEnumerable<FareDto>)collectionValue;
+                        FareDto = (IEnumerable<FareViewObject>)collectionValue;
                         break;
                     }
                 case "CLIENT_ASSIST":
@@ -179,27 +179,27 @@ namespace BookingModule.ViewModels
                     }
                 case "ORIGIN_ASSIST":
                     {
-                        OriginDto = (IEnumerable<OrigenDto>)collectionValue;
+                        OriginDto = (IEnumerable<OrigenViewObject>)collectionValue;
                         break;
                     }
                 case "COMPANY_ASSIST":
                     {
-                        CompanyDto = (IEnumerable<CompanyDto>)collectionValue;
+                        CompanyDto = (IEnumerable<CompanyViewObject>)collectionValue;
                         break;
                     }
                 case "OFFICE_ASSIST":
                     {
-                        OfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        OfficeDto = (IEnumerable<OfficeViewObject>)collectionValue;
                         break;
                     }
                 case "VEHICLE_ASSIST":
                     {
-                        VehicleSummaryDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
+                        VehicleSummaryDto = (IEnumerable<VehicleSummaryViewObject>)collectionValue;
                         break;
                     }
                 case "REQUEST_REASON":
                     {
-                        RequestReasonDto = (IEnumerable<RequestReasonDto>)collectionValue;
+                        RequestReasonDto = (IEnumerable<RequestReasonViewObject>)collectionValue;
                         break;
                     }
             }
@@ -483,7 +483,7 @@ namespace BookingModule.ViewModels
           
         }
 
-        public ReservationRequestDto DataObject {
+        public ReservationRequestViewObject DataObject {
             set {
                 _dataObject = value; RaisePropertyChanged();
             }
@@ -493,22 +493,22 @@ namespace BookingModule.ViewModels
             }
         }
 
-        public IEnumerable<VehicleSummaryDto> VehicleSummaryDto { get => _vehicleSummary; set { _vehicleSummary = value; RaisePropertyChanged(); } }
-        public IEnumerable<ResellerDto> ResellerDto { get=>_reseller; set { _reseller = value; RaisePropertyChanged(); }  }
+        public IEnumerable<VehicleSummaryViewObject> VehicleSummaryDto { get => _vehicleSummary; set { _vehicleSummary = value; RaisePropertyChanged(); } }
+        public IEnumerable<ResellerViewObject> ResellerDto { get=>_reseller; set { _reseller = value; RaisePropertyChanged(); }  }
         public IEnumerable<ClientSummaryExtended> ClientDto { get => _client;  set { _client = value; RaisePropertyChanged(); } }
-        public IEnumerable<VehicleGroupDto> GroupDto { get => _group; set { _group = value; RaisePropertyChanged(); } }
-        public IEnumerable<OrigenDto> OriginDto { get => _origin; set { _origin = value; RaisePropertyChanged(); } }
-        public IEnumerable<FareDto> FareDto { get => _fare; set { _fare = value; RaisePropertyChanged(); } }
-        public IEnumerable<CompanyDto> CompanyDto { get=> _company; set { _company = value; RaisePropertyChanged(); } }
-        public IEnumerable<OfficeDtos> OfficeDto { get=> _office; set { _office = value; RaisePropertyChanged(); } }
-        public IEnumerable<RequestReasonDto> RequestReasonDto { get => _requestreason; set { _requestreason = value; RaisePropertyChanged(); } }
+        public IEnumerable<VehicleGroupViewObject> GroupDto { get => _group; set { _group = value; RaisePropertyChanged(); } }
+        public IEnumerable<OrigenViewObject> OriginDto { get => _origin; set { _origin = value; RaisePropertyChanged(); } }
+        public IEnumerable<FareViewObject> FareDto { get => _fare; set { _fare = value; RaisePropertyChanged(); } }
+        public IEnumerable<CompanyViewObject> CompanyDto { get=> _company; set { _company = value; RaisePropertyChanged(); } }
+        public IEnumerable<OfficeViewObject> OfficeDto { get=> _office; set { _office = value; RaisePropertyChanged(); } }
+        public IEnumerable<RequestReasonViewObject> RequestReasonDto { get => _requestreason; set { _requestreason = value; RaisePropertyChanged(); } }
         public DelegateCommand CreateNewClient { get; set; }
         public DelegateCommand CreateNewGroup { get; set; }
         public DelegateCommand CreateNewRequestReason { get; set; }
         public DelegateCommand CreateNewReseller { get; set; }
         public DelegateCommand CreateNewFare { get; set; }
         public DelegateCommand CreateNewVehicle { get; set; }
-        public DelegateCommand CreateNewOrigen { get; set; }
+        public DelegateCommand CreateNewOrigin { get; set; }
         public string VehicleGridColumns { get; private set; }
     }
 }

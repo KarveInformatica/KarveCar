@@ -8,7 +8,7 @@ using DataAccessLayer.Crud;
 using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using System.Diagnostics;
 
@@ -19,9 +19,9 @@ namespace KarveTest.DAL.Crud.Client
     {
       
         private ISqlExecutor _sqlExecutor;
-        private IDataLoader<ClientDto> _clientDataLoader;
-        private IDataSaver<ClientDto> _clientDataSaver;
-        private IDataDeleter<ClientDto> _clientDataDeleter;
+        private IDataLoader<ClientViewObject> _clientDataLoader;
+        private IDataSaver<ClientViewObject> _clientDataSaver;
+        private IDataDeleter<ClientViewObject> _clientDataDeleter;
         private CrudFactory _crudFactory;
         [OneTimeSetUp]
         public void SetUp()
@@ -71,14 +71,14 @@ namespace KarveTest.DAL.Crud.Client
             }
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            ClientDto dto = await _clientDataLoader.LoadValueAsync(currentCode);
+            ClientViewObject viewObject = await _clientDataLoader.LoadValueAsync(currentCode);
             stopwatch.Stop();
             var elapesed = stopwatch.ElapsedMilliseconds;
-            Assert.AreEqual(dto.NUMERO_CLI, currentCode); 
-            Assert.NotNull(dto);
-            Assert.NotNull(dto.Helper);
-            Assert.Greater(dto.Helper.ClientPaymentForm.Count(), 0, "ClientPaymentForm");
-            Assert.Greater(dto.Helper.LanguageDto.Count(), 0, "Language");
+            Assert.AreEqual(viewObject.NUMERO_CLI, currentCode); 
+            Assert.NotNull(viewObject);
+            Assert.NotNull(viewObject.Helper);
+            Assert.Greater(viewObject.Helper.ClientPaymentForm.Count(), 0, "ClientPaymentForm");
+            Assert.Greater(viewObject.Helper.LanguageDto.Count(), 0, "Language");
         }
 
         [Test]

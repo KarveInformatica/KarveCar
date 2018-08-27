@@ -253,8 +253,8 @@
                     <DockPanel Grid.Column="0" Grid.Row="4">
                         <Syncfusion:ButtonAdv  DockPanel.Dock="Left"   Background="Transparent" Label="{Binding StringConstants_Origen,Source={StaticResource ResourceLanguage}}"
                                   Height="30" Width="30" ToolTip="Nueva Origen"
-                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewOrigen}"></Syncfusion:ButtonAdv>
-                        <KarveControls:DualFieldSearchBox x:Name="OrigenRequest" 
+                                  SmallIcon="/KarveControls;component/Images/create.png" Command="{Binding CreateNewOrigin}"></Syncfusion:ButtonAdv>
+                        <KarveControls:DualFieldSearchBox x:Name="OriginRequest" 
                                                   DockPanel.Dock="Right"
                                                       TextContentSecondWidth="180"
                                                   TextContentFirstWidth="50"

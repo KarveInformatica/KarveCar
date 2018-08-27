@@ -10,7 +10,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;
@@ -20,21 +20,21 @@ namespace HelperModule.ViewModels
     /// <summary>
     /// ResellerViewModel. This is a reseller for the view model.
     /// </summary>
-    public class ResellersViewModel : DirectionBaseViewModel<ResellerDto, VENDEDOR>
+    public class ResellersViewModel : DirectionBaseViewModel<ResellerViewObject, VENDEDOR>
     {
     
         private IHelperDataServices _helperDataServices;
         private IAssistDataService _assistDataService;
         private IDataServices _dataServices;
-        private HelperLoader<ResellerDto, VENDEDOR> _resellerLoader;
-        private HelperLoader<CityDto, POBLACIONES> _cityLoader;
-        private HelperLoader<CountryDto, Country> _countryLoader;
-        private HelperLoader<ProvinciaDto, PROVINCIA> _provinceLoader;
-        private IEnumerable<CountryDto> _countryDtos;
-        private IEnumerable<ProvinciaDto> _provinceDtos;
-        private IEnumerable<CityDto> _cityDtos;
+        private HelperLoader<ResellerViewObject, VENDEDOR> _resellerLoader;
+        private HelperLoader<CityViewObject, POBLACIONES> _cityLoader;
+        private HelperLoader<CountryViewObject, Country> _countryLoader;
+        private HelperLoader<ProvinceViewObject, PROVINCIA> _provinceLoader;
+        private IEnumerable<CountryViewObject> _countryDtos;
+        private IEnumerable<ProvinceViewObject> _provinceDtos;
+        private IEnumerable<CityViewObject> _cityDtos;
 
-        public IEnumerable<CountryDto> ResellerCountryDto { get {
+        public IEnumerable<CountryViewObject> ResellerCountryDto { get {
                 return _countryDtos;
             }
             set
@@ -43,7 +43,7 @@ namespace HelperModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<ProvinciaDto> ResellerProvinceDto
+        public IEnumerable<ProvinceViewObject> ResellerProvinceDto
         {
             get
             {
@@ -55,7 +55,7 @@ namespace HelperModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<CityDto> ResellerCityDto
+        public IEnumerable<CityViewObject> ResellerCityDto
         {
             get
             {
@@ -69,12 +69,12 @@ namespace HelperModule.ViewModels
         }
         public ResellersViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
         {
-            HelperDto = new ResellerDto();
+            HelperDto = new ResellerViewObject();
             _dataServices = dataServices;
-            _resellerLoader = new HelperLoader<ResellerDto, VENDEDOR>(dataServices);
-            _cityLoader = new HelperLoader<CityDto, POBLACIONES>(dataServices);
-            _countryLoader = new HelperLoader<CountryDto, Country>(dataServices);
-            _provinceLoader = new HelperLoader<ProvinciaDto, PROVINCIA>(dataServices);
+            _resellerLoader = new HelperLoader<ResellerViewObject, VENDEDOR>(dataServices);
+            _cityLoader = new HelperLoader<CityViewObject, POBLACIONES>(dataServices);
+            _countryLoader = new HelperLoader<CountryViewObject, Country>(dataServices);
+            _provinceLoader = new HelperLoader<ProvinceViewObject, PROVINCIA>(dataServices);
              GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperReseller;
         }
 
@@ -89,7 +89,7 @@ namespace HelperModule.ViewModels
 
         protected override void OnSelectionChangedCommand(object obj)
         {
-            var value = obj as ResellerDto;
+            var value = obj as ResellerViewObject;
             if (value != null)
             {
                 HelperDto = value;
@@ -165,12 +165,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-           ResellerDto dto = payLoad.DataObject as ResellerDto;
-            if (dto != null)
+           ResellerViewObject viewObject = payLoad.DataObject as ResellerViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<ResellerDto, VENDEDOR>(dto);
-                dto.Code = codeId;
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<ResellerViewObject, VENDEDOR>(viewObject);
+                viewObject.Code = codeId;
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
        }

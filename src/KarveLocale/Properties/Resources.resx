@@ -3253,4 +3253,7 @@
   <data name="lgroupvalidationError" xml:space="preserve">
     <value>El grupo no puede ser vacio</value>
   </data>
+  <data name="lconceptshallbepresent" xml:space="preserve">
+    <value>Reason: Reservas debe tener conceptos</value>
+  </data>
 </root>

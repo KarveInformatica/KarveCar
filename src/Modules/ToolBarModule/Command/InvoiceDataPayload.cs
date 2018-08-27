@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 
 namespace ToolBarModule.Command
@@ -52,7 +52,7 @@ namespace ToolBarModule.Command
                 var dataInvoice = dataObject as IInvoiceData;
                 dataObject = dataInvoice.Value;
             }
-            if (!(dataObject is InvoiceDto invoiceData))
+            if (!(dataObject is InvoiceViewObject invoiceData))
             {
                 throw new ArgumentNullException($"Cannot save an invalid type data payload with invoices");
             }
@@ -88,14 +88,14 @@ namespace ToolBarModule.Command
                     {
                         if (payLoad.HasRelatedObject)
                         {
-                            var relatedObject = payLoad.RelatedObject as InvoiceSummaryDto;
+                            var relatedObject = payLoad.RelatedObject as InvoiceSummaryViewObject;
                             if (currentInvoice.InvoiceItems == null)
                             {
-                                currentInvoice.InvoiceItems = new List<InvoiceSummaryDto>();
+                                currentInvoice.InvoiceItems = new List<InvoiceSummaryViewObject>();
                             }
                             if (relatedObject != null)
                             {
-                                var list = new List<InvoiceSummaryDto>() { relatedObject };
+                                var list = new List<InvoiceSummaryViewObject>() { relatedObject };
                                 currentInvoice.InvoiceItems = currentInvoice.InvoiceItems.Union(list);
                             }
                             result = await invoiceDs.SaveAsync(currentInvoice).ConfigureAwait(false);

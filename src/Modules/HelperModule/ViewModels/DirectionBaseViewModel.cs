@@ -10,7 +10,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveControls;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Regions;
 
@@ -69,17 +69,17 @@ namespace HelperModule.ViewModels
                     {
                         case CityTag:
                         {
-                            GenericCityDto = (IEnumerable<CityDto>)resultDto; 
+                            GenericCityDto = (IEnumerable<CityViewObject>)resultDto; 
                             break;
                         }
                         case CountryTag:
                         {
-                            GenericCountryDto = (IEnumerable<CountryDto>)resultDto;
+                            GenericCountryDto = (IEnumerable<CountryViewObject>)resultDto;
                             break;
                         }
                         case ProvinceTag:
                         {
-                            GenericProvinciaDto = (IEnumerable<ProvinciaDto>)resultDto; 
+                            GenericProvinciaDto = (IEnumerable<ProvinceViewObject>)resultDto; 
                             break;
 
                         }
@@ -92,14 +92,14 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  GenericCityDto.
         /// </summary>
-        public IEnumerable<CityDto> GenericCityDto { get; private set; }
+        public IEnumerable<CityViewObject> GenericCityDto { get; private set; }
         /// <summary>
         ///  GenericyCountryDto
         /// </summary>
-        public IEnumerable<CountryDto> GenericCountryDto { get; private set; }
+        public IEnumerable<CountryViewObject> GenericCountryDto { get; private set; }
         /// <summary>
         ///  GenericProvinciaDto.
         /// </summary>
-        public IEnumerable<ProvinciaDto> GenericProvinciaDto { get; private set; }
+        public IEnumerable<ProvinceViewObject> GenericProvinciaDto { get; private set; }
     }
 }

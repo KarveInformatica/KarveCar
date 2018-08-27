@@ -3,7 +3,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices.DataObjects;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
@@ -14,7 +14,7 @@ using KarveCommonInterfaces;
 
 namespace HelperModule.ViewModels
 {
-    public class CountryRegionsViewModel : GenericHelperViewModel<KarveDataServices.DataTransferObject.CountryRegionDto, CCAA>
+    public class CountryRegionsViewModel : GenericHelperViewModel<KarveDataServices.ViewObjects.CountryRegionViewObject, CCAA>
     {
         public CountryRegionsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog) : base(
             String.Empty, dataServices, region, manager, dialog)
@@ -25,12 +25,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-           CountryRegionDto dto = payLoad.DataObject as CountryRegionDto;
-            if (dto != null)
+           CountryRegionViewObject viewObject = payLoad.DataObject as CountryRegionViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<CountryRegionDto, CCAA>(dto);
-                dto.Code = codeId.Substring(0, 2);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<CountryRegionViewObject, CCAA>(viewObject);
+                viewObject.Code = codeId.Substring(0, 2);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
 

@@ -8,14 +8,14 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
 
 
-    public class BrokerTypeViewModel : GenericHelperViewModel<CommissionTypeDto, TIPOCOMI>
+    public class BrokerTypeViewModel : GenericHelperViewModel<CommissionTypeViewObject, TIPOCOMI>
     {
         public BrokerTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
         {
@@ -24,9 +24,9 @@ namespace HelperModule.ViewModels
 
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            var dto = new CommissionTypeDto();
-            string tmp = await DataServices.GetHelperDataServices().GetMappedUniqueId<CommissionTypeDto, TIPOCOMI>(dto);
-            var brokerType = payLoad.DataObject as CommissionTypeDto;
+            var dto = new CommissionTypeViewObject();
+            string tmp = await DataServices.GetHelperDataServices().GetMappedUniqueId<CommissionTypeViewObject, TIPOCOMI>(dto);
+            var brokerType = payLoad.DataObject as CommissionTypeViewObject;
             if (brokerType != null)
             {
                 brokerType.Codigo = tmp;

@@ -7,7 +7,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -15,7 +15,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     /// VisitTypeViewModel.
     /// </summary>
-    class VisitTypeViewModel : GenericHelperViewModel<VisitTypeDto, TIPOVISITAS>
+    class VisitTypeViewModel : GenericHelperViewModel<VisitTypeViewObject, TIPOVISITAS>
     {
         /// <summary>
         ///  VisitType view model
@@ -36,12 +36,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            VisitTypeDto dto = payLoad.DataObject as VisitTypeDto;
-            if (dto != null)
+            VisitTypeViewObject viewObject = payLoad.DataObject as VisitTypeViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<VisitTypeDto, TIPOVISITAS>(dto);
-                dto.Code = codeId.Substring(0, 4);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<VisitTypeViewObject, TIPOVISITAS>(viewObject);
+                viewObject.Code = codeId.Substring(0, 4);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 using System.Collections.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
@@ -9,35 +9,35 @@ namespace KarveDataServices
     /// </summary>
     public class DataHelperBase : BindableBase, IHelperData
     {
-        private IEnumerable<VehicleSummaryDto> _vehicleDto;
-        private IEnumerable<CreditCardDto> _creditCardType;
-        private IEnumerable<ClientTypeDto> _clientTypeDto;
-        private IEnumerable<ActividadDto> _activityDto;
-        private IEnumerable<OrigenDto> _origenDto;
-        private IEnumerable<CommissionAgentSummaryDto> _brokerDto;
-        private IEnumerable<MercadoDto> _clientMarketDto;
-        private IEnumerable<ResellerDto> _resellerDto;
-        private IEnumerable<CompanyDto> _companyDto;
-        private IEnumerable<OfficeDtos> _officeDto;
-        private IEnumerable<BusinessDto> _businessDto;
-        private IEnumerable<ChannelDto> _channelDto;
-        private IEnumerable<BudgetKeyDto> _bookingDto;
-        private IEnumerable<PaymentFormDto> _clientPaymentForm;
-        private IEnumerable<InvoiceBlockDto> _invoiceBlock;
-        private IEnumerable<RentingUseDto> _rentUsage;
-        private IEnumerable<LanguageDto> _languageDto;
-        private IEnumerable<ClientSummaryDto> _clientSummaryDto;
-        private IEnumerable<ContactsDto> _contactsDto;
-        private IEnumerable<ProvinciaDto> _provinciaDto;
-        private IEnumerable<CountryDto> _countryDto;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<ZonaOfiDto> _clientZoneDto;
-        private IEnumerable<ClientZoneDto> _zoneDto;
-        private IEnumerable<VehicleGroupDto> _vehicleGroup;
-        private IEnumerable<DelegaContableDto> _contableDelegaDto;
-        private IEnumerable<FareDto> _fareDto;
+        private IEnumerable<VehicleSummaryViewObject> _vehicleDto;
+        private IEnumerable<CreditCardViewObject> _creditCardType;
+        private IEnumerable<ClientTypeViewObject> _clientTypeDto;
+        private IEnumerable<ActividadViewObject> _activityDto;
+        private IEnumerable<OrigenViewObject> _origenDto;
+        private IEnumerable<CommissionAgentSummaryViewObject> _brokerDto;
+        private IEnumerable<MarketViewObject> _clientMarketDto;
+        private IEnumerable<ResellerViewObject> _resellerDto;
+        private IEnumerable<CompanyViewObject> _companyDto;
+        private IEnumerable<OfficeViewObject> _officeDto;
+        private IEnumerable<BusinessViewObject> _businessDto;
+        private IEnumerable<ChannelViewObject> _channelDto;
+        private IEnumerable<BudgetKeyViewObject> _bookingDto;
+        private IEnumerable<PaymentFormViewObject> _clientPaymentForm;
+        private IEnumerable<InvoiceBlockViewObject> _invoiceBlock;
+        private IEnumerable<RentingUseViewObject> _rentUsage;
+        private IEnumerable<LanguageViewObject> _languageDto;
+        private IEnumerable<ClientSummaryViewObject> _clientSummaryDto;
+        private IEnumerable<ContactsViewObject> _contactsDto;
+        private IEnumerable<ProvinceViewObject> _provinciaDto;
+        private IEnumerable<CountryViewObject> _countryDto;
+        private IEnumerable<CityViewObject> _cityDto;
+        private IEnumerable<ZonaOfiViewObject> _clientZoneDto;
+        private IEnumerable<ClientZoneViewObject> _zoneDto;
+        private IEnumerable<VehicleGroupViewObject> _vehicleGroup;
+        private IEnumerable<DelegaContableViewObject> _contableDelegaDto;
+        private IEnumerable<FareViewObject> _fareDto;
 
-        public virtual IEnumerable<ActividadDto> ActivityDto {
+        public virtual IEnumerable<ActividadViewObject> ActivityDto {
             get {
                 return _activityDto;
             }
@@ -46,7 +46,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         } 
-        public virtual IEnumerable<ClientTypeDto> ClientTypeDto
+        public virtual IEnumerable<ClientTypeViewObject> ClientTypeDto
         {
             get {
                 return _clientTypeDto;
@@ -56,7 +56,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<CreditCardDto> CreditCardType
+        public virtual IEnumerable<CreditCardViewObject> CreditCardType
         {
             get {
                 return _creditCardType;
@@ -66,7 +66,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<OrigenDto> OrigenDto
+        public virtual IEnumerable<OrigenViewObject> OrigenDto
         {
             get {
                 return _origenDto;
@@ -77,7 +77,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<CommissionAgentSummaryDto> 
+        public virtual IEnumerable<CommissionAgentSummaryViewObject> 
             BrokerDto {
             get {
                 return _brokerDto;
@@ -88,7 +88,7 @@ namespace KarveDataServices
             }
         }
 
-        public virtual IEnumerable<MercadoDto> ClientMarketDto
+        public virtual IEnumerable<MarketViewObject> ClientMarketDto
         {
             get
             {
@@ -99,7 +99,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<ResellerDto> ResellerDto
+        public virtual IEnumerable<ResellerViewObject> ResellerDto
         {
             get
             {
@@ -111,7 +111,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<CompanyDto> CompanyDto {
+        public virtual IEnumerable<CompanyViewObject> CompanyDto {
             get
             {
                 return _companyDto;
@@ -123,7 +123,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<OfficeDtos> OfficeDto
+        public virtual IEnumerable<OfficeViewObject> OfficeDto
         {
             get
             {
@@ -135,7 +135,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<BusinessDto> BusinessDto
+        public virtual IEnumerable<BusinessViewObject> BusinessDto
         { get
           {
                 return _businessDto;
@@ -148,64 +148,64 @@ namespace KarveDataServices
             } 
         }
 
-        public virtual IEnumerable<ChannelDto> ChannelDto
+        public virtual IEnumerable<ChannelViewObject> ChannelDto
         {
             get { return _channelDto;  }
             set { _channelDto = value;
                 RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<BudgetKeyDto> BudgetKeyDto {
+        public virtual IEnumerable<BudgetKeyViewObject> BudgetKeyDto {
             get { return _bookingDto; } 
             set { _bookingDto = value;  RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<PaymentFormDto> ClientPaymentForm
+        public virtual IEnumerable<PaymentFormViewObject> ClientPaymentForm
         {
           get { return _clientPaymentForm; }
           set { _clientPaymentForm = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<InvoiceBlockDto> InvoiceBlock
+        public virtual IEnumerable<InvoiceBlockViewObject> InvoiceBlock
         {
 
             get { return _invoiceBlock; }
             set { _invoiceBlock = value; }
         }
 
-        public virtual IEnumerable<RentingUseDto> RentUsageDto {
+        public virtual IEnumerable<RentingUseViewObject> RentUsageDto {
             get { return _rentUsage; } 
             set { _rentUsage = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<LanguageDto> LanguageDto {
+        public virtual IEnumerable<LanguageViewObject> LanguageDto {
             get { return _languageDto;  }
             set { _languageDto = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<ClientSummaryDto> DriversDto
+        public virtual IEnumerable<ClientSummaryViewObject> DriversDto
         {
             get { return _clientSummaryDto; } 
             set { _clientSummaryDto = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<ContactsDto> ContactsDto
+        public virtual IEnumerable<ContactsViewObject> ContactsDto
         {
             get { return _contactsDto; }
             set { _contactsDto = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<ProvinciaDto> ProvinciaDto
+        public virtual IEnumerable<ProvinceViewObject> ProvinciaDto
         {   get { return _provinciaDto; }
             set { _provinciaDto = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<CountryDto> CountryDto
+        public virtual IEnumerable<CountryViewObject> CountryDto
         {
             get { return _countryDto; }
             set { _countryDto = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<CityDto> CityDto {
+        public virtual IEnumerable<CityViewObject> CityDto {
             get { return _cityDto; }
             set { _cityDto = value; RaisePropertyChanged(); }
         }
-        public virtual IEnumerable<ZonaOfiDto> ClientZoneDto
+        public virtual IEnumerable<ZonaOfiViewObject> ClientZoneDto
         { get { return _clientZoneDto; }
             set { _clientZoneDto = value; } }
-        public virtual IEnumerable<ClientZoneDto> ZoneDto {
+        public virtual IEnumerable<ClientZoneViewObject> ZoneDto {
             get {
                 return _zoneDto;
             }
@@ -214,7 +214,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<VehicleSummaryDto> VehicleDto {
+        public virtual IEnumerable<VehicleSummaryViewObject> VehicleDto {
             get { return _vehicleDto; }
             set
             {
@@ -222,7 +222,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<VehicleGroupDto> VehicleGroupDto {
+        public virtual IEnumerable<VehicleGroupViewObject> VehicleGroupDto {
             set
             {
                 _vehicleGroup = value;
@@ -232,7 +232,7 @@ namespace KarveDataServices
                 return _vehicleGroup;
             }
         }
-        public virtual IEnumerable<DelegaContableDto> ContableDelegaDto
+        public virtual IEnumerable<DelegaContableViewObject> ContableDelegaDto
         {
             get
             {
@@ -244,7 +244,7 @@ namespace KarveDataServices
                 RaisePropertyChanged();
             }
         }
-        public virtual IEnumerable<FareDto> FareDto {
+        public virtual IEnumerable<FareViewObject> FareDto {
             set
             {
                 _fareDto = value;

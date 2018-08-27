@@ -10,7 +10,7 @@ using Microsoft.Practices.Unity;
 using Prism.Commands;
 using Prism.Regions;
 using System.ComponentModel;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 using Syncfusion.UI.Xaml.Grid;
 

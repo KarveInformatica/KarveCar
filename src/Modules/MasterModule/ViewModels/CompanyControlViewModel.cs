@@ -4,7 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using Prism.Commands;
 using KarveCommon.Generic;
@@ -49,7 +49,7 @@ namespace MasterModule.ViewModels
             ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
             _newCommand = new DelegateCommand(OnNewCommand);
             SortCommand = new DelegateCommand<object>(OnSortCommand);
-            _gridSorter = new GridSorter<CompanySummaryDto>(DialogService, _companyDataServices, DefaultPageSize);
+            _gridSorter = new GridSorter<CompanySummaryViewObject>(DialogService, _companyDataServices, DefaultPageSize);
             _gridSorter.OnInitPage += _gridSorter_OnInitPage;
             _gridSorter.OnNewPage += _gridSorter_OnNewPage;
             // ItenName is for the title.
@@ -58,22 +58,22 @@ namespace MasterModule.ViewModels
             ActiveSubSystem();
         }
 
-        private void _gridSorter_OnNewPage(IEnumerable<CompanySummaryDto> page)
+        private void _gridSorter_OnNewPage(IEnumerable<CompanySummaryViewObject> page)
         {
-             if (SummaryView is IncrementalList<CompanySummaryDto> list)
+             if (SummaryView is IncrementalList<CompanySummaryViewObject> list)
             {
                 list.LoadItems(page);
                 SummaryView = list;
             }
         }
 
-        private void _gridSorter_OnInitPage(IEnumerable<CompanySummaryDto> result)
+        private void _gridSorter_OnInitPage(IEnumerable<CompanySummaryViewObject> result)
         {
             PageCount = (_companyDataServices.NumberPage == 0) ? 1 : _companyDataServices.NumberPage;
             var maxItems = _companyDataServices.NumberItems;
             if (result.Count() > 0)
             {
-                var list = new IncrementalList<CompanySummaryDto>(_gridSorter.Loader) { MaxItemCount = (int)maxItems };
+                var list = new IncrementalList<CompanySummaryViewObject>(_gridSorter.Loader) { MaxItemCount = (int)maxItems };
                 list.LoadItems(result);
                 SummaryView = list;
             }
@@ -89,7 +89,7 @@ namespace MasterModule.ViewModels
 
         private ICommand _newCommand;
         #region Public Properties
-        public IEnumerable<CompanySummaryDto> SourceView
+        public IEnumerable<CompanySummaryViewObject> SourceView
         {
             get { return _sourceView; }
             set { _sourceView = value; RaisePropertyChanged(); }
@@ -156,7 +156,7 @@ namespace MasterModule.ViewModels
         }
         private void LoadNotificationHandler(object sender, PropertyChangedEventArgs ev)
         {
-            if (!(sender is INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> value))
+            if (!(sender is INotifyTaskCompletion<IEnumerable<CompanySummaryViewObject>> value))
             {
                 return;
             }
@@ -216,7 +216,7 @@ namespace MasterModule.ViewModels
         /// <param name="selectedItem">The item from the grid.</param>
         private async void OnOpenItemCommand(object selectedItem)
         {
-            var summaryItem = selectedItem as CompanySummaryDto;
+            var summaryItem = selectedItem as CompanySummaryViewObject;
             var watch = new Stopwatch();
             if (selectedItem != null)
             {
@@ -257,23 +257,23 @@ namespace MasterModule.ViewModels
            
             PageCount = (_companyDataServices.NumberPage == 0) ? 1: _companyDataServices.NumberPage;
             var maxItems = _companyDataServices.NumberItems;
-            var list  = new IncrementalList<CompanySummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
-            var summary = result as IEnumerable<CompanySummaryDto>;
+            var list  = new IncrementalList<CompanySummaryViewObject>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+            var summary = result as IEnumerable<CompanySummaryViewObject>;
             list.LoadItems(summary);
             SummaryView = list;
         }
 
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
-            NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<CompanySummaryViewObject>>(
                 _companyDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), PagingEvent);
         }
 
         public void StartAndNotify()
         {
-            NotifyTaskCompletion.Create<IEnumerable<CompanySummaryDto>>(_companyDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (sender, ev) =>
+            NotifyTaskCompletion.Create<IEnumerable<CompanySummaryViewObject>>(_companyDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (sender, ev) =>
             {
-                OnNotifyIncrementalList<CompanySummaryDto>(sender, ev);
+                OnNotifyIncrementalList<CompanySummaryViewObject>(sender, ev);
             });
             MessageHandlerMailBox += MessageHandler;
             EventManager.RegisterMailBox(EventSubsystem.CompanySummaryVm, MessageHandlerMailBox);
@@ -282,7 +282,7 @@ namespace MasterModule.ViewModels
 
         public override void Dispose()
         {
-            if (SummaryView is IncrementalList<CompanySummaryDto> dto)
+            if (SummaryView is IncrementalList<CompanySummaryViewObject> dto)
             {
                 dto.Clear();
             }
@@ -293,8 +293,8 @@ namespace MasterModule.ViewModels
 
         #region Private Fields
 
-        private INotifyTaskCompletion<IEnumerable<CompanySummaryDto>> _initializationNotifierCompany;
-        private IEnumerable<CompanySummaryDto> _sourceView;
+        private INotifyTaskCompletion<IEnumerable<CompanySummaryViewObject>> _initializationNotifierCompany;
+        private IEnumerable<CompanySummaryViewObject> _sourceView;
         private readonly string _mailBoxName;
         private IConfigurationService _configurationService;
         private IEventManager object1;
@@ -302,7 +302,7 @@ namespace MasterModule.ViewModels
         private IRegionManager object2;
         private readonly ICompanyDataServices _companyDataServices;
         private PropertyChangedEventHandler _companyEventTask;
-        private GridSorter<CompanySummaryDto> _gridSorter;
+        private GridSorter<CompanySummaryViewObject> _gridSorter;
 
         #endregion
 

@@ -7,7 +7,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using Prism.Commands;
 using KarveCommonInterfaces;
@@ -20,9 +20,9 @@ namespace HelperModule.ViewModels
     /// </summary>
     internal class VehicleOwnerViewModel : GenericHelperViewModel<VehicleOwnerDto, PROPIE>
     {
-        private IEnumerable<CountryDto> _vehicleOwnerCountryDto;
-        private IEnumerable<CityDto> _vehicleOwnerCityDto;
-        private IEnumerable<ProvinciaDto> _vehicleOwnerProvinciaDto;
+        private IEnumerable<CountryViewObject> _vehicleOwnerCountryDto;
+        private IEnumerable<CityViewObject> _vehicleOwnerCityDto;
+        private IEnumerable<ProvinceViewObject> _vehicleOwnerProvinciaDto;
       
         /// <summary>
         /// This is a vehicle owner view model.
@@ -49,19 +49,19 @@ namespace HelperModule.ViewModels
                 {
                     case "POBLA_OWNER":
                     {
-                        VehicleOwnerCityDto = await helperDataServices.GetMappedAsyncHelper<CityDto, POBLACIONES>(assistQuery);
+                        VehicleOwnerCityDto = await helperDataServices.GetMappedAsyncHelper<CityViewObject, POBLACIONES>(assistQuery);
                         break;
                     }
                     case "PAIS_OWNER":
                     {
                         VehicleOwnerCountryDto =
-                            await helperDataServices.GetMappedAsyncHelper<CountryDto, Country>(assistQuery);
+                            await helperDataServices.GetMappedAsyncHelper<CountryViewObject, Country>(assistQuery);
                         break;
                     }
                     case "PROV_OWNER":
                     {
                         VehicleOwnerProvinciaDto = await helperDataServices
-                            .GetMappedAsyncHelper<ProvinciaDto, PROVINCIA>(assistQuery);
+                            .GetMappedAsyncHelper<ProvinceViewObject, PROVINCIA>(assistQuery);
                         break;
                         
                     }
@@ -70,19 +70,19 @@ namespace HelperModule.ViewModels
         }
 
      
-        public IEnumerable<CountryDto> VehicleOwnerCountryDto
+        public IEnumerable<CountryViewObject> VehicleOwnerCountryDto
         {
             set { _vehicleOwnerCountryDto = value; RaisePropertyChanged(); }
             get { return _vehicleOwnerCountryDto; }
         }
 
-        public IEnumerable<CityDto> VehicleOwnerCityDto
+        public IEnumerable<CityViewObject> VehicleOwnerCityDto
         {
             set { _vehicleOwnerCityDto = value; RaisePropertyChanged(); }
             get { return _vehicleOwnerCityDto; }
         }
 
-        public IEnumerable<ProvinciaDto> VehicleOwnerProvinciaDto
+        public IEnumerable<ProvinceViewObject> VehicleOwnerProvinciaDto
         {
             set { _vehicleOwnerProvinciaDto = value; RaisePropertyChanged(); }
             get { return _vehicleOwnerProvinciaDto; }      

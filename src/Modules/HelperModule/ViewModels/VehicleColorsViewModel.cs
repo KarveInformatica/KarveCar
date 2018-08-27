@@ -9,7 +9,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -18,7 +18,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  VehicleColorsViewModel. Model of the vehicle.
     /// </summary>
-    class VehicleColorsViewModel : GenericHelperViewModel<ColorDto, COLORFL>
+    class VehicleColorsViewModel : GenericHelperViewModel<ColorViewObject, COLORFL>
     {
         private string _assist;
         
@@ -54,12 +54,12 @@ namespace HelperModule.ViewModels
         /// <returns></returns>
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            ColorDto colorDto = new ColorDto();
-            string colorId = await DataServices.GetHelperDataServices().GetMappedUniqueId<ColorDto, COLORFL>(colorDto);
-            colorDto = payLoad.DataObject as ColorDto;
-            if (colorDto != null)
+            ColorViewObject colorViewObject = new ColorViewObject();
+            string colorId = await DataServices.GetHelperDataServices().GetMappedUniqueId<ColorViewObject, COLORFL>(colorViewObject);
+            colorViewObject = payLoad.DataObject as ColorViewObject;
+            if (colorViewObject != null)
             {
-                colorDto.Code = colorId.Substring(0, 6);
+                colorViewObject.Code = colorId.Substring(0, 6);
             }
             return payLoad;
         }

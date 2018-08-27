@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 
 namespace KarveDataServices.DataObjects
@@ -8,16 +8,16 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Branches
         /// </summary>
-        IEnumerable<BranchesDto> BranchesDto { set; get; }
+        IEnumerable<BranchesViewObject> BranchesDto { set; get; }
 
         /// <summary>
         ///  Contacts
         /// </summary>
-        IEnumerable<ContactsDto> ContactsDto { set; get; }
+        IEnumerable<ContactsViewObject> ContactsDto { set; get; }
         /// <summary>
         ///  visits data transfer.
         /// </summary>
-        IEnumerable<VisitsDto> VisitsDto { get; set; }
+        IEnumerable<VisitsViewObject> VisitsDto { get; set; }
 
 
     }

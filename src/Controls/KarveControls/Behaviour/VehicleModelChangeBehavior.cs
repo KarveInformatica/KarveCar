@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using static DualFieldSearchBox.DualFieldSearchBox;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveControls.Behaviour
 {
@@ -97,7 +97,7 @@ namespace KarveControls.Behaviour
         private void AssociatedObject_SearchBoxResolvedEventHandler(object sender, RoutedEventArgs e)
         {
             
-            if (this.AssociatedObject.SelectedObject is ModelVehicleDto modelVehicleDto)
+            if (this.AssociatedObject.SelectedObject is ModelVehicleViewObject modelVehicleDto)
             {
                 ExecuteRuleWithCode(modelVehicleDto.Marca);
             }

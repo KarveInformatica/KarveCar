@@ -8,7 +8,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
 using NLog;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveCommonInterfaces;
 
 namespace ToolBarModule.Command
@@ -153,8 +153,8 @@ namespace ToolBarModule.Command
                 {
                     var newItems = dtoValues.Where(x =>
                     {
-                        BaseDto baseDto = x as BaseDto;
-                        return (baseDto.IsNew == true);
+                        BaseViewObject baseViewObject = x as BaseViewObject;
+                        return (baseViewObject.IsNew == true);
                     });
                     if (newItems.Any())
                     {
@@ -163,8 +163,8 @@ namespace ToolBarModule.Command
 
                     var itemsToDelete = dtoValues.Where(x =>
                     {
-                        BaseDto baseDto = x as BaseDto;
-                        return (baseDto.IsDeleted == true);
+                        BaseViewObject baseViewObject = x as BaseViewObject;
+                        return (baseViewObject.IsDeleted == true);
                     });
                     if (itemsToDelete.Count() > 0)
                     {
@@ -172,8 +172,8 @@ namespace ToolBarModule.Command
                     }
                     var updateItems = dtoValues.Where(x =>
                     {
-                        BaseDto baseDto = x as BaseDto;
-                        return ((baseDto.IsDirty == true) && (baseDto.IsNew == false));
+                        BaseViewObject baseViewObject = x as BaseViewObject;
+                        return ((baseViewObject.IsDirty == true) && (baseViewObject.IsNew == false));
                     });
                     if (updateItems.Count() > 0)
                     {
@@ -181,11 +181,11 @@ namespace ToolBarModule.Command
                     }
                     for (int i = 0; i < updateItems.Count(); ++i)
                     {
-                        BaseDto baseDto = updateItems.ElementAt(i) as BaseDto;
-                        if (baseDto != null)
+                        BaseViewObject baseViewObject = updateItems.ElementAt(i) as BaseViewObject;
+                        if (baseViewObject != null)
                         {
-                            baseDto.IsNew = false;
-                            baseDto.IsDirty = false;
+                            baseViewObject.IsNew = false;
+                            baseViewObject.IsDirty = false;
                         }
                     }
                 }
@@ -207,8 +207,8 @@ namespace ToolBarModule.Command
             {
                 var toBeDeleted = dtoValues.Where(x=>
                 {
-                    BaseDto baseDto = x as BaseDto;
-                    return (baseDto.IsDeleted == true);
+                    BaseViewObject baseViewObject = x as BaseViewObject;
+                    return (baseViewObject.IsDeleted == true);
                 });
                 if (toBeDeleted.Count()>0)
                 {

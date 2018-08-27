@@ -9,7 +9,7 @@ using DataAccessLayer.Logic;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using Model;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Data;
 using System.Transactions;
 using Dapper;
@@ -57,7 +57,7 @@ namespace DataAccessLayer.Crud.Vehicle
         {
 
             var vehicleValue = vehicle.Value;
-            var pocoValue = _dataMapper.Map<VehicleDto, VehiclePoco>(vehicleValue);
+            var pocoValue = _dataMapper.Map<VehicleViewObject, VehiclePoco>(vehicleValue);
             VEHICULO1 vehiculo1 = _dataMapper.Map<VehiclePoco, VEHICULO1>(pocoValue);
             VEHICULO2 vehiculo2 = _dataMapper.Map<VehiclePoco, VEHICULO2>(pocoValue);
             vehiculo2.CODIINT = vehiculo1.CODIINT;

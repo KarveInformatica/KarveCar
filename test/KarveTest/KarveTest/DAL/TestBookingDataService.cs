@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.Exception;
 using KarveDataServices.DataObjects;
 using System.Diagnostics;
@@ -169,7 +169,7 @@ namespace KarveTest.DAL
                 var dto = bookingData.Value;
                 bookingData.Value = asyncValue.Value;
                 bookingData.Value.NUMERO_RES = dto.NUMERO_RES;
-                bookingData.Value.Items = new List<BookingItemsDto>();
+                bookingData.Value.Items = new List<BookingItemsViewObject>();
                 var outValue = await _bookingDataServices.SaveAsync(bookingData);
                 Assert.IsTrue(outValue);
             }
@@ -190,9 +190,9 @@ namespace KarveTest.DAL
             var reservationNumber = item.BookingNumber;
             var bookingNow = await _bookingDataServices.GetDoAsync(reservationNumber);
             bookingNow.Value.APELLIDO1 = "GiorgioZoppi";
-            var currentList = new List<BookingItemsDto>()
+            var currentList = new List<BookingItemsViewObject>()
             {
-                  new BookingItemsDto()
+                  new BookingItemsViewObject()
                   {
                       Bill = 1,
                       BookingKey = bKey,
@@ -222,11 +222,11 @@ namespace KarveTest.DAL
             }
         }
 
-        List<BookingItemsDto> CreateABookingList(long bookingKey, string bookingNumber)
+        List<BookingItemsViewObject> CreateABookingList(long bookingKey, string bookingNumber)
         {
-            var currentList = new List<BookingItemsDto>()
+            var currentList = new List<BookingItemsViewObject>()
             {
-                new BookingItemsDto()
+                new BookingItemsViewObject()
                 {
                     Bill = 0,
                     BookingKey = bookingKey,

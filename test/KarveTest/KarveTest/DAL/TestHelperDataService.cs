@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Data;
 using KarveDataServices;
 using KarveDapper;
@@ -31,7 +31,7 @@ namespace KarveTest.DAL
        public async Task Should_Load_PersonalPositionCorrectly()
         {
             IHelperDataServices helperData =  _dataServices.GetHelperDataServices();
-            var help= await helperData.GetMappedAllAsyncHelper<PersonalPositionDto,PERCARGOS>();
+            var help= await helperData.GetMappedAllAsyncHelper<PersonalPositionViewObject,PERCARGOS>();
             Assert.Greater(help.Count(), 0);
         }
         [Test]
@@ -40,8 +40,8 @@ namespace KarveTest.DAL
             IHelperDataServices helperData = _dataServices.GetHelperDataServices();
             for (int i = 1; i < 100; i+=25)
             {
-                var help = await helperData.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(i, 25);
-                var count = help.Count<CityDto>();
+                var help = await helperData.GetPagedSummaryDoAsync<CityViewObject, POBLACIONES>(i, 25);
+                var count = help.Count<CityViewObject>();
                 Assert.AreEqual(count, 25);
             }
         }
@@ -49,7 +49,7 @@ namespace KarveTest.DAL
         public void Should_Throws_PagedHelperServiceWhenBadIndex()
         {
             var helperData = _dataServices.GetHelperDataServices();
-            Assert.ThrowsAsync<ArgumentException>(async () => await helperData.GetPagedSummaryDoAsync<CityDto, POBLACIONES>(-1, -1));
+            Assert.ThrowsAsync<ArgumentException>(async () => await helperData.GetPagedSummaryDoAsync<CityViewObject, POBLACIONES>(-1, -1));
         }
         
 

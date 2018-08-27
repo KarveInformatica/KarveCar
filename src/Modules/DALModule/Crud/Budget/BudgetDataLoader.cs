@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.SQL;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer.Crud.Budget
 {
     /// <summary>
     ///  Loader for the budget table.
     /// </summary>
-    class BudgetDataLoader: IDataLoader<BudgetDto>
+    class BudgetDataLoader: IDataLoader<BudgetViewObject>
     {
         private ISqlExecutor sqlExecutor;
         private QueryStoreFactory queryStoreFactory;
@@ -23,20 +23,20 @@ namespace DataAccessLayer.Crud.Budget
             this.queryStoreFactory = new QueryStoreFactory();
         }
 
-        public Task<IEnumerable<BudgetDto>> LoadAsyncAll()
+        public Task<IEnumerable<BudgetViewObject>> LoadAsyncAll()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<BudgetDto> LoadValueAsync(string code)
+        public async Task<BudgetViewObject> LoadValueAsync(string code)
         {
             var currentCode = code;
             var currentQueryStore = queryStoreFactory.GetQueryStore();
-            var budget = new BudgetDto();
+            var budget = new BudgetViewObject();
             return budget;
         }
     
-        public Task<IEnumerable<BudgetDto>> LoadValueAtMostAsync(int n, int back = 0)
+        public Task<IEnumerable<BudgetViewObject>> LoadValueAtMostAsync(int n, int back = 0)
         {
             throw new NotImplementedException();
         }

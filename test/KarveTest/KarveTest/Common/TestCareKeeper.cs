@@ -1,5 +1,5 @@
 ﻿using KarveCommon.Services;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace KarveTest.Common
             for (int i = 0; i < 10; ++i)
             {
                 DataPayLoad payload = new DataPayLoad();
-                payload.DataObject = new SupplierDto();
+                payload.DataObject = new SupplierViewObject();
                 payload.ObjectPath = uri;
                 _careKeeper.Schedule(payload);
 
@@ -43,7 +43,7 @@ namespace KarveTest.Common
             Uri uri = new Uri("karve://suppliers/viewmodel?id=" + guid.ToString());
             DataPayLoad payload = new DataPayLoad();
             payload.ObjectPath = uri;
-            payload.DataObject = new SupplierDto();
+            payload.DataObject = new SupplierViewObject();
             _careKeeper.Schedule(payload);
             var schedulerQueue = _careKeeper.GetScheduledPayload();
             var scheduledPayload = schedulerQueue.Dequeue();

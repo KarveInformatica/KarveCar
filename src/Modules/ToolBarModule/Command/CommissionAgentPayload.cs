@@ -4,7 +4,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
@@ -79,12 +79,12 @@ namespace ToolBarModule.Command
                     {
 
                         result = true;
-                        var task1 = UpdateGridAsync<BranchesDto, COMI_DELEGA>(payLoad);
-                        var task2 = UpdateGridAsync<ContactsDto, CONTACTOS_COMI>(payLoad);
-                        var task3 = UpdateGridAsync<VisitsDto, VISITAS_COMI>(payLoad);
+                        var task1 = UpdateGridAsync<BranchesViewObject, COMI_DELEGA>(payLoad);
+                        var task2 = UpdateGridAsync<ContactsViewObject, CONTACTOS_COMI>(payLoad);
+                        var task3 = UpdateGridAsync<VisitsViewObject, VISITAS_COMI>(payLoad);
 
-                        IEnumerable<BranchesDto> branches = payLoad.RelatedObject as IEnumerable<BranchesDto>;
-                        IEnumerable<VisitsDto> visits = payLoad.RelatedObject as IEnumerable<VisitsDto>;
+                        IEnumerable<BranchesViewObject> branches = payLoad.RelatedObject as IEnumerable<BranchesViewObject>;
+                        IEnumerable<VisitsViewObject> visits = payLoad.RelatedObject as IEnumerable<VisitsViewObject>;
                         try
                         {
                             if (branches != null)

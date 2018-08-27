@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices;
 using Prism.Regions;
@@ -16,10 +16,10 @@ using KarveCommon.Generic;
 
 namespace HelperModule.ViewModels
 {
-    public class CountryViewModel : GenericHelperViewModel<CountryDto, Country>
+    public class CountryViewModel : GenericHelperViewModel<CountryViewObject, Country>
     {
         private IHelperDataServices _helperDataServices;
-        private ObservableCollection<LanguageDto> _languageDto = new ObservableCollection<LanguageDto>();
+        private ObservableCollection<LanguageViewObject> _languageDto = new ObservableCollection<LanguageViewObject>();
         public CountryViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(
             String.Empty, dataServices, region, manager, dialogService)
         {
@@ -31,8 +31,8 @@ namespace HelperModule.ViewModels
 
         private void StartAndNotify()
         {
-            NotifyTaskCompletion.Create<IEnumerable<LanguageDto>>(_helperDataServices.GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>(), (task, ev)=> {
-                if (ev is INotifyTaskCompletion <IEnumerable<LanguageDto>> languageList)
+            NotifyTaskCompletion.Create<IEnumerable<LanguageViewObject>>(_helperDataServices.GetMappedAllAsyncHelper<LanguageViewObject, IDIOMAS>(), (task, ev)=> {
+                if (ev is INotifyTaskCompletion <IEnumerable<LanguageViewObject>> languageList)
                 {
                     if (languageList.IsSuccessfullyCompleted)
                     {
@@ -42,13 +42,13 @@ namespace HelperModule.ViewModels
             });
         }
         /// <summary>
-        ///  LanguageDto.
+        ///  LanguageViewObject.
         /// </summary>
-        public IEnumerable<LanguageDto> LanguageDto
+        public IEnumerable<LanguageViewObject> LanguageDto
         {
             set
             {
-                _languageDto = new ObservableCollection<LanguageDto>(value);
+                _languageDto = new ObservableCollection<LanguageViewObject>(value);
                 RaisePropertyChanged();
             }
             get { return _languageDto; }
@@ -58,19 +58,19 @@ namespace HelperModule.ViewModels
    
         public async void OnAssistCommand(object command)
         {
-            var value = await DataServices.GetHelperDataServices().GetMappedAllAsyncHelper<LanguageDto, IDIOMAS>();
+            var value = await DataServices.GetHelperDataServices().GetMappedAllAsyncHelper<LanguageViewObject, IDIOMAS>();
             LanguageDto = value;
         }
         public override  async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            CountryDto dto = payLoad.DataObject as CountryDto;
+            CountryViewObject viewObject = payLoad.DataObject as CountryViewObject;
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
           
-            if (dto != null)
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<CountryDto, Country>(dto);
-                dto.Code = codeId.Substring(0, 3);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<CountryViewObject, Country>(viewObject);
+                viewObject.Code = codeId.Substring(0, 3);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

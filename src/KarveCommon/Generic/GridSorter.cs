@@ -1,6 +1,6 @@
 ﻿using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace KarveCommon.Generic
 {
-    public sealed class GridSorter<T> where T: BaseDto
+    public sealed class GridSorter<T> where T: BaseViewObject
     {
         private IDialogService _dialogService;
         private ISorterData<T> _dataProvider;

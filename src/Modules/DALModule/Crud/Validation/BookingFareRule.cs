@@ -1,21 +1,14 @@
-﻿using DataAccessLayer.SQL;
-using KarveCommonInterfaces;
+﻿using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
+using KarveDataServices.ViewObjects;
 using KarveDapper.Extensions;
 using DataAccessLayer.DataObjects;
 
 namespace DataAccessLayer.Crud.Validation
 {
-    class BookingFareRule: ValidationChain<BookingDto>
+    class BookingFareRule: ValidationChain<BookingViewObject>
     {
-        private ISqlExecutor _sqlExecutor;
+        private readonly ISqlExecutor _sqlExecutor;
 
         public BookingFareRule(ISqlExecutor executor)
         {
@@ -26,7 +19,7 @@ namespace DataAccessLayer.Crud.Validation
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public override bool Validate(BookingDto request)
+        public override bool Validate(BookingViewObject request)
         {
             var nullFare = string.IsNullOrEmpty(request.TARIFA_RES1);
             if (nullFare)
@@ -34,10 +27,9 @@ namespace DataAccessLayer.Crud.Validation
                 ErrorMessage = "La tarifa es vacia";
                 return false;
             }
-            /*
+           
             if (_sqlExecutor != null)
             {
-                // la tarifa existe.
                 using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
                 {
                     try
@@ -49,14 +41,15 @@ namespace DataAccessLayer.Crud.Validation
                             return false;
                         }
                     }
+#pragma warning disable 168
                     catch (System.Exception ex)
+#pragma warning restore 168
                     {
                         ErrorMessage = "La tarifa no existe";
                         return false;
                     }
                 }
             }
-            */
             return true;
         }
     }

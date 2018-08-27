@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Mvvm;
-using DataAccessLayer.Model;
+
 
 namespace MasterModule.ViewModels
 {
@@ -11,29 +11,29 @@ namespace MasterModule.ViewModels
     /// </summary>
     public class HelperData : BindableBase, IHelperData
     {
-        private IEnumerable<ProvinciaDto> _provinciaDto;
-        private IEnumerable<CountryDto> _countryDto;
-        private IEnumerable<CityDto> _cityDto;
-        private IEnumerable<ClientZoneDto> _zoneDto;
-        private IEnumerable<CreditCardDto> _creditType;
-        private IEnumerable<MercadoDto> _clientMarket;
-        private IEnumerable<OrigenDto> _origen;
-        private IEnumerable<DelegaContableDto> _contable;
-        private IEnumerable<ResellerDto> _reseller;
-        private IEnumerable<ActividadDto> _actividad;
-        private IEnumerable<ClientTypeDto> _clientType;
-        private IEnumerable<PaymentFormDto> _paymentForm;
-        private IEnumerable<CompanyDto> _company;
-        private IEnumerable<OfficeDtos> _officeDto;
-        private IEnumerable<BusinessDto> _businessDto;
-        private IEnumerable<ChannelDto> _channelDto;
-        private IEnumerable<BudgetKeyDto> _budgetKey;
-        private IEnumerable<PaymentFormDto> _clientPaymentForm;
+        private IEnumerable<ProvinceViewObject> _provinciaDto;
+        private IEnumerable<CountryViewObject> _countryDto;
+        private IEnumerable<CityViewObject> _cityDto;
+        private IEnumerable<ClientZoneViewObject> _zoneDto;
+        private IEnumerable<CreditCardViewObject> _creditType;
+        private IEnumerable<MarketViewObject> _clientMarket;
+        private IEnumerable<OrigenViewObject> _origen;
+        private IEnumerable<DelegaContableViewObject> _contable;
+        private IEnumerable<ResellerViewObject> _reseller;
+        private IEnumerable<ActividadViewObject> _actividad;
+        private IEnumerable<ClientTypeViewObject> _clientType;
+        private IEnumerable<PaymentFormViewObject> _paymentForm;
+        private IEnumerable<CompanyViewObject> _company;
+        private IEnumerable<OfficeViewObject> _officeDto;
+        private IEnumerable<BusinessViewObject> _businessDto;
+        private IEnumerable<ChannelViewObject> _channelDto;
+        private IEnumerable<BudgetKeyViewObject> _budgetKey;
+        private IEnumerable<PaymentFormViewObject> _clientPaymentForm;
 
         /// <summary>
         ///  Provincia Data Transfer Object.
         /// </summary>
-        public IEnumerable<ProvinciaDto> ProvinciaDto
+        public IEnumerable<ProvinceViewObject> ProvinciaDto
         {
             get
             {
@@ -50,7 +50,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Country Data Trasfer Object.
         /// </summary>
-        public IEnumerable<CountryDto> CountryDto
+        public IEnumerable<CountryViewObject> CountryDto
         {
             get
             {
@@ -65,7 +65,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// City Data Transfer Object
         /// </summary>
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             get
             {
@@ -82,7 +82,7 @@ namespace MasterModule.ViewModels
         ///  Client Zone Data Transfer Object
         /// </summary>
 
-        public IEnumerable<ClientZoneDto> ZoneDto
+        public IEnumerable<ClientZoneViewObject> ZoneDto
         {
             get
             {
@@ -95,7 +95,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<DelegaContableDto> ContableDelegaDto
+        public IEnumerable<DelegaContableViewObject> ContableDelegaDto
         {
             get
             {
@@ -112,7 +112,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Origen Data Transfer Object
         /// </summary>
-        public IEnumerable<OrigenDto> OrigenDto
+        public IEnumerable<OrigenViewObject> OrigenDto
         {
             get
             {
@@ -127,7 +127,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Client Market Dto.
         /// </summary>
-        public IEnumerable<MercadoDto> ClientMarketDto
+        public IEnumerable<MarketViewObject> ClientMarketDto
         {
             get
             {
@@ -142,7 +142,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Reseller Data Transfer Object.
         /// </summary>
-        public IEnumerable<ResellerDto> ResellerDto {
+        public IEnumerable<ResellerViewObject> ResellerDto {
             get
             {
                 return _reseller;
@@ -156,7 +156,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Activity Dto.
         /// </summary>
-        public IEnumerable<ActividadDto> ActivityDto
+        public IEnumerable<ActividadViewObject> ActivityDto
         {
             get
             {
@@ -172,7 +172,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Client Type Data Transfer Object.
         /// </summary>
-        public IEnumerable<ClientTypeDto> 
+        public IEnumerable<ClientTypeViewObject> 
             ClientTypeDto {
             get {
                 return _clientType;
@@ -186,7 +186,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Company Data Transfer Object.
         /// </summary>
-        public IEnumerable<CompanyDto>
+        public IEnumerable<CompanyViewObject>
             CompanyDto {
             get
             {
@@ -202,7 +202,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Office Data Transfer Object
         /// </summary>
-        public IEnumerable<OfficeDtos> OfficeDto { get
+        public IEnumerable<OfficeViewObject> OfficeDto { get
             {
                 return _officeDto;
             }
@@ -215,12 +215,12 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Business data transfer object
         /// </summary>
-        public IEnumerable<BusinessDto> BusinessDto { get { return _businessDto; }
+        public IEnumerable<BusinessViewObject> BusinessDto { get { return _businessDto; }
             set { _businessDto = value; RaisePropertyChanged(); } }
         /// <summary>
         ///  Channel data transfer object
         /// </summary>
-        public IEnumerable<ChannelDto> ChannelDto {
+        public IEnumerable<ChannelViewObject> ChannelDto {
 
                                 get { return _channelDto;  }
                                 set { _channelDto = value; RaisePropertyChanged();
@@ -229,7 +229,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Budget key data transfer objectg.
         /// </summary>
-        public IEnumerable<BudgetKeyDto> BudgetKeyDto {
+        public IEnumerable<BudgetKeyViewObject> BudgetKeyDto {
             get { return _budgetKey;  }
             set
             {
@@ -239,7 +239,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Credit transfer object.
         /// </summary>
-        public IEnumerable<CreditCardDto> CreditCardType
+        public IEnumerable<CreditCardViewObject> CreditCardType
         {
             get
             {
@@ -254,7 +254,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Payement form data tarsnfer object.
         /// </summary>
-        public IEnumerable<PaymentFormDto> PaymentFormDto
+        public IEnumerable<PaymentFormViewObject> PaymentFormDto
         {
             get
             {
@@ -270,7 +270,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         /// Payement form 
         /// </summary>
-        public IEnumerable<PaymentFormDto> ClientPaymentForm {
+        public IEnumerable<PaymentFormViewObject> ClientPaymentForm {
             get
             {
                 return _clientPaymentForm;
@@ -281,36 +281,33 @@ namespace MasterModule.ViewModels
             }
         }
         /// <summary>
-        /// InvoiceBlockDto.
+        /// InvoiceBlockViewObject.
         /// </summary>
-        public IEnumerable<InvoiceBlockDto> InvoiceBlock { get; set; }
+        public IEnumerable<InvoiceBlockViewObject> InvoiceBlock { get; set; }
         /// <summary>
-        ///  Commissionagent dto.
+        ///  Commissionagent viewObject.
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
+        public IEnumerable<CommissionAgentSummaryViewObject> BrokerDto { get; set; }
         /// <summary>
         ///  Rent usage.
         /// </summary>
-        public IEnumerable<RentingUseDto> RentUsageDto { get; set; }
+        public IEnumerable<RentingUseViewObject> RentUsageDto { get; set; }
         /// <summary>
         /// Language usage.
         /// </summary>
-        public IEnumerable<LanguageDto> LanguageDto { get; set; }
+        public IEnumerable<LanguageViewObject> LanguageDto { get; set; }
         /// <summary>
         ///  Gives you the list of drivers.
         /// </summary>
-        public IEnumerable<ClientSummaryDto> DriversDto { get; set; }
-        // Contacts dto.
+        public IEnumerable<ClientSummaryViewObject> DriversDto { get; set; }
+        // Contacts viewObject.
 
-        public IEnumerable<ContactsDto> ContactsDto { get; set; }
+        public IEnumerable<ContactsViewObject> ContactsDto { get; set; }
         /// <summary>
         ///  Client Zone Dto.
         /// </summary>
-        public IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
-        /// <summary>
-        ///  Invoice Fare Dto.
-        /// </summary>
-        public IEnumerable<InvoiceFareDto> InvoiceFare { get; set; }
+        public IEnumerable<ZonaOfiViewObject> ClientZoneDto { get; set; }
+       // public IEnumerable<InvoiceFare> InvoiceFare { get; set; }
 
     }
 }

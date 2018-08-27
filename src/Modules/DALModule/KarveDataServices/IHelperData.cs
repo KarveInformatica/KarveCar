@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
@@ -12,71 +12,71 @@ namespace KarveDataServices
         /// <summary>
         ///  Activity Data Trasfer Object
         /// </summary>
-        IEnumerable<ActividadDto> ActivityDto { set; get; }
+        IEnumerable<ActividadViewObject> ActivityDto { set; get; }
         /// <summary>
         ///  Client Type Data Trasnfer Object
         /// </summary>
-        IEnumerable<ClientTypeDto> ClientTypeDto { get; set; }
+        IEnumerable<ClientTypeViewObject> ClientTypeDto { get; set; }
         /// <summary>
         ///  Credit Card Data Transfer Object.
         /// </summary>
-        IEnumerable<CreditCardDto> CreditCardType { get; set; }
+        IEnumerable<CreditCardViewObject> CreditCardType { get; set; }
         /// <summary>
         ///  Origen Data Transfer Object
         /// </summary>
-        IEnumerable<OrigenDto> OrigenDto { get; set; }
+        IEnumerable<OrigenViewObject> OrigenDto { get; set; }
         /// <summary>
         ///  Broker Data Transfer Object
         /// </summary>
-        IEnumerable<CommissionAgentSummaryDto> BrokerDto { get; set; }
+        IEnumerable<CommissionAgentSummaryViewObject> BrokerDto { get; set; }
         /// <summary>
         ///  ClientMarket Data Transfer Object
         /// </summary>
-        IEnumerable<MercadoDto> ClientMarketDto { get; set; }
+        IEnumerable<MarketViewObject> ClientMarketDto { get; set; }
         // Reseller Data Transfer Obejct
-        IEnumerable<ResellerDto> ResellerDto { get; set; }
+        IEnumerable<ResellerViewObject> ResellerDto { get; set; }
         // Company Data Transfer Object
-        IEnumerable<CompanyDto> CompanyDto { get; set; }
+        IEnumerable<CompanyViewObject> CompanyDto { get; set; }
         /// <summary>
         /// Office Data Transfer Object.
         /// </summary>
-        IEnumerable<OfficeDtos> OfficeDto { get; set; }
+        IEnumerable<OfficeViewObject> OfficeDto { get; set; }
         /// <summary>
         ///  Business Data Transfer Object
         /// </summary>
-        IEnumerable<BusinessDto> BusinessDto { get; set; }
+        IEnumerable<BusinessViewObject> BusinessDto { get; set; }
         /// <summary>
         /// Channel Data Trasnfer object
         /// </summary>
-        IEnumerable<ChannelDto> ChannelDto { get; set; }
+        IEnumerable<ChannelViewObject> ChannelDto { get; set; }
         /// <summary>
         /// Budget Keys.
         /// </summary>
-        IEnumerable<BudgetKeyDto> BudgetKeyDto { get; set; }
+        IEnumerable<BudgetKeyViewObject> BudgetKeyDto { get; set; }
         /// <summary>
         /// ClientPaymentForm
         /// </summary>
-       IEnumerable<PaymentFormDto> ClientPaymentForm { get; set; }
+       IEnumerable<PaymentFormViewObject> ClientPaymentForm { get; set; }
         /// <summary>
         /// InvoiceBlock
         /// </summary>
-        IEnumerable<InvoiceBlockDto> InvoiceBlock { get; set; }
+        IEnumerable<InvoiceBlockViewObject> InvoiceBlock { get; set; }
         /// <summary>
         ///  Rent usage.
         /// </summary>
-        IEnumerable<RentingUseDto> RentUsageDto { get; set; }
+        IEnumerable<RentingUseViewObject> RentUsageDto { get; set; }
         /// <summary>
         ///  Language Dto
         /// </summary>
-        IEnumerable<LanguageDto> LanguageDto { get; set; }
+        IEnumerable<LanguageViewObject> LanguageDto { get; set; }
         /// <summary>
         ///  Drivers Dto.
         /// </summary>
-        IEnumerable<ClientSummaryDto> DriversDto { get; set; }
+        IEnumerable<ClientSummaryViewObject> DriversDto { get; set; }
         /// <summary>
-        /// ContactsDto.
+        /// ContactsViewObject.
         /// </summary>
-        IEnumerable<ContactsDto> ContactsDto { get; set; }
+        IEnumerable<ContactsViewObject> ContactsDto { get; set; }
     }
 
 }

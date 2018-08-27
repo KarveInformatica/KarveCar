@@ -3,7 +3,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace ToolBarModule.Command
 {
@@ -37,7 +37,7 @@ namespace ToolBarModule.Command
         {
             bool result = false;
             bool isInsert = payLoad.PayloadType == DataPayLoad.Type.Insert;
-            ClientDto clientData = payLoad.DataObject as ClientDto;
+            ClientViewObject clientData = payLoad.DataObject as ClientViewObject;
             // pre: DataServices and vehicle shall be present.
             if ((DataServices == null))
             {

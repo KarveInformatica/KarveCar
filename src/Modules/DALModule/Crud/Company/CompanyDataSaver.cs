@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using KarveCommonInterfaces;
 using KarveDapper.Extensions;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using AutoMapper;
 using DataAccessLayer.Logic;
 using DataAccessLayer.DataObjects;
@@ -14,7 +14,7 @@ using System.Data;
 
 namespace DataAccessLayer.Crud.Company
 {
-    class CompanyDataSaver : IDataSaver<CompanyDto>
+    class CompanyDataSaver : IDataSaver<CompanyViewObject>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
@@ -27,11 +27,11 @@ namespace DataAccessLayer.Crud.Company
         /// <summary>
         ///  This save the company correctly.
         /// </summary>
-        /// <param name="dtoToSave">Company to save</param>
+        /// <param name="viewObjectToSave">Company to save</param>
         /// <returns>True if the company has been saved.</returns>
-        public async Task<bool> SaveAsync(CompanyDto dtoToSave)
+        public async Task<bool> SaveAsync(CompanyViewObject viewObjectToSave)
         {
-            var entity = _mapper.Map<CompanyDto, SUBLICEN>(dtoToSave);
+            var entity = _mapper.Map<CompanyViewObject, SUBLICEN>(viewObjectToSave);
             bool retValue = false;
             using (IDbConnection conn = this._sqlExecutor.OpenNewDbConnection())
             {

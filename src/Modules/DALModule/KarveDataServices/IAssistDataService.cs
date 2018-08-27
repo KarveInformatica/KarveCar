@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
@@ -7,6 +7,6 @@ namespace KarveDataServices
     /// </summary>
     public interface IAssistDataService
     {
-        IAssistMapper<BaseDto> Mapper { get; }
+        IAssistMapper<BaseViewObject> Mapper { get; }
     }
 }

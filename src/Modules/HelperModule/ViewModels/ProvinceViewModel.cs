@@ -9,7 +9,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.Windows.PdfViewer;
@@ -18,11 +18,11 @@ using KarveCommonInterfaces;
 
 namespace HelperModule.ViewModels
 {
-    class ProvinceViewModel: GenericHelperViewModel<ProvinciaDto, PROVINCIA>
+    class ProvinceViewModel: GenericHelperViewModel<ProvinceViewObject, PROVINCIA>
     {
-        private HelperLoader<ProvinciaDto, PROVINCIA> _provinceLoader;
-        private HelperLoader<CountryDto, Country> _loader;
-        private IEnumerable<CountryDto> _countryDto;
+        private HelperLoader<ProvinceViewObject, PROVINCIA> _provinceLoader;
+        private HelperLoader<CountryViewObject, Country> _loader;
+        private IEnumerable<CountryViewObject> _countryDto;
         
         /// <summary>
         /// 
@@ -34,7 +34,7 @@ namespace HelperModule.ViewModels
         public ProvinceViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(string.Empty, dataServices, region, manager, service)
         {
             LoadAllCountries();
-            _provinceLoader = new HelperLoader<ProvinciaDto, PROVINCIA>(dataServices);
+            _provinceLoader = new HelperLoader<ProvinceViewObject, PROVINCIA>(dataServices);
             AssistCountryCommand = new DelegateCommand<object>(OnAssistCountryCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperProvince;
             _provinceLoader.LoadAll();
@@ -56,13 +56,13 @@ namespace HelperModule.ViewModels
         /// <param name="obj"></param>
         protected override void OnSelectionChangedCommand(object obj)
         {
-            var value = obj as ProvinciaDto;
+            var value = obj as ProvinceViewObject;
             if (value != null)
             {
                 var country = _loader.LoadSingle(value.Country);
                 if (country != null)
                 {
-                    CountryDto = new List<CountryDto> { country };
+                    CountryDto = new List<CountryViewObject> { country };
                     HelperDto = value;
                     HelperDto.Country = country.Code;
                     HelperDto.CountryValue = country;
@@ -78,23 +78,23 @@ namespace HelperModule.ViewModels
              * So no incremental loading is needed. Perforance test showed up that the grid freezed 
              * after 1000 items. 
             */
-            _loader = new HelperLoader<CountryDto, Country>(DataServices);
+            _loader = new HelperLoader<CountryViewObject, Country>(DataServices);
             CountryDto = _loader.HelperView;
             _loader.LoadAll();
             var list = from country in _loader.HelperView
                 from province in HelperView
                 where province.Country == country.Code
-                select new ProvinciaDto() { Name= province.Name,
+                select new ProvinceViewObject() { Name= province.Name,
                                             Code = province.Code,
                                             Country = province.Country,
                                             Capital = province.Capital,
                                             Prefix = province.Prefix,
-                                            CountryValue = new CountryDto()
+                                            CountryValue = new CountryViewObject()
                                             {
                                                 Code = country.Code,
                                                 CountryName = country.CountryName
                                             } };
-            HelperView = new IncrementalList<ProvinciaDto>(LoadMoreItems);
+            HelperView = new IncrementalList<ProvinceViewObject>(LoadMoreItems);
             HelperView.LoadItems(list);
         }
 
@@ -103,7 +103,7 @@ namespace HelperModule.ViewModels
            
         }
 
-        public IEnumerable<CountryDto> CountryDto
+        public IEnumerable<CountryViewObject> CountryDto
         {
             set { _countryDto = value; RaisePropertyChanged();}
             get { return _countryDto; }
@@ -112,12 +112,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            ProvinciaDto dto = payLoad.DataObject as ProvinciaDto;
-            if (dto != null)
+            ProvinceViewObject viewObject = payLoad.DataObject as ProvinceViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<ProvinciaDto, PROVINCIA>(dto);
-                dto.Code = codeId.Substring(0, 3);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<ProvinceViewObject, PROVINCIA>(viewObject);
+                viewObject.Code = codeId.Substring(0, 3);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

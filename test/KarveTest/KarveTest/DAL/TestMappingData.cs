@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -40,7 +40,7 @@ namespace KarveTest.DAL
                 new TIPOVISITAS { CODIGO_VIS = "2", NOMBRE_VIS = "Simple2" },
             };
             // act
-            var visits = _mapper.Map<PackedEntity<IEnumerable<VisitasComiPoco>, IEnumerable<TIPOVISITAS> >, IEnumerable<VisitsDto>>(packedEntity);
+            var visits = _mapper.Map<PackedEntity<IEnumerable<VisitasComiPoco>, IEnumerable<TIPOVISITAS> >, IEnumerable<VisitsViewObject>>(packedEntity);
 
             // assert
             var simple = visits.Where((x => x.VisitType.Code == "1")).Where((x => x.VisitType.Name == "Simple"));

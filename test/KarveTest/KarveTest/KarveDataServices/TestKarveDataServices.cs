@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using DataAccessLayer;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.KarveDataServices
 {
@@ -39,9 +39,9 @@ namespace KarveTest.KarveDataServices
             string connectionString = "EngineName = DBRENT_GZ; DataBaseName = DBRENT_GZ; Uid = cv; Pwd = 1929; Host = 127.0.0.1";
             DataServices.Reconfigure(connectionString);
             // i need to verify if there is a connection and i can fetch datas after reconfiguration.
-            IEnumerable<BanksDto> dtos = await DataServices.GetHelperDataServices().GetMappedAllAsyncHelper<BanksDto, BANCO>();
+            IEnumerable<BanksViewObject> dtos = await DataServices.GetHelperDataServices().GetMappedAllAsyncHelper<BanksViewObject, BANCO>();
             Assert.NotNull(dtos);
-            Assert.GreaterOrEqual(dtos.Count<BanksDto>(), 0);
+            Assert.GreaterOrEqual(dtos.Count<BanksViewObject>(), 0);
         }
         
         [Test]

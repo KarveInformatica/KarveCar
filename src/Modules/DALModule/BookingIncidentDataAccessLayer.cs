@@ -2,10 +2,10 @@ using KarveDataServices;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.Crud;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.Exception;
 using Dapper;
 using DataAccessLayer.SQL;
@@ -21,13 +21,13 @@ using System.Linq;
 namespace DataAccessLayer
 {
 	  /// <summary>
-      ///  Data Access Layer Repository generated automagically by Karve CodeGenerator Project.
+      ///  Data Access Layer Repository generated automatically by Karve CodeGenerator Project.
       /// </summary>
     public class BookingIncidentDataAccessLayer : AbstractDataAccessLayer, IBookingIncidentDataService
     {
-        private IDataLoader<BookingIncidentDto> _dataLoader;
-        private IDataSaver<BookingIncidentDto> _dataSaver;
-        private IDataDeleter<BookingIncidentDto> _dataDeleter;
+        private IDataLoader<BookingIncidentViewObject> _dataLoader;
+        private IDataSaver<BookingIncidentViewObject> _dataSaver;
+        private IDataDeleter<BookingIncidentViewObject> _dataDeleter;
         private IMapper _mapper;
         /// <summary>
         /// BookingIncidentDataAccessLayer
@@ -35,9 +35,9 @@ namespace DataAccessLayer
         /// <param name="sqlExecutor">SQL executor</param>
         public BookingIncidentDataAccessLayer(ISqlExecutor sqlExecutor): base(sqlExecutor)
         {
-            _dataLoader = new DataLoader<INCIRE, BookingIncidentDto>(sqlExecutor);
-            _dataSaver = new DataSaver<INCIRE, BookingIncidentDto>(sqlExecutor);
-            _dataDeleter = new DataDeleter<INCIRE, BookingIncidentDto>(sqlExecutor);
+            _dataLoader = new DataLoader<INCIRE, BookingIncidentViewObject>(sqlExecutor);
+            _dataSaver = new DataSaver<INCIRE, BookingIncidentViewObject>(sqlExecutor);
+            _dataDeleter = new DataDeleter<INCIRE, BookingIncidentViewObject>(sqlExecutor);
             TableName = "INCIRE";
             _mapper = MapperField.GetMapper();
         }
@@ -129,15 +129,15 @@ namespace DataAccessLayer
             try
             {
               
-                request.IncidentOfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA, _mapper, reader);
+                request.IncidentOfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeViewObject>(request.Value.OFICINA, _mapper, reader);
               
-                request.IncidentSupplierDto = SelectionHelpers.WrappedSelectedDto<PROVEE1, SupplierSummaryDto>(request.Value.PROVEE, _mapper, reader);
+                request.IncidentSupplierDto = SelectionHelpers.WrappedSelectedDto<PROVEE1, SupplierSummaryViewObject>(request.Value.PROVEE, _mapper, reader);
               
-                request.IncidentVehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryDto, VehicleSummaryDto>(request.Value.NOM_VEHI, _mapper, reader);
+                request.IncidentVehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryViewObject, VehicleSummaryViewObject>(request.Value.NOM_VEHI, _mapper, reader);
               
                 request.IncidentClientDto = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(request.Value.CLIENTE, _mapper, reader);
               
-                request.IncidentTypeDto = SelectionHelpers.WrappedSelectedDto<COINRE, IncidentTypeDto>(request.Value.TIPO, _mapper, reader);
+                request.IncidentTypeDto = SelectionHelpers.WrappedSelectedDto<COINRE, IncidentTypeViewObject>(request.Value.TIPO, _mapper, reader);
               
 
 #pragma warning disable CS0168 // Variable is declared but never used
@@ -156,7 +156,7 @@ namespace DataAccessLayer
         /// <returns>An incident data to be used.</returns>
         public IBookingIncidentData GetNewDo(string value)
         {
-            var newDto = new BookingIncidentDto();
+            var newDto = new BookingIncidentViewObject();
             newDto.COD_INCI = value;
             newDto.IsNew = true;
             var domainObject = new BookingIncident(newDto);
@@ -168,13 +168,13 @@ namespace DataAccessLayer
         /// <param name="index">Index to be used</param>
         /// <param name="pageSize">Page size to be used</param>
         /// <returns></returns>
-        public async Task<IEnumerable<BookingIncidentSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
+        public async Task<IEnumerable<BookingIncidentSummaryViewObject>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             if (pageSize <= 0)
             {
                 throw new ArgumentException();
             }
-            var pager = new DataPager<BookingIncidentSummaryDto>(SqlExecutor);
+            var pager = new DataPager<BookingIncidentSummaryViewObject>(SqlExecutor);
             var pageStart = index;
             if (pageStart <= 0)
                 pageStart = 1;
@@ -189,13 +189,13 @@ namespace DataAccessLayer
         /// <param name="index">Index to be used</param>
         /// <param name="pageSize">Page size to be used</param>
         /// <returns>A task of the booking incident summary to be used.</returns>
-        public async Task<IEnumerable<BookingIncidentSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        public async Task<IEnumerable<BookingIncidentSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             if (pageSize <=0)
             {
                 throw new ArgumentException();
             }
-            var dataPager = new DataPager<BookingIncidentSummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<BookingIncidentSummaryViewObject>(SqlExecutor);
             var pageStart = index;
             if (pageStart <= 0)
                 pageStart = 1;
@@ -207,19 +207,19 @@ namespace DataAccessLayer
         ///  Retrieve complete list of summary async values.
         /// </summary>
         /// <returns>A list of BookingIncidentSummaryDto</returns>
-        public async Task<IEnumerable<BookingIncidentSummaryDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<BookingIncidentSummaryViewObject>> GetSummaryAllAsync()
         {
             var queryStore = QueryStoreFactory.GetQueryStore();
             queryStore.AddParam(QueryType.QueryBookingIncidentSummary);
             var query = queryStore.BuildQuery();
-            IEnumerable<BookingIncidentSummaryDto> outResult = new List<BookingIncidentSummaryDto>();
+            IEnumerable<BookingIncidentSummaryViewObject> outResult = new List<BookingIncidentSummaryViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
               if (dbConnection == null)
                 {
                     throw new DataAccessLayerException("GetSummaryAllAsync cannot connect");
                 }
-              outResult = await dbConnection.QueryAsync<BookingIncidentSummaryDto>(query).ConfigureAwait(false);
+              outResult = await dbConnection.QueryAsync<BookingIncidentSummaryViewObject>(query).ConfigureAwait(false);
             }
             return outResult;
         }
@@ -285,7 +285,7 @@ namespace DataAccessLayer
                 var reader = await connection.QueryMultipleAsync(definitiveQuery).ConfigureAwait(false);
                 foreach (var key in primaryKeys)
                 {
-                    var incident = SelectionHelpers.WrappedSelectedDto<INCIRE, BookingIncidentDto>(key, _mapper, reader);
+                    var incident = SelectionHelpers.WrappedSelectedDto<INCIRE, BookingIncidentViewObject>(key, _mapper, reader);
                     var currentIncident = incident.FirstOrDefault();
                     bookingIncidentData.Add(new BookingIncident(currentIncident));
 
@@ -295,22 +295,22 @@ namespace DataAccessLayer
            
         }
 
-        public Task<IEnumerable<BookingIncidentSummaryDto>> SearchByDate(DateTime? from, DateTime? to)
+        public Task<IEnumerable<BookingIncidentSummaryViewObject>> SearchByDate(DateTime? from, DateTime? to)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BookingIncidentSummaryDto>> SearchByFilter(IQueryFilter filter)
+        public Task<IEnumerable<BookingIncidentSummaryViewObject>> SearchByFilter(IQueryFilter filter)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BookingIncidentSummaryDto>> SearchByDatePaged(DateTime? from, DateTime? to, int pageSize)
+        public Task<IEnumerable<BookingIncidentSummaryViewObject>> SearchByDatePaged(DateTime? from, DateTime? to, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BookingIncidentSummaryDto>> SearchByFilterPaged(IQueryFilter filter, int pageSize)
+        public Task<IEnumerable<BookingIncidentSummaryViewObject>> SearchByFilterPaged(IQueryFilter filter, int pageSize)
         {
             throw new NotImplementedException();
         }

@@ -1,19 +1,19 @@
 ﻿using KarveDataServices.DataObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 namespace KarveDataServices
 {
     /// <summary>
     ///  This interface specified all the service repository to handle the crud of a single office.
     /// </summary>
-    public interface IOfficeDataServices: IPageCounter, ISorterData<OfficeSummaryDto>, IDataProvider<IOfficeData, OfficeSummaryDto>
+    public interface IOfficeDataServices: IPageCounter, ISorterData<OfficeSummaryViewObject>, IDataProvider<IOfficeData, OfficeSummaryViewObject>
     {
         /// <summary>
         ///  This give us the summary query.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<OfficeSummaryDto>> GetAsyncAllOfficeSummary();
+        Task<IEnumerable<OfficeSummaryViewObject>> GetAsyncAllOfficeSummary();
         /// <summary>
         /// This return a client with a new code.
         /// </summary>
@@ -43,13 +43,13 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="companyCode">Code of the company</param>
         /// <returns>Returns the list of offices in a company</returns>
-        Task<IEnumerable<OfficeSummaryDto>> GetCompanyOffices(string companyCode);
+        Task<IEnumerable<OfficeSummaryViewObject>> GetCompanyOffices(string companyCode);
         /// <summary>
         ///  Returns just the holidays for a given office id.
         /// </summary>
         /// <param name="officeId">Office identifier</param>
         /// <returns>Holiday List</returns>
-        Task<IEnumerable<HolidayDto>> GetHolidaysAsync(string officeId);
+        Task<IEnumerable<HolidayViewObject>> GetHolidaysAsync(string officeId);
         /// <summary>
         /// This a time table.
         /// </summary>
@@ -62,7 +62,12 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="holidaysDates">Holidays dates.</param>
         /// <returns></returns>
-        Task SaveHolidaysAsync(OfficeDtos dto, IEnumerable<HolidayDto> holidaysDates);
-        Task<IEnumerable<CompanyDto>> GetCompanyAsync(string oFICINA_RES1);
+        Task SaveHolidaysAsync(OfficeViewObject dto, IEnumerable<HolidayViewObject> holidaysDates);
+        /// <summary>
+        ///  Get the company from the office.
+        /// </summary>
+        /// <param name="officeCode"></param>
+        /// <returns>A list of company objects</returns>
+        Task<IEnumerable<CompanyViewObject>> GetCompanyAsync(string officeCode);
     }
 }

@@ -7,7 +7,7 @@ using DataAccessLayer.Crud.Booking;
 using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using AutoMapper;
 using Dapper;
@@ -21,9 +21,9 @@ namespace KarveTest.DAL
     public class TestCrudBookingService : TestBase
     {
         private IBookingDataService _bookingDataService;
-        private IDataLoader<BookingDto> _loader;
-        private IDataSaver<BookingDto> _saver;
-        private IDataDeleter<BookingDto> _deleter;
+        private IDataLoader<BookingViewObject> _loader;
+        private IDataSaver<BookingViewObject> _saver;
+        private IDataDeleter<BookingViewObject> _deleter;
         private readonly IMapper _mapper;
         public TestCrudBookingService() : base()
         {
@@ -60,7 +60,7 @@ namespace KarveTest.DAL
             // act
             var bookingCollection = await _loader.LoadValueAtMostAsync(10, 10); 
             var firstItem = bookingCollection.FirstOrDefault();
-            if (firstItem is BookingDto value)
+            if (firstItem is BookingViewObject value)
             {
                 value.NOTAS_RES1 = "Notes in a paged";
                 var bookingItem = value.Items.FirstOrDefault();
@@ -115,7 +115,7 @@ namespace KarveTest.DAL
         {
             // arrange
             var reserve = await FetchSingleEntityCode<PETICION>().ConfigureAwait(false);
-            var dataLoader = new DataLoader<PETICION, ReservationRequestDto>(SqlExecutor);
+            var dataLoader = new DataLoader<PETICION, ReservationRequestViewObject>(SqlExecutor);
             var singleValue = await dataLoader.LoadValueAsync(reserve.NUMERO).ConfigureAwait(false);
             Assert.AreEqual(singleValue.NUMERO, reserve.NUMERO);
             Assert.AreEqual(singleValue.NOMCLI, reserve.NOMCLI);
@@ -127,9 +127,9 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Save_AReservationRequest()
         {
-            var dataSaver = new DataSaver<PETICION, ReservationRequestDto>(SqlExecutor);
+            var dataSaver = new DataSaver<PETICION, ReservationRequestViewObject>(SqlExecutor);
             var reserve = await FetchSingleEntityCode<PETICION>().ConfigureAwait(false);
-            var dataLoader = new DataLoader<PETICION, ReservationRequestDto>(SqlExecutor);
+            var dataLoader = new DataLoader<PETICION, ReservationRequestViewObject>(SqlExecutor);
             var reservationDto = await dataLoader.LoadValueAsync(reserve.NUMERO).ConfigureAwait(false);
             reservationDto.MOPETI = reserve.MOPETI;
             var retValue = await dataSaver.SaveAsync(reservationDto);

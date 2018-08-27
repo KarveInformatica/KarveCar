@@ -1,287 +1,483 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Controls;
-using BookingModule.Views;
-using DataAccessLayer.DataObjects;
-using KarveCar.Navigation;
-using KarveCommon.Generic;
-using KarveCommon.Services;
-using KarveCommonInterfaces;
-using KarveControls.Behaviour.Grid;
-using KarveControls.ViewModels;
-using KarveDataServices;
-using KarveDataServices.Assist;
-using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
-using Syncfusion.UI.Xaml.Grid;
-using MasterModule.Common;
-using Microsoft.Practices.Unity;
-using Prism.Regions;
-using Prism.Commands;
-using SkyScanner.Services;
-using KarveControls.Interactivity.ViewModels;
-using System.IO;
-using KarveControls.Interactivity.Views;
-
+﻿
 
 namespace BookingModule.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+
+
+    using global::BookingModule.Service;
+    using global::BookingModule.Views;
+    using DataAccessLayer.DataObjects;
+
+    using KarveCar.Navigation;
+
+    using KarveCommon.Generic;
+    using KarveCommon.Services;
+
+    using KarveCommonInterfaces;
+
+    using KarveControls.Behaviour.Grid;
+    using KarveControls.Interactivity.ViewModels;
+    using KarveControls.Interactivity.Views;
+    using KarveControls.ViewModels;
+
+    using KarveDataServices;
+    using KarveDataServices.Assist;
+    using KarveDataServices.DataObjects;
+    using KarveDataServices.ViewObjects;
+
+    using MasterModule.Common;
+
+    using Microsoft.Practices.Unity;
+
+    using Prism.Commands;
+    using Prism.Regions;
+
+    using SkyScanner.Services;
+
+    using Syncfusion.UI.Xaml.Grid;
 
     /// <summary>
-    ///  BookingInfoViewModel. Single resposability to manage the BookingInfoView in a view first approach.
+    ///  BookingInfoViewModel. Single responsibility to manage the BookingInfoView in a view first approach.
     /// </summary>
-    internal partial class BookingInfoViewModel : HeaderedLineViewModelBase<IBookingData, BookingDto, BookingItemsDto>
+    internal sealed partial class BookingInfoViewModel : HeaderedLineViewModelBase<IBookingData, BookingViewObject, BookingItemsViewObject>
     {
-
         /// <summary>
-        /// BookingInfoViewModel Constructor.
+        /// Initializes a new instance of the <see cref="BookingInfoViewModel"/> class.
         /// </summary>
-        /// <param name="dataServices">Data Services</param>
-        /// <param name="dialogServices">Dialog Data Service</param>
-        /// <param name="manager"></param>
-        /// <param name="container"></param>
-        /// <param name="regionManager"></param>
-        /// <param name="karveNavigator"></param>
-        /// <param name="configurationService"></param>
-        /// <param name="controller"></param>
-        public BookingInfoViewModel(IDataServices dataServices,
-            IDialogService dialogServices,
+        /// <param name="dataServices">
+        /// The data services. Services for retrieving data from the data access layer
+        /// </param>
+        /// <param name="dialogService">
+        /// The dialog service. Service for showing up popup views.
+        /// </param>
+        /// <param name="manager">
+        /// The Event Manager. Mediator for communicating between view models.
+        /// </param>
+        /// <param name="container">
+        /// The Unity Container for Inversion of Control.
+        /// </param>
+        /// <param name="regionManager">
+        /// The region manager for composite views and view navigation.
+        /// </param>
+        /// <param name="karveNavigator">
+        /// The karve navigator. High level service for navigation.
+        /// </param>
+        /// <param name="configurationService">
+        /// The configuration service. Service for retrieving application settings.
+        /// </param>
+        /// <param name="controller">
+        /// The interaction controller is a service for triggering modal views.
+        /// </param>
+        /// <param name="service">
+        /// The Booking Service for the business logic. It is a thin layer over the model.
+        /// </param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public BookingInfoViewModel(
+            IDataServices dataServices,
+            IDialogService dialogService,
             IEventManager manager,
             IUnityContainer container,
             IRegionManager regionManager,
             IKarveNavigator karveNavigator,
             IConfigurationService configurationService,
-            IInteractionRequestController controller) : base(dataServices,
-            dialogServices, manager, regionManager, dataServices.GetBookingDataService(), controller)
+            IInteractionRequestController controller,
+            IBookingService service)
+            : base(
+                dataServices,
+                dialogService,
+                manager,
+                regionManager,
+                dataServices.GetBookingDataService(),
+                controller)
         {
-            InitViewModel();
-            SetInitFlags();
             _karveNavigator = karveNavigator;
             _container = container;
             _regionManager = regionManager;
-            _selectedIndex = 0;
             _configurationService = configurationService;
             _regionManager = regionManager;
+            InitFlags(); 
+            InitViewModel();
             SetGridColumns();
-            CollectionView = new ObservableCollection<BookingItemsDto>();
+            CollectionView = new ObservableCollection<BookingItemsViewObject>();
             _bookingClientsIncrementalList = new IncrementalList<ClientSummaryExtended>(LoadMoreClients);
-            _clientHandler += LoadClientEvent;
-            /* This instruct the toolbar to skip its is own handlers. Avoiding complexity. 
-             * It will be just the view to save itself with composite command and to alert it subsystem.
-             *  This with the SetRegistrationPayLoad set properly it will permit to save itself.
-             *  Each view will save itself.
-             */
+            _clientHandler += this.LoadClientEvent;
             CompositeCommandOnly = true;
-            BookingConfirmMessage = new BookingConfirmMessageDto() { Code = "0006" };
-            MailClient = new DelegateCommand<object>(OnMailClient);
+            BookingConfirmMessage = new BookingConfirmMessageViewObject() { Code = "0006" };
+            MailClientCommand = new DelegateCommand<object>(this.OnMailClient);
             LabelImageSource = new MemoryStream();
+            _bookingService = service;
         }
-        private void SetInitFlags()
-        {
-            DefaultPageSize = 25;
-            IsReady = false;
-            IsChanged = false;
-            LineVisible = true;
-            FooterVisible = false;
-            _selectedIndex = 0;
-            IsViewModelInitialized = false;
-            IsReservationCancelled = false;
-
-        }
-        private void SetGridColumns()
-        {
-            // this shall be at the configuration service
-            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
-            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
-            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
-            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
-        }
-        
-      
+        #region Properties
         /// <summary>
-        ///  A mail client 
+        /// Gets or sets the label image source.
         /// </summary>
-        /// <param name="obj"></param>
-        private async void OnMailClient(object clientNumber)
+        public MemoryStream LabelImageSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create command.
+        /// </summary>
+        public ICommand CreateCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the add new concept command.
+        /// </summary>
+        public ICommand AddNewConceptCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reject booking command.
+        /// </summary>
+        public ICommand RejectBooking { get; set; }
+
+        /// <summary>
+        /// Gets or sets the confirm booking command.
+        /// </summary>
+        public ICommand ConfirmBooking { get; set; }
+
+        /// <summary>
+        /// Gets or sets the incident lookup.
+        /// </summary>
+        public ICommand IncidentLookup { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create new promo code view.
+        /// </summary>
+        public ICommand CreateNewPromoCodeViewCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mail office command.
+        /// </summary>
+        public ICommand MailOfficeCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mail proforma command.
+        /// </summary>
+        public ICommand MailProformaCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mail client command.
+        /// </summary>
+        public ICommand MailClientCommand { get; set; }
+
+        /// <summary>
+        /// Gets the broker grid columns.
+        /// </summary>
+        public string BrokerGridColumns { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the second driver city dto.
+        /// </summary>
+        public IEnumerable<CityViewObject> SecondDriverCityDto
         {
-            // i retrieve the number of the reservation
-            var clientNumberValue = clientNumber as string;
-            if (clientNumberValue != null)
-            {
-                var cliente =  await DataServices.GetClientDataServices().GetDoAsync(clientNumberValue).ConfigureAwait(false);
-
-                if (cliente != null)
-               {
-                    var bookingMail = new BookingMailViewModel();
-                    bookingMail.DestinationAddress = cliente.Value.EMAIL;
-                    bookingMail.Subject = KarveLocale.Properties.Resources.lbookingnumber +" " + DataObject.NUMERO_RES;
-                    var userSettings = _configurationService.UserSettings;
-                    if (userSettings != null)
-                    {
-                        var user = userSettings.FindSetting<string>(UserSettingConstants.DefaultEmailAddress);
-                        if (!string.IsNullOrWhiteSpace(user))
-                        {
-                            bookingMail.SenderAddress = user;
-                        }
-                        // here we can start navigating.
-                        CreateViewModelMailFirst("Mail Cliente", bookingMail);
-                    }
-               }
-            }
-        }
-
-
-
-        private async void OnExecuteSaveClient(BookingDto dto)
-        {
-            var taskBool = await SaveDrivingLicenseDriver(dto.COD_COND1_RES2, dto).ConfigureAwait(false);
-
-        }
-
-        public bool IsReservationCancelled
-        {
+            get { return _secondCityDriver; }
             set
             {
-                _isReservationCancelled = value;
-                RaisePropertyChanged("IsReservationCancelled");
+                _secondCityDriver = value;
+                RaisePropertyChangeAfterInit("SecondDriverCityDto");
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the second driver province dto.
+        /// </summary>
+        public IEnumerable<ProvinceViewObject> SecondDriverProvinceDto
+        {
+            get { return _secondProvinceDriver; }
+            set
+            {
+                _secondProvinceDriver = value;
+                RaisePropertyChangeAfterInit("SecondDriverProvinceDto");
+            }
+        }
+        public IEnumerable<CountryViewObject> SecondDriverCountryDto
+        {
             get
             {
-                return _isReservationCancelled;
+                return _secondDriverCountry;
+            }
+
+            set
+            {
+                _secondDriverCountry = value;
+                RaisePropertyChangeAfterInit("SecondDriverCountryDto");
+            }
+        }
+        public ICommand SaveToClient { get; set; }
+
+        public IEnumerable<SupplierSummaryViewObject> CrmSupplierDto
+        {
+            get
+            {
+                return _crmSupplierDto;
+            }
+
+            set
+            {
+                _crmSupplierDto = value;
+                RaisePropertyChangeAfterInit("CrmSupplierDto");
+            }
+        }
+
+
+        public IEnumerable<CountryViewObject> CountryDto4
+        {
+            get
+            {
+                return _countryDto4;
+            }
+
+            set
+            {
+                _countryDto4 = value;
+                RaisePropertyChangeAfterInit("CountryDto4");
+            }
+        }
+
+        public IEnumerable<PromotionCodesViewObject> PromotionDto
+        {
+            get { return _promotionDto; }
+            set { _promotionDto = value; RaisePropertyChangeAfterInit("PromotionDto"); }
+
+        }
+
+        public IEnumerable<CountryViewObject> Country
+        {
+            get
+            {
+                return _countryDto6;
+            }
+
+            set
+            {
+                _countryDto6 = value; RaisePropertyChangeAfterInit("Country");
+            }
+        }
+        public IEnumerable<CompanyViewObject> BookingCompanyDto
+        {
+            get => _company;
+
+            set { _company = value; RaisePropertyChangeAfterInit("BookingCompanyDto"); }
+        }
+
+        public IEnumerable<LanguageViewObject> LanguageDto
+        {
+            get
+            {
+                return _languageDto;
+            }
+
+            set
+            {
+                _languageDto = value;
+                RaisePropertyChangeAfterInit("LanguageViewObject");
+            }
+
+        }
+
+
+        /// <summary>
+        ///  Set or Get the delivery places viewObject.
+        /// </summary>
+        public IEnumerable<DeliveringPlaceViewObject>
+            DeliveringPlaceDto
+        {
+            get
+            {
+                return _deliveryPlace;
+            }
+
+            set
+            {
+                _deliveryPlace = value;
+                RaisePropertyChangeAfterInit("DeliveryPlaceDto");
+            }
+        }
+        // Set or Get the return place viewObject.
+        public IEnumerable<DeliveringPlaceViewObject> PlaceReturnDto
+        {
+            get
+            {
+                return _returnPlaceDto;
+
+            }
+
+            set
+            {
+                _returnPlaceDto = value;
+                RaisePropertyChangeAfterInit("PlaceReturnDto");
+            }
+        }
+        /// <summary>
+        ///  Set or Get the booking confirmation message.
+        /// </summary>
+        public IEnumerable<BookingConfirmMessageViewObject> BookingConfirmMessageDto
+        {
+            get
+            {
+                return _bookingConfirm;
+            }
+
+            set
+            {
+                _bookingConfirm = value;
+                RaisePropertyChangeAfterInit("BookingConfirmMessageViewObject");
+            }
+        }
+
+        public IEnumerable<BookingRefusedViewObject> BookingRefusedDto
+        {
+            get
+            {
+                return _bookingRefused;
+            }
+
+            set
+            {
+                _bookingRefused = value;
+                RaisePropertyChangeAfterInit("BookingRefusedViewObject");
+            }
+        }
+        #endregion
+
+        #region CommonProperties
+
+        /// <summary>
+        /// Gets the show fares command for triggering a new show fare dialog.
+        /// </summary>
+        public ICommand ShowFares { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the create vehicle command for creating a new vehicle view.
+        /// </summary>
+        public ICommand CreateVehicleCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the show client for triggering a new client dialog.
+        /// </summary>
+        public ICommand ShowClient { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets the create client command for creating a new client view.
+        /// </summary>
+        public ICommand CreateClient { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create new fare.
+        /// </summary>
+        public ICommand CreateNewFare { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create new vehicle command for creating a new vehicle view
+        /// </summary>
+        public ICommand CreateNewVehicle { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create new broker for creating a new broker view.
+        /// </summary>
+        public ICommand CreateNewBroker { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create new group.
+        /// </summary>
+        public ICommand CreateNewGroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets the create new driver.
+        /// </summary>
+        public ICommand CreateNewDriver { get; set; }
+
+        /// <summary>
+        /// Gets or sets the open item command for opening a new reservation.
+        /// </summary>
+        public ICommand OpenItemCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the show drivers command for showing a driver view.
+        /// </summary>
+        public ICommand ShowDrivers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the included checked. This has been exposed to be able
+        /// to recompute the totals in the grid. 
+        /// </summary>
+        public ICommand IncludedCheckedCommand {
+            get
+            {
+               
+                return _includedCheckCommand;
+            }
+            set
+            {
+                _includedCheckCommand = value;
+                RaisePropertyChanged("IncludedCheckedCommand");
             }
         }
         
-        private async Task<bool> SaveDrivingLicenseDriver(string code, BookingDto dto)
-        {
-            // i dont want trigger error in this case. it is safe and sound to save nothing
-            if (string.IsNullOrEmpty(code))
-            {
-                return true;
-            }
-            var clientDataService = DataServices.GetClientDataServices();
-            var firstDriver = await clientDataService.GetDoAsync(code).ConfigureAwait(false);
-            if (firstDriver.Valid)
-            {
-                var clientDto = firstDriver.Value;
-                clientDto.DIRECCION = dto.DIRCOND_RES2;
-                clientDto.POBLACION = dto.POCOND_RES2;
-                clientDto.CP = dto.CPCOND_RES2;
-                clientDto.PROVINCIA = dto.PROVCOND_RES2;
-                clientDto.PAIS = dto.PAISCOND_RES2;
-                clientDto.TELEFONO = dto.TELCOND_RES2;
-                clientDto.FAX = dto.TEL2COND_RES2;
-                clientDto.EMAIL = dto.EMAIL_RES1;
-                clientDto.PERMISO = dto.PERMISO_RES2;
-                clientDto.FEEXPE = dto.FEEXPE_RES2;
-                clientDto.LUNACI = dto.LUNACI_RES2;
-                clientDto.NIF = dto.PAISNIFCOND_RES2;
-                clientDto.FENAC = dto.FENACI_RES2;
-                clientDto.CLASE = dto.CLASE_RES2;
-                firstDriver.Value = clientDto;
-                return await clientDataService.SaveAsync(firstDriver).ConfigureAwait(false);
-            }
-            return true;
-        }
-
-        #region CommonProperties
         /// <summary>
-        ///  Set or Get command for creating a new fare.
-        /// </summary>
-        public ICommand ShowFares { get; private set; }
-        /// <summary>
-        ///  Set or Get command for creating a new vehicle view.
-        /// </summary>
-        public ICommand CreateVehicleCommand { get; set; }
-        /// <summary>
-        /// Set or Get command for showing a client.
-        /// </summary>
-        public ICommand ShowClient { set; get; }
-        /// <summary>
-        ///  Set or Get command for creating a new client.
-        /// </summary>
-        public ICommand CreateClient { set; get; }
-
-        /// <summary>
-        /// Create a new fare.
-        /// </summary>
-        public ICommand CreateNewFare { get; set; }
-        /// <summary>
-        /// Create a new vehicle.
-        /// </summary>
-        public ICommand CreateNewVehicle { get; set; }
-        /// <summary>
-        ///  Create a new broker.
-        /// </summary>
-        public ICommand CreateNewBroker { set; get; }
-
-        /// <summary>
-        ///  Create a new group.
-        /// </summary>
-        public ICommand CreateNewGroup { set; get; }
-        /// <summary>
-        ///  Create a new driver
-        /// </summary>
-        public ICommand CreateNewDriver { get; set; }
-        /// <summary>
-        ///  Command for opening a new item
-        /// </summary>
-        public ICommand OpenItemCommand { get; set; }
-        /// <summary>
-        ///  Set or Get command
-        /// </summary>
-        public ICommand ShowDrivers { get; set; }
-        /// <summary>
-        ///  Set or Get the command for showing clients inside this view.
+        /// Gets or sets the show clients.
         /// </summary>
         public ICommand ShowClients { get; set; }
+
         /// <summary>
-        ///  Set or Get the command for showing client or drivers inside this view.
+        /// Gets or sets the show client or drivers.
         /// </summary>
         public ICommand ShowClientOrDrivers { get; set; }
+
         /// <summary>
-        ///  Set or Get the command for showing a single driver inside this view.
+        /// Gets the show single driver for opening a driver
         /// </summary>
         public ICommand ShowSingleDriver { get; private set; }
+
         /// <summary>
-        /// Set or get the command for showing other data command inside this view.
+        /// Gets or sets the other for opening other data.
         /// </summary>
         public ICommand OtherDataShowCommand { get; set; }
+
         /// <summary>
-        ///  Create an amount command
+        /// Gets or sets the amount command.
         /// </summary>
         public ICommand AmountCommand { get; set; }
+
         /// <summary>
-        ///  Create a recompute import.
+        /// Gets or sets the recompute import.
         /// </summary>
         public ICommand RecomputeImport { get; set; }
+
         /// <summary>
-        ///  Set or Get the command for looking up a flight
+        /// Gets or sets the lookup flight command.
         /// </summary>
-        public ICommand LookupFlightCommand { set; get; }
+        public ICommand LookupFlightCommand { get; set; }
+
         /// <summary>
-        ///  Set or Get the grid columns.
+        /// Gets or sets the vehicle grid columns.
         /// </summary>
-        public string VehicleGridColumns { set; get; }
+        public string VehicleGridColumns { get; set; }
+
         /// <summary>
-        ///  Set or Get the grid columns.
+        /// Gets or sets the clients conductor.
         /// </summary>
         public string ClientsConductor { get; set; }
+
         /// <summary>
-        /// Set or Get the columns
+        /// Gets or sets the booking info cols.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public string BookingInfoCols
         {
-            get
-            {
-                return _bookingCols;
-            }
+            get => _bookingCols;
+           
             set
             {
                 _bookingCols = value;
@@ -289,131 +485,131 @@ namespace BookingModule.ViewModels
             }
         }
 
-
-        public ObservableCollection<BookingItemsDto> CollectionView
+        /// <summary>
+        /// Gets or sets the collection view.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public ObservableCollection<BookingItemsViewObject> CollectionView
         {
+            get => _collectionView;
             set
             {
-                _collectionView = value;
-
-                //ComputeTotals();
-                RaisePropertyChanged("CollectionView");
+                this._collectionView = value;
+                //DataObject.Items = value;
+               // ComputeTotals(DataObject);
+                this.RaisePropertyChanged("CollectionView");
             }
-            get { return _collectionView; }
-
         }
 
-        private ObservableCollection<BookingItemsDto> _collectionView;
-
         /// <summary>
-        /// Set or Get the reservation office departure.
+        /// Gets or sets the reservation office departure.
         /// </summary>
-        public IEnumerable<OfficeDtos> ReservationOfficeDeparture
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public IEnumerable<OfficeViewObject> ReservationOfficeDeparture
         {
+            get => _reservationOfficeDeparture;
             set
             {
-                _reservationOfficeDeparture = value;
-                RaisePropertyChangeAfterInit("ReservationOfficeDeparture");
-            }
-            get
-            {
-                return _reservationOfficeDeparture;
+                this._reservationOfficeDeparture = value;
+                this.RaisePropertyChangeAfterInit("ReservationOfficeDeparture");
             }
         }
+
         /// <summary>
-        /// Set or Get the reservation office departure.
+        /// Gets or sets the reservation office arrival.
         /// </summary>
-        public IEnumerable<OfficeDtos> ReservationOfficeArrival
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public IEnumerable<OfficeViewObject> ReservationOfficeArrival
         {
+            get => _reservationOfficeArrival;
             set
             {
-                _reservationOfficeArrival = value;
-                RaisePropertyChangeAfterInit("ReservationOfficeArrival");
-            }
-            get
-            {
-                return _reservationOfficeArrival;
+                this._reservationOfficeArrival = value;
+                this.RaisePropertyChangeAfterInit("ReservationOfficeArrival");
             }
         }
+
         /// <summary>
-        ///  Set or get the templates list to configure dynamically the grid.
+        /// Gets or sets the cell grid presentation template.
+        /// The line grid can be configured with data templates.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public ObservableCollection<CellPresenterItem> CellGridPresentation
         {
-            get
-            {
-                return _cellGridPresentation;
-            }
+            get => _cellGridPresentation;
             set
             {
                 _cellGridPresentation = value;
                 RaisePropertyChanged("CellGridPresentation");
-                
+
             }
         }
+
         /// <summary>
-        ///  Set the reservation office collection for autocomplete the reservation
+        /// Gets or sets the reservation office collection for the search box.
         /// </summary>
-        public ObservableCollection<OfficeDtos> ReservationOffice
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+
+        public ObservableCollection<OfficeViewObject> ReservationOffice
         {
-            get
-            {
-                return _reservationOffice;
-            }
+            get => _reservationOffice;
             set
             {
-                _reservationOffice = new ObservableCollection<OfficeDtos>(value);
+                _reservationOffice = new ObservableCollection<OfficeViewObject>(value);
                 RaisePropertyChangeAfterInit("ReservationOffice");
             }
         }
 
         /// <summary>
-        ///     Data object for the reservation
+        /// Gets or sets the data object. The data object is a actually a data object view,
+        /// it does view asynchronous validation using INotifyDataError interface.
         /// </summary>
-        public BookingDto DataObject
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+
+        public BookingViewObject DataObject
         {
+            get => _bookingViewObjectValue;
             set
             {
-                _previousBookingData = _bookingDtoValue;
-                _bookingDtoValue = value;
-                RaisePropertyChanged("DataObject");
+                this._previousBookingData = this._bookingViewObjectValue;
+                this._bookingViewObjectValue = value;
+                this.RaisePropertyChanged("DataObject");
             }
-            get => _bookingDtoValue;
         }
 
         /// <summary>
-        ///  Set or Get the ClientDto.
+        /// Gets or sets the client collection to be shown in the search box client.
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+
         public IEnumerable<ClientSummaryExtended> ClientDto
         {
-            get { return _clientDto; }
+            get => _clientDto;
             set
             {
                 _clientDto = value;
                 RaisePropertyChangeAfterInit("ClientDto");
             }
         }
+
         /// <summary>
-        ///  Set or Get the OfficeDto
+        /// Gets or sets the booking office dto.
         /// </summary>
-        public IEnumerable<OfficeDtos> BookingOfficeDto
+        public IEnumerable<OfficeViewObject> BookingOfficeDto
         {
-            get { return _officeDto; }
+            get => _bookingData.OfficeDto;
             set
             {
-                _officeDto = value;
+                _bookingData.OfficeDto = value;
                 RaisePropertyChangeAfterInit("BookingOfficeDto");
             }
         }
         /// <summary>
-        ///  Set or get the budget dto.
+        ///  Set or get the budget viewObject.
         /// </summary>
-        public IEnumerable<BudgetSummaryDto> BudgetDto
+        public IEnumerable<BudgetSummaryViewObject> BudgetDto
         {
-            get
-            {
-                return _budgetDto;
-            }
+            get => _budgetDto;
             set
             {
                 _budgetDto = value;
@@ -422,14 +618,11 @@ namespace BookingModule.ViewModels
         }
 
         /// <summary>
-        ///  Set or Get the CityDto.
+        ///  Set or Get the CityViewObject.
         /// </summary>
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
-            get
-            {
-                return _cityDto;
-            }
+            get => _cityDto;
             set
             {
                 _cityDto = value;
@@ -437,14 +630,11 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
-        ///  Set or Get the VehicleDto.
+        ///  Set or Get the VehicleViewObject.
         /// </summary>
-        public IEnumerable<VehicleSummaryDto> VehicleDto
+        public IEnumerable<VehicleSummaryViewObject> VehicleDto
         {
-            get
-            {
-                return _vehicle;
-            }
+            get => _vehicle;
             set
             {
                 _vehicle = value;
@@ -452,19 +642,14 @@ namespace BookingModule.ViewModels
             }
         }
 
-        public ICommand ShowNewBooking
-        {
-            set; get;
-        }
+        public ICommand ShowNewBooking { get; set; }
+
         /// <summary>
-        ///  Set or Get the BrokerDto.
+        ///  Set or Get the BrokerViewObject.
         /// </summary>
-        public IEnumerable<CommissionAgentSummaryDto> BrokerDto
+        public IEnumerable<CommissionAgentSummaryViewObject> BrokerDto
         {
-            get
-            {
-                return _brokers;
-            }
+            get => _brokers;
             set
             {
                 _brokers = value;
@@ -472,14 +657,11 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
-        ///  Set or Get the VehicleGroupDto
+        ///  Set or Get the VehicleGroupViewObject
         /// </summary>
-        public IEnumerable<VehicleGroupDto> VehicleGroupDto
+        public IEnumerable<VehicleGroupViewObject> VehicleGroupDto
         {
-            get
-            {
-                return _vehicleGroup;
-            }
+            get => _vehicleGroup;
             set
             {
                 _vehicleGroup = value;
@@ -491,10 +673,7 @@ namespace BookingModule.ViewModels
         /// </summary>
         public string ExpireCardYear
         {
-            get
-            {
-                return _driverCreditCardExpireYear;
-            }
+            get => _driverCreditCardExpireYear;
             set
             {
                 _driverCreditCardExpireYear = value;
@@ -506,10 +685,7 @@ namespace BookingModule.ViewModels
         /// </summary>
         public string ExpireCardMonth
         {
-            get
-            {
-                return _driverCreditCardExpireMonth;
-            }
+            get => _driverCreditCardExpireMonth;
             set
             {
                 _driverCreditCardExpireMonth = value;
@@ -517,14 +693,11 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
-        ///  Set or Get the ActiveFareDto
+        ///  Set or Get the ActiveFareViewObject
         /// </summary>
-        public IEnumerable<FareDto> ActiveFareDto
+        public IEnumerable<FareViewObject> ActiveFareDto
         {
-            get
-            {
-                return _activeFareDto;
-            }
+            get => _activeFareDto;
             set
             {
                 _activeFareDto = value;
@@ -532,14 +705,11 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
-        ///  Get or Set the Client dto.
+        ///  Get or Set the Client viewObject.
         /// </summary>
-        public IEnumerable<ContractByClientDto> ContractByClientDto
+        public IEnumerable<ContractByClientViewObject> ContractByClientDto
         {
-            get
-            {
-                return _contractClientDto;
-            }
+            get => _contractClientDto;
             set
             {
                 _contractClientDto = value;
@@ -547,14 +717,11 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
-        ///  Get or Set the driver dto.
+        ///  Get or Set the driver viewObject.
         /// </summary>
         public IEnumerable<ClientSummaryExtended> DriverDto
         {
-            get
-            {
-                return _drivers;
-            }
+            get => _drivers;
             set
             {
                 _drivers = value;
@@ -566,10 +733,7 @@ namespace BookingModule.ViewModels
         /// </summary>
         public IEnumerable<ClientSummaryExtended> DriverDto2
         {
-            get
-            {
-                return _drivers2;
-            }
+            get => _drivers2;
             set
             {
                 _drivers2 = value;
@@ -581,23 +745,17 @@ namespace BookingModule.ViewModels
         /// </summary>
         public IEnumerable<ClientSummaryExtended> DriverDto3
         {
-            get
-            {
-                return _drivers3;
-            }
+            get => _drivers3;
             set
             {
                 _drivers3 = value;
                 RaisePropertyChangeAfterInit("DriverDto3");
             }
         }
-        // the third driver
+       
         public IEnumerable<ClientSummaryExtended> DriverDto4
         {
-            get
-            {
-                return _drivers4;
-            }
+            get => _drivers4;
             set
             {
                 _drivers4 = value;
@@ -613,6 +771,7 @@ namespace BookingModule.ViewModels
             {
                 return _drivers5;
             }
+
             set
             {
                 _drivers5 = value;
@@ -626,6 +785,30 @@ namespace BookingModule.ViewModels
             ViewModelUri = viewModelUri;
         }
 
+        public int SelectedIndex
+        {
+            get
+            {
+                return _selectedIndex;
+            }
+
+            set
+            {
+                this._selectedIndex = value;
+                if (this._selectedIndex > 0)
+                {
+                    this.LineVisible = false;
+                    this.FooterVisible = false;
+                }
+                else
+                {
+                    this.LineVisible = true;
+                    this.FooterVisible = true;
+                }
+
+                this.RaisePropertyChanged();
+            }
+        }
 
         public ICommand ShowBookingConcept
         {
@@ -643,6 +826,7 @@ namespace BookingModule.ViewModels
             {
                 return _newBookingCommand;
             }
+
             set
             {
                 _newBookingCommand = value;
@@ -650,16 +834,30 @@ namespace BookingModule.ViewModels
             }
         }
 
+        public bool IsReservationCancelled
+        {
+            get
+            {
+                return _isReservationCancelled;
+            }
+
+            set
+            {
+                this._isReservationCancelled = value;
+                this.RaisePropertyChanged("IsReservationCancelled");
+            }
+        }
 
         /// <summary>
         ///  ConceptDto. 
         /// </summary>
-        public IEnumerable<FareConceptDto> ConceptDto
+        public IEnumerable<FareConceptViewObject> ConceptDto
         {
             get
             {
                 return _concepts;
             }
+
             set
             {
                 _concepts = value;
@@ -669,12 +867,13 @@ namespace BookingModule.ViewModels
         /// <summary>
         /// Set or get a new fare. 
         /// </summary>
-        public IEnumerable<FareDto> FareDto
+        public IEnumerable<FareViewObject> FareDto
         {
             get
             {
                 return _fare;
             }
+
             set
             {
                 _fare = value;
@@ -684,50 +883,26 @@ namespace BookingModule.ViewModels
 
         #endregion
 
-
-        private void GridColumnsConfiguration()
-        {
-            // this shall be at the configuration service
-            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
-            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
-            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
-            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
-        }
-        public int SelectedIndex
-        {
-            set
-            {
-                _selectedIndex = value;
-                if (_selectedIndex > 0)
-                {
-                    LineVisible = false;
-                    FooterVisible = false;
-                }
-                else
-                {
-                    LineVisible = true;
-                    FooterVisible = true;
-                }
-                RaisePropertyChanged();
-            }
-            get
-            {
-                return _selectedIndex;
-            }
-        }
-
         /// <summary>
-        ///  Compute the totals of the grid.
+        ///  Compute the totals of the grid. This shall be moved to the business layer.
         /// </summary>
         /// <param name="aggregated">Values to be aggregated</param>
-        /// <returns>A booking dto with the total due to the booking</returns>
-        public override BookingDto ComputeTotals(BookingDto aggregated)
+        /// <returns>A booking viewObject with the total due to the booking</returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public override BookingViewObject ComputeTotals(BookingViewObject aggregated)
         {
+          
+            if (aggregated == null)
+            {
+                throw new ArgumentNullException(nameof(aggregated));
+            }
+
             if (CollectionView == null)
             {
                 return aggregated;
             }
-            if (CollectionView.Count() > 0)
+
+            if (CollectionView.Any())
             {
                 decimal subTotal = 0;
                 foreach (var x in CollectionView)
@@ -753,18 +928,12 @@ namespace BookingModule.ViewModels
                  * The supposed advantage to bankers rounding is that it is unbiased, and thus produces better results with various operations that involve rounding. 
                  * It should be noted that it is unbiased only in the limit. That is, an average of all errors approaches 0.0.
                  */
-
-                subTotal = decimal.Round(subTotal, 2, MidpointRounding.AwayFromZero);
-                DataObject.BASEI_RES2 = subTotal;
-                decimal iva = DataObject.IVA_RES2.HasValue ? 21 : DataObject.IVA_RES2.Value;
-                if (iva == 0)
-                {
-                    iva = 21;
-                }
                 var tmp = DataObject;
-                var computeIva = (subTotal * 21 * (decimal)0.01);
-                DataObject.IVA_RES2 = decimal.Round(computeIva, 2, MidpointRounding.AwayFromZero);
-                var total = subTotal + DataObject.IVA_RES2.Value;
+                subTotal = decimal.Round(subTotal, 2, MidpointRounding.AwayFromZero);
+                tmp.BASEI_RES2 = subTotal;              
+                var computeIva = subTotal * 21 * (decimal)0.01;
+                tmp.IVA_RES2 = decimal.Round(computeIva, 2, MidpointRounding.AwayFromZero);
+                var total = subTotal + computeIva;
                 tmp.TOLON_RES2 = decimal.Round(total, 2, MidpointRounding.AwayFromZero);
                 DataObject = tmp;
 
@@ -777,43 +946,17 @@ namespace BookingModule.ViewModels
                 tmp.TOLON_RES2 = 0;
                 DataObject = tmp;
             }
+
             return DataObject;
         }
 
-        /// <summary>
-        ///   this changes the company value when the data is changed.
-        ///   This shall moved to the business service.
-        /// </summary>
-        /// <param name="eventData"></param>
-        private void ChangeCompany(IDictionary<string,object> eventData)
-        {
-            NotifyTaskCompletion.Create(FetchOfficeByCompanyAsync(eventData), (result,ev) =>
-            {
-                if (result is INotifyTaskCompletion<IEnumerable<CompanyDto>> taskResult)
 
-                {
-                    if (taskResult.IsFaulted)
-                    {
-                        DialogService?.ShowErrorMessage("Error retrieving company:" + taskResult.ErrorMessage);
-
-                    }
-                    if (taskResult.IsSuccessfullyCompleted)
-                    {
-                        if (taskResult.Result.Count() > 0)
-                        {
-                            var company= new ObservableCollection<CompanyDto>(taskResult.Result);
-                            BookingCompanyDto = company;
-                            RaisePropertyChanged("BookingCompanyDto");
-                        }
-                    }
-                }
-            });
-        }
         /// <summary>
         /// Method called every time a component changes. 
         /// It handles the change and forward the change to the toolbar for saving.
         /// </summary>
         /// <param name="eventDictionary">Dictionary of events.</param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public void OnChangedField(object eventDictionary)
         {
             Contract.Requires(eventDictionary != null);
@@ -829,35 +972,75 @@ namespace BookingModule.ViewModels
                     if (IsViewModelInitialized)
                     {
                         IsChanged = true;
-                        OnChangedCommand(DataObject,
-                                               eventData,
-                                               DataSubSystem.BookingSubsystem,
-                                               EventSubSystemName,
-                                               ViewModelUri.ToString());
+                        if (IsGridChanged(eventData))
+                        {
+                            UpdateObject(DataObject, eventData, CollectionView);
+                            ComputeTotals(DataObject);
+                        }
+
+                        OnChangedCommand(
+                            DataObject,
+                            eventData,
+                            DataSubSystem.BookingSubsystem,
+                            EventSubSystemName,
+                            ViewModelUri.ToString());
+
+                        CheckBusinessRules(eventData, this._bookingData);
                     }
+
                     // here i shall check if oficna is changed.
-                    ChangeCompany(eventData);
                 }
+
                 Contract.Ensures(IsChanged == true);
             }
         }
 
-        private async Task<IEnumerable<CompanyDto>> FetchOfficeByCompanyAsync(IDictionary<string, object> eventData)
+        /// <summary>
+        /// The check business rules.
+        /// </summary>
+        /// <param name="eventData">
+        /// The event data.
+        /// </param>
+        /// <param name="bookingData">
+        /// The booking data.
+        /// </param>
+        private void CheckBusinessRules(IDictionary<string, object> eventData, IBookingData bookingData)
         {
-            if (eventData.ContainsKey("Field"))
-            {
-                var field = eventData["Field"] as string;
-                if ((field != null) && (field == "OFICINA_RES1"))
-                {
-                    // we shall retreive the company.
-                    var officeDataService = DataServices.GetOfficeDataServices();
-                    var company = await officeDataService.GetCompanyAsync(DataObject.OFICINA_RES1).ConfigureAwait(false);
-                    return company;
-                }
-            }
-            return new List<CompanyDto>();
+            this._bookingData.Value = this.DataObject;
+
+            NotifyTaskCompletion.Create(
+                this._bookingService.IsChangeTriggered(eventData, this._bookingData),
+                (result, ev) =>
+                    {
+                        if (!(result is INotifyTaskCompletion<bool> taskResult))
+                        {
+                            return;
+                        }
+
+                        if (taskResult.IsFaulted)
+                        {
+                            this.DialogService?.ShowErrorMessage("Error retrieving company:" + taskResult.ErrorMessage);
+                        }
+
+
+                        if (taskResult.IsSuccessfullyCompleted && taskResult.Result)
+                        {
+                            this.DataObject = this._bookingData.Value;
+                            this.BookingCompanyDto = this._bookingData.CompanyDto;
+                        }
+                    });
         }
 
+        /// <summary>
+        /// The fetch office by company async.
+        /// </summary>
+        /// <param name="eventData">
+        /// The event data.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        /// 
         /// <summary>
         ///  Method called when we close a tab. 
         ///  It should free all the object used in this view model.
@@ -884,10 +1067,13 @@ namespace BookingModule.ViewModels
             {
                 DeleteMailBox(ViewModelUri.ToString());
             }
+
             // Now i communicate the last time with the event manager to cleaning up its all resources assigned to me.
-            DataPayLoad payload = new DataPayLoad();
-            payload.ObjectPath = ViewModelUri;
-            payload.PayloadType = DataPayLoad.Type.Dispose;
+            var payload = new DataPayLoad
+            {
+                ObjectPath = ViewModelUri,
+                PayloadType = DataPayLoad.Type.Dispose
+            };
             EventManager.NotifyToolBar(payload);
         }
 
@@ -917,6 +1103,7 @@ namespace BookingModule.ViewModels
             NotifyTaskCompletion.Create(clientData.GetPagedSummaryDoAsync(arg2, DefaultPageSize), _clientHandler);
 
         }
+
         /// <summary>
         ///  Fetch the grid settings from the user 
         /// </summary>
@@ -928,11 +1115,11 @@ namespace BookingModule.ViewModels
                 if (_configurationService != null)
                 {
                     _userSettings = _configurationService.UserSettings;
-                    var columsSettings = _userSettings.FindSetting<string>(UserSettingConstants.BookingDriverGridColumnsKey);
-                    GridColumns = TokenizeGridColumns(columsSettings);
+                    var columnsSettings = _userSettings.FindSetting<string>(UserSettingConstants.BookingDriverGridColumnsKey);
+                //    GridColumns = TokenizeGridColumns(columnsSettings);
                     var clientViewSettings = _userSettings.FindSetting<string>(UserSettingConstants.BookingClientGridColumnsKey);
                     _gridColumnsKey = clientViewSettings;
-                    _gridDriverColumnsKey = columsSettings;
+                    _gridDriverColumnsKey = columnsSettings;
                 }
             }
         }
@@ -942,13 +1129,9 @@ namespace BookingModule.ViewModels
         private List<string> TokenizeGridColumns(string cols)
         {
             var colSummary = cols.Split(',');
-            var values = new List<string>();
-            foreach (var currentValue in colSummary)
-            {
-                values.Add(currentValue.Trim());
-            }
-            return values;
+            return colSummary.Select(currentValue => currentValue.Trim()).ToList();
         }
+
         /// <summary>
         /// Init the communication.
         /// </summary>
@@ -960,69 +1143,101 @@ namespace BookingModule.ViewModels
             EventManager.RegisterObserverSubsystem(BookingModule.BookingSubSystem, this);
         }
 
-
+        /// <summary>
+        /// Initialize the commands to be exposed to the view.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private void InitCommands()
         {
+            _newCommand = new DelegateCommand<object>(NewViewCommand);
+            _saveCommand = new DelegateCommand<object>(SaveViewCommand, CanSave);
+            _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
             AddNewConceptCommand = new DelegateCommand(OnAddNewConcept);
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             AmountCommand = new DelegateCommand<object>(OnAmountCommand);
-            CreateClient = new DelegateCommand<object>(OnCreateNewClient);
+            this.CreateClient = new DelegateCommand<object>(OnCreateNewClient);
             CreateNewBroker = new DelegateCommand<object>(OnCreateNewBroker);
             CreateNewDriver = new DelegateCommand<object>(OnCreateNewClient);
             CreateNewFare = new DelegateCommand<object>(OnCreateNewFare);
             CreateNewGroup = new DelegateCommand<object>(OnCreateNewGroup);
             CreateNewVehicle = new DelegateCommand<object>(OnCreateNewVehicle);
             CreateVehicleCommand = new DelegateCommand<object>(CreateVehicle);
+            ConfirmBooking = new DelegateCommand<object>(OnConfirmBooking);
+            LookupFlightCommand = new DelegateCommand<object>(OnLookupFlight);
             IncidentLookup = new DelegateCommand<object>(OnBookingIncident);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
+            PrintCommand = new DelegateCommand(OnPrintCommand);
+            RecomputeImport = new DelegateCommand(OnRecomputeImport);
+            RejectBooking = new DelegateCommand(OnRejectBooking);
+            SaveToClient = new DelegateCommand<BookingViewObject>(OnExecuteSaveClient);
             ShowBookingConcept = new DelegateCommand<object>(OnShowConcepts);
             ShowClients = new DelegateCommand<object>(ShowBookingClients);
             ShowClient = new DelegateCommand<object>(ShowCurrentClient);
             ShowFares = new DelegateCommand<object>(ShowClientFares);
             ShowNewBooking = new DelegateCommand(OnShowNewBooking);
             ShowSingleDriver = new DelegateCommand<object>(ShowBookingDriver);
-            LookupFlightCommand = new DelegateCommand<object>(OnLookupFlight);
-            RecomputeImport = new DelegateCommand(OnRecomputeImport);
-            PrintCommand = new DelegateCommand(OnPrintCommand);
-            SaveToClient = new DelegateCommand<BookingDto>(OnExecuteSaveClient);
-            _newCommand = new DelegateCommand<object>(NewViewCommand);
-            _saveCommand = new DelegateCommand<object>(SaveViewCommand, CanSave);
-            _deleteCommand = new DelegateCommand<object>(DeleteViewCommand);
-
+            IncludedCheckedCommand = new DelegateCommand<object>(OnCheckedChange);
         }
 
-       
+        /// <summary>
+        /// The on checked change.
+        /// </summary>
+        /// <param name="obj">
+        /// 
+        /// </param>
+        private void OnCheckedChange(object obj)
+        {
+            DataObject = ComputeTotals(DataObject);
+        }
 
+        private void OnRejectBooking()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnConfirmBooking(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Function to print a pdf.
+        /// </summary>
         private void OnPrintCommand()
         {
             var pdfCreation = new BookingPdfCreator(DataObject, LabelImageSource);
             var ms = pdfCreation.CreatePdf();
-            var interaction = new InteractionReportViewModel();
-            interaction.Document = ms;
-            interaction.Title = "Impresion de Rotulo";
-            // now i have to show it.
+            var interaction = new InteractionReportViewModel {Document = ms, Title = "Impresion de Rotulo"};
+         
             Controller.ShowView<InteractionReportViewModel, ReportView>(interaction);
-        
         }
 
+        /// <summary>
+        /// The on booking incident.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
         private async void OnBookingIncident(object obj)
         {
-            BookingDto dto = obj as BookingDto;
+            var viewObject = obj as BookingViewObject;
             var clientData = DataServices.GetClientDataServices();
-            var conductor = await clientData.GetDoAsync(dto.CONDUCTOR_RES1).ConfigureAwait(false);
+            var conductor = await clientData.GetDoAsync(viewObject.CONDUCTOR_RES1).ConfigureAwait(false);
             var conductorName = conductor.Value.NOMBRE;
             if (string.IsNullOrEmpty(conductorName))
             {
-                var client = await clientData.GetDoAsync(dto.CLIENTE_RES1).ConfigureAwait(false);
+                var client = await clientData.GetDoAsync(viewObject.CLIENTE_RES1).ConfigureAwait(false);
                 conductorName = conductor.Value.NOMBRE;
             }
-            _karveNavigator.NewIncidentView(dto.NUMERO_RES, conductorName,ViewModelUri);
+
+            _karveNavigator.NewIncidentView(viewObject.NUMERO_RES, conductorName,ViewModelUri);
         }
+
         private async void OnShowNewBooking()
         {
             // I am looking all the future request from this moment
             var summary = await _bookingDataService.SearchByDate(DateTime.Now, DateTime.Now).ConfigureAwait(false);
-            _karveNavigator.NewSummaryView<IBookingData, BookingSummaryDto>(summary, "Reservas Futura", typeof(BookingControlView).FullName);
+            _karveNavigator.NewSummaryView<IBookingData, BookingSummaryViewObject>(summary, "Reservas Futura", typeof(BookingControlView).FullName);
 
         }
        
@@ -1031,60 +1246,92 @@ namespace BookingModule.ViewModels
             MessageBox.Show("Not yet implemented");
         }
 
+        /// <summary>
+        /// Create a new booking item using a concept description
+        /// </summary>
+        /// <param name="item">
+        /// Concept description
+        /// </param>
+        /// <param name="booking">booking item to update</param>
+        private void AddConcept(FareConceptViewObject item, BookingItemsViewObject booking)
+        {
+            booking.IsNew = true;
+            booking.Number = DataObject.NUMERO_RES;
+            booking.Fare = DataObject.TARIFA_RES1;
+            booking.IsDirty = true;
+            booking.Concept = int.Parse(item.Code);
+            booking.Desccon = item.Name;
+        }
+
+        /// <summary>
+        /// Build a new booking object.
+        /// </summary>
+        /// <param name="item">
+        /// A newly created fare object.
+        /// </param>
+        /// <returns>
+        /// The <see cref="BookingItemsViewObject"/>.
+        /// </returns>
+        private BookingItemsViewObject AddNewBooking(FareConceptViewObject item)
+        {
+            var newItems = new BookingItemsViewObject
+                               {
+                                   IsNew = true,
+                                   Number = DataObject.NUMERO_RES,
+                                   IsDirty = true,
+                                   Fare =  DataObject.TARIFA_RES1,
+                                   Concept = int.Parse(item.Code),
+                                   Desccon = item.Name,
+                                   BookingKey = ++_lineNextId
+                               };
+            return newItems;
+        }
+
+        /// <summary>
+        /// Show a modal window for interaction with fare concepts to be selected.
+        /// </summary>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private void OnShowConcepts(object value)
         {
 
-            FareConceptDto item = null;
-            BookingItemsDto bookingItem = null;
+            FareConceptViewObject item = null;
             LoadConcepts();
-            // This will use the request controller to trigger the view.
-            ShowDataTransferObjects<FareConceptDto>(ConceptDto,
-                                              "Conceptos",
-                                              "Code,Name",
+            ShowDataTransferObjects<FareConceptViewObject>(
+                ConceptDto,
+                "Conceptos",
+                "Code,Name",
                                               (selectedItem) =>
                                               {
                                                   if (selectedItem != null)
                                                   {
-                                                      ConceptDto = ConceptDto.Union(new List<FareConceptDto>() { selectedItem });
+                                                      ConceptDto = ConceptDto.Union(new List<FareConceptViewObject>() { selectedItem });
                                                       item = selectedItem;
                                                   }
                                               });
-            
+            if (item == null)
+            {
+                return;
+            }
+
             if (value is Syncfusion.UI.Xaml.Grid.Cells.DataContextHelper helper)
             {
-                bookingItem = helper.Record as BookingItemsDto;
+                var bookingItem = helper.Record as BookingItemsViewObject;
               
-                if (bookingItem == null)
+                if (bookingItem == null) 
                 {
-                   
-                    var newItems = new BookingItemsDto();
-                    newItems.IsNew = true;
-                    newItems.Number = DataObject.NUMERO_RES;
-                    newItems.IsDirty = true;
-                    newItems.Concept = int.Parse(item.Code);
-                    newItems.Desccon = item.Name;
-                    newItems.BookingKey = _bookingDataService.GetNextLineId();
-                    CollectionView.Add(newItems);
+                    var newItem = AddNewBooking(item);
+                    CollectionView.Add(newItem);
                     SelectedItem = CollectionView[CollectionView.Count - 1];
-                    RaisePropertyChanged("CollectionView");
-                    
-                    return;
                 }
-                if (item != null)
+                else
                 {
-                    var itemReplace = CollectionView.FirstOrDefault(i => i.BookingKey == bookingItem.BookingKey);
-                    var index = CollectionView.IndexOf(itemReplace);
-                    var newItem = new BookingItemsDto();
-                    newItem.Concept = int.Parse(item.Code);
-                    newItem.Desccon = item.Name;
-                    newItem.IsDirty = true;
-                    newItem.BookingKey = bookingItem.BookingKey;
-                    newItem.Number = bookingItem.Number;
-                    if (index != -1)
-                        CollectionView[index] = newItem;
-                 
-                    RaisePropertyChanged("CollectionView");
+                    AddConcept(item, bookingItem);
                 }
+
+                RaisePropertyChanged("CollectionView");
             }
         }
 
@@ -1093,14 +1340,15 @@ namespace BookingModule.ViewModels
         /// </summary>
         public ClientSummaryExtended ClientSelectedObject
         {
-            set
-            {
-                _clientSelectedObject = value;
-                RaisePropertyChanged("ClientSelectedObject");
-            }
             get
             {
                 return _clientSelectedObject;
+            }
+
+            set
+            {
+                this._clientSelectedObject = value;
+                this.RaisePropertyChanged("ClientSelectedObject");
             }
         }
 
@@ -1109,25 +1357,28 @@ namespace BookingModule.ViewModels
         /// </summary>
         public ClientSummaryExtended DriverSelectedObject
         {
-            set
-            {
-                _driverSelectedObject = value;
-                RaisePropertyChanged("DriverSelectedObject");
-            }
             get
             {
                 return _driverSelectedObject;
             }
+
+            set
+            {
+                this._driverSelectedObject = value;
+                this.RaisePropertyChanged("DriverSelectedObject");
+            }
         }
+
         /// <summary>
         ///  Set or Get the credit card.
         /// </summary>
-        public IEnumerable<CreditCardDto> CreditCardView
+        public IEnumerable<CreditCardViewObject> CreditCardView
         {
             get
             {
                 return _creditCardView;
             }
+
             set
             {
                 _creditCardView = value;
@@ -1137,27 +1388,29 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or Get the country
         /// </summary>
-        public IEnumerable<CountryDto> CountryDto
+        public IEnumerable<CountryViewObject> CountryDto
         {
             get
             {
                 return _country;
             }
+
             set
             {
                 _country = value;
-                RaisePropertyChanged("CountryDto");
+                RaisePropertyChanged("CountryViewObject");
             }
         }
         /// <summary>
         /// Set or Get thje country
         /// </summary>
-        public IEnumerable<CountryDto> DriverCountryList
+        public IEnumerable<CountryViewObject> DriverCountryList
         {
             get
             {
                 return _country2;
             }
+
             set
             {
                 _country2 = value;
@@ -1168,12 +1421,9 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or Get the city
         /// </summary>
-        public IEnumerable<CityDto> CityDto3
+        public IEnumerable<CityViewObject> CityDto3
         {
-            get
-            {
-                return _city;
-            }
+            get => _city;
             set
             {
                 _city = value;
@@ -1181,14 +1431,15 @@ namespace BookingModule.ViewModels
             }
         }
         /// <summary>
-        ///  Set or Get the country dto.
+        ///  Set or Get the country viewObject.
         /// </summary>
-        public IEnumerable<CountryDto> CountryDto3
+        public IEnumerable<CountryViewObject> CountryDto3
         {
             get
             {
                 return _countryDto;
             }
+
             set
             {
                 _countryDto = value;
@@ -1198,12 +1449,13 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or get the province.
         /// </summary>
-        public IEnumerable<ProvinciaDto> ProvinceDto3
+        public IEnumerable<ProvinceViewObject> ProvinceDto3
         {
             get
             {
                 return _provinceDto;
             }
+
             set
             {
                 _provinceDto = value;
@@ -1218,6 +1470,7 @@ namespace BookingModule.ViewModels
         private void OnRecomputeImport()
         {
         }
+
         private void OnAmountCommand(object obj)
         {
         }
@@ -1225,7 +1478,7 @@ namespace BookingModule.ViewModels
 
         public string ExpireMonth
         {
-            get { return _expirationMonth; }
+            get => _expirationMonth;
             set
             {
                 _expirationMonth = value;
@@ -1241,23 +1494,70 @@ namespace BookingModule.ViewModels
             _assistDataService = DataServices.GetAssistDataServices();
             _helperDataService = DataServices.GetHelperDataServices();
         }
+
+        /// <summary>
+        /// This create a collection of items to personalize the line grid.
+        /// We have three types of items:
+        /// 1. NavigationAwareItem. It allows a navigation to another region.
+        /// 2. CellPresenterItem. It the simplest one.
+        /// 3. CommandAwareItem. It allows to execute a command from the line,
+        /// in this case has been used for the checkbox.
+        /// </summary>
+        /// <returns></returns>
         private ObservableCollection<CellPresenterItem> InitGridColumns()
         {
-        
+           
             var presenter = new ObservableCollection<CellPresenterItem>()
-            {
-                new NavigationAwareItem() { DataTemplateName="NavigateBookingConcept", MappingName="Concept", RegionName=RegionNames.LineRegion},
-                // here we want to enfornce the readonly
-                new CellPresenterItem() { NoTemplate = true, MappingName = "Desccon", IsReadOnly=true},
-                new CellPresenterItem() { NoTemplate = true, MappingName = "Extra", IsReadOnly=true},
-                new CellPresenterItem() { NoTemplate = true, MappingName = "Min", IsReadOnly=true},
-                new CellPresenterItem() { NoTemplate = true, MappingName = "Max", IsReadOnly=true},
-                new CellPresenterItem() { NoTemplate = true, MappingName = "Subtotal", IsReadOnly=true},
-                new NavigationAwareItem() { DataTemplateName="BookingInclude", MappingName="Included", RegionName=RegionNames.LineRegion},
-                 new NavigationAwareItem() { DataTemplateName="BillToBookin",
-                     MappingName ="Bill", RegionName=RegionNames.LineRegion},
-                 new NavigationAwareItem() { DataTemplateName="NavigateBookingUnit", MappingName="Unity", RegionName=RegionNames.LineRegion}
-            };
+                                {
+                                    new NavigationAwareItem()
+                                        {
+                                            DataTemplateName = "NavigateBookingConcept",
+                                            MappingName = "Concept",
+                                            RegionName = RegionNames.LineRegion,
+                                            IsReadOnly = true
+                                        },
+                                    // here we want to enforce the readonly
+                                    new CellPresenterItem()
+                                        {
+                                            NoTemplate = true, MappingName = "Desccon", IsReadOnly = true
+                                        },
+                                    new CellPresenterItem()
+                                        {
+                                            NoTemplate = true, MappingName = "Extra", IsReadOnly = true
+                                        },
+                                    new CellPresenterItem()
+                                        {
+                                            NoTemplate = true, MappingName = "Min", IsReadOnly = true
+                                        },
+                                    new CellPresenterItem()
+                                        {
+                                            NoTemplate = true, MappingName = "Max", IsReadOnly = true
+                                        },
+                                    new CellPresenterItem()
+                                        {
+                                            NoTemplate = true, MappingName = "Subtotal", IsReadOnly = true
+                                        },
+                                    new NavigationAwareItem()
+                                        {
+                                            DataTemplateName = "BookingInclude",
+                                            MappingName = "Included",
+                                            RegionName = RegionNames.LineRegion
+                                        },
+                                    new NavigationAwareItem()
+                                        {
+                                            DataTemplateName = "BillToBookin",
+                                            MappingName = "Bill",
+                                            RegionName = RegionNames.LineRegion,
+                                            IsReadOnly = true
+                                        },
+                                    new NavigationAwareItem()
+                                        {
+                                            DataTemplateName = "NavigateBookingUnit",
+                                            MappingName = "Unity",
+                                            RegionName = RegionNames.LineRegion,
+                                            IsReadOnly = true
+                                        }
+                                };
             return presenter;
         }
 
@@ -1287,20 +1587,21 @@ namespace BookingModule.ViewModels
             AssistMapper = _assistDataService.Mapper;
 
             FetchGridsSettings();
-            ReservationOffice = FetchOffices();
-            ConceptDto = new ObservableCollection<FareConceptDto>();
+            // ReservationOffice = FetchOffices();
+            ConceptDto = new ObservableCollection<FareConceptViewObject>();
+            this._lineNextId = _bookingDataService.GetNextLineId();
         }
 
         private void LoadConcepts()
         {
-            var office = NotifyTaskCompletion.Create<IEnumerable<FareConceptDto>>
-                (_helperDataService.GetMappedAllAsyncHelper<FareConceptDto, CONCEP_FACTUR>(), (task, sender) =>
+            var office = NotifyTaskCompletion.Create<IEnumerable<FareConceptViewObject>>
+                (_helperDataService.GetMappedAllAsyncHelper<FareConceptViewObject, CONCEP_FACTUR>(), (task, sender) =>
                 {
-                    if (task is INotifyTaskCompletion<IEnumerable<FareConceptDto>> result)
+                    if (task is INotifyTaskCompletion<IEnumerable<FareConceptViewObject>> result)
                     {
                         if (result.IsSuccessfullyCompleted)
                         {
-                            ConceptDto = new ObservableCollection<FareConceptDto>(result.Task.Result);
+                            ConceptDto = new ObservableCollection<FareConceptViewObject>(result.Task.Result);
                         }
                     }
                 });
@@ -1310,6 +1611,7 @@ namespace BookingModule.ViewModels
         {
             _karveNavigator.NewBrokerView(ViewModelUri);
         }
+
         private void OnCreateNewVehicle(object obj)
         {
             _karveNavigator.NewVehicleView(ViewModelUri);
@@ -1324,35 +1626,42 @@ namespace BookingModule.ViewModels
         {
             System.Diagnostics.Process.Start("http://www.skyscanner.es");
         }
+
         /// <summary>
         ///  This function fetch all the offices to be used in the collection.
         /// </summary>
         /// <returns></returns>
-        private ObservableCollection<OfficeDtos> FetchOffices()
+        private ObservableCollection<OfficeViewObject> FetchOffices()
         {
-            var collection = new ObservableCollection<OfficeDtos>();
+            var collection = new ObservableCollection<OfficeViewObject>();
             var helpers = DataServices.GetHelperDataServices();
-            var office = NotifyTaskCompletion.Create<IEnumerable<OfficeDtos>>
-                (helpers.GetMappedAllAsyncHelper<OfficeDtos, OFICINAS>(), (task, sender) =>
-                {
-                    if (task is INotifyTaskCompletion<IEnumerable<OfficeDtos>> result)
+            var office = NotifyTaskCompletion.Create<IEnumerable<OfficeViewObject>>(
+                helpers.GetMappedAllAsyncHelper<OfficeViewObject, OFICINAS>(),
+                (task, sender) =>
                     {
+                        if (!(task is INotifyTaskCompletion<IEnumerable<OfficeViewObject>> result))
+                        {
+                            return;
+                        }
                         if (result.IsSuccessfullyCompleted)
                         {
-                            collection = new ObservableCollection<OfficeDtos>(result.Result);
+                        collection = new ObservableCollection<OfficeViewObject>(result.Result);
                         }
-                    }
-                });
+            });
             return collection;
         }
 
-
-       
         /// <summary>
-        ///  Evaluate of it is possible to save
+        /// Checks if is possible to save the data object view following the current business
+        /// logic and validation.
         /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
+        /// <param name="arg">
+        /// The param has been ignored.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="bool"/> true if we can save the data.
+        /// </returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private bool CanSave(object arg)
         {
             var dataObject = DataObject;
@@ -1360,38 +1669,54 @@ namespace BookingModule.ViewModels
             {
                 return true;
             }
-            if (dataObject.HasErrors)
+
+            if (!CollectionView.Any())
             {
-                DialogService?.ShowErrorMessage(KarveLocale.Properties.Resources.linvalidbookingdata + " " + dataObject.NUMERO_RES + "\nReason: " + dataObject.Errors[0]);
+                var value = "Reason: Reservas debe tener conceptos";
+                DialogService?.ShowErrorMessage(KarveLocale.Properties.Resources.linvalidbookingdata + " " + dataObject.NUMERO_RES + "\n" + value);
                 return false;
             }
+
+            if (dataObject.HasErrors)
+            {
+                var value = "\nReason: " + dataObject.Errors.FirstOrDefault();
+                DialogService?.ShowErrorMessage(KarveLocale.Properties.Resources.linvalidbookingdata + " " + dataObject.NUMERO_RES + " " + value);
+                return false;
+            }
+
             // here we can put the business validation.
             return true;
         }
+
         /// <summary>
         ///  Save data from the view.
         /// </summary>
         /// <param name="savedObject">Save data from the view command.</param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private void SaveViewCommand(object savedObject)
         {
             if (!IsCommandForMe())
             {
                 return;
             }
+
             if (!CanSave(savedObject))
             {
                 return;
             }
+
             var bookingDataObject = DataObject;
             bookingDataObject.Items = CollectionView;
             _bookingData.Value = bookingDataObject;
-            var IsErrorNotified = false;
-            NotifyTaskCompletion.Create<bool>(_bookingDataService.SaveAsync(_bookingData), (sender, ev) =>
-            {
-                if (sender is INotifyTaskCompletion<bool> task)
+            var isErrorNotified = false;
+            NotifyTaskCompletion.Create<bool>(
+                _bookingDataService.SaveAsync(_bookingData),
+                (sender, ev) =>
+                    {
+                        if (sender is INotifyTaskCompletion<bool> task)
                 {
                     var number = _bookingData.Value.NUMERO_RES;
-                    if ((task.IsSuccessfullyCompleted) && (task.Result == true))
+                    if (task.IsSuccessfullyCompleted && (task.Result == true))
                     {
                         var msg = $"Reserva {number} guardada con exito!";
                         DialogService?.ShowMessage("Reservation", msg);
@@ -1400,16 +1725,18 @@ namespace BookingModule.ViewModels
                     }
                     else
                     {
-                        if (IsErrorNotified)
+                        if (isErrorNotified)
                         {
                             return;
                         }
+
                         var error = "Validation error while saving!";
                         if (!string.IsNullOrEmpty(task.ErrorMessage))
                         {
                             error = task.ErrorMessage;
-                            IsErrorNotified = true;
+                            isErrorNotified = true;
                         }
+
                         DialogService?.ShowErrorMessage(error);
                     }
                 }
@@ -1419,8 +1746,8 @@ namespace BookingModule.ViewModels
         private void DeleteViewCommand(object obj)
         {
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-            var viewDeleter = new ViewDeleter<IBookingData, BookingSummaryDto>(_bookingDataService, DialogService, EventManager);
-            /// i shall check that i am on foreground
+            var viewDeleter = new ViewDeleter<IBookingData, BookingSummaryViewObject>(_bookingDataService, DialogService, EventManager);
+          
             if (activeView is UserControl control)
             {
                 if (control.DataContext is KarveViewModelBase baseViewModel)
@@ -1448,8 +1775,6 @@ namespace BookingModule.ViewModels
                              * Since i have deleted with success 
                              * i notify my group and i unregister the //toolbar.
                              */
-
-                            //  EventManager.RegisterObserverSubsystem(BookingModule.BookingSubSystem, this);
                             viewDeleter.Notify(ViewModelUri.ToString(), BookingModule.BookingSubSystem);
                             UnregisterToolBar(payLoad.PrimaryKeyValue);
                             DeleteRegion();
@@ -1459,34 +1784,42 @@ namespace BookingModule.ViewModels
                 }
             }
         }
+
         /// <summary>
-        ///  Generate a new view
+        /// Create a new view and navigate to the new created view.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">
+        /// Not used.
+        /// </param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private void NewViewCommand(object obj)
         {
-            var viewFactory = new ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryDto>(_regionManager, _container, EventManager, _bookingDataService, _bookingDataService);
+            
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
-            /// i shall check that i am on foreground
             if (activeView is UserControl control)
             {
+                var viewFactory = new ViewFactory<BookingInfoView, BookingFooterView, IBookingData, BookingSummaryViewObject>(_regionManager, _container, EventManager, _bookingDataService, _bookingDataService);
                 if (control.DataContext is KarveViewModelBase baseViewModel)
                 {
                     // its is me....
                     if (baseViewModel.ViewModelUri == ViewModelUri)
                     {
-                        viewFactory.NewItem<BookingInfoView>(KarveLocale.Properties.Resources.lbooking, 
-                            "karve://booking/viewmodel?id=", 
+                        viewFactory.NewItem<BookingInfoView>(
+                            KarveLocale.Properties.Resources.lbooking,
+                            "karve://booking/viewmodel?id=",
                             DataSubSystem.BookingSubsystem, 
                             BookingModule.BookingSubSystem);
                     }
                 }
             }
         }
+
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
         private void ShowClientFares(object obj)
         {
             DialogService?.ShowErrorMessage("FareModule Not Implemeted");
         }
+
         private void CreateVehicle(object obj)
         {
             var vehicleRepository = DataServices.GetVehicleDataServices();
@@ -1497,6 +1830,7 @@ namespace BookingModule.ViewModels
                 DialogService?.ShowErrorMessage("Cannot navigate to a new vehicle");
 
             }
+
             var viewName = numberCode + "." + payLoad.Value.MARCA;
             var factory = DataPayloadFactory.GetInstance();
             var dataPayload = factory.BuildInsertPayLoadDo<IVehicleData>(viewName, payLoad, DataSubSystem.VehicleSubsystem, ViewModelUri.ToString());
@@ -1514,16 +1848,18 @@ namespace BookingModule.ViewModels
 
             _karveNavigator.NewClientView(ViewModelUri);
         }
+
         /// <summary>
         ///  Show current client.
         /// </summary>
         /// <param name="clientNumber">Client Number</param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private async void ShowCurrentClient(object clientNumber)
         {
             if (clientNumber is string numberCode)
             {
-                var clientDataSevice = DataServices.GetClientDataServices();
-                var payload = await clientDataSevice.GetDoAsync(numberCode);
+                var clientDataService = DataServices.GetClientDataServices();
+                var payload = await clientDataService.GetDoAsync(numberCode);
                 var viewName = payload.Value.NOMBRE + "." + numberCode;
                 var factory = DataPayloadFactory.GetInstance();
                 var dataPayload = factory.BuildShowPayLoadDo<IClientData>(viewName, payload, DataSubSystem.ClientSubsystem, ViewModelUri.ToString(), ViewModelUri.ToString(), ViewModelUri);
@@ -1531,6 +1867,7 @@ namespace BookingModule.ViewModels
                 EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, dataPayload);
             }
         }
+
         private async void ShowBookingDriver(object obj)
         {
             _gridColumnsKey = "";
@@ -1568,25 +1905,28 @@ namespace BookingModule.ViewModels
             _bookingClientsIncrementalList.LoadItems(firstData);
             return _bookingClientsIncrementalList;
         }
+
         private async void ShowContractByReservation(object obj)
         {
             var contractDataService = DataServices.GetContractDataServices();
             // i doubt that i will more than 1000 contacts.
             var contractByClient = await contractDataService.GetContractByClientAsync(DataObject.CLIENTE_RES1);
             /// This show uip  a magnifier updating the raise property changed,
-            ShowDataTransferObjects<ContractByClientDto>(contractByClient, "Contractos per cliente", "Contract,DepartureDate, ForecastDeparture,ReturnDate,Days,Driver,Matricula,Brand,Model,Fare,InvoiceNumber,GrossInvoice", (selectedItem) =>
+            ShowDataTransferObjects<ContractByClientViewObject>(contractByClient, "Contractos per cliente", "Contract,DepartureDate, ForecastDeparture,ReturnDate,Days,Driver,Matricula,Brand,Model,Fare,InvoiceNumber,GrossInvoice", (selectedItem) =>
              {
                  if (selectedItem != null)
                  {
                      if (ContractByClientDto == null)
                      {
-                         ContractByClientDto = new List<ContractByClientDto>();
+                         ContractByClientDto = new List<ContractByClientViewObject>();
                      }
-                     ContractByClientDto.Union<ContractByClientDto>(new List<ContractByClientDto>() { selectedItem });
+
+                     ContractByClientDto.Union<ContractByClientViewObject>(new List<ContractByClientViewObject>() { selectedItem });
                      RaisePropertyChanged("DataHelper");
                  }
              });
         }
+
         private async void ShowBookingClients(object obj)
         {
             _bookingClientsIncrementalList = await ShowBookingDriversOrClients(obj).ConfigureAwait(false);
@@ -1606,24 +1946,38 @@ namespace BookingModule.ViewModels
                                                        {
                                                            ClientDto = new List<ClientSummaryExtended>();
                                                        }
+
                                                        ClientDto = ClientDto.Union<ClientSummaryExtended>(new List<ClientSummaryExtended>() { selectedItem });
 
                                                    }
                                                });
         }
-        private void ClearList(BookingDto dto)
+
+        private void ClearList(BookingViewObject viewObject)
         {
-            if (dto == null)
+            if (viewObject == null)
             {
                 return;
             }
-            if (dto.Items is IList<BookingItemsDto> list)
+
+            if (viewObject.Items is IList<BookingItemsViewObject> list)
             {
                 list.Clear();
             }
+
             _bookingClientsIncrementalList.Clear();
 
         }
+
+        /// <summary>
+        /// The create view model mail first.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="model">
+        /// The model.
+        /// </param>
         private void CreateViewModelMailFirst(string name, BookingMailViewModel model)
         {
             var detailsRegion = _regionManager.Regions[RegionNames.TabRegion];
@@ -1644,35 +1998,14 @@ namespace BookingModule.ViewModels
             return ViewModelUri.ToString();
         }
 
-        /// <summary>
-        ///  This delete asynchronously. 
-        /// </summary>
-        /// <param name="primaryKey">Value of the primary key.</param>
-        /// <param name="subSystem">Kind of subsystem</param>
-        /// <param name="eventSubSystem">Event subsystem</param>
-        /// <returns></returns>
-        private async Task<bool> DeleteAsync(string primaryKey, DataSubSystem subSystem, string eventSubSystem)
-        {
-            if (string.IsNullOrEmpty(primaryKey))
-                throw new ArgumentNullException();
-            var deleted = false;
-            try
-            {
-                deleted = await _bookingDataService.DeleteAsync(_bookingData).ConfigureAwait(false);
-
-            }
-            catch (Exception e)
-            {
-                DialogService?.ShowErrorMessage(e.Message);
-            }
-            return deleted;
-        }
+       
         /// <summary>
         /// Initalization state.
         /// </summary>
         /// <param name="value">Value of the primary key, in many cases is optional</param>
         /// <param name="payload">Kind of payload</param>
         /// <param name="insertion">If we want to insert or not</param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         protected override void Init(string value, DataPayLoad payload, bool insertion)
         {
             Contract.Requires(payload != null);
@@ -1684,12 +2017,8 @@ namespace BookingModule.ViewModels
             {
                 if (!IsForMe<IBookingData>(payload, (x) =>
                 {
-                    BookingDto booking = x.Value;
-                    if (PrimaryKeyValue != booking.NUMERO_RES)
-                    {
-                        return false;
-                    }
-                    return true;
+                    var booking = x.Value;
+                    return (PrimaryKeyValue == booking.NUMERO_RES);
                 }))
                 {
                     return;
@@ -1707,22 +2036,25 @@ namespace BookingModule.ViewModels
                             {
                                 return;
                             }
+
                             if (payload.Destination != ViewModelUri)
                             {
                                 return;
                             }
+
                             //it is me.
-                            _bookingData.Value.Items = new ObservableCollection<BookingItemsDto>();
+                            _bookingData.Value.Items = new ObservableCollection<BookingItemsViewObject>();
                             PrimaryKeyValue = payload.PrimaryKeyValue;
                             data.Value.NUMERO_RES = PrimaryKeyValue;
 
                             break;
                         }
+
                     default:
                         {
                             var dataObject = data.Value;
                             PrimaryKeyValue = dataObject.NUMERO_RES;
-                            CollectionView = new ObservableCollection<BookingItemsDto>(dataObject.Items);
+                            CollectionView = new ObservableCollection<BookingItemsViewObject>(dataObject.Items);
                             break;
                         }
 
@@ -1730,6 +2062,7 @@ namespace BookingModule.ViewModels
                 GeneralInfoCollection = SetDataObject(data.Value, _generalInfoCollection);
                 DataObject = data.Value;
                 UpdateAux(data);
+
                 // register the view model to the toolbar.
                 ActiveSubSystem();
                 OperationalState = payload.PayloadType;
@@ -1751,6 +2084,7 @@ namespace BookingModule.ViewModels
             builder[7].SourceView = data.VehicleActivitiesDto;
             RaisePropertyChanged("GeneralCollectionInfo");
         }
+
         public ObservableCollection<DtoType> SelectItem<DtoType>(IEnumerable<DtoType> item, IEnumerable<DtoType> collection)
         {
             ObservableCollection<DtoType> obsCollection = collection as ObservableCollection<DtoType>;
@@ -1759,8 +2093,10 @@ namespace BookingModule.ViewModels
             {
                 obsCollection.Add(i);
             }
+
             return obsCollection;
         }
+
         private void UpdateAux(IBookingData data)
         {
 
@@ -1768,8 +2104,9 @@ namespace BookingModule.ViewModels
             {
                 return;
             }
+
             UpdateGenericCollection(data);
-            BookingAgencyEmployee = new ObservableCollection<AgencyEmployeeDto>(data.AgencyEmployeeDto);
+            BookingAgencyEmployee = new ObservableCollection<AgencyEmployeeViewObject>(data.AgencyEmployeeDto);
             BookingContacts = data.ContactsDto1;
             BookingMedia = data.BookingMediaDto;
             BookingOrigen = data.OriginDto;
@@ -1780,7 +2117,7 @@ namespace BookingModule.ViewModels
             BudgetDto = data.BookingBudget;
             ClientDto = data.Clients;
             DriverDto = data.DriverDto2;
-            BookingCompanyDto = new ObservableCollection<CompanyDto>(data.CompanyDto);
+            BookingCompanyDto = new ObservableCollection<CompanyViewObject>(data.CompanyDto);
             DeliveringPlaceDto = data.DepartureDeliveryDto;
             PlaceReturnDto = data.PlaceOfReturnDto;
             DriverCountryList = data.DriverCountryList;
@@ -1806,17 +2143,18 @@ namespace BookingModule.ViewModels
                 var cityData = data.CityDto3.FirstOrDefault();
                 if (cityData != null)
                 {
-                    this.CityDto3 = new ObservableCollection<CityDto>() { cityData };
+                    this.CityDto3 = new ObservableCollection<CityViewObject>() { cityData };
                 }
             }
+
             ActiveFareDto = data.FareDto;
-            BookingOfficeDto = new ObservableCollection<OfficeDtos>(data.OfficeDto);
+            BookingOfficeDto = new ObservableCollection<OfficeViewObject>(data.OfficeDto);
             BookingOrigen = data.OriginDto;
             BookingRefusedDto = data.BookingRefusedDto;
             VehicleDto = data.VehicleDto;
             VehicleGroupDto = data.VehicleGroupDto;
-            ReservationOfficeArrival = new ObservableCollection<OfficeDtos>(data.ReservationOfficeArrival);
-            ReservationOfficeDeparture = new ObservableCollection<OfficeDtos>(data.ReservationOfficeDeparture);
+            ReservationOfficeArrival = new ObservableCollection<OfficeViewObject>(data.ReservationOfficeArrival);
+            ReservationOfficeDeparture = new ObservableCollection<OfficeViewObject>(data.ReservationOfficeDeparture);
             // this send an update to everyone
             RaisePropertyChanged(null);
             IsViewModelInitialized = true;
@@ -1836,6 +2174,7 @@ namespace BookingModule.ViewModels
             {
                 payLoad = new DataPayLoad();
             }
+
             payLoad.Subsystem = DataSubSystem.BookingSubsystem;
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
@@ -1875,18 +2214,20 @@ namespace BookingModule.ViewModels
             {
                 return;
             }
+
             // it should not be happen that the parameter is not a dictionary.
             var values = param as Dictionary<string, string>;
             if (values != null)
             {
-                string assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
-                string assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
+                var assistTableName = values.ContainsKey("AssistTable") ? values["AssistTable"] as string : null;
+                var assistQuery = values.ContainsKey("AssistQuery") ? values["AssistQuery"] as string : null;
                 //special case of booking contacts.
                 if ((assistTableName == "BOOKING_CONTACTO_ASSIST") && (DataObject != null))
                 {
                     // ok in this cse we use the client.
                     assistQuery = DataObject.CLIENTE_RES1;
                 }
+
                 this.AssistNotifierInitialized = NotifyTaskCompletion.Create<bool>(AssistQueryRequestHandler(assistTableName, assistQuery), (sender, ev) =>
                 {
                     if (sender is INotifyTaskCompletion<bool> task)
@@ -1899,6 +2240,7 @@ namespace BookingModule.ViewModels
                     }
                 });
             }
+
             Contract.Ensures(notified == true);
         }
 
@@ -1926,54 +2268,62 @@ namespace BookingModule.ViewModels
                 DialogService?.ShowErrorMessage("Assist not configured in the system");
                 return false;
             }
+
             if (collectionValue == null)
             {
                 return false;
             }
+
             switch (assistTableName)
             {
                 case "BOOKING_FCOBRO_ASSIST":
                     {
 
                         var value = collection[5];
-                        value.SourceView = collectionValue as IEnumerable<PaymentFormDto>;
+                        value.SourceView = collectionValue as IEnumerable<PaymentFormViewObject>;
                         break;
                     }
+
                 case "BOOKING_CONTRATIPIMPR_ASSIST":
                     {
-                        collection[6].SourceView = collectionValue as IEnumerable<PrintingTypeDto>;
+                        collection[6].SourceView = collectionValue as IEnumerable<PrintingTypeViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
+
                 case "BOOKING_ACTIVEHI_RES1_ASSIST":
                     {
-                        collection[7].SourceView = collectionValue as IEnumerable<VehicleActivitiesDto>;
+                        collection[7].SourceView = collectionValue as IEnumerable<VehicleActivitiesViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
+
                 case "BROKER_ASSIST":
                     {
-                        BrokerDto = (IEnumerable<CommissionAgentSummaryDto>)collectionValue;
+                        BrokerDto = (IEnumerable<CommissionAgentSummaryViewObject>)collectionValue;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
+
                 case "BOOKING_CONTACTO_ASSIST":
                     {
-                        collection[4].SourceView = collectionValue as IEnumerable<ContactsDto>;
+                        collection[4].SourceView = collectionValue as IEnumerable<ContactsViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
+
                 case "BOOKING_ORIGIN_ASSIST":
                     {
-                        collection[0].SourceView = collectionValue as IEnumerable<OrigenDto>;
+                        collection[0].SourceView = collectionValue as IEnumerable<OrigenViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
+
                 case "BOOKING_MEDIO_ASSIST":
                     {
                         //collection[1].SourceView = null;
 
-                        collection[1].SourceView = collectionValue as IEnumerable<BookingMediaDto>;
+                        collection[1].SourceView = collectionValue as IEnumerable<BookingMediaViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
 
                         break;
@@ -1981,96 +2331,113 @@ namespace BookingModule.ViewModels
 
                 case "BOOKING_CONF_MESSAGE_ASSIST":
                     {
-                        BookingConfirmMessageDto = (IEnumerable<BookingConfirmMessageDto>)collectionValue;
+                        BookingConfirmMessageDto = (IEnumerable<BookingConfirmMessageViewObject>)collectionValue;
 
                         break;
                     }
+
                 case "BOOKING_REFUSE_ASSIST":
                     {
-                        BookingRefusedDto = (IEnumerable<BookingRefusedDto>)collectionValue;
+                        BookingRefusedDto = (IEnumerable<BookingRefusedViewObject>)collectionValue;
                         break;
                     }
+
                 case "BOOKING_TYPE_ASSIST":
                     {
-                        collection[2].SourceView = collectionValue as IEnumerable<BookingTypeDto>;
+                        collection[2].SourceView = collectionValue as IEnumerable<BookingTypeViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
                         break;
                     }
+
                 case "BUDGET_ASSIST":
                     {
-                        BudgetDto = (IEnumerable<BudgetSummaryDto>)collectionValue;
+                        BudgetDto = (IEnumerable<BudgetSummaryViewObject>)collectionValue;
                         break;
                     }
+
                 case "CITY_ASSIST":
                     {
-                        CityDto = (IEnumerable<CityDto>)collectionValue;
+                        CityDto = (IEnumerable<CityViewObject>)collectionValue;
                         break;
                     }
+
                 case "CITY_ASSIST_2":
                     {
-                        SecondDriverCityDto = (IEnumerable<CityDto>)collectionValue;
+                        SecondDriverCityDto = (IEnumerable<CityViewObject>)collectionValue;
                         break;
                     }
+
                 case "CLIENT_ASSIST":
                     {
 
                         ClientDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
+
                 case "CONTRACT_CLIENT_ASSIST":
                     {
-                        ContractByClientDto = collectionValue as IEnumerable<ContractByClientDto>;
+                        ContractByClientDto = collectionValue as IEnumerable<ContractByClientViewObject>;
                         break;
                     }
+
                 case "COUNTRY_ASSIST":
                     {
-                        CountryDto = (IEnumerable<CountryDto>)collectionValue;
+                        CountryDto = (IEnumerable<CountryViewObject>)collectionValue;
                         break;
                     }
+
                 case "COUNTRY_ASSIST_2":
                     {
-                        DriverCountryList = (IEnumerable<CountryDto>)collectionValue;
+                        DriverCountryList = (IEnumerable<CountryViewObject>)collectionValue;
                         break;
                     }
+
                 case "COUNTRY_ASSIST_3":
                     {
-                        SecondDriverCountryDto = (IEnumerable<CountryDto>)collectionValue;
+                        SecondDriverCountryDto = (IEnumerable<CountryViewObject>)collectionValue;
                         break;
                     }
+
                 case "COUNTRY_ASSIST_4":
                     {
-                        CountryDto4 = (IEnumerable<CountryDto>)collectionValue;
+                        CountryDto4 = (IEnumerable<CountryViewObject>)collectionValue;
                         break;
                     }
+
                 case "PAIS":
                     {
-                        Country = (IEnumerable<CountryDto>)collectionValue;
+                        Country = (IEnumerable<CountryViewObject>)collectionValue;
                         break;
                     }
+
                 case "CREDIT_CARD_ASSIST":
                     {
-                        CreditCardView = (IEnumerable<CreditCardDto>)collectionValue;
+                        CreditCardView = (IEnumerable<CreditCardViewObject>)collectionValue;
                         break;
                     }
+
                 case "CRM_PROVIDER_ASSIST":
                     {
-                        CrmSupplierDto = (IEnumerable<SupplierSummaryDto>)collectionValue;
+                        CrmSupplierDto = (IEnumerable<SupplierSummaryViewObject>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_PROV":
                     {
 
-                        ProvinceDto3 = (IEnumerable<ProvinciaDto>)collectionValue;
+                        ProvinceDto3 = (IEnumerable<ProvinceViewObject>)collectionValue;
                         break;
                     }
+
                 case "DELIVERY_PLACE_0":
                     {
-                        DeliveringPlaceDto = (IEnumerable<DeliveringPlaceDto>)collectionValue;
+                        DeliveringPlaceDto = (IEnumerable<DeliveringPlaceViewObject>)collectionValue;
                         break;
                     }
+
                 case "DELIVERY_PLACE_1":
                     {
-                        PlaceReturnDto = (IEnumerable<DeliveringPlaceDto>)collectionValue;
+                        PlaceReturnDto = (IEnumerable<DeliveringPlaceViewObject>)collectionValue;
                         break;
                     }
 
@@ -2079,98 +2446,117 @@ namespace BookingModule.ViewModels
                         DriverDto = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_ASSIST_2":
                     {
                         DriverDto2 = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_ASSIST_3":
                     {
                         DriverDto3 = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_ASSIST_4":
                     {
                         DriverDto4 = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_ASSIST_5":
                     {
                         DriverDto5 = (IEnumerable<ClientSummaryExtended>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_CITY":
                     {
-                        CityDto3 = (IEnumerable<CityDto>)collectionValue;
+                        CityDto3 = (IEnumerable<CityViewObject>)collectionValue;
                         break;
                     }
+
                 case "DRIVER_COUNTRY":
                     {
-                        CountryDto3 = (IEnumerable<CountryDto>)collectionValue;
+                        CountryDto3 = (IEnumerable<CountryViewObject>)collectionValue;
                         break;
                     }
+
                 case "FARE_ASSIST":
                     {
-                        ActiveFareDto = (IEnumerable<FareDto>)collectionValue;
+                        ActiveFareDto = (IEnumerable<FareViewObject>)collectionValue;
                         break;
                     }
+
                 case "FARE_CONCEPT_ASSIST":
                     {
-                        ConceptDto = (IEnumerable<FareConceptDto>)collectionValue;
+                        ConceptDto = (IEnumerable<FareConceptViewObject>)collectionValue;
                         break;
                     }
+
                 case "EMPLEAGE_ASSIST":
                     {
-                        collection[3].SourceView = (IEnumerable<AgencyEmployeeDto>)collectionValue;
+                        collection[3].SourceView = (IEnumerable<AgencyEmployeeViewObject>)collectionValue;
                         RaisePropertyChanged("GeneralCollectionInfo");
 
                         break;
                     }
+
                 case "COMPANY_ASSIST":
                     {
-                        BookingCompanyDto = (IEnumerable<CompanyDto>)collectionValue;
+                        BookingCompanyDto = (IEnumerable<CompanyViewObject>)collectionValue;
                         break;
                     }
+
                 case "BOOKING_OFFICE_1":
                     {
-                        ReservationOfficeDeparture = (IEnumerable<OfficeDtos>)collectionValue;
+                        ReservationOfficeDeparture = (IEnumerable<OfficeViewObject>)collectionValue;
                         break;
                     }
+
                 case "BOOKING_OFFICE_2":
                     {
-                        ReservationOfficeArrival = (IEnumerable<OfficeDtos>)collectionValue;
+                        ReservationOfficeArrival = (IEnumerable<OfficeViewObject>)collectionValue;
                         break;
                     }
+
                 case "OFFICE_ASSIST":
                     {
-                        BookingOfficeDto = (IEnumerable<OfficeDtos>)collectionValue;
+                        BookingOfficeDto = (IEnumerable<OfficeViewObject>)collectionValue;
                         break;
                     }
+
                 case "LANGUAGE_ASSIST":
                     {
-                        LanguageDto = (IEnumerable<LanguageDto>) collectionValue;
+                        LanguageDto = (IEnumerable<LanguageViewObject>) collectionValue;
                         break;
                     }
+
                 case "PROMOTION_ASSIST":
                     {
-                        PromotionDto = (IEnumerable<PromotionCodesDto>)collectionValue;
+                        PromotionDto = (IEnumerable<PromotionCodesViewObject>)collectionValue;
                         break;
                     }
+
                 case "PROVINCE_ASSIST_2":
                     {
-                        SecondDriverProvinceDto = (IEnumerable<ProvinciaDto>)collectionValue;
+                        SecondDriverProvinceDto = (IEnumerable<ProvinceViewObject>)collectionValue;
                         break;
                     }
+
                 case "VEHICLE_GROUP_ASSIST":
                     {
-                        VehicleGroupDto = (IEnumerable<VehicleGroupDto>)collectionValue;
+                        VehicleGroupDto = (IEnumerable<VehicleGroupViewObject>)collectionValue;
                         break;
                     }
+
                 case "VEHICLE_ASSIST":
                     {
-                        VehicleDto = (IEnumerable<VehicleSummaryDto>)collectionValue;
+                        VehicleDto = (IEnumerable<VehicleSummaryViewObject>)collectionValue;
                         break;
                     }
+
                 default:
                     {
                         throw new ArgumentException("In the assist you need simply a valid tag");
@@ -2178,6 +2564,7 @@ namespace BookingModule.ViewModels
             }
             return true;
         }
+
         /// <summary>
         /// Clear any list collection given a type
         /// </summary>
@@ -2191,13 +2578,16 @@ namespace BookingModule.ViewModels
             {
                 return t;
             }
+
             if (collection is IList<Type> clearable)
             {
                 clearable.Clear();
                 return clearable;
             }
+
             return t;
         }
+
         private ObservableCollection<Type> ClearObservableCollection<Type>(ObservableCollection<Type> collection)
         {
             ObservableCollection<Type> t = new ObservableCollection<Type>();
@@ -2205,23 +2595,170 @@ namespace BookingModule.ViewModels
             {
                 return t;
             }
+
             if (collection is ObservableCollection<Type> clearable)
             {
                 clearable.Clear();
                 return clearable;
             }
+
             return t;
         }
-        public BookingConfirmMessageDto BookingConfirmMessage
-        { set
-            {
-                _bookingConfirmMessage = value;
-                RaisePropertyChanged();
-            }
+
+        public BookingConfirmMessageViewObject BookingConfirmMessage
+        {
             get
             {
                 return _bookingConfirmMessage;
             }
+
+            set
+            {
+                this._bookingConfirmMessage = value;
+                this.RaisePropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Set default view model flags.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private void InitFlags()
+        {
+            DefaultPageSize = 25;
+            IsReady = false;
+            IsChanged = false;
+            LineVisible = true;
+            FooterVisible = false;
+            _selectedIndex = 0;
+            _lineNextId = 0;
+            IsViewModelInitialized = false;
+            IsReservationCancelled = false;
+        }
+
+        /// <summary>
+        /// Set the grid column names.
+        /// It might use the configuration service for retrieving the names.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private void SetGridColumns()
+        {
+            // this shall be at the configuration service
+            BrokerGridColumns = "Code,Name,Nif,Person,Zip,City,Province,Country,IATA,Company,OfficeZone,CurrentUser,LastModification";
+            VehicleGridColumns = "Code,Brand,Model,Matricula,VehicleGroup,Situation,Office,Places,CubeMeters,Activity,Color,Owner,OwnerName,Policy,LeasingCompany,StartingDate,EndingDate,ClientNumber,Client,PurchaseInvoice,Frame,MotorNumber,Reference,KeyCode,StorageKey,User,Modification";
+            ClientsConductor = "Code,Name,Nif,Phone,Movil,Email,Card,ReplacementCar,Zip,City,CreditCardType,NumberCreditCard, PaymentForm,AccountableAccount,Sector,Zona,Origin,Office,Falta,BirthDate,DrivingLicence";
+            BookingInfoCols = "BudgetNumber,BudgetOffice,ClientName,GroupCode,BudgetCreationDate,DepartureDate,BookingNumber,BrokerName,Origin";
+        }
+
+        /// <summary>
+        /// Open the e-mail client view.
+        /// Retrieve the client view object and lookup for the configured user mail address.
+        /// And it will open a mail client.
+        /// </summary>
+        /// <param name="clientNumber">Number of the mail client.</param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private async void OnMailClient(object clientNumber)
+        {
+            if (!(clientNumber is string clientNumberValue))
+            {
+                return;
+            }
+
+            var client = await this.DataServices.GetClientDataServices().GetDoAsync(clientNumberValue).ConfigureAwait(false);
+
+            if (client == null)
+            {
+                return;
+            }
+
+            var bookingMail = new BookingMailViewModel
+            {
+                DestinationAddress = client.Value.EMAIL,
+                Subject = KarveLocale.Properties.Resources.lbookingnumber + " " + this.DataObject.NUMERO_RES
+            };
+            var userSettings = this._configurationService.UserSettings;
+            if (userSettings == null)
+            {
+                return;
+            }
+            var user = userSettings.FindSetting<string>(UserSettingConstants.DefaultEmailAddress);
+            if (!string.IsNullOrWhiteSpace(user))
+            {
+                bookingMail.SenderAddress = user;
+            }
+            CreateViewModelMailFirst("Mail Cliente", bookingMail);
+        }
+
+        /// <summary>
+        /// The on execute save client.
+        /// </summary>
+        /// <param name="viewObject">
+        /// The view object.
+        /// </param>
+        private async void OnExecuteSaveClient(BookingViewObject viewObject)
+        {
+            var taskBool = await SaveDrivingLicenseDriver(viewObject.COD_COND1_RES2, viewObject).ConfigureAwait(false);
+
+        }
+
+
+        private async Task<bool> SaveDrivingLicenseDriver(string code, BookingViewObject viewObject)
+        {
+            // i do not want trigger error in this case. it is safe and sound to save nothing
+            if (string.IsNullOrEmpty(code))
+            {
+                return true;
+            }
+
+            var clientDataService = DataServices.GetClientDataServices();
+            var firstDriver = await clientDataService.GetDoAsync(code).ConfigureAwait(false);
+            if (!firstDriver.Valid)
+            {
+                return true;
+            }
+            var clientDto = firstDriver.Value;
+            clientDto.DIRECCION = viewObject.DIRCOND_RES2;
+            clientDto.POBLACION = viewObject.POCOND_RES2;
+            clientDto.CP = viewObject.CPCOND_RES2;
+            clientDto.PROVINCIA = viewObject.PROVCOND_RES2;
+            clientDto.PAIS = viewObject.PAISCOND_RES2;
+            clientDto.TELEFONO = viewObject.TELCOND_RES2;
+            clientDto.FAX = viewObject.TEL2COND_RES2;
+            clientDto.EMAIL = viewObject.EMAIL_RES1;
+            clientDto.PERMISO = viewObject.PERMISO_RES2;
+            clientDto.FEEXPE = viewObject.FEEXPE_RES2;
+            clientDto.LUNACI = viewObject.LUNACI_RES2;
+            clientDto.NIF = viewObject.PAISNIFCOND_RES2;
+            clientDto.FENAC = viewObject.FENACI_RES2;
+            clientDto.CLASE = viewObject.CLASE_RES2;
+            firstDriver.Value = clientDto;
+            return await clientDataService.SaveAsync(firstDriver).ConfigureAwait(false);
+        }
+
+
+        /// <summary>
+        ///  This delete asynchronously. 
+        /// </summary>
+        /// <param name="primaryKey">Value of the primary key.</param>
+        /// <param name="subSystem">Kind of subsystem</param>
+        /// <param name="eventSubSystem">Event subsystem</param>
+        /// <returns></returns>
+        private async Task<bool> DeleteAsync(string primaryKey, DataSubSystem subSystem, string eventSubSystem)
+        {
+            if (string.IsNullOrEmpty(primaryKey))
+                throw new ArgumentNullException();
+            var deleted = false;
+            try
+            {
+                deleted = await _bookingDataService.DeleteAsync(_bookingData).ConfigureAwait(false);
+
+            }
+            catch (Exception e)
+            {
+                DialogService?.ShowErrorMessage(e.Message);
+            }
+
+            return deleted;
         }
 
         /// <summary>
@@ -2229,12 +2766,12 @@ namespace BookingModule.ViewModels
         /// </summary>
         private void ClearCollections()
         {
-            Contract.Requires(CityDto != null);
-            Contract.Requires(ClientDto != null);
-            Contract.Requires(VehicleDto != null);
-            Contract.Requires(BrokerDto != null);
-            Contract.Requires(ActiveFareDto != null);
-            Contract.Requires(VehicleGroupDto != null);
+            Contract.Requires(condition: this.CityDto != null);
+            Contract.Requires(this.ClientDto != null);
+            Contract.Requires(this.VehicleDto != null);
+            Contract.Requires(this.BrokerDto != null);
+            Contract.Requires(this.ActiveFareDto != null);
+            Contract.Requires(this.VehicleGroupDto != null);
             CityDto = ClearCollection(CityDto);
             ClientDto = ClearCollection(ClientDto);
             VehicleDto = ClearCollection(VehicleDto);
@@ -2243,194 +2780,19 @@ namespace BookingModule.ViewModels
             ActiveFareDto = ClearCollection(ActiveFareDto);
             ReservationOffice = ClearObservableCollection(ReservationOffice);
 
-            Contract.Ensures(CityDto.Count() == 0);
-            Contract.Ensures(ClientDto.Count() == 0);
-            Contract.Ensures(VehicleDto.Count() == 0);
-            Contract.Ensures(BrokerDto.Count() == 0);
-            Contract.Ensures(VehicleGroupDto.Count() == 0);
-            Contract.Ensures(ActiveFareDto.Count() == 0);
-        }
-        #endregion
-
-        public string BrokerGridColumns { get; private set; }
-
-        /// <summary>
-        ///  Second driver city
-        /// </summary>
-        public IEnumerable<CityDto> SecondDriverCityDto
-        {
-            get { return _secondCityDriver; }
-            set
-            {
-                _secondCityDriver = value;
-                RaisePropertyChangeAfterInit("SecondDriverCityDto");
-            }
-        }
-
-        public IEnumerable<ProvinciaDto> SecondDriverProvinceDto
-        {
-            get { return _secondProvinceDriver; }
-            set
-            {
-                _secondProvinceDriver = value;
-                RaisePropertyChangeAfterInit("SecondDriverProvinceDto");
-            }
-        }
-        public IEnumerable<CountryDto> SecondDriverCountryDto
-        {
-            get
-            {
-                return _secondDriverCountry;
-            }
-            set
-            {
-                _secondDriverCountry = value;
-                RaisePropertyChangeAfterInit("SecondDriverCountryDto");
-            }
-        }
-        public ICommand SaveToClient { set; get; }
-
-        public IEnumerable<SupplierSummaryDto> CrmSupplierDto
-        {
-            get
-            {
-                return _crmSupplierDto;
-            }
-            set
-            {
-                _crmSupplierDto = value;
-                RaisePropertyChangeAfterInit("CrmSupplierDto");
-            }
-        }
-
-
-
-        public IEnumerable<CountryDto> CountryDto4
-        {
-            get
-            {
-                return _countryDto4;
-            }
-            set
-            {
-                _countryDto4 = value;
-                RaisePropertyChangeAfterInit("CountryDto4");
-            }
-        }
-
-        public IEnumerable<PromotionCodesDto> PromotionDto
-        {
-            get { return _promotionDto; }
-            set { _promotionDto = value; RaisePropertyChangeAfterInit("PromotionDto"); }
-
-        }
-
-        public IEnumerable<CountryDto> Country
-        {
-            get
-            {
-                return _countryDto6;
-            }
-            set
-            {
-                _countryDto6 = value; RaisePropertyChangeAfterInit("Country");
-            }
-        }
-        public IEnumerable<CompanyDto> BookingCompanyDto
-        {
-            get => _company;
-
-            set { _company = value; RaisePropertyChangeAfterInit("BookingCompanyDto"); }
-        }
-
-        public IEnumerable<LanguageDto> LanguageDto
-        {
-            get
-            {
-                return _languageDto;
-            }
-            set
-            {
-                _languageDto = value;
-                RaisePropertyChangeAfterInit("LanguageDto");
-            }
-
+            Contract.Ensures(!this.CityDto.Any());
+            Contract.Ensures(!this.ClientDto.Any());
+            Contract.Ensures(!this.VehicleDto.Any());
+            Contract.Ensures(!this.BrokerDto.Any());
+            Contract.Ensures(!this.VehicleGroupDto.Any());
+            Contract.Ensures(!this.ActiveFareDto.Any());
         }
        
-
-        /// <summary>
-        ///  Set or Get the delivery places dto.
-        /// </summary>
-        public IEnumerable<DeliveringPlaceDto>
-            DeliveringPlaceDto
-        {
-            get
-            {
-                return _deliveryPlace;
-            }
-            set
-            {
-                _deliveryPlace = value;
-                RaisePropertyChangeAfterInit("DeliveryPlaceDto");
-            }
-        }
-        // Set or Get the return place dto.
-        public IEnumerable<DeliveringPlaceDto> PlaceReturnDto
-        {
-            get
-            {
-                return _returnPlaceDto;
-
-            }
-            set
-            {
-                _returnPlaceDto = value;
-                RaisePropertyChangeAfterInit("PlaceReturnDto");
-            }
-        }
-        /// <summary>
-        ///  Set or Get the booking confirmation message.
-        /// </summary>
-        public IEnumerable<BookingConfirmMessageDto> BookingConfirmMessageDto {
-            get
-            {
-                return _bookingConfirm;
-            }
-            set
-            {
-                _bookingConfirm = value;
-                RaisePropertyChangeAfterInit("BookingConfirmMessageDto");
-            }
-        }
-
-        public IEnumerable<BookingRefusedDto> BookingRefusedDto
-        {
-            get
-            {
-                return _bookingRefused;
-            }
-            set
-            {
-                _bookingRefused = value;
-                RaisePropertyChangeAfterInit("BookingRefusedDto");
-            }
-        }
-
-        /// <summary>
-        ///  Set or Get the image source.
-        /// </summary>
-        public MemoryStream LabelImageSource { set; get; }
+        #endregion
 
 
-        public ICommand CreateCommand { set; get; }
-        public ICommand AddNewConceptCommand { set; get; }
-        public ICommand RejectBooking { set; get; }
-        public ICommand ConfirmBooking { set; get; }
-        public ICommand IncidentLookup { set; get; }
-        public ICommand CreateNewPromoCodeView { set; get; }
-        public ICommand MailOffice { set; get; }
-        public ICommand MailProforma { set; get; }
-        public ICommand MailClient { set; get; }
+
+
 
         private ICommand _newCommand;
         private ICommand _bookingConcept;
@@ -2442,7 +2804,7 @@ namespace BookingModule.ViewModels
         private string _gridColumnsKey;
         private string _gridDriverColumnsKey;
         private IBookingData _bookingData;
-        private BookingDto _bookingDtoValue;
+        private BookingViewObject _bookingViewObjectValue;
         private IBookingDataService _bookingDataService;
         private readonly IUnityContainer _container;
         private readonly IRegionManager _regionManager;
@@ -2457,7 +2819,7 @@ namespace BookingModule.ViewModels
       
         private IKarveNavigator _karveNavigator;
 
-        private IEnumerable<BudgetSummaryDto> _budgetDto = new ObservableCollection<BudgetSummaryDto>();
+        private IEnumerable<BudgetSummaryViewObject> _budgetDto = new ObservableCollection<BudgetSummaryViewObject>();
 
         private IEnumerable<ClientSummaryExtended> _clientDto = new ObservableCollection<ClientSummaryExtended>();
         private IEnumerable<ClientSummaryExtended> _drivers = new ObservableCollection<ClientSummaryExtended>();
@@ -2466,50 +2828,55 @@ namespace BookingModule.ViewModels
         private IEnumerable<ClientSummaryExtended> _drivers4 = new ObservableCollection<ClientSummaryExtended>();
         private IEnumerable<ClientSummaryExtended> _drivers5 = new ObservableCollection<ClientSummaryExtended>();
 
-        private IEnumerable<CommissionAgentSummaryDto> _brokers;
-        private IEnumerable<CompanyDto> _company = new ObservableCollection<CompanyDto>();
-        private IEnumerable<ContractByClientDto> _contractClientDto = new ObservableCollection<ContractByClientDto>();
+        private IEnumerable<CommissionAgentSummaryViewObject> _brokers;
+        private IEnumerable<CompanyViewObject> _company = new ObservableCollection<CompanyViewObject>();
+        private IEnumerable<ContractByClientViewObject> _contractClientDto = new ObservableCollection<ContractByClientViewObject>();
 
-        private ObservableCollection<OfficeDtos> _reservationOffice = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<FareConceptDto> _concepts = new ObservableCollection<FareConceptDto>();
-        private IEnumerable<FareDto> _fare = new ObservableCollection<FareDto>();
-        private IEnumerable<VehicleSummaryDto> _vehicle = new ObservableCollection<VehicleSummaryDto>();
-        private IEnumerable<CityDto> _cityDto = new ObservableCollection<CityDto>();
-        private IEnumerable<VehicleGroupDto> _vehicleGroup = new ObservableCollection<VehicleGroupDto>();
-        private IEnumerable<FareDto> _activeFareDto = new ObservableCollection<FareDto>();
+        private ObservableCollection<OfficeViewObject> _reservationOffice = new ObservableCollection<OfficeViewObject>();
+        private IEnumerable<FareConceptViewObject> _concepts = new ObservableCollection<FareConceptViewObject>();
+        private IEnumerable<FareViewObject> _fare = new ObservableCollection<FareViewObject>();
+        private IEnumerable<VehicleSummaryViewObject> _vehicle = new ObservableCollection<VehicleSummaryViewObject>();
+        private IEnumerable<CityViewObject> _cityDto = new ObservableCollection<CityViewObject>();
+        private IEnumerable<VehicleGroupViewObject> _vehicleGroup = new ObservableCollection<VehicleGroupViewObject>();
+        private IEnumerable<FareViewObject> _activeFareDto = new ObservableCollection<FareViewObject>();
 
 
-        private IEnumerable<OfficeDtos> _officeDto = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<OfficeDtos> _reservationOfficeDeparture = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<OfficeDtos> _reservationOfficeArrival = new ObservableCollection<OfficeDtos>();
-        private IEnumerable<CountryDto> _country = new ObservableCollection<CountryDto>();
-        private IEnumerable<CityDto> _city = new ObservableCollection<CityDto>();
-        private IEnumerable<CountryDto> _countryDto = new ObservableCollection<CountryDto>();
-        private IEnumerable<ProvinciaDto> _provinceDto = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<CountryDto> _country2 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CreditCardDto> _creditCardView = new ObservableCollection<CreditCardDto>();
+        private IEnumerable<OfficeViewObject> _officeDto = new ObservableCollection<OfficeViewObject>();
+        private IEnumerable<OfficeViewObject> _reservationOfficeDeparture = new ObservableCollection<OfficeViewObject>();
+        private IEnumerable<OfficeViewObject> _reservationOfficeArrival = new ObservableCollection<OfficeViewObject>();
+        private IEnumerable<CountryViewObject> _country = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CityViewObject> _city = new ObservableCollection<CityViewObject>();
+        private IEnumerable<CountryViewObject> _countryDto = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<ProvinceViewObject> _provinceDto = new ObservableCollection<ProvinceViewObject>();
+        private IEnumerable<CountryViewObject> _country2 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CreditCardViewObject> _creditCardView = new ObservableCollection<CreditCardViewObject>();
         private int _selectedIndex;
-        private IEnumerable<CityDto> _secondCityDriver = new ObservableCollection<CityDto>();
-        private IEnumerable<ProvinciaDto> _secondProvinceDriver = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<CountryDto> _secondDriverCountry = new ObservableCollection<CountryDto>();
-        private IEnumerable<BookingItemsDto> _dataItems = new List<BookingItemsDto>();
-        private IEnumerable<BookingConfirmMessageDto> _bookingConfirm = new ObservableCollection<BookingConfirmMessageDto>();
-        private IEnumerable<SupplierSummaryDto> _crmSupplierDto = new ObservableCollection<SupplierSummaryDto>();
-        private IEnumerable<CountryDto> _countryDto4 = new ObservableCollection<CountryDto>();
-        private IEnumerable<PromotionCodesDto> _promotionDto = new ObservableCollection<PromotionCodesDto>();
-        private IEnumerable<CountryDto> _countryDto6 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CompanyDto> _companyDto = new ObservableCollection<CompanyDto>();
-        private IEnumerable<DeliveringPlaceDto> _deliveryPlace = new ObservableCollection<DeliveringPlaceDto>();
-        private IEnumerable<DeliveringPlaceDto> _returnPlaceDto = new ObservableCollection<DeliveringPlaceDto>();
-        private IEnumerable<LanguageDto> _languageDto;
-        private BookingConfirmMessageDto _bookingConfirmMessage;
+        private IEnumerable<CityViewObject> _secondCityDriver = new ObservableCollection<CityViewObject>();
+        private IEnumerable<ProvinceViewObject> _secondProvinceDriver = new ObservableCollection<ProvinceViewObject>();
+        private IEnumerable<CountryViewObject> _secondDriverCountry = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<BookingItemsViewObject> _dataItems = new List<BookingItemsViewObject>();
+        private IEnumerable<BookingConfirmMessageViewObject> _bookingConfirm = new ObservableCollection<BookingConfirmMessageViewObject>();
+        private IEnumerable<SupplierSummaryViewObject> _crmSupplierDto = new ObservableCollection<SupplierSummaryViewObject>();
+        private IEnumerable<CountryViewObject> _countryDto4 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<PromotionCodesViewObject> _promotionDto = new ObservableCollection<PromotionCodesViewObject>();
+        private IEnumerable<CountryViewObject> _countryDto6 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CompanyViewObject> _companyDto = new ObservableCollection<CompanyViewObject>();
+        private IEnumerable<DeliveringPlaceViewObject> _deliveryPlace = new ObservableCollection<DeliveringPlaceViewObject>();
+        private IEnumerable<DeliveringPlaceViewObject> _returnPlaceDto = new ObservableCollection<DeliveringPlaceViewObject>();
+        private IEnumerable<LanguageViewObject> _languageDto;
+        private BookingConfirmMessageViewObject _bookingConfirmMessage;
         private string _bookingCols;
-        private IEnumerable<BookingRefusedDto> _bookingRefused;
+        private IEnumerable<BookingRefusedViewObject> _bookingRefused;
         private bool _isReservationCancelled;
         private BookingModule.BookingState currentBookingState;
         private ClientSummaryExtended _clientSelectedObject;
         private ClientSummaryExtended _driverSelectedObject;
         private IRegionManager _mailRegionManager;
-        private BookingDto _previousBookingData;
+        private IBookingService _bookingService;
+        private BookingViewObject _previousBookingData;
+
+        private long _lineNextId;
+        private ObservableCollection<BookingItemsViewObject> _collectionView;
+        private ICommand _includedCheckCommand;
     }
 }

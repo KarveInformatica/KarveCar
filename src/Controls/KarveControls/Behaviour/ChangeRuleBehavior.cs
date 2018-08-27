@@ -2,7 +2,7 @@
 using System.Windows;
 using KarveCommon;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using static DualFieldSearchBox.DualFieldSearchBox;
 using System;
 
@@ -178,7 +178,7 @@ namespace KarveControls.Behaviour
                 if (!string.IsNullOrEmpty(cpValue))
                 {
                     var provinceValue = cpValue.Substring(0, 2);
-                    if (newValue is BaseDto)
+                    if (newValue is BaseViewObject)
                     {
                         SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);
                     }
@@ -212,7 +212,7 @@ namespace KarveControls.Behaviour
                 if (!string.IsNullOrEmpty(cpValue))
                 {
                     var provinceValue = cpValue.Substring(0, 2);
-                    if (newValue is BaseDto)
+                    if (newValue is BaseViewObject)
                     {
                         SetValues(provinceValue, "PROV", "PROVINCIA", newDataObject);
                     }
@@ -235,7 +235,7 @@ namespace KarveControls.Behaviour
                 {
                     var provinceValue = relatedValue.Substring(0, 2);
                     string pathStr;
-                    if (newDataObject is BaseDto)
+                    if (newDataObject is BaseViewObject)
                     {
                         pathStr = RelatedPath;
                     }

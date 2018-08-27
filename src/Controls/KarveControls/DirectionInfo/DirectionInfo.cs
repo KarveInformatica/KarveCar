@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using KarveControls.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.Windows.Shared;
 using System.Linq;
 using KarveCommon;
@@ -520,10 +520,10 @@ namespace KarveControls
         public static readonly DependencyProperty CountrySourceDependencyProperty =
             DependencyProperty.Register(
                 "CountrySourceView",
-                typeof(IEnumerable<CountryDto>),
+                typeof(IEnumerable<CountryViewObject>),
                 typeof(DirectionInfo), new PropertyMetadata(null));
 
-        public IEnumerable<CountryDto> CountrySourceView
+        public IEnumerable<CountryViewObject> CountrySourceView
         {
             set
             {
@@ -531,16 +531,16 @@ namespace KarveControls
             }
             get
             {
-                return (IEnumerable<CountryDto>)GetValue(CountrySourceDependencyProperty);
+                return (IEnumerable<CountryViewObject>)GetValue(CountrySourceDependencyProperty);
             }
         }
         public static readonly DependencyProperty CitySourceDependencyProperty =
             DependencyProperty.Register(
                 "CitySourceView",
-                typeof(IEnumerable<CityDto>),
+                typeof(IEnumerable<CityViewObject>),
                 typeof(DirectionInfo));
         
-        public IEnumerable<CityDto> CitySourceView
+        public IEnumerable<CityViewObject> CitySourceView
         {
             set
             { 
@@ -549,7 +549,7 @@ namespace KarveControls
             }
             get
             {
-                return (IEnumerable<CityDto>)GetValue(CitySourceDependencyProperty);
+                return (IEnumerable<CityViewObject>)GetValue(CitySourceDependencyProperty);
             }
         }
 
@@ -564,10 +564,10 @@ namespace KarveControls
         public static readonly DependencyProperty ProvinceSourceDependencyProperty =
             DependencyProperty.Register(
                 "ProvinceSourceView",
-                typeof(IEnumerable<ProvinciaDto>),
+                typeof(IEnumerable<ProvinceViewObject>),
                 typeof(DirectionInfo), new PropertyMetadata(null));
 
-        public ObservableCollection<ProvinciaDto> ProvinceSourceView
+        public ObservableCollection<ProvinceViewObject> ProvinceSourceView
         {
             set
             {
@@ -575,7 +575,7 @@ namespace KarveControls
             }
             get
             {
-                return (ObservableCollection<ProvinciaDto>)GetValue(ProvinceSourceDependencyProperty);
+                return (ObservableCollection<ProvinceViewObject>)GetValue(ProvinceSourceDependencyProperty);
             }
         }
         
@@ -684,7 +684,7 @@ namespace KarveControls
                 typeof(DirectionInfo), new PropertyMetadata(null));
 
         private IDictionary<string, bool> ChangedMap = new Dictionary<string, bool>();
-        private ProvinciaDto _provinciaDto;
+        private ProvinceViewObject _provinceViewObject;
 
         /// <summary>
         ///  ItemChangedCommand.
@@ -739,17 +739,17 @@ namespace KarveControls
                 }
             }
         }
-        public ProvinciaDto ProvinceDto
+        public ProvinceViewObject ProvinceViewObject
         {
             set
             {
-                _provinciaDto = value;
+                _provinceViewObject = value;
                 if (_provinceSearchBox != null)
                 {
                     _provinceSearchBox.SourceView = value;
                 }
             }
-            get { return _provinciaDto; }
+            get { return _provinceViewObject; }
         }
 
         private bool textChanged = false;

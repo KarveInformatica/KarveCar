@@ -1,24 +1,41 @@
-﻿using KarveCommon.Services;
-using KarveCommonInterfaces;
-using KarveDataServices;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows;
-using NLog;
-using System.Windows.Input;
-using Prism.Commands;
-using Prism.Regions;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Controls;
+﻿//--------------------------------------------------------------------------------------------------------------------
+// <copyright file="KarveRoutingBaseViewModel.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the KarveRoutingBaseViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
 
 namespace KarveCommon.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+
+    using KarveCommon.Services;
+
+    using KarveCommonInterfaces;
+
+    using KarveDataServices;
+
+    using NLog;
+
+    using Prism.Commands;
+    using Prism.Regions;
+
     /* 
-     *  This class has the single responsability to provide common primitives
+     *  This class has the single responsibility to provide common primitives
      *  for routing messages between view models and communication. Between view model
-     *  we have an event manager. Event manager has the resposabilities to:
+     *  we have an event manager. Event manager has the duty to:
      *  1. Implement a mailbox system. 
      *     A mailbox system is a direct messaging mechanisms between view models.
      *  2. Implement a observer for each subsystem
@@ -144,6 +161,15 @@ namespace KarveCommon.Generic
 
         }
 
+        /// <summary>
+        /// It detected if the current view model is on foreground.
+        /// </summary>
+        /// <param name="uri">
+        /// View model uri. Unique identifier.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
         protected bool IsActive(Uri uri)
         {
             var activeView = RegionManager.Regions[RegionNames.TabRegion].ActiveViews.FirstOrDefault();
@@ -190,27 +216,41 @@ namespace KarveCommon.Generic
             return currentPayload;
         }
 
-
         /// <summary>
-        /// 
+        /// Function associated to a changed command. When the you user thought the UI changes
+        /// a control, it will trigger an ItemChangedCommand to be executed.
         /// </summary>
-        /// <param name="dataObject"></param>
-        /// <param name="eventDictionary"></param>
-        /// <param name="subSystem"></param>
-        /// <param name="subsystemName"></param>
-        /// <param name="objectPath"></param>
-        protected void OnChangedCommand<DtoType>(DtoType dataObject,
-            IDictionary<string, object> eventDictionary, DataSubSystem subSystem, string subsystemName, string objectPath) where DtoType : class
+        /// <param name="dataObject">
+        /// Object exposed to the view
+        /// </param>
+        /// <param name="eventDictionary">
+        /// Dictionary related to the object
+        /// </param>
+        /// <param name="subSystem">
+        /// Subsystem type: ie. BookingSubsystem
+        /// </param>
+        /// <param name="subsystemName">
+        /// Subsystem name
+        /// </param>
+        /// <param name="objectPath">
+        /// Path of the object
+        /// </param>
+        /// <typeparam name="DtoType">
+        /// Exposed object type
+        /// </typeparam>
+        protected void OnChangedCommand<DtoType>(
+            DtoType dataObject,
+            IDictionary<string, object> eventDictionary,
+            DataSubSystem subSystem,
+            string subsystemName,
+            string objectPath)
+            where DtoType : class
         {
-
-            var evDictionary = eventDictionary as IDictionary<string, object>;
-            var changedDataObject = evDictionary["DataObject"] as DtoType;
             var payLoad = BuildDataPayload(eventDictionary);
-            var data = dataObject;
             payLoad.PayloadType = DataPayLoad.Type.Update;
             payLoad.PrimaryKeyValue = PrimaryKeyValue;
             payLoad.HasDataObject = true;
-            payLoad.DataObject = data;
+            payLoad.DataObject = dataObject;
             payLoad.Sender = ViewModelUri.ToString();
             payLoad.ObjectPath = ViewModelUri;
             var handlerDo = new ChangeFieldHandlerDo<DtoType>(EventManager, subSystem);
@@ -248,7 +288,8 @@ namespace KarveCommon.Generic
         /// This command enable the selection of the active subsystem by XAML 
         /// using an interaction trigger when the view has been loaded or changed.
         /// </summary>
-        public virtual ICommand ActiveSubsystemCommand { set; get; }
+        public virtual ICommand ActiveSubsystemCommand { get; set; }
+
         /// <summary>
         ///  Register the current active subsystem. The toolbar needs to know which subsytem is active.
         ///  (TODO: Decouple the handling of messages from the toolbar module.).
@@ -263,6 +304,7 @@ namespace KarveCommon.Generic
             // change the active subsystem in the toolbar state.
             RegisterToolBar();
         }
+
         /// <summary>
         ///  This shall be used by different view models to set the registration payload.
         /// </summary>
@@ -281,6 +323,7 @@ namespace KarveCommon.Generic
             EventManager.NotifyToolBar(payLoad);
 
         }
+
         protected void RegisterToolBar(ICommand saveCommand, ICommand deleteCommand)
         {
             var payLoad = new DataPayLoad();
@@ -294,6 +337,7 @@ namespace KarveCommon.Generic
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             EventManager.NotifyToolBar(payLoad);
         }
+
         /// <summary>
         ///  Associate to the mailbox a name.A view model can through the mediator/event manager 
         ///  receive a payload in broacast (directed to each viewmodel belonging to a system) or
@@ -337,6 +381,7 @@ namespace KarveCommon.Generic
 
             return true;
         }
+
         /// <summary>
         ///  Delete the name of a mailbox
         /// </summary>
@@ -349,12 +394,12 @@ namespace KarveCommon.Generic
                 
             }
         }
+
         /// <summary>
         /// Name of the mailbox.
         /// </summary>
-        protected string MailboxName { set; get; }
+        protected string MailboxName { get; set; }
 
-        
         protected virtual void HandleMessageBoxPayLoad(DataPayLoad payLoad)
         {
             switch (payLoad.PayloadType)
@@ -434,11 +479,11 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
                     PrimaryKeyValue = PrimaryKeyValue,
                     PayloadType = DataPayLoad.Type.Delete
                 };
-                EventManager.NotifyToolBar(payLoad);
-               
+                EventManager.NotifyToolBar(payLoad);           
                 PrimaryKeyValue = "";
             }
         }
+
         /*
         protected void UnregisterToolBar(string key)
         {
@@ -466,6 +511,7 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
             };
             EventManager.NotifyToolBar(payLoadUnregister);
         }
+
         protected void DisposeToolBar()
         {
             var payLoadUnregister = new DataPayLoad
@@ -480,14 +526,12 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
 
         }
 
-        
-        
-        
         /// <summary>
         ///  This build a data payload, enforcing the value that cames from the UI.
         /// </summary>
         /// <param name="eventDictionary">Dictionary that it cames from the UI components</param>
         /// <returns>A payload to be sent to other view models.</returns>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         protected DataPayLoad BuildDataPayload(IDictionary<string, object> eventDictionary)
         {
             DataPayLoad payLoad = new DataPayLoad {ObjectPath = ViewModelUri};
@@ -496,6 +540,7 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
                 payLoad.PrimaryKeyValue = PrimaryKeyValue;
                 payLoad.PayloadType = DataPayLoad.Type.Update;
             }
+
             if (eventDictionary.ContainsKey("DataObject"))
             {
 
@@ -503,17 +548,20 @@ protected void DeleteEventCleanup(string primaryKey, string PrimaryKeyValue, Dat
                 {
                     DialogService?.ShowErrorMessage("DataObject is null");
                 }
+
                 var data = eventDictionary["DataObject"];
                 if (eventDictionary.ContainsKey("Field"))
                 {
                     var name = eventDictionary["Field"] as string;
                     GenericObjectHelper.PropertySetValue(data, name, eventDictionary["ChangedValue"]);
                 }
+
                 payLoad.DataObject = data;
                 payLoad.HasDataObject = true;
                 eventDictionary["DataObject"] = data;
                 payLoad.DataDictionary = eventDictionary;
             }
+
             return payLoad;
         }
 

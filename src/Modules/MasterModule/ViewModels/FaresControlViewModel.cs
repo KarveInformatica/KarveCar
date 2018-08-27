@@ -11,7 +11,7 @@ using MasterModule.Common;
 using Microsoft.Practices.Unity;
 using Prism.Regions;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace MasterModule.ViewModels
 {
@@ -24,7 +24,7 @@ namespace MasterModule.ViewModels
 
         private UnityContainer _container;
         private IRegionManager _regionManager;
-        private IEnumerable<FareDto> _sourceView;
+        private IEnumerable<FareViewObject> _sourceView;
         /// <summary>
         ///  This is the fares control view model.
         /// </summary>
@@ -41,7 +41,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Grid of the offices in the database.
         /// </summary>
-        public IEnumerable<FareDto> SourceView
+        public IEnumerable<FareViewObject> SourceView
         {
             get => _sourceView;
             set { _sourceView = value; RaisePropertyChanged(); }

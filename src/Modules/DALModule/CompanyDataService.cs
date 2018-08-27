@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.Crud.Company;
 using DataAccessLayer.SQL;
 using System.Data;
@@ -10,7 +10,7 @@ using KarveDapper;
 using KarveDapper.Extensions;
 using Dapper;
 using System.Collections.ObjectModel;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Exception;
 using System.ComponentModel;
@@ -61,17 +61,17 @@ namespace DataAccessLayer
         ///Get the list of company summary.
         /// </summary>
         /// <returns>Return the list of company summary</returns>
-        public async Task<IEnumerable<CompanySummaryDto>> GetAsyncAllCompanySummary()
+        public async Task<IEnumerable<CompanySummaryViewObject>> GetAsyncAllCompanySummary()
         {
             var store = QueryStoreFactory.GetQueryStore();
             store.AddParam(QueryType.QueryCompanySummary);
             var query = store.BuildQuery();
-            IEnumerable<CompanySummaryDto> companySummaryDto = new ObservableCollection<CompanySummaryDto>();
+            IEnumerable<CompanySummaryViewObject> companySummaryDto = new ObservableCollection<CompanySummaryViewObject>();
             using (var conn = SqlExecutor.OpenNewDbConnection())
             {
                 try
                 {
-                    companySummaryDto = await conn.QueryAsync<CompanySummaryDto>(query);
+                    companySummaryDto = await conn.QueryAsync<CompanySummaryViewObject>(query);
 
                 } catch (System.Exception ex)
                 {
@@ -91,15 +91,15 @@ namespace DataAccessLayer
         /// <returns>Data of the company</returns>
         public async Task<ICompanyData> GetAsyncCompanyDo(string id)
         {
-            CompanyDto dto =  await _loader.LoadValueAsync(id).ConfigureAwait(true);
+            CompanyViewObject dto =  await _loader.LoadValueAsync(id).ConfigureAwait(true);
             ICompanyData data = new Company();
             data.Value = dto;
             // initialize the dto for the province and the city.
-            var prov = new ObservableCollection<ProvinciaDto>();
-            var city = new ObservableCollection<CityDto>();
+            var prov = new ObservableCollection<ProvinceViewObject>();
+            var city = new ObservableCollection<CityViewObject>();
             prov.Add(dto.Province);
             city.Add(dto.City);
-            data.ProvinciaDto = new ObservableCollection<ProvinciaDto>();
+            data.ProvinciaDto = new ObservableCollection<ProvinceViewObject>();
             data.CityDto = city;
             data.ProvinciaDto = prov;
             return data;
@@ -111,7 +111,7 @@ namespace DataAccessLayer
         /// <returns>Create a new company.</returns>
         public ICompanyData GetNewCompanyDo(string code)
         {
-            var dto = new CompanyDto
+            var dto = new CompanyViewObject
             {
                 Code = code,
                 CODIGO = code
@@ -143,9 +143,9 @@ namespace DataAccessLayer
         /// <param name="baseIndex">Index of the company</param>
         /// <param name="defaultPageSize">default page size</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CompanySummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public async Task<IEnumerable<CompanySummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
-            var pager = new DataPager<CompanySummaryDto>(SqlExecutor);
+            var pager = new DataPager<CompanySummaryViewObject>(SqlExecutor);
             var pageStart = baseIndex;
             if (pageStart == 0)
                 pageStart = 1;
@@ -160,10 +160,10 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>A list of sorted company</returns>
-        public async Task<IEnumerable<CompanySummaryDto>> GetSortedCollectionPagedAsync(
+        public async Task<IEnumerable<CompanySummaryViewObject>> GetSortedCollectionPagedAsync(
             Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
         {
-            var dataPager = new DataPager<CompanySummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<CompanySummaryViewObject>(SqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
                 pageStart = 1;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 namespace KarveDataServices
 {
     /// <summary>

@@ -7,18 +7,18 @@ using AutoMapper;
 using DataAccessLayer.Logic;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer.Crud.Budget
 {
     /// <summary>
     ///  Class that has the single resposability to save a budget.
     /// </summary>
-    class BudgetDataSaver: IDataSaver<BudgetDto>
+    class BudgetDataSaver: IDataSaver<BudgetViewObject>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
-        private IValidationChain<BudgetDto> _validationChain;
+        private IValidationChain<BudgetViewObject> _validationChain;
 
         /// <summary>
         /// Constructor
@@ -33,7 +33,7 @@ namespace DataAccessLayer.Crud.Budget
 
         ///  Returns the validation chain
         /// </summary>
-        public IValidationChain<BudgetDto> ValidationChain
+        public IValidationChain<BudgetViewObject> ValidationChain
         {
             set { _validationChain = value; }
             get { return _validationChain; }
@@ -43,7 +43,7 @@ namespace DataAccessLayer.Crud.Budget
         /// </summary>
         /// <param name="data">Data to be saved</param>
         /// <returns></returns>
-        public async Task<bool> SaveAsync(BudgetDto data)
+        public async Task<bool> SaveAsync(BudgetViewObject data)
         {
             throw new NotImplementedException();
         }

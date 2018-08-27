@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.SQL;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using Dapper;
 using KarveDapper;
@@ -43,7 +43,7 @@ namespace KarveTest.DAL
         [Test]
         public void Should_Build_QueryFromQueryStoreWithParam()
         {
-            var dto = new CompanyDto
+            var dto = new CompanyViewObject
             {
                 CP = "1892829",
                 PROVINCIA = "282982",
@@ -62,7 +62,7 @@ namespace KarveTest.DAL
         [Test]
         public void Should_Build_QueryFromQueryStoreWithNullParameters()
         {
-            CompanyDto dto = new CompanyDto
+            CompanyViewObject viewObject = new CompanyViewObject
             {
                 CP = "1892829",
                 PROVINCIA = null,
@@ -70,17 +70,17 @@ namespace KarveTest.DAL
             };
             IQueryStore store = _storeFactory.GetQueryStore();
             store.Clear();
-            store.AddParam(QueryType.QueryCity, dto.CP);
-            store.AddParam(QueryType.QueryProvince, dto.PROVINCIA);
+            store.AddParam(QueryType.QueryCity, viewObject.CP);
+            store.AddParam(QueryType.QueryProvince, viewObject.PROVINCIA);
             store.AddParam(QueryType.QueryCompanyOffices,
-                dto.Code);
+                viewObject.Code);
             var q = store.BuildQuery();
             Assert.AreEqual(q, Query2);
         }
         [Test]
         public void Should_Build_QueryFromQueryStoreWithNullParameters2()
         {
-            CompanyDto dto = new CompanyDto
+            CompanyViewObject viewObject = new CompanyViewObject
             {
                 CP = null,
                 PROVINCIA = null,
@@ -88,10 +88,10 @@ namespace KarveTest.DAL
             };
             IQueryStore store = _storeFactory.GetQueryStore();
             store.Clear();
-            store.AddParam(QueryType.QueryCity, dto.CP);
-            store.AddParam(QueryType.QueryProvince, dto.PROVINCIA);
+            store.AddParam(QueryType.QueryCity, viewObject.CP);
+            store.AddParam(QueryType.QueryProvince, viewObject.PROVINCIA);
             store.AddParam(QueryType.QueryCompanyOffices,
-                dto.Code);
+                viewObject.Code);
             var q = store.BuildQuery();
             Assert.AreEqual(q, Query3);
         }

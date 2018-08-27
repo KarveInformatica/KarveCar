@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Prism.Mvvm;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.ObjectModel;
 using Prism.Commands;
 using System.Windows.Input;
@@ -73,21 +73,21 @@ namespace KarveControls
     public class DirectionInfoViewModelMock: BindableBase
     {
         private DomainWrapper _dataObject = new DomainWrapper();  
-        private ObservableCollection<ProvinciaDto> _provinciaDto = new ObservableCollection<ProvinciaDto>()
+        private ObservableCollection<ProvinceViewObject> _provinciaDto = new ObservableCollection<ProvinceViewObject>()
         {
-            new ProvinciaDto()
+            new ProvinceViewObject()
             {
                 Code = "01",
                 Country = "Spain",
                 Name = "Barcelona"
             },
-            new ProvinciaDto()
+            new ProvinceViewObject()
             {
                 Code = "02",
                 Country = "Spain",
                 Name = "Malaga"
             },
-            new ProvinciaDto()
+            new ProvinceViewObject()
             {
                 Code = "03",
                 Country = "Spain",
@@ -95,22 +95,22 @@ namespace KarveControls
             }
 
         };
-        private ObservableCollection<CityDto> _cityDtos = new ObservableCollection<CityDto>()
+        private ObservableCollection<CityViewObject> _cityDtos = new ObservableCollection<CityViewObject>()
         {
-            new CityDto()
+            new CityViewObject()
             {
                
                 Code = "01",
                 Pais = "Spain",
                 Poblacion = "Barcelona"
             },
-            new CityDto()
+            new CityViewObject()
             {
                 Code = "02",
                 Pais = "Spain",
                 Poblacion = "Malaga"
             },
-            new CityDto()
+            new CityViewObject()
             {
                 Code= "03",
                 Pais = "Spain",
@@ -119,26 +119,26 @@ namespace KarveControls
 
         };
 
-        private ObservableCollection<CountryDto> GetCountries()
+        private ObservableCollection<CountryViewObject> GetCountries()
         {
-            ObservableCollection<CountryDto> countryDtos = new ObservableCollection<CountryDto>()
+            ObservableCollection<CountryViewObject> countryDtos = new ObservableCollection<CountryViewObject>()
             {
-                new CountryDto()
+                new CountryViewObject()
                 {
                     Code = "34",
                     CountryName = "Spain"
                 },
-                new CountryDto()
+                new CountryViewObject()
                 {
                     Code = "39",
                     CountryName = "Italy"
                 },
-                new CountryDto()
+                new CountryViewObject()
                 {
                     Code = "49",
                     CountryName = "Germany"
                 },
-                new CountryDto()
+                new CountryViewObject()
                 {
                     Code = "44",
                     CountryName = "UK"
@@ -147,7 +147,7 @@ namespace KarveControls
             return countryDtos;
         }
 
-        private ObservableCollection<CountryDto> _countryDtos = new ObservableCollection<CountryDto>();
+        private ObservableCollection<CountryViewObject> _countryDtos = new ObservableCollection<CountryViewObject>();
         
 
         private ICommand _assistCommand;
@@ -168,22 +168,22 @@ namespace KarveControls
             get { return _itemChangedCommand; }
         }
         /// <summary>
-        ///  CountryDto
+        ///  CountryViewObject
         /// </summary>
-        public ObservableCollection<CountryDto> CountryDto {
+        public ObservableCollection<CountryViewObject> CountryDto {
             set { _countryDtos = value; RaisePropertyChanged(); }
             get { return _countryDtos; } }
         /// <summary>
-        ///  CityDto
+        ///  CityViewObject
         /// </summary>
-        public ObservableCollection<CityDto> CityDto {
+        public ObservableCollection<CityViewObject> CityDto {
             set { _cityDtos = value; RaisePropertyChanged();}
             get { return _cityDtos; } }
 
         /// <summary>
-        ///  ProvinciaDto.
+        ///  ProvinceViewObject.
         /// </summary>
-        public ObservableCollection<ProvinciaDto> ProvinceDto
+        public ObservableCollection<ProvinceViewObject> ProvinceDto
         {
             set { _provinciaDto = value; RaisePropertyChanged(); }
             get { return _provinciaDto; }
@@ -259,24 +259,24 @@ namespace KarveControls
             Contract.Ensures(!string.IsNullOrEmpty(assistTableName));
         }
 
-        private ObservableCollection<CityDto> GetCities()
+        private ObservableCollection<CityViewObject> GetCities()
         {
-            ObservableCollection<CityDto> _cityDtos = new ObservableCollection<CityDto>()
+            ObservableCollection<CityViewObject> _cityDtos = new ObservableCollection<CityViewObject>()
             {
-                new CityDto()
+                new CityViewObject()
                 {
 
                     Code = "01",
                     Pais = "Spain",
                     Poblacion = "Barcelona"
                 },
-                new CityDto()
+                new CityViewObject()
                 {
                     Code = "02",
                     Pais = "Spain",
                     Poblacion = "Malaga"
                 },
-                new CityDto()
+                new CityViewObject()
                 {
                     Code = "03",
                     Pais = "Spain",
@@ -285,23 +285,23 @@ namespace KarveControls
             };
             return _cityDtos;
         }
-        private ObservableCollection<ProvinciaDto> GetProvince()
+        private ObservableCollection<ProvinceViewObject> GetProvince()
         {
-            ObservableCollection<ProvinciaDto> cityDtos = new ObservableCollection<ProvinciaDto>()
+            ObservableCollection<ProvinceViewObject> cityDtos = new ObservableCollection<ProvinceViewObject>()
             {
-                new ProvinciaDto()
+                new ProvinceViewObject()
                 {
                     Code = "01",
                     Country = "Spain",
                     Name = "Barcelona"
                 },
-                new ProvinciaDto()
+                new ProvinceViewObject()
                 {
                     Code = "02",
                     Country = "Spain",
                     Name = "Malaga"
                 },
-                new ProvinciaDto()
+                new ProvinceViewObject()
                 {
                     Code = "03",
                     Country = "Spain",

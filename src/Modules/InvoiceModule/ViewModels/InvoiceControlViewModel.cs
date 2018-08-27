@@ -10,7 +10,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveControls.HeaderedWindow;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Views;
 using Microsoft.Practices.Unity;
 using Prism.Commands;
@@ -32,9 +32,9 @@ namespace InvoiceModule.ViewModels
         private readonly IUnityContainer _container;
         private IRegionManager _detailsRegionManager;
         private PropertyChangedEventHandler _initEventHandler;
-        private IEnumerable<InvoiceSummaryValueDto> _invoiceSummaryDtos;
+        private IEnumerable<InvoiceSummaryValueViewObject> _invoiceSummaryDtos;
         private IInvoiceDataServices _invoiceDataServices;
-        private IncrementalList<InvoiceSummaryDto> _summaryValue;
+        private IncrementalList<InvoiceSummaryViewObject> _summaryValue;
 
 
         private bool _isBusy;
@@ -42,7 +42,7 @@ namespace InvoiceModule.ViewModels
         /// <summary>
         ///     data to be load
         /// </summary>
-        private INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>> _taskInit;
+        private INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueViewObject>> _taskInit;
 
         /// <summary>
         ///     Control the invoce control view model.
@@ -84,7 +84,7 @@ namespace InvoiceModule.ViewModels
         /// <summary>
         ///     This view is a summary to fill the control table for the invoice.
         /// </summary>
-        public new IncrementalList<InvoiceSummaryValueDto> SummaryView
+        public new IncrementalList<InvoiceSummaryValueViewObject> SummaryView
         {
             get => _summaryView;
             set
@@ -213,17 +213,17 @@ namespace InvoiceModule.ViewModels
         {
             _taskInit = NotifyTaskCompletion.Create(LoadAsync(), (task, sender) =>
             {
-                OnNotifyIncrementalList<InvoiceSummaryValueDto>(task, sender);
+                OnNotifyIncrementalList<InvoiceSummaryValueViewObject>(task, sender);
             });
         }
         protected override void SetResult<T>(IEnumerable<T> taskResult)
         {
             var maxItems = _invoiceDataServices.NumberItems;
             PageCount = _invoiceDataServices.NumberPage;
-            if (taskResult is IEnumerable<InvoiceSummaryValueDto> invoiceList)
+            if (taskResult is IEnumerable<InvoiceSummaryValueViewObject> invoiceList)
             {
                 SummaryView =
-                    new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems)
+                    new IncrementalList<InvoiceSummaryValueViewObject>(LoadMoreItems)
                     {
                         MaxItemCount = (int)maxItems
                     };
@@ -234,11 +234,11 @@ namespace InvoiceModule.ViewModels
         ///     This load asynchronously a list of invoice summary values.
         /// </summary>
         /// <returns>This returns the summary value data transfer object</returns>
-        private async Task<IEnumerable<InvoiceSummaryValueDto>> LoadAsync()
+        private async Task<IEnumerable<InvoiceSummaryValueViewObject>> LoadAsync()
         {
             var value = await _invoiceDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize).ConfigureAwait(false);
             if (value == null) return value;
-            var invoiceSummaryValueDtos = value as InvoiceSummaryValueDto[] ?? value.ToArray();
+            var invoiceSummaryValueDtos = value as InvoiceSummaryValueViewObject[] ?? value.ToArray();
             foreach (var item in invoiceSummaryValueDtos)
             {
                 item.ShowCommand = ShowClientCommand;
@@ -263,7 +263,7 @@ namespace InvoiceModule.ViewModels
         /// <param name="e">Events to be loaded</param>
         private void OnLoadedSummary(object sender, PropertyChangedEventArgs e)
         {
-            var s = sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>>;
+            var s = sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueViewObject>>;
             if (s != null && s.IsSuccessfullyCompleted)
             {
                 /* this is the correct mechanism for any summary grid to support incremental loading */
@@ -272,7 +272,7 @@ namespace InvoiceModule.ViewModels
                 PageCount = _invoiceDataServices.NumberPage;
 
                 SummaryView =
-                    new IncrementalList<InvoiceSummaryValueDto>(LoadMoreItems)
+                    new IncrementalList<InvoiceSummaryValueViewObject>(LoadMoreItems)
                     {
                         MaxItemCount = (int)maxItems
                     };
@@ -303,7 +303,7 @@ namespace InvoiceModule.ViewModels
         /// <param name="value">value recevied</param>
         private async void OpenCurrentItem(object value)
         {
-            if (!(value is InvoiceSummaryValueDto invoice)) return;
+            if (!(value is InvoiceSummaryValueViewObject invoice)) return;
             var name = invoice.ClientName;
             var id = invoice.InvoiceName;
             var tabName = id + "." + name;
@@ -375,14 +375,14 @@ namespace InvoiceModule.ViewModels
         private void LoadMoreItems(uint count, int baseIndex)
         {
 
-            NotifyTaskCompletion.Create<IEnumerable<InvoiceSummaryValueDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<InvoiceSummaryValueViewObject>>(
                _invoiceDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (sender, ev) =>
                {
-                   INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>> listCompletion =
-                sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueDto>>;
+                   INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueViewObject>> listCompletion =
+                sender as INotifyTaskCompletion<IEnumerable<InvoiceSummaryValueViewObject>>;
                    if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
                    {
-                       if (SummaryView is IncrementalList<InvoiceSummaryValueDto> summary)
+                       if (SummaryView is IncrementalList<InvoiceSummaryValueViewObject> summary)
                        {
                            summary.LoadItems(listCompletion.Result);
                            SummaryView = summary;
@@ -411,7 +411,7 @@ namespace InvoiceModule.ViewModels
         #region attributes
 
         private readonly IRegionManager _regionManager;
-        private IncrementalList<InvoiceSummaryValueDto> _summaryView;
+        private IncrementalList<InvoiceSummaryValueViewObject> _summaryView;
         private bool _isTestPayload;
 
         #endregion

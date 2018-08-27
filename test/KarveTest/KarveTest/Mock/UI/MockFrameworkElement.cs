@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace KarveTest.Mock.UI
 {
     class MockFrameworkElement : FrameworkElement
     {
-        IList<BaseDto> baseDto = new List<BaseDto>();
+        IList<BaseViewObject> baseDto = new List<BaseViewObject>();
         public MockFrameworkElement()
         {
             Items = baseDto;
@@ -24,7 +24,7 @@ namespace KarveTest.Mock.UI
         {
             this.RaiseEvent(new RoutedEventArgs(UnloadedEvent));
         }
-        IEnumerable<BaseDto> Items { set; get; }
-        BaseDto SelectedItem { set; get; }
+        IEnumerable<BaseViewObject> Items { set; get; }
+        BaseViewObject SelectedItem { set; get; }
     }
 }

@@ -1,24 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using KarveCommon.Services;
-using KarveCommonInterfaces;
-using KarveDataServices;
-using KarveDataServices.DataTransferObject;
-using NLog;
-using Prism.Commands;
-using Prism.Mvvm;
-using Syncfusion.UI.Xaml.Grid;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="KarveViewModelBase.cs" company="KarveInformatica S.L.">
+// All right reserved.
+// </copyright>
+// <summary>
+//   View model base. It is at the top of any view model in the infrastructure.
+//   It implements:
+//   1. Mailbox notification. Each view model can receive mail message, when
+//   a mail comes from the event manager, it triggers an event to notify a new DataPayload message.
+//   2. Assist Mapping. Each search box when the magnifier is pressed will execute a Magnifier command (an assist) to be intercepted by the assist mapper contained in the AssistDataService.
+//   3. Unique global identifier for the view model. Each view model has an unique URI and Id.
+//   4. Grid resizing. If a view has a grid associated. All the view models shall be able to serialize the columns and resize it.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace KarveCommon.Generic
 {
-    /// <inheritdoc />
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+    using KarveCommon.Services;
+    using KarveCommonInterfaces;
+    using KarveDataServices;
+    using KarveDataServices.ViewObjects;
+    using NLog;
+    using Prism.Commands;
+    using Prism.Mvvm;
+    using Syncfusion.UI.Xaml.Grid;
+
     /// <summary>
     /// View model base. It is at the top of any view model in the infrastructure. 
     /// It implement the mailbox notification. Each view model can receive mail message, when 
@@ -35,10 +49,6 @@ namespace KarveCommon.Generic
         protected Logger Logger = LogManager.GetCurrentClassLogger();
 
         public DataPayLoad.Type OperationalState { get; set; }
-        /// <summary>
-        /// Each view model has associated an unique uri.
-        /// </summary>
-        private Uri _viewModelUri;
 
         /// <summary>
         /// Each view model has a mailbox. 
@@ -52,9 +62,9 @@ namespace KarveCommon.Generic
         protected IHelperDataServices HelperDataServices;
 
         /// <summary>
-        ///  Assis mapper / mapeo de las lupas.
+        ///  Assist mapper. It has been used to trigger a popup when we press a popup.
         /// </summary>
-        protected IAssistMapper<BaseDto> AssistMapper;
+        protected IAssistMapper<BaseViewObject> AssistMapper;
         /*
          * Notify task completion to avoid async void. Async void is bad:
          * Async void methods have different error-handling semantics. Exceptions are very awkward to handle.
@@ -94,24 +104,25 @@ namespace KarveCommon.Generic
         /// </summary>
         protected IDataServices DataServices;
 
-        public bool IsChanged { set; get; } = false;
+        public bool IsChanged { get; set; } = false;
         /// <summary>
         ///  A view model is ready when it has been initialized with its data.
         /// </summary>
-        public bool IsReady { set; get; } = false;
+        public bool IsReady { get; set; } = false;
         /// <summary>
         ///  
         /// </summary>
-        public bool Faulted { set; get; } = false;
+        public bool Faulted { get; set; } = false;
         /// <summary>
         ///  The view mode support composity command only. This means that it will register just composite command inside 
         ///  the toolbar and doesn't use any data handler of the toolbar.
         /// </summary>
-        public bool CompositeCommandOnly { set; get; }
+        public bool CompositeCommandOnly { get; set; }
+
         /// <summary>
         ///  Disable/Enable any popup from the dialog service.
         /// </summary>
-        public bool SilentMode { set; get; }
+        public bool SilentMode { get; set; }
 
         public IInteractionRequestController Controller { get; private set; }
 
@@ -139,12 +150,11 @@ namespace KarveCommon.Generic
 
         protected Guid Guid;
         private KarveGridParameters _gridParm = new KarveGridParameters();
-        private long _gridIdentifer = long.MinValue;
+        private long _gridIdentifer = Int64.MinValue;
         private string _header;
         private object _messageLock = new object();
         private string _itemName;
         protected string PrimaryKeyValue = string.Empty;
-        private int _defaultPageSize = 800;
         private int _defaultPagingSize = 80;
         private int _defaultPageCount = 0;
         private object _extendedData;
@@ -152,10 +162,9 @@ namespace KarveCommon.Generic
         private ICommand _changeCommand;
         private ICommand _changedCommand;
         private IncrementalList<ContractSummaryDto> _contractAuxiliar;
-        private IncrementalList<VehicleSummaryDto> _vehicleAuxiliar;
+        private IncrementalList<VehicleSummaryViewObject> _vehicleAuxiliar;
         private int _assistPaged = 1;
-        
-      
+
 
         /// <summary>
         ///  empty constructor
@@ -166,10 +175,10 @@ namespace KarveCommon.Generic
             Header = "DefaultTab";
             SubSystem = DataSubSystem.None;
             DefaultPageSize = 100;
-            
+
         }
 
-       
+
         public KarveViewModelBase(IDataServices services)
         {
             DataServices = services;
@@ -178,14 +187,16 @@ namespace KarveCommon.Generic
             {
                 AssistMapper = assistDataService.Mapper;
             }
+
             SortCommand = new DelegateCommand<object>(OnSortCommand);
             HelperDataServices = services.GetHelperDataServices();
             InitViewModelState();
         }
+
         /// <summary>
         ///  Virtual class that id osent nothing.
         /// </summary>
-        protected virtual void OnSortCommand(object sortCommand) {}
+        protected virtual void OnSortCommand(object sortCommand) { }
 
         /// <summary>
         /// KarveViewModelBase. Base view model of the all structure
@@ -196,7 +207,7 @@ namespace KarveCommon.Generic
         {
             DataServices = services;
             Controller = requestController;
-           
+
             HelperDataServices = services.GetHelperDataServices();
         }
 
@@ -211,15 +222,7 @@ namespace KarveCommon.Generic
             DialogService = dialogService;
         }
 
-        private void InitViewModelState()
-        {
-            Guid = Guid.NewGuid();
-            OperationalState = DataPayLoad.Type.Raw;
-            //GridIdentifier = ""
-            PagingEvent += OnPagedEvent;
-            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
-            GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
-        }
+      
         /// <summary>
         ///  Summary of the control magnifier.
         /// </summary>
@@ -233,14 +236,24 @@ namespace KarveCommon.Generic
 
             }
         }
-        
-       protected void RaisePropertyChangeAfterInit(string propertyName=null)
+
+        /// <summary>
+        /// The raise property change after viewmodel initialization.
+        /// There is a case that you may want just trigger once all the notification
+        /// from an object using RaisePropertyChange(null).
+        /// This has better performance during view loading.
+        /// </summary>
+        /// <param name="propertyName">
+        /// Name of the property to be loaded.
+        /// </param>
+        protected void RaisePropertyChangeAfterInit(string propertyName = null)
         {
             if (IsViewModelInitialized)
             {
                 RaisePropertyChanged(propertyName);
             }
         }
+
         /// <summary>
         ///  This is meant to be overriden only when the PageEvent is needed
         /// </summary>
@@ -249,6 +262,7 @@ namespace KarveCommon.Generic
         protected virtual void OnPagedEvent(object sender, PropertyChangedEventArgs e)
         {
         }
+
         /// <summary>
         ///  This class is the event who is able to load an incremental list.
         /// </summary>
@@ -268,7 +282,7 @@ namespace KarveCommon.Generic
                 DialogService?.ShowErrorMessage("Error loading grid data: " + notification.ErrorMessage);
             }
         }
-       
+
         /// <summary>
         ///  This class set the results for the incremental load
         /// </summary>
@@ -278,7 +292,7 @@ namespace KarveCommon.Generic
         protected virtual void SetResult<T>(IEnumerable<T> taskResult)
         {
         }
-       
+
         /// <summary>
         /// Name of the item to be used.
         /// </summary>
@@ -287,11 +301,11 @@ namespace KarveCommon.Generic
             get => _itemName;
             set
             {
-                _itemName = (string) value;
+                _itemName = (string)value;
                 RaisePropertyChanged("ItemName");
             }
         }
-        public DataSubSystem SubSystem { set; get; }
+        public DataSubSystem SubSystem { get; set; }
 
         /// <summary>
         ///  Name of the header to be used.
@@ -301,7 +315,7 @@ namespace KarveCommon.Generic
             get => _header;
             set
             {
-                _header = (string) value;
+                _header = (string)value;
                 RaisePropertyChanged("Header");
             }
         }
@@ -337,7 +351,9 @@ namespace KarveCommon.Generic
                 {
                     break;
                 }
-            } while (RegisteredGridIds.Contains(value));
+            }
+
+ while (RegisteredGridIds.Contains(value));
 
             // in case we have a minvalue.
             if (value == Int64.MinValue)
@@ -345,20 +361,22 @@ namespace KarveCommon.Generic
                 maxTries = 0;
             }
 
-            if (maxTries == 0)
+            if (maxTries != 0)
             {
-                value = RegisteredGridIds.Max + 1;
-                RegisteredGridIds.Add(value);
+                return value;
             }
 
+            // no correct value found.
+            value = RegisteredGridIds.Max + 1;
+            RegisteredGridIds.Add(value);
             return value;
         }
 
-       
+
         /// <summary>
         ///  Command to detect a change.
         /// </summary>
-        public ICommand ItemChangedCommand { set; get; }
+        public ICommand ItemChangedCommand { get; set; }
 
         /// <summary>
         ///  Grid register command
@@ -371,12 +389,12 @@ namespace KarveCommon.Generic
         /// </summary>
         public ObservableCollection<GridSettingsDto> CurrentGridSettings
         {
+            get => _currentGridSettings;
             set
             {
-                _currentGridSettings = value;
-                RaisePropertyChanged();
+                this._currentGridSettings = value;
+                this.RaisePropertyChanged();
             }
-            get => _currentGridSettings;
         }
 
         private void InitGridSettings(IDataServices services, long id)
@@ -388,14 +406,13 @@ namespace KarveCommon.Generic
 
         private async Task<ObservableCollection<GridSettingsDto>> LoadSettings(IDataServices services, long id)
         {
-            var numberLists = new List<long>();
-            numberLists.Add(id);
+            var numberLists = new List<long> { id };
             var settingsDto =
                 await services.GetSettingsDataService().GetMagnifierSettingByIds(numberLists);
             return settingsDto;
         }
 
-    /// <summary>
+        /// <summary>
         ///  Command happened during the resize.
         /// </summary>
         /// <param name="var"></param>
@@ -404,15 +421,17 @@ namespace KarveCommon.Generic
             var dataService = DataServices.GetSettingsDataService();
             if (var is KarveGridParameters param)
             {
-                var settingsDto = new GridSettingsDto();
-                settingsDto.GridName = param.GridName;
-                settingsDto.GridIdentifier = param.GridIdentifier;
-                settingsDto.XmlBase64 = param.Xml;
+                var settingsDto = new GridSettingsDto
+                {
+                    GridName = param.GridName,
+                    GridIdentifier = param.GridIdentifier,
+                    XmlBase64 = param.Xml
+                };
                 var value = false;
                 try
                 {
 
-                  value = await dataService.SaveMagnifierSettings(settingsDto).ConfigureAwait(false); 
+                    value = await dataService.SaveMagnifierSettings(settingsDto).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -422,17 +441,18 @@ namespace KarveCommon.Generic
 
             }
         }
-        
+
         private void OnGridRegister(object var)
         {
             if (var is KarveGridParameters param)
             {
-                
+
                 RegisteredGridIds.Add(param.GridIdentifier);
                 InitGridSettings(DataServices, param.GridIdentifier);
             }
         }
-        public virtual bool IsDeleter {  get; } = false;
+
+        public virtual bool IsDeleter { get; } = false;
         /*
          * We want to give to each view the ability to save/delete himself. This function will be part of a composite command.
          */
@@ -445,6 +465,7 @@ namespace KarveCommon.Generic
         {
             return false;
         }
+
         /// <summary>
         ///  Method to be overridden to allow the view to save himself..
         /// </summary>
@@ -453,7 +474,7 @@ namespace KarveCommon.Generic
             return;
         }
 
-        
+
 
         /// <summary>
         /// TODO: Handle errors in NotifierOnSettingsChanged.
@@ -469,15 +490,15 @@ namespace KarveCommon.Generic
                 if (MagnifierInitializationNotifier.IsSuccessfullyCompleted)
                 {
                     ObservableCollection<GridSettingsDto> dto = MagnifierInitializationNotifier.Task.Result;
-                    CurrentGridSettings = dto; 
-                    
+                    CurrentGridSettings = dto;
+
                 }
             }
             else if (propertyName.Equals("IsSuccessfullyCompleted"))
             {
                 if (sender is INotifyTaskCompletion<ObservableCollection<GridSettingsDto>> task)
                 {
-                   
+
                     var m = task.Result;
                     CurrentGridSettings = m;
                     OnGridChange(m);
@@ -505,17 +526,19 @@ namespace KarveCommon.Generic
                     gridSettingsDto.XmlBase64);
             }
         }
+
         public KarveGridParameters GridParam
         {
-            set { _gridParm = value; RaisePropertyChanged(); }
             get { return _gridParm; }
+            set { this._gridParm = value; this.RaisePropertyChanged(); }
         }
 
         public long GridIdentifier
         {
-            set { _gridIdentifer = value; RaisePropertyChanged(); }
             get { return _gridIdentifer; }
+            set { this._gridIdentifer = value; this.RaisePropertyChanged(); }
         }
+
         /// <inheritdoc />
         /// <summary>
         ///  When a region get destroyed we can dispose the events.
@@ -536,13 +559,13 @@ namespace KarveCommon.Generic
         /// <param name="properties"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public virtual async Task OnAssistAsyncClient(string title, string properties, Action<ClientSummaryExtended> callback) 
+        public virtual async Task OnAssistAsyncClient(string title, string properties, Action<ClientSummaryExtended> callback)
         {
             IClientDataServices dataServices = DataServices.GetClientDataServices();
             var pageNumberAndItems = await dataServices.GetPageCount(DefaultPageSize);
             var maxItems = dataServices.NumberItems;
             var dtos = await dataServices.GetPagedSummaryDoAsync(1, DefaultPageSize);
-            _clientAssistList = new IncrementalList<ClientSummaryExtended>(LoadMoreAssistClients) { MaxItemCount = (int) maxItems };
+            _clientAssistList = new IncrementalList<ClientSummaryExtended>(LoadMoreAssistClients) { MaxItemCount = (int)maxItems };
             ShowDataTransferObjects<ClientSummaryExtended>(_clientAssistList, title, properties, callback);
         }
 
@@ -565,10 +588,10 @@ namespace KarveCommon.Generic
             });
         }
 
-        public void ShowDataTransferObjects<Dto>(IEnumerable<Dto> dtos, 
-                                                string title, 
-                                                string properties, 
-                                                Action<Dto> callback) where Dto: class
+        public void ShowDataTransferObjects<Dto>(IEnumerable<Dto> dtos,
+                                                string title,
+                                                string properties,
+                                                Action<Dto> callback) where Dto : class
         {
             Stopwatch start = new Stopwatch();
             start.Start();
@@ -581,6 +604,7 @@ namespace KarveCommon.Generic
                 {
                     return;
                 }
+
                 var currentValue = items.FirstOrDefault();
                 switch (currentValue)
                 {
@@ -593,6 +617,7 @@ namespace KarveCommon.Generic
                 }
             }
         }
+
         /// <summary>
         ///  This function is a generic function to raise interaction request and select an item
         /// </summary>
@@ -608,9 +633,10 @@ namespace KarveCommon.Generic
         {
             var services = DataServices.GetHelperDataServices();
             var dtos = await services.GetMappedAllAsyncHelper<Dto, Entity>().ConfigureAwait(false);
-            ShowDataTransferObjects<Dto>(dtos, title, properties, callback);            
+            ShowDataTransferObjects<Dto>(dtos, title, properties, callback);
         }
-        public virtual async Task OnAssistPagedAsync<Dto, Entity>(string title, string properties, string query,Action<Dto> callback)
+
+        public virtual async Task OnAssistPagedAsync<Dto, Entity>(string title, string properties, string query, Action<Dto> callback)
             where Dto : class
             where Entity : class
         {
@@ -618,24 +644,24 @@ namespace KarveCommon.Generic
             var dtos = await services.GetPagedAsyncHelper<Dto, Entity>(query, _assistPaged, DefaultPageSize).ConfigureAwait(false);
             ShowDataTransferObjects<Dto>(dtos, title, properties, callback);
         }
-        // GetPagedQueryDoAsync<
+   
         public virtual async Task OnAssistQueryAsync<Dto, Entity>(string title, string properties, string query,
-            Action<Dto> callback) where Dto: class 
-                                   where Entity: class
+            Action<Dto> callback) where Dto : class
+                                   where Entity : class
         {
             var services = DataServices.GetHelperDataServices();
             var dtos = await services.GetMappedAsyncHelper<Dto, Entity>(query).ConfigureAwait(false);
-            ShowDataTransferObjects<Dto>(dtos, title, properties,callback);
+            ShowDataTransferObjects<Dto>(dtos, title, properties, callback);
         }
 
-        public virtual async Task OnVehicleSummaryAsync(string title, string properties, Action<VehicleSummaryDto> callback )
+        public virtual async Task OnVehicleSummaryAsync(string title, string properties, Action<VehicleSummaryViewObject> callback)
         {
-           
-            var vehicleDataServices =DataServices.GetVehicleDataServices(); 
+
+            var vehicleDataServices = DataServices.GetVehicleDataServices();
             var vehicleList = await vehicleDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize).ConfigureAwait(false);
-            _vehicleAuxiliar = new IncrementalList<VehicleSummaryDto>(LoadMoreVehicles);
+            _vehicleAuxiliar = new IncrementalList<VehicleSummaryViewObject>(LoadMoreVehicles);
             _vehicleAuxiliar.LoadItems(vehicleList);
-            ShowDataTransferObjects<VehicleSummaryDto>(_vehicleAuxiliar, title, properties, callback);
+            ShowDataTransferObjects<VehicleSummaryViewObject>(_vehicleAuxiliar, title, properties, callback);
         }
 
         private async void LoadMoreVehicles(uint arg1, int idx)
@@ -651,7 +677,7 @@ namespace KarveCommon.Generic
             _contractAuxiliar = new IncrementalList<ContractSummaryDto>(
                 LoadMoreContracts);
             var contractSummary = await contractDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize).ConfigureAwait(false);
-           _contractAuxiliar.LoadItems(contractSummary);
+            _contractAuxiliar.LoadItems(contractSummary);
 
             ShowDataTransferObjects<ContractSummaryDto>(_contractAuxiliar, title, properties, callback);
         }
@@ -659,7 +685,7 @@ namespace KarveCommon.Generic
         private void LoadMoreContracts(uint arg1, int index)
         {
             var contractDataServices = DataServices.GetContractDataServices();
-            NotifyTaskCompletion.Create(contractDataServices.GetPagedSummaryDoAsync(1, index), (sender, ev)=>
+            NotifyTaskCompletion.Create(contractDataServices.GetPagedSummaryDoAsync(1, index), (sender, ev) =>
             {
                 if (sender is INotifyTaskCompletion<IEnumerable<ContractSummaryDto>> task)
                 {
@@ -673,7 +699,7 @@ namespace KarveCommon.Generic
                     }
                 }
             });
-                     
+
         }
 
         /// <summary>
@@ -681,50 +707,46 @@ namespace KarveCommon.Generic
         /// </summary>
         public GridSettingsDto GridSettings
         {
-            set { _gridParameters = value; RaisePropertyChanged(); }
-            get { return _gridParameters; }
+            get => _gridParameters;
+            set { this._gridParameters = value; this.RaisePropertyChanged(); }
         }
-      
+
         /// <summary>
         ///  Each view model can have a grid resize command.
         /// </summary>
-        public ICommand GridResizeCommand { set; get; }
+        public ICommand GridResizeCommand { get; set; }
+
         /// <summary>
         ///  Property useful for doing an assist query and bind it to the xaml.
         /// </summary>
         public string AssistQuery
         {
+            get => _sqlQuery;
             set
             {
-                _sqlQuery = value;
-                RaisePropertyChanged();
+                this._sqlQuery = value;
+                this.RaisePropertyChanged();
             }
-            get { return _sqlQuery; }
-
         }
+
         /// <summary>
         ///  Page size to retrieve the data
         /// </summary>
-        public int DefaultPageSize
-        {
-            get { return _defaultPageSize; }
-            set { _defaultPageSize = value; }
-        }
+        public int DefaultPageSize { get; set; } = 800;
+
         /// <summary>
         ///  Page size to show the data in the data pager.
         /// </summary>
         public int DefaultPagingSize
         {
+            get => _defaultPagingSize;
             set
             {
-                _defaultPagingSize = value;
-                RaisePropertyChanged();
-            }
-            get
-            {
-                return _defaultPagingSize;
+                this._defaultPagingSize = value;
+                this.RaisePropertyChanged();
             }
         }
+
         /// <summary>
         ///  Number of pages
         /// </summary>
@@ -737,9 +759,29 @@ namespace KarveCommon.Generic
         ///  Command for the grid filter who gets paged information from the database.
         /// </summary>
         public ICommand SortCommand { get; set; }
-        public ICommand AssistCommand { set; get; }
-        public string DirectSubsystem { get; set; }
-        public Uri ViewModelUri { set { _viewModelUri = value; } get { return _viewModelUri; } }
+        /// <summary>
+        ///  Command for triggering the assist 
+        /// </summary>
+        public ICommand AssistCommand { get; set; }
 
+        /// <summary>
+        ///  Option to skip the toolbar logic for saving. It shall be deprecated.
+        /// </summary>
+        public string DirectSubsystem { get; set; }
+
+        /// <summary>
+        /// Set or Get a ViewModelUri.
+        /// </summary>
+        public Uri ViewModelUri { get; set; }
+
+        private void InitViewModelState()
+        {
+            Guid = Guid.NewGuid();
+            OperationalState = DataPayLoad.Type.Raw;
+            //GridIdentifier = ""
+            PagingEvent += OnPagedEvent;
+            GridResizeCommand = new DelegateCommand<object>(OnGridResize);
+            GridRegisterCommand = new DelegateCommand<object>(OnGridRegister);
+        }
     }
 }

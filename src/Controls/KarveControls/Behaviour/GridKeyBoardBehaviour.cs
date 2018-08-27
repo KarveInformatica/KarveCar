@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 using System.Windows;
 using System.Windows.Input;
@@ -71,7 +71,7 @@ namespace KarveControls.Behaviour
             }
             if (e.Key == Key.F2)
             {
-                if (AssociatedObject.SelectedItem is BaseDto dto)
+                if (AssociatedObject.SelectedItem is BaseViewObject dto)
                 {
                     dto.IsSelected = true;
                 }

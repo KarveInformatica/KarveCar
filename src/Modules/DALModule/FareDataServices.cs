@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.SQL;
 using Dapper;
 
@@ -18,12 +18,12 @@ namespace DataAccessLayer
         {
            
         }
-        public Task<bool> DeleteAsync(FareDto booking)
+        public Task<bool> DeleteAsync(FareViewObject booking)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ActiveFareDto>> GetActiveSummaryFarePaged(string code, int index, int pageSize)
+        public async Task<IEnumerable<ActiveFareViewObject>> GetActiveSummaryFarePaged(string code, int index, int pageSize)
         {
             var queryStore = _factory.GetQueryStore();
             queryStore.AddParam(QueryType.QueryActiveFare, code, index,  pageSize);
@@ -32,33 +32,33 @@ namespace DataAccessLayer
             {
                 if (connection!=null)
                 {
-                    var result = await connection.QueryAsync<ActiveFareDto>(query);
+                    var result = await connection.QueryAsync<ActiveFareViewObject>(query);
                     return result;
                 }
             }
-            return new List<ActiveFareDto>();
+            return new List<ActiveFareViewObject>();
         }
 
-        public Task<FareDto> GetDoAsync(string code)
+        public Task<FareViewObject> GetDoAsync(string code)
         {
             throw new NotImplementedException();
         }
 
-        public FareDto GetNewDo(string value)
+        public FareViewObject GetNewDo(string value)
         {
             throw new NotImplementedException();
         }
-        public Task<IEnumerable<FareSummaryDto>> GetPagedSummaryDoAsync(int index, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<FareSummaryDto>> GetSummaryAllAsync()
+        public Task<IEnumerable<FareSummaryViewObject>> GetPagedSummaryDoAsync(int index, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveAsync(FareDto bookingData)
+        public Task<IEnumerable<FareSummaryViewObject>> GetSummaryAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveAsync(FareViewObject bookingData)
         {
             throw new NotImplementedException();
         }
@@ -83,12 +83,12 @@ namespace DataAccessLayer
             return -1;
         }
 
-        public Task<IEnumerable<FareDto>> GetListAsync(IList<FareDto> primaryKeys)
+        public Task<IEnumerable<FareViewObject>> GetListAsync(IList<FareViewObject> primaryKeys)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<FareDto>> GetListAsync(IList<string> primaryKeys)
+        public Task<IEnumerable<FareViewObject>> GetListAsync(IList<string> primaryKeys)
         {
             throw new NotImplementedException();
         }

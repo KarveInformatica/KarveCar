@@ -7,12 +7,12 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
 {
-    class MarketViewModel : GenericHelperViewModel<MercadoDto, MERCADO>
+    class MarketViewModel : GenericHelperViewModel<MarketViewObject, MERCADO>
     {
         /// <summary>
         ///  SetCode
@@ -22,12 +22,12 @@ namespace HelperModule.ViewModels
         /// <returns></returns>
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
-            MercadoDto marketDto = new MercadoDto();
-            string activities = await DataServices.GetHelperDataServices().GetMappedUniqueId<MercadoDto, MERCADO>(marketDto);
-            marketDto = payLoad.DataObject as MercadoDto;
-            if (marketDto != null)
+            MarketViewObject marketViewObject = new MarketViewObject();
+            string activities = await DataServices.GetHelperDataServices().GetMappedUniqueId<MarketViewObject, MERCADO>(marketViewObject);
+            marketViewObject = payLoad.DataObject as MarketViewObject;
+            if (marketViewObject != null)
             {
-                marketDto.Code = activities.Substring(0, 2);
+                marketViewObject.Code = activities.Substring(0, 2);
             }
             return payLoad;
         }

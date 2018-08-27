@@ -3,7 +3,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using BookingModule;
 using Prism.Regions;
@@ -118,7 +118,7 @@ namespace KarveCar.Navigation
             _dialogService?.ShowErrorMessage("Fare not yet implemented");
         }
       
-        public void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto: BaseDto where Entity:class
+        public void NewHelperView<Entity, Dto>(Entity e, string viewName) where Dto: BaseViewObject where Entity:class
         {
             var helperDataService = _dataServices.GetHelperDataServices();
             var id = string.Empty;
@@ -167,12 +167,12 @@ namespace KarveCar.Navigation
                     }
                 }
             });
-            var payload = new VehicleGroupDto();
+            var payload = new VehicleGroupViewObject();
             payload.Codigo = id;
             payload.Code = id;
             var viewName = "Nuevo Grupo" + "." + id;
             var factory = DataPayloadFactory.GetInstance();
-            var dataPayload = factory.BuildInsertPayLoadDo<VehicleGroupDto>(viewName, payload, DataSubSystem.HelperSubsytsem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
+            var dataPayload = factory.BuildInsertPayLoadDo<VehicleGroupViewObject>(viewName, payload, DataSubSystem.HelperSubsytsem, viewModelUri.ToString(), viewModelUri.ToString(), viewModelUri);
             Navigate(_regionManager, id, viewName, "VehicleGroupViewModel");
             _eventManager.NotifyObserverSubsystem(EventSubsystem.HelperSubsystem, dataPayload);
             */

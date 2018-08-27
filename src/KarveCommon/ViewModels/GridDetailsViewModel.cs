@@ -1,7 +1,7 @@
 ﻿using KarveCommon.Generic;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -31,7 +31,7 @@ namespace KarveCommon.ViewModels
         private ICommand _goBackCommand;
         private IDataServices _dataServices;
         private IDialogService _dialogService;
-        //  private INotifyTaskCompletion<IEnumerable<BaseDto>> _initializationTable;
+        //  private INotifyTaskCompletion<IEnumerable<BaseViewObject>> _initializationTable;
         private PropertyChangedEventHandler _eventLoader;
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace KarveCommon.ViewModels
         /// <param name="e"></param>
         private void OnLoadedHandler(object sender, PropertyChangedEventArgs e)
         {
-            INotifyTaskCompletion<IEnumerable<BaseDto>> currentHandler = sender as INotifyTaskCompletion<IEnumerable<BaseDto>>;
+            INotifyTaskCompletion<IEnumerable<BaseViewObject>> currentHandler = sender as INotifyTaskCompletion<IEnumerable<BaseViewObject>>;
             if (currentHandler != null)
             {
                 if (currentHandler.IsSuccessfullyCompleted)
@@ -115,7 +115,7 @@ namespace KarveCommon.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             _journal = navigationContext.NavigationService.Journal;
-            //_initializationTable = NotifyTaskCompletion.Create<IEnumerable<BaseDto>>(dataLoader.LoadAsync(_currentGridName, _currentIdentifier), _ev);
+            //_initializationTable = NotifyTaskCompletion.Create<IEnumerable<BaseViewObject>>(dataLoader.LoadAsync(_currentGridName, _currentIdentifier), _ev);
             // _currentIdentifier = navigationContext.Parameters["Id"] as string;
             // _currentGridName = navigationContext.Parameters["AssistName"] as string;
             //ProxyDataLoader dataLoader = new ProxyDataLoader(_dataServices, _currentGridName);

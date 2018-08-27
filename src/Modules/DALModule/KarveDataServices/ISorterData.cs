@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices
 {
-    public interface ISorterData<DtoType> where DtoType: BaseDto
+    public interface ISorterData<DtoType> where DtoType: BaseViewObject
     {
         /// <summary>
         ///  This is a  sorted collection paged asynchronously.

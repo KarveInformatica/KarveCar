@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
@@ -10,14 +10,14 @@ namespace KarveDataServices
     /// </summary>
     public interface IBookingDataService: IPageCounter, 
                                           IIdentifier, 
-                                          IDataProvider<IBookingData, BookingSummaryDto>,
-                                          IDataSearch<IBookingData, BookingSummaryDto>
+                                          IDataProvider<IBookingData, BookingSummaryViewObject>,
+                                          IDataSearch<IBookingData, BookingSummaryViewObject>
     {
         /// <summary>
         ///  Booking items data object
         /// </summary>
         /// <returns>Booking items data transfer</returns>
-        Task<IEnumerable<BookingItemsDto>> GetBookingItemsAsync(IBookingData data);
+        Task<IEnumerable<BookingItemsViewObject>> GetBookingItemsAsync(IBookingData data);
         /// <summary>
         /// Return the number of lines given the reservation code;
         /// </summary>

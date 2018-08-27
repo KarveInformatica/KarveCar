@@ -4,7 +4,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -12,7 +12,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  Credi card view model
     /// </summary>
-    class CreditCardViewModel: GenericHelperViewModel<CreditCardDto, TARCREDI>
+    class CreditCardViewModel: GenericHelperViewModel<CreditCardViewObject, TARCREDI>
     {
         /// <summary>
         /// CreditCardView Model.
@@ -34,12 +34,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            CreditCardDto dto = payLoad.DataObject as CreditCardDto;
-            if (dto != null)
+            CreditCardViewObject viewObject = payLoad.DataObject as CreditCardViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<CreditCardDto, TARCREDI>(dto);
-                dto.Code = codeId.Substring(0, 2);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<CreditCardViewObject, TARCREDI>(viewObject);
+                viewObject.Code = codeId.Substring(0, 2);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

@@ -7,11 +7,11 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.SQL;
 using KarveDapper.Extensions;
 using DataAccessLayer.Crud.Vehicle;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 
 namespace DataAccessLayer
 {
@@ -22,13 +22,13 @@ namespace DataAccessLayer
     internal class VehiclesDataAccessLayer : AbstractDataAccessLayer, IVehicleDataServices
     {
         private readonly ISqlExecutor _sqlExecutor;
-        private IDataLoader<IVehicleData> _dataLoader;
-        private IDataDeleter<IVehicleData> _dataDeleter;
-        private IDataSaver<IVehicleData> _dataSaver;
+        private readonly IDataLoader<IVehicleData> _dataLoader;
+        private readonly IDataDeleter<IVehicleData> _dataDeleter;
+        private readonly IDataSaver<IVehicleData> _dataSaver;
         private const string PrimaryKey = "CODIINT";
         private const string VehicleDataFile = @"\Data\VehicleFields.xml";
         ///private readonly VehicleFactory _factory = null;
-        private QueryStoreFactory _queryStoreFactory;
+        private readonly QueryStoreFactory _queryStoreFactory;
         /// <summary>
         /// VehicleDataAccessLayer class.
         /// </summary>
@@ -40,6 +40,7 @@ namespace DataAccessLayer
             _dataLoader = new VehicleDataLoader(_sqlExecutor);
             _dataSaver = new VehicleDataSaver(_sqlExecutor);
             _dataDeleter = new VehicleDataDeleter(_sqlExecutor);
+            _queryStoreFactory = new QueryStoreFactory();
             TableName = "VEHICULO1";
         }
 
@@ -47,7 +48,7 @@ namespace DataAccessLayer
         ///  This returns a vehicle agent summary.
         /// </summary>
         /// <returns>Returns a data set for the vehicles</returns>
-        public async Task<IEnumerable<VehicleSummaryDto>> GetAsyncVehicleSummary()
+        public async Task<IEnumerable<VehicleSummaryViewObject>> GetAsyncVehicleSummary()
         {
             return await GetVehiclesAgentSummary(0, 0);
 
@@ -59,15 +60,15 @@ namespace DataAccessLayer
         /// <param name="pageSize">Page dimension.</param>
         /// <param name="offset">Offset</param>
         /// <returns></returns>
-        public async Task<IEnumerable<VehicleSummaryDto>> GetVehiclesAgentSummary(int pageSize, int offset)
+        public async Task<IEnumerable<VehicleSummaryViewObject>> GetVehiclesAgentSummary(int pageSize, int offset)
         {
-            IEnumerable<VehicleSummaryDto> summary = new List<VehicleSummaryDto>();
-            IQueryStore store = _queryStoreFactory.GetQueryStore();
+            IEnumerable<VehicleSummaryViewObject> summary = new List<VehicleSummaryViewObject>();
+            var store = _queryStoreFactory.GetQueryStore();
             store.AddParam(QueryType.QueryVehicleSummary);
             var query = store.BuildQuery();
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
-                  summary = await connection.QueryAsync<VehicleSummaryDto>(query).ConfigureAwait(false);
+                  summary = await connection.QueryAsync<VehicleSummaryViewObject>(query).ConfigureAwait(false);
             }
             return summary;
         }
@@ -96,7 +97,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="vehicleId">Vehicle identifier</param>
         /// <param name="queryDictionary">Dictionary of the queries</param>
-        /// <returns>A vehicle data objett</returns>
+        /// <returns>A vehicle data object</returns>
         public async Task<IVehicleData> GetVehicleDo(string vehicleId, IDictionary<string, string> queryDictionary)
         {
             Contract.Requires(!string.IsNullOrEmpty(vehicleId), "A valid id is needed");
@@ -168,10 +169,10 @@ namespace DataAccessLayer
         /// <param name="baseIndex"></param>
         /// <param name="defaultPageSize"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<VehicleSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public async Task<IEnumerable<VehicleSummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
-            IEnumerable<VehicleSummaryDto> pagedSummary = new List<VehicleSummaryDto>(); 
-            var pager = new DataPager<VehicleSummaryDto>(SqlExecutor);
+            IEnumerable<VehicleSummaryViewObject> pagedSummary = new List<VehicleSummaryViewObject>(); 
+            var pager = new DataPager<VehicleSummaryViewObject>(SqlExecutor);
             var startIndex = (baseIndex == 0) ? 1 : baseIndex;
             NumberPage = await GetPageCount(defaultPageSize);
             try
@@ -184,16 +185,16 @@ namespace DataAccessLayer
             }
                 return pagedSummary;
         }
-        public async Task<IEnumerable<VehicleSummaryDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<VehicleSummaryViewObject>> GetSummaryAllAsync()
         {
-            IEnumerable<VehicleSummaryDto> summary = new List<VehicleSummaryDto>();
+            IEnumerable<VehicleSummaryViewObject> summary = new List<VehicleSummaryViewObject>();
             IQueryStore store = _queryStoreFactory.GetQueryStore(); 
             store.AddParam(QueryType.QueryVehicleSummary);
             var query = store.BuildQuery();
         
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
-                summary = await connection.QueryAsync<VehicleSummaryDto>(query).ConfigureAwait(false);
+                summary = await connection.QueryAsync<VehicleSummaryViewObject>(query).ConfigureAwait(false);
             }
             return summary;
         }
@@ -210,8 +211,7 @@ namespace DataAccessLayer
         public IVehicleData GetNewDo(string value)
         {
             IVehicleData vehicle = new Vehicle();
-            vehicle.Value = new VehicleDto();
-            vehicle.Value.CODIINT = value;
+            vehicle.Value = new VehicleViewObject {CODIINT = value};
             vehicle.Valid = true;
             return vehicle;
         }
@@ -223,10 +223,10 @@ namespace DataAccessLayer
 
         public string NewId()
         {
-            using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
+            using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
-                VEHICULO1 veiculo = new VEHICULO1();
-                var id = connection.UniqueId<VEHICULO1>(veiculo);
+                var vehicle = new VEHICULO1();
+                var id = connection.UniqueId<VEHICULO1>(vehicle);
                 return id;
             }
         }

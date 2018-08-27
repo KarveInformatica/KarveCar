@@ -257,11 +257,13 @@
     <Compile Include="AmountControl\AmountControl.cs" />
     <Compile Include="Behaviour\ButtonBehavior.cs" />
     <Compile Include="Behaviour\ChangeRuleBehavior.cs" />
+    <Compile Include="Behaviour\CheckboxChangeBehavior.cs" />
     <Compile Include="Behaviour\ComboAdvChangeBehavior.cs" />
     <Compile Include="Behaviour\DataPagerBehavior.cs" />
     <Compile Include="Behaviour\FileListingBehaviour.cs" />
     <Compile Include="Behaviour\GridEditButtonBehavior.cs" />
     <Compile Include="Behaviour\GridKeyBoardBehaviour.cs" />
+    <Compile Include="Behaviour\Grid\CommandAwareItem.cs" />
     <Compile Include="Behaviour\Grid\GridDefaultBehavior.cs" />
     <Compile Include="Behaviour\Grid\GridFilterBehavior.cs" />
     <Compile Include="Behaviour\KarveBehaviorBase.cs" />

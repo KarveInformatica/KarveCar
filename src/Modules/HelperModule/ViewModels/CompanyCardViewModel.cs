@@ -7,7 +7,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -15,7 +15,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  This is the company card view model.
     /// </summary>
-    class CompanyCardViewModel:  GenericHelperViewModel<KarveDataServices.DataTransferObject.CompanyCardDto, TARJETA_EMP>
+    class CompanyCardViewModel:  GenericHelperViewModel<KarveDataServices.ViewObjects.CompanyCardViewObject, TARJETA_EMP>
     {
         /// <summary>
         ///  CompanyCardViewModel
@@ -37,12 +37,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            CompanyCardDto dto = payLoad.DataObject as CompanyCardDto;
-            if (dto != null)
+            CompanyCardViewObject viewObject = payLoad.DataObject as CompanyCardViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<CompanyCardDto, TARJETA_EMP>(dto);
-                dto.Code = codeId.Substring(0, 2);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<CompanyCardViewObject, TARJETA_EMP>(viewObject);
+                viewObject.Code = codeId.Substring(0, 2);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

@@ -1,37 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using KarveControls.Generic;
-using Syncfusion.UI.Xaml.Grid;
-using NLog;
-using System.Windows.Controls.Primitives;
-using static KarveControls.DataField;
-using Prism.Commands;
-using System.Linq;
-using KarveCommon;
-using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
-using Syncfusion.Data.Extensions;
-using Syncfusion.UI.Xaml.CellGrid.Helpers;
-using Syncfusion.Windows.Controls.Input;
-using TheArtOfDev.HtmlRenderer.WPF;
-using static DualFieldSearchBox.DualFieldSearchBox;
-
-namespace KarveControls
+﻿namespace KarveControls
 {
-    /// <summary>
-    /// User control for a search box. 
-    /// It allows us to have a single field or a doble field search box with a valid magnifier.
-    /// </summary>
-    ///
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+
+    using KarveCommon;
+    using KarveCommon.Generic;
+    using KarveControls.Generic;
+
+    using KarveDataServices.ViewObjects;
+
+    using Prism.Commands;
+
+    using Syncfusion.UI.Xaml.Grid;
+    using Syncfusion.Windows.Controls.Input;
+
+    using TheArtOfDev.HtmlRenderer.WPF;
+
+    /// <inheritdoc />
+    ///  <summary>
+    ///  DualFieldSearchBox is a rich custom control that allows you to trigger a grid popup from a text box:
+    ///   It has the following features:
+    ///  1. The second part can ba an html text or image.
+    ///  2. The magnifier button can disabled.
+    ///  3. Support MVVM. You can configure a tag and a command. The tag will be delivered when the magnifier is pressed.
+    ///  4. Support watermark for the fields.
+    ///  5. Support resolution by code.
+    ///  6. Has two sources:
+    ///      a. DataSource/DataObject - It is the entity to be used.
+    ///      b. SourceView. It is a collection to be cross referenced and resolved for the second field.
+    ///  7. The button image can be customized.
+    /// It has two commands:
+    /// 1. MagnifierCommand. To be binded for the popup grid.
+    /// 2. ItemSelectionCommand. To be binded for the selected grid.
+    ///  </summary>
+
     [TemplatePart(Name = "PART_SearchLabel", Type = typeof(TextBlock))]
     [TemplatePart(Name = "PART_SearchTextFirst", Type = typeof(SfTextBoxExt))]
     [TemplatePart(Name = "PART_SearchTextSecond", Type = typeof(TextBox))]
@@ -43,11 +56,8 @@ namespace KarveControls
     public partial class DualFieldSearchBox : TextBox, IDisposable
     {
 
-        // private SfDataGrid MagnifierGrid = new SfDataGrid();
-        // most of the shared ones shall be moved as attached properties 
-        private Logger _logger = LogManager.GetCurrentClassLogger();
         private bool _triggerLoad = false;
-        private bool _onHtmlRendered = false;
+       
         /// <summary>
         ///  Magnifier command dependency property.
         /// </summary>
@@ -60,7 +70,7 @@ namespace KarveControls
               typeof(ICommand), typeof(DualFieldSearchBox));
 
         /// <summary>
-        /// AssistName is a label to be identified from the view model to look for a query and set the resoult.
+        /// Dependency property for the assist table. It is just a tag to be delivered to the view model.
         /// </summary>
         public static readonly DependencyProperty AssistNameDependencyProperty =
             DependencyProperty.Register(
@@ -89,7 +99,7 @@ namespace KarveControls
 
 
         /// <summary>
-        ///  This enable the HTML support for displaying the second box.
+        ///  This enable the HTML support for displaying the second field in the search box.
         ///  
         /// </summary>
         public static readonly DependencyProperty IsHtmlEnabledSecondBoxProperty
@@ -141,7 +151,7 @@ namespace KarveControls
             }
         }
         /// <summary>
-        /// Content of the first textbox.
+        /// Backing property for the content of the first text box.
         /// </summary>
         public static readonly DependencyProperty TextContentFirstDependencyProperty =
             DependencyProperty.Register(
@@ -763,8 +773,6 @@ namespace KarveControls
            
             if (SourceView is IEnumerable source)
             {
-
-                var found = false;
                 // find the code in _sourceView
                 foreach (var assistValue in source)
                 {
@@ -781,9 +789,7 @@ namespace KarveControls
                         TextContentFirst = textDo;
                         TextContentSecond = secondValue.ToString();
                         SelectedObject = assistValue;
-                        found = true;
-                        if (found)
-                            break;
+                        break;
                     }
                 }
             }
@@ -1012,8 +1018,8 @@ namespace KarveControls
 
         private void SearchText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string searchTxtFirst = SearchTextFirst.Text;
-            string currentValueSecond = CheckTheValueInSourceView(searchTxtFirst);
+            var searchTxtFirst = SearchTextFirst.Text;
+            var currentValueSecond = CheckTheValueInSourceView(searchTxtFirst);
             if (string.IsNullOrEmpty(currentValueSecond))
             {
                 _textMode = true;
@@ -1023,7 +1029,12 @@ namespace KarveControls
             else
             {
                 TextContentSecond = currentValueSecond;
-
+                /**
+                 *  There is a case that is not covered. When the code is change, we shall be 100% sure
+                 * that a binding is present and a value is delivered. This happens when we create a new
+                 * data object, so we enforce the first digits if it gets resolved.
+                 */
+                ComponentUtils.SetPropValue(DataSource, DataFieldFirst, searchTxtFirst);
 
             }
             _textModeChanged = true;
@@ -1319,7 +1330,7 @@ namespace KarveControls
             if (currentDto == null)
                 return currentDto;
 
-            if (currentDto is BaseDto dto)
+            if (currentDto is BaseViewObject dto)
             {
                 tmpValue = dto.Code;
             }
@@ -1337,7 +1348,7 @@ namespace KarveControls
 
         private void RaiseBoxResolvedDoublClick(RoutedEvent searchBoxResolvedEvent, string first, string second)
         {
-            var ev = new SearchBoxResolvedEventArgs(searchBoxResolvedEvent);
+            var ev = new global::DualFieldSearchBox.DualFieldSearchBox.SearchBoxResolvedEventArgs(searchBoxResolvedEvent);
             ev.Code = first;
             ev.Data = second;
             RaiseEvent(ev);
@@ -1346,11 +1357,13 @@ namespace KarveControls
         private void RaiseBoxResolvedEvent(RoutedEvent searchBoxResolvedEvent)
         {
             TextContentSecond = CheckTheValueInSourceView(TextContentFirst);
-            var ev = new SearchBoxResolvedEventArgs(searchBoxResolvedEvent);
+            var ev = new global::DualFieldSearchBox.DualFieldSearchBox.SearchBoxResolvedEventArgs(searchBoxResolvedEvent);
             ev.Code = TextContentFirst;
             ev.Data = TextContentSecond;
-            RaiseEvent(ev);
-
+            if (!string.IsNullOrEmpty(ev.Code))
+            {
+                RaiseEvent(ev);
+            }
         }
         /// <summary>
         ///  HandleSourceViewAsEnumerable.
@@ -1370,8 +1383,6 @@ namespace KarveControls
             // 1. As first we fetch the content first.
             if (_textMode)
             {
-              //  string currentValueSecond = CheckTheValueInSourceView();
-              //  RaiseBoxResolvedEvent(SearchBoxResolvedEvent);
                 return;
             }
           
@@ -1399,8 +1410,8 @@ namespace KarveControls
                 if (!string.IsNullOrEmpty(AssistProperties))
                 {
                     
-                    // GetPropValue is slow and it gets called foreach dto to look for exactly the match.
-                    // but each dto has a codeId so there is no need for reflection.
+                    // GetPropValue is slow and it gets called foreach viewObject to look for exactly the match.
+                    // but each viewObject has a codeId so there is no need for reflection.
                     var tmpValue = findAPropertyValue(currentDto, fieldList[0]);
                     if (tmpValue != null)
                     {
@@ -1443,6 +1454,7 @@ namespace KarveControls
             if (objectFound)
             {
                 TextContentFirst = textContentFirst;
+               
                 TextContentSecond = textContentSecond;
                 SelectedObject = currentSelectedObject; 
                 RaiseBoxResolvedEvent(SearchBoxResolvedEvent);
@@ -1483,14 +1495,14 @@ namespace KarveControls
         {
 
            /*
-            *  The textmode is active when the user digit the code(FirstField).
+            *  The text mode is active when the user digit the code(FirstField).
             *  Then we got a new resolution and than we can raise a new event.
             */
             
             if (_textMode)
             {
                _textMode = false;
-               // RaiseBoxResolvedEvent(SearchBoxResolvedEvent);
+                // RaiseBoxResolvedEvent(SearchBoxResolvedEvent);
                 return;
             }
             
@@ -1531,11 +1543,8 @@ namespace KarveControls
 
         private static void OnButtonImageChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
-            {
-                control.OnButtonImageChange(e);
-            }
+            var control = d as DualFieldSearchBox;
+            control?.OnButtonImageChange(e);
         }
         private void OnButtonImageChange(DependencyPropertyChangedEventArgs e)
         {
@@ -1585,7 +1594,7 @@ namespace KarveControls
                 return;
             }
 
-            MagnifierPressEventArgs args = new MagnifierPressEventArgs(MagnifierPressEvent);
+            var args = new MagnifierPressEventArgs(MagnifierPressEvent);
 
             /*
             if (string.IsNullOrEmpty(this.AssistQuery))
@@ -1608,8 +1617,8 @@ namespace KarveControls
             valueDictionary["AssistTable"] = AssistTableName;
             valueDictionary["DataFieldFirst"] = DataFieldFirst;
             valueDictionary["DataFieldSecond"] = DataFieldSecond;
-            valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
-            valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
+            valueDictionary["AssistFieldFirst"] = AssistDataFieldFirst;
+            valueDictionary["AssistFieldSecond"] = AssistDataFieldSecond;
             valueDictionary["AssistQuery"] = AssistQuery;
 
             if (!string.IsNullOrEmpty(DataFieldFirst))
@@ -1700,11 +1709,8 @@ namespace KarveControls
         }
         private static void OnIsReadOnlyProperty(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
-            {
-                control.OnIsReadOnlyPropertyChanged(e);
-            }
+            var control = d as DualFieldSearchBox;
+            control?.OnIsReadOnlyPropertyChanged(e);
         }
         private void OnTextContentFirstWidthPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -1816,7 +1822,7 @@ namespace KarveControls
             if (Popup.IsOpen)
             {
                 IDictionary<string, object> valueDictionary = CreateEventValueDictionary();
-                DataFieldEventArgs ev = new DataFieldEventArgs(DataSearchTextBoxChangedEvent);
+                DataField.DataFieldEventArgs ev = new DataField.DataFieldEventArgs(DataSearchTextBoxChangedEvent);
 
                 if (ItemChangedCommand != null)
                 {
@@ -1835,11 +1841,11 @@ namespace KarveControls
         {
             var valueDictionary = new Dictionary<string, object>();
             valueDictionary["TableName"] = TableName;
-            valueDictionary["AssitTableName"] = AssistTableName;
+            valueDictionary["AssistTableName"] = AssistTableName;
             valueDictionary["DataFieldFirst"] = DataFieldFirst;
             valueDictionary["DataFieldSecond"] = DataFieldSecond;
-            valueDictionary["AssitFieldFirst"] = AssistDataFieldFirst;
-            valueDictionary["AssitFieldSecond"] = AssistDataFieldSecond;
+            valueDictionary["AssistFieldFirst"] = AssistDataFieldFirst;
+            valueDictionary["AssistFieldSecond"] = AssistDataFieldSecond;
             valueDictionary["DataTable"] = ItemSource;
             valueDictionary["DataObject"] = this.DataSource;
             valueDictionary["AssistDataTable"] = SourceView;
@@ -1868,11 +1874,8 @@ namespace KarveControls
         }
         private static void OnSearchTextBoxDataFieldSecondChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
-            {
-                control.OnDataFieldSecondPropertyChanged(e);
-            }
+            var control = d as DualFieldSearchBox;
+            control?.OnDataFieldSecondPropertyChanged(e);
         }
         private void OnDataFieldFirstPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -1894,11 +1897,8 @@ namespace KarveControls
         }
         private static void OnSearchTextBoxDataFields(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DualFieldSearchBox control = d as DualFieldSearchBox;
-            if (control != null)
-            {
-                control.OnDataFieldsPropertyChanged(e);
-            }
+            var control = d as DualFieldSearchBox;
+            control?.OnDataFieldsPropertyChanged(e);
         }
         private static void OnTextContentSecondWidthChange(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

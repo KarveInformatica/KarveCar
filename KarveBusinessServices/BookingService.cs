@@ -1,29 +1,24 @@
 ﻿using KarveBusinessServices.Objects;
-using KarveDataServices.DataTransferObject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using KarveDataServices.ViewObjects;
 
 namespace KarveBusinessServices
 {
     public class BookingService 
     {
         private Booking _booking;
-        private BookingDto _value;
-        public BookingDto Value => _value;
-        public BookingService(BookingDto dto)
+        private BookingViewObject _value;
+        public BookingViewObject Value => _value;
+        public BookingService(BookingViewObject viewObject)
         {
           
         }
 
-        public bool CanChange(BookingDto valueObject)
+        public bool CanChange(BookingViewObject valueObject)
         {
             _value = valueObject;
             return true;
         }
-        public bool CanCreate(BookingDto valueObject)
+        public bool CanCreate(BookingViewObject valueObject)
         {
             return true;
         }

@@ -11,7 +11,7 @@ using Prism.Regions;
 using KarveCommonInterfaces;
 using System.Windows.Input;
 using Prism.Commands;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
 using System.ComponentModel;
 
@@ -36,25 +36,25 @@ namespace KarveTest.Mock
         }
         private void OnProvinceAssist()
         {
-            IList<ProvinciaDto> provinceDto = new List<ProvinciaDto>()
-            {  new ProvinciaDto() { Code = "2892", Name="Provincia"}, new ProvinciaDto() { Code = "2891", Name="Provincia1"} };
+            IList<ProvinceViewObject> provinceDto = new List<ProvinceViewObject>()
+            {  new ProvinceViewObject() { Code = "2892", Name="Provincia"}, new ProvinceViewObject() { Code = "2891", Name="Provincia1"} };
 
-            Controller.ShowAssistView<ProvinciaDto>("Province", provinceDto, "Code, Name");
+            Controller.ShowAssistView<ProvinceViewObject>("Province", provinceDto, "Code, Name");
             if (Controller.SelectionState == SelectionState.OK)
             {
-                ProvinciaDto dto = Controller.SelectedItem as ProvinciaDto;
-                SelectedProvince = dto;
+                ProvinceViewObject viewObject = Controller.SelectedItem as ProvinceViewObject;
+                SelectedProvince = viewObject;
             }
         }
         private void OnContactChargeAssist()
         {
             Console.WriteLine("New charge");
-            IList<ContactsDto> contactsDto = new List<ContactsDto>()
+            IList<ContactsViewObject> contactsDto = new List<ContactsViewObject>()
             {
-               new ContactsDto() { ContactId = "1", ContactName="Named", Email="giorgio@apache.org"},
-               new ContactsDto() { ContactId = "2", ContactName="Named1", Email="giorgio1@apache.org"}
+               new ContactsViewObject() { ContactId = "1", ContactName="Named", Email="giorgio@apache.org"},
+               new ContactsViewObject() { ContactId = "2", ContactName="Named1", Email="giorgio1@apache.org"}
             };
-            AssistService.ShowAssistView<ContactsDto>("Province", contactsDto);
+            AssistService.ShowAssistView<ContactsViewObject>("Province", contactsDto);
         }
         /// <summary>
         ///  Command to lauch the view of contacts.
@@ -67,31 +67,31 @@ namespace KarveTest.Mock
         /// <summary>
         ///  Result of province selection
         /// </summary>
-        public ProvinciaDto SelectedProvince { set; get; }
+        public ProvinceViewObject SelectedProvince { set; get; }
         // Result of contacts selection.
-        public ContactsDto SelectedContact { set; get; }
+        public ContactsViewObject SelectedContact { set; get; }
 
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)
         {
             
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsViewObject)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             throw new NotImplementedException();
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }

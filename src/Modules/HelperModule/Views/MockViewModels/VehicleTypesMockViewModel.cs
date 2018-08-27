@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using System.Windows;
 using HelperModule.ViewModels;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.ObjectModel;
 using KarveCommon.Services;
 using KarveDataServices;
@@ -14,7 +14,7 @@ namespace HelperModule.Views
     public class VehicleTypesMockViewModel: BaseHelperViewModel 
     {
 
-        private ObservableCollection<VehicleTypeDto> listOfVehicles = new ObservableCollection<VehicleTypeDto>();
+        private ObservableCollection<VehicleTypeViewObject> listOfVehicles = new ObservableCollection<VehicleTypeViewObject>();
 
         public VehicleTypesMockViewModel(IDataServices dataServices, IRegionManager manager,
             IEventManager eventManager) : base(dataServices, manager, eventManager)

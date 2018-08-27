@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveControls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using MasterModule.UIObjects.CommissionAgents;
 
@@ -35,7 +35,7 @@ namespace MasterModule.ViewModels
                     TextContentSecondWidth = "30",
                     TableName = "COMISIO",
                     AssistProperties = "Code,Name",
-                    SourceView =  new ObservableCollection<ResellerDto>(),
+                    SourceView =  new ObservableCollection<ResellerViewObject>(),
                     LabelVisible = true,
                    
                     ButtonImage = MasterModuleConstants.ImagePath,

@@ -1,5 +1,5 @@
 ﻿using KarveCommon.Services;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 

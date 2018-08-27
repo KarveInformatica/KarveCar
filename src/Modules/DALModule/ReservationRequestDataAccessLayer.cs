@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.Crud;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using DataAccessLayer.Exception;
 using Dapper;
 using DataAccessLayer.SQL;
@@ -20,16 +20,16 @@ namespace DataAccessLayer
 {
     class ReservationRequestDataAccessLayer : AbstractDataAccessLayer, IReservationRequestDataService
     {
-        private IDataLoader<ReservationRequestDto> _dataLoader;
-        private IDataSaver<ReservationRequestDto> _dataSaver;
-        private IDataDeleter<ReservationRequestDto> _dataDeleter;
+        private IDataLoader<ReservationRequestViewObject> _dataLoader;
+        private IDataSaver<ReservationRequestViewObject> _dataSaver;
+        private IDataDeleter<ReservationRequestViewObject> _dataDeleter;
         private IMapper _mapper;
 
         public ReservationRequestDataAccessLayer(ISqlExecutor sqlExecutor): base(sqlExecutor)
         {
-            _dataLoader = new DataLoader<PETICION, ReservationRequestDto>(sqlExecutor);
-            _dataSaver = new DataSaver<PETICION, ReservationRequestDto>(sqlExecutor);
-            _dataDeleter = new DataDeleter<PETICION, ReservationRequestDto>(sqlExecutor);
+            _dataLoader = new DataLoader<PETICION, ReservationRequestViewObject>(sqlExecutor);
+            _dataSaver = new DataSaver<PETICION, ReservationRequestViewObject>(sqlExecutor);
+            _dataDeleter = new DataDeleter<PETICION, ReservationRequestViewObject>(sqlExecutor);
             TableName = "PETICION";
             _mapper = MapperField.GetMapper();
         }
@@ -97,15 +97,15 @@ namespace DataAccessLayer
             }
             try
             {
-                request.ResquestReasonDto = SelectionHelpers.WrappedSelectedDto<MOPETI, RequestReasonDto>(request.Value.MOPETI, _mapper, reader);
-                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(request.Value.OFICINA, _mapper, reader);
+                request.ResquestReasonDto = SelectionHelpers.WrappedSelectedDto<MOPETI, RequestReasonViewObject>(request.Value.MOPETI, _mapper, reader);
+                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeViewObject>(request.Value.OFICINA, _mapper, reader);
                 request.ClientDto = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(request.Value.CLIENTE, _mapper, reader);
-                request.ResellerDto = SelectionHelpers.WrappedSelectedDto<VENDEDOR, ResellerDto>(request.Value.VENDEDOR, _mapper, reader);
-                request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA, _mapper, reader);
-                request.CompanyDto = SelectionHelpers.WrappedSelectedDto<SUBLICEN, CompanyDto>(request.Value.SUBLICEN, _mapper, reader);
-                request.GroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupDto>(request.Value.CATEGO, _mapper, reader);
-                request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OrigenDto>(request.Value.ORIGEN, _mapper, reader);
-                request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryDto, VehicleSummaryDto>(request.Value.OTRO_VEHI, _mapper, reader);
+                request.ResellerDto = SelectionHelpers.WrappedSelectedDto<VENDEDOR, ResellerViewObject>(request.Value.VENDEDOR, _mapper, reader);
+                request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareViewObject>(request.Value.TARIFA, _mapper, reader);
+                request.CompanyDto = SelectionHelpers.WrappedSelectedDto<SUBLICEN, CompanyViewObject>(request.Value.SUBLICEN, _mapper, reader);
+                request.GroupDto = SelectionHelpers.WrappedSelectedDto<GRUPOS, VehicleGroupViewObject>(request.Value.CATEGO, _mapper, reader);
+                request.OriginDto = SelectionHelpers.WrappedSelectedDto<ORIGEN, OrigenViewObject>(request.Value.ORIGEN, _mapper, reader);
+                request.VehicleDto = SelectionHelpers.WrappedSelectedDto<VehicleSummaryViewObject, VehicleSummaryViewObject>(request.Value.OTRO_VEHI, _mapper, reader);
                
                
 #pragma warning disable CS0168 // Variable is declared but never used
@@ -120,7 +120,7 @@ namespace DataAccessLayer
 
         public IReservationRequest GetNewDo(string value)
         {
-            var newDto = new ReservationRequestDto();
+            var newDto = new ReservationRequestViewObject();
             newDto.Code = value;
             newDto.IsNew = true;
             newDto.NUMERO = value;

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.SQL;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.ComponentModel;
 
 namespace DataAccessLayer
@@ -31,7 +31,7 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="id">Identifier of the contract</param>
         /// <returns>A contract from the identifier</returns>
-        public async Task<ContractDto> GetContractAsync(string id)
+        public async Task<ContractViewObject> GetContractAsync(string id)
         {
             await Task.Delay(1);
             throw new NotImplementedException();
@@ -83,23 +83,23 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="vehicleId">Identifier of the vehicle</param>
         /// <returns></returns>
-        public async Task<IEnumerable<ContractByConductorDto>> GetContractByConductorAsync(string vehicleId)
+        public async Task<IEnumerable<ContractByConductorViewObject>> GetContractByConductorAsync(string vehicleId)
         {
             await Task.Delay(1);
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ContractByClientDto>> GetContractByClientAsync(string code)
+        public async Task<IEnumerable<ContractByClientViewObject>> GetContractByClientAsync(string code)
         {
             var queryStore = _queryStoreFactory.GetQueryStore();
             queryStore.AddParam(QueryType.QueryContractsByClient, code);
             var query = queryStore.BuildQuery();
-            IEnumerable<ContractByClientDto> listOfValues = new List<ContractByClientDto>();
+            IEnumerable<ContractByClientViewObject> listOfValues = new List<ContractByClientViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 if (dbConnection != null)
                 {
-                    listOfValues = await  dbConnection.QueryAsync<ContractByClientDto>(query);
+                    listOfValues = await  dbConnection.QueryAsync<ContractByClientViewObject>(query);
                 }
             }
             return listOfValues;

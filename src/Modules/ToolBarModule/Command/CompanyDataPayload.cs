@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveDataServices;
 using NLog;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Diagnostics.Contracts;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
@@ -24,9 +24,9 @@ namespace ToolBarModule.Command
         {
             Contract.Requires(payLoad != null, "The payload at company data shall be not null");
             Contract.Requires(payLoad.DataObject != null, "Payload shall have data object");
-            CompanyDto dto = payLoad.DataObject as CompanyDto;
-            ICompanyData data = _companyDataServices.GetNewCompanyDo(dto.Code);
-            data.Value = dto;
+            CompanyViewObject viewObject = payLoad.DataObject as CompanyViewObject;
+            ICompanyData data = _companyDataServices.GetNewCompanyDo(viewObject.Code);
+            data.Value = viewObject;
             bool result = await _companyDataServices.SaveAsync(data);
             // FIXME: where it is used current payload. shall enforce dry.
             if (result)

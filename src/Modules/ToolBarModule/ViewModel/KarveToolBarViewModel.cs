@@ -13,7 +13,7 @@ using System.Linq;
 using KarveCommonInterfaces;
 using ToolBarModule.ViewModel;
 using System.Windows.Controls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace ToolBarModule
 {
@@ -50,7 +50,7 @@ namespace ToolBarModule
         private IDictionary<string, DataSubSystem> _subSystems = new Dictionary<string, DataSubSystem>();
         private DataSubSystem _activeSubSystem = DataSubSystem.None;
         private readonly string confirmDelete = "Quieres Borrar El Registro?";
-        private string confirmSave = "Quieres Salvar El Registro?";
+        private readonly string confirmSave = "Quieres Salvar El Registro?";
         private string currentViewObjectId = string.Empty;
         private Stack<Uri> viewStack = new Stack<Uri>();
         private CompositeCommand _compositeSaveCommand = new CompositeCommand();
@@ -222,27 +222,24 @@ namespace ToolBarModule
                 DoDeleteHimSelf(value, uri);
                 return;
             }
-            /* I am not lucky. Nobody destroys himself.
-            *  On the top of the tsack it should be the last ctrated let's try to send a delete message to him.
-            *  He will help to murder the right tab if he will be have a mailbox to receive my destruction message.
-            *  
-            */
+            /*
+             * I am not lucky. Nobody destroys himself.
+             *  
+             */
             if (!string.IsNullOrEmpty(currentViewObjectId))
             {
                 payLoad.ObjectPath = viewStack.Peek();
 
                 _eventManager.SendMessage(currentViewObjectId, payLoad);
             }
-            // I dont trust anyone like Al Pacino in carlitos way..let's send the bomb to the active subsystem.
-            // The baby to kill is the active window for sure we have a controller or himself.
             DeliverIncomingNotify(_activeSubSystem, payLoad);
 
         }
 
         private bool DoDeleteHimSelf(string value, Uri uri)
         {
-            Tuple<string, Uri> deleteInfo = new Tuple<string, Uri>( value, uri );
-            if (_compositeDeleteCommand.RegisteredCommands.Count() > 0)
+            var deleteInfo = new Tuple<string, Uri>( value, uri );
+            if (_compositeDeleteCommand.RegisteredCommands.Any())
             {
                 if (_compositeDeleteCommand.CanExecute(deleteInfo))
                 {
@@ -334,7 +331,7 @@ namespace ToolBarModule
             }
         }
         /// <summary>
-        ///  Return true when a new is enabeled.
+        ///  Return true when a new is enabled.
         /// </summary>
         public bool ButtonEnabled
         {
@@ -364,28 +361,31 @@ namespace ToolBarModule
         {
 
             var dto = payLoad.DataObject;
-            BaseDto payloadDto;
+            BaseViewObject payloadViewObject;
             // it might be happen to have two cases. 
             // The data transfer object is the Value parameter or not.
-            if (payLoad.DataObject is BaseDto baseDto)
+            if (payLoad.DataObject is BaseViewObject baseDto)
             {
-                payloadDto = baseDto;
+                payloadViewObject = baseDto;
 
             }
             else
             {
-                payloadDto = KarveCommon.ComponentUtils.GetPropValue(dto, "Value") as BaseDto;
+                payloadViewObject = KarveCommon.ComponentUtils.GetPropValue(dto, "Value") as BaseViewObject;
 
             }
-            if (!command.CanExecute(payloadDto))
+            if (!command.CanExecute(payloadViewObject))
             {
-               
-                var error = payloadDto.GetErrors(string.Empty) as  List<string>;
-                if (error != null)
+                if (payloadViewObject != null)
                 {
-                    var errorName = error.FirstOrDefault();
-                    DialogService?.ShowErrorMessage(errorName);
+                    var error = payloadViewObject.GetErrors(string.Empty) as  List<string>;
+                    if (error != null)
+                    {
+                        var errorName = error.FirstOrDefault();
+                        DialogService?.ShowErrorMessage(errorName);
+                    }
                 }
+
                 return false;
             }
             _careKeeper.Do(new CommandWrapper(command));
@@ -453,7 +453,7 @@ namespace ToolBarModule
         /// <param name="uri">Active view uri</param>
         private void DoNewAll(Uri uri)
         {
-            if (_compositeNewCommand.RegisteredCommands.Count() > 0)
+            if (_compositeNewCommand.RegisteredCommands.Any())
             {
                 if (_compositeNewCommand.CanExecute(null))
                 {
@@ -464,7 +464,7 @@ namespace ToolBarModule
         private bool DoSaveHimself(DataPayLoad payload = null)
         {
             // ok then 
-            if (_compositeSaveCommand.RegisteredCommands.Count() > 0)
+            if (_compositeSaveCommand.RegisteredCommands.Any())
             {
                 if (_compositeSaveCommand.CanExecute(payload))
                 {
@@ -566,7 +566,7 @@ namespace ToolBarModule
 
         /// FIXME: dont repeat yourself see toolbar datapayload.
         /// <summary>
-        /// Delvier incoming notify.
+        /// Deliver incoming notify.
         /// TODO: try to unify data subsystem and event subsystem.
         /// </summary>
         /// <param name="subSystem">Current subsystem</param>

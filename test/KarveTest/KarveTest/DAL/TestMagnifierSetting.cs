@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using DataAccessLayer;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using System.IO;
 using System.Transactions;

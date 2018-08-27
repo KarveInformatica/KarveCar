@@ -1,5 +1,5 @@
 ﻿using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data;
@@ -18,7 +18,7 @@ namespace DataAccessLayer.Crud.Company
     /// <summary>
     ///  Company loader
     /// </summary>
-    internal sealed class CompanyDataLoader : IDataLoader<CompanyDto>
+    internal sealed class CompanyDataLoader : IDataLoader<CompanyViewObject>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
@@ -42,13 +42,13 @@ namespace DataAccessLayer.Crud.Company
         ///  Load all the companies present in the system
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<CompanyDto>> LoadAsyncAll()
+        public async Task<IEnumerable<CompanyViewObject>> LoadAsyncAll()
         {
-            IEnumerable<CompanyDto> companyDto = new List<CompanyDto>();
+            IEnumerable<CompanyViewObject> companyDto = new List<CompanyViewObject>();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
                 var value =  await connection.GetAllAsync<SUBLICEN>();
-                companyDto = _mapper.Map<IEnumerable<SUBLICEN>, IEnumerable<CompanyDto>>(value);
+                companyDto = _mapper.Map<IEnumerable<SUBLICEN>, IEnumerable<CompanyViewObject>>(value);
             }
             return companyDto;
         }
@@ -58,9 +58,9 @@ namespace DataAccessLayer.Crud.Company
         /// </summary>
         /// <param name="code">Identifier of the company</param>
         /// <returns>The company data transfer object.</returns>
-        public async Task<CompanyDto> LoadValueAsync(string code)
+        public async Task<CompanyViewObject> LoadValueAsync(string code)
         {
-            var companyDto = new CompanyDto();
+            var companyDto = new CompanyViewObject();
             using (var connection = _sqlExecutor.OpenNewDbConnection())
             {
                 var value = await connection.GetAsync<SUBLICEN>(code);
@@ -69,16 +69,16 @@ namespace DataAccessLayer.Crud.Company
                     companyDto.IsValid = false;
                     return companyDto;
                 }
-                companyDto = _mapper.Map<SUBLICEN, CompanyDto>(value);
+                companyDto = _mapper.Map<SUBLICEN, CompanyViewObject>(value);
                 
                 var store = CreateQueryStore(companyDto);
                 var multipleQuery = store.BuildQuery();
                 var reader = await connection.QueryMultipleAsync(multipleQuery);
 
-                var city = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityDto>(value.POBLACION, _mapper, reader);
+                var city = SelectionHelpers.WrappedSelectedDto<POBLACIONES, CityViewObject>(value.POBLACION, _mapper, reader);
 
-                var province = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinciaDto>(value.PROVINCIA, _mapper, reader);
-                companyDto.Offices = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeDtos>(value.CODIGO, _mapper, reader);
+                var province = SelectionHelpers.WrappedSelectedDto<PROVINCIA, ProvinceViewObject>(value.PROVINCIA, _mapper, reader);
+                companyDto.Offices = SelectionHelpers.WrappedSelectedDto<OFICINAS, OfficeViewObject>(value.CODIGO, _mapper, reader);
                 companyDto.City = city.FirstOrDefault();
                 companyDto.Province = province.FirstOrDefault();
 
@@ -92,10 +92,10 @@ namespace DataAccessLayer.Crud.Company
         /// <param name="n">Number of values from the current position to be loaded</param>
         /// <param name="back">offset, it can be positive or negative</param>
         /// <returns></returns>
-        public async Task<IEnumerable<CompanyDto>> LoadValueAtMostAsync(int n, int back = 0)
+        public async Task<IEnumerable<CompanyViewObject>> LoadValueAtMostAsync(int n, int back = 0)
         {
 
-            IEnumerable<CompanyDto> companyDto = new List<CompanyDto>();
+            IEnumerable<CompanyViewObject> companyDto = new List<CompanyViewObject>();
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
@@ -114,7 +114,7 @@ namespace DataAccessLayer.Crud.Company
         /// </summary>
         /// <param name="reader">GridReader reader of dapper results</param>
         /// <param name="office">Poco to check if there is a null parameter.</param>
-        private void SetDataTransferObject(SqlMapper.GridReader reader, SUBLICEN company, ref CompanyDto dto)
+        private void SetDataTransferObject(SqlMapper.GridReader reader, SUBLICEN company, ref CompanyViewObject viewObject)
         {
             // think about the GridReader.
 
@@ -124,7 +124,7 @@ namespace DataAccessLayer.Crud.Company
             {
                 if (reader.IsConsumed)
                     return;
-                Helper.CityDto = MapperUtils.GetMappedValue<POBLACIONES, CityDto>(reader.Read<POBLACIONES>().FirstOrDefault(), _mapper);
+                Helper.CityDto = MapperUtils.GetMappedValue<POBLACIONES, CityViewObject>(reader.Read<POBLACIONES>().FirstOrDefault(), _mapper);
             }
 
             if (!string.IsNullOrEmpty(company.NACIO))
@@ -132,17 +132,17 @@ namespace DataAccessLayer.Crud.Company
                 if (reader.IsConsumed)
                     return;
 
-                Helper.CountryDto = MapperUtils.GetMappedValue<Country, CountryDto>(reader.Read<Country>().FirstOrDefault(), _mapper);
+                Helper.CountryDto = MapperUtils.GetMappedValue<Country, CountryViewObject>(reader.Read<Country>().FirstOrDefault(), _mapper);
             }
             
             if (!string.IsNullOrEmpty(company.PROVINCIA))
             {
                 if (reader.IsConsumed)
                     return;
-                Helper.ProvinciaDto = MapperUtils.GetMappedValue<PROVINCIA, ProvinciaDto>(reader.Read<PROVINCIA>().FirstOrDefault(), _mapper);
+                Helper.ProvinciaDto = MapperUtils.GetMappedValue<PROVINCIA, ProvinceViewObject>(reader.Read<PROVINCIA>().FirstOrDefault(), _mapper);
             }
             var listOfOffices = reader.Read<OFICINAS>().ToList();
-            dto.Offices =  _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeDtos>>(listOfOffices);
+            viewObject.Offices =  _mapper.Map<IEnumerable<OFICINAS>, IEnumerable<OfficeViewObject>>(listOfOffices);
 
         }
         /// <summary>
@@ -150,7 +150,7 @@ namespace DataAccessLayer.Crud.Company
         /// </summary>
         /// <param name="company">Company data transfer object used to be inserted in the query store.</param>
         /// <returns>Return an interface of the query store.</returns>
-        private IQueryStore CreateQueryStore(CompanyDto company)
+        private IQueryStore CreateQueryStore(CompanyViewObject company)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             store.Clear();

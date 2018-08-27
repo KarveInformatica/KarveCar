@@ -8,7 +8,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -16,7 +16,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  BusinessViewModel. Model that maps the business helper.
     /// </summary>
-    class BusinessViewModel: GenericHelperViewModel<BusinessDto, NEGOCIO>
+    class BusinessViewModel: GenericHelperViewModel<BusinessViewObject, NEGOCIO>
     {
         public BusinessViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
         {
@@ -25,12 +25,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            BusinessDto dto = payLoad.DataObject as BusinessDto;
-            if (dto != null)
+            BusinessViewObject viewObject = payLoad.DataObject as BusinessViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<BusinessDto,NEGOCIO>(dto);
-                dto.Code = codeId.Substring(0, 2);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<BusinessViewObject,NEGOCIO>(viewObject);
+                viewObject.Code = codeId.Substring(0, 2);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

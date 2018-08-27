@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.Assist;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 using KarveCommon.Generic;
 using DataAccessLayer.Logic;

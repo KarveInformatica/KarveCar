@@ -4,7 +4,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NLog;
 using System.Collections.Generic;
 
@@ -78,33 +78,33 @@ namespace ToolBarModule.Command
 
 
                         result = true;
-                        if (payLoad.RelatedObject is IEnumerable<BranchesDto>)
+                        if (payLoad.RelatedObject is IEnumerable<BranchesViewObject>)
                         {
-                            await UpdateGridAsync<BranchesDto, ProDelega>(payLoad); 
+                            await UpdateGridAsync<BranchesViewObject, ProDelega>(payLoad); 
                         }
                         else
                         {
-                            await UpdateGridAsync<ContactsDto, ProContactos>(payLoad); 
+                            await UpdateGridAsync<ContactsViewObject, ProContactos>(payLoad); 
                         }
                         break;
                     }
                 case DataPayLoad.Type.DeleteGrid:
                     {
-                        if (payLoad.RelatedObject is IEnumerable<BranchesDto> branches)
+                        if (payLoad.RelatedObject is IEnumerable<BranchesViewObject> branches)
                         {
                             foreach (var branch in branches)
                             {
                                 if (branch.IsDeleted)
                                 {
                                     // a delete bulk.
-                                    result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesDto, ProDelega>(branch);
+                                    result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<BranchesViewObject, ProDelega>(branch);
                                 }
                             }
                         }
-                        ContactsDto contactsDto = payLoad.RelatedObject as ContactsDto;
-                        if (contactsDto != null)
+                        ContactsViewObject contactsViewObject = payLoad.RelatedObject as ContactsViewObject;
+                        if (contactsViewObject != null)
                         {
-                            result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsDto, ProContactos>(contactsDto);
+                            result = await DataServices.GetHelperDataServices().ExecuteAsyncDelete<ContactsViewObject, ProContactos>(contactsViewObject);
                         }
                         break;
                     }

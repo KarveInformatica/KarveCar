@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Dapper;
 using KarveDapper.Extensions;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using AutoMapper;
 using DataAccessLayer.SQL;
 using System.Collections.Generic;
@@ -14,7 +14,6 @@ using System.Data;
 using System.Linq;
 using System.Transactions;
 using DataAccessLayer.Exception;
-using KarveCommonInterfaces;
 
 
 namespace DataAccessLayer
@@ -46,7 +45,7 @@ namespace DataAccessLayer
         /// <returns>The invoice.</returns>
         public async Task<IInvoiceData> GetDoAsync(string code)
         {
-            var invoice = new Invoice(code, new InvoiceDto()) {Valid = false};
+            var invoice = new Invoice(code, new InvoiceViewObject()) {Valid = false};
             //  check if the code is a valid integer.
            
             using (var connection = SqlExecutor.OpenNewDbConnection())
@@ -71,7 +70,7 @@ namespace DataAccessLayer
 
                     var invoiceItems = multi.Read<LIFAC>().ToList();
 
-                    var dto = _mapper.Map<FACTURAS, InvoiceDto>(invoices);
+                    var dto = _mapper.Map<FACTURAS, InvoiceViewObject>(invoices);
                     if (dto == null)
                     {
                         return new NullInvoice();
@@ -89,7 +88,7 @@ namespace DataAccessLayer
 
                     invoice = new Invoice(code, dto)
                     {
-                        InvoiceItems = _mapper.Map<IEnumerable<LIFAC>, IEnumerable<InvoiceSummaryDto>>(invoiceItems),
+                        InvoiceItems = _mapper.Map<IEnumerable<LIFAC>, IEnumerable<InvoiceSummaryViewObject>>(invoiceItems),
                         Valid = true,
                         Value = dto,
                         ClientSummary = clientDto,
@@ -110,14 +109,14 @@ namespace DataAccessLayer
         ///  Retrieve the invoice summary in asynchronous way.
         /// </summary>
         /// <returns>A collection of invoices.</returns>
-        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<InvoiceSummaryValueViewObject>> GetSummaryAllAsync()
         {
             using (var db = SqlExecutor.OpenNewDbConnection())
             {
                 var store = QueryStoreFactory.GetQueryStore();
                 store.AddParam(QueryType.QueryInvoiceSummaryExtended);
                 var query = store.BuildQuery();
-                var invoice = await db.QueryAsync<InvoiceSummaryValueDto>(query);
+                var invoice = await db.QueryAsync<InvoiceSummaryValueViewObject>(query);
                 return invoice;
             }
         }
@@ -130,10 +129,10 @@ namespace DataAccessLayer
         /// <returns>A new fresh invoice</returns>
         public IInvoiceData GetNewDo(string code)
         {
-            var dto = new InvoiceDto {NUMERO_FAC = code};
+            var dto = new InvoiceViewObject() {NUMERO_FAC = code};
             var invoice = new Invoice(code, dto);
             invoice.ClientSummary = new List<ClientSummaryExtended>();
-            invoice.ContractSummary = new List<ContractDto>();
+            invoice.ContractSummary = new List<ContractViewObject>();
             invoice.Code = code;
             invoice.Coste = 0;
             invoice.Cantidad = 0;
@@ -146,9 +145,9 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Size of the page</param>
         /// <returns></returns>
-        public async Task<IEnumerable<InvoiceSummaryValueDto>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
+        public async Task<IEnumerable<InvoiceSummaryValueViewObject>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
         {
-            var pager = new DataPager<InvoiceSummaryValueDto>(SqlExecutor);
+            var pager = new DataPager<InvoiceSummaryValueViewObject>(SqlExecutor);
             var startIndex = (pageIndex <= 0) ? 1 : pageIndex;
             NumberPage = await GetPageCount(pageSize);
             var summary = await pager.GetPagedSummaryDoAsync(QueryType.QueryInvoiceSummaryPaged, startIndex, pageSize);
@@ -176,7 +175,7 @@ namespace DataAccessLayer
                     using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
 
-                        var facturas = _mapper.Map<InvoiceDto, FACTURAS>(invoice.Value);
+                        var facturas = _mapper.Map<InvoiceViewObject, FACTURAS>(invoice.Value);
 
 
                         retValue = await dbConnection.DeleteAsync(facturas);
@@ -186,7 +185,7 @@ namespace DataAccessLayer
                         }
 
                         var lineas =
-                            _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(invoice.Value.InvoiceItems);
+                            _mapper.Map<IEnumerable<InvoiceSummaryViewObject>, IEnumerable<LIFAC>>(invoice.Value.InvoiceItems);
                         var entityToDelete = lineas.ToArray();
                         retValue = retValue && await dbConnection.DeleteCollectionAsync(entityToDelete);
                         scope.Complete();
@@ -236,7 +235,7 @@ namespace DataAccessLayer
                     throw  new DataLayerException("Cannot open the database during save");
                 }
                 // we are sure that the database is open here.
-                var invoice = _mapper.Map<InvoiceDto, FACTURAS>(item);
+                var invoice = _mapper.Map<InvoiceViewObject, FACTURAS>(item);
                 try
                 {
                     using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -283,22 +282,22 @@ namespace DataAccessLayer
         /// </summary>
         /// <param name="lines">Lines of the invoice</param>
         /// <returns></returns>
-        private async Task<bool> SaveLines(IDbConnection dbConnection, IEnumerable<InvoiceSummaryDto> lines)
+        private async Task<bool> SaveLines(IDbConnection dbConnection, IEnumerable<InvoiceSummaryViewObject> lines)
         {
             var retValue = true;
             if (lines == null)
             {
                 return false;
             }
-            var invoiceSummaryValueDtos = lines as InvoiceSummaryDto[] ?? lines.ToArray();
+            var invoiceSummaryValueDtos = lines as InvoiceSummaryViewObject[] ?? lines.ToArray();
             var selectNew = invoiceSummaryValueDtos.Where(x => (x.IsNew == true));
             var selectDirty = invoiceSummaryValueDtos.Where(x => x.IsDirty == true);
             var selectDeleted = invoiceSummaryValueDtos.Where(x => x.IsDeleted == true);
             var toBeUpdated = selectDirty.Except(selectNew);
           
-            var mappedToInsert = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(selectNew);
-            var mappedToUpdate = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(toBeUpdated);
-            var mappedToDelete = _mapper.Map<IEnumerable<InvoiceSummaryDto>, IEnumerable<LIFAC>>(selectDeleted);
+            var mappedToInsert = _mapper.Map<IEnumerable<InvoiceSummaryViewObject>, IEnumerable<LIFAC>>(selectNew);
+            var mappedToUpdate = _mapper.Map<IEnumerable<InvoiceSummaryViewObject>, IEnumerable<LIFAC>>(toBeUpdated);
+            var mappedToDelete = _mapper.Map<IEnumerable<InvoiceSummaryViewObject>, IEnumerable<LIFAC>>(selectDeleted);
             try
             {
                 if (mappedToInsert.Any())
@@ -319,7 +318,7 @@ namespace DataAccessLayer
             return retValue;
         }
 
-        public Task<IEnumerable<InvoiceSummaryDto>> GetInvoiceSummaryAsync()
+        public Task<IEnumerable<InvoiceSummaryViewObject>> GetInvoiceSummaryAsync()
         {
           throw new System.NotImplementedException();
         }

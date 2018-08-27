@@ -1,6 +1,6 @@
 ﻿using KarveControls.ViewModels;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,21 +9,22 @@ using System.Windows.Input;
 namespace BookingModule.ViewModels
 {
 
+    /// <inheritdoc />
     /// <summary>
     /// Related part to the handling of the other data tab
     /// </summary>
-    internal sealed partial class BookingInfoViewModel  : HeaderedLineViewModelBase<IBookingData, BookingDto, BookingItemsDto>
+    internal sealed partial class BookingInfoViewModel  : HeaderedLineViewModelBase<IBookingData, BookingViewObject, BookingItemsViewObject>
     {
         private ObservableCollection<GeneralInfo> _generalInfoCollection;
         private ICommand _printCommand;
-        private IEnumerable<OrigenDto> _origin = new ObservableCollection<OrigenDto>();
-        private IEnumerable<BookingMediaDto> _media = new ObservableCollection<BookingMediaDto>();
-        private IEnumerable<BookingTypeDto> _bookingType = new ObservableCollection<BookingTypeDto>();
-        public  IEnumerable<AgencyEmployeeDto> _agencyEmployees = new ObservableCollection<AgencyEmployeeDto>();
-        private IEnumerable<ContactsDto> _bookingContacts = new ObservableCollection<ContactsDto>();
-        private IEnumerable<PaymentFormDto> _bookingPaymentForm = new ObservableCollection<PaymentFormDto>();
-        private IEnumerable<VehicleActivitiesDto> _bookingVehicleActivity = new ObservableCollection<VehicleActivitiesDto>();
-        private IEnumerable<PrintingTypeDto> _printingTypeDto = new ObservableCollection<PrintingTypeDto>();
+        private IEnumerable<OrigenViewObject> _origin = new ObservableCollection<OrigenViewObject>();
+        private IEnumerable<BookingMediaViewObject> _media = new ObservableCollection<BookingMediaViewObject>();
+        private IEnumerable<BookingTypeViewObject> _bookingType = new ObservableCollection<BookingTypeViewObject>();
+        public  IEnumerable<AgencyEmployeeViewObject> _agencyEmployees = new ObservableCollection<AgencyEmployeeViewObject>();
+        private IEnumerable<ContactsViewObject> _bookingContacts = new ObservableCollection<ContactsViewObject>();
+        private IEnumerable<PaymentFormViewObject> _bookingPaymentForm = new ObservableCollection<PaymentFormViewObject>();
+        private IEnumerable<VehicleActivitiesViewObject> _bookingVehicleActivity = new ObservableCollection<VehicleActivitiesViewObject>();
+        private IEnumerable<PrintingTypeViewObject> _printingTypeDto = new ObservableCollection<PrintingTypeViewObject>();
       
         /// <summary>
         ///  Creating an observable collection for other data.
@@ -67,83 +68,71 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or Get the booking origin.
         /// </summary>
-        public IEnumerable<OrigenDto> BookingOrigen
+        public IEnumerable<OrigenViewObject> BookingOrigen
         {
             set
             {
                 _origin = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("BokingOrigen");
             }
-            get
-            {
-                return _origin;
-            }
+            get => _origin;
         }
         /// <summary>
         ///  Set or Get the medium reservation.
         /// </summary>
-        public IEnumerable<BookingMediaDto> BookingMedia
+        public IEnumerable<BookingMediaViewObject> BookingMedia
         {
             set
             {
                 _media = value;
                 RaisePropertyChanged();
             }
-            get
-            {
-                return _media;
-            }
+            get => _media;
         }
 
 
         /// <summary>
         ///  Set or Get the booking type
         /// </summary>
-        public IEnumerable<BookingTypeDto> BookingType
+        public IEnumerable<BookingTypeViewObject> BookingType
         {
             set
             {
                 _bookingType = value;
+                RaisePropertyChanged("BookingType");
             }
-            get
-            {
-                return _bookingType;
-            }
+            get => _bookingType;
         }
         /// <summary>
         ///  Set or get the booking contacts
         /// </summary>
-        public IEnumerable<ContactsDto> BookingContacts
+        public IEnumerable<ContactsViewObject> BookingContacts
         {
             set
             {
                 _bookingContacts = value;
+                RaisePropertyChangeAfterInit("BookingContacts");
             }
-            get
-            {
-                return _bookingContacts;
-            }
+            get => _bookingContacts;
         }    
         /// <summary>
         ///  Set or Get the booking payment form
         /// </summary>
-        public IEnumerable<PaymentFormDto> BookingPaymentFormDto
+        public IEnumerable<PaymentFormViewObject> BookingPaymentFormDto
         {
             set
             {
                 _bookingPaymentForm = value;
+                RaisePropertyChangeAfterInit("BookingPaymentFormDto");
             }
-            get
-            {
-                return _bookingPaymentForm;
-            }
+            get => _bookingPaymentForm;
         }
-        public IEnumerable<AgencyEmployeeDto> BookingAgencyEmployee
+        public IEnumerable<AgencyEmployeeViewObject> BookingAgencyEmployee
         {
             set
             {
                 _agencyEmployees = value;
-               // RaisePropertyChanged("BookingAgencyEmployee");
+                RaisePropertyChanged("BookingAgencyEmployee");
             }
             get
             {
@@ -153,7 +142,7 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set or get the vehicle activity.
         /// </summary>
-        public IEnumerable<VehicleActivitiesDto> BookingVehicleActivity
+        public IEnumerable<VehicleActivitiesViewObject> BookingVehicleActivity
         {
             set
             {
@@ -168,7 +157,7 @@ namespace BookingModule.ViewModels
         /// <summary>
         ///  Set pr get Printing type dto.
         /// </summary>
-        public IEnumerable<PrintingTypeDto> PrintingTypeDto
+        public IEnumerable<PrintingTypeViewObject> PrintingTypeDto
         {
             set
             {
@@ -205,19 +194,16 @@ namespace BookingModule.ViewModels
 
 
         /// <summary>
-        ///  GeneralInfo collection. Collection for the general info searchbox.
+        ///  GeneralInfo collection. Collection for the general info search box.
         /// </summary>
         public ObservableCollection<GeneralInfo> GeneralInfoCollection
         {
             set
             {
                  _generalInfoCollection = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged("GeneralInfoCollection");
             }
-            get
-            {
-                return _generalInfoCollection;
-            }
+            get => _generalInfoCollection;
         }
         /// <summary>
         ///  Print command for the Reservation label.
@@ -229,10 +215,7 @@ namespace BookingModule.ViewModels
                 _printCommand = value;
                 RaisePropertyChanged();
             }
-            get
-            {
-                return _printCommand;
-            }
+            get => _printCommand;
         }
     }
 }

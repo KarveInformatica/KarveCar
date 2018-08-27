@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices.DataObjects
 {
     /// <summary>
     ///  Value of the OfficeData.
     /// </summary>
-    public interface IOfficeData : IHelperBase, IValidDomainObject, IValueObject<OfficeDtos>
+    public interface IOfficeData : IHelperBase, IValidDomainObject, IValueObject<OfficeViewObject>
     {
         
         /// <summary>
-        ///   CurrenciesDto.
+        ///   CurrenciesViewObject.
         /// </summary>
-        IEnumerable<CurrenciesDto> CurrenciesDto { get ; set ; }
+        IEnumerable<CurrenciesViewObject> CurrenciesDto { get ; set ; }
 
     }
 }

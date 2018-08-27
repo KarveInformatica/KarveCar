@@ -6,14 +6,14 @@ using KarveDataServices;
 using Moq;
 using NUnit.Framework;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DalBase = KarveTest.DAL.TestBase;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveDapper;
 using KarveDapper.Extensions;
 using Dapper;
@@ -67,7 +67,7 @@ namespace KarveTest.ViewModels
         {
             /*
             bool isClientNavigated = false;
-           _navigator.Setup(x => x.NewHelperView<MOPETI,RequestReasonDto>(It.IsAny<MOPETI>(), It.IsAny<string>())).Callback(() => { isClientNavigated = true; });
+           _navigator.Setup(x => x.NewHelperView<MOPETI,RequestReasonViewObject>(It.IsAny<MOPETI>(), It.IsAny<string>())).Callback(() => { isClientNavigated = true; });
             var reservationRequestsView = new ReservationRequestsViewModel(_dataServices.Object, _interacionController.Object, _dialogService.Object, _eventManager.Object, _navigator.Object, null, null);
             _reservationRequestsView.CreateNewRequestReason.Execute();
             Assert.IsTrue(isClientNavigated);
@@ -76,11 +76,11 @@ namespace KarveTest.ViewModels
         [Test]
         public void Should_Insert_ANewItem()
         {
-            ReservationRequestDto dto = new ReservationRequestDto()
+            ReservationRequestViewObject viewObject = new ReservationRequestViewObject()
             {
                 NUMERO = "12190"
             };
-            IReservationRequest reservationRequest = new ReservationRequest(dto);
+            IReservationRequest reservationRequest = new ReservationRequest(viewObject);
 
             bool isRegistered = false;
             DataPayLoad currentDataPayLoad = null;
@@ -101,12 +101,12 @@ namespace KarveTest.ViewModels
             payload.DataObject = reservationRequest;
             payload.HasDataObject = true;
             reservationRequestsView.IncomingPayload(payload);
-            Assert.AreEqual(reservationRequestsView.DataObject.NUMERO, dto.NUMERO);
+            Assert.AreEqual(reservationRequestsView.DataObject.NUMERO, viewObject.NUMERO);
         }
         [Test]
         public async Task Should_Show_AnItem()
         {
-            var dto = new ReservationRequestDto();
+            var dto = new ReservationRequestViewObject();
             // i prepare data with real data from the database.
 
             using (var conn = _sqlExecutor.OpenNewDbConnection())
@@ -127,11 +127,11 @@ namespace KarveTest.ViewModels
             var vehicleService = _services.GetVehicleDataServices();
 
             var clientDto = await clientService.GetPagedSummaryDoAsync(1,1);
-            var grupos = await helperService.GetSingleMappedAsyncHelper<VehicleGroupDto, GRUPOS>(dto.CATEGO);
-            var origen = await helperService.GetSingleMappedAsyncHelper<OrigenDto, ORIGEN>(dto.ORIGEN.Value.ToString());
+            var grupos = await helperService.GetSingleMappedAsyncHelper<VehicleGroupViewObject, GRUPOS>(dto.CATEGO);
+            var origen = await helperService.GetSingleMappedAsyncHelper<OrigenViewObject, ORIGEN>(dto.ORIGEN.Value.ToString());
             var reservation = new ReservationRequest(dto);
             reservation.ClientDto = reservation.ClientDto.Union(new List<ClientSummaryExtended>() { clientDto.FirstOrDefault()});
-            reservation.GroupDto = reservation.GroupDto.Union(new List<VehicleGroupDto>() { grupos });
+            reservation.GroupDto = reservation.GroupDto.Union(new List<VehicleGroupViewObject>() { grupos });
             DataPayLoad payload = new DataPayLoad();
             payload.PayloadType = DataPayLoad.Type.Show;
             payload.DataObject = reservation;

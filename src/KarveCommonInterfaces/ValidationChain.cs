@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Text.RegularExpressions;
 
 namespace KarveCommonInterfaces
 {
@@ -40,6 +40,20 @@ namespace KarveCommonInterfaces
             return Next;
         }
 
+        protected bool IsHarmfulChars(string input)
+        {
+            var pattern =
+                "('(''|[^'])*')|(;)|(\b(ALTER|CREATE|DELETE|DROP|EXEC(UTE){0,1}|INSERT( +INTO){0,1}|MERGE|SELECT|UPDATE|UNION( +ALL){0,1})\b)|-|%";
+
+            var rgx = new Regex(pattern, RegexOptions.IgnoreCase);
+            var matches = rgx.Matches(input);
+            if (matches.Count > 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         /// <inheritdoc />
         /// <summary>
         ///  This checks the request coming before saving
@@ -73,5 +87,9 @@ namespace KarveCommonInterfaces
         /// <param name="request">This method allows the validation of each request.</param>
         /// <returns>True if the validation is successfully.</returns>
         public abstract bool Validate(T request);
+
+
+
+
     }
 }

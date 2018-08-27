@@ -9,15 +9,15 @@ namespace KarveCommon.Validation
     public static class ValidationHelpers
     {
         /*
-        public static bool ValidateStringSize(BaseDto dto)
+        public static bool ValidateStringSize(BaseViewObject viewObject)
         {
-            var properties = dto.GetType().GetProperties();
+            var properties = viewObject.GetType().GetProperties();
             foreach (var prop in properties.)
             {
                prop.GetCustomAttributes(typeof(StringLengthAttribute), true)
                
             }
-            var nameLength = dto.GetType().GetProperties()
+            var nameLength = viewObject.GetType().GetProperties()
                            .Where(p => p.Name == "NOMBRE_RES")
                            .SingleOrDefault()
                            .GetCustomAttributes(typeof(StringLengthAttribute), true)

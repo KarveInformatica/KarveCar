@@ -6,24 +6,27 @@ using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Linq;
 using System.Text;
 using NLog;
 
 namespace DataAccessLayer.Crud.Booking
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
-    ///  BookingDataLoader. This loads the boooking.
+    ///  BookingDataLoader. This loads the booking.
     /// </summary>
-    internal class BookingDataLoader : IDataLoader<BookingDto>
+    internal class BookingDataLoader : IDataLoader<BookingViewObject>
     {
 
         private readonly ISqlExecutor _sqlExecutor;
         private readonly IMapper _mapper;
         private readonly QueryStoreFactory _queryStoreFactory;
         private int _currentPos;
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         ///  Constructor for the booking data loader.
@@ -41,140 +44,32 @@ namespace DataAccessLayer.Crud.Booking
         ///  Load the asynchronous async load.
         /// </summary>
         /// <returns>A list of booking</returns>
-        public async Task<IEnumerable<BookingDto>> LoadAsyncAll()
+        public async Task<IEnumerable<BookingViewObject>> LoadAsyncAll()
         {
             var store = _queryStoreFactory.GetQueryStore();
             store.AddParam(QueryType.QueryBookingSummary);
             var query = store.BuildQuery();
             using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
             {
-                if (dbConnection != null)
+                if (dbConnection == null)
                 {
-                    _logger.Log(LogLevel.Debug, query);
-                    var reservation = await dbConnection.QueryAsync<BookingDto>(query);
-                    return reservation;
+                    return new List<BookingViewObject>();
                 }
+                Logger.Log(LogLevel.Debug, query);
+                var reservation = await dbConnection.QueryAsync<BookingViewObject>(query);
+                return reservation;
             }
-            return new List<BookingDto>();
         }
 
-        /*
-           if (result.Valid)
-            {
-                var auxQueryStore = QueryStoreFactory.GetQueryStore();
-                // foreach querytype and entity
-                
-                auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFICINA_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFISALIDA_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryOffice, dto.OFIRETORNO_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryBudget, dto.PRESUPUESTO_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryFares, dto.TARIFA_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryGroup, dto.GRUPO_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryBroker, dto.COMISIO_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryVehicleSummary, dto.VCACT_RES1);
-                
-                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.OTROCOND_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.OTRO2COND_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.OTRO3COND_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.ClientSummaryExtended, dto.CONDUCTOR_CON1);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryCity, dto.POCOND_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryCountry, dto.PAISNIFCOND_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryCounty, dto.PAISCOND_RES2);
-                
-                auxQueryStore.AddParamCount(QueryType.QueryProvince, dto.PROVCOND_RES2);
-                
-                var query = auxQueryStore.BuildQuery();
-                using (var connection = SqlExecutor.OpenNewDbConnection())
-                {
-                    if (connection != null)
-                    {
-                        var multipleResult = await connection.QueryMultipleAsync(query).ConfigureAwait(false);
-                        result.Valid = ParseResult(result, multipleResult);
-                    }
-                }
-            }
-            return result;
-        }
-        private bool ParseResult(IBookingData request, SqlMapper.GridReader reader)
-        {
-
-         if ((request == null) || (reader==null))
-         {
-                return false;
-         }
-         if (request.Value == null)
-            {
-                return false;
-            }
-            try
-            {
-              
-                request.OfficeDto = SelectionHelpers.WrappedSelectedDto<CODIGO, OfficeDto>(request.Value.OFICINA_RES1, _mapper, reader);
-              
-                request.ReservationOfficeDeparture = SelectionHelpers.WrappedSelectedDto<CODIGO, OfficeDto>(request.Value.OFISALIDA_RES1, _mapper, reader);
-              
-                request.ReservationOfficeArrival = SelectionHelpers.WrappedSelectedDto<CODIGO, OfficeDto>(request.Value.OFIRETORNO_RES1, _mapper, reader);
-              
-                request.BudgetDto = SelectionHelpers.WrappedSelectedDto<NUMERO_PRE, BudgetDto>(request.Value.PRESUPUESTO_RES1, _mapper, reader);
-              
-                request.FareDto = SelectionHelpers.WrappedSelectedDto<NTARI, FareDto>(request.Value.TARIFA_RES1, _mapper, reader);
-              
-                request.VehicleGroupDto = SelectionHelpers.WrappedSelectedDto<CODIGO, VehicleGroupDto>(request.Value.GRUPO_RES1, _mapper, reader);
-              
-                request.BrokerDto = SelectionHelpers.WrappedSelectedDto<NUM_COMI, CommissionAgentSummaryDto>(request.Value.COMISIO_RES2, _mapper, reader);
-              
-                request.VehicleDto = SelectionHelpers.WrappedSelectedDto<CODIINT, VehicleSummaryDto>(request.Value.VCACT_RES1, _mapper, reader);
-              
-                request.DriverDto3 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.OTROCOND_RES2, _mapper, reader);
-              
-                request.DriverDto4 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.OTRO2COND_RES2, _mapper, reader);
-              
-                request.DriverDto5 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.OTRO3COND_RES2, _mapper, reader);
-              
-                request.DriverDto2 = SelectionHelpers.WrappedSelectedDto<NUMERO_CLI, ClientSummaryExtended>(request.Value.CONDUCTOR_CON1, _mapper, reader);
-              
-                request.CityDto3 = SelectionHelpers.WrappedSelectedDto<CP, CityDto>(request.Value.POCOND_RES2, _mapper, reader);
-              
-                request.DriverCountryList = SelectionHelpers.WrappedSelectedDto<SIGLAS, CountryDto>(request.Value.PAISNIFCOND_RES2, _mapper, reader);
-              
-                request.CountryDto3 = SelectionHelpers.WrappedSelectedDto<Value.CODIGO, CountryDto>(request.Value.PAISCOND_RES2, _mapper, reader);
-              
-                request.ProvinceDto3 = SelectionHelpers.WrappedSelectedDto<Value.CODIGO, ProvinciaDto>(request.Value.PROVCOND_RES2, _mapper, reader);
-              
-
-#pragma warning disable CS0168 // Variable is declared but never used
-            }
-            catch (System.Exception ex)
-#pragma warning restore CS0168 // Variable is declared but never used
-            {
-                return false;
-            }
-            return true;
-        }
-
-             */
+        /// <inheritdoc />
         /// <summary>
         ///  Load a single value.
         /// </summary>
         /// <param name="code">Reservation code.</param>
         /// <returns>An empty booking dto in case of fault, </returns>
-        public async Task<BookingDto> LoadValueAsync(string code)
+        public async Task<BookingViewObject> LoadValueAsync(string code)
         {
-            var reservationDto = new BookingDto();
-            reservationDto.IsValid = false;
+            var reservationDto = new BookingViewObject {IsValid = false};
             if (string.IsNullOrEmpty(code))
             {
                 return reservationDto;
@@ -185,13 +80,13 @@ namespace DataAccessLayer.Crud.Booking
                 var queryStore = _queryStoreFactory.GetQueryStore();
 
                 var query = queryStore.AddParam(QueryType.QueryBooking, code).BuildQuery();
-                _logger.Log(LogLevel.Debug, query);
+                Logger.Log(LogLevel.Debug, query);
                 var multi = await dbConnection.QueryMultipleAsync(query).ConfigureAwait(false);
                 var reservation = multi.Read<BookingPoco>().FirstOrDefault();
                 var reservationItems = multi.Read<LIRESER>();
                 if (reservation != null)
                 {
-                    reservationDto = _mapper.Map<BookingPoco, BookingDto>(reservation);
+                    reservationDto = _mapper.Map<BookingPoco, BookingViewObject>(reservation);
                 }
                 else
                 {
@@ -201,7 +96,7 @@ namespace DataAccessLayer.Crud.Booking
                 if (reservationItems != null)
                 {
                     
-                    reservationDto.Items = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsDto>>(reservationItems);
+                    reservationDto.Items = _mapper.Map<IEnumerable<LIRESER>, IEnumerable<BookingItemsViewObject>>(reservationItems);
                    
                 }
                  reservationDto.IsValid = true;
@@ -210,11 +105,11 @@ namespace DataAccessLayer.Crud.Booking
             return reservationDto;
         }
         /// <summary>
-        ///  Parse the data from the auxiliar 
+        ///  Parse the data from the helper.
         /// </summary>
         /// <param name="data">Booking object to be used.</param>
         /// <param name="reader">Reader to be used.</param>
-        private void ParseAuxData(ref BookingDto data, SqlMapper.GridReader reader)
+        private void ParseAuxData(ref BookingViewObject data, SqlMapper.GridReader reader)
         {
             data.Drivers = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.CONDUCTOR_RES1, _mapper, reader);
             data.Clients = SelectionHelpers.WrappedSelectedDto<ClientSummaryExtended, ClientSummaryExtended>(data.CLIENTE_RES1, _mapper, reader);
@@ -225,7 +120,7 @@ namespace DataAccessLayer.Crud.Booking
         /// </summary>
         /// <param name="data">Data to be used in a reservation.</param>
         /// <returns>Returns a query.</returns>
-        private string CreateAuxQuery(BookingDto data)
+        private string CreateAuxQuery(BookingViewObject data)
         {
             var queryStore = _queryStoreFactory.GetQueryStore();
             queryStore.AddParamCount(QueryType.QueryClientSummaryExtById, data.CONDUCTOR_RES1);
@@ -239,16 +134,19 @@ namespace DataAccessLayer.Crud.Booking
             return executableQuery;
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///  Load at most m reservation.
         /// </summary>
         /// <param name="n">Number of element</param>
         /// <param name="back">If you can go head or back.</param>
         /// <returns>A list of booking dto.</returns>
-        public async Task<IEnumerable<BookingDto>> LoadValueAtMostAsync(int n, int back = 0)
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        public async Task<IEnumerable<BookingViewObject>> LoadValueAtMostAsync(int n, int back = 0)
         {
-            var reservationDto = new List<BookingDto>();
-            using (var dbConnection = _sqlExecutor.OpenNewDbConnection())
+            List<BookingViewObject> reservationDto;
+            using (var connection
+                = this._sqlExecutor.OpenNewDbConnection() ?? throw new ArgumentNullException("Cannot Open Connection"))
             {
                 _currentPos += back;
                 if (_currentPos < 1)
@@ -257,9 +155,9 @@ namespace DataAccessLayer.Crud.Booking
                 }
                 var queryStore = _queryStoreFactory.GetQueryStore();
                 var query = queryStore.AddParamRange(QueryType.QueryBookedPaged, _currentPos, n).BuildQuery();
-                var result = await dbConnection.QueryAsync<BookingPoco>(query);
-                var dtoList = _mapper.Map<IEnumerable<BookingPoco>, IEnumerable<BookingDto>>(result);
-                reservationDto = dtoList.ToList<BookingDto>();
+                var result = await connection.QueryAsync<BookingPoco>(query);
+                var dtoList = _mapper.Map<IEnumerable<BookingPoco>, IEnumerable<BookingViewObject>>(result);
+                reservationDto = dtoList.ToList<BookingViewObject>();
             }
             return reservationDto;
         }

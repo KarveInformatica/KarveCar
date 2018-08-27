@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 /*
 namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
-    ///  Data connection settings dto.
+    ///  Data connection settings viewObject.
     /// </summary>
-    public class DataConnectionSettingsDto: BaseDto
+    public class DataConnectionSettingsDto: BaseViewObject
     {
         /// <summary>
         ///  Set or Get the data source

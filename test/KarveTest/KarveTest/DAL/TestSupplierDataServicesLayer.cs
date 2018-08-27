@@ -7,7 +7,7 @@ using KarveDataServices;
 using KarveDataServices.DataObjects;
 using NUnit.Framework;
 using System.Linq;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.DAL
 {
@@ -67,7 +67,7 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_GiveMe_SupplierSummaryDto()
         {
-            IEnumerable<SupplierSummaryDto>
+            IEnumerable<SupplierSummaryViewObject>
                 supplierCollection = await _supplierDataServices.GetSupplierAsyncSummaryDo();
             Assert.GreaterOrEqual(supplierCollection.Distinct().Count(), 1);
         }
@@ -77,9 +77,9 @@ namespace KarveTest.DAL
         {
             string id = _supplierDataServices.GetNewId();
             ISupplierData data = _supplierDataServices.GetNewSupplierDo(id);
-            SupplierDto dto = data.Value;
-            dto.NOMBRE = "GenericSupplier";
-            data.Value = dto;
+            SupplierViewObject viewObject = data.Value;
+            viewObject.NOMBRE = "GenericSupplier";
+            data.Value = viewObject;
             bool value = await _supplierDataServices.Save(data);
 
             Assert.True(value);
@@ -89,18 +89,18 @@ namespace KarveTest.DAL
         {
             // arrange
             var suppliers = await _supplierDataServices.GetSupplierAsyncSummaryDo();
-            SupplierSummaryDto supplierSummaryDto =  suppliers.FirstOrDefault();
-            if (supplierSummaryDto != null)
+            SupplierSummaryViewObject supplierSummaryViewObject =  suppliers.FirstOrDefault();
+            if (supplierSummaryViewObject != null)
             {
-                var id = supplierSummaryDto.Codigo;
-                var province = new ProvinciaDto();
+                var id = supplierSummaryViewObject.Codigo;
+                var province = new ProvinceViewObject();
                 province.Name = "Barcelona";
                 province.Code = "08";
                 province.Country = "Spain";
                 Random rand = new Random();
-                var branches = new List<BranchesDto>()
+                var branches = new List<BranchesViewObject>()
                 {
-                    new BranchesDto() { BranchKeyId = id,
+                    new BranchesViewObject() { BranchKeyId = id,
                         BranchId = (rand.Next() % 5000).ToString(),
                         Branch="EAE",
                         ProvinceSource = province,
@@ -111,7 +111,7 @@ namespace KarveTest.DAL
                         Notes = "MyNotes",
                         Fax ="+33889381982"
                     },
-                    new BranchesDto() { BranchKeyId = id,
+                    new BranchesViewObject() { BranchKeyId = id,
                         BranchId = (rand.Next() % 5000).ToString(),
                         Branch="Scala",
                         ProvinceSource = province,
@@ -122,7 +122,7 @@ namespace KarveTest.DAL
                         Notes = "MyNotes",
                         Fax ="+33889381982"
                     },
-                    new BranchesDto() { BranchKeyId = id,
+                    new BranchesViewObject() { BranchKeyId = id,
                         BranchId = (rand.Next() % 5000).ToString(),
                         Branch="Scala",
                         ProvinceSource = province,
@@ -169,7 +169,7 @@ namespace KarveTest.DAL
             var codeId = supplierCollection.FirstOrDefault()?.Codigo;
             // act
             var supplier = await _supplierDataServices.GetAsyncSupplierDo(codeId);
-            SupplierDto value = supplier.Value;
+            SupplierViewObject value = supplier.Value;
             value.NOMBRE = "GZopSoft";
             value.DIRECCION = "Calle Paris 39";
             value.POBLACION = "VITORIA-GASTEITZ";

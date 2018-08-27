@@ -1,5 +1,5 @@
 ﻿using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KarveDataServices
 {
-    public interface IInvoiceDataServices: IPageCounter, IIdentifier, IDataProvider<IInvoiceData, InvoiceSummaryValueDto>
+    public interface IInvoiceDataServices: IPageCounter, IIdentifier, IDataProvider<IInvoiceData, InvoiceSummaryValueViewObject>
     {
        
        

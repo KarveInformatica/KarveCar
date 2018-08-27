@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Resources;
 using System.Security;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveLocale.Properties;
 namespace KarveLocale
 {

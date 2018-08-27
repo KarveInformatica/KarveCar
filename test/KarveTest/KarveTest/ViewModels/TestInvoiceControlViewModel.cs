@@ -5,7 +5,7 @@ using NUnit.Framework;
 using Moq;
 using KarveCommon.Services;
 using InvoiceModule.ViewModels;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.ViewModels
 {
@@ -24,12 +24,12 @@ namespace KarveTest.ViewModels
            
             // This code simulate the return from the data base of a list of vehicles.
             _mockDataServices.Setup(x => x.GetInvoiceDataServices().GetPagedSummaryDoAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(
-                (() => new List<InvoiceSummaryValueDto>()
+                (() => new List<InvoiceSummaryValueViewObject>()
                 {
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12239", InvoiceDate = DateTime.Now, ClientName = "Karve1" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12240", InvoiceDate = DateTime.Now, ClientName = "Karve2" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12241", InvoiceDate = DateTime.Now, ClientName = "Karve3" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12239", InvoiceDate = DateTime.Now, ClientName = "Karve1" },
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12240", InvoiceDate = DateTime.Now, ClientName = "Karve2" },
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12241", InvoiceDate = DateTime.Now, ClientName = "Karve3" },
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
                 }));
             
           
@@ -45,12 +45,12 @@ namespace KarveTest.ViewModels
         public void Should_Start_InvoiceControlView()
         {
 
-            List<InvoiceSummaryValueDto> summaryValue = new List<InvoiceSummaryValueDto>()
+            List<InvoiceSummaryValueViewObject> summaryValue = new List<InvoiceSummaryValueViewObject>()
                 {
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12239", InvoiceDate = DateTime.Now, ClientName = "Karve1" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12240", InvoiceDate = DateTime.Now, ClientName = "Karve2" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12241", InvoiceDate = DateTime.Now, ClientName = "Karve3" },
-                            new InvoiceSummaryValueDto(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12239", InvoiceDate = DateTime.Now, ClientName = "Karve1" },
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12240", InvoiceDate = DateTime.Now, ClientName = "Karve2" },
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12241", InvoiceDate = DateTime.Now, ClientName = "Karve3" },
+                            new InvoiceSummaryValueViewObject(){ InvoiceCode="12242", InvoiceDate = DateTime.Now, ClientName = "Karve4" }
             };
             // arrange and execute the load
              var invoiceControlViewModel = new InvoiceControlViewModel(_mockDataServices.Object,
@@ -61,7 +61,7 @@ namespace KarveTest.ViewModels
                                                                    _mockEventManager.Object);
             // here we sall have a summary view.
             var summaryView = invoiceControlViewModel.SummaryView;
-            var summaryView2 = summaryView.Intersect<InvoiceSummaryValueDto>(summaryValue);
+            var summaryView2 = summaryView.Intersect<InvoiceSummaryValueViewObject>(summaryValue);
             Assert.AreEqual(summaryView.Count(), summaryView2.Count());
         }
        

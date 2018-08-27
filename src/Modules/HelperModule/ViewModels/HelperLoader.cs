@@ -202,7 +202,7 @@ namespace HelperModule.ViewModels
         /// <summary>
         ///  This load a data transfer object.
         /// </summary>
-        /// <param name="query">This load a dto.</param>
+        /// <param name="query">This load a viewObject.</param>
         /// <returns></returns>
         private async Task<IEnumerable<Dto>> LoadDto(string query) 
         {

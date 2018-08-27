@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using DataAccessLayer.DataObjects.Wrapper;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 using KarveCommon.Generic;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NLog;
 using System.Diagnostics;
 using DataAccessLayer.DataObjects;
@@ -114,9 +114,9 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Size of the page</param>
         /// <returns></returns>
-        public async Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDo(int pageIndex, int pageSize)
+        public async Task<IEnumerable<SupplierSummaryViewObject>> GetPagedSummaryDo(int pageIndex, int pageSize)
         {
-            var dataPager = new DataPager<SupplierSummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<SupplierSummaryViewObject>(SqlExecutor);
             var pageStart = (pageSize == 0) ? 1 : pageSize;
             var paged = await dataPager.GetPagedSummaryDoAsync(QueryType.QuerySupplierSummaryPaged,pageStart, pageSize);
             return paged;
@@ -268,14 +268,14 @@ namespace DataAccessLayer
             return ret;
         }
 
-        public Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId)
+        public Task<IEnumerable<ContactsViewObject>> GetAsyncContacts(string codeId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public async Task<IEnumerable<SupplierSummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
-            var pager = new DataPager<SupplierSummaryDto>(SqlExecutor);
+            var pager = new DataPager<SupplierSummaryViewObject>(SqlExecutor);
             var startIndex = (baseIndex == 0) ? 1 : baseIndex;
             NumberPage = await GetPageCount(defaultPageSize);
             var summary = await pager.GetPagedSummaryDoAsync(QueryType.QuerySupplierSummaryPaged, startIndex, defaultPageSize);
@@ -389,18 +389,18 @@ namespace DataAccessLayer
         ///  GetSupplierAsyncSummaryDto.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
+        public async Task<IEnumerable<SupplierSummaryViewObject>> GetSupplierAsyncSummaryDo()
         {
-            IEnumerable<SupplierSummaryDto> queryAsync = null;
+            IEnumerable<SupplierSummaryViewObject> queryAsync = null;
             using (IDbConnection connection = SqlExecutor.OpenNewDbConnection())
             {
-                queryAsync = await connection.QueryAsync<SupplierSummaryDto>(GenericSql.SupplierSummaryQuery)
+                queryAsync = await connection.QueryAsync<SupplierSummaryViewObject>(GenericSql.SupplierSummaryQuery)
                     .ConfigureAwait(false);
             }
             return queryAsync;
         }
 
-        public Task<IEnumerable<SupplierSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        public Task<IEnumerable<SupplierSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new NotImplementedException();
         }

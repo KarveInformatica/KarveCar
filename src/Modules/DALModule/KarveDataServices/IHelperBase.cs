@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System.Collections.Generic;
 
 namespace KarveDataServices
@@ -11,27 +11,27 @@ namespace KarveDataServices
         /// <summary>
         ///  Province Data Transfer Object.
         /// </summary>
-        IEnumerable<ProvinciaDto> ProvinciaDto { get; set; }
+        IEnumerable<ProvinceViewObject> ProvinciaDto { get; set; }
         /// <summary>
         ///  Country Data Transfer Object.
         /// </summary>
-        IEnumerable<CountryDto> CountryDto { get; set; }
+        IEnumerable<CountryViewObject> CountryDto { get; set; }
         /// <summary>
         /// City Data Transfer Object.
         /// </summary>
-        IEnumerable<CityDto> CityDto { get; set; }
+        IEnumerable<CityViewObject> CityDto { get; set; }
         /// <summary>
         /// Zone Data Transfer Object
         /// </summary>
-        IEnumerable<ZonaOfiDto> ClientZoneDto { get; set; }
+        IEnumerable<ZonaOfiViewObject> ClientZoneDto { get; set; }
         /// <summary>
         ///  Base zona 
         /// </summary>
-        IEnumerable<ClientZoneDto> ZoneDto { get; set; }
+        IEnumerable<ClientZoneViewObject> ZoneDto { get; set; }
         /// <summary>
         ///  Set or Get ContableDelegaDto.
         /// </summary>
-        IEnumerable<DelegaContableDto> ContableDelegaDto { get; set; }
+        IEnumerable<DelegaContableViewObject> ContableDelegaDto { get; set; }
        
 
     }

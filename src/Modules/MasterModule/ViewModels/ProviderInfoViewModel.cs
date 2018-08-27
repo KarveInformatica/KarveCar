@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -18,13 +17,11 @@ using System;
 using System.Linq;
 using KarveCommon;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices;
 using KarveDataServices.Assist;
 using KarveCommonInterfaces;
-using KarveControls.Generic;
-using System.Threading;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 
 namespace MasterModule.ViewModels
 {
@@ -43,68 +40,68 @@ namespace MasterModule.ViewModels
         private ISupplierData _supplierData;
         private ISupplierData _dataObject;
         private Visibility _visibility;
-        private IEnumerable<ProvinciaDto> _provinciaDtos = new List<ProvinciaDto>();
-        private IEnumerable<OfficeDtos> _officeDtos = new List<OfficeDtos>();
-        private IEnumerable<CountryDto> _countryDtos = new List<CountryDto>();
-        private IEnumerable<CompanyDto> _companyDto;
+        private IEnumerable<ProvinceViewObject> _provinceGridView = new List<ProvinceViewObject>();
+        private IEnumerable<OfficeViewObject> _officeDtos = new List<OfficeViewObject>();
+        private IEnumerable<CountryViewObject> _countryDtos = new List<CountryViewObject>();
+        private IEnumerable<CompanyViewObject> _companyDto;
         private static long _uniqueCounter = 0;
         private IMapper mapper;
        
 
         private const string ProviderInfoVm = "ProviderInfoViewModel";
        
-        private IEnumerable<PaymentFormDto> _paymentDtos;
-        private IEnumerable<MonthsDto> _monthsDto;
-        private IEnumerable<BanksDto> _banksDto;
-        private IEnumerable<LanguageDto> _languagesDto;
-        private IEnumerable<AccountDto> _account1Dto;
-        private IEnumerable<AccountDto> _account2Dto;
-        private IEnumerable<CurrencyDto> _currencyDtos;
-        private IEnumerable<MonthsDto> _monthsDto2;
-        private IEnumerable<AccountDto> _account3Dto;
-        private IEnumerable<AccountDto> _account4Dto;
-        private IEnumerable<AccountDto> _account5Dto;
-        private IEnumerable<AccountDto> _account6Dto;
-        private IEnumerable<AccountDto> _account7Dto;
-        private IEnumerable<AccountDto> _account8Dto;
-        private IEnumerable<CountryDto> _countryDto1 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CountryDto> _countryDto2 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CityDto> _cityDto1 = new ObservableCollection<CityDto>();
-        private IEnumerable<CityDto> _cityDto2 = new ObservableCollection<CityDto>();
+        private IEnumerable<PaymentFormViewObject> _paymentDtos;
+        private IEnumerable<MonthsViewObject> _monthsDto;
+        private IEnumerable<BanksViewObject> _banksDto;
+        private IEnumerable<LanguageViewObject> _languagesDto;
+        private IEnumerable<AccountViewObject> _account1Dto;
+        private IEnumerable<AccountViewObject> _account2Dto;
+        private IEnumerable<CurrencyViewObject> _currencyDtos;
+        private IEnumerable<MonthsViewObject> _monthsDto2;
+        private IEnumerable<AccountViewObject> _account3Dto;
+        private IEnumerable<AccountViewObject> _account4Dto;
+        private IEnumerable<AccountViewObject> _account5Dto;
+        private IEnumerable<AccountViewObject> _account6Dto;
+        private IEnumerable<AccountViewObject> _account7Dto;
+        private IEnumerable<AccountViewObject> _account8Dto;
+        private IEnumerable<CountryViewObject> _countryDto1 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CountryViewObject> _countryDto2 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CityViewObject> _cityDto1 = new ObservableCollection<CityViewObject>();
+        private IEnumerable<CityViewObject> _cityDto2 = new ObservableCollection<CityViewObject>();
         // this is ok.
-        private IEnumerable<ProvinciaDto> _provinciaDtos2 = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<ProvinciaDto> _provinciaDto2 = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<ProvinciaDto> _provinciaDto3 = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<ProvinciaDto> _provinciaDto1 = new ObservableCollection<ProvinciaDto>();
-        private IEnumerable<CountryDto> _countryDto3 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CountryDto> _countryDto4 = new ObservableCollection<CountryDto>();
-        private IEnumerable<CityDto> _cityDto3 = new ObservableCollection<CityDto>();
-        private IEnumerable<CityDto> _cityDto11 = new ObservableCollection<CityDto>();
+        private IEnumerable<ProvinceViewObject> _provinciaDtos2 = new ObservableCollection<ProvinceViewObject>();
+        private IEnumerable<ProvinceViewObject> _provinciaDto2 = new ObservableCollection<ProvinceViewObject>();
+        private IEnumerable<ProvinceViewObject> _provinciaDto3 = new ObservableCollection<ProvinceViewObject>();
+        private IEnumerable<ProvinceViewObject> _provinciaDto1 = new ObservableCollection<ProvinceViewObject>();
+        private IEnumerable<CountryViewObject> _countryDto3 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CountryViewObject> _countryDto4 = new ObservableCollection<CountryViewObject>();
+        private IEnumerable<CityViewObject> _cityDto3 = new ObservableCollection<CityViewObject>();
+        private IEnumerable<CityViewObject> _cityDto11 = new ObservableCollection<CityViewObject>();
         private ICommand _contactChangedCommand;
         private string _mailBoxName = string.Empty;
-        private IEnumerable<ViaDto> _viaDtos;
-        private IEnumerable<PaymentFormDto> _formaDtos;
-        private IEnumerable<PriceConditionDto> _priceConditionDto;
-        private IEnumerable<DeliveringFormDto> _deliveryFromDto;
-        private IEnumerable<DeliveringWayDto> _deliveryWayDto;
-        private IEnumerable<SupplierTypeDto> _supplierTypeDto = new ObservableCollection<SupplierTypeDto>();
+        private IEnumerable<ViaViewObject> _viaDtos;
+        private IEnumerable<PaymentFormViewObject> _formaDtos;
+        private IEnumerable<PriceConditionViewObject> _priceConditionDto;
+        private IEnumerable<DeliveringFormViewObject> _deliveryFromDto;
+        private IEnumerable<DeliveringWayViewObject> _deliveryWayDto;
+        private IEnumerable<SupplierTypeViewObject> _supplierTypeDto = new ObservableCollection<SupplierTypeViewObject>();
 
-        private event SetPrimaryKey<BranchesDto> _onBranchesPrimaryKey;
-        private event SetPrimaryKey<ContactsDto> _onContactsPrimaryKey;
+        private event SetPrimaryKey<BranchesViewObject> _onBranchesPrimaryKey;
+        private event SetPrimaryKey<ContactsViewObject> _onContactsPrimaryKey;
         //private IncrementalItemsSource = new IncrementalList<OrderInfo>(LoadMoreItems) { MaxItemCount = 1000 };
 
-    public IEnumerable<CountryDto> CountryDto
+    public IEnumerable<CountryViewObject> CountryDto
         {
             set { _countryDto1 = value; RaisePropertyChanged(); }
             get { return _countryDto1; }
         }
-        public IEnumerable<CountryDto> CountryDto1
+        public IEnumerable<CountryViewObject> CountryDto1
         {
             set { _countryDto2 = value; RaisePropertyChanged(); }
             get { return _countryDto2; }
         }
 
-        public IEnumerable<CountryDto> CountryDto2
+        public IEnumerable<CountryViewObject> CountryDto2
         {
             set
             {
@@ -115,38 +112,38 @@ namespace MasterModule.ViewModels
 
         }
 
-        public IEnumerable<CityDto> CityDto
+        public IEnumerable<CityViewObject> CityDto
         {
             set { _cityDto1 = value; RaisePropertyChanged(); }
             get { return _cityDto1; }
         }
-        public IEnumerable<CityDto> CityDto1
+        public IEnumerable<CityViewObject> CityDto1
         {
             set { _cityDto11 = value; RaisePropertyChanged(); }
             get { return _cityDto11; }
         }
-        public IEnumerable<CityDto> CityDto2
+        public IEnumerable<CityViewObject> CityDto2
         {
             set { _cityDto2 = value; RaisePropertyChanged(); }
             get { return _cityDto2; }
         }
-        public IEnumerable<CityDto> CityDto3
+        public IEnumerable<CityViewObject> CityDto3
         {
             set { _cityDto3 = value; RaisePropertyChanged(); }
             get { return _cityDto3; }
         }
-        public IEnumerable<ProvinciaDto> ProvinceDto2
+        public IEnumerable<ProvinceViewObject> ProvinceDto2
         {
             set { _provinciaDtos2 = value; RaisePropertyChanged(); }
             get { return _provinciaDtos2; }
         }
-        public IEnumerable<ProvinciaDto> ProvinceDto3
+        public IEnumerable<ProvinceViewObject> ProvinceDto3
         {
             set { _provinciaDto3 = value; RaisePropertyChanged(); }
             get { return _provinciaDto3; }
         }
 
-        public IEnumerable<CountryDto> CountryDto3
+        public IEnumerable<CountryViewObject> CountryDto3
         {
 
             set { _countryDto3 = value; RaisePropertyChanged(); }
@@ -154,13 +151,13 @@ namespace MasterModule.ViewModels
 
         }
 
-        public IEnumerable<ViaDto> ViaDtos
+        public IEnumerable<ViaViewObject> ViaDtos
         {
             set { _viaDtos = value; RaisePropertyChanged(); }
             get { return _viaDtos; }
         }
 
-        public IEnumerable<PaymentFormDto> FormasDtos
+        public IEnumerable<PaymentFormViewObject> FormasDtos
         {
             set { _formaDtos = value; RaisePropertyChanged(); }
             get { return _formaDtos; }
@@ -213,12 +210,12 @@ namespace MasterModule.ViewModels
             get { return _contactChangedCommand;  }
             set { _contactChangedCommand = value; RaisePropertyChanged(); }
         }
-        private void ProviderInfoViewModel__onContactsPrimaryKey(ref ContactsDto primaryKey)
+        private void ProviderInfoViewModel__onContactsPrimaryKey(ref ContactsViewObject primaryKey)
         {
             primaryKey.ContactsKeyId = PrimaryKeyValue;
         }
 
-        private void ProviderInfoViewModel__onBranchesPrimaryKey(ref BranchesDto primaryKey)
+        private void ProviderInfoViewModel__onBranchesPrimaryKey(ref BranchesViewObject primaryKey)
         {
             primaryKey.BranchKeyId = PrimaryKeyValue;
         }
@@ -230,13 +227,13 @@ namespace MasterModule.ViewModels
         private async void DelegationChangedCommandHandler(object obj)
         {
 
-            await GridChangedNotification<BranchesDto, ProDelega>(obj, _onBranchesPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+            await GridChangedNotification<BranchesViewObject, ProDelega>(obj, _onBranchesPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
 
         }
 
         private async void ContactsChangedCommandHandler(object obj)
         {
-            await GridChangedNotification<ContactsDto, ProContactos>(obj, _onContactsPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+            await GridChangedNotification<ContactsViewObject, ProContactos>(obj, _onContactsPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
         }
         // This register the different assist types.
 
@@ -330,22 +327,22 @@ namespace MasterModule.ViewModels
             }
         }
 
-        private List<MonthsDto> fillMonths()
+        private List<MonthsViewObject> fillMonths()
         {
-            var supplier = new List<MonthsDto>()
+            var supplier = new List<MonthsViewObject>()
             {
-                new MonthsDto() {NUMERO_MES = 1, MES= "Enero"},
-                new MonthsDto() {NUMERO_MES = 2, MES= "Febrero"},
-                new MonthsDto() {NUMERO_MES = 3, MES= "Marzo"},
-                new MonthsDto() {NUMERO_MES = 4, MES= "Avril"},
-                new MonthsDto() {NUMERO_MES = 5, MES= "Mayo"},
-                new MonthsDto() {NUMERO_MES = 6, MES= "Junio"},
-                new MonthsDto() {NUMERO_MES = 7, MES= "Julio"},
-                new MonthsDto() {NUMERO_MES = 8, MES= "Agosto"},
-                new MonthsDto() {NUMERO_MES = 9, MES= "Septiembre"},
-                new MonthsDto() {NUMERO_MES = 10, MES= "Octubre"},
-                new MonthsDto() {NUMERO_MES = 11, MES= "Noviembre"},
-                new MonthsDto() {NUMERO_MES = 12, MES= "Diciembre"}
+                new MonthsViewObject() {NUMERO_MES = 1, MES= "Enero"},
+                new MonthsViewObject() {NUMERO_MES = 2, MES= "Febrero"},
+                new MonthsViewObject() {NUMERO_MES = 3, MES= "Marzo"},
+                new MonthsViewObject() {NUMERO_MES = 4, MES= "Avril"},
+                new MonthsViewObject() {NUMERO_MES = 5, MES= "Mayo"},
+                new MonthsViewObject() {NUMERO_MES = 6, MES= "Junio"},
+                new MonthsViewObject() {NUMERO_MES = 7, MES= "Julio"},
+                new MonthsViewObject() {NUMERO_MES = 8, MES= "Agosto"},
+                new MonthsViewObject() {NUMERO_MES = 9, MES= "Septiembre"},
+                new MonthsViewObject() {NUMERO_MES = 10, MES= "Octubre"},
+                new MonthsViewObject() {NUMERO_MES = 11, MES= "Noviembre"},
+                new MonthsViewObject() {NUMERO_MES = 12, MES= "Diciembre"}
 
             };
             return supplier;
@@ -373,118 +370,118 @@ namespace MasterModule.ViewModels
             {
                 case "PROVINCIA":
                     {
-                        var value = (IEnumerable<ProvinciaDto>)res;
+                        var value = (IEnumerable<ProvinceViewObject>)res;
                         ProvinceDto = value;
                         break;
                     }
                 case "PROV_PAGO":
                     {
-                        var value = (IEnumerable<ProvinciaDto>)res;
+                        var value = (IEnumerable<ProvinceViewObject>)res;
                         ProvinceDto1 = value;
                         break;
                     }
                 case "PROV_RECL":
                     {
-                        var value = (IEnumerable<ProvinciaDto>)res;
+                        var value = (IEnumerable<ProvinceViewObject>)res;
                         ProvinceDto2 = value;
                         break;
                     }
                 case "PROV_DEVO":
                     {
-                        var value= (IEnumerable<ProvinciaDto>)res;
+                        var value= (IEnumerable<ProvinceViewObject>)res;
                         ProvinceDto3 =value;
                         break;
                     }
                 case "PAIS_PAGO":
                     {
-                        var value = (IEnumerable<CountryDto>)res;
+                        var value = (IEnumerable<CountryViewObject>)res;
                         CountryDto1 = value;
                         break;
                     }
                 case "PAIS_RECL":
                     {
-                        var value = (IEnumerable<CountryDto>)res;
+                        var value = (IEnumerable<CountryViewObject>)res;
                         CountryDto2 = value; 
                         break;
                     }
                 case "PAIS_DEVO":
                     {
-                        var value = (IEnumerable<CountryDto>)res;
+                        var value = (IEnumerable<CountryViewObject>)res;
                         CountryDto3 = value; 
                         break;
                     }
                 case "TL_CONDICION_PRECIO":
                 {
-                    var value = (IEnumerable<PriceConditionDto>)res;
+                    var value = (IEnumerable<PriceConditionViewObject>)res;
                         PriceConditionDto = value;
                     break;
                 }
                 case "POBLACIONES_PAGO":
                 {
-                    var value = (IEnumerable<CityDto>)res;
+                    var value = (IEnumerable<CityViewObject>)res;
                     CityDto1 =value; 
                     break;
                 }
                 case "FORMAS_PEDENT":
                 {
-                    var value = (IEnumerable<DeliveringFormDto>)res;
+                    var value = (IEnumerable<DeliveringFormViewObject>)res;
                     DeliveringFormDto = value;
                     break;
                 }
                 case "VIASPEDIPRO":
                 {
-                   var vias = (IEnumerable<DeliveringWayDto>)res;
+                   var vias = (IEnumerable<DeliveringWayViewObject>)res;
                    DeliveringWayDto = vias;
                     break;
                 }
 
                 case "TIPOPROVE":
                     {
-                        var tipoprove = (IEnumerable<SupplierTypeDto>)res;
+                        var tipoprove = (IEnumerable<SupplierTypeViewObject>)res;
                         SupplierTypeDto1 = tipoprove;
                         break;
                     }
                 case "POBLACIONES_RECL":
                     {
-                        var value = (IEnumerable<CityDto>)res;
+                        var value = (IEnumerable<CityViewObject>)res;
                         CityDto2 = value;
                         break;
                     }
 
                 case "POBLACIONES_DEVO":
                     {
-                        var value = (IEnumerable<CityDto>)res;
+                        var value = (IEnumerable<CityViewObject>)res;
                        
                         CityDto3 = value; 
                         break;
                     }
                 case "CITY_ASSIST":
                     {
-                        var value = (IEnumerable<CityDto>)res;
+                        var value = (IEnumerable<CityViewObject>)res;
                         CityDto = value;
                         break;
                     }
                 case "OFICINAS":
                     {                  
-                        var office = (IEnumerable<OfficeDtos>)res;
+                        var office = (IEnumerable<OfficeViewObject>)res;
                         OfficeDtos = office;
                         break;
                     }
                 case "SUBLICEN":
                     {
-                        var value = (IEnumerable<CompanyDto>)res;
+                        var value = (IEnumerable<CompanyViewObject>)res;
                         CompanyDtos = value;
                         break;
                     }
                 case "DIVISAS":
                     {
-                        var value = (IEnumerable<CurrencyDto>)res;
+                        var value = (IEnumerable<CurrencyViewObject>)res;
                         CurrencyDtos = value;
                         break;
                     }
                 case "FORMAS":
                     {
-                        var value = (IEnumerable<PaymentFormDto>)res;
+                        var value = (IEnumerable<PaymentFormViewObject>)res;
                         PaymentDtos = value;
                         break;
                     }
@@ -501,25 +498,25 @@ namespace MasterModule.ViewModels
                     }
                 case "BANCO":
                     {
-                        var value = (IEnumerable<BanksDto>)res;
+                        var value = (IEnumerable<BanksViewObject>)res;
                         BanksDtos = value;
                         break;
                     }
                 case "IDIOMAS":
                     {
-                        var value = (IEnumerable<LanguageDto>)res;
+                        var value = (IEnumerable<LanguageViewObject>)res;
                         LanguageDtos = value;
                         break;
                     }
                 case "CU1":
                     {
-                        var value= (IEnumerable<AccountDto>)res;
+                        var value= (IEnumerable<AccountViewObject>)res;
                         Account1Dtos = value;
                         break;
                     }
                 case "CU1Gasto":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account2Dtos = value;
                         break;
@@ -527,42 +524,42 @@ namespace MasterModule.ViewModels
                     }
                 case "CU1Retencion":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account3Dtos = value;
                         break;
                     }
                 case "CU1Pago":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account4Dtos = value;
                         break;
                     }
                 case "CU1CP":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account5Dtos = value;
                         break;
                     }
                 case "CU1LP":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account6Dtos = value;
                        break;
                     }
                 case "CU1Intraco":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account7Dtos = value;
                         break;
                     }
                 case "CU1Reper":
                     {
-                        var value = (IEnumerable<AccountDto>)res;
+                        var value = (IEnumerable<AccountViewObject>)res;
 
                         Account8Dtos =value;
                         break;
@@ -570,7 +567,7 @@ namespace MasterModule.ViewModels
                 case "PAIS":
                     {
 
-                        var countryDto = (IEnumerable<CountryDto>)res;
+                        var countryDto = (IEnumerable<CountryViewObject>)res;
                         CountryDto = countryDto;
                         // see any dups.
                         CountryDtos = CountryDto;
@@ -578,7 +575,7 @@ namespace MasterModule.ViewModels
                     }
             }
         }
-        public IEnumerable<SupplierTypeDto> SupplierTypeDto1
+        public IEnumerable<SupplierTypeViewObject> SupplierTypeDto1
         {
             set
             {
@@ -617,65 +614,65 @@ namespace MasterModule.ViewModels
         }
 
         
-        public IEnumerable<BranchesDto> DelegationCollection { get; set; }
-        public IEnumerable<VisitsDto> VisitCollection { get; set; }
-        public IEnumerable<ContactsDto> ContactsCollection { get; set; }
+        public IEnumerable<BranchesViewObject> DelegationCollection { get; set; }
+        public IEnumerable<VisitsViewObject> VisitCollection { get; set; }
+        public IEnumerable<ContactsViewObject> ContactsCollection { get; set; }
     
-        public IEnumerable<ProvinciaDto> ProvinceDto
+        public IEnumerable<ProvinceViewObject> ProvinceDto
         {
-            get { return _provinciaDtos; }
-            set { _provinciaDtos = value; RaisePropertyChanged("ProvinceDto"); }
+            get { return _provinceGridView; }
+            set { _provinceGridView = value; RaisePropertyChanged("ProvinceDto"); }
         }
 
 
 
-        public IEnumerable<OfficeDtos> OfficeDtos
+        public IEnumerable<OfficeViewObject> OfficeDtos
         {
             get { return _officeDtos; }
             set { _officeDtos = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<CountryDto> CountryDtos
+        public IEnumerable<CountryViewObject> CountryDtos
         {
 
             get { return _countryDtos; }
             set { _countryDtos = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<CompanyDto> CompanyDtos
+        public IEnumerable<CompanyViewObject> CompanyDtos
         {
 
             get { return _companyDto; }
             set { _companyDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<PaymentFormDto> PaymentDtos
+        public IEnumerable<PaymentFormViewObject> PaymentDtos
         {
             get { return _paymentDtos; }
             set { _paymentDtos = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<MonthsDto> MonthsDtos
+        public IEnumerable<MonthsViewObject> MonthsDtos
         {
             get { return _monthsDto; }
             set { _monthsDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<MonthsDto> MonthsDtos2
+        public IEnumerable<MonthsViewObject> MonthsDtos2
         {
             get { return _monthsDto2; }
             set { _monthsDto2 = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<BanksDto> BanksDtos
+        public IEnumerable<BanksViewObject> BanksDtos
         {
             get { return _banksDto; }
             set { _banksDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<LanguageDto> LanguageDtos
+        public IEnumerable<LanguageViewObject> LanguageDtos
         {
             get { return _languagesDto; }
             set { _languagesDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<AccountDto> Account1Dtos
+        public IEnumerable<AccountViewObject> Account1Dtos
         {
             get { return _account1Dto; }
             set
@@ -684,7 +681,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<AccountDto> Account2Dtos
+        public IEnumerable<AccountViewObject> Account2Dtos
         {
             get { return _account2Dto; }
             set
@@ -694,7 +691,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<CurrencyDto> CurrencyDtos
+        public IEnumerable<CurrencyViewObject> CurrencyDtos
         {
             get { return _currencyDtos; }
             set
@@ -704,7 +701,7 @@ namespace MasterModule.ViewModels
             }
         }
 
-        public IEnumerable<AccountDto> Account3Dtos
+        public IEnumerable<AccountViewObject> Account3Dtos
         {
             get { return _account3Dto; }
             set
@@ -713,7 +710,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<AccountDto> Account4Dtos
+        public IEnumerable<AccountViewObject> Account4Dtos
         {
             get { return _account4Dto; }
             set
@@ -722,7 +719,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<AccountDto> Account5Dtos
+        public IEnumerable<AccountViewObject> Account5Dtos
         {
             get { return _account5Dto; }
             set
@@ -731,7 +728,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<AccountDto> Account6Dtos
+        public IEnumerable<AccountViewObject> Account6Dtos
         {
             get { return _account6Dto; }
             set
@@ -740,7 +737,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<AccountDto> Account7Dtos
+        public IEnumerable<AccountViewObject> Account7Dtos
         {
             get { return _account7Dto; }
             set
@@ -749,7 +746,7 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<AccountDto> Account8Dtos
+        public IEnumerable<AccountViewObject> Account8Dtos
         {
             get { return _account8Dto; }
             set
@@ -758,24 +755,24 @@ namespace MasterModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public IEnumerable<ProvinciaDto> ProvinceDto1
+        public IEnumerable<ProvinceViewObject> ProvinceDto1
         {
             get { return _provinciaDto1; }
             set { _provinciaDto1 = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<PriceConditionDto> PriceConditionDto
+        public IEnumerable<PriceConditionViewObject> PriceConditionDto
         {
             get { return _priceConditionDto; }
             set { _priceConditionDto = value; RaisePropertyChanged(); }
         }
 
-        public IEnumerable<DeliveringFormDto> DeliveringFormDto
+        public IEnumerable<DeliveringFormViewObject> DeliveringFormDto
         {
             get { return _deliveryFromDto; }
             set { _deliveryFromDto = value; RaisePropertyChanged(); }
         }
-        public IEnumerable<DeliveringWayDto> DeliveringWayDto {
+        public IEnumerable<DeliveringWayViewObject> DeliveringWayDto {
             get { return _deliveryWayDto; }
             set { _deliveryWayDto = value; RaisePropertyChanged(); }
         }
@@ -783,11 +780,11 @@ namespace MasterModule.ViewModels
         private void StartBackGroundRefresh(ISupplierData supplierData)
         {
             
-            ProvinceDto1 = supplierData.ProvinciaDtos;
+            ProvinceDto1 = supplierData.ProvinceDtos;
             CountryDto1 = supplierData.CountryDtos;
-            ProvinceDto2 = supplierData.ProvinciaDtos;
+            ProvinceDto2 = supplierData.ProvinceDtos;
             CountryDto2 = supplierData.CountryDtos;
-            ProvinceDto3 = supplierData.ProvinciaDtos;
+            ProvinceDto3 = supplierData.ProvinceDtos;
             CountryDto3 = supplierData.CountryDtos;
             CountryDto1 = supplierData.CountryDtos;
             CityDto3 = supplierData.CityDtos;
@@ -810,8 +807,8 @@ namespace MasterModule.ViewModels
         }
         private void ClearAll()
         {
-            CleanupHelper<ProvinciaDto>.CleanList(_supplierData.ProvinciaDtos);
-            CleanupHelper<OfficeDtos>.CleanList(_supplierData.OfficeDtos);
+            CleanupHelper<ProvinceViewObject>.CleanList(_supplierData.ProvinceDtos);
+            CleanupHelper<OfficeViewObject>.CleanList(_supplierData.OfficeDtos);
           //  CleanupHelper<CountryDto>.CleanList(CountryDto);
 
         }
@@ -819,7 +816,7 @@ namespace MasterModule.ViewModels
         {
             SupplierTypeDto1 = supplierData.Type;
           
-            ProvinceDto = supplierData.ProvinciaDtos;
+            ProvinceDto = supplierData.ProvinceDtos;
             CityDto = supplierData.CityDtos;
             OfficeDtos = supplierData.OfficeDtos;
             CompanyDtos = supplierData.CompanyDtos;
@@ -1000,29 +997,29 @@ namespace MasterModule.ViewModels
         public void ClearList()
         {
            
-            if (this.DataObject.ProvinciaDtos is IList<ProvinciaDto> dto)
+            if (this.DataObject.ProvinceDtos is IList<ProvinceViewObject> dto)
             {
                 dto.Clear();
             }
-            if (this.DataObject.CountryDtos is IList<CountryDto> cdto)
+            if (this.DataObject.CountryDtos is IList<CountryViewObject> cdto)
             {
                 cdto?.Clear();
             }
             
-            if (this.DataObject.CityDtos is IList<CityDto> cdto1)
+            if (this.DataObject.CityDtos is IList<CityViewObject> cdto1)
             {
                 cdto1?.Clear();
             }
-            if (this.DataObject.AccountDtos is IList<AccountDto> dtoAccount)
+            if (this.DataObject.AccountDtos is IList<AccountViewObject> dtoAccount)
             {
-                var account1 = _account1Dto as IList<AccountDto>;
-                var account2 = _account2Dto as IList<AccountDto>;
-                var account3 = _account3Dto as IList<AccountDto>;
-                var account4 = _account4Dto as IList<AccountDto>;
-                var account5 = _account5Dto as IList<AccountDto>;
-                var account6 = _account6Dto as IList<AccountDto>;
-                var account7 = _account7Dto as IList<AccountDto>;
-                var account8 = _account8Dto as IList<AccountDto>;
+                var account1 = _account1Dto as IList<AccountViewObject>;
+                var account2 = _account2Dto as IList<AccountViewObject>;
+                var account3 = _account3Dto as IList<AccountViewObject>;
+                var account4 = _account4Dto as IList<AccountViewObject>;
+                var account5 = _account5Dto as IList<AccountViewObject>;
+                var account6 = _account6Dto as IList<AccountViewObject>;
+                var account7 = _account7Dto as IList<AccountViewObject>;
+                var account8 = _account8Dto as IList<AccountViewObject>;
                 
                 account1.Clear();
                 account2.Clear();
@@ -1035,7 +1032,7 @@ namespace MasterModule.ViewModels
 
 
             }
-            var cityDto = _cityDto1 as List<CityDto>;
+            var cityDto = _cityDto1 as List<CityViewObject>;
             cityDto?.Clear();
         }
         public override void DisposeEvents()
@@ -1066,56 +1063,56 @@ namespace MasterModule.ViewModels
         {
         }
 
-        public override async Task SetContactsCharge(PersonalPositionDto personal, ContactsDto contactsDto)
+        public override async Task SetContactsCharge(PersonalPositionViewObject personal, ContactsViewObject contactsDto)
         {
             var supplierData = DataObject as ISupplierData;
-            IEnumerable<ContactsDto> contactsDtos = supplierData.ContactsDto;
+            IEnumerable<ContactsViewObject> contactsDtos = supplierData.ContactsDto;
             var ev = SetContacts(personal, contactsDto, DataObject, contactsDtos);
-            await GridChangedNotification<ContactsDto, ProContactos>(ev, _onContactsPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+            await GridChangedNotification<ContactsViewObject, ProContactos>(ev, _onContactsPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
             RaisePropertyChanged("DataObject");
             RaisePropertyChanged("DataObject.ContactsDto");
         }
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto visitsDto)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject visitsDto)
         {
             throw new NotImplementedException();     
        
         }
 
-        internal override async Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override async Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsDto)
 
         {
             //set the id to the current visit.
             visitsDto.ClientId = PrimaryKeyValue;
             var currentObject = DataObject as ISupplierData;
-            var ev = CreateGridEvent<ContactsDto, VisitsDto>(p, visitsDto, currentObject.VisitsDto, this.ContactMagnifierCommand);
-            var newList = new List<VisitsDto>();
+            var ev = CreateGridEvent<ContactsViewObject, VisitsViewObject>(p, visitsDto, currentObject.VisitsDto, this.ContactMagnifierCommand);
+            var newList = new List<VisitsViewObject>();
             newList.Add(visitsDto);
             var exitDto = currentObject.VisitsDto;
-            var mergedList = exitDto.Union<VisitsDto>(newList);
+            var mergedList = exitDto.Union<VisitsViewObject>(newList);
             currentObject.VisitsDto = mergedList;
             ev["DataObject"] =currentObject;
             // Notify the toolbar.
-            await GridChangedNotification<VisitsDto, VISITAS_PROV>(ev, _onVisitPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+            await GridChangedNotification<VisitsViewObject, VISITAS_PROV>(ev, _onVisitPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
         
         }
 
-        private void _onVisitPrimaryKey(ref VisitsDto visitsDto)
+        private void _onVisitPrimaryKey(ref VisitsViewObject visitsDto)
         {
             visitsDto.KeyId = PrimaryKey;
         }
 
-        internal override async Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override async Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             var currentObject = DataObject as ISupplierData;
             if (currentObject!=null)
             {
                 var ev = SetBranchProvince(p, b, DataObject, currentObject.BranchesDto);
-                await GridChangedNotification<BranchesDto, ProDelega>(ev, _onBranchesPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
+                await GridChangedNotification<BranchesViewObject, ProDelega>(ev, _onBranchesPrimaryKey, DataSubSystem.SupplierSubsystem).ConfigureAwait(false);
             }
            
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new NotImplementedException();
         }

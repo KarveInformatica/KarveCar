@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using AutoMapper;
 using DataAccessLayer.DataObjects;
 using System.Data;
@@ -16,7 +16,7 @@ namespace DataAccessLayer.Crud.Company
     /// <summary>
     ///  Company class to be deleted.
     /// </summary>
-    internal sealed class CompanyDataDeleter : IDataDeleter<CompanyDto>
+    internal sealed class CompanyDataDeleter : IDataDeleter<CompanyViewObject>
     {
         private ISqlExecutor _sqlExecutor;
         private IMapper _mapper;
@@ -34,12 +34,12 @@ namespace DataAccessLayer.Crud.Company
         /// </summary>
         /// <param name="dto">Fata transfer object to delete the offices.</param>
         /// <returns>True if the action has been completed successfully</returns>
-        private async Task<bool> DeleteOfficesAsync(IDbConnection connection, IEnumerable<OfficeDtos> listOfOffices)
+        private async Task<bool> DeleteOfficesAsync(IDbConnection connection, IEnumerable<OfficeViewObject> listOfOffices)
         {
             bool retValue = true;
             if (listOfOffices.Count() > 0)
             {
-                IEnumerable<OFICINAS> offices = _mapper.Map<IEnumerable<OfficeDtos>, IEnumerable<OFICINAS>>(listOfOffices);
+                IEnumerable<OFICINAS> offices = _mapper.Map<IEnumerable<OfficeViewObject>, IEnumerable<OFICINAS>>(listOfOffices);
                 retValue = false;
 
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -56,11 +56,11 @@ namespace DataAccessLayer.Crud.Company
         /// </summary>
         /// <param name="data">Company data to be deleted.</param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(CompanyDto data)
+        public async Task<bool> DeleteAsync(CompanyViewObject data)
         {
             bool retValue = false;
 
-            SUBLICEN value = _mapper.Map<CompanyDto, SUBLICEN>(data);
+            SUBLICEN value = _mapper.Map<CompanyViewObject, SUBLICEN>(data);
             using (IDbConnection connection = _sqlExecutor.OpenNewDbConnection())
             {
                 using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))

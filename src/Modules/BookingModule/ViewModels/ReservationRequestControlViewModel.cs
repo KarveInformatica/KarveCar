@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 using BookingModule.Views;
 using Prism.Regions;

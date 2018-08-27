@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -47,19 +47,19 @@ namespace KarveTest.DAL
         {
             // arrange
            IOfficeDataServices officeDataServices = _dataServices.GetOfficeDataServices();
-           IEnumerable<OfficeSummaryDto> officeSummary = await officeDataServices.GetPagedSummaryDoAsync(1,10);
-           OfficeSummaryDto summaryDto=officeSummary.FirstOrDefault<OfficeSummaryDto>();
+           IEnumerable<OfficeSummaryViewObject> officeSummary = await officeDataServices.GetPagedSummaryDoAsync(1,10);
+           OfficeSummaryViewObject summaryViewObject=officeSummary.FirstOrDefault<OfficeSummaryViewObject>();
            
-           Assert.NotNull(summaryDto);
+           Assert.NotNull(summaryViewObject);
             // act
-           IOfficeData officeData = await officeDataServices.GetAsyncOfficeDo(summaryDto.Code).ConfigureAwait(false);
+           IOfficeData officeData = await officeDataServices.GetAsyncOfficeDo(summaryViewObject.Code).ConfigureAwait(false);
             // assert
             Assert.IsTrue(officeData.Valid);
-            OfficeDtos dto = officeData.Value as OfficeDtos;
-            Assert.NotNull(dto);
-            Assert.AreEqual(summaryDto.Code, officeData.Value.Codigo);
-            Assert.Greater(dto.Province.Count(), 0);
-            Assert.Greater(dto.HolidayDates.Count(), 0);
+            OfficeViewObject viewObject = officeData.Value as OfficeViewObject;
+            Assert.NotNull(viewObject);
+            Assert.AreEqual(summaryViewObject.Code, officeData.Value.Codigo);
+            Assert.Greater(viewObject.Province.Count(), 0);
+            Assert.Greater(viewObject.HolidayDates.Count(), 0);
 
         }
         [Test]

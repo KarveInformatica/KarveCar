@@ -8,7 +8,7 @@ using DataAccessLayer.DataObjects;
 using KarveDapper.Extensions;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using Moq;
 using System.ComponentModel;
@@ -75,17 +75,17 @@ namespace KarveTest.DAL
                 IEnumerable<CLIENTES1> value = await dbConnection.GetAllAsync<CLIENTES1>();
                 var singleValue = value.FirstOrDefault();
                 IClientData data = await _clientDataServices.GetDoAsync(singleValue.NUMERO_CLI);
-                ClientDto dtoClient = data.Value;
-                Assert.AreEqual(dtoClient.NUMERO_CLI, singleValue.NUMERO_CLI);
-                dtoClient.APELLIDO2 = "Zoppi";
-                data.Value = dtoClient;
+                ClientViewObject viewObjectClient = data.Value;
+                Assert.AreEqual(viewObjectClient.NUMERO_CLI, singleValue.NUMERO_CLI);
+                viewObjectClient.APELLIDO2 = "Zoppi";
+                data.Value = viewObjectClient;
                 // Act
                 bool retValue = await _clientDataServices.SaveAsync(data);
-                IClientData dataValue = await _clientDataServices.GetDoAsync(dtoClient.NUMERO_CLI);
+                IClientData dataValue = await _clientDataServices.GetDoAsync(viewObjectClient.NUMERO_CLI);
                 // Assert
                 Assert.IsTrue(retValue);
                 Assert.AreEqual(dataValue.Value.NUMERO_CLI, data.Value.NUMERO_CLI);
-                Assert.AreEqual(dataValue.Value.APELLIDO2, dtoClient.APELLIDO2);
+                Assert.AreEqual(dataValue.Value.APELLIDO2, viewObjectClient.APELLIDO2);
             }
         }
 
@@ -97,7 +97,7 @@ namespace KarveTest.DAL
                 IEnumerable<CLIENTES1> value = await dbConnection.GetPagedAsync<CLIENTES1>(1,10);
                 var singleValue = value.FirstOrDefault();
                 IClientData data = await _clientDataServices.GetDoAsync(singleValue.NUMERO_CLI);
-                ClientDto dtoClient = data.Value;
+                ClientViewObject viewObjectClient = data.Value;
                 var identifier = _clientDataServices.GetNewId();
                 IClientData newClient = _clientDataServices.GetNewDo(identifier);
                 newClient.Value.NOMBRE = "Giorgio";
@@ -107,11 +107,11 @@ namespace KarveTest.DAL
                 Assert.IsTrue(retValue);
                 IClientData newClientData = await _clientDataServices.GetDoAsync(newClient.Value.NUMERO_CLI);
                 // assert
-                ClientDto dto = newClientData.Value;
-                Assert.AreEqual(dto.NUMERO_CLI, newClient.Value.NUMERO_CLI);
-                Assert.AreEqual(dto.NOMBRE, newClient.Value.NOMBRE);
-                Assert.AreEqual(dto.APELLIDO1, newClient.Value.APELLIDO1);
-                Assert.AreEqual(dto.APELLIDO2, newClient.Value.APELLIDO2);
+                ClientViewObject viewObject = newClientData.Value;
+                Assert.AreEqual(viewObject.NUMERO_CLI, newClient.Value.NUMERO_CLI);
+                Assert.AreEqual(viewObject.NOMBRE, newClient.Value.NOMBRE);
+                Assert.AreEqual(viewObject.APELLIDO1, newClient.Value.APELLIDO1);
+                Assert.AreEqual(viewObject.APELLIDO2, newClient.Value.APELLIDO2);
             }
         }
         [Test]

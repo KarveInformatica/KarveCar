@@ -7,7 +7,7 @@ using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace ToolBarModule.Command
 {
@@ -39,11 +39,11 @@ namespace ToolBarModule.Command
             var dto = payLoad.DataObject;
             var dataObject = payLoad.DataObject;
 
-            if ((dataObject is IBookingData) || (dataObject is BookingDto))
+            if ((dataObject is IBookingData) || (dataObject is BookingViewObject))
             {
                 result = await HandleBookingSaveOrUpdate(payLoad).ConfigureAwait(false);
             }
-            else if ((dataObject is KarveDataServices.IReservationRequest) || (dataObject is ReservationRequestDto))
+            else if ((dataObject is KarveDataServices.IReservationRequest) || (dataObject is ReservationRequestViewObject))
             {
                 result = await HandleReservationSaveOrUpdate(payLoad).ConfigureAwait(false);
             }
@@ -76,7 +76,7 @@ namespace ToolBarModule.Command
             {
                 currentWorkingObject = req.Value;
             }
-            if (currentWorkingObject is ReservationRequestDto currentDto)
+            if (currentWorkingObject is ReservationRequestViewObject currentDto)
             {
                 // hwew we are sure that we are saving.
                 var currentValue = await reservationService.GetDoAsync(currentDto.NUMERO).ConfigureAwait(false);

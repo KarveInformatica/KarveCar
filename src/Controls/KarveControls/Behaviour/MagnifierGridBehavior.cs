@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using Syncfusion.UI.Xaml.Grid;
 using System;
 using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace KarveControls.Behaviour
                 var editedMappedName = grid.Columns[columnIndex].MappingName;
                 var record = grid.View.Records.GetItemAt(recordIndex);
                 var editCellValue = grid.View.GetPropertyAccessProvider().GetValue(record, editedMappedName);
-                var baseDto = editCellValue as BaseDto;
+                var baseDto = editCellValue as BaseViewObject;
                 if (baseDto != null)
                 {
                     baseDto.ShowCommand = ShowCommand;

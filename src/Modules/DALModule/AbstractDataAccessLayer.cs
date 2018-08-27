@@ -7,7 +7,7 @@ using DataAccessLayer.SQL;
 using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace DataAccessLayer
 {
@@ -102,7 +102,7 @@ namespace DataAccessLayer
         public async Task<int> GetPageCount(int pageSize)
         {
 
-            var pager = new DataPager<BaseDto>(SqlExecutor);
+            var pager = new DataPager<BaseViewObject>(SqlExecutor);
             if (pageSize <= 0)
             {
                 throw new ArgumentException();

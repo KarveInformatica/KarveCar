@@ -14,7 +14,7 @@ using MasterModule.Common;
 using MasterModule.Interfaces;
 using MasterModule.Views;
 using Prism.Regions;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Threading.Tasks;
 using NLog;
 using Syncfusion.UI.Xaml.Grid;
@@ -46,13 +46,13 @@ namespace MasterModule.ViewModels
 
         private IRegionManager _regionManager;
         private Stopwatch _timing = new Stopwatch();
-        private IEnumerable<SupplierSummaryDto> _summaryCollection = new List<SupplierSummaryDto>();
+        private IEnumerable<SupplierSummaryViewObject> _summaryCollection = new List<SupplierSummaryViewObject>();
         private static long _uniqueIdentifier = 0;
-        private GridSorter<SupplierSummaryDto> _gridSorter;
+        private GridSorter<SupplierSummaryViewObject> _gridSorter;
 
        
         private string _mailBoxName;
-        private INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>> _supplierTaskNotify;
+        private INotifyTaskCompletion<IEnumerable<SupplierSummaryViewObject>> _supplierTaskNotify;
         private PropertyChangedEventHandler _supplierTaskEvent;
 
         private ISupplierDataServices _supplierDataServices;
@@ -71,9 +71,9 @@ namespace MasterModule.ViewModels
             _extendedSupplierDataTable = new DataTable();
             _uniqueIdentifier = _uniqueIdentifier % Int64.MaxValue;
             _mailBoxName = PROVIDER_SUMMARY_VM;
-            _supplierTaskEvent += OnNotifyIncrementalList<SupplierSummaryDto>;
+            _supplierTaskEvent += OnNotifyIncrementalList<SupplierSummaryViewObject>;
             _supplierDataServices = DataServices.GetSupplierDataServices();
-            _gridSorter = new GridSorter<SupplierSummaryDto>(service, _supplierDataServices, DefaultPageSize);
+            _gridSorter = new GridSorter<SupplierSummaryViewObject>(service, _supplierDataServices, DefaultPageSize);
             _gridSorter.OnInitPage += _gridSorter_OnInitPage;
             _gridSorter.OnNewPage += _gridSorter_OnNewPage;
             DefaultPageSize = 100;
@@ -84,23 +84,23 @@ namespace MasterModule.ViewModels
             ActiveSubSystem();
         }
 
-        private void _gridSorter_OnNewPage(IEnumerable<SupplierSummaryDto> page)
+        private void _gridSorter_OnNewPage(IEnumerable<SupplierSummaryViewObject> page)
         {
-            if (SummaryView is IncrementalList<SupplierSummaryDto> list)
+            if (SummaryView is IncrementalList<SupplierSummaryViewObject> list)
             {
                 list.LoadItems(page);
                 SummaryView = list;
             }
         }
 
-        private void _gridSorter_OnInitPage(IEnumerable<SupplierSummaryDto> page)
+        private void _gridSorter_OnInitPage(IEnumerable<SupplierSummaryViewObject> page)
         {
 
             PageCount = (_supplierDataServices.NumberPage == 0) ? 1 : _supplierDataServices.NumberPage;
             var maxItems = _supplierDataServices.NumberItems;
             if (page.Count() > 0)
             {
-                var list = new IncrementalList<SupplierSummaryDto>(_gridSorter.Loader) { MaxItemCount = (int)maxItems };
+                var list = new IncrementalList<SupplierSummaryViewObject>(_gridSorter.Loader) { MaxItemCount = (int)maxItems };
                 list.LoadItems(page);
                 SummaryView = list;
             }
@@ -115,7 +115,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Property that return the summary of Suppliers.
         /// </summary>
-        public IEnumerable<SupplierSummaryDto> SummaryCollection
+        public IEnumerable<SupplierSummaryViewObject> SummaryCollection
         {
             set
             {
@@ -173,7 +173,7 @@ namespace MasterModule.ViewModels
         public override void DisposeEvents()
         {
             base.DisposeEvents();
-            if (SummaryView is IncrementalList<SupplierSummaryDto> summary)
+            if (SummaryView is IncrementalList<SupplierSummaryViewObject> summary)
             {
                 summary.Clear();
                 SummaryView = null;
@@ -216,7 +216,7 @@ namespace MasterModule.ViewModels
             var name = string.Empty;
             var supplierId = string.Empty;
             var tabName = string.Empty;
-            if (currentItem is SupplierSummaryDto item)
+            if (currentItem is SupplierSummaryViewObject item)
             {
                 name = item.Nombre;
                 supplierId = item.Codigo;
@@ -247,17 +247,17 @@ namespace MasterModule.ViewModels
 
             var supplierDataServices = DataServices.GetSupplierDataServices();
 
-            _supplierTaskNotify = NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(
+            _supplierTaskNotify = NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryViewObject>>(
                supplierDataServices.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev) =>
                {
-                   if (task is INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>> suppliers)
+                   if (task is INotifyTaskCompletion<IEnumerable<SupplierSummaryViewObject>> suppliers)
                    {
                        if (suppliers.IsSuccessfullyCompleted)
                        {
                            var collection = suppliers.Result;
                            var maxItems = supplierDataServices.NumberItems;
                            PageCount = supplierDataServices.NumberPage;
-                           var summaryList = new IncrementalList<SupplierSummaryDto>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                           var summaryList = new IncrementalList<SupplierSummaryViewObject>(LoadMoreItems) { MaxItemCount = (int)maxItems };
                            summaryList.LoadItems(collection);
                            SummaryView = summaryList;
                            
@@ -281,14 +281,14 @@ namespace MasterModule.ViewModels
         protected override void LoadMoreItems(uint count, int baseIndex)
         {
             Logger.Debug("Base" + baseIndex.ToString());
-            NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<SupplierSummaryViewObject>>(
                 _supplierDataServices.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (sender,ev)=> {
                     var listCompletion =
-                sender as INotifyTaskCompletion<IEnumerable<SupplierSummaryDto>>;
+                sender as INotifyTaskCompletion<IEnumerable<SupplierSummaryViewObject>>;
                     if ((listCompletion != null) && (listCompletion.IsSuccessfullyCompleted))
                     {
 
-                        if (SummaryView is IncrementalList<SupplierSummaryDto> summary)
+                        if (SummaryView is IncrementalList<SupplierSummaryViewObject> summary)
                         {
                             summary.LoadItems(listCompletion.Result);
                             SummaryView = summary;

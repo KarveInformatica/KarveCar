@@ -11,7 +11,7 @@ using KarveCommon.Services;
 using KarveControls;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using MasterModule.Common;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -89,17 +89,17 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Vehicle group data transfer object
         /// </summary>
-        public IEnumerable<VehicleGroupDto> GroupVehicleDto { get; set; }
+        public IEnumerable<VehicleGroupViewObject> GroupVehicleDto { get; set; }
 
         /// <summary>
         ///  Model vehicle data transfer object
         /// </summary>
-        public IEnumerable<ModelVehicleDto> ModelVehicleDto { get; set; }
+        public IEnumerable<ModelVehicleViewObject> ModelVehicleDto { get; set; }
 
         /// <summary>
         ///  Brand vehicle data transfer object.
         /// </summary>
-        public IEnumerable<BrandVehicleDto> BrandVehicleDto { get; set; }
+        public IEnumerable<BrandVehicleViewObject> BrandVehicleDto { get; set; }
 
         private string _uniqueValue = "UpperBarViewVehicle." + Guid.NewGuid().ToString();
         private string _assistQueryModel;
@@ -213,12 +213,12 @@ namespace MasterModule.ViewModels
                 string modelCode = _currentVehicleData.Value.MODELO;
                 string modelQuery = string.Format(VehicleModel, modelCode);
                 var model = await helperDataServices.GetAsyncHelper<MODELO>(modelQuery);
-                _currentVehicleData.BrandDtos = _mapper.Map<IEnumerable<MARCAS>, IEnumerable<BrandVehicleDto>>(marcas);
-                _currentVehicleData.ColorDtos = _mapper.Map<IEnumerable<COLORFL>, IEnumerable<ColorDto>>(color);
-                _currentVehicleData.ModelDtos = _mapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleDto>>(model);
+                _currentVehicleData.BrandDtos = _mapper.Map<IEnumerable<MARCAS>, IEnumerable<BrandVehicleViewObject>>(marcas);
+                _currentVehicleData.ColorDtos = _mapper.Map<IEnumerable<COLORFL>, IEnumerable<ColorViewObject>>(color);
+                _currentVehicleData.ModelDtos = _mapper.Map<IEnumerable<MODELO>, IEnumerable<ModelVehicleViewObject>>(model);
                 string query = string.Format(VehicleGroup, _currentVehicleData.Value.GRUPO);
                 var grupos = await helperDataServices.GetAsyncHelper<GRUPOS>(query);
-                _currentVehicleData.VehicleGroupDtos = _mapper.Map<IEnumerable<GRUPOS>, IEnumerable<VehicleGroupDto>>(grupos);
+                _currentVehicleData.VehicleGroupDtos = _mapper.Map<IEnumerable<GRUPOS>, IEnumerable<VehicleGroupViewObject>>(grupos);
                 DataObject = _currentVehicleData;
                 DataObject.BrandDtos = _currentVehicleData.BrandDtos;
                 DataObject.ColorDtos = _currentVehicleData.ColorDtos;
@@ -242,25 +242,25 @@ namespace MasterModule.ViewModels
                 case "COLORFL":
                 {
                        var colos =
-                  _currentVehicleData.ColorDtos = await helperDataServices.GetMappedAsyncHelper<ColorDto, COLORFL>(assistQuery);
+                  _currentVehicleData.ColorDtos = await helperDataServices.GetMappedAsyncHelper<ColorViewObject, COLORFL>(assistQuery);
                   break;
                 }
                 case "MARCAS":
                 {
-                        var brands = await helperDataServices.GetMappedAsyncHelper<BrandVehicleDto, MARCAS>(assistQuery);
+                        var brands = await helperDataServices.GetMappedAsyncHelper<BrandVehicleViewObject, MARCAS>(assistQuery);
                     _currentVehicleData.BrandDtos = brands;
                     break;
                 }
                 case "MODELO":
                 {
-                        var models = await helperDataServices.GetMappedAsyncHelper<ModelVehicleDto, MODELO>(assistQuery);
+                        var models = await helperDataServices.GetMappedAsyncHelper<ModelVehicleViewObject, MODELO>(assistQuery);
                     _currentVehicleData.ModelDtos = models;
                     break;
                 }
                 case "GRUPOS":
                 {
                         var vehicles = await helperDataServices
-                            .GetMappedAsyncHelper<VehicleGroupDto, GRUPOS>(assistQuery);
+                            .GetMappedAsyncHelper<VehicleGroupViewObject, GRUPOS>(assistQuery);
                     _currentVehicleData.VehicleGroupDtos = vehicles;
                          
                     break;

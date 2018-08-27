@@ -1,7 +1,7 @@
 ﻿using KarveDataServices;
 using System;
 using System.Runtime.Serialization;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.Mock
 {
@@ -12,6 +12,6 @@ namespace KarveTest.Mock
         {
         }
    
-        public IAssistMapper<BaseDto> Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IAssistMapper<BaseViewObject> Mapper { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

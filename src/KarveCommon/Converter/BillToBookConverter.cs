@@ -11,22 +11,26 @@ namespace KarveCommon.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            /*
             byte? bill = (byte?)value;
             if (!bill.HasValue)
             {
                 return -1;
             }
-            return bill.Value;   
+            */
+            return 1;   
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var b = 0;
+
+            /*
             int v = (int)value;
             if (v == -1)
             {
                 return null;
             }
-            var b = 0;
             try
             {
                 b = System.Convert.ToByte(v);
@@ -35,7 +39,7 @@ namespace KarveCommon.Converter
             catch (Exception e)
             {
                 return null;
-            }
+            }*/
 #pragma warning restore 0168
             return b;
         }

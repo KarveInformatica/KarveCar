@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingModule", "Modules\Bo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar", "KarveCar.csproj", "{D670E5EB-634C-41E4-A7DD-3621E80E5EF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataAccessLayer", "Modules\DALModule\KarveDataAccessLayer.csproj", "{140C1044-4F56-4855-AF52-A2F91B369460}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "Modules\DALModule\DataAccessLayer.csproj", "{140C1044-4F56-4855-AF52-A2F91B369460}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveDataServices", "Modules\DALModule\KarveDataServices\KarveDataServices.csproj", "{83407587-1785-481B-A4FB-23E035173190}"
 EndProject
@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KarveWeb", "KarveWeb\KarveW
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CodeGenerator", "KarveCodeGen\CodeGenerator.pyproj", "{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveBusinessServices", "..\KarveBusinessServices\KarveBusinessServices.csproj", "{88CA56C0-2792-4415-8946-25C308CD54D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Model", "..\KarveCar.Model\KarveCar.Model.csproj", "{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessModule", "Modules\BusinessModule\BusinessModule.csproj", "{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -305,18 +307,30 @@ Global
 		{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}.Release|x64.ActiveCfg = Release|Any CPU
 		{5ACDDF53-8BFB-4FA5-BD10-392BF2D29042}.Release|x86.ActiveCfg = Release|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x64.Build.0 = Debug|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Debug|x86.Build.0 = Debug|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x64.ActiveCfg = Release|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x64.Build.0 = Release|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x86.ActiveCfg = Release|Any CPU
-		{88CA56C0-2792-4415-8946-25C308CD54D3}.Release|x86.Build.0 = Release|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Debug|x64.Build.0 = Debug|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Debug|x86.Build.0 = Debug|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Release|x64.ActiveCfg = Release|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Release|x64.Build.0 = Release|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}.Release|x86.Build.0 = Release|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Debug|x64.Build.0 = Debug|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x64.ActiveCfg = Release|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x64.Build.0 = Release|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -329,6 +343,7 @@ Global
 		{2636E89F-C157-4346-BAB0-FC774BAC26AF} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{28298225-CD5C-40DA-A6D4-F48506446A4B} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{140C1044-4F56-4855-AF52-A2F91B369460} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
+		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35

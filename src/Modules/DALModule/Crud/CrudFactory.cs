@@ -3,7 +3,7 @@ using DataAccessLayer.Crud.Clients;
 using DataAccessLayer.Crud.Office;
 using DataAccessLayer.Logic;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 namespace DataAccessLayer.Crud
 {
     /// <summary>
@@ -28,35 +28,35 @@ namespace DataAccessLayer.Crud
         /// Client loader.
         /// </summary>
         /// <returns>An interface for loading the entities..</returns>
-        public IDataLoader<ClientDto> ClientLoader => new ClientDataLoader(_executor);
+        public IDataLoader<ClientViewObject> ClientLoader => new ClientDataLoader(_executor);
         /// <summary>
         ///  client saver
         /// </summary>
         /// <returns></returns>
-        public IDataSaver<ClientDto> ClientSaver => new Clients.ClientDataSaver(_executor);
+        public IDataSaver<ClientViewObject> ClientSaver => new Clients.ClientDataSaver(_executor);
 
         /// <summary>
         /// Client deleter
         /// </summary>
         /// <returns></returns>
-        public IDataDeleter<ClientDto> ClientDeleter => new Clients.ClientDeleter(_executor);
+        public IDataDeleter<ClientViewObject> ClientDeleter => new Clients.ClientDeleter(_executor);
 
         /// <summary>
         ///  Office deleter
         /// </summary>
         /// <returns></returns>
-        public IDataDeleter<OfficeDtos> GetOfficeDeleter() => new OfficeDataDeleter(_executor, _mapper);
+        public IDataDeleter<OfficeViewObject> GetOfficeDeleter() => new OfficeDataDeleter(_executor, _mapper);
 
         /// <summary>
         /// Office loader factory
         /// </summary>
         /// <returns>Return an office loader. That has the resposability of load offices</returns>
-        public IDataLoader<OfficeDtos> GetOfficeLoader() => new OfficeDataLoader(_executor, _mapper);
+        public IDataLoader<OfficeViewObject> GetOfficeLoader() => new OfficeDataLoader(_executor, _mapper);
         /// <summary>
         ///  office saver.
         /// </summary>
         /// <returns></returns>
-        public IDataSaver<OfficeDtos> GetOfficeSaver() => new OfficeDataSaver(_executor, _mapper);
+        public IDataSaver<OfficeViewObject> GetOfficeSaver() => new OfficeDataSaver(_executor, _mapper);
         
     }
 }

@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveDataServices;
 using KarveCommon.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Diagnostics.Contracts;
 using KarveDataServices.DataObjects;
 
@@ -27,7 +27,7 @@ namespace ToolBarModule.Command
         {
             Contract.Requires(payLoad != null, "The payload at company data shall be not null");
             Contract.Requires(payLoad.DataObject != null, "Payload shall have data object");
-            if (payLoad.DataObject is OfficeDtos dto)
+            if (payLoad.DataObject is OfficeViewObject dto)
             {
                 IOfficeData data = _officeDataServices.GetNewOfficeDo(dto.Codigo);
                 data.Value = dto;

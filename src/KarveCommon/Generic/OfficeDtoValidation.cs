@@ -7,7 +7,7 @@ using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveCommon.Generic
 {
@@ -28,13 +28,13 @@ namespace KarveCommon.Generic
             {
                 return true;
             }
-            var dtos = new OfficeDtos();
+            var dtos = new OfficeViewObject();
             switch (req.DataObject)
             {
                 case IOfficeData dataObject:
                     dtos = dataObject.Value;
                     break;
-                case OfficeDtos dto:
+                case OfficeViewObject dto:
                     dtos = dto;
                     break;
             }

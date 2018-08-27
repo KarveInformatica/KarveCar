@@ -9,7 +9,7 @@ using System.Data.Common;
 using System.Windows;
 using KarveCommonInterfaces;
 using Prism.Commands;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace ToolBarModule.Command
 {

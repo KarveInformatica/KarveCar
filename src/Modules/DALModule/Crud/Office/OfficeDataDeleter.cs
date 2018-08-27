@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Data;
 using System.Diagnostics.Contracts;
 using DataAccessLayer.DataObjects;
@@ -18,7 +18,7 @@ namespace DataAccessLayer.Crud.Office
     /// <summary>
     /// Office data deleter. This object has the single responsabilty to deletes an office.
     /// </summary>
-    internal sealed class OfficeDataDeleter: IDataDeleter<OfficeDtos>
+    internal sealed class OfficeDataDeleter: IDataDeleter<OfficeViewObject>
     {
         private readonly ISqlExecutor _executor;
         private readonly IMapper _mapper;
@@ -38,10 +38,10 @@ namespace DataAccessLayer.Crud.Office
         /// </summary>
         /// <param name="data">Data transfer object to be used for deleting an object</param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(OfficeDtos data)
+        public async Task<bool> DeleteAsync(OfficeViewObject data)
         {
             Contract.Assert(data != null, "Invalid data transfer object");
-            var currentPoco = _mapper.Map<OfficeDtos, OFICINAS>(data);
+            var currentPoco = _mapper.Map<OfficeViewObject, OFICINAS>(data);
             var retValue = false;
             using (var connection = _executor.OpenNewDbConnection())
             {
@@ -59,7 +59,7 @@ namespace DataAccessLayer.Crud.Office
                             
                             //var connection = await connection.DeleteAsync();
                             // now we can delete the associated holidays.
-                            //var holidays=_mapper.Map<IEnumerable<HolidayDto>, IEnumerable<FESTIVOS_OFICINA>>(data.HolidayDates);
+                            //var holidays=_mapper.Map<IEnumerable<HolidayViewObject>, IEnumerable<FESTIVOS_OFICINA>>(data.HolidayDates);
                             // retValue = await connection.DeleteAsync(holidays);
                         }
                         scope.Complete();

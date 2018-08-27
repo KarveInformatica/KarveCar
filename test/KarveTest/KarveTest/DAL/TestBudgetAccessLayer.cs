@@ -9,7 +9,7 @@ using KarveDapper.Extensions;
 using KarveDapper;
 using KarveDataAccessLayer.DataObjects;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using DataAccessLayer.DataObjects;
 using System.Collections.ObjectModel;
 

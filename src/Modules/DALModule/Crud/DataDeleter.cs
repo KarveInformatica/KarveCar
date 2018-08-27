@@ -9,7 +9,7 @@ using System.Transactions;
 namespace DataAccessLayer.Crud
 {
         /// <summary>
-        /// Generic data deleter for entitities.
+        /// Generic data deleter for entities.
         /// </summary>
         /// <typeparam name="T">Type of the entity</typeparam>
         /// <typeparam name="Dto">Data Transfer object</typeparam>
@@ -32,7 +32,7 @@ namespace DataAccessLayer.Crud
                 this._mapper = MapperField.GetMapper();
             }
             /// <summary>
-            ///  Delete asynchronously the entity after the mapping from dto to entity.
+            ///  Delete asynchronously the entity after the mapping from viewObject to entity.
             /// </summary>
             /// <param name="data"></param>
             /// <returns></returns>

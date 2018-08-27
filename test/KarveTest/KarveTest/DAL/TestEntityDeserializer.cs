@@ -11,7 +11,7 @@ using System.Data;
 using KarveDapper.Extensions;
 using KarveDataAccessLayer.DataObjects;
 using DataAccessLayer.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.DAL
 {
@@ -35,13 +35,13 @@ namespace KarveTest.DAL
                new POBLACIONES(),
                new CLIENTES1()
            };
-            IList<object> dto = new List<object>()
+            IList<object> viewObject = new List<object>()
             {
-               new CityDto(),
-               new ClientDto()
+               new CityViewObject(),
+               new ClientViewObject()
             };
             var query = "SELECT * from poblaciones; select * from clientes1";
-            EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
+            EntityDeserializer deserializer = new EntityDeserializer(entities, viewObject);
             
             _output.Clear();
         
@@ -55,15 +55,15 @@ namespace KarveTest.DAL
                     var deserialized = deserializer.Deserialize(row);
                     Assert.NotNull(deserializer);
                     //Assert.AreEqual(deserialized.Type.Name, entities[currentPosition].GetType().Name);
-                    //Assert.AreEqual(deserialized.DtoType.Name, dto[currentPosition].GetType().Name);
+                    //Assert.AreEqual(deserialized.DtoType.Name, viewObject[currentPosition].GetType().Name);
                     if (deserialized != null)
                     {
                         _output.Add(deserialized);
                     }
                 }
-                var dtoCount = _output.Count(p => p.DtoType == dto[0].GetType());
+                var dtoCount = _output.Count(p => p.DtoType == viewObject[0].GetType());
                 var entityCount = _output.Count(p => p.Type == entities[0].GetType());
-                var dtoCount1 = _output.Count(p => p.DtoType == dto[1].GetType());
+                var dtoCount1 = _output.Count(p => p.DtoType == viewObject[1].GetType());
                 var entityCount1 = _output.Count(p => p.Type == entities[1].GetType());
 
                 Assert.AreEqual(2, _output.Count);
@@ -83,14 +83,14 @@ namespace KarveTest.DAL
                 new CLIENTES1(),
               
            };
-            IList<object> dto = new List<object>()
+            IList<object> viewObject = new List<object>()
             {
-               new CityDto(),
-               new VehicleDto(),
-               new ClientDto()
+               new CityViewObject(),
+               new VehicleViewObject(),
+               new ClientViewObject()
             };
             var query = @"SELECT * from poblaciones;select * from vehiculo1 WHERE CODIINT='0';select * from clientes1";
-            EntityDeserializer deserializer = new EntityDeserializer(entities, dto);
+            EntityDeserializer deserializer = new EntityDeserializer(entities, viewObject);
             _output.Clear();
             using (IDbConnection dbConnection = _executor.OpenNewDbConnection())
             {

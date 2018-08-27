@@ -10,7 +10,7 @@ using KarveCommon.Generic;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -18,7 +18,7 @@ namespace HelperModule.ViewModels
    /// <summary>
    ///  View model that models the bank.
    /// </summary>
-    class ClientBanksViewModel: GenericHelperViewModel<BanksDto, BANCO>
+    class ClientBanksViewModel: GenericHelperViewModel<BanksViewObject, BANCO>
     {
         /// <summary>
         ///  This is unique for all class of the grid identifiers.
@@ -39,7 +39,7 @@ namespace HelperModule.ViewModels
         public override void DisposeEvents()
         {
             base.DisposeEvents();
-            var value =  HelperDto as BanksDto;
+            var value =  HelperDto as BanksViewObject;
             value.ClearErrors();
             HelperDto = value;
             value = null;
@@ -47,12 +47,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            BanksDto dto = payLoad.DataObject as BanksDto;
-            if (dto != null)
+            BanksViewObject viewObject = payLoad.DataObject as BanksViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<BanksDto, BANCO>(dto).ConfigureAwait(false);
-                dto.Code = codeId.Substring(0, 4);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<BanksViewObject, BANCO>(viewObject).ConfigureAwait(false);
+                viewObject.Code = codeId.Substring(0, 4);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

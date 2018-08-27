@@ -42,7 +42,7 @@
                                                   IsReadOnly="True"
                                                   AssistProperties="Code,Name"
                                                   DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                  SourceView="{Binding  CompanyDto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  SourceView="{Binding  CompanyViewObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DataFieldFirst="SUBLICEN"
                                                   AssistDataFieldFirst="SUBLICEN"
                                                   AssistDataFieldSecond="NOMBRE"

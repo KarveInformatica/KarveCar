@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer;
 using KarveCommon.Services;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace KarveTest.DAL
         public async Task Should_Load_CorrectlyCompanies()
         {
             var listOfCompanies = await _companyDataService.GetAsyncAllCompanySummary();
-            Assert.Greater(listOfCompanies.Count<CompanySummaryDto>(), 0);
+            Assert.Greater(listOfCompanies.Count<CompanySummaryViewObject>(), 0);
         }
         [Test]
         public async Task Should_Load_ACompanyCorrectly()
@@ -78,13 +78,13 @@ namespace KarveTest.DAL
                 {
                     var code = subl.CODIGO;
                     var company = await _companyDataService.GetAsyncCompanyDo(code);
-                    CompanyDto dto = company.Value;
+                    CompanyViewObject viewObject = company.Value;
                     var dateNow = DateTime.Now.ToString("yyyyMMddHH:mm");
-                    dto.ULTMODI = dateNow;
+                    viewObject.ULTMODI = dateNow;
                     var id = _companyDataService.GetNewId();
-                    dto.CODIGO = id;
+                    viewObject.CODIGO = id;
                     company = _companyDataService.GetNewCompanyDo(id);
-                    company.Value = dto;
+                    company.Value = viewObject;
                     bool saved = await _companyDataService.SaveAsync(company);
                     var newItem = await _companyDataService.GetAsyncCompanyDo(id);
                     Assert.IsTrue(saved);
@@ -115,7 +115,7 @@ namespace KarveTest.DAL
                 var companyId = _companyDataService.GetNewId();
                 var company = _companyDataService.GetNewCompanyDo(companyId);
                 var officeId = _dataServices.GetOfficeDataServices().GetNewId();
-                CompanyDto c = company.Value;
+                CompanyViewObject c = company.Value;
                 Random random = new Random();
                 c.NOMBRE = null;
                 c.CODIGO = null;
@@ -136,9 +136,9 @@ namespace KarveTest.DAL
                 c.DIRECCION = "Calle Rocafort 239";
                 if (c != null)
                 {
-                    c.Offices = new List<OfficeDtos>()
+                    c.Offices = new List<OfficeViewObject>()
                     {
-                        new OfficeDtos()
+                        new OfficeViewObject()
                         {
                             Codigo = officeId,
                             Nombre = "LaViaZia",
@@ -184,7 +184,7 @@ namespace KarveTest.DAL
                 var companyId = _companyDataService.GetNewId();
                 var company = _companyDataService.GetNewCompanyDo(companyId);
                 var officeId = _dataServices.GetOfficeDataServices().GetNewId();
-                CompanyDto c = company.Value;
+                CompanyViewObject c = company.Value;
                 Random random = new Random();
                 c.NOMBRE = "Karve" + random.Next() % 1000;
                 c.POBLACION = "Barcelona";
@@ -204,9 +204,9 @@ namespace KarveTest.DAL
                 c.DIRECCION = "Calle Rocafort 239";
                 if (c != null)
                 {
-                    c.Offices = new List<OfficeDtos>()
+                    c.Offices = new List<OfficeViewObject>()
                     {
-                        new OfficeDtos()
+                        new OfficeViewObject()
                         {
                             Codigo = officeId,
                             Nombre = "LaViaZia",

@@ -38,7 +38,8 @@ namespace KarveControls.Behaviour
                 }
                 catch (Exception ex)
                 {
-
+                    OnCleanup();
+            
                 }
             }
         }

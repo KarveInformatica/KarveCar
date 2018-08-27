@@ -8,8 +8,8 @@ using KarveDataServices.DataObjects;
 using System.Collections.ObjectModel;
 using System.Transactions;
 using Dapper;
-using DataAccessLayer.Model;
-using KarveDataServices.DataTransferObject;
+using DataAccessLayer.DtoWrapper;
+using KarveDataServices.ViewObjects;
 using NLog;
 using DataAccessLayer.SQL;
 using DataAccessLayer.DataObjects;
@@ -96,9 +96,9 @@ namespace DataAccessLayer
         ///  Retrieve the list of all commission agents and convert them in a data transfer object list.
         /// </summary>
         /// <returns>The list of commission agents</returns>
-        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetSummaryAllAsync()
+        public async Task<IEnumerable<CommissionAgentSummaryViewObject>> GetSummaryAllAsync()
         {
-            IEnumerable<CommissionAgentSummaryDto> summary = new ObservableCollection<CommissionAgentSummaryDto>();
+            IEnumerable<CommissionAgentSummaryViewObject> summary = new ObservableCollection<CommissionAgentSummaryViewObject>();
             var store = _queryStoreFactory.GetQueryStore();
             store.AddParam(QueryType.QueryCommissionAgentSummary);
             var query = store.BuildQuery();
@@ -108,7 +108,7 @@ namespace DataAccessLayer
                 {
                     using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                     {
-                        summary = await connection.QueryAsync<CommissionAgentSummaryDto>(query).ConfigureAwait(false);
+                        summary = await connection.QueryAsync<CommissionAgentSummaryViewObject>(query).ConfigureAwait(false);
                     }
                 } catch (System.Exception ex)
                 {
@@ -203,9 +203,9 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>A list of sorted clients</returns>
-        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        public async Task<IEnumerable<CommissionAgentSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
         {
-            var dataPager = new DataPager<CommissionAgentSummaryDto>(SqlExecutor);
+            var dataPager = new DataPager<CommissionAgentSummaryViewObject>(SqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
                 pageStart = 1;
@@ -242,9 +242,9 @@ namespace DataAccessLayer
             return agent;
         }
 
-        public async Task<IEnumerable<CommissionAgentSummaryDto>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
+        public async Task<IEnumerable<CommissionAgentSummaryViewObject>> GetPagedSummaryDoAsync(int pageIndex, int pageSize)
         {
-            var paged = new DataPager<CommissionAgentSummaryDto>(_sqlExecutor);
+            var paged = new DataPager<CommissionAgentSummaryViewObject>(_sqlExecutor);
             NumberPage = await GetPageCount(pageSize);
             var pagedValue = await paged.GetPagedSummaryDoAsync(QueryType.QueryCommissionAgentPaged, pageIndex, pageSize);
             return pagedValue;

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using DataAccessLayer.DataObjects;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveCommon.Generic;
 using System.Data;
 using Dapper;

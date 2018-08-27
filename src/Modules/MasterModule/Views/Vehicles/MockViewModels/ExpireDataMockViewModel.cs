@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Mvvm;
 
 namespace MasterModule.Views.Vehicles.MockViewModels
@@ -11,7 +11,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
     public class ExpireDataMockViewModel: BindableBase
     {
 
-        private VehicleDto _vehicleDto = new VehicleDto();
+        private VehicleViewObject _vehicleViewObject = new VehicleViewObject();
 
         private StringConstants _stringConstants = new StringConstants();
 
@@ -56,7 +56,7 @@ namespace MasterModule.Views.Vehicles.MockViewModels
         {
             for (int i = 0; i< listOfObject.Count; ++i)
             {
-                listOfObject[i].DataSource = _vehicleDto;
+                listOfObject[i].DataSource = _vehicleViewObject;
             }
             MetaDataObject = listOfObject;
             StringConstants = _stringConstants;

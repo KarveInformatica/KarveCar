@@ -7,7 +7,7 @@ using DataAccessLayer.DataObjects;
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 
 namespace HelperModule.ViewModels
@@ -15,7 +15,7 @@ namespace HelperModule.ViewModels
     /// <summary>
     ///  RentingUseViewModel.
     /// </summary>
-    class RentingUseViewModel: GenericHelperViewModel<RentingUseDto, USO_ALQUILER>
+    class RentingUseViewModel: GenericHelperViewModel<RentingUseViewObject, USO_ALQUILER>
     {
         /// <summary>
         /// RentingUseViewModel
@@ -38,12 +38,12 @@ namespace HelperModule.ViewModels
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            RentingUseDto dto = payLoad.DataObject as RentingUseDto;
-            if (dto != null)
+            RentingUseViewObject viewObject = payLoad.DataObject as RentingUseViewObject;
+            if (viewObject != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<RentingUseDto,USO_ALQUILER>(dto);
-                dto.Code = codeId.Substring(0, 2);
-                payLoad.DataObject = dto;
+                string codeId = await helperDal.GetMappedUniqueId<RentingUseViewObject,USO_ALQUILER>(viewObject);
+                viewObject.Code = codeId.Substring(0, 2);
+                payLoad.DataObject = viewObject;
             }
             return payLoad;
         }

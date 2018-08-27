@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using KarveCommon.Generic;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Commands;
 using Prism.Regions;
 using Syncfusion.UI.Xaml.Grid;

@@ -1,6 +1,6 @@
 ﻿using KarveCommon.Services;
 using KarveCommonInterfaces;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using KarveDataServices;
 using Prism.Regions;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace MasterModule.ViewModels
     /// </summary>
     internal sealed class FaresInfoViewModel : MasterInfoViewModuleBase, IEventObserver, IDisposeEvents
     {
-        private FareDto _dataObject;
+        private FareViewObject _dataObject;
        
         /// <summary>
         /// Fare info view model
@@ -48,22 +48,22 @@ namespace MasterModule.ViewModels
            
         }
 
-        internal override Task SetClientData(ClientSummaryExtended p, VisitsDto b)
+        internal override Task SetClientData(ClientSummaryExtended p, VisitsViewObject b)
         {
             throw new System.NotImplementedException();
         }
 
-        internal override Task SetVisitContacts(ContactsDto p, VisitsDto visitsDto)
+        internal override Task SetVisitContacts(ContactsViewObject p, VisitsViewObject visitsViewObject)
         {
             throw new System.NotImplementedException();
         }
 
-        internal override Task SetBranchProvince(ProvinciaDto p, BranchesDto b)
+        internal override Task SetBranchProvince(ProvinceViewObject p, BranchesViewObject b)
         {
             throw new System.NotImplementedException();
         }
 
-        internal override Task SetVisitReseller(ResellerDto param, VisitsDto b)
+        internal override Task SetVisitReseller(ResellerViewObject param, VisitsViewObject b)
         {
             throw new System.NotImplementedException();
         }
@@ -76,7 +76,7 @@ namespace MasterModule.ViewModels
         /// <summary>
         ///  Data object to be forwarded to the view.
         /// </summary>
-        public FareDto DataObject
+        public FareViewObject DataObject
         {
             set
             {

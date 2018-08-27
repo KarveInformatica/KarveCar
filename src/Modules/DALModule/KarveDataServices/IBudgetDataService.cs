@@ -1,9 +1,9 @@
 ﻿using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices
 {
-    public interface IBudgetDataService: IDataProvider<IBudgetData, BudgetSummaryDto>, IIdentifier, IPageCounter
+    public interface IBudgetDataService: IDataProvider<IBudgetData, BudgetSummaryViewObject>, IIdentifier, IPageCounter
     {
     }
 }

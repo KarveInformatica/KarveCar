@@ -1,61 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using AutoMapper;
-using DataAccessLayer.DataObjects;
-using KarveDataServices;
-using KarveDataServices.DataTransferObject;
-using DataAccessLayer.Exception;
-using KarveDapper.Extensions;
-using System.Data;
-using KarveCommonInterfaces;
-using DataAccessLayer.Crud.Validation;
-using KarveCommon.Generic;
+﻿
 
 namespace DataAccessLayer.Crud.Booking
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Transactions;
+
+    using AutoMapper;
+
+    using DataAccessLayer.Crud.Validation;
+    using DataAccessLayer.DataObjects;
+    using DataAccessLayer.Exception;
+
+    using KarveCommon.Generic;
+
+    using KarveCommonInterfaces;
+
+    using KarveDapper.Extensions;
+
+    using KarveDataServices;
+    using KarveDataServices.ViewObjects;
+
     /// <summary>
     ///  BookingDataSaver. It saves the booking.
     /// </summary>
-    class BookingDataSaver: IDataSaver<BookingDto>
+    class BookingDataSaver: IDataSaver<BookingViewObject>
     {
-        private ISqlExecutor _executor;
-        private IMapper _mapper;
-        private ValidationChain<BookingDto> _validationChain;
+        /// <summary>
+        /// Executor of command towards the data base.
+        /// </summary>
+        private readonly ISqlExecutor _executor;
         
+        /// <summary>
+        /// Mapper instance for converting the view objects to data entities.
+        /// </summary>
+        private IMapper _mapper;
+        private ValidationChain<BookingViewObject> _validationChain;
+
         public BookingDataSaver(ISqlExecutor sqlExecutor, IMapper mapper)
         {
-            _executor = sqlExecutor;
-            _mapper = mapper;
-            _validationChain = new BookingNotNullRule();
-            LoadValidationRules(sqlExecutor);
+            this._executor = sqlExecutor;
+            this._mapper = mapper;
+            this._validationChain = new BookingNotNullRule();
+            this.LoadValidationRules(sqlExecutor);
         }
+
         /// <summary>
-        ///  This load a list of validation rules. Chain of resposability design pattern.
-        ///  Each rule check a single aspect of the data.
+        /// The load validation rules.
         /// </summary>
+        /// <param name="executor">
+        /// SqlExecutor. It allows to validate the data for the execution.
+        /// </param>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
         private void LoadValidationRules(ISqlExecutor executor)
         {
             var conceptValidation = new BookingConceptRule();
             var correctRule = new BookingDateCorrectRule();
             var fare = new BookingFareRule(executor);
+            var driver = new BookingDriverRule(executor);
+            var client = new BookingClientRule(executor);
             var groupRule = new BookingGroupCorrectRule(executor);
-            fare.SetNext(conceptValidation);
-            conceptValidation.SetNext(correctRule);
-            correctRule.SetNext(groupRule);
+            var office = new BookingOfficeRule(executor);
+            var bookingItemsValidation = new BookingItemsValidationRules();
             _validationChain.SetNext(fare);
+            fare.SetNext(conceptValidation);
+            conceptValidation.SetNext(driver);
+            driver.SetNext(client);
+            client.SetNext(correctRule);
+            correctRule.SetNext(groupRule);
+            groupRule.SetNext(office);
+            office.SetNext(bookingItemsValidation);
 
         }
-        private IEnumerable<LIRESER> RemapItems(IEnumerable<BookingItemsDto> items, string group, string numero)
+
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        private IEnumerable<LIRESER> RemapItems(IEnumerable<BookingItemsViewObject> items, string group, string numero)
         {
             if (items == null)
             {
                 return new List<LIRESER>();
             }
-            var itemCount = items.Count();
-            var mappedItems = _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(items.ToList<BookingItemsDto>());
+  
+            var mappedItems = _mapper.Map<IEnumerable<BookingItemsViewObject>, IEnumerable<LIRESER>>(items.ToList<BookingItemsViewObject>());
             // it is mandatory the group for each lines. And the group shall be the group of the reservation.
             mappedItems.ToList().ForEach(i => i.GRUPO = group);
             mappedItems.ToList().ForEach(i => i.NUMERO = numero);
@@ -87,7 +117,7 @@ namespace DataAccessLayer.Crud.Booking
         /// <returns>A boolean value to be used in this case.</returns>
         private async Task<bool> UpdateOrInsertAsyncEntity<T>(IDbConnection dbConnection, T entity) where T: class
         {
-            bool returnValue = true;
+            var returnValue = true;
             if (dbConnection.IsPresent<T>(entity))
             {
                 returnValue = await dbConnection.UpdateAsync<T>(entity).ConfigureAwait(false);
@@ -98,39 +128,60 @@ namespace DataAccessLayer.Crud.Booking
             }
             return returnValue;
         }
+
         /// <summary>
-        ///  This is save asynchronously the data.
+        /// The save asynchronously a booking object.
         /// </summary>
-        /// <param name="save">Booking data object save</param>
-        /// <returns>True if it has been saved correctly or false if it has not been saved correctly</returns>
-        public async Task<bool> SaveAsync(BookingDto save)
+        /// <param name="save">
+        /// Object to be s
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        /// <exception cref="DataAccessLayerException"> An exception when the data validation fails
+        /// or a database update fails.
+        /// </exception>
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:PrefixLocalCallsWithThis", Justification = "Reviewed. Suppression is OK here.")]
+        public async Task<bool> SaveAsync(BookingViewObject save)
         {
-            
+
+            var returnValue = false;
 
             // first of all we check if it is valid. In no case at data layer we shall allow invalid data.
             if (!_validationChain.CheckRequest(save))
             {
-                var value = KarveLocale.Properties.Resources.ldatavalidationError+ " "+_validationChain.ErrorMessage;
+                var value = KarveLocale.Properties.Resources.ldatavalidationError + " " + _validationChain.ErrorMessage;
                 throw new DataAccessLayerException(value);
             }
+
             save.LastModification = DateUtils.GetKarveDateTimeNow();
+            if (save.Items == null)
+            {
+                throw new DataAccessLayerException("Cannot save without items");
+            }
+
+            if (!save.Items.Any())
+            {
+                throw new DataAccessLayerException("Cannot save without items");
+            }
+
             var items = save.Items;
-            var toUpdateItems = items.Where<BookingItemsDto>(x => (x.IsDirty && !x.IsNew && !x.IsDeleted));
-            var toInsertItems = items.Where<BookingItemsDto>(x => (x.IsNew));
-            var toDeleteItems = items.Where<BookingItemsDto>(x => (x.IsDeleted));
+            var toUpdateItems = items.Where<BookingItemsViewObject>(x => (x.IsDirty && !x.IsNew && !x.IsDeleted));
+            var toInsertItems = items.Where<BookingItemsViewObject>(x => (x.IsNew));
+            var toDeleteItems = items.Where<BookingItemsViewObject>(x => (x.IsDeleted));
            
             // the database has the weird thing that the booking group shall be present in lines.
             // we convert the booking items to the database columns.
            
-            var toUpdateLires = RemapItems(toUpdateItems, save.GRUPO_RES1, save.NUMERO_RES);
+            var bookigItemsTobeUpdated = RemapItems(toUpdateItems, save.GRUPO_RES1, save.NUMERO_RES);
             var toDeleteLires = RemapItems(toDeleteItems, save.GRUPO_RES1, save.NUMERO_RES);
-            var toInsertLires = RemapItems(toInsertItems, save.GRUPO_RES1, save.NUMERO_RES);
+            var bookingItemsViewObjects = toInsertItems.ToList();
+            var toInsertLires = RemapItems(bookingItemsViewObjects, save.GRUPO_RES1, save.NUMERO_RES);
 
-            var booking = _mapper.Map<IEnumerable<BookingItemsDto>, IEnumerable<LIRESER>>(items);
+            var booking = _mapper.Map<IEnumerable<BookingItemsViewObject>, IEnumerable<LIRESER>>(items);
             // here since we have at lower level multiple tables. We shall split the items to the real stuff.
             var bookedTableValue1 = _mapper.Map<RESERVAS1>(save);
             var bookedTableValue2 = _mapper.Map<RESERVAS2>(save);
-            var returnValue = true;
             using (var dbConnection = _executor.OpenNewDbConnection())
             {
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
@@ -139,10 +190,9 @@ namespace DataAccessLayer.Crud.Booking
                     {
                         returnValue = await UpdateOrInsertAsyncEntity<RESERVAS1>(dbConnection,bookedTableValue1);
                         returnValue = returnValue && await UpdateOrInsertAsyncEntity<RESERVAS2>(dbConnection, bookedTableValue2);
-                        returnValue = returnValue && await DoCrudAction(toUpdateLires, async (lires) => { return await dbConnection.UpdateAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false); });
-                        returnValue = returnValue &&  await DoCrudAction(toInsertLires, async (lires) => { return await dbConnection.InsertAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false) > 0; });
-                        returnValue = returnValue &&  await DoCrudAction(toDeleteLires, async (lires) => { return await dbConnection.DeleteCollectionAsync(lires).ConfigureAwait(false); });
-
+                        returnValue = returnValue && await DoCrudAction(bookigItemsTobeUpdated, async (lires) => dbConnection != null && await dbConnection.UpdateAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false));
+                        returnValue = returnValue &&  await DoCrudAction(toInsertLires, async (lires) => dbConnection != null && await dbConnection.InsertAsync<IEnumerable<LIRESER>>(lires).ConfigureAwait(false) > 0);
+                        returnValue = returnValue &&  await DoCrudAction(toDeleteLires, async (lires) => dbConnection != null && await dbConnection.DeleteCollectionAsync(lires).ConfigureAwait(false));
 
                         if (!returnValue)
                         {
@@ -150,7 +200,12 @@ namespace DataAccessLayer.Crud.Booking
                         }
                         else
                         {
+                            foreach (var item in bookingItemsViewObjects)
+                            {
+                                item.IsNew = false;
+                            }
                             scope.Complete();
+                            returnValue = true;
                         }
                     }
                     catch (System.Exception ex)

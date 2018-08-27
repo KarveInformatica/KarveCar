@@ -9,7 +9,7 @@ using DataAccessLayer.Logic;
 using DataAccessLayer.SQL;
 using KarveDataServices;
 using KarveDapper.Extensions;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Z.Dapper.Plus;
 using System.Collections.Generic;
 
@@ -18,7 +18,7 @@ namespace DataAccessLayer.Crud.Clients
     /// <summary>
     ///  This class has the single resposability to delete a client
     /// </summary>
-    internal sealed class ClientDeleter : IDataDeleter<ClientDto>
+    internal sealed class ClientDeleter : IDataDeleter<ClientViewObject>
     {
         private IMapper _mapper;
         private ISqlExecutor _executor;
@@ -33,12 +33,12 @@ namespace DataAccessLayer.Crud.Clients
             _executor = executor;
         }
 
-        private async Task DeleteReferredTables(IDbConnection connection, ClientDto data)
+        private async Task DeleteReferredTables(IDbConnection connection, ClientViewObject data)
         {
 
-            var branches = _mapper.Map<IEnumerable<BranchesDto>, IEnumerable<cliDelega>>(data.BranchesDto);
-            var contacts = _mapper.Map<IEnumerable<ContactsDto>, IEnumerable<CliContactos>>(data.ContactsDto);
-            var visitas = _mapper.Map<IEnumerable<VisitsDto>, IEnumerable<Visitas>>(data.VisitsDto);
+            var branches = _mapper.Map<IEnumerable<BranchesViewObject>, IEnumerable<cliDelega>>(data.BranchesDto);
+            var contacts = _mapper.Map<IEnumerable<ContactsViewObject>, IEnumerable<CliContactos>>(data.ContactsDto);
+            var visitas = _mapper.Map<IEnumerable<VisitsViewObject>, IEnumerable<Visitas>>(data.VisitsDto);
             await connection.BulkActionAsync(x => {
                 if (branches.Count() > 0)
                 {
@@ -59,10 +59,10 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="data">Client data object</param>
         /// <returns></returns>
-        public async Task<bool> DeleteAsync(ClientDto data)
+        public async Task<bool> DeleteAsync(ClientViewObject data)
         {
             Contract.Assert(data != null, "Invalid data transfer object");
-            //var currentPoco = _mapper.Map<ClientDto, ClientPoco>(data);
+            //var currentPoco = _mapper.Map<ClientViewObject, ClientPoco>(data);
             //  var code = currentPoco;
             CLIENTES1 client1 = new CLIENTES1();
             CLIENTES2 client2 = new CLIENTES2();

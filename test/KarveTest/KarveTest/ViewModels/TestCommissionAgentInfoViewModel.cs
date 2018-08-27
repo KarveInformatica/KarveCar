@@ -9,7 +9,7 @@ using KarveDataServices;
 using Prism.Regions;
 using NUnit.Framework;
 using MasterModule.ViewModels;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.ViewModels
 {
@@ -43,7 +43,7 @@ namespace KarveTest.ViewModels
         public void Should_Execute_CommandSeller()
         {
 
-            var param = new VisitsDto();
+            var param = new VisitsViewObject();
             bool raisedOnceChange = false;
             // arrange
            // var param 
@@ -65,7 +65,7 @@ namespace KarveTest.ViewModels
         public void Should_Execute_ProvinceMagnifier()
         {
             // arrange
-            var param = new BranchesDto();
+            var param = new BranchesViewObject();
             var raisedOnceChange = false;
             // act
             _commissionAgentInfoViewModel.DelegationProvinceMagnifierCommand.Execute(param);
@@ -84,7 +84,7 @@ namespace KarveTest.ViewModels
         public void Should_Execute_ContactMagnifier()
         {
             // arrange
-            var param = new VisitsDto();
+            var param = new VisitsViewObject();
             // act
             _commissionAgentInfoViewModel.ContactMagnifierCommand.Execute(param);
             // assert

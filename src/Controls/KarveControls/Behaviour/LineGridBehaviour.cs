@@ -1,26 +1,38 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Syncfusion.UI.Xaml.Grid;
-using System.Windows.Input;
-using System.Windows;
-using Syncfusion.UI.Xaml.ScrollAxis;
-using System;
-using KarveControls.Behaviour.Grid;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
-using KarveDataServices.DataTransferObject;
-using KarveDataServices;
-using Syncfusion.UI.Xaml.Grid.Helpers;
-
-namespace KarveControls.Behaviour
+﻿namespace KarveControls.Behaviour
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
+    using KarveControls.Behaviour.Grid;
+
+    using KarveDataServices;
+    using KarveDataServices.ViewObjects;
+
+    using Syncfusion.UI.Xaml.Grid;
+    using Syncfusion.UI.Xaml.Grid.Helpers;
+    using Syncfusion.UI.Xaml.ScrollAxis;
+
     /// <summary>
     ///  This blend behaviour change the behavior of the grid.
-    ///  
     /// </summary>
+    
     public class LineGridBehaviour : KarveBehaviorBase<SfDataGrid>
     {
+        /// <summary>
+        ///  Grid Check Box Column.
+        /// </summary>
+        private GridCheckBoxColumn _checkBox = null;
         
+        /// <summary>
+        ///  Grid Combo Box Column.
+        /// </summary>
+        private GridComboBoxColumn _comboBox= null;
+
         /// <summary>
         ///  This is the list of the allowed columns. If a column is not in this list.
         /// </summary>
@@ -31,9 +43,9 @@ namespace KarveControls.Behaviour
        ///  GridColumns.
        /// </summary>
         public ICollection<string> GridColumns
-        {
-            set => SetValue(gridColumns, value);
-            get => (ICollection<string>)GetValue(gridColumns);
+       {
+           get => (ICollection<string>)GetValue(gridColumns);
+           set => this.SetValue(gridColumns, value);
         }
 
         /// <summary>
@@ -48,17 +60,16 @@ namespace KarveControls.Behaviour
         /// </summary>
         public ICollection<CellPresenterItem> CellPresenterItems
         {
-            set => SetValue(cellPresenterItemsProperty, value);
             get => (ObservableCollection<CellPresenterItem>)GetValue(cellPresenterItemsProperty);
+            set => this.SetValue(cellPresenterItemsProperty, value);
         }
 
         public static readonly DependencyProperty relatedItemsProperty = DependencyProperty.Register("IResolver", typeof(IResolver), typeof(LineGridBehaviour));
 
         public IResolver Resolver
         {
-            set => SetValue(relatedItemsProperty, value);
             get => (IResolver)GetValue(relatedItemsProperty);
-
+            set => this.SetValue(relatedItemsProperty, value);
         }
 
         /// <summary>
@@ -71,12 +82,10 @@ namespace KarveControls.Behaviour
         /// </summary>
         public ICommand ItemChangedCommand
         {
-            set => SetValue(ItemChangedCommandProperty, value);
             get => (ICommand)GetValue(ItemChangedCommandProperty);
+            set => this.SetValue(ItemChangedCommandProperty, value);
         }
 
-
-     
         public static readonly DependencyProperty DataObjectProperty = DependencyProperty.Register("DataObject", typeof(object), typeof(LineGridBehaviour));
 
         /// <summary>
@@ -84,9 +93,10 @@ namespace KarveControls.Behaviour
         /// </summary>
         public object DataObject
         {
-            set => SetValue(DataObjectProperty, value);
             get => GetValue(DataObjectProperty);
+            set => this.SetValue(DataObjectProperty, value);
         }
+
         protected override void OnSetup()
         {
 
@@ -96,15 +106,15 @@ namespace KarveControls.Behaviour
             AssociatedObject.GridCopyPaste = karve;
             AssociatedObject.AutoGeneratingColumn += AssociatedObject_AutogenerateCols;
             AssociatedObject.RowValidating += OnRowValidating;
-            AssociatedObject.RowValidated += RowValidated;
-          
+            AssociatedObject.RowValidated += RowValidated;     
             AssociatedObject.AddNewRowInitiating += AssociatedObject_AddNewRowInitiating;
             AssociatedObject.CurrentCellBeginEdit += dataGrid_CurrentCellBeginEdit;
             this.AssociatedObject.RecordDeleting += dataGrid_RecordDeleting;
             this.AssociatedObject.RecordDeleted += AssociatedObject_RecordDeleted;
-        
-            
+            this.AssociatedObject.CurrentCellValueChanged += this.AssociatedObject_CurrentCellValueChanged;
         }
+
+        
 
         protected override void OnCleanup()
         {
@@ -114,8 +124,11 @@ namespace KarveControls.Behaviour
             this.AssociatedObject.RowValidating -= OnRowValidating;
             AssociatedObject.RowValidated -= RowValidated;
             this.AssociatedObject.RecordDeleting -= dataGrid_RecordDeleting;
-           
+            this.AssociatedObject.CurrentCellValueChanged -= this.AssociatedObject_CurrentCellValueChanged;
+
+
         }
+
         private static readonly DependencyProperty GridStateProperty =
 DependencyProperty.Register("GridState", typeof(ControlExt.GridOp),
 typeof(ControlExt));
@@ -127,6 +140,7 @@ typeof(ControlExt));
           //        SetValue(GridStateProperty, ControlExt.GridOp.Insert);
              
         }
+
         private void AddNewRow(object sender, RoutedEventArgs e)
         {
 
@@ -150,15 +164,17 @@ typeof(ControlExt));
 
                 var recordIndex = this.AssociatedObject.ResolveToRecordIndex(rowColumnIndex.RowIndex);
                 var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
-                BaseDto dto = record as BaseDto;
+                BaseViewObject dto = record as BaseViewObject;
                 if (dto != null)
                 {
                     dto.IsNew = true;
                 }
+
                 // Which retains the current cell border in the row after canceling addnewrow as you press esc key operation.
                 this.AssociatedObject.MoveCurrentCell(rowColumnIndex);
             }
         }
+
         private void AssociatedObject_RecordDeleted(object sender, RecordDeletedEventArgs e)
         {
             var v = this.AssociatedObject.ItemsSource;
@@ -181,10 +197,7 @@ typeof(ControlExt));
             var editedMappedName = this.AssociatedObject.Columns[columnIndex].MappingName;
             var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
             var editCellValue = this.AssociatedObject.View.GetPropertyAccessProvider().GetValue(record, editedMappedName);
-           // var resolver = Resolver;
-
-//            resolver.ResolveReference(editCellValue, );
-
+         
 
         }
 
@@ -197,7 +210,7 @@ typeof(ControlExt));
             {
                 var recordIndex = this.AssociatedObject.ResolveToRecordIndex(args.CurrentRowColumnIndex.RowIndex);
                 var record = this.AssociatedObject.View.Records.GetItemAt(recordIndex);
-                BaseDto dto = record as BaseDto;
+                BaseViewObject dto = record as BaseViewObject;
                 if (dto != null)
                 {
                     dto.IsNew = true;
@@ -207,25 +220,39 @@ typeof(ControlExt));
 
         void OnRowValidating(object sender, RowValidatingEventArgs args)
         {
-            if (args.RowData is BookingItemsDto dto)
+            if (args.RowData is BookingItemsViewObject dto)
             {
                 dto.IsDirty = true;
             }
+
             var command = ItemChangedCommand as ICommand;
             if ((command != null))
             {
-                IDictionary<string, object> objectName = new Dictionary<string, object>();
-                objectName["ChangedValue"] = this.AssociatedObject.ItemsSource;
-              //  objectName["Operation"] = GetValue(GridStateProperty);
-                command.Execute(objectName);
+                var op = ControlExt.GridOp.Update;
+                var rowIndex = this.AssociatedObject.ResolveToRecordIndex(args.RowIndex);
+
+                if (rowIndex >= 0)
+                {
+                    if (this.AssociatedObject.IsAddNewIndex(rowIndex))
+                    {
+                        op = ControlExt.GridOp.Insert;
+                    }
+
+                    var record = this.AssociatedObject.View.Records[rowIndex].Data;
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    objectName["ChangedValue"] = record;
+                    objectName["Operation"] = op;
+                    command.Execute(objectName);
+                }
             }
            
         }
+
         void RowValidated(object sender, RowValidatedEventArgs e)
         {
 
             SfDataGrid dataGrid = sender as SfDataGrid;
-            BaseDto dto = e.RowData as BaseDto;
+            BaseViewObject dto = e.RowData as BaseViewObject;
            
             if (dataGrid.IsAddNewIndex(e.RowIndex))
             {
@@ -239,12 +266,52 @@ typeof(ControlExt));
                     dto.IsNew = true;
                 }
             }
+
             if (dto != null)
             {
                 dto.IsDirty = true;
             }
             
         }
+
+        private void AssociatedObject_CurrentCellValueChanged(object sender, CurrentCellValueChangedEventArgs args)
+        {
+           
+            int columnindex = this.AssociatedObject.ResolveToGridVisibleColumnIndex(args.RowColumnIndex.ColumnIndex);
+            var column = this.AssociatedObject.Columns[columnindex];
+            var rowIndex = this.AssociatedObject.ResolveToRecordIndex(args.RowColumnIndex.RowIndex);
+
+            if (rowIndex >= 0)
+            {
+                
+                var grid = sender as SfDataGrid;
+                if (grid != null)
+                {
+                    var record = grid.View.Records[rowIndex].Data;
+                    if (!(this.ItemChangedCommand is ICommand command))
+                    {
+                        return;
+                    }
+
+                    var op = ControlExt.GridOp.Update;
+                    if (grid.IsAddNewIndex(rowIndex))
+                    {
+                        op = ControlExt.GridOp.Insert;
+                    }
+
+                    if (record is BaseViewObject dto)
+                    {
+                        dto.IsDirty = true;
+                    }
+
+                    IDictionary<string, object> objectName = new Dictionary<string, object>();
+                    objectName["Operation"] = op;
+                    objectName["ChangedValue"] = record;
+                    command.Execute(objectName);
+                }
+            }
+        }
+
         private void dataGrid_CurrentCellBeginEdit(object sender, CurrentCellBeginEditEventArgs e)
         {
             /*
@@ -260,6 +327,7 @@ typeof(ControlExt));
                 }
             }
         }
+
         void dataGrid_RecordDeleting(object sender, RecordDeletingEventArgs args)
         {
 
@@ -274,6 +342,7 @@ typeof(ControlExt));
                 
             
         }
+
         private void AssociatedObject_AutogenerateCols(object sender, AutoGeneratingColumnArgs e)
         {
 
@@ -300,6 +369,7 @@ typeof(ControlExt));
                            
                             return;
                         }
+
                         try
                         {
                             e.Column.SetCellBoundValue = true;
@@ -308,18 +378,19 @@ typeof(ControlExt));
                             /*
                              *  if the data template is not null. we shall apply the template.
                              */
+
                             if (!string.IsNullOrEmpty(navigationAwareItem.DataTemplateName))
                             {
                                 if (this.AssociatedObject.FindResource(navigationAwareItem.DataTemplateName) is DataTemplate resource)
                                 {
                                    
-                                    if (e.Column is GridCheckBoxColumn)
+                                    if (e.Column is GridCheckBoxColumn checkBoxColumn)
                                     {
+                                      
                                         return;
                                     }
+
                                     e.Column.CellTemplate = resource;   
-                                    // here in data template i shall find the button.
-                                 
 
                                 }
                             }
@@ -335,6 +406,9 @@ typeof(ControlExt));
 
             }              
         }
+
+       
+
         private ChildControl FindVisualChild<ChildControl>(DependencyObject DependencyObj)
             where ChildControl : DependencyObject
         {
@@ -356,8 +430,10 @@ typeof(ControlExt));
                     }
                 }
             }
+
             return null;
         }
+
         private string _editedMappedName;
         private object _editCellValue;
         public RowColumnIndex _editedIndex { get; private set; }

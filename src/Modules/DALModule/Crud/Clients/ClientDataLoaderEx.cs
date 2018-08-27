@@ -1,4 +1,4 @@
-﻿using KarveDataServices.DataTransferObject;
+﻿using KarveDataServices.ViewObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Crud.Clients
 {
-    internal sealed partial class ClientDataLoader : IDataLoader<ClientDto>
+    internal sealed partial class ClientDataLoader : IDataLoader<ClientViewObject>
     {
         private void SetHelper(dynamic currentValue, Type dtoType)
         {
             switch (dtoType.Name)
             {
-                case "CityDto":
+                case "CityViewObject":
                 {
-                        var value = currentValue as CityDto;
-                        var collectionValue = new ObservableCollection<CityDto>();
+                        var value = currentValue as CityViewObject;
+                        var collectionValue = new ObservableCollection<CityViewObject>();
                         collectionValue.Add(value);
                         Helper.CityDto = collectionValue;
                         break;
                 }
-                case "ClientTypeDto":
+                case "ClientTypeViewObject":
                     {
-                        var value = currentValue as ClientTypeDto;
-                        var collectionValue = new ObservableCollection<ClientTypeDto>();
+                        var value = currentValue as ClientTypeViewObject;
+                        var collectionValue = new ObservableCollection<ClientTypeViewObject>();
                         collectionValue.Add(value);
                         Helper.ClientTypeDto = collectionValue;
                         break;

@@ -2,7 +2,7 @@
 using KarveCommon.Services;
 using KarveCommonInterfaces;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 namespace HelperModule.ViewModels
 {
 
-    class RequestReasonViewModel : GenericHelperViewModel<RequestReasonDto, MOPETI>
+    class RequestReasonViewModel : GenericHelperViewModel<RequestReasonViewObject, MOPETI>
     {
         public override async Task<DataPayLoad> SetCode(DataPayLoad payLoad, IDataServices dataServices)
         {
             IHelperDataServices helperDal = DataServices.GetHelperDataServices();
-            var dto = payLoad.DataObject as RequestReasonDto;
+            var dto = payLoad.DataObject as RequestReasonViewObject;
             if (dto != null)
             {
-                string codeId = await helperDal.GetMappedUniqueId<RequestReasonDto, MOPETI>(dto);
+                string codeId = await helperDal.GetMappedUniqueId<RequestReasonViewObject, MOPETI>(dto);
                 dto.Code = codeId.Substring(0, 4);
                 payLoad.DataObject = dto;
             }
@@ -31,7 +31,7 @@ namespace HelperModule.ViewModels
         public override void DisposeEvents()
         {
             base.DisposeEvents();
-            var value = HelperDto as RequestReasonDto;
+            var value = HelperDto as RequestReasonViewObject;
             value.ClearErrors();
             HelperDto = value;
             value = null;

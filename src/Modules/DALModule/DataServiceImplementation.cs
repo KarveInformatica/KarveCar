@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using DataAccessLayer.MongoDB;
 using KarveCommon.Services;
 using KarveDataServices;
 
@@ -155,7 +154,7 @@ namespace DataAccessLayer
             _companyDataService = new CompanyDataServices(sqlExecutor);
             _contractDataService = new ContractDataServices(sqlExecutor);
             _invoiceDataService = new InvoiceDataServices(sqlExecutor);
-            _bookingDataService = new BookingDataAccessLayer(sqlExecutor);
+            _bookingDataService = new BookingDataAccessLayer(sqlExecutor, null);
             _fareDataService = new FareDataServices(sqlExecutor);
             _reservationRequestDataService = new ReservationRequestDataAccessLayer(sqlExecutor);
             _budgetDataService = new BudgetDataAccessLayer(sqlExecutor);

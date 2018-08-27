@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using KarveDataServices;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using Dapper;
 using DataAccessLayer.DataObjects;
 using DataAccessLayer.Logic;
@@ -20,7 +20,7 @@ namespace DataAccessLayer.Crud.Clients
     /// <summary>
     /// This load and expose a client wrapper.
     /// </summary>
-    internal  sealed partial class ClientDataLoader : IDataLoader<ClientDto>
+    internal  sealed partial class ClientDataLoader : IDataLoader<ClientViewObject>
     {
         private readonly ISqlExecutor _sqlExecutor;
         private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        private ClientDto _currentPoco;
+        private ClientViewObject _currentPoco;
         private long _currentQueryPos;
         /// <summary>
         ///  Query delegation.
@@ -67,7 +67,7 @@ namespace DataAccessLayer.Crud.Clients
         {
             _sqlExecutor = executor;
             _mapper = MapperField.GetMapper();
-            _currentPoco = new ClientDto {Helper = new HelperBase()};
+            _currentPoco = new ClientViewObject {Helper = new HelperBase()};
 
             Valid = true;
             _currentQueryPos = 0;
@@ -170,29 +170,29 @@ namespace DataAccessLayer.Crud.Clients
                                 try
                                 {
                                     
-                                    _currentPoco.Helper.CityDto = WrappedSelectedDto<POBLACIONES, CityDto>(_currentPoco.CP,_mapper, reader);
-                                    _currentPoco.Helper.ProvinciaDto = WrappedSelectedDto<PROVINCIA,ProvinciaDto>(_currentPoco.PROVINCIA,_mapper, reader);
-                                    _currentPoco.Helper.CountryDto = WrappedSelectedDto<Country,CountryDto>(_currentPoco.NACIODOMI,_mapper, reader);
-                                    _currentPoco.Helper.ClientTypeDto = WrappedSelectedDto<TIPOCLI, ClientTypeDto>(_currentPoco.TIPOCLI, _mapper, reader);
-                                    _currentPoco.Helper.ClientMarketDto = WrappedSelectedDto<MERCADO, MercadoDto>(_currentPoco.MERCADO, _mapper, reader);
-                                    _currentPoco.Helper.ZoneDto = WrappedSelectedDto<ZONAS, ClientZoneDto>(_currentPoco.ZONA, _mapper, reader);
-                                    _currentPoco.Helper.LanguageDto = WrappedSelectedDto<IDIOMAS, LanguageDto>(_currentPoco.IDIOMA,_mapper, reader);
-                                    _currentPoco.Helper.CreditCardType = WrappedSelectedDto<TARCREDI, CreditCardDto>(_currentPoco.TARTI, _mapper, reader);
-                                    _currentPoco.Helper.ChannelDto = WrappedSelectedDto<CANAL, ChannelDto>(_currentPoco.CANAL, _mapper, reader);
-                                    _currentPoco.Helper.CompanyDto = WrappedSelectedDto<SUBLICEN, CompanyDto>(_currentPoco.SUBLICEN,_mapper, reader);
-                                    _currentPoco.Helper.OfficeDto = WrappedSelectedDto<OFICINAS, OfficeDtos>(_currentPoco.OFICINA, _mapper,reader);
-                                    _currentPoco.Helper.ClientPaymentForm = WrappedSelectedDto<FORMAS, PaymentFormDto>(_currentPoco.FPAGO, _mapper, reader);
-                                    _currentPoco.Helper.ResellerDto = WrappedSelectedDto<VENDEDOR, ResellerDto>(_currentPoco.VENDEDOR, _mapper, reader);
-                                    _currentPoco.Helper.ActivityDto = WrappedSelectedDto<ACTIVI,ActividadDto>(_currentPoco.SECTOR, _mapper, reader);
-                                    _currentPoco.Helper.OrigenDto = WrappedSelectedDto<ORIGEN, OrigenDto>(_currentPoco.ORIGEN, _mapper, reader);
-                                    _currentPoco.Helper.BusinessDto = WrappedSelectedDto<NEGOCIO, BusinessDto>(_currentPoco.NEGOCIO, _mapper, reader);
-                                    _currentPoco.Helper.InvoiceBlock = WrappedSelectedDto<BLOQUEFAC,InvoiceBlockDto>(_currentPoco.BLOQUEFAC, _mapper, reader);
-                                    _currentPoco.Helper.BudgetKeyDto = WrappedSelectedDto<CLAVEPTO, BudgetKeyDto>(_currentPoco.CLAVEPTO, _mapper, reader);
-                                    _currentPoco.Helper.DriversDto = WrappedSelectedDto<ClientSummaryDto, ClientSummaryDto>(_currentPoco.CLIENTEFAC, _mapper, reader);
-                                    _currentPoco.Helper.BrokerDto = WrappedSelectedDto<CommissionAgentSummaryDto, CommissionAgentSummaryDto>(_currentPoco.COMISIO, _mapper, reader);
-                                    _currentPoco.ContactsDto = WrappedSelectedDto<CliContactsPoco, ContactsDto>(_currentPoco.NUMERO_CLI,_mapper, reader);
-                                    _currentPoco.BranchesDto = WrappedSelectedDto<CliContactsPoco, BranchesDto>(_currentPoco.NUMERO_CLI, _mapper, reader);
-                                _currentPoco.Helper.RentUsageDto = WrappedSelectedDto<USO_ALQUILER, RentingUseDto>(_currentPoco.USO_ALQUILER, _mapper, reader);
+                                    _currentPoco.Helper.CityDto = WrappedSelectedDto<POBLACIONES, CityViewObject>(_currentPoco.CP,_mapper, reader);
+                                    _currentPoco.Helper.ProvinciaDto = WrappedSelectedDto<PROVINCIA,ProvinceViewObject>(_currentPoco.PROVINCIA,_mapper, reader);
+                                    _currentPoco.Helper.CountryDto = WrappedSelectedDto<Country,CountryViewObject>(_currentPoco.NACIODOMI,_mapper, reader);
+                                    _currentPoco.Helper.ClientTypeDto = WrappedSelectedDto<TIPOCLI, ClientTypeViewObject>(_currentPoco.TIPOCLI, _mapper, reader);
+                                    _currentPoco.Helper.ClientMarketDto = WrappedSelectedDto<MERCADO, MarketViewObject>(_currentPoco.MERCADO, _mapper, reader);
+                                    _currentPoco.Helper.ZoneDto = WrappedSelectedDto<ZONAS, ClientZoneViewObject>(_currentPoco.ZONA, _mapper, reader);
+                                    _currentPoco.Helper.LanguageDto = WrappedSelectedDto<IDIOMAS, LanguageViewObject>(_currentPoco.IDIOMA,_mapper, reader);
+                                    _currentPoco.Helper.CreditCardType = WrappedSelectedDto<TARCREDI, CreditCardViewObject>(_currentPoco.TARTI, _mapper, reader);
+                                    _currentPoco.Helper.ChannelDto = WrappedSelectedDto<CANAL, ChannelViewObject>(_currentPoco.CANAL, _mapper, reader);
+                                    _currentPoco.Helper.CompanyDto = WrappedSelectedDto<SUBLICEN, CompanyViewObject>(_currentPoco.SUBLICEN,_mapper, reader);
+                                    _currentPoco.Helper.OfficeDto = WrappedSelectedDto<OFICINAS, OfficeViewObject>(_currentPoco.OFICINA, _mapper,reader);
+                                    _currentPoco.Helper.ClientPaymentForm = WrappedSelectedDto<FORMAS, PaymentFormViewObject>(_currentPoco.FPAGO, _mapper, reader);
+                                    _currentPoco.Helper.ResellerDto = WrappedSelectedDto<VENDEDOR, ResellerViewObject>(_currentPoco.VENDEDOR, _mapper, reader);
+                                    _currentPoco.Helper.ActivityDto = WrappedSelectedDto<ACTIVI,ActividadViewObject>(_currentPoco.SECTOR, _mapper, reader);
+                                    _currentPoco.Helper.OrigenDto = WrappedSelectedDto<ORIGEN, OrigenViewObject>(_currentPoco.ORIGEN, _mapper, reader);
+                                    _currentPoco.Helper.BusinessDto = WrappedSelectedDto<NEGOCIO, BusinessViewObject>(_currentPoco.NEGOCIO, _mapper, reader);
+                                    _currentPoco.Helper.InvoiceBlock = WrappedSelectedDto<BLOQUEFAC,InvoiceBlockViewObject>(_currentPoco.BLOQUEFAC, _mapper, reader);
+                                    _currentPoco.Helper.BudgetKeyDto = WrappedSelectedDto<CLAVEPTO, BudgetKeyViewObject>(_currentPoco.CLAVEPTO, _mapper, reader);
+                                    _currentPoco.Helper.DriversDto = WrappedSelectedDto<ClientSummaryViewObject, ClientSummaryViewObject>(_currentPoco.CLIENTEFAC, _mapper, reader);
+                                    _currentPoco.Helper.BrokerDto = WrappedSelectedDto<CommissionAgentSummaryViewObject, CommissionAgentSummaryViewObject>(_currentPoco.COMISIO, _mapper, reader);
+                                    _currentPoco.ContactsDto = WrappedSelectedDto<CliContactsPoco, ContactsViewObject>(_currentPoco.NUMERO_CLI,_mapper, reader);
+                                    _currentPoco.BranchesDto = WrappedSelectedDto<CliContactsPoco, BranchesViewObject>(_currentPoco.NUMERO_CLI, _mapper, reader);
+                                _currentPoco.Helper.RentUsageDto = WrappedSelectedDto<USO_ALQUILER, RentingUseViewObject>(_currentPoco.USO_ALQUILER, _mapper, reader);
 
 
                             }
@@ -225,9 +225,9 @@ namespace DataAccessLayer.Crud.Clients
         ///  Return all dtos mapped from the entities.
         /// </summary>
         /// <returns>This returns a list of entities</returns>
-        public async Task<IEnumerable<ClientDto>> LoadAsyncAll()
+        public async Task<IEnumerable<ClientViewObject>> LoadAsyncAll()
         {
-           IEnumerable<ClientDto> dtoCollection = new ObservableCollection<ClientDto>();
+           IEnumerable<ClientViewObject> dtoCollection = new ObservableCollection<ClientViewObject>();
             using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                 var cli1 = await conn.GetAsyncAll<CLIENTES1>();
@@ -249,7 +249,7 @@ namespace DataAccessLayer.Crud.Clients
                     second = iter.Current;
                     mergedValue.Add(poco);
                 }
-                dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(mergedValue, dtoCollection);
+                dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientViewObject>>(mergedValue, dtoCollection);
                 iter.Dispose();
 
             }
@@ -261,9 +261,9 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="code">Client code</param>
         /// <returns></returns>
-        public async Task<ClientDto> LoadValueAsync(string code)
+        public async Task<ClientViewObject> LoadValueAsync(string code)
         {
-            var dto = new ClientDto();
+            var dto = new ClientViewObject();
             var clientPoco = await LoadValue(code);
             
             if (clientPoco)
@@ -277,7 +277,7 @@ namespace DataAccessLayer.Crud.Clients
             
             return dto;
         }
-        private IQueryStore CreateQueryStore(ClientDto clientPoco)
+        private IQueryStore CreateQueryStore(ClientViewObject clientPoco)
         {
             IQueryStore store = _queryStoreFactory.GetQueryStore();
             
@@ -313,7 +313,7 @@ namespace DataAccessLayer.Crud.Clients
         /// <param name="conn">Connection to be used</param>
         /// <param name="code">Code of the entity</param>
         /// <returns>A data transfer object to be loaded.</returns>
-        private async Task<ClientDto> LoadEntity(IDbConnection conn, string code)
+        private async Task<ClientViewObject> LoadEntity(IDbConnection conn, string code)
         {
             IQueryStore clientPocoQueryStore = _queryStoreFactory.GetQueryStore();
             clientPocoQueryStore.AddParam(QueryType.QueryClient1, code);
@@ -322,7 +322,7 @@ namespace DataAccessLayer.Crud.Clients
             var pocoReader = await conn.QueryMultipleAsync(query).ConfigureAwait(false);
             var clients1 = pocoReader.Read<CLIENTES1>().FirstOrDefault();
             var clients2 = pocoReader.Read<CLIENTES2>().FirstOrDefault();
-            var outClient = new ClientDto
+            var outClient = new ClientViewObject
             {
                 Helper = new HelperBase(),
                 IsValid = (clients1!=null) && (clients2!=null)
@@ -396,9 +396,9 @@ namespace DataAccessLayer.Crud.Clients
         /// </summary>
         /// <param name="n">Number of state.</param>
         /// <returns>It returns a list of n client data transfer objects</returns>
-        public async Task<IEnumerable<ClientDto>> LoadValueAtMostAsync(int n, int back)
+        public async Task<IEnumerable<ClientViewObject>> LoadValueAtMostAsync(int n, int back)
         {
-            IEnumerable<ClientDto> dtoCollection;
+            IEnumerable<ClientViewObject> dtoCollection;
             var store =  _queryStoreFactory.GetQueryStore();
             var currentPos = _currentQueryPos;
             if (currentPos == 0)
@@ -410,7 +410,7 @@ namespace DataAccessLayer.Crud.Clients
             using (var conn = _sqlExecutor.OpenNewDbConnection())
             {
                var currentPoco  = await conn.QueryAsync<ClientPoco>(query).ConfigureAwait(false);
-               dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientDto>>(currentPoco);
+               dtoCollection = _mapper.Map<IEnumerable<ClientPoco>, IEnumerable<ClientViewObject>>(currentPoco);
             }   
             return dtoCollection;
         }

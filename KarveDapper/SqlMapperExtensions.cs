@@ -278,7 +278,7 @@ namespace KarveDapper.Extensions
                 var key = GetSingleKey<T>(nameof(Get));
                 var name = GetTableName(type);
 
-                sql = $"select * from {name} where {key.Name} = @id";
+                sql = $"select * from {name} where {key.Name} = ?id?";
                 GetQueries[type.TypeHandle] = sql;
             }
 
@@ -410,7 +410,7 @@ namespace KarveDapper.Extensions
         public static long Insert<T>(this IDbConnection connection, T entityToInsert, IDbTransaction transaction = null, int? commandTimeout = null) where T : class
         {
 
-            ValidateMaxLength(entityToInsert);
+            //ValidateMaxLength(entityToInsert);
 
             var isList = false;
 

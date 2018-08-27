@@ -13,7 +13,7 @@ using KarveCommon.Generic;
 using Syncfusion.UI.Xaml.Grid;
 using KarveCommonInterfaces;
 using System.Windows.Controls;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace HelperModule.ViewModels
 {
@@ -187,7 +187,7 @@ namespace HelperModule.ViewModels
             }
         }
         /// <summary>
-        ///  Helper dto.
+        ///  Helper viewObject.
         /// </summary>
         public Dto HelperDto
         {
@@ -216,7 +216,7 @@ namespace HelperModule.ViewModels
             var id = Address.ToString();
             EventManager.DeleteMailBoxSubscription(id);
             EventManager.DeleteObserverSubSystem(EventSubsystem.HelperSubsystem, this);
-            if (HelperDto is BaseDto baseDto)
+            if (HelperDto is BaseViewObject baseDto)
             {
                 baseDto.ClearErrors();
             }

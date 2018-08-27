@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using KarveDataServices;
 using KarveDataServices.DataObjects;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveTest.Mock
 {
@@ -33,12 +33,12 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ContactsDto>> GetAsyncContacts(string codeId)
+        public Task<IEnumerable<ContactsViewObject>> GetAsyncContacts(string codeId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
+        public Task<IEnumerable<SupplierSummaryViewObject>> GetPagedSummaryDoAsync(int baseIndex, int defaultPageSize)
         {
             throw new NotImplementedException();
         }
@@ -93,12 +93,12 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SupplierSummaryDto>> GetPagedSummaryDo(int pageIndex, int pageSize)
+        public Task<IEnumerable<SupplierSummaryViewObject>> GetPagedSummaryDo(int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SupplierSummaryDto>> GetSupplierAsyncSummaryDo()
+        public Task<IEnumerable<SupplierSummaryViewObject>> GetSupplierAsyncSummaryDo()
         {
             throw new NotImplementedException();
         }
@@ -133,7 +133,7 @@ namespace KarveTest.Mock
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<SupplierSummaryDto>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
+        public Task<IEnumerable<SupplierSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long index, int pageSize)
         {
             throw new NotImplementedException();
         }

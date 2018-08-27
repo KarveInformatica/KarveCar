@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using KarveCommon.Services;
 using System.Collections.Generic;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Threading.Tasks;
 using System.Linq;
 using DataAccessLayer;
@@ -13,7 +13,7 @@ using KarveDapper;
 using KarveDapper.Extensions;
 using KarveDataAccessLayer.DataObjects;
 using DataAccessLayer.DataObjects;
-using DataAccessLayer.Model;
+using DataAccessLayer.DtoWrapper;
 
 namespace KarveTest.DAL
 {
@@ -54,8 +54,8 @@ namespace KarveTest.DAL
         [Test]
         public async Task Should_Get_AListOfVehicles()
         {
-            IEnumerable<VehicleSummaryDto> summary = await _vehicleDataServices.GetSummaryAllAsync();
-            var vehicleSummaryDtos = summary as VehicleSummaryDto[] ?? summary.ToArray();
+            IEnumerable<VehicleSummaryViewObject> summary = await _vehicleDataServices.GetSummaryAllAsync();
+            var vehicleSummaryDtos = summary as VehicleSummaryViewObject[] ?? summary.ToArray();
             Assert.Greater(vehicleSummaryDtos.Count(), 0);
             // code shall not be null.
             foreach (var v in vehicleSummaryDtos)

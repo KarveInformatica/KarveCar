@@ -7,7 +7,7 @@ using DataAccessLayer;
 using DataAccessLayer.Assist;
 using KarveDataServices;
 using KarveDataServices.Assist;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using NUnit.Framework;
 
 namespace KarveTest.KarveDataServices.Assist
@@ -72,13 +72,13 @@ namespace KarveTest.KarveDataServices.Assist
         [Test]
         public void Should_Registry_And_Resolve_And_Act()
         {
-            IAssistHandler<ProvinciaDto> assistHandler = new ProvinceAssistHandler();
+            IAssistHandler<ProvinceViewObject> assistHandler = new ProvinceAssistHandler();
             string provinceAssist = "PROVINCIA";
             handlerRegistry.RegisterHandler(provinceAssist, assistHandler);
             handlerRegistry.TryResolve(provinceAssist, out assistHandler);
             _helperDataServices = _dataServices.GetHelperDataServices();
-            IAssistResult<ProvinciaDto> provinciaDto = assistHandler.HandleAssist(provinceAssist, _helperDataServices);
-            IEnumerable<ProvinciaDto> provincia = provinciaDto.ResultList();
+            IAssistResult<ProvinceViewObject> provinciaDto = assistHandler.HandleAssist(provinceAssist, _helperDataServices);
+            IEnumerable<ProvinceViewObject> provincia = provinciaDto.ResultList();
             Assert.GreaterOrEqual(provincia.Count(), 1);
         }
         [OneTimeTearDown]

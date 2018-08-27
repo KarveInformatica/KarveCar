@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 
 namespace KarveDataServices.DataObjects
 {
@@ -10,7 +10,7 @@ namespace KarveDataServices.DataObjects
     ///  Interface for giving information about suppliers.
     /// </summary>
     /// 
-    public interface ISupplierData: IHelperMasterCommon, IValidDomainObject, IValueObject<SupplierDto>
+    public interface ISupplierData: IHelperMasterCommon, IValidDomainObject, IValueObject<SupplierViewObject>
     {
         /// <summary>
         ///  This delete all data in async way 
@@ -41,42 +41,42 @@ namespace KarveDataServices.DataObjects
         /// <summary>
         ///  Return the type
         /// </summary>
-        IEnumerable<SupplierTypeDto> Type { set; get; }
+        IEnumerable<SupplierTypeViewObject> Type { set; get; }
 
         /// <summary>
         //  Brand data trasnfer object.
         /// </summary>
-        IEnumerable<AccountDto> AccountDtos { get; set; }
+        IEnumerable<AccountViewObject> AccountDtos { get; set; }
 
         /// <summary>
         /// Model data transfer object.
         /// </summary>
-        IEnumerable<ProvinciaDto> ProvinciaDtos { get; set; }
+        IEnumerable<ProvinceViewObject> ProvinceDtos { get; set; }
 
         /// <summary>
         ///  Color data transfer object.
         /// </summary>
-        IEnumerable<BanksDto> BanksDtos { get; set; }
+        IEnumerable<BanksViewObject> BanksDtos { get; set; }
 
         // paises of the proveedor.
-        IEnumerable<CountryDto> CountryDtos { get; set; }
+        IEnumerable<CountryViewObject> CountryDtos { get; set; }
 
         /// <summary>
         ///  ViasDto
         /// </summary>
-        IEnumerable<ViaDto> ViasDtos { get; set; }
+        IEnumerable<ViaViewObject> ViasDtos { get; set; }
         
         /// <summary>
-        ///  Months dto.
+        ///  Months viewObject.
         /// </summary>
-        IEnumerable<MonthsDto> MonthsDtos { set; get; }
+        IEnumerable<MonthsViewObject> MonthsDtos { set; get; }
         // PaymentDto.
 
-        IEnumerable<PaymentFormDto> PaymentDtos { set; get; }
-        IEnumerable<LanguageDto> LanguageDtos { get; set; }
-        IEnumerable<CurrencyDto> CurrencyDtos { get; set; }
-        IEnumerable<OfficeDtos> OfficeDtos { get; set; }
-        IEnumerable<CompanyDto> CompanyDtos { get; set; }
-        ObservableCollection<CityDto> CityDtos { get; set; }
+        IEnumerable<PaymentFormViewObject> PaymentDtos { set; get; }
+        IEnumerable<LanguageViewObject> LanguageDtos { get; set; }
+        IEnumerable<CurrencyViewObject> CurrencyDtos { get; set; }
+        IEnumerable<OfficeViewObject> OfficeDtos { get; set; }
+        IEnumerable<CompanyViewObject> CompanyDtos { get; set; }
+        ObservableCollection<CityViewObject> CityDtos { get; set; }
     }
 }

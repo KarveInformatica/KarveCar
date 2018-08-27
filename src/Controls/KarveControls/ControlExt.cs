@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using ICommand = System.Windows.Input.ICommand;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.UI.Xaml.Grid.Helpers;
-using KarveDataServices.DataTransferObject;
+using KarveDataServices.ViewObjects;
 using System.Linq;
 using KarveCommon;
 using KarveCommon.Generic;
@@ -204,6 +204,7 @@ namespace KarveControls
                 command.Execute(objectName);
             }
 
+
         }
 
         #region Description
@@ -371,22 +372,22 @@ namespace KarveControls
                         var rowState = GetGridOperation(dependencyObject);
                         if (dataValue != null)
                         {
-                            BaseDto dto = dataValue as BaseDto;
-                            if (dto != null)
+                            BaseViewObject viewObject = dataValue as BaseViewObject;
+                            if (viewObject != null)
                             {
-                                dto.LastModification = DateTime.Now.ToLongTimeString();
-                                if (!dto.IsNew)
+                                viewObject.LastModification = DateTime.Now.ToLongTimeString();
+                                if (!viewObject.IsNew)
                                 {
-                                    dto.IsNew = (rowState == GridOp.Insert) ? true : false;
+                                    viewObject.IsNew = (rowState == GridOp.Insert) ? true : false;
 
                                 }
-                                dto.IsDirty = true;
+                                viewObject.IsDirty = true;
 
                             }
                         }
 
                         var collection = dataGrid.View.SourceCollection;
-                        if (collection is IEnumerable<BaseDto> dtoArray)
+                        if (collection is IEnumerable<BaseViewObject> dtoArray)
                         {
                             if (dtoArray.Count() == 0)
                             {
@@ -395,7 +396,7 @@ namespace KarveControls
                         }
                         foreach (var c in collection)
                         {
-                            BaseDto v = c as BaseDto;
+                            BaseViewObject v = c as BaseViewObject;
                             if (v != null)
                             {
                                 if (v.IsNew)
@@ -514,7 +515,7 @@ namespace KarveControls
                 string currentValue = string.Empty;
                 if (currentObject != null)
                 {
-                    if (currentObject is BaseDto)
+                    if (currentObject is BaseViewObject)
                     {
                         // if the object that travels is a data object and not a domain object.
                         currentValue = fieldName.Replace(".Value", "");
@@ -588,7 +589,7 @@ namespace KarveControls
         private static void CurrentDataGrid_RowValidated(object sender, RowValidatedEventArgs e)
         {
             SfDataGrid dataGrid = sender as SfDataGrid;
-            BaseDto dto = null;
+            BaseViewObject viewObject = null;
             DependencyObject dependencyObject = sender as DependencyObject;
             var command = dataGrid?.GetValue(ItemChangedCommandProperty) as ICommand;
             List<object> value = new List<object>();
@@ -598,12 +599,12 @@ namespace KarveControls
                 var rowState = GetGridOperation(dependencyObject);
                 if (dataValue != null)
                 {
-                    dto = dataValue as BaseDto;
-                    if (dto != null)
+                    viewObject = dataValue as BaseViewObject;
+                    if (viewObject != null)
                     {
-                        dto.LastModification = DateTime.Now.ToLongTimeString();
-                        dto.IsNew = (rowState == GridOp.Insert) ? true : false;
-                        dto.IsDirty = true;
+                        viewObject.LastModification = DateTime.Now.ToLongTimeString();
+                        viewObject.IsNew = (rowState == GridOp.Insert) ? true : false;
+                        viewObject.IsDirty = true;
 
                     }
                 }
@@ -611,13 +612,13 @@ namespace KarveControls
                 var collection = dataGrid.View.SourceCollection;
 
                 /*
-                if (collection is IEnumerable<BaseDto> dtoArray)
+                if (collection is IEnumerable<BaseViewObject> dtoArray)
                 {
-                    if (dto != null)
+                    if (viewObject != null)
                     {
                         if (dtoArray.Count() == 0)
                         {
-                            dtoArray = dtoArray.Union(new List<BaseDto> { dto });
+                            dtoArray = dtoArray.Union(new List<BaseViewObject> { viewObject });
                             collection = dtoArray;
                            return;
                         }
@@ -626,7 +627,7 @@ namespace KarveControls
 
                 foreach (var c in collection)
                 {
-                    BaseDto v = c as BaseDto;
+                    BaseViewObject v = c as BaseViewObject;
                     if (v != null)
                     {
                         if (v.IsNew)
@@ -686,13 +687,13 @@ namespace KarveControls
                     var items = e.Items;
                     foreach (var item in items)
                     {
-                        BaseDto dto = item as BaseDto;
-                        dto.IsDeleted = true;
+                        BaseViewObject viewObject = item as BaseViewObject;
+                        viewObject.IsDeleted = true;
                     }
                     var collection = dataGrid.View.SourceCollection;
                     foreach (var c in collection)
                     {
-                        BaseDto v = c as BaseDto;
+                        BaseViewObject v = c as BaseViewObject;
                         if (v.IsNew)
                         {
                             value.Add(c);
@@ -757,7 +758,7 @@ namespace KarveControls
                 if (command != null)
                 {
                     var dataSource = GetDataSource(textBox);
-                    if (dataSource is BaseDto dto)
+                    if (dataSource is BaseViewObject dto)
                     {
                         if (dto.HasErrors)
                             return;
@@ -782,7 +783,7 @@ namespace KarveControls
                 if (command != null)
                 {
                     var dataSource = GetDataSource(textBox);
-                    if (dataSource is BaseDto dto)
+                    if (dataSource is BaseViewObject dto)
                     {
                         if (dto.HasErrors)
                             return;
