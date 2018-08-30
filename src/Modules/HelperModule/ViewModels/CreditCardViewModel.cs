@@ -20,7 +20,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices</param>
         /// <param name="region"> RegionManager to support further navigation</param>
         /// <param name="manager">Event Manager for the communiction between view modules.</param>
-        public CreditCardViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(String.Empty, dataServices, region, manager, dialogService)
+        public CreditCardViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(String.Empty, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperCreditCard;
 

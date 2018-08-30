@@ -84,7 +84,7 @@ namespace ToolBarModule
                                  ICareKeeperService careKeeper,
                                  IRegionManager regionManager,
                                  IDialogService dialogService,
-                                 IConfigurationService configurationService) : base(dataServices, null, dialogService)
+                                 IConfigurationService configurationService) : base(dataServices, null, dialogService, configurationService)
         {
             this._dictionary = SubsystemFactory.GetSubsytem();
             this._dataServices = dataServices;

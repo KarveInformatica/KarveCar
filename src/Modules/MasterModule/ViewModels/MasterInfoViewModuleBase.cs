@@ -32,6 +32,7 @@ namespace MasterModule.ViewModels
     {
         private bool _canDelete = true;
         private IEnumerable<VisitTypeViewObject> _visitTypeDto = new ObservableCollection<VisitTypeViewObject>();
+        
     
 
         /// <summary>

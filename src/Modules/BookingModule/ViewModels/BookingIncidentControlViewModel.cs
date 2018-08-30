@@ -23,10 +23,11 @@ namespace BookingModule.ViewModels
         private PayloadInterpeter<IBookingIncidentData> _payloadInterpeter;
 		public bool CreateRegionManagerScope => true;
 		public BookingIncidentControlViewModel(IDataServices services,
-           IInteractionRequestController requestController,
+           IConfigurationService configurationService,
+		    IInteractionRequestController requestController,
            IDialogService dialogService,
            IRegionManager manager,
-           IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
+           IEventManager eventManager) : base(configurationService, services, requestController, dialogService, eventManager)
 		   {
 		     _incidentService = services.GetBookingIncidentDataService();
 			 _regionManager = manager;

@@ -52,6 +52,7 @@ namespace MasterModule.ViewModels
             ViewModelUri = new Uri("karve://company/viewmodel?id=" + Guid.ToString());
             ItemName = "Empresa";
             ActiveSubSystem();
+            
         }
         private void OnNewCommand()
         {

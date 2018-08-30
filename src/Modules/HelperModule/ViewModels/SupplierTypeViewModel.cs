@@ -15,7 +15,7 @@ namespace HelperModule.ViewModels
 {
     public class SupplierTypeViewModel : GenericHelperViewModel<SupplierTypeViewObject, TIPOPROVE>
     {
-        public SupplierTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
+        public SupplierTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.SupplierTypeGrid;
         }

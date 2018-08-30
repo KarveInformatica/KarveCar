@@ -78,6 +78,7 @@ namespace DataAccessLayer.SQL
              {  QueryType.QueryVehicleActivity, new Tuple<string,string>("ACTIVEHI", "NUM_ACTIVEHI") },
              {  QueryType.QueryVehicleOwner, new Tuple<string,string>("PROPIE", "NUM_PROPIE") },
              {  QueryType.HolidaysByOffice, new Tuple<string,string>("FESTIVOS_OFICINA", "OFICINA") },
+             {  QueryType.QueryUserByName, new Tuple<string, string>("USURE", "CODIGO") },
              {  QueryType.QueryPrintingType, new Tuple<string, string>("CONTRATIPIMPR","CODIGO") }
         };
         [XmlElement("StaticQueries")]
@@ -412,6 +413,8 @@ namespace DataAccessLayer.SQL
             {QueryType.QueryBrokerVisit, "SELECT visIdVisita as VisitId,visIdCliente as VisitClientId,visIdContacto as ContactId,visFecha as VisitDate,visIdVendedor as ResellerId, visIdVisitaTipo as VisitTypeId, TV.NOMBRE_VIS as VisitTypeName, PV.nom_contacto AS ContactName, PEDIDO as VisitOrder, VE.NOMBRE as ResellerName FROM VISITAS_COMI CC LEFT OUTER JOIN CONTACTOS_COMI PV ON  PV.CONTACTO = CC.VISIDCONTACTO LEFT OUTER JOIN TIPOVISITAS TV ON TV.CODIGO_VIS = CC.VISIDVISITATIPO LEFT OUTER JOIN VENDEDOR VE ON VE.NUM_VENDE = CC.visIdVendedor WHERE VISIDCLIENTE= '{0}' ORDER BY CC.visFECHA" },
             { QueryType.QueryPrintingType, "SELECT * FROM CONTRATIPIMPR WHERE CODIGO='{0}'" },
             { QueryType.QueryDriverWithContract, "select DISTINCT CONDUCTOR_CON1 as Code, clientes1.NOMBRE as Name from clientes1 inner join contratos1 on clientes1.NUMERO_CLI = contratos1.CONDUCTOR_CON1 WHERE NUMERO_CLI = '{0}';" },
+            { QueryType.QueryUserByName, "SELECT * FROM USURE WHERE CODIGO='{0}';" },
+            { QueryType.QueryUserSummary, "SELECT CODIGO as Code, NOMBRE as Name, OFI_COD as Office, PASS as Password from USURE;" },
             { QueryType.QueryMulti, ""}
             /*
             { QueryType.QueryVehicleMaintenance,  "select CODIGO_MAN as MaintananceCode, NOMBRE_MAN as MaintananceName, ULT_FEC_MV as LastMaintenenceDate, ULT_KM_MV as  LastMaintananceKMs, PROX_FEC_MV as NextMaintenenceDate, PROX_KM_MV as  NextMaintananceKMs, OBSERVACIONES_MAN as Observation from MANTENIMIENTO_VEHICULO LEFT OUTER JOIN MANTENIMIENTO m ON CODIGO_MAN = CODIGO_MANT_MV WHERE CODIGO_VEHI_MV='{0}' AND FBAJA_MV iS NULL OR FBAJA_MV >=GETDATE(*)" }*/

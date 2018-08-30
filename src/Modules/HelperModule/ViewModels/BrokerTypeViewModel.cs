@@ -17,7 +17,7 @@ namespace HelperModule.ViewModels
 
     public class BrokerTypeViewModel : GenericHelperViewModel<CommissionTypeViewObject, TIPOCOMI>
     {
-        public BrokerTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
+        public BrokerTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.BrokerTypeGrid;
         }

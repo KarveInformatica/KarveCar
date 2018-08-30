@@ -11,27 +11,27 @@ using Syncfusion.UI.Xaml.Grid;
 using BookingModule.Views;
 using Prism.Regions;
 
-namespace Booking.ViewModels
+namespace User.ViewModels
 {
-    internal class BookingIncidentControlViewModel : KarveControlViewModel, ICreateRegionManagerScope, INavigationAware
+    internal class UserControlViewModel : KarveControlViewModel, ICreateRegionManagerScope, INavigationAware
     {
-		private IBookingIncidentDataService  _incidentService;
+		private IUserDataService  _usuariosService;
 		private IRegionManager _regionManager;
-		private INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryDto>> _incidentCompletion;
-	    private PayloadInterpeter<BookingIncidentSummaryDto> _payloadInterpeterReload;
-        private PayloadInterpeter<KarveDataServices.IBookingIncident> _payloadInterpeter;
+		private INotifyTaskCompletion<IEnumerable<UserSummaryDto>> _usuariosCompletion;
+	    private PayloadInterpeter<UserSummaryDto> _payloadInterpeterReload;
+        private PayloadInterpeter<KarveDataServices.IUser> _payloadInterpeter;
 		public bool CreateRegionManagerScope => true;
-		public BookingIncidentControlViewModel(IDataServices services,
+		public UserControlViewModel(IDataServices services,
            IInteractionRequestController requestController,
            IDialogService dialogService,
            IRegionManager manager,
            IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
 		   {
-		     _incidentService = services.GetBookingIncidentDataService();
+		     _usuariosService = services.GetUserDataService();
 			 _regionManager = manager;
-		     ItemName = Incidencias;
+		     ItemName = Usuarios;
 		     DefaultPageSize = 50;
-             ViewModelUri = new Uri("booking/incident/viewmodel?id=" + UniqueId);
+             ViewModelUri = new Uri("b/viewmodel?id=" + UniqueId);
              InitViewModel();
 		   }
 
@@ -40,13 +40,13 @@ namespace Booking.ViewModels
             MailBoxHandler += OnMailBoxHandler;
             MailboxName = ViewModelUri.ToString();
             RegisterMailBox(MailboxName);
-            base.GridIdentifier = GridIdentifiers.BookingIncidentGrid;
-            SubSystem = DataSubSystem.BookingSubsystem;
-            EventManager.RegisterObserverSubsystem(EventSubsystem.BookingSubsystemVm, this);
-            EventManager.RegisterObserverSubsystem(Karve.Constants.GroupBookingIncident, this);
+            base.GridIdentifier = GridIdentifiers.UserGrid;
+            SubSystem = DataSubSystem.Users;
+            EventManager.RegisterObserverSubsystem(EventSubsystem.UsersVm, this);
+            EventManager.RegisterObserverSubsystem(Karve.Constants.GroupUser, this);
             OpenCommand = new DelegateCommand<object>(OpenCurrentItem);
-            SummaryView = new IncrementalList<BookingIncidentSummary>(LoadMoreItems);
-            _payloadInterpeterReload = new PayloadInterpeter<BookingIncidentSummary>();
+            SummaryView = new IncrementalList<UserSummary>(LoadMoreItems);
+            _payloadInterpeterReload = new PayloadInterpeter<UserSummary>();
             _payloadInterpeterReload.Init = (value, packet, insertion) =>
             {
                 switch (packet.PayloadType)
@@ -60,7 +60,7 @@ namespace Booking.ViewModels
             {
                 //  up to now.
             };
-            _payloadInterpeter = new PayloadInterpeter<KarveDataServices.IBookingIncident>();
+            _payloadInterpeter = new PayloadInterpeter<KarveDataServices.IUser>();
             InitPayLoadInterpeter(_payloadInterpeter);
             RegisterToolBar();
             StartAndNotify();
@@ -82,15 +82,15 @@ namespace Booking.ViewModels
             {
                 return;
             }
-            var currentId = _incident.NewId();
+            var currentId = _usuarios.NewId();
 
-            var interpeter = new PayloadInterpeter<KarveDataServices.IBookingIncident>();
+            var interpeter = new PayloadInterpeter<KarveDataServices.IUser>();
             InitPayLoadInterpeter(interpeter);
             OperationalState = interpeter.CheckOperationalType(dataPayLoad);
             interpeter.ActionOnPayload(dataPayLoad, PrimaryKeyValue, currentId, SubSystem,
                 EventSubsystem.{data.subsystem}Vm);
         }
-		private void InitPayLoadInterpeter(PayloadInterpeter<KarveDataServices.IBookingIncident> payloadInterpeter)
+		private void InitPayLoadInterpeter(PayloadInterpeter<KarveDataServices.IUser> payloadInterpeter)
         {
             payloadInterpeter.Init = (value, packet, insertion) =>
             {
@@ -109,14 +109,14 @@ namespace Booking.ViewModels
         }
 		protected void LoadMoreItems(uint count, int baseIndex)
         {
-            NotifyTaskCompletion.Create<IEnumerable<BookingIncidentSummaryDto>>(
+            NotifyTaskCompletion.Create<IEnumerable<UserSummaryDto>>(
                 _reservationRequestDataService.GetPagedSummaryDoAsync(baseIndex, DefaultPageSize), (task, ev) =>
                 {
-                    if (task is INotifyTaskCompletion<IEnumerable<BookingIncidentSummaryDto>> data)
+                    if (task is INotifyTaskCompletion<IEnumerable<UserSummaryDto>> data)
                     {
                         if (data.IsSuccessfullyCompleted)
                         {
-                            if (SummaryView is IncrementalList<BookingIncidentSummaryDto> summary)
+                            if (SummaryView is IncrementalList<UserSummaryDto> summary)
                             {
                                 summary.LoadItems(data.Result);
                             }
@@ -131,21 +131,21 @@ namespace Booking.ViewModels
 		public override void StartAndNotify()
         {
 
-            _incidentCompletion = NotifyTaskCompletion.Create<IEnumerable<BookingIncidentSummary>>(
-               _incidentService.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev) =>
+            _usuariosCompletion = NotifyTaskCompletion.Create<IEnumerable<UserSummary>>(
+               _usuariosService.GetPagedSummaryDoAsync(1, DefaultPageSize), (task, ev) =>
                {
-                   if (task is INotifyTaskCompletion<IEnumerable<BookingIncidentSummary>> summaryCollection)
+                   if (task is INotifyTaskCompletion<IEnumerable<UserSummary>> summaryCollection)
                    {
                        if (summaryCollection.IsSuccessfullyCompleted)
                        {
                            var collection = summaryCollection.Result;
 
 
-                           if (SummaryView is IncrementalList<BookingIncidentSummary> summary)
+                           if (SummaryView is IncrementalList<UserSummary> summary)
                            {
-                               var maxItems = _incidentService.NumberItems;
-                               PageCount = __incidentService.NumberPage;
-                               var summaryList = new IncrementalList<BookingIncidentSummary>(LoadMoreItems) { MaxItemCount = (int)maxItems };
+                               var maxItems = _usuariosService.NumberItems;
+                               PageCount = __usuariosService.NumberPage;
+                               var summaryList = new IncrementalList<UserSummary>(LoadMoreItems) { MaxItemCount = (int)maxItems };
                                summaryList.LoadItems(collection);
                                SummaryView = summaryList;
                            }
@@ -166,19 +166,19 @@ namespace Booking.ViewModels
         /// <param name="value">value recevied</param>
         private async void OpenCurrentItem(object value)
         {
-            if (!(value is BookingIncidentSummary item)) return;
+            if (!(value is UserSummary item)) return;
             var name = item.;
             var id = item.Code;
             CreateNewItem(name,id);
             var tabName = id + "." + name;
-            var provider = await _incidentService.GetDoAsync(id);
+            var provider = await _usuariosService.GetDoAsync(id);
             var currentPayload = BuildShowPayLoadDo(tabName, provider);
             currentPayload.DataObject = provider;
-            currentPayload.Subsystem = BookingSubsystem;
+            currentPayload.Subsystem = Users;
             currentPayload.PrimaryKeyValue = id;
             ActiveSubSystem();
             currentPayload.Sender = ViewModelUri.ToString();
-            EventManager.NotifyObserverSubsystem(Karve.Constants.GroupBookingIncident, currentPayload);
+            EventManager.NotifyObserverSubsystem(Karve.Constants.GroupUser, currentPayload);
         }
         protected override void NewItem()
         {
@@ -194,11 +194,11 @@ namespace Booking.ViewModels
             _regionManager.RequestNavigate("TabRegion", uri);
             var currentPayload = BuildShowPayLoadDo(viewNameValue, data);
             currentPayload.DataObject = data;
-            currentPayload.Subsystem = DataSubSystem.BookingSubsystem;
+            currentPayload.Subsystem = DataSubSystem.Users;
             currentPayload.PrimaryKeyValue = id;
             ActiveSubSystem();
             currentPayload.Sender = ViewModelUri.ToString();
-            EventManager.NotifyObserverSubsystem(Karve.Constants.GroupBookingIncident, currentPayload);
+            EventManager.NotifyObserverSubsystem(Karve.Constants.GroupUser, currentPayload);
         }
         private void CreateNewItem(string id, string name)
         {
@@ -212,7 +212,7 @@ namespace Booking.ViewModels
         }
         protected override string GetRouteName(string name)
         {
-            var route = @"karve://booking/incident/" + name;
+            var route = @"karve://b/" + name;
             var routedName = new Uri(route).AbsoluteUri;
             return routedName;
         }
@@ -222,7 +222,7 @@ namespace Booking.ViewModels
             {
                 payLoad = new DataPayLoad();
             }
-            payLoad.Subsystem = BookingSubsystem;
+            payLoad.Subsystem = Users;
             payLoad.PayloadType = DataPayLoad.Type.RegistrationPayload;
             payLoad.HasDataObject = false;
             payLoad.HasRelatedObject = false;
@@ -232,8 +232,8 @@ namespace Booking.ViewModels
         {
             MailBoxHandler -= OnMailBoxHandler;
             DeleteMailBox(ViewModelUri.ToString());
-            EventManager.DeleteObserverSubSystem(EventSubsystem.BookingSubsystemVm, this);
-            EventManager.DeleteObserverSubSystem(Karve.Constants.GroupBookingIncident, this);
+            EventManager.DeleteObserverSubSystem(EventSubsystem.UsersVm, this);
+            EventManager.DeleteObserverSubSystem(Karve.Constants.GroupUser, this);
         }
 	}
 }

@@ -31,7 +31,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices testing</param>
         /// <param name="region">Region </param>
         /// <param name="manager"> event manager to send and put messages.</param>
-        public ClientBanksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(GenericSql.BanksSql, dataServices, region, manager, dialogService)
+        public ClientBanksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService configurationService) : base(GenericSql.BanksSql, dataServices, region, manager, dialogService, configurationService)
         {
             
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.BankGrid;

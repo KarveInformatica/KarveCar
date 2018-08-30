@@ -17,7 +17,7 @@ namespace HelperModule.Views
         private ObservableCollection<VehicleTypeViewObject> listOfVehicles = new ObservableCollection<VehicleTypeViewObject>();
 
         public VehicleTypesMockViewModel(IDataServices dataServices, IRegionManager manager,
-            IEventManager eventManager) : base(dataServices, manager, eventManager)
+            IEventManager eventManager, IConfigurationService service) : base(dataServices, manager, service, eventManager)
         {
 
         }

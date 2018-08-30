@@ -2,6 +2,7 @@
 {
     public class Office
     {
+        public string Code { set; get; }
         public Address OfficeAddress
         {
             set;
@@ -9,5 +10,6 @@
         }
         public Company Company { set; get; }
         public Zone Zone { set; get; }
+
     }
 }

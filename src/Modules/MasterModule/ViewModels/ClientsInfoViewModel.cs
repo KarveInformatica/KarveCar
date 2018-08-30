@@ -66,12 +66,13 @@ namespace MasterModule.ViewModels
         /// <param name="configurationService">Configuration service</param>
         /// <param name="dataServices">Data Service</param>
         /// <param name="manager">Region Manager</param>
-        public ClientsInfoViewModel(IEventManager eventManager, 
-            IConfigurationService configurationService, 
-            IDataServices dataServices, 
-            IDialogService dialogService,  
+        public ClientsInfoViewModel(IEventManager eventManager,
+            IConfigurationService configurationService,
+            IDataServices dataServices,
+            IDialogService dialogService,
             IRegionManager manager,
-            IInteractionRequestController controller) : base(eventManager, configurationService, dataServices,dialogService,manager, controller)
+            IInteractionRequestController controller) : base(eventManager, configurationService, dataServices,
+            dialogService, manager, controller)
         {
             base.ConfigureAssist();
 
@@ -79,21 +80,23 @@ namespace MasterModule.ViewModels
             MailBoxHandler += MessageHandler;
             IsVisible = Visibility.Collapsed;
             EventManager.RegisterObserverSubsystem(MasterModuleConstants.ClientSubSystemName, this);
-            InitVmCommands();            
+            InitVmCommands();
             ClientInfoRightRegionName = CreateNameRegion("RightRegion");
             DriverZoneRegionName = CreateNameRegion("DriverZoneRegion");
             StateVisible = true;
             _onBranchesPrimaryKey += ClientOnBranchesPrimaryKey;
             _onContactsPrimaryKey += ClientOnContactsPrimaryKey;
             _clientDataServices = dataServices.GetClientDataServices();
-            _clientData =_clientDataServices.GetNewDo("0");
+            _clientData = _clientDataServices.GetNewDo("0");
             eventHandler += OnDriverUpdate;
             DefaultPageSize = 50;
             ViewModelUri = new Uri("karve://client/viewmodel?id=" + Guid.ToString());
             ActiveSubSystem();
             _initialized = false;
-            
+         
         }
+
+
         /// <summary>
         ///  Handle the notification of the driver event. 
         /// </summary>

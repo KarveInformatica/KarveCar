@@ -786,7 +786,7 @@
                         {
                             continue;
                         }
-                        TextContentFirst = textDo;
+                        TextContentFirst = textDo.ToUpper();
                         TextContentSecond = secondValue.ToString();
                         SelectedObject = assistValue;
                         break;
@@ -1451,10 +1451,9 @@
                 }
 
             }
-            if (objectFound)
+            if ((objectFound) && (textContentFirst!=null))
             {
-                TextContentFirst = textContentFirst;
-               
+                TextContentFirst = textContentFirst.ToUpper();
                 TextContentSecond = textContentSecond;
                 SelectedObject = currentSelectedObject; 
                 RaiseBoxResolvedEvent(SearchBoxResolvedEvent);

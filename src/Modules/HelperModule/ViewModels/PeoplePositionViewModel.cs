@@ -33,7 +33,7 @@ namespace HelperModule.ViewModels
             return payLoad;
         }
         public PeoplePositionViewModel(IDataServices dataServices, IRegionManager region,
-            IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
+            IEventManager manager, IDialogService service, IConfigurationService config) : base(String.Empty, dataServices, region, manager, service, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperPeoplePosition;
         }

@@ -186,6 +186,8 @@ namespace MasterModule.ViewModels
             currentPayload.PayloadType = DataPayLoad.Type.Insert;
             currentPayload.PrimaryKeyValue = code;
             currentPayload.HasDataObject = true;
+           // var configServiceDo = _clientDataServices.GetNewDo(code);
+           // configServiceDo.Valu
             currentPayload.DataObject = _clientDataServices.GetNewDo(code); 
             currentPayload.Sender = EventSubsystem.ClientSummaryVm;
             EventManager.NotifyObserverSubsystem(MasterModuleConstants.ClientSubSystemName, currentPayload);

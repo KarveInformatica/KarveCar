@@ -1,4 +1,13 @@
-﻿namespace InvoiceModule.ViewModels
+﻿//--------------------------------------------------------------------------------------
+// <copyright file="InvoiceInfoViewModel.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Defines the InvoiceInfoViewModel type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace InvoiceModule.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +17,7 @@
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Input;
-
+    using DataAccessLayer.DataObjects;
     using global::InvoiceModule.Common;
 
     using KarveCommon;
@@ -59,18 +68,17 @@
         public InvoiceInfoViewModel(IDataServices dataServices,
                                     IDialogService dialogServices,
                                     IEventManager manager,
-
+                                    IConfigurationService configurationService,
                                     IRegionManager regionManager,
                                     IInteractionRequestController controller) : base(dataServices,
                                                                                     controller,
                                                                                     dialogServices,
-                                                                                    manager)
+                                                                                    manager, configurationService)
         {
             _dataServices = dataServices;
             _regionManager = regionManager;
             _invoiceDataService = _dataServices.GetInvoiceDataServices();
             LineVisible = true;
-
             CollectionView = new ObservableCollection<InvoiceSummaryViewObject>();
             AssistMapper = _dataServices.GetAssistDataServices().Mapper;
             ItemChangedCommand = new Prism.Commands.DelegateCommand<IDictionary<string, object>>(OnChangedCommand);
@@ -79,6 +87,7 @@
             AddNewClientCommand = new DelegateCommand<object>(OnAddNewClientCommand);
             OpenContractCommand = new DelegateCommand<object>(OnOpenContract);
             OpenVehiclesCommand = new DelegateCommand<object>(OnOpenVehicles);
+
             AssistExecuted += OnAssistExecuted;
             CompanyName = String.Empty;
             AddressName = String.Empty;
@@ -166,6 +175,15 @@
 
         }
 
+        /// <summary>
+        /// The delete async.
+        /// </summary>
+        /// <param name="payLoad">
+        /// The pay load.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         protected async Task<bool> DeleteAsync(DataPayLoad payLoad)
         {
             var dataServices = _dataServices.GetInvoiceDataServices();
@@ -179,20 +197,60 @@
             return retValue;
         }
 
+        /// <summary>
+        /// The on open vehicles.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
         private void OnOpenVehicles(object obj)
         {
             MessageBox.Show("OpenVehicle");
 
         }
 
+        /// <summary>
+        /// The on open contract.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
         private void OnOpenContract(object obj)
         {
-            MessageBox.Show("OpenContract");
+           /*
+            var helper = obj as DataContextHelper;
+            if (helper != null)
+            {
+                var box = helper.Record as InvoiceSummaryViewObject;
+                const string contractValues = "Code,StartingFrom,ReturnDate,DeliveringPlace,Name," +
+                                              "ClientCode,ClientName,DriverCode,DriverName,VehicleCode,RegistrationNumber,VehicleBrand,VehicleModel";
+                await OnContractSummaryAsync("Contractos", contractValues, async delegate (ContractSummaryDto cdto)
+                    {
+                        var dto = cdto as ContractSummaryDto;
+                        box.AgreementCode = dto.Code;
+
+                    }).ConfigureAwait(false);
+
+            }
+            */
         }
 
+        /// <summary>
+        /// Gets or sets the open contract command.
+        /// </summary>
         private ICommand OpenContractCommand { get; set; }
 
+        /// <summary>
+        /// Gets or sets the open vehicles command.
+        /// </summary>
         private ICommand OpenVehiclesCommand { get; set; }
+
+
+        /// <summary>
+        ///  Set or Get the show contract command.
+        /// </summary>
+        /// 
+        public ICommand ShowContractCommand { get; set; }
 
         /// <summary>
         /// Navigate to the view
@@ -231,6 +289,9 @@
             EventManager.NotifyObserverSubsystem(EventSubsystem.ClientSummaryVm, currentPayload);
         }
 
+        /// <summary>
+        /// The dispose events.
+        /// </summary>
         public override void DisposeEvents()
         {
             base.DisposeEvents();
@@ -239,12 +300,30 @@
             AssistExecuted -= OnAssistExecuted;
         }
 
+        /// <summary>
+        /// The load more items.
+        /// </summary>
+        /// <param name="count">
+        /// The count.
+        /// </param>
+        /// <param name="baseIndex">
+        /// The base index.
+        /// </param>
         private void LoadMoreItems(uint count, int baseIndex)
         {
             var list = _invoiceSummary.Skip(baseIndex).Take(50).ToList();
             InvoiceDtos.LoadItems(list);
         }
 
+        /// <summary>
+        /// The on assist executed.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
         private void OnAssistExecuted(object sender, PropertyChangedEventArgs e)
         {
             var notificationCompletion = sender as INotifyTaskCompletion<bool>;
@@ -262,6 +341,12 @@
             DialogService?.ShowErrorMessage(errorAssist);
         }
 
+        /// <summary>
+        /// The on assist command.
+        /// </summary>
+        /// <param name="param">
+        /// The param.
+        /// </param>
         private void OnAssistCommand(object param)
         {
             IDictionary<string, string> values = (Dictionary<string, string>)param;
@@ -338,27 +423,6 @@
             return total;
         }
 
-        /*
-        private void DeleteRegion()
-        {
-            var activeRegion = _regionManager.Regions[RegionName].ActiveViews.FirstOrDefault();
-            switch (activeRegion)
-            {
-                case null:
-                    return;
-                case HeaderedWindow _:
-                    if (activeRegion is HeaderedWindow invoiceInfo)
-                    {
-                        _regionManager.Regions[RegionName].Remove(invoiceInfo);
-                    }
-                    break;
-                case FrameworkElement _:
-                    var framework = activeRegion as FrameworkElement;
-                    framework?.ClearValue(RegionManager.RegionManagerProperty);
-                    break;
-            }
-        }
-        */
         /// <summary>
         /// This answer the query
         /// </summary>
@@ -455,6 +519,7 @@
         private bool IsAgreement(DataContextHelper helper)
         {
             var box = helper.Record as InvoiceSummaryViewObject;
+           
             var helperCode = helper.Value as string;
             return ((helperCode != null) && (box != null) && (helperCode == box.AgreementCode));            
         }
@@ -472,6 +537,21 @@
             return ((helperCode != null) && (box != null) && (helperCode == box.VehicleCode));
         }
 
+        private async Task<string> GetAgreementCode()
+        {
+            var helper = this.DataServices.GetHelperDataServices();
+            var contract = new ContractViewObject();
+            var identifier = await helper.GetMappedUniqueId<ContractViewObject, CONTRATOS1>(contract);
+            return identifier;
+        }
+
+        private async Task<string> GetVehicleCode()
+        {
+            var helper = this.DataServices.GetHelperDataServices();
+            var vehicleCode = new VehicleViewObject();
+            var identifier = await helper.GetMappedUniqueId<VehicleViewObject, VEHICULO1>(vehicleCode);
+            return identifier;
+        }
         /// <summary>
         ///  This 
         /// </summary>
@@ -482,8 +562,12 @@
 
             var helper = obj as DataContextHelper;
             var box = helper.Record as InvoiceSummaryViewObject;
-
-       
+            if (box == null)
+            {
+                box = new InvoiceSummaryViewObject();
+                box.AgreementCode = await this.GetAgreementCode().ConfigureAwait(false);
+                box.VehicleCode = await this.GetVehicleCode().ConfigureAwait(false);
+            }
             if (IsVehicle(helper))
             {
                 const string query = "Code,Matricula,Brand,Model,VehicleGroup,Office,Places,Activity," +
@@ -573,49 +657,55 @@
         {
 
             var evDictionary = eventDictionary as IDictionary<string, object>;
-            var changedDataObject = evDictionary["DataObject"];
-            var payLoad = BuildDataPayload(eventDictionary);
-            payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
-            payLoad.SubsystemName = InvoiceModule.InvoiceSubsystemName;
 
-            if (changedDataObject is IEnumerable<InvoiceSummaryViewObject> ev)
+            if (evDictionary.ContainsKey("DataObject"))
             {
-                var invoiceSummaryDtos = ev as InvoiceSummaryViewObject[] ?? ev.ToArray();
-                var aggregateRows = UpdateObject(evDictionary, invoiceSummaryDtos);
 
-                var data = ComputeTotals(aggregateRows);
-             //   data.InvoiceItems = invoiceSummaryDtos;
-                DataObject = data;
-                payLoad.DataObject = data;
+                var changedDataObject = evDictionary["DataObject"];
+                var payLoad = BuildDataPayload(eventDictionary);
                 payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
-                payLoad.Sender = ViewModelUri.ToString();
-                payLoad.ObjectPath = ViewModelUri;
-            }
-            else
-            {
-               
-                payLoad.PayloadType = DataPayLoad.Type.Update;
-                payLoad.PrimaryKeyValue = PrimaryKeyValue;
-                payLoad.HasDataObject = true;
-                var dto = DataObject;
-                dto.InvoiceItems = CollectionView as IEnumerable<InvoiceSummaryViewObject>;
-                payLoad.DataObject = DataObject;
-                var uid = "invoice://" + Guid.ToString();
-                payLoad.ObjectPath = new Uri(uid);
-            }
+                payLoad.SubsystemName = InvoiceModule.InvoiceSubsystemName;
 
-            var handlerDo = new ChangeFieldHandlerDo<InvoiceViewObject>(EventManager, DataSubSystem.InvoiceSubsystem);
-            if (OperationalState == DataPayLoad.Type.Insert)
-            {
-                handlerDo.OnInsert(payLoad, eventDictionary);
-            }
-            else
-            {
-                payLoad.PayloadType = DataPayLoad.Type.Update;
+                if (changedDataObject is IEnumerable<InvoiceSummaryViewObject> ev)
+                {
+                    var invoiceSummaryDtos = ev as InvoiceSummaryViewObject[] ?? ev.ToArray();
+                    var aggregateRows = UpdateObject(evDictionary, invoiceSummaryDtos);
 
-                handlerDo.OnUpdate(payLoad, eventDictionary);
-            }
+                    var data = ComputeTotals(aggregateRows);
+                    //   data.InvoiceItems = invoiceSummaryDtos;
+                    DataObject = data;
+                    payLoad.DataObject = data;
+                    payLoad.Subsystem = DataSubSystem.InvoiceSubsystem;
+                    payLoad.Sender = ViewModelUri.ToString();
+                    payLoad.ObjectPath = ViewModelUri;
+                }
+                else
+                {
 
+                    payLoad.PayloadType = DataPayLoad.Type.Update;
+                    payLoad.PrimaryKeyValue = PrimaryKeyValue;
+                    payLoad.HasDataObject = true;
+                    var dto = DataObject;
+                    dto.InvoiceItems = CollectionView as IEnumerable<InvoiceSummaryViewObject>;
+                    payLoad.DataObject = DataObject;
+                    var uid = "invoice://" + Guid.ToString();
+                    payLoad.ObjectPath = new Uri(uid);
+                }
+
+                var handlerDo = new ChangeFieldHandlerDo<InvoiceViewObject>(
+                    EventManager,
+                    DataSubSystem.InvoiceSubsystem);
+                if (OperationalState == DataPayLoad.Type.Insert)
+                {
+                    handlerDo.OnInsert(payLoad, eventDictionary);
+                }
+                else
+                {
+                    payLoad.PayloadType = DataPayLoad.Type.Update;
+
+                    handlerDo.OnUpdate(payLoad, eventDictionary);
+                }
+            }
         }
 
         InvoiceViewObject UpdateObject(IDictionary<string, object> ev, IEnumerable<InvoiceSummaryViewObject> invoiceSummaryDtos)

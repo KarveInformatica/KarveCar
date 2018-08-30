@@ -67,7 +67,7 @@ namespace BookingModule.ViewModels
                                IEventManager eventManager,
                                IKarveNavigator navigation,
                                IConfigurationService configurationService,
-                               IRegionManager regionManager) : base(services, controller, dialogService, eventManager, regionManager)
+                               IRegionManager regionManager) : base(services, controller, dialogService, eventManager, regionManager, configurationService)
         {
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);

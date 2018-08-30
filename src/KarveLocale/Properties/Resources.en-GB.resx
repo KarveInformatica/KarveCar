@@ -2677,4 +2677,7 @@
   <data name="lgroupvalidationError" xml:space="preserve">
     <value>Vehicle Group cannot be empty</value>
   </data>
+  <data name="lnotexistcountry" xml:space="preserve">
+    <value>The country doesn't exist</value>
+  </data>
 </root>

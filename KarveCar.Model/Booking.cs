@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using KarveDataServices.DataObjects;
 
 namespace KarveCar.Model
 {
@@ -11,17 +10,6 @@ namespace KarveCar.Model
         {
             Amount = 0;
             TaxVat = 21;
-        }
-        public Booking(IBookingData data) : this()
-        {
-            var viewObject = data.Value;
-            Number = viewObject.NUMERO_RES;
-            Locator = viewObject.LOCALIZA_RES1;
-            Flight = new Flight();
-            Flight.Number = viewObject.VUELO_RES1;
-            BookingCreationOffice = new Office();
-            BookingArrivalOffice = new Office();
-            BookingDepartureOffice = new Office();
         }
         // Set or Get the booking number
         public string Number { set; get; }

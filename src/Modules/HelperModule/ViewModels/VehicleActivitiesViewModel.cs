@@ -20,7 +20,7 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region where the tab is present.</param>
         /// <param name="manager">Event manager to send and receive messages from other view models.</param>
         
-        public VehicleActivitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(string.Empty, dataServices, region, manager, service)
+        public VehicleActivitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service, IConfigurationService config) : base(string.Empty, dataServices, region, manager, service,config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleActivities;
         }

@@ -33,7 +33,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataService</param>
         /// <param name="region">Region</param>
         /// <param name="manager">EventManager</param>
-        public CitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
+        public CitiesViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service, IConfigurationService config) : base(String.Empty, dataServices, region, manager, service, config)
         {
             AssistCommand = new DelegateCommand<object>(OnAssistRequest);
             if (_gridIdentifier == 0)

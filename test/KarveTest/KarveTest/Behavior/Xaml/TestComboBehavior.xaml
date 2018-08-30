@@ -14,10 +14,12 @@
         <Grid.DataContext>
             <local:TestData></local:TestData>
         </Grid.DataContext>
+        <!--
         <syncfusion:ComboBoxAdv xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" x:Name="ComboBehavior" DisplayMemberPath="VisitType" ItemsSource="{Binding Data}">
             <i:Interaction.Behaviors>
                 <behaviour:ComboAdvChangeBehavior/>
             </i:Interaction.Behaviors>
         </syncfusion:ComboBoxAdv>
+        -->
     </Grid>
 </UserControl>

@@ -22,7 +22,7 @@ namespace HelperModule.ViewModels
 {
     public class VehicleGroupViewModel : GenericHelperViewModel<VehicleGroupViewObject, GRUPOS>
     {
-        public VehicleGroupViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(string.Empty, dataServices, region, manager, service)
+        public VehicleGroupViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service, IConfigurationService config) : base(string.Empty, dataServices, region, manager, service, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleGroup;
         }

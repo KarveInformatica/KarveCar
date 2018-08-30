@@ -42,7 +42,7 @@ namespace BookingModule.ViewModels
         private IHelperViewFactory _helperViewFactory;
         private ICommand _newCommand;
 
-        public ReservationRequestsViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IKarveNavigator navigation, IConfigurationService configurationService, IRegionManager regionManager, IUnityContainer unityContainer) : base(services, controller, dialogService, eventManager, regionManager)
+        public ReservationRequestsViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IKarveNavigator navigation, IConfigurationService configurationService, IRegionManager regionManager, IUnityContainer unityContainer) : base(services, controller, dialogService, eventManager, regionManager, configurationService)
         {
             InitServices(services, configurationService);
             InitCommands();

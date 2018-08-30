@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataAccessLayer.DataObjects;
-using KarveCommonInterfaces;
-using KarveDapper.Extensions;
-using KarveDataServices;
-using KarveDataServices.ViewObjects;
-
-namespace DataAccessLayer.Crud.Validation
+﻿namespace BusinessModule.Validation.Booking
 {
+    using DataAccessLayer.DataObjects;
+
+    using KarveCommonInterfaces;
+
+    using KarveDapper.Extensions;
+
+    using KarveDataServices;
+    using KarveDataServices.ViewObjects;
+
     public class BookingDriverRule: ValidationChain<BookingViewObject>
     {
-        private ISqlExecutor executor;
+        private readonly ISqlExecutor executor;
 
         /// <summary>
         /// BookingDriverRule. 
@@ -27,12 +25,12 @@ namespace DataAccessLayer.Crud.Validation
         { 
             try
             {
-                using (var dbConnection = executor.OpenNewDbConnection())
+                using (var dbConnection = this.executor.OpenNewDbConnection())
                 {
                     var client = dbConnection.Get<CLIENTES1>(request.CONDUCTOR_RES1);
                     if (client == null)
                     {
-                        ErrorMessage = "Conductor no valido";
+                        this.ErrorMessage = "Conductor no valido";
                         return false;
                     }
                 }

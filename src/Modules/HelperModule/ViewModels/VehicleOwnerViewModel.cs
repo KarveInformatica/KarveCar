@@ -31,7 +31,7 @@ namespace HelperModule.ViewModels
         /// <param name="region"> Region Manager</param>
         /// <param name="manager">Event Manager</param>
         public VehicleOwnerViewModel(IDataServices dataServices, IRegionManager region,
-            IEventManager manager, IDialogService dialogService): base(GenericSql.VehicleOwner, dataServices, region,manager, dialogService)
+            IEventManager manager, IDialogService dialogService, IConfigurationService config): base(GenericSql.VehicleOwner, dataServices, region,manager, dialogService, config)
         {
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);         
         }

@@ -1,14 +1,9 @@
-using System;
-using System.Collections.ObjectModel;
-using Prism.Commands;
-using System.Windows.Controls;
-using static KarveCommon.Generic.Enumerations;
 using System.Windows;
 
 namespace KarveCommon.Services
 {
     /// <summary>
-    ///  This service is a global service for messagging and closing the application
+    ///  This service is a global service for mesagging and closing the application
     /// </summary>
     public interface IConfigurationService
     {
@@ -36,6 +31,15 @@ namespace KarveCommon.Services
         /// </summary>
         /// <returns></returns>
         IUserSettings UserSettings { set; get; }
+
+        /// <summary>
+        ///  Find the company configuration;
+        /// </summary>
+        /// <typeparam name="T">Type of the setting.</typeparam>
+        /// <param name="name">Name of the setting</param>
+        /// <returns>The setting of type</returns>
+        T FindCompanyConfiguration<T>(string name);
+
         /// <summary>
         ///  Connection string
         /// </summary>

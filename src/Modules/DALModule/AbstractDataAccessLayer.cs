@@ -48,7 +48,7 @@ namespace DataAccessLayer
         {
             Contract.Requires(executor != null, "AbstractQuery query executor is null");
             SqlExecutor = executor;
-
+            Mapper = MapperField.GetMapper();
         }
         /// <summary>
         /// Load the database datafields directly from the xml to generate a query, 
@@ -82,7 +82,7 @@ namespace DataAccessLayer
                 }
             }
             // now instance a map
-            Mapper = MapperField.GetMapper();
+         
 
         }
         /// <summary>

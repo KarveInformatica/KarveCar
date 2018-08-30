@@ -16,8 +16,8 @@ namespace HelperModule.ViewModels
 {
     public class CountryRegionsViewModel : GenericHelperViewModel<KarveDataServices.ViewObjects.CountryRegionViewObject, CCAA>
     {
-        public CountryRegionsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog) : base(
-            String.Empty, dataServices, region, manager, dialog)
+        public CountryRegionsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog, IConfigurationService config) : base(
+            String.Empty, dataServices, region, manager, dialog, config)
         {
 
         }

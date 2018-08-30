@@ -3256,4 +3256,13 @@
   <data name="lconceptshallbepresent" xml:space="preserve">
     <value>Reason: Reservas debe tener conceptos</value>
   </data>
+  <data name="lnotexistcountry" xml:space="preserve">
+    <value>El pais no existe</value>
+  </data>
+  <data name="lnotexistconcept" xml:space="preserve">
+    <value>El concepto es invalido</value>
+  </data>
+  <data name="linvalidpass" xml:space="preserve">
+    <value>Usuario o password no valida</value>
+  </data>
 </root>

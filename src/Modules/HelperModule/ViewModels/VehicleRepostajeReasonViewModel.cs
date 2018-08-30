@@ -12,7 +12,7 @@ using Prism.Regions;
 namespace HelperModule.ViewModels
 {
     internal class VehicleRepostajeReasonViewModel : GenericHelperViewModel<VehicleProvisionReasonViewObject, MOT_REPOSTAJE>
-    {   public VehicleRepostajeReasonViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty,dataServices, region, manager, dialogService)
+    {   public VehicleRepostajeReasonViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty,dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleRepostaje;
         }

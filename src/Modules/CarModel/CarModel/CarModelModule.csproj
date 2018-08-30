@@ -77,7 +77,11 @@
       <DependentUpon>CarModelView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf">
+      <Version>6.3.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="View\CarModelControlView.xaml">
       <SubType>Designer</SubType>
@@ -94,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Controls\KarveControls\KarveCar.Controls.csproj">

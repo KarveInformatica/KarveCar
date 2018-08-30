@@ -116,7 +116,8 @@ namespace HelperModule.ViewModels
         /// <param name="eventManager">Event manager to be used.</param>
         
         public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, 
-            IEventManager eventManager): this(dataServices, region, eventManager, null)
+            IConfigurationService configurationService,
+            IEventManager eventManager): this(dataServices, region, eventManager, null, configurationService)
         {
             SubSystem = DataSubSystem.HelperSubsytsem;
         }
@@ -126,7 +127,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">Data service implementation.</param>
         /// <param name="region">Region manager.</param>
         /// <param name="eventManager">Event manager.</param>
-        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService): base(dataServices, null, dialogService)
+        public BaseHelperViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService, IConfigurationService configurationService): base(dataServices, null, dialogService, configurationService)
         { 
             RegionManager = region;
             EventManager = eventManager;

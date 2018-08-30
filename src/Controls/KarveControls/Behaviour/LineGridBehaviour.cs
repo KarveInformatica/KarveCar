@@ -183,6 +183,7 @@ typeof(ControlExt));
             {
                 IDictionary<string, object> objectName = new Dictionary<string, object>();
                 objectName["ChangedValue"] = v;
+                objectName["DataObject"] = DataObject;
                 objectName["Operation"] = GetValue(GridStateProperty);
                 command.Execute(objectName);
             }
@@ -241,6 +242,7 @@ typeof(ControlExt));
                     var record = this.AssociatedObject.View.Records[rowIndex].Data;
                     IDictionary<string, object> objectName = new Dictionary<string, object>();
                     objectName["ChangedValue"] = record;
+                    objectName["DataObject"] = DataObject;
                     objectName["Operation"] = op;
                     command.Execute(objectName);
                 }
@@ -306,6 +308,7 @@ typeof(ControlExt));
 
                     IDictionary<string, object> objectName = new Dictionary<string, object>();
                     objectName["Operation"] = op;
+                    objectName["DataObject"] = DataObject;
                     objectName["ChangedValue"] = record;
                     command.Execute(objectName);
                 }

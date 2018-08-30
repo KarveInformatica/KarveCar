@@ -33,7 +33,7 @@ namespace HelperModule.ViewModels
         private IAssistDataService _assistDataService;
 
 
-        public DirectionBaseViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(query, dataServices, region, manager, dialogService)
+        public DirectionBaseViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(query, dataServices, region, manager, dialogService, config)
         {
             _assistDataService = dataServices.GetAssistDataServices();
             AssistMapper = _assistDataService.Mapper;

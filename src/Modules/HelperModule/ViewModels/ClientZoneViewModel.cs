@@ -16,8 +16,8 @@ namespace HelperModule.ViewModels
     class ClientZoneViewModel: GenericHelperViewModel<ClientZoneViewObject, ZONAS>
     {
 
-        public ClientZoneViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(
-            string.Empty, dataServices, region, manager, dialogService)
+        public ClientZoneViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(
+            string.Empty, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperClientZone;
         }

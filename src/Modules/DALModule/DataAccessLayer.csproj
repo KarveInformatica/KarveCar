@@ -130,15 +130,16 @@
     <Compile Include="Crud\Office\OfficeDataSaver.cs" />
     <Compile Include="Crud\SelectionHelpers.cs" />
     <Compile Include="Crud\Supplier\SupplierDataLoader.cs" />
-    <Compile Include="Crud\Validation\BookingClientRule.cs" />
-    <Compile Include="Crud\Validation\BookingConceptRule.cs" />
-    <Compile Include="Crud\Validation\BookingDateCorrectRule.cs" />
-    <Compile Include="Crud\Validation\BookingDriverRule.cs" />
-    <Compile Include="Crud\Validation\BookingFareRule.cs" />
-    <Compile Include="Crud\Validation\BookingGroupCorrectRule.cs" />
-    <Compile Include="Crud\Validation\BookingItemsValidationRules.cs" />
-    <Compile Include="Crud\Validation\BookingNotNullRule.cs" />
-    <Compile Include="Crud\Validation\BookingOfficeRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingClientRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingConceptRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingCountryRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingDateCorrectRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingDriverRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingFareRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingGroupCorrectRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingItemsValidationRules.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingNotNullRule.cs" />
+    <Compile Include="Crud\Validation\Booking\BookingOfficeRule.cs" />
     <Compile Include="Crud\Vehicle\VehicleDataDeleter.cs" />
     <Compile Include="Crud\Vehicle\VehicleDataLoader.cs" />
     <Compile Include="Crud\Vehicle\VehicleDataSaver.cs" />
@@ -396,6 +397,7 @@
     <Compile Include="DataObjects\CONTVEHI_ACC.cs" />
     <Compile Include="DataObjects\COORD_GPS.cs" />
     <Compile Include="DataObjects\CORRESPONDENCIA_VALORES_NEUMATICOS.cs" />
+    <Compile Include="DataObjects\COTIZA_RES.cs" />
     <Compile Include="DataObjects\COT_ACCESORIOS.cs" />
     <Compile Include="DataObjects\COT_CONFIGMAQ.cs" />
     <Compile Include="DataObjects\COT_LIOFERTAVTA.cs" />
@@ -1122,6 +1124,7 @@
     <Compile Include="DataPager.cs" />
     <Compile Include="DataPagerException.cs" />
     <Compile Include="DataServiceImplementation.cs" />
+    <Compile Include="DtoWrapper\User.cs" />
     <Compile Include="Exception\DataAccessLayerException.cs" />
     <Compile Include="Exception\DataUpdateException.cs" />
     <Compile Include="FareDataServices.cs" />
@@ -1191,6 +1194,7 @@
     <Compile Include="SupplierDataAccessLayer.cs" />
     <Compile Include="Exception\SupplierDataServiceAccessDeniedException.cs" />
     <Compile Include="Exception\SupplierDataServicesAccessModifiedException.cs" />
+    <Compile Include="UserDataService.cs" />
     <Compile Include="VehiclesDataAccessLayer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1205,6 +1209,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\KarveCar.Model\KarveCar.Model.csproj">
+      <Project>{360B9357-A5BE-4C0A-A2EB-DC1D38C99EFE}</Project>
+      <Name>KarveCar.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\KarveDapper\KarveDapper.csproj">
       <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
       <Name>KarveDapper</Name>
@@ -1234,7 +1242,7 @@
     <Content Include="Data\VehicleFields.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataAccessLayer\" />
+    <Folder Include="Crud\Validation\Country\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

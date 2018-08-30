@@ -186,6 +186,7 @@
     <Compile Include="Generic\KarveGridParameters.cs" />
     <Compile Include="Generic\KarveRoutingBaseViewModel.cs" />
     <Compile Include="Generic\KarveViewModelBase.cs" />
+    <Compile Include="Generic\LazyPopupWindowAction.cs" />
     <Compile Include="Generic\LinqToTreeEnumerableExtensions.cs" />
     <Compile Include="Generic\LinqToTreeExtensions.cs" />
     <Compile Include="Generic\LinqToVisualTree.cs" />

@@ -22,24 +22,33 @@ using Syncfusion.UI.Xaml.Grid;
 
 namespace DataAccessLayer
 {
+    using System.Data;
+    using System.Windows.Forms;
+
     /// <summary>
     /// BookingDataAccessLayer. It is the data access layer for the booking.
     /// </summary>
-    internal partial class BookingDataAccessLayer: AbstractDataAccessLayer, IBookingDataService
+    internal partial class BookingDataAccessLayer : AbstractDataAccessLayer, IBookingDataService
     {
         private readonly IDataLoader<BookingViewObject> _dataLoader;
+
         private readonly IDataSaver<BookingViewObject> _dataSaver;
+
         private readonly IDataDeleter<BookingViewObject> _dataDeleter;
+
         private IMapper _mapper;
+
         private readonly IConfigurationService _configuration;
+
         private readonly QueryStoreFactory _queryStoreFactory = new QueryStoreFactory();
-       
+
 
         /// <summary>
         ///  Booking data access layer.
         /// </summary>
         /// <param name="executor">Executor handle database connection.</param>
-        public BookingDataAccessLayer(ISqlExecutor executor, IConfigurationService service): base(executor)
+        public BookingDataAccessLayer(ISqlExecutor executor, IConfigurationService service)
+            : base(executor)
         {
             _mapper = MapperField.GetMapper();
             _dataLoader = new BookingDataLoader(SqlExecutor, _mapper);
@@ -48,6 +57,7 @@ namespace DataAccessLayer
             TableName = "RESERVAS1";
             _configuration = service;
         }
+
         /// <summary>
         /// Get the asynchronous summary
         /// </summary>
@@ -61,12 +71,14 @@ namespace DataAccessLayer
                 {
                     return summaryDto;
                 }
+
                 var queryStore = _queryStoreFactory.GetQueryStore();
                 queryStore.AddParam(QueryType.QueryBookingSummaryExt);
                 var currentQuery = queryStore.BuildQuery();
                 summaryDto = await dbConnection.QueryAsync<BookingSummaryViewObject>(currentQuery);
-                
+
             }
+
             return summaryDto;
         }
 
@@ -80,21 +92,30 @@ namespace DataAccessLayer
             var bookingValue = new RESERVAS1();
             var officeCode = code.Substring(0, 2);
             var bookingData = new Reservation() { Valid = true };
-            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            using (var connection = SqlExecutor.OpenNewDbConnection())
             {
-                if (dbConnection == null)
+                if (connection == null)
                 {
                     return bookingData;
                 }
-                var bookingNumber = dbConnection.UniqueId<RESERVAS1>(bookingValue, null, null, officeCode);
+
+                var bookingNumber = connection.UniqueId<RESERVAS1>(bookingValue, null, null, officeCode);
 
                 var bookingDto = new BookingViewObject
-                    {NUMERO_RES = bookingNumber,
-                        SUBLICEN_RES1 = "00", OFICINA_RES1 = officeCode, IsNew = true};
+                                     {
+                                         FECHA_RES1 = DateTime.Now,
+                                         HORA_RES1 = DateTime.Now.TimeOfDay,
+                                         NUMERO_RES = bookingNumber,
+                                         SUBLICEN_RES1 = "00",
+                                         OFICINA_RES1 = officeCode,
+                                         IsNew = true
+                                     };
                 bookingData.Value = bookingDto;
             }
+
             return bookingData;
         }
+
         /// <summary>
         ///  Delete an asynchronous data object for booking.
         /// </summary>
@@ -106,10 +127,12 @@ namespace DataAccessLayer
             {
                 return false;
             }
+
             var currentValue = data.Value;
             var simpleResult = await _dataDeleter.DeleteAsync(currentValue).ConfigureAwait(false);
             return simpleResult;
         }
+
         /// <summary>
         ///  Save an asynchronous data object for booking.
         /// </summary>
@@ -121,13 +144,15 @@ namespace DataAccessLayer
             {
                 return false;
             }
+
             var value = data.Value;
-            
+
 
             if (string.IsNullOrEmpty(data.Value.NUMERO_RES))
             {
                 throw new DataAccessLayerException("Invalid Booking Number");
             }
+
             var boolValue = await _dataSaver.SaveAsync(value).ConfigureAwait(false);
             return boolValue;
         }
@@ -147,15 +172,18 @@ namespace DataAccessLayer
                 reservation.Valid = true;
                 return reservation;
             }
+
             reservation.Value = new BookingViewObject();
             reservation.Valid = false;
             try
             {
                 reservation = await BuildAux(reservation).ConfigureAwait(false);
-            } catch (System.Exception ex)
+            }
+            catch (System.Exception ex)
             {
                 throw new DataLayerException("Helper table loading error", ex);
             }
+
             return reservation;
         }
 
@@ -173,6 +201,7 @@ namespace DataAccessLayer
             // fixme.
             return "C1";
         }
+
         /// <summary>
         ///  Get the new summary data object.
         /// </summary>
@@ -191,9 +220,10 @@ namespace DataAccessLayer
                     bookingList = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
                 }
             }
+
             return bookingList;
         }
-      
+
         /// <summary>
         /// Get Summary all asynchronously
         /// </summary>
@@ -201,58 +231,67 @@ namespace DataAccessLayer
 
         public async Task<IEnumerable<BookingSummaryViewObject>> GetSummaryAllAsync()
         {
-           IEnumerable<BookingSummaryViewObject> bookingList = new List<BookingSummaryViewObject>();
+            IEnumerable<BookingSummaryViewObject> bookingList = new List<BookingSummaryViewObject>();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 if (dbConnection == null)
                 {
                     return bookingList;
                 }
+
                 var qs = _queryStoreFactory.GetQueryStore();
                 qs.AddParam(QueryType.QueryBookingSummaryExt);
                 var query = qs.BuildQuery();
                 bookingList = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
             }
+
             return bookingList;
         }
 
-       /// <summary>
-       ///  This validate the booking viewObject.
-       /// </summary>
-       /// <param name="viewObject">Booking data object to be validated.</param>
+        /// <summary>
+        ///  This validate the booking viewObject.
+        /// </summary>
+        /// <param name="viewObject">Booking data object to be validated.</param>
         public void Validate(BookingViewObject viewObject)
         {
-            System.ComponentModel.DataAnnotations.ValidationContext context = new System.ComponentModel.DataAnnotations.ValidationContext(viewObject, null, null);
+            System.ComponentModel.DataAnnotations.ValidationContext context =
+                new System.ComponentModel.DataAnnotations.ValidationContext(viewObject, null, null);
 
             List<ValidationResult> results = new List<ValidationResult>();
             bool valid = Validator.TryValidateObject(viewObject, context, results, true);
             if (!valid)
             {
-              
+
                 throw new DataAccessLayerException("Booking is not valid");
             }
+
             if (viewObject == null)
             {
                 throw new DataAccessLayerException("Booking is null");
             }
+
             if (viewObject.Items == null)
             {
                 throw new DataAccessLayerException("Items are null");
             }
+
             if (string.IsNullOrEmpty(viewObject.CLIENTE_RES1))
             {
                 throw new DataAccessLayerException("Client should be not empty");
             }
+
             if (string.IsNullOrEmpty(viewObject.CONDUCTOR_RES1))
             {
                 throw new DataAccessLayerException("Conductor should be not empty");
             }
+
             if (string.IsNullOrEmpty(viewObject.NUMERO_RES))
             {
                 throw new DataAccessLayerException("Reservation number should be not empty");
             }
 
         }
+
         /// <summary>
         ///  Get Data Object asynchronous
         /// </summary>
@@ -260,14 +299,15 @@ namespace DataAccessLayer
         /// <returns>Returns  booking data.</returns>
         public async Task<IBookingData> GetDoAsync(string code)
         {
-           var bookingData = await _dataLoader.LoadValueAsync(code).ConfigureAwait(false);
-           
+            var bookingData = await _dataLoader.LoadValueAsync(code).ConfigureAwait(false);
+
             IBookingData data = new NullReservation();
-            
+
             if ((bookingData != null) && (bookingData.IsValid))
             {
-                data = new Reservation { Value = bookingData, Valid = bookingData.IsValid};
+                data = new Reservation { Value = bookingData, Valid = bookingData.IsValid };
             }
+
             if ((data.Value != null) && (data.Valid))
             {
                 data.Clients = data.Value.Clients;
@@ -276,17 +316,19 @@ namespace DataAccessLayer
                 try
                 {
                     data = await BuildAux(data).ConfigureAwait(false);
-                } catch (System.Exception ex)
+                }
+                catch (System.Exception ex)
                 {
                     throw new DataAccessLayerException("Failed GetDoAsync:" + ex.Message, ex);
                 }
             }
+
             return data;
         }
 
 
-        
-           
+
+
         /// <summary>
         ///  Generate a new identifier.
         /// </summary>
@@ -299,8 +341,10 @@ namespace DataAccessLayer
             {
                 uniqueId = dbConnection.UniqueId<RESERVAS1>(reservas);
             }
+
             return uniqueId;
         }
+
         /// <summary>
         ///  Deleta an asynchronous data
         /// </summary>
@@ -312,6 +356,7 @@ namespace DataAccessLayer
             var value = await _dataDeleter.DeleteAsync(book).ConfigureAwait(false);
             return value;
         }
+
         /// <summary>
         /// This is a list of a paged summary data object
         /// </summary>
@@ -326,7 +371,8 @@ namespace DataAccessLayer
             if (pageStart == 0)
                 pageStart = 1;
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
-            var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryBookingPaged, pageStart, pageSize).ConfigureAwait(false);
+            var datas = await pager.GetPagedSummaryDoAsync(QueryType.QueryBookingPaged, pageStart, pageSize)
+                            .ConfigureAwait(false);
             return datas;
         }
 
@@ -337,16 +383,24 @@ namespace DataAccessLayer
         /// <param name="pageIndex">Index of the page</param>
         /// <param name="pageSize">Page size</param>
         /// <returns>A list of sorted items following the sorting criteria</returns>
-        public async Task<IEnumerable<BookingSummaryViewObject>> GetSortedCollectionPagedAsync(Dictionary<string, ListSortDirection> sortChain, long pageIndex, int pageSize)
+        public async Task<IEnumerable<BookingSummaryViewObject>> GetSortedCollectionPagedAsync(
+            Dictionary<string, ListSortDirection> sortChain,
+            long pageIndex,
+            int pageSize)
         {
             var dataPager = new DataPager<BookingSummaryViewObject>(SqlExecutor);
             var pageStart = pageIndex;
             if (pageStart == 0)
                 pageStart = 1;
             NumberPage = await GetPageCount(pageSize).ConfigureAwait(false);
-            var datas = await dataPager.GetPagedSummaryDoSortedAsync(QueryType.QueryBookingPaged, sortChain, pageIndex, pageSize);
+            var datas = await dataPager.GetPagedSummaryDoSortedAsync(
+                            QueryType.QueryBookingPaged,
+                            sortChain,
+                            pageIndex,
+                            pageSize);
             return datas;
         }
+
         /// <summary>
         ///  Get Booking Items
         /// </summary>
@@ -362,8 +416,10 @@ namespace DataAccessLayer
             {
                 bookingItems = await dbConnection.QueryAsync<BookingItemsViewObject>(qs);
             }
+
             return bookingItems;
         }
+
         /// <summary>
         /// This is the list of items with a booking items count
         /// </summary>
@@ -377,11 +433,13 @@ namespace DataAccessLayer
             {
                 throw new ArgumentNullException();
             }
+
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 var tuple = await dbConnection.GetPageCount<LIRESER>();
-                numberOfItems =  tuple.Item1;
+                numberOfItems = tuple.Item1;
             }
+
             return numberOfItems;
         }
 
@@ -395,25 +453,28 @@ namespace DataAccessLayer
         public async Task<IEnumerable<BookingSummaryViewObject>> SearchByDate(DateTime? from, DateTime? to)
         {
             DateTime startDate = DateTime.Now;
-            DateTime endDate  = DateTime.Now;
+            DateTime endDate = DateTime.Now;
             IEnumerable<BookingSummaryViewObject> booking = new List<BookingSummaryViewObject>();
             if ((!from.HasValue) && (!to.HasValue))
             {
                 throw new ArgumentException("One of the date shall have a value");
             }
+
             if (from.HasValue)
             {
                 startDate = from.Value;
             }
+
             if (to.HasValue)
             {
                 endDate = to.Value;
             }
+
             string queryWhere;
 
             var queryStore = _queryStoreFactory.GetQueryStore();
             var fromDate = startDate.ToString("yyyy-MM-dd");
-            var toDate =endDate.ToString("yyyy-MM-dd");
+            var toDate = endDate.ToString("yyyy-MM-dd");
             // 1.st case we have just to fix the start date
 
             if ((from.HasValue) && (!to.HasValue))
@@ -430,16 +491,21 @@ namespace DataAccessLayer
             {
                 queryWhere = " ${(FSALIDA_RES1 == fromDate) AND (FPREV_RES1==toDate} ";
             }
+
             var composedQuery = queryStore.Compose(QueryType.QueryBookingAllFields).Where(queryWhere);
             var query = composedQuery.BuildQuery();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 booking = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
             }
+
             return booking;
         }
 
-        private async Task<IEnumerable<BookingSummaryViewObject>> SearchPaged(QueryType type, DateTime? from, DateTime? to)
+        private async Task<IEnumerable<BookingSummaryViewObject>> SearchPaged(
+            QueryType type,
+            DateTime? from,
+            DateTime? to)
         {
             DateTime startDate = DateTime.Now;
             DateTime endDate = DateTime.Now;
@@ -448,14 +514,17 @@ namespace DataAccessLayer
             {
                 throw new ArgumentException("One of the date shall have a value");
             }
+
             if (from.HasValue)
             {
                 startDate = from.Value;
             }
+
             if (to.HasValue)
             {
                 endDate = to.Value;
             }
+
             string queryWhere = string.Empty;
 
             var queryStore = _queryStoreFactory.GetQueryStore();
@@ -477,12 +546,14 @@ namespace DataAccessLayer
             {
                 queryWhere = " ${(FSALIDA_RES1 == fromDate) AND (FPREV_RES1==toDate} ";
             }
+
             var composedQuery = queryStore.Compose(type).Where(queryWhere);
             var query = composedQuery.BuildQuery();
             using (var dbConnection = SqlExecutor.OpenNewDbConnection())
             {
                 booking = await dbConnection.QueryAsync<BookingSummaryViewObject>(query).ConfigureAwait(false);
             }
+
             return booking;
         }
 
@@ -505,7 +576,7 @@ namespace DataAccessLayer
         {
             throw new NotImplementedException();
         }
-       
+
         public Task<IEnumerable<BookingSummaryViewObject>> SearchByDatePaged(DateTime? from, DateTime? to, int pageSize)
         {
             throw new NotImplementedException();
@@ -520,14 +591,50 @@ namespace DataAccessLayer
         {
             var bookingLines = "select TOP 1 CLAVE_LR from LIRESER ORDER BY  clave_lr desc;";
             long numberCount = 0;
-            using (var dbConnection = SqlExecutor.OpenNewDbConnection())
+            using (var connection = SqlExecutor.OpenNewDbConnection())
             {
-                var countName = (int)dbConnection.ExecuteScalar(bookingLines);
+                var countName = (int)connection.ExecuteScalar(bookingLines);
                 numberCount = countName + 1;
             }
+
             return numberCount;
         }
 
-    }
+        /// <summary>
+        /// Get reservation quotation.
+        /// This get the reservation quotation for the group.
+        /// </summary>
+        /// <param name="fare">A fare name</param>
+        /// <param name="group">A group name</param>
+        /// <param name="days">Number of days</param>
+        /// <param name="daysPrev">Number of days</param>
+        /// <param name="discount">Discount</param>
+        /// <returns>A list of booking items view objects</returns>
 
+        public async Task<IEnumerable<BookingItemsViewObject>> GetReservationQuotation(
+            string fare,
+            string group,
+            short? days,
+            short? daysPrev,
+            int discount)
+        {
+            IEnumerable<BookingItemsViewObject> items = new List<BookingItemsViewObject>();
+            var query = "CALL COTIZA_NMT('{0}', '{1}', {2}, {3}, {4})";
+            query = string.Format(query, fare, group, days, daysPrev, discount);
+
+            using (var connection = this.SqlExecutor.OpenNewDbConnection())
+            {   
+                try
+                {
+                    var result = await connection.QueryAsync<COTIZA_RES>(query);
+                    items = _mapper.Map<IEnumerable<COTIZA_RES>, IEnumerable<BookingItemsViewObject>>(result);
+                }
+                catch (System.Exception exception)
+                {
+                    throw new DataLayerException("Quotation Error",exception);
+                }
+            }
+            return items;
+        }
+    }
 }

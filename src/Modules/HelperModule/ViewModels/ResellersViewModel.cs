@@ -67,7 +67,7 @@ namespace HelperModule.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public ResellersViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
+        public ResellersViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty, dataServices, region, manager, dialogService, config)
         {
             HelperDto = new ResellerViewObject();
             _dataServices = dataServices;

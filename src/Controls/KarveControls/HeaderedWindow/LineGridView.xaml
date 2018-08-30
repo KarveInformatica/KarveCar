@@ -37,13 +37,14 @@
                            Width="80"></TextBox>
                     <Button Grid.Column="1" x:Name="NavigateButton" BorderBrush="Transparent" Background="Transparent" 
                                         Width="50"
-                                        Height="20">
+                                        Height="30">
                   
                         <Image Source="/KarveControls;component/Images/contract.png"></Image>
                         <i:Interaction.Behaviors>
                             <behaviour:GridEditButtonBehavior 
-                                Command="{Binding Path=DataContext.NavigateCommand ,
-                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" 
+                                Command="{Binding Path=DataContext.OpenContractCommand ,
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                Param="{Binding}" 
                                                               />
                         </i:Interaction.Behaviors>
                     </Button>
@@ -175,7 +176,9 @@
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="VehicleItemBox" Grid.Column="0" Background="Transparent" Text="{Binding Value, Mode=TwoWay}"
                              Width="80"></TextBox>
-                    <Button Grid.Column="1" x:Name="NavigateButtonVehicle" BorderBrush="Transparent" Background="Transparent" 
+                    <Button Grid.Column="1" x:Name="NavigateButtonVehicle" BorderBrush="Transparent" 
+                            Background="Transparent"
+                            Height="35"
                             Width="50">
                         <i:Interaction.Behaviors>
                             <behaviour:GridEditButtonBehavior Command="{Binding Path=DataContext.NavigateCommand,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" Param="{Binding}" />

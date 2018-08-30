@@ -12,6 +12,8 @@ namespace DataAccessLayer.Crud.Booking
 
     using AutoMapper;
 
+    using BusinessModule.Validation.Booking;
+
     using DataAccessLayer.Crud.Validation;
     using DataAccessLayer.DataObjects;
     using DataAccessLayer.Exception;
@@ -112,19 +114,19 @@ namespace DataAccessLayer.Crud.Booking
         ///  This function updates or insert an asynchronous entity value.
         /// </summary>
         /// <typeparam name="T">Type to be inserted</typeparam>
-        /// <param name="dbConnection">Connection to be inserted</param>
+        /// <param name="connection">Connection to be inserted</param>
         /// <param name="entity">Entity to be inserted.</param>
         /// <returns>A boolean value to be used in this case.</returns>
-        private async Task<bool> UpdateOrInsertAsyncEntity<T>(IDbConnection dbConnection, T entity) where T: class
+        private async Task<bool> UpdateOrInsertAsyncEntity<T>(IDbConnection connection, T entity) where T: class
         {
             var returnValue = true;
-            if (dbConnection.IsPresent<T>(entity))
+            if (connection.IsPresent<T>(entity))
             {
-                returnValue = await dbConnection.UpdateAsync<T>(entity).ConfigureAwait(false);
+                returnValue = await connection.UpdateAsync<T>(entity).ConfigureAwait(false);
             }
             else
             {
-                returnValue = await dbConnection.InsertAsync<T>(entity).ConfigureAwait(false) > 0;
+                returnValue = await connection.InsertAsync<T>(entity).ConfigureAwait(false) > 0;
             }
             return returnValue;
         }

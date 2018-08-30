@@ -10,7 +10,7 @@ namespace HelperModule.ViewModels
 {
     public class ActivitySectorViewModel : GenericHelperViewModel<ActividadViewObject, ACTIVI>
     {
-        public ActivitySectorViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
+        public ActivitySectorViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService,IConfigurationService configurationService) : base(string.Empty, dataServices, region, manager, dialogService, configurationService)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.ActivitySector;
         }

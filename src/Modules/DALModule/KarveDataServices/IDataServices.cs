@@ -9,10 +9,10 @@ namespace KarveDataServices
     ///  Each data service is a data provider.
     /// <see href="http://www.shanekm.com/2016/04/29/stairway-pattern/">Stairway pattern</see>
     /// </summary>
-    /// 
+    
+
     public interface IDataServices
     {
-
         /// <summary>
         ///  Get the assist data service.
         /// </summary>
@@ -111,11 +111,13 @@ namespace KarveDataServices
         /// </summary>
         /// <param name="connectionString">Connection String</param>
         void Reconfigure(string connectionString);
-       /// <summary>
+       
+        /// <summary>
        ///  Get the fare data services.
        /// </summary>
        /// <returns>Reference to fare data service.</returns>
         IFareDataServices GetFareDataServices();
+     
         /// <summary>
         ///  Get the reservation request data service.
         /// </summary>
@@ -127,6 +129,12 @@ namespace KarveDataServices
         /// </summary>
         /// <returns>The booking incident data service</returns>
         IBookingIncidentDataService GetBookingIncidentDataService();
+
+        /// <summary>
+        /// Get the user data service for retrieving authentication data
+        /// </summary>
+        /// <returns>Authentication user data service</returns>
+        IUserDataService GetUserDataService();
 
     }
 

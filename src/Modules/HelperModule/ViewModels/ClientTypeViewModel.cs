@@ -48,7 +48,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices</param>
         /// <param name="region">Region</param>
         /// <param name="manager">Manager</param>
-        public ClientTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(String.Empty, dataServices, region, manager, dialogService)
+        public ClientTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService configurationService) : base(String.Empty, dataServices, region, manager, dialogService, configurationService)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperClientType;
         }

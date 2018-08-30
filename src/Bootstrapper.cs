@@ -21,6 +21,8 @@ using DataAccessLayer;
 using DataAccessLayer.Logic;
 using AutoMapper;
 using KarveCar.Navigation;
+using UserModule.Service;
+using UserModule.ViewModels;
 
 namespace KarveCar.Boot
 {
@@ -35,7 +37,9 @@ namespace KarveCar.Boot
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// This is a temporary bootstrapping service string connection string.
         // private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929""; ///Host=172.26.0.45;";
-        private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45:5225";
+        /// private const string ConnectionString = "EngineName=DBRENT_NET16;DataBaseName=DBRENT_NET16;Uid=cv;Pwd=1929;Host=172.26.0.45:5225";
+        ///
+        private const string ConnectionString = "EngineName=QUICK;DataBaseName=QUICK;Uid=cv;Pwd=1929;Host=2.139.145.117:2638";
 
         /// <summary>
         ///  This create a new Prism Shell
@@ -76,6 +80,7 @@ namespace KarveCar.Boot
         protected override void ConfigureModuleCatalog()
         {
             var catalog = (ModuleCatalog)ModuleCatalog;
+            catalog.AddModule(typeof(UserModule.UserModule));
             catalog.AddModule(typeof(ToolBarModule.ToolBarModule));
             catalog.AddModule(typeof(HelperModule.HelperModule));
             catalog.AddModule(typeof(MasterModule.MasterModule));
@@ -88,6 +93,7 @@ namespace KarveCar.Boot
             behaviors.AddIfMissing(RegionManagerBehavior.BehaviorKey, typeof(RegionManagerBehavior));
             return behaviors;
         }
+
         /// <summary>
         ///  This method register global services provided to to the module.
         /// </summary>
@@ -110,8 +116,9 @@ namespace KarveCar.Boot
 
                 // The dal service is used to access to the database
                 logger.Info("Resolving configuration container");
-                object[] configExecutor = new object[1];
+                object[] configExecutor = new object[2];
                 configExecutor[0] = Container.Resolve<UserSettings>();
+                configExecutor[1] = Container.Resolve<ISqlExecutor>();
                 var configManagerParam = new InjectionConstructor(configExecutor);
                 Container.RegisterType<IConfigurationService, ConfigurationService>(new ContainerControlledLifetimeManager(), configManagerParam);
                
@@ -175,6 +182,11 @@ namespace KarveCar.Boot
                 Container.RegisterType<KarveControls.Interactivity.Views.MailView>();
                 Container.RegisterType<KarveControls.Interactivity.Views.ReportView>();
 
+                object[] authParam = new object[2];
+                authParam[0] = Container.Resolve<IDataServices>();
+                authParam[1] = Container.Resolve<IConfigurationService>();
+                var authParamInjection = new InjectionConstructor(authParam);
+                Container.RegisterType<IAuthorizationService, UserModule.Service.AuthorizationService>(authParamInjection);
 
 
                 object[] navigatorInjectionValues = new object[4]
@@ -212,6 +224,31 @@ namespace KarveCar.Boot
         }
 
 
+        private Window WrapShell()
+        {
+            var loginWindow = new Views.LoginView();
+            var dataService = Container.Resolve<IDataServices>();
+            var assistService = dataService.GetAssistDataServices();
+            var interaction = Container.Resolve<IInteractionRequestController>();
+            var authService = Container.Resolve<IAuthorizationService>();
+            var config = Container.Resolve<IConfigurationService>();
+            var vm = new LoginViewModel(config, dataService, assistService, interaction, authService);
+            vm.View = loginWindow;
+            loginWindow.DataContext = vm;
+            loginWindow.Closed += (s, e) =>
+            {
+                if (vm.IsLogged)
+                {
+                    Application.Current.MainWindow.Show();
+                }
+                else
+                {
+                    Application.Current.Shutdown(0);
+                }
+            };
+            return loginWindow;
+            
+        }
         protected override void InitializeShell()
         {
             // The main window and configuration services shall be injected just here 
@@ -219,6 +256,7 @@ namespace KarveCar.Boot
             
             try
             {
+                IMapper mapper = MapperField.GetMapper();
                 IConfigurationService shell = Container.Resolve<IConfigurationService>();
                 shell.Shell = Application.Current.MainWindow;
                 PropertyInfo info = shell.Shell.GetType().GetProperty("UnityContainer");
@@ -226,22 +264,15 @@ namespace KarveCar.Boot
                 {
                     info.SetValue(shell.Shell, Container);
                 }
-                Application.Current.MainWindow.Show();
-                // we preload some heavy modules.
-                // this is a trick to speed up further creations and load prism.
-                    Container.Resolve<ProviderInfoView>();
-                   Container.Resolve<CommissionAgentInfoView>();
-                 //  Container.Resolve<ClientsInfoView>();
-                //  Container.Resolve<VehicleInfoView>();
-                //  Container.Resolve<DriverLicenseView>();
-                   Container.Resolve<BookingModule.Views.BookingInfoView>();
-                   Container.Resolve<KarveControls.HeaderedWindow.LineGridView>();
-                   Container.Resolve<BookingModule.Views.BookingFooterView>();
-               /*
-                *  Here we use a datamapper. 
-                *  Automapper maps all entities to data transfer objects.
-                */
-                IMapper mapper = MapperField.GetMapper();
+
+                var wrapShell = this.WrapShell();
+                wrapShell.Show();
+                Container.Resolve<ProviderInfoView>();
+                Container.Resolve<CommissionAgentInfoView>();
+                Container.Resolve<BookingModule.Views.BookingInfoView>();
+                Container.Resolve<KarveControls.HeaderedWindow.LineGridView>();
+                Container.Resolve<BookingModule.Views.BookingFooterView>();
+                
             } catch (Exception e)
             {
                 logger.Error("Error during bootstrap:" + e.Message);

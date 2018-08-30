@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace KarveDataServices.ViewObjects
 {
     /// <summary>
-    ///  InvoiceSummaryViewObject.
+    /// The invoice summary view object.
     /// </summary>
     public class InvoiceSummaryViewObject: BaseViewObject
     {
@@ -63,7 +63,6 @@ namespace KarveDataServices.ViewObjects
             get => _description;
         }
         [Display(Name = "Cantidad", Description = "Cantidad")]
-        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public decimal? Quantity
         {
             set
@@ -85,7 +84,6 @@ namespace KarveDataServices.ViewObjects
             get => _price;
         }
         [Display(Name = "Descuento", Description = "Descuento")]
-        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public decimal? Discount
         {
             set
@@ -99,7 +97,6 @@ namespace KarveDataServices.ViewObjects
 
 
         [Display(Name = "Iva", Description = "Iva")]
-        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         public decimal? Iva
         {
             set
@@ -110,7 +107,6 @@ namespace KarveDataServices.ViewObjects
             get => _iva;
         }
         [Display(Name = "Subtotal", Description = "Subtotal")]
-        [RegularExpression(@"^\$?\d+(\.(\d{2}))?$")]
         [ReadOnly(true)]
         public decimal? Subtotal
         {

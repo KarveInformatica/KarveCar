@@ -2,18 +2,17 @@
 using KarveDataServices;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KarveTest.ViewModels
 {
+    using BookingModule.Service;
+
     class TestBookingInfoViewModel: TestViewModelBase
     {
         private BookingInfoViewModel _viewModel;
         private Mock<IBookingDataService> _bookingDataService = new Mock<IBookingDataService>();
+
+        private Mock<IBookingService> _bookingLogicService = new Mock<IBookingService>();
         [SetUp]
         public void SetUp()
         {
@@ -25,13 +24,8 @@ namespace KarveTest.ViewModels
                 _mockRegionManager.Object,
                 _mockKarveNavigator.Object,
                 _mockConfigurationService.Object,
-                _mockRequestController.Object);
-
-            
-           // _mockDataServices.Setup(
-                
-           //     _navigator.Setup(x => x.NewClientView(It.IsAny<Uri>()))
-        // .Callback(() => { isClientNavigated = true; });)
+                _mockRequestController.Object,
+                this._bookingLogicService.Object);            
         }
 
         Mock<IBookingDataService> Setup()
@@ -50,7 +44,6 @@ namespace KarveTest.ViewModels
         [Test]
         public void Should_Raise_AnAssist_Correctly()
         {
-
         }
        
     }

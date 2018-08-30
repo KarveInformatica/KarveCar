@@ -24,7 +24,7 @@ namespace HelperModule.ViewModels
             }
             return payLoad;
         }
-        public RequestReasonViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(String.Empty, dataServices, region, manager, service)
+        public RequestReasonViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service, IConfigurationService config) : base(String.Empty, dataServices, region, manager, service, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.RequestReasonGrid;
         }

@@ -21,9 +21,10 @@ namespace KarveCommon.Generic
     ///  A view model first approach is when the view model is composed and than associated to a view. 
     ///  The second is used for headered view (cabecera-linea) mainly since it enables the reuse. 
     /// </summary>
-    public abstract class KarveControlViewModel : KarveRoutingBaseViewModel, INavigationAware, IEventObserver, IDisposeEvents, IDisposable
+    public abstract class KarveControlViewModel : KarveRoutingBaseViewModel, INavigationAware, IEventObserver,
+        IDisposeEvents, IDisposable
     {
-        
+
         /// <summary>
         ///  KarveControlViewModel. Base view model for all the control view models.
         /// </summary>
@@ -31,7 +32,29 @@ namespace KarveCommon.Generic
         /// <param name="requestController">Request controller</param>
         /// <param name="dialogService">Dialog service</param>
         /// <param name="eventManager">Event manager</param>
-        protected KarveControlViewModel(IDataServices services, IInteractionRequestController requestController, IDialogService dialogService, IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
+        protected KarveControlViewModel(
+            IConfigurationService configurationService,
+            IDataServices services, 
+            IInteractionRequestController requestController,
+            IDialogService dialogService, 
+            IEventManager eventManager) : base(services, requestController, dialogService,
+            eventManager, configurationService)
+        {
+            PagingEvent += OnPagedEvent;
+        }
+
+        /// <summary>
+        ///  KarveControlViewModel. Base view model for all the control view models.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="requestController"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="eventManager"></param>
+        /// <param name="service"></param>
+       
+        protected KarveControlViewModel(IDataServices services, IInteractionRequestController requestController,
+            IDialogService dialogService, IEventManager eventManager, IConfigurationService service) : base(services, requestController, dialogService,
+            eventManager, service)
         {
             PagingEvent += OnPagedEvent;
         }

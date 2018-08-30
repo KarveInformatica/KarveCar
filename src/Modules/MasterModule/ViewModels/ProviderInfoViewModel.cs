@@ -1040,6 +1040,7 @@ namespace MasterModule.ViewModels
             base.DisposeEvents();
 
             EventManager.DeleteObserverSubSystem(MasterModuleConstants.ProviderSubsystemName, this);
+            /*
             DeleteMailBox(_mailBoxName);
             ClearList();
             var value = new Supplier();
@@ -1048,6 +1049,7 @@ namespace MasterModule.ViewModels
             payload.ObjectPath = ViewModelUri;
             payload.PayloadType = DataPayLoad.Type.Dispose;
             EventManager.NotifyToolBar(payload);
+            */
 
         }
         protected override void SetRegistrationPayLoad(ref DataPayLoad payLoad)

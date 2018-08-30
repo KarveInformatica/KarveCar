@@ -100,6 +100,7 @@ namespace BookingModule.ViewModels
                 manager,
                 regionManager,
                 dataServices.GetBookingDataService(),
+                configurationService,
                 controller)
         {
             _karveNavigator = karveNavigator;
@@ -110,7 +111,7 @@ namespace BookingModule.ViewModels
             InitFlags(); 
             InitViewModel();
             SetGridColumns();
-            CollectionView = new ObservableCollection<BookingItemsViewObject>();
+            CollectionView = new System.Collections.ObjectModel.ObservableCollection<BookingItemsViewObject>();
             _bookingClientsIncrementalList = new IncrementalList<ClientSummaryExtended>(LoadMoreClients);
             _clientHandler += this.LoadClientEvent;
             CompositeCommandOnly = true;
@@ -489,14 +490,12 @@ namespace BookingModule.ViewModels
         /// Gets or sets the collection view.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        public ObservableCollection<BookingItemsViewObject> CollectionView
+        public System.Collections.ObjectModel.ObservableCollection<BookingItemsViewObject> CollectionView
         {
             get => _collectionView;
             set
             {
                 this._collectionView = value;
-                //DataObject.Items = value;
-               // ComputeTotals(DataObject);
                 this.RaisePropertyChanged("CollectionView");
             }
         }
@@ -995,6 +994,7 @@ namespace BookingModule.ViewModels
             }
         }
 
+       
         /// <summary>
         /// The check business rules.
         /// </summary>
@@ -1008,6 +1008,8 @@ namespace BookingModule.ViewModels
         {
             this._bookingData.Value = this.DataObject;
 
+           // EnforceDaysChange(eventData);
+          
             NotifyTaskCompletion.Create(
                 this._bookingService.IsChangeTriggered(eventData, this._bookingData),
                 (result, ev) =>
@@ -1124,8 +1126,6 @@ namespace BookingModule.ViewModels
             }
         }
 
-        
-
         private List<string> TokenizeGridColumns(string cols)
         {
             var colSummary = cols.Split(',');
@@ -1177,8 +1177,27 @@ namespace BookingModule.ViewModels
             ShowNewBooking = new DelegateCommand(OnShowNewBooking);
             ShowSingleDriver = new DelegateCommand<object>(ShowBookingDriver);
             IncludedCheckedCommand = new DelegateCommand<object>(OnCheckedChange);
+            QuoteCommand = new DelegateCommand(OnQuoteCommand);
         }
 
+        /// <summary>
+        ///  Set or Get the quote command.
+        /// </summary>
+        public ICommand QuoteCommand { get; set; }
+
+        private async void OnQuoteCommand()
+        {
+            var value = await _bookingService.ReservationQuotation(DataObject.TARIFA_RES1,
+                DataObject.GRUPO_RES1, DataObject.DIAS_RES1, DataObject.DIAS_RES1, 0);
+
+            DataObject.Items = value;
+            CollectionView = new ObservableCollection<BookingItemsViewObject>(value.ToList());
+           
+            ComputeTotals(DataObject);
+        }
+
+
+      
         /// <summary>
         /// The on checked change.
         /// </summary>
@@ -1232,6 +1251,9 @@ namespace BookingModule.ViewModels
 
             _karveNavigator.NewIncidentView(viewObject.NUMERO_RES, conductorName,ViewModelUri);
         }
+
+
+        
 
         private async void OnShowNewBooking()
         {
@@ -1590,6 +1612,7 @@ namespace BookingModule.ViewModels
             // ReservationOffice = FetchOffices();
             ConceptDto = new ObservableCollection<FareConceptViewObject>();
             this._lineNextId = _bookingDataService.GetNextLineId();
+           
         }
 
         private void LoadConcepts()
@@ -1820,6 +1843,12 @@ namespace BookingModule.ViewModels
             DialogService?.ShowErrorMessage("FareModule Not Implemeted");
         }
 
+        /// <summary>
+        /// Command  handler for creating a new vehicle.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
         private void CreateVehicle(object obj)
         {
             var vehicleRepository = DataServices.GetVehicleDataServices();
@@ -1830,6 +1859,7 @@ namespace BookingModule.ViewModels
                 DialogService?.ShowErrorMessage("Cannot navigate to a new vehicle");
 
             }
+            
 
             var viewName = numberCode + "." + payLoad.Value.MARCA;
             var factory = DataPayloadFactory.GetInstance();
@@ -1960,12 +1990,17 @@ namespace BookingModule.ViewModels
                 return;
             }
 
-            if (viewObject.Items is IList<BookingItemsViewObject> list)
+            /*
+            if ((viewObject.Items!=null) && (viewObject.Items is IList<BookingItemsViewObject> list))
             {
                 list.Clear();
             }
 
-            _bookingClientsIncrementalList.Clear();
+            if (_bookingClientsIncrementalList != null)
+            {
+                _bookingClientsIncrementalList.Clear();
+            }
+            */
 
         }
 
@@ -2259,6 +2294,12 @@ namespace BookingModule.ViewModels
             Contract.Requires(!string.IsNullOrEmpty(assistTableName));
             var collectionValue = await AssistMapper.ExecuteAssistGeneric(assistTableName, assistQuery).ConfigureAwait(false);
             var collection = GeneralInfoCollection;
+            var companyView = new List<CompanyViewObject>();
+            var company1 = new CompanyViewObject() { };
+            company1.CODIGO = "00";
+            company1.NOMBRE = "EuropaCar S.L";
+            companyView.Add(company1);
+
             /* In the assist mapper we use the null object pattern provides 
              * a no-functional object in place of a null reference 
              * and therefore allows methods to be called on it
@@ -2325,7 +2366,7 @@ namespace BookingModule.ViewModels
 
                         collection[1].SourceView = collectionValue as IEnumerable<BookingMediaViewObject>;
                         RaisePropertyChanged("GeneralCollectionInfo");
-
+                       
                         break;
                     }
 
@@ -2511,19 +2552,25 @@ namespace BookingModule.ViewModels
 
                 case "BOOKING_OFFICE_1":
                     {
-                        ReservationOfficeDeparture = (IEnumerable<OfficeViewObject>)collectionValue;
+                        ReservationOfficeDeparture = (IEnumerable<OfficeViewObject>) collectionValue;
+                        DataObject.SUBLICEN_RES1 = "00";
+                        BookingCompanyDto = companyView;
                         break;
                     }
 
                 case "BOOKING_OFFICE_2":
                     {
                         ReservationOfficeArrival = (IEnumerable<OfficeViewObject>)collectionValue;
+                        DataObject.SUBLICEN_RES1 = "00";
+                        BookingCompanyDto = companyView;
                         break;
                     }
 
                 case "OFFICE_ASSIST":
                     {
                         BookingOfficeDto = (IEnumerable<OfficeViewObject>)collectionValue;
+                        DataObject.SUBLICEN_RES1 = "00";
+                        BookingCompanyDto = companyView;
                         break;
                     }
 

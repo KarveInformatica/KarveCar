@@ -54,11 +54,13 @@ namespace InvoiceModule.ViewModels
         /// <param name="requestService">Request service</param>
         /// <param name="eventManager">Event manager</param>
         public InvoiceControlViewModel(IDataServices dataServices,
+            IConfigurationService configurationService,
             IUnityContainer container,
             IDialogService service,
             IRegionManager manager,
             IInteractionRequestController requestService,
-            IEventManager eventManager) : base(dataServices, requestService, service, eventManager)
+            IEventManager eventManager) : base( 
+            dataServices, requestService, service, eventManager, configurationService)
         {
             _regionManager = manager;
             IsBusy = false;

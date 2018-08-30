@@ -24,7 +24,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices"></param>
         /// <param name="region"></param>
         /// <param name="manager"></param>
-        public RentingUseViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service ) : base(String.Empty, dataServices, region, manager, service)
+        public RentingUseViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service, IConfigurationService config) : base(String.Empty, dataServices, region, manager, service, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperRentingUse;
 

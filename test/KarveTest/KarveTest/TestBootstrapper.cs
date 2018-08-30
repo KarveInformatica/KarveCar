@@ -20,7 +20,6 @@ using Prism.Unity;
 
 namespace KarveTest
 {
-    /**/
 
     class TestBootStrapper : UnityBootstrapper
     {

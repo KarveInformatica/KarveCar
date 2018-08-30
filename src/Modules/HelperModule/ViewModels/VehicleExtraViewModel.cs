@@ -27,7 +27,7 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region manager to be used</param>
         /// <param name="manager">Event manager to be used</param>
 
-        public VehicleExtraViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
+        public VehicleExtraViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty, dataServices, region, manager, dialogService, config)
         {
             _vehicleTypeLoader = new HelperLoader<VehicleTypeViewObject, CATEGO>(dataServices);
             InitLoad();

@@ -26,7 +26,9 @@ using System.Windows;
 
 namespace DataAccessLayer.DtoWrapper
 {
-    // FIXME: Refactor this. The idea is that inside the model shall reside just objects.
+    /*
+     * This is started.
+     */
 
     /// <summary>
     ///  This is the class factory for each vehicle.
@@ -601,7 +603,7 @@ namespace DataAccessLayer.DtoWrapper
                 }
                 catch (System.Exception e)
                 {
-                    throw new DataLayerException("Cannot load supplier " + e.Message);
+                    throw new DataLayerException("Cannot load supplier " + e.Message, e);
                 }
             }
           

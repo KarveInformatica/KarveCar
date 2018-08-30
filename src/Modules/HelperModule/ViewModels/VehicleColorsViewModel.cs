@@ -30,7 +30,7 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region where the tab is present.</param>
         /// <param name="eventManager">Event manager to send and receive messages from other view models.</param>
 
-        public VehicleColorsViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService service) : base(GenericSql.ColorTypes, dataServices, region, eventManager, service)
+        public VehicleColorsViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService service, IConfigurationService config) : base(GenericSql.ColorTypes, dataServices, region, eventManager, service, config)
         {
             var assistList = new StringBuilder();
             

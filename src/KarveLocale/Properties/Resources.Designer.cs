@@ -2518,6 +2518,15 @@ namespace KarveLocale.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Usuario o password no valida.
+        /// </summary>
+        public static string linvalidpass {
+            get {
+                return ResourceManager.GetString("linvalidpass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dia Facturacion.
         /// </summary>
         public static string linvoiceday {
@@ -3036,6 +3045,24 @@ namespace KarveLocale.Properties {
         public static string lnotas {
             get {
                 return ResourceManager.GetString("lnotas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El concepto es invalido.
+        /// </summary>
+        public static string lnotexistconcept {
+            get {
+                return ResourceManager.GetString("lnotexistconcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El pais no existe.
+        /// </summary>
+        public static string lnotexistcountry {
+            get {
+                return ResourceManager.GetString("lnotexistcountry", resourceCulture);
             }
         }
         

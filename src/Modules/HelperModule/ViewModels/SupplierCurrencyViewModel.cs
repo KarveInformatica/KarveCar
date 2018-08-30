@@ -10,7 +10,7 @@ namespace HelperModule.ViewModels
 {
     public class SupplierCurrencyViewModel : GenericHelperViewModel<CurrencyViewObject, DIVISAS>
     {
-        public SupplierCurrencyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty, dataServices, region, manager, dialogService)
+        public SupplierCurrencyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty, dataServices, region, manager, dialogService, config)
         {
         }
 

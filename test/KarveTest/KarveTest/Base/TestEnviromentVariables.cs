@@ -1,13 +1,24 @@
-﻿using NUnit.Framework;
-using System;
-using KarveCommon.Services;
-using System.Xml.Serialization;
-using System.IO;
-using System.Collections;
-using KarveCar.Logic.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TestEnviromentVariables.cs" company="KarveInformatica S.L">
+//   
+// </copyright>
+// <summary>
+//   Defines the TestEnviromentVariables type.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace KarveTest.Base
 {
+    using System;
+    using System.Collections;
+    using System.IO;
+
+    using KarveCar.Logic.Generic;
+
+    using KarveCommon.Services;
+
+    using NUnit.Framework;
+
     [TestFixture]
     class TestEnviromentVariables
     {
@@ -100,15 +111,18 @@ namespace KarveTest.Base
         }
         private void Serialize(IEnviromentVariables variables)
         {
+            /*
             XmlSerializer serializer = new XmlSerializer(typeof(KarveCommon.Generic.EnvironmentVariables));
             string tmpFile = Path.Combine(DefaultXmlFilePath, Name);
             using (TextWriter writer = new StreamWriter(tmpFile))
             {
                 serializer.Serialize(writer, variables);
             }
+            */
         }
         private void Deserialize(out IEnviromentVariables variables)
         {
+            /*
             XmlSerializer deserializer = new XmlSerializer(typeof(KarveCommon.Generic.EnvironmentVariables));
             _tmpFile = Path.Combine(DefaultXmlFilePath, Name);
             using (TextReader reader = new StreamReader(_tmpFile))
@@ -117,6 +131,8 @@ namespace KarveTest.Base
                 IEnviromentVariables env = (IEnviromentVariables)obj;
                 variables = env;
             }
+            */
+            variables = null;
         }
 
     }

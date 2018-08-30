@@ -57,7 +57,9 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,8 +81,11 @@
     <Compile Include="DataObjects\IBudgetData.cs" />
     <Compile Include="DataObjects\IHelperMasterCommon.cs" />
     <Compile Include="DataObjects\IInvoiceData.cs" />
+    <Compile Include="DataObjects\IMapViewObject.cs" />
     <Compile Include="DataObjects\IReservationRequest.cs" />
+    <Compile Include="DataObjects\IUser.cs" />
     <Compile Include="DataObjects\IValidDomainObject.cs" />
+    <Compile Include="IUserDataService.cs" />
     <Compile Include="ViewObjects\ActiveFareViewObject.cs" />
     <Compile Include="ViewObjects\AgencyEmployee.cs" />
     <Compile Include="ViewObjects\BaseViewObjectDefaultName.cs" />
@@ -208,6 +213,8 @@
     <Compile Include="ViewObjects\SupplierViewObject.cs" />
     <Compile Include="ViewObjects\SupplierSummaryViewObject.cs" />
     <Compile Include="ViewObjects\SupplierTypeViewObject.cs" />
+    <Compile Include="ViewObjects\UserSummaryViewObject.cs" />
+    <Compile Include="ViewObjects\UserViewObject.cs" />
     <Compile Include="ViewObjects\VehicleActivitiesViewObject.cs" />
     <Compile Include="ViewObjects\VehicleExtraViewObject.cs" />
     <Compile Include="ViewObjects\VehicleGroupViewObject.cs" />
@@ -269,6 +276,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\KarveCar.Model\KarveCar.Model.csproj">
+      <Project>{360b9357-a5be-4c0a-a2eb-dc1d38c99efe}</Project>
+      <Name>KarveCar.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\KarveCommonInterfaces\KarveCar.CommonInterfaces.csproj">
       <Project>{E9C77593-B656-45DA-BAE1-91AF97491069}</Project>
       <Name>KarveCar.CommonInterfaces</Name>

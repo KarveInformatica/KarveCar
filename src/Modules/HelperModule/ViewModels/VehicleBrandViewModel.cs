@@ -34,7 +34,7 @@ namespace HelperModule.ViewModels
         /// </summary>
         private IEnumerable<SupplierSummaryViewObject> _supplierSummary;
 
-        public VehicleBrandViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(query, dataServices, region, manager, dialogService)
+        public VehicleBrandViewModel(string query, IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService configurationService) : base(query, dataServices, region, manager, dialogService, configurationService)
         {
             _loadCompleted += OnLoadCompleted;
         }

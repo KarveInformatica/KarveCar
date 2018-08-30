@@ -244,6 +244,9 @@
     <Compile Include="Views\LeftTreeView.xaml.cs">
       <DependentUpon>LeftTreeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -289,6 +292,10 @@
     <Page Include="Views\LeftTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
@@ -451,6 +458,7 @@
     <Resource Include="Images\countryregion.png" />
     <Resource Include="Images\vehicleactivity.png" />
     <Resource Include="Images\carveheader.png" />
+    <Resource Include="Images\KarveLogo.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -535,6 +543,14 @@
     <Resource Include="Images\video.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KarveDapper\KarveDapper.csproj">
+      <Project>{082cb8c5-29d4-4d51-be0a-06deb8d7f871}</Project>
+      <Name>KarveDapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserModule\UserModule.csproj">
+      <Project>{a2d35a6f-7a79-4ff5-97ec-23c160ceb6c7}</Project>
+      <Name>UserModule</Name>
+    </ProjectReference>
     <ProjectReference Include="Controls\KarveControls\KarveCar.Controls.csproj">
       <Project>{183a9ec4-dc89-411d-975d-c67fa4c01747}</Project>
       <Name>KarveCar.Controls</Name>

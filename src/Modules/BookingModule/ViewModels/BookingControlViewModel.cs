@@ -69,12 +69,13 @@ namespace BookingModule.ViewModels
         /// <param name="eventManager">Communication to every view models.</param>
         /// <param name="navigator">Navigation helper for creating new views.</param>
         public BookingControlViewModel(IRegionManager regionManager, 
-                IDataServices services, 
+                IDataServices services,
+                IConfigurationService configurationService,
                 IUnityContainer container, 
                 IInteractionRequestController requestController, 
                 IDialogService dialogService, 
                 IEventManager eventManager, 
-                IKarveNavigator navigator) : base(services, requestController, dialogService, eventManager)
+                IKarveNavigator navigator) : base(configurationService, services, requestController, dialogService, eventManager)
         {
 
             _bookingDataService = DataServices.GetBookingDataService();

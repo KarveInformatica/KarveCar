@@ -23,7 +23,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">Tipo de visita</param>
         /// <param name="region">Region</param>
         /// <param name="manager">Manager</param>
-        public VisitTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(String.Empty, dataServices, region, manager, dialogService)
+        public VisitTypeViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(String.Empty, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VisitType;
         }

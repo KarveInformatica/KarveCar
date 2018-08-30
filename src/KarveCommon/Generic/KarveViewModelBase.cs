@@ -46,7 +46,14 @@ namespace KarveCommon.Generic
         protected const string DeletedSuccess = "Valor borrado con exito.";
         protected const string DefaultState = "Estado consultar.";
 
+
+
         protected Logger Logger = LogManager.GetCurrentClassLogger();
+
+
+        protected OfficeViewObject CommonOfficeViewObject { set; get; }
+        protected CompanyViewObject CommonCompanyViewObject { set; get; }
+
 
         public DataPayLoad.Type OperationalState { get; set; }
 
@@ -136,6 +143,8 @@ namespace KarveCommon.Generic
         /// </summary>
         protected IAssistService AssistService;
 
+
+        protected IConfigurationService ConfigurationService;
         /// <summary>
         ///  Registered grid list.
         /// </summary>
@@ -199,16 +208,19 @@ namespace KarveCommon.Generic
         protected virtual void OnSortCommand(object sortCommand) { }
 
         /// <summary>
-        /// KarveViewModelBase. Base view model of the all structure
+        /// KarveViewModelBase. Configuration service.
         /// </summary>
-        /// <param name="services">DataServices to be used.</param>
-        public KarveViewModelBase(IDataServices services, IInteractionRequestController requestController) :
+        /// <param name="services"></param>
+        /// <param name="requestController"></param>
+        /// <param name="configurationService"></param>
+        public KarveViewModelBase(IDataServices services, IInteractionRequestController requestController, IConfigurationService configurationService) :
             this(services)
         {
             DataServices = services;
             Controller = requestController;
-
+            ConfigurationService = configurationService;
             HelperDataServices = services.GetHelperDataServices();
+            InitConfiguration(ConfigurationService);
         }
 
         /// <summary>
@@ -217,15 +229,56 @@ namespace KarveCommon.Generic
         /// <param name="services">DataServices to be used</param>
         /// <param name="dialogService">DialogServices to be used</param>
         public KarveViewModelBase(IDataServices services, IInteractionRequestController requestController,
-            IDialogService dialogService) : this(services, requestController)
+            IDialogService dialogService, IConfigurationService configurationService) : this(services, requestController, configurationService)
         {
             DialogService = dialogService;
+            
+        }
+
+        protected void InitConfiguration(IConfigurationService service)
+        {
+            var environ = service.EnviromentVariables;
+            this.CurrentOffice = environ.GetKey(EnvironmentConfig.KarveConfiguration, EnvironmentKey.CurrentOffice) as string;
+            this.CurrentUser = environ.GetKey(EnvironmentConfig.KarveConfiguration, EnvironmentKey.CurrentUser) as string;
+            this.CurrentCompany = environ.GetKey(EnvironmentConfig.KarveConfiguration, EnvironmentKey.ConnectedCompany) as string;
+           
         }
 
       
+
+        /*
+        private OfficeViewObject GetCurrentOffice()
+        {
+            var officeDataService = DataServices.GetOfficeDataServices();
+            
+            NotifyTaskCompletion.Create<bool>(authService.CanAccess(user, this.configurationService),
+                (task, ev) =>
+                {
+                    if (task is INotifyTaskCompletion<bool> taskCompletion)
+                    {
+                        if (taskCompletion.IsSuccessfullyCompleted)
+                        {
+                            if (taskCompletion.Result)
+                            {
+                                IsLogged = true;
+                                View?.Close();
+                            }
+                            else
+                            {
+                                IsLogged = false;
+                                LoginError = KarveLocale.Properties.Resources.linvalidpass;
+                            }
+                        }
+                    }
+                });
+        
+        }
+        */
+       
         /// <summary>
         ///  Summary of the control magnifier.
         /// </summary>
+
         public object SummaryView
         {
             get => _extendedData;
@@ -728,6 +781,19 @@ namespace KarveCommon.Generic
                 this.RaisePropertyChanged();
             }
         }
+        /// <summary>
+        ///  Set or get the current user
+        /// </summary>
+        protected string CurrentUser { set; get; }
+        
+        /// <summary>
+        ///  Set or get the current company
+        /// </summary>
+        protected string CurrentCompany { set; get; }
+        /// <summary>
+        ///  Set or get the current office.
+        /// </summary>
+        protected string CurrentOffice { set; get; }
 
         /// <summary>
         ///  Page size to retrieve the data

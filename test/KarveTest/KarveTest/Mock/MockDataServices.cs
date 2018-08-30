@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAccessLayer.MongoDB;
 using KarveDataServices;
 
 namespace KarveTest.Mock
@@ -138,6 +137,11 @@ namespace KarveTest.Mock
         }
 
         public IBookingIncidentDataService GetBookingIncidentDataService()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IUserDataService GetUserDataService()
         {
             throw new NotImplementedException();
         }

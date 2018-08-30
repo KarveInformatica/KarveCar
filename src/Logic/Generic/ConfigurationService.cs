@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using DataAccessLayer.DataObjects;
 using KarveCommon.Generic;
 using KarveCommon.Services;
+using KarveDataServices;
+using KarveDataAccessLayer.DataObjects;
+using Dapper;
+using KarveDapper.Extensions;
 
 namespace KarveCar.Logic.Generic
 {
@@ -15,7 +20,9 @@ namespace KarveCar.Logic.Generic
     {
         private Window _mainWindow;
         private IUserSettings _userSettings;
-   
+        private ISqlExecutor _executor;
+        private IEnumerable<CONFIKARVE> _configKarve;
+        private IEnumerable<CONFI_EMP> _configCompany;
         /// <summary>
         ///  Global enviroment. 
         /// </summary>
@@ -32,9 +39,20 @@ namespace KarveCar.Logic.Generic
         ///  Configure the configuration services using the user settings.
         /// </summary>
         /// <param name="settings">User defined settings</param>
-        public ConfigurationService(IUserSettings settings)
+        public ConfigurationService(IUserSettings settings, ISqlExecutor executor)
         {
             _userSettings = settings;
+            _executor = executor;
+            InitSettings();
+        }
+
+        private void InitSettings()
+        {
+            using (var connection = _executor.OpenNewDbConnection())
+            {
+                _configKarve = connection.GetAll<CONFIKARVE>();
+                _configCompany = connection.GetAll<CONFI_EMP>();
+            }
         }
 
         private void SetDefaultEnvironmentValues()
@@ -43,6 +61,27 @@ namespace KarveCar.Logic.Generic
             _enviroment.SetKey(EnvironmentConfig.KarveConfiguration, EnvironmentKey.CurrentUser, "CV");
             
         }
+
+        public T FindCompanyConfiguration<T>(string name) 
+        {
+            var value = Activator.CreateInstance<T>();
+            var singleType = _configCompany.GetType();
+            var properties = singleType.GetProperties();
+            foreach (var property in properties)
+            {
+                if (property.Name == name)
+                {
+                    // ok this is the correct name.
+                    var currentValue = property.GetValue(_configCompany);
+                    if (currentValue is T setting)
+                    {
+                        return setting;
+                    }
+                }
+            }
+            return value;
+        }
+
         /// <summary>
         ///  This returns the Shell.
         /// </summary>

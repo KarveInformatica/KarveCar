@@ -47,8 +47,10 @@ namespace KarveCommon.Generic
 
         protected IEventManager EventManager;
         protected IRegionManager RegionManager;
-
+       
         protected const string RegionName = "TabRegion";
+
+        
       
 
 
@@ -64,9 +66,11 @@ namespace KarveCommon.Generic
         /// </summary>
         /// <param name="services">Data Services. They enable data retrieving.</param>
         /// <param name="assistService">Interaction controller. It enables modal view that shows an incremental grid of data.</param>
-        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController interactionRequest) : base(services, interactionRequest)
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController interactionRequest, IConfigurationService configurationService) : base(services, interactionRequest, configurationService)
         {
         }
+
+
         /// <summary>
         /// Karve Routing View Model Constructor.
         /// </summary>
@@ -74,12 +78,13 @@ namespace KarveCommon.Generic
         /// <param name="controller"></param>
         /// <param name="dialogService"></param>
         /// <param name="eventManager"></param>
-        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager) : base(services, controller,dialogService)
+
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IConfigurationService service) : base(services, controller,dialogService, service)
         {
             EventManager = eventManager;
         }
 
-        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IRegionManager regionManager) :this(services, controller, dialogService, eventManager)
+        public KarveRoutingBaseViewModel(IDataServices services, IInteractionRequestController controller, IDialogService dialogService, IEventManager eventManager, IRegionManager regionManager, IConfigurationService service) :this(services, controller, dialogService, eventManager, service)
         {
             RegionManager = regionManager;
         }

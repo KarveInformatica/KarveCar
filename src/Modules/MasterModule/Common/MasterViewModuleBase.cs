@@ -433,7 +433,7 @@ namespace MasterModule.Common
             IDataServices services,
             IDialogService dialogService,
             IRegionManager regionManager,
-            IInteractionRequestController requestController) : base(services,requestController,  dialogService, eventManager)
+            IInteractionRequestController requestController) : base(configurationService, services,requestController,  dialogService, eventManager)
         {
            
             ConfigurationService = configurationService;

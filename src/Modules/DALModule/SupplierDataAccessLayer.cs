@@ -237,11 +237,19 @@ namespace DataAccessLayer
         public async Task<ISupplierData> GetAsyncSupplierDo(string supplierCode)
         {
             var supplier = new Supplier(SqlExecutor);
-            var loaded = await supplier.LoadValue(null, supplierCode).ConfigureAwait(false);
-            if (loaded)
+            try
             {
-                return supplier;
+                var loaded = await supplier.LoadValue(null, supplierCode).ConfigureAwait(false);
+                if (loaded)
+                {
+                    return supplier;
+                }
             }
+            catch (DataLayerException ex)
+            {
+                throw new DataLayerException(ex.Message, ex);
+            }
+
             return supplier;
         }
 

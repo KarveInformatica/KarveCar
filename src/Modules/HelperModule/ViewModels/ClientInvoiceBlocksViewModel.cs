@@ -17,7 +17,7 @@ namespace HelperModule.ViewModels
     class ClientInvoiceBlocksViewModel : GenericHelperViewModel<InvoiceBlockViewObject, BLOQUEFAC>
     {
       
-        public ClientInvoiceBlocksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(string.Empty,dataServices, region, manager, dialogService)
+        public ClientInvoiceBlocksViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(string.Empty,dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperClientInvoice;
         }

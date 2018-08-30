@@ -31,7 +31,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices testing</param>
         /// <param name="region">Region </param>
         /// <param name="manager"> event manager to send and put messages.</param>
-        public ProvinceViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service) : base(string.Empty, dataServices, region, manager, service)
+        public ProvinceViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService service, IConfigurationService config) : base(string.Empty, dataServices, region, manager, service, config)
         {
             LoadAllCountries();
             _provinceLoader = new HelperLoader<ProvinceViewObject, PROVINCIA>(dataServices);

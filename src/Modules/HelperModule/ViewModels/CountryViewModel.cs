@@ -20,8 +20,8 @@ namespace HelperModule.ViewModels
     {
         private IHelperDataServices _helperDataServices;
         private ObservableCollection<LanguageViewObject> _languageDto = new ObservableCollection<LanguageViewObject>();
-        public CountryViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(
-            String.Empty, dataServices, region, manager, dialogService)
+        public CountryViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(
+            String.Empty, dataServices, region, manager, dialogService, config)
         {
             AssistCommand = new Prism.Commands.DelegateCommand<object>(OnAssistCommand);
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperCountry;

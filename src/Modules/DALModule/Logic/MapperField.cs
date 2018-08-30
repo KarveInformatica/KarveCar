@@ -1020,6 +1020,28 @@ namespace DataAccessLayer.Logic
                 cfg.CreateMap<HolidayViewObject, FESTIVOS_OFICINA>().ConvertUsing(new HolidayConverterBack());
                 cfg.CreateMap<FESTIVOS_OFICINA, HolidayViewObject>().ConvertUsing(new HolidayConverter());
                 cfg.CreateMap<SupplierPoco, SupplierViewObject>().ConvertUsing(new SupplierPocoConverter());
+
+                cfg.CreateMap<COTIZA_RES, BookingItemsViewObject>().ConvertUsing(
+                    src =>
+                        {
+                            var question = new BookingItemsViewObject();
+                            question.Group = src.GRUPO;
+                            question.Fare = src.TARIFA;
+                            question.Concept = src.codConcep;
+                            question.Desccon = src.nomConcep;
+                            question.Bill = src.Ind_Facturar;
+                            question.Included = (src.Incluido == -1);
+                            question.Subtotal = src.Importe;
+                            question.Price = src.Precio;
+                            question.Quantity = src.Cant;
+                            question.Discount = src.Dto;
+                            question.Extra = src.Extras;
+                            question.Min = src.Minimo;
+                            question.Max = src.Maximo;
+                            return question;
+
+                        });
+
                 cfg.CreateMap<BookingRefusedViewObject, MOTANU>().ConvertUsing(src=>
                 {
                     var bookingRefused = new MOTANU();

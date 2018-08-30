@@ -71,7 +71,7 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region to navigate</param>
         /// <param name="manager">EventManager for communicate with other components</param>
         public GenericHelperViewModel(string query, IDataServices dataServices, IRegionManager region,
-            IEventManager manager, IDialogService dialogService) : base(dataServices, region, manager)
+            IEventManager manager, IDialogService dialogService, IConfigurationService configurationService) : base(dataServices, region, configurationService, manager)
         {
             _saver = new HelperSaver<Dto, Entity>(dataServices);
             SelectionChangedCommand = new DelegateCommand<object>(OnSelectionChangedCommand);

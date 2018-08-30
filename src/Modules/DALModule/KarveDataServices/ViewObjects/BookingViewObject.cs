@@ -19,6 +19,10 @@ namespace KarveDataServices.ViewObjects
         private decimal? _tolon_res;
         private decimal? _iva_res;
         private Int16? _days;
+        private DateTime? _departureDate;
+
+        private DateTime? _arrivalDate;
+
         [PrimaryKey]
         [Required]
         [StringLength(10, ErrorMessage = "Codigo demasiado ancho")]
@@ -76,15 +80,35 @@ namespace KarveDataServices.ViewObjects
         /// </summary>
 
         public DateTime? FPREV_RES1 {
-            get;
-            set;
+            get
+            {
+                return _arrivalDate;
+            }
+            set
+            {
+                _arrivalDate = value;
+                
+                RaisePropertyChanged("FPREV_RES1");
+            }
         }
 
         /// <summary>
         ///  Set or get the FSALIDA_RES1 property.
         /// </summary>
 
-        public DateTime? FSALIDA_RES1 { get; set; }
+        public DateTime? FSALIDA_RES1
+        {
+            get
+            {
+                return _departureDate;
+            }
+            set
+            {
+                this._departureDate = value;
+               
+                RaisePropertyChanged("FSALIDA_RES1");
+            }
+        }
 
         /// <summary>
         ///  Set or get the HPREV_RES1 property.
@@ -130,11 +154,7 @@ namespace KarveDataServices.ViewObjects
             set
             {
                 _days = value;
-                if ((FSALIDA_RES1.HasValue) && (_days.HasValue))
-                {
-                    FPREV_RES1 = FSALIDA_RES1.Value.AddDays(_days.Value);
-                    RaisePropertyChanged("FPREV_RES1");
-                }
+                RaisePropertyChanged("DIAS_RES1");
             }
         }
 

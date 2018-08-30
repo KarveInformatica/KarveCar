@@ -8,5 +8,6 @@ namespace BusinessModule.Interfaces
 {
     public interface IBookingService
     {
+
     }
 }

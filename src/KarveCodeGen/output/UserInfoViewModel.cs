@@ -14,27 +14,27 @@ using KarveCar.Navigation;
 using DataAccessLayer.DataObjects;
 using Prism.Regions;
 
-namespace Booking.ViewModels
+namespace Users.ViewModels
 {
-    public class BookingIncidentViewModel : KarveRoutingBaseViewModel, ICreateRegionManagerScope, IEventObserver, INavigationAware
+    public class UserViewModel : KarveRoutingBaseViewModel, ICreateRegionManagerScope, IEventObserver, INavigationAware
     {
         private ICommand _deleteCommand;
         private ICommand _saveCommand;
-        private BookingIncidentDto _dataObject;
-        private IBookingIncidentService _dataBookingIncidentService;
+        private UserDto _dataObject;
+        private IUserService _dataUserService;
         private IAssistDataService _assistDataService;
-        private IBookingIncident _domainObject;
+        private IUser _domainObject;
         private IKarveNavigator _navigator;
         #region DtoDeclaration
         
-        private IEnumerable<ClientDto> _clientDto;
+        private IEnumerable<Office> _clientDto;
         
         private IEnumerable<CityDto> _cityDto;
         
         #end DtoDeclaration
         private IUserSettings _userSettings;
 
-        public BookingIncidentViewModel(IDataServices services, IInteractionRequestController controller,
+        public UserViewModel(IDataServices services, IInteractionRequestController controller,
                                IDialogService dialogService,
                                IEventManager eventManager,
                                IKarveNavigator navigation,
@@ -44,17 +44,17 @@ namespace Booking.ViewModels
             AssistCommand = new DelegateCommand<object>(OnAssistCommand);
             ItemChangedCommand = new DelegateCommand<object>(OnChangedField);
 
-            SubSystem = DataSubSystem.Booking;
+            SubSystem = DataSubSystem.Users;
 
-            ViewModelUri = new Uri("karve://booking/incident/show/viewmodel?id=" + Guid.ToString());
+            ViewModelUri = new Uri("karve://user/show/viewmodel?id=" + Guid.ToString());
             _navigator = navigation;
             _userSettings = configurationService.GetUserSettings();
             _deleteCommand = new DelegateCommand<object>(deleteCommandFunction);
             _saveCommand = new DelegateCommand<object>(saveCommandFunction);
-            _data{Name}Service = services.GetBookingIncidentDataService();
+            _data{Name}Service = services.GetUserDataService();
             _assistDataService = services.GetAssistDataServices();
             AssistMapper = _assistDataService.Mapper;
-            EventManager.RegisterObserverSubsystem(Karve.Constants.GroupBookingIncident, this);
+            EventManager.RegisterObserverSubsystem(Karve.Constants.GroupUser, this);
         }
 
         private void OnChangedField(object ev)
@@ -64,8 +64,8 @@ namespace Booking.ViewModels
 
                 OnChangedCommand(DataObject,
                                        eventData,
-                                       DataSubSystem.Booking,
-                                       Karve.Constants.GroupBookingIncident,
+                                       DataSubSystem.Users,
+                                       Karve.Constants.GroupUser,
                                        ViewModelUri.ToString());
             }
         }
@@ -73,7 +73,7 @@ namespace Booking.ViewModels
         public override void DisposeEvents()
         {
             base.DisposeEvents();
-            EventManager.DeleteObserverSubSystem(Karve.Constants.GroupBookingIncident, this);
+            EventManager.DeleteObserverSubSystem(Karve.Constants.GroupUser, this);
         }
 
         private void OnAssistCommand(object param)
@@ -92,33 +92,9 @@ namespace Booking.ViewModels
             switch (assistTableName)
             {
                 
-                case "CLIENT_ASSIST_TYPE":
-                    {
-                        IncidentClientDto = (IEnumerable<clientDto>)collectionValue;
-                        break;
-                    };
-                
-                case "SUPPLIER_ASSIST_TYPE":
-                    {
-                        IncidentSupplierDto = (IEnumerable<supplierDto>)collectionValue;
-                        break;
-                    };
-                
                 case "OFFICE_ASSIST":
                     {
-                        IncidentOfficeDto = (IEnumerable<officeDto>)collectionValue;
-                        break;
-                    };
-                
-                case "VEHICLE_ASSIST":
-                    {
-                        IncidentVehicleDto = (IEnumerable<vehicleDto>)collectionValue;
-                        break;
-                    };
-                
-                case "BOOKING_INCIDENT_TYPE":
-                    {
-                        BookingIncidentTypeDto = (IEnumerable<bookingIncidentType>)collectionValue;
+                        UserOfficeDto = (IEnumerable<officeDto>)collectionValue;
                         break;
                     };
                 
@@ -139,7 +115,7 @@ namespace Booking.ViewModels
             var deleted = false;
             try
             {
-                deleted = await _dataBookingIncidentService.DeleteAsync(_domainObject).ConfigureAwait(false);
+                deleted = await _dataUserService.DeleteAsync(_domainObject).ConfigureAwait(false);
 
             }
             catch (Exception e)
@@ -159,8 +135,8 @@ namespace Booking.ViewModels
             {
                 return;
             }
-            var interpeter = new PayloadInterpeter<IBookingIncident>();
-            var currentId = _dataBookingIncidentService.NewId();
+            var interpeter = new PayloadInterpeter<IUser>();
+            var currentId = _dataUserService.NewId();
             interpeter.Init = Init;
             interpeter.CleanUp = CleanUp;
 
@@ -190,11 +166,11 @@ namespace Booking.ViewModels
             {
                 return;
             }
-           if (!(payload.DataObject is IBookingIncidentService))
+           if (!(payload.DataObject is IUserService))
             {
                 return;
             }
-            _domainObject = payload.DataObject as IBookingIncidentService;
+            _domainObject = payload.DataObject as IUserService;
             DataObject = _domainObject.Value;
             
              _clientDto = _domainObject._clientDto

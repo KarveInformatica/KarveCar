@@ -21,11 +21,12 @@ namespace BookingModule.ViewModels
         private PayloadInterpeter<KarveDataServices.IReservationRequest> _payloadInterpeter;
         public bool CreateRegionManagerScope => true;
 
-        public ReservationRequestControlViewModel(IDataServices services,
+        public ReservationRequestControlViewModel(IConfigurationService configurationService, IDataServices services,
             IInteractionRequestController requestController,
             IDialogService dialogService,
             IRegionManager manager,
-            IEventManager eventManager) : base(services, requestController, dialogService, eventManager)
+            IEventManager eventManager) : base(configurationService,
+            services, requestController, dialogService, eventManager)
         {
             _reservationRequestDataService = services.GetReservationRequestDataService();
             _regionManager = manager;

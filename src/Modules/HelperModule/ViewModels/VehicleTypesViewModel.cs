@@ -28,7 +28,7 @@ namespace HelperModule.ViewModels
         /// <param name="region">Region Manager to be used</param>
         /// <param name="eventManager">Event manager to be used</param>
         /// <param name="dialogService">Dialog service to be used</param>
-        public VehicleTypesViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService) : base(string.Empty, dataServices, region, eventManager, dialogService)
+        public VehicleTypesViewModel(IDataServices dataServices, IRegionManager region, IEventManager eventManager, IDialogService dialogService, IConfigurationService config) : base(string.Empty, dataServices, region, eventManager, dialogService, config)
         {
             GridIdentifier = GridIdentifiers.VehicleTypes;
         }

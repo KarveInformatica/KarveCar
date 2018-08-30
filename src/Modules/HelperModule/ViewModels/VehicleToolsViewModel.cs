@@ -26,7 +26,7 @@ namespace HelperModule.ViewModels
             }
             return payLoad;
         }
-        public VehicleToolsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(GenericSql.VehicleTools, dataServices, region, manager, dialogService)
+        public VehicleToolsViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(GenericSql.VehicleTools, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.VehicleTools;
         }

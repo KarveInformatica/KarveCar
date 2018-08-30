@@ -23,7 +23,7 @@ namespace HelperModule.ViewModels
         /// <param name="dataServices">DataServices</param>
         /// <param name="region">Region</param>
         /// <param name="manager">EventManager</param>
-        public CompanyCardViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService) : base(String.Empty, dataServices, region, manager, dialogService)
+        public CompanyCardViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialogService, IConfigurationService config) : base(String.Empty, dataServices, region, manager, dialogService, config)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperCompanyCard;
 

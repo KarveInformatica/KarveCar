@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KarveCar.Model", "..\KarveC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessModule", "Modules\BusinessModule\BusinessModule.csproj", "{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserModule", "..\UserModule\UserModule.csproj", "{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -331,6 +333,18 @@ Global
 		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x64.Build.0 = Release|Any CPU
 		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x86.ActiveCfg = Release|Any CPU
 		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0}.Release|x86.Build.0 = Release|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Debug|x64.Build.0 = Debug|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Debug|x86.Build.0 = Debug|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Release|x64.ActiveCfg = Release|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Release|x64.Build.0 = Release|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Release|x86.ActiveCfg = Release|Any CPU
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -344,11 +358,12 @@ Global
 		{28298225-CD5C-40DA-A6D4-F48506446A4B} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{140C1044-4F56-4855-AF52-A2F91B369460} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 		{A1E72F1E-BEB9-4062-A7A9-D31BCE3A58F0} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
+		{A2D35A6F-7A79-4FF5-97EC-23C160CEB6C7} = {F8439BD1-C948-4FD8-B1C5-FDD1152FB29E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
-		RESX_NeutralResourcesLanguage = es-ES
-		RESX_DuplicateKeyHandling = Fail
 		SolutionGuid = {23BE9D78-4DE2-42C8-98C4-3590AFE5DA04}
+		RESX_DuplicateKeyHandling = Fail
+		RESX_NeutralResourcesLanguage = es-ES
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

@@ -58,7 +58,8 @@ namespace KarveControls.ViewModels
             IEventManager manager,
             IRegionManager regionManager,
             IIdentifier identifier,
-            IInteractionRequestController controller) : base(dataServices, controller, dialogServices, manager)
+            IConfigurationService configurationService,
+            IInteractionRequestController controller) : base(dataServices, controller, dialogServices, manager, configurationService)
         {
             RegionManager = regionManager;
             IdentifierGenerator = identifier;

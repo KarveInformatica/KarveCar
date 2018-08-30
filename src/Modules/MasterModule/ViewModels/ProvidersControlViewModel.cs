@@ -230,13 +230,19 @@ namespace MasterModule.ViewModels
             };
             var uri = new Uri(typeof(ProviderInfoView).FullName + navigationParameters, UriKind.Relative);
             _regionManager.RequestNavigate("TabRegion", uri);
-            var provider = await _supplierDataServices.GetAsyncSupplierDo(supplierId);
-            var currentPayload = BuildShowPayLoadDo(tabName, provider);
-            currentPayload.PrimaryKeyValue = supplierId;
-            currentPayload.Sender = _mailBoxName;
-            Logger.Log(LogLevel.Debug, "[UI] ProviderControlViewModel. Opening Supplier Tab: " + supplierId);
-            EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
-
+            try
+            {
+                var provider = await _supplierDataServices.GetAsyncSupplierDo(supplierId);
+                var currentPayload = BuildShowPayLoadDo(tabName, provider);
+                currentPayload.PrimaryKeyValue = supplierId;
+                currentPayload.Sender = _mailBoxName;
+                Logger.Log(LogLevel.Debug, "[UI] ProviderControlViewModel. Opening Supplier Tab: " + supplierId);
+                EventManager.NotifyObserverSubsystem(MasterModuleConstants.ProviderSubsystemName, currentPayload);
+            }
+            catch (System.Exception ex)
+            {
+                DialogService?.ShowErrorMessage(ex.Message);
+            }
         }
 
         public void StartAndNotify()

@@ -14,8 +14,8 @@ namespace HelperModule.ViewModels
     /// </summary>
     public class ClassifierViewModel : GenericHelperViewModel<ClientEvaluationViewObject, CLASIFICACLI>
     {
-        public ClassifierViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog): base(
-            String.Empty, dataServices, region, manager, dialog)
+        public ClassifierViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog, IConfigurationService config): base(
+            String.Empty, dataServices, region, manager, dialog, config)
         {
 
         }

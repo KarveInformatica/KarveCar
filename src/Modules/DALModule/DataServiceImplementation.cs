@@ -85,6 +85,7 @@ namespace DataAccessLayer
         /// </summary>
         private IBudgetDataService _budgetDataService;
         private BookingIncidentDataAccessLayer _bookingIncidentDataService;
+        private UserDataService _userDataService;
 
         /// <summary>
         /// DataService Implementation
@@ -106,16 +107,16 @@ namespace DataAccessLayer
             // ok now we try to connect 
             try
             {
-                using (var dbConn = sqlExecutor.OpenNewDbConnection())
+                using (var connection = sqlExecutor.OpenNewDbConnection())
                 {
 
-                    if (dbConn == null)
+                    if (connection == null)
                     {
                         throw new System.ArgumentException(
                             "Invalid connection string with value " + connectionValue);
                     }
 
-                    if (dbConn.State != ConnectionState.Open)
+                    if (connection.State != ConnectionState.Open)
                     {
 
                         throw new System.ArgumentException(
@@ -129,6 +130,7 @@ namespace DataAccessLayer
             }
 
         }
+
         /// <summary>
         ///  Reitinialize the sql executor and all the services provided by this interface with 
         ///  a new connection string.
@@ -159,7 +161,7 @@ namespace DataAccessLayer
             _reservationRequestDataService = new ReservationRequestDataAccessLayer(sqlExecutor);
             _budgetDataService = new BudgetDataAccessLayer(sqlExecutor);
             _bookingIncidentDataService = new BookingIncidentDataAccessLayer(sqlExecutor);
-
+            _userDataService = new UserDataService(sqlExecutor);
 
         }
         /// <summary>
@@ -315,5 +317,14 @@ namespace DataAccessLayer
         {
             return _bookingIncidentDataService;
         }
+        /// <summary>
+        ///  User data service to retrieve the data.
+        /// </summary>
+        /// <returns>The user data service.</returns>
+        public IUserDataService GetUserDataService()
+        {
+            return _userDataService;
+        }
+
     }
 }

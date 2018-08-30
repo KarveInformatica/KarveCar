@@ -160,5 +160,10 @@ namespace KarveTest.Mock
         {
             throw new System.NotImplementedException();
         }
+
+        public Task<IEnumerable<CompanyViewObject>> GetCompanyAsync(string officeCode)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

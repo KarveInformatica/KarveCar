@@ -18,8 +18,8 @@ namespace HelperModule.ViewModels
     /// </summary>
     public class BudgetKeyViewModel : GenericHelperViewModel<BudgetKeyViewObject, CLAVEPTO>
     {
-        public BudgetKeyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog) : base(
-            String.Empty, dataServices, region, manager, dialog)
+        public BudgetKeyViewModel(IDataServices dataServices, IRegionManager region, IEventManager manager, IDialogService dialog, IConfigurationService service) : base(
+            String.Empty, dataServices, region, manager, dialog, service)
         {
             GridIdentifier = KarveCommon.Generic.GridIdentifiers.HelperBudgetKey;
         }

@@ -39,6 +39,14 @@ namespace KarveTest.DAL
             return item;
         }
 
+
+        [Test]
+        public async Task Should_Load_ReservationQuotation()
+        {
+            var quotation = await _bookingDataServices.GetReservationQuotation("12K GCIA", "d", 3, 3, 0);
+            Assert.NotNull(quotation);
+        }
+
         [Test]
         public async Task Should_Load_AValidReservation()
         {

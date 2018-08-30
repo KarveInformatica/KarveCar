@@ -1,0 +1,107 @@
+﻿<Window x:Class="KarveCar.Views.LoginView"
+             xmlns:local="clr-namespace:KarveCar.Views"
+             mc:Ignorable="d"
+             Title="KarveCar Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:karveControls="clr-namespace:KarveControls;assembly=KarveControls"
+        xmlns:converter="clr-namespace:KarveCommon.Converter;assembly=KarveCommon"     
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviour="clr-namespace:KarveControls.Behaviour;assembly=KarveControls"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.8' }" 
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converter:RatioScreenConverter}, ConverterParameter='0.8' }" 
+             WindowState="Maximized"
+             WindowStartupLocation="CenterScreen"
+             syncfusion:SkinStorage.VisualStyle="Metro"
+             d:DesignHeight="900" d:DesignWidth="1100">
+    <Grid HorizontalAlignment="Stretch">
+          <Grid.Resources>
+            <converter:BoolToVisiblityConverter x:Key="BooleanToVisibilityConverterKey">
+
+            </converter:BoolToVisiblityConverter>
+        </Grid.Resources>
+        <Grid.Background>
+            <ImageBrush ImageSource="/UserModule;component/Images/background.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Left" Height="100" Orientation="Horizontal" Grid.Row="0" Margin="100,10,0,0">
+            <Image Source="/Images/KarveLogo.png"  Margin="0,7,0,0" Width="137" VerticalAlignment="Top" Height="57"></Image>
+            <TextBlock
+                       Text="KarveCar 0.9"
+                       Margin="10, 10, 10,10 "
+                       Background="Transparent" 
+                       Foreground="OrangeRed" 
+                       FontFamily="Arial" 
+                       FontWeight="Bold" 
+                       FontSize="18"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" 
+                  Text="Log In" 
+                  Background="Transparent" 
+                  Foreground="OrangeRed" 
+                  FontFamily="Arial" 
+                  FontWeight="Bold" 
+                  FontSize="24"
+                  HorizontalAlignment="Center"/>
+            <syncfusion:SfTextBoxExt Grid.Row="1" Background="White" Height="30"
+                                     TabIndex="1"
+                                     Watermark="{Binding luser, Source={StaticResource ResourceLanguage}}" 
+                                 Text="{Binding DataObject.USUARIO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 karveControls:ControlExt.DataSourcePath="USUARIO"
+                                 karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                                 Margin="12,0,4,0"/>
+
+            <PasswordBox Grid.Row="2" 
+                         TabIndex="2"
+                         karveControls:ControlExt.DataSourcePath="PASS"
+                         karveControls:ControlExt.Password="{Binding DataObject.PASS, Mode=TwoWay, ValidatesOnNotifyDataErrors=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}" 
+                         karveControls:ControlExt.DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         karveControls:ControlExt.ItemChangedCommand="{Binding ItemChangedCommand}"
+                         Background="White" Height="30" Visibility="Visible" Margin="12,0,4,0" />
+
+
+            <karveControls:DualFieldSearchBox  
+                x:Name="OFICINA_RES1"
+                Grid.Row="3"
+                Visibility="{Binding IsVisibleOffice, Converter={StaticResource BooleanToVisibilityConverterKey}}"
+                LabelText="{Binding loficina, Source={StaticResource ResourceLanguage}}"
+                LabelTextWidth="100"
+                LabelVisible="False"
+                TextContentFirstWidth="50"
+                TextContentSecondWidth="200"
+                AssistProperties="Codigo,Nombre"
+                AssistTableName="OFFICE_ASSIST"
+                SourceView="{Binding Offices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ItemChangedCommand="{Binding ItemChangedCommand}"
+                MagnifierCommand="{Binding MagnifierCommand}"
+                DataSource="{Binding DataObject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                DataFieldFirst="OFI_COD"
+                ButtonImage="/KarveControls;component/Images/search.png"
+                Height="30">
+            </karveControls:DualFieldSearchBox>
+           
+            <Button Grid.Row="4" Height="30" Content="Login" Margin="12,0,3,0" 
+                    Command="{Binding LoginCommand}" TabIndex="4"/>
+            <TextBlock Text="{Binding LoginError, Mode=TwoWay}" Foreground="OrangeRed" Grid.Row="5"
+                       Background="Transparent"></TextBlock>
+        </Grid>
+
+    </Grid>
+</Window>

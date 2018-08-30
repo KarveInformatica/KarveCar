@@ -5,9 +5,9 @@ using System.Windows.Input;
 namespace KarveDataServices.DataTransferObject
 {
     /// <summary>
-    ///  BookingIncidentSummaryDto.
+    ///  UserSummaryDto.
     /// </summary>
-	public class BookingIncidentSummaryDto: BaseDto
+	public class UserSummaryDto: BaseDto
     {
 	    
         private  _code;
@@ -16,8 +16,10 @@ namespace KarveDataServices.DataTransferObject
         
         private  _name;
         
+        private  _password;
         
-		[Display(Name = "Codigo", Description ="Codigo Incidencia Reserva")]
+        
+		[Display(Name = "Codigo", Description ="Codigo Oficina")]
 		public  CodeValue
        {
            set
@@ -28,13 +30,13 @@ namespace KarveDataServices.DataTransferObject
            get => _code;
      }
         
-		[Display(Name = "Reserva", Description ="Numero Reserva")]
-		public  BookingValue
+		[Display(Name = "Oficina", Description ="Codigo Oficina")]
+		public  OficinaValue
        {
            set
            {
                _booking = value;
-               RaisePropertyChanged("BookingValue");
+               RaisePropertyChanged("OficinaValue");
            }
            get => _booking;
      }
@@ -48,6 +50,17 @@ namespace KarveDataServices.DataTransferObject
                RaisePropertyChanged("NameValue");
            }
            get => _name;
+     }
+        
+		[Display(Name = "Password", Description ="Password")]
+		public  PasswordValue
+       {
+           set
+           {
+               _password = value;
+               RaisePropertyChanged("PasswordValue");
+           }
+           get => _password;
      }
         
     
